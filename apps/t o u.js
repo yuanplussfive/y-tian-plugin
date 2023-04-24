@@ -150,9 +150,9 @@ return
 }
 }
 async help(e) {
-let lj= _path + "/resources/yuan.css"
+let lj= _path + "/plugins/Y-Tian-plugin/resources/yuan.css"
    let img= await puppeteer.screenshot("66", {                    
-tplFile: `${_path}/resources/tou.html`,               
+tplFile: `${_path}/plugins/Y-Tian-plugin/resources/tou.html`,               
 imgtype:'png',
 a: lj        
 });
@@ -452,9 +452,9 @@ d10 = "?"
 let py =  ""
 let group = e.group_id
 let zhu = `http://p.qlogo.cn/gh/${group}/${group}/100/`
-let lj= _path + "/resources/yuan.css"
+let lj= _path + "/plugins/Y-Tian-plugin/resources/yuan.css"
    let img= await puppeteer.screenshot("66", {                    
-tplFile: `${_path}/resources/yuan.html`,               
+tplFile: `${lj}`,               
 imgtype:'png',
 a: lj,        
 group:group,
