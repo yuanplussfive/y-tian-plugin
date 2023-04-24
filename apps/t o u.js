@@ -7,7 +7,7 @@ segment =(await import("oicq")).segment
 }catch(err){
 segment =(await import("icqq")).segment
 }
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
 import moment from "moment";
 let CD = {};
