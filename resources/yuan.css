@@ -1,0 +1,157 @@
+@font-face {
+  font-family: "tttgbnumber";
+  src: url("../../resources/font/tttgbnumber.ttf");
+  font-weight: 30px;
+  font-style: 20px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: 50px;
+  user-select: none;
+}
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+  width: 530px;
+  color: #000000
+;
+  transform: scale(1.5);
+  transform-origin: 0 0;
+}
+.container {
+  width: 530px;
+  padding: 20px 15px 10px 15px;
+  background-color: #D9D9F3
+;
+}
+.head_box {
+  border-radius: 15px;
+  font-family: tttgbnumber;
+  padding: 10px 20px;
+  position: relative;
+  box-shadow: 0 5px 10px 0 rgb(0 0 0 / 15%);
+}
+.head_box2 {
+  border-radius: 150px;
+  font-family: tttgbnumber;
+  padding: 20px 40px;
+  position: relative;
+  box-shadow: 0 10px 10px 0 rgb(0 0 0 / 15%);
+}
+.head_box .id_text {
+  font-size: 24px;
+}
+.head_box .day_text {
+  font-size: 30px;
+}
+.head_box .genshin_logo {
+  position: absolute;
+  top: -1px;
+  right: 15px;
+  width: 97px;
+}
+.base_info {
+  position: relative;
+  padding-left: 10px;
+}
+.uid {
+  font-family: tttgbnumber;
+}
+
+.data_box {
+  border-radius: 15px;
+  margin-top: 20px;
+  margin-bottom: -20px;
+  padding: 20px 0px 5px 0px;
+  background: #fff
+;
+  box-shadow: 0 5px 10px 0 rgb(0 0 0 / 15%);
+  position: relative;
+}
+.tab_lable {
+  position: absolute;
+  top: -10px;
+  left: -8px;
+  background: #6B4226;
+  color: #E6E8FA
+;
+  font-size: 16px;
+  padding: 3px 10px;
+  border-radius: 15px 0px 15px 15px;
+  z-index: 100;
+}
+.data_line {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 14px;
+}
+.data_line_item {
+  width: 0px;
+  text-align: center;
+  /*margin: 0 20px;*/
+}
+.num {
+  font-family: tttgbnumber;
+  font-size: 24px;
+}
+.data_box .lable {
+  font-size: 14px;
+  color: #7FFF00;
+  line-height: 1;
+  margin-top: 3px;
+}
+
+.list{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.list .item {
+  width: 485px;
+  display: flex;
+  align-items: center;
+  background: #696969
+;
+  filter:opacity(0.7);
+  padding: 8px 6px 8px 6px;
+  border-radius: 8px;
+  margin: 0 0px 10px 10px;
+}
+.list .item .icon{
+  width: 38px;
+  height: 38px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+.list .item .icon2{
+  width: 28px;
+  height: 28px;
+  
+  background-size: 100% 100%;
+  
+  background-position:right2000px
+  flex-shrink: 0;
+}
+.list .item .title{
+  font-size: 20px;
+  margin-left: 6px;
+  line-height: 20px;
+}
+/* .list .item .title .text{
+  white-space: nowrap;
+} */
+.list .item .title .dec{
+  font-size: 16px;
+  color: #FFFF00;
+  margin-top: 10px;
+}
+.logo {
+  font-size: 24px;
+  font-family: "tttgbnumber";
+  text-align: center;
+  color: #FF7F00;
+}
