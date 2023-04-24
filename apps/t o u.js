@@ -452,11 +452,12 @@ d10 = "?"
 let py =  ""
 let group = e.group_id
 let zhu = `http://p.qlogo.cn/gh/${group}/${group}/100/`
-let lj= _path + "/plugins/y-tian-plugin/resources/yuan.css"
+let lj= _path + "/plugins/y-tian-plugin/resources/yuan.html"
+let lj2= _path + "/plugins/y-tian-plugin/resources/yuan.css"
    let img= await puppeteer.screenshot("66", {                    
 tplFile: `${lj}`,               
 imgtype:'png',
-a: lj,        
+a: lj2,        
 group:group,
 zhu:zhu,
 a1:a1,
