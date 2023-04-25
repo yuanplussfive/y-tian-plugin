@@ -1,6 +1,6 @@
 <img decoding="async" align=right src="resources/1.jpg" width="25%">
 
-# Y-Tian-Plugin for Yunzai-Bot
+# Y-Tian-Plugin （ 阴天插件 ）
 
 ## 介绍
 Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。
