@@ -25,7 +25,7 @@ git clone https://gitee.com/wan13877501248/y-tian-plugin-for-yunzai-bot.git ./pl
 
 可以使用QQ群组功能反馈。**点击加入[Y-Tian插件交流群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=9-rRV1zBm0H3Es3V32FXSIJdR7v4hEjY&authKey=VvpBHKV%2FnjOxT0fPSagpTCIyJ91vNgvyc0CIt40%2BY1Q2kT%2BnUKjzLjbMtRVTh%2BqW&noverify=0&group_code=756783127)**。
 
-如果你觉得本插件还行，不妨给个star或者[爱发电](https://afdian.net/a/Tianqiu)，你的支持将是我们的动力，且发电用户有机会提前体验本插件未公布的的新功能。
+如果你喜欢我们的插件，不妨给个star或者[爱发电](https://afdian.net/a/Tianqiu)，你的支持将是我们的动力，且发电用户有机会提前体验本插件未公布的的新功能。
 
 ### 鸣谢
 
