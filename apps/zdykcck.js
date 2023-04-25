@@ -10,12 +10,8 @@
 
 
 import plugin from '../../../lib/plugins/plugin.js'
-let segment = ""
-try{
-segment =(await import("oicq")).segment
-}catch(err){
-segment =(await import("icqq")).segment
-}
+import {getSegment} from "../model/segment.js"
+    const segment = await getSegment()
 const _path = process.cwd();
 import fs from "node:fs";
 import path from 'path';
