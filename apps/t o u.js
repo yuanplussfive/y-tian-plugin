@@ -1,11 +1,7 @@
 import fetch from 'node-fetch'
 import fs from 'fs'
-let segment = ""
-try{
-segment =(await import("oicq")).segment
-}catch(err){
-segment =(await import("icqq")).segment
-}
+import {getSegment} from "../model/segment.js"
+    const segment = await getSegment()
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
 import moment from "moment";
