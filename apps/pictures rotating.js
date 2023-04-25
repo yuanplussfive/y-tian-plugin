@@ -1,11 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from "node-fetch"
-let segment = ""
-try{
-    segment =(await import("oicq")).segment
-    }catch(err){
-    segment =(await import("icqq")).segment
-    }
+import {getSegment} from "../model/segment.js"
+    const segment = await getSegment()
     const _path = process.cwd();
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import axios from'../../../node_modules/.pnpm/axios@0.27.2/node_modules/axios/lib/axios.js'
