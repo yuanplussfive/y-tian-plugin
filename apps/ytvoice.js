@@ -1,10 +1,6 @@
-﻿import plugin from '../../../lib/plugins/plugin.js'
-let segment = ""
-try{
-    segment =(await import("oicq")).segment
-    }catch(err){
-    segment =(await import("icqq")).segment
-    }
+import plugin from '../../../lib/plugins/plugin.js'
+import {getSegment} from "../model/segment.js"
+    const segment = await getSegment()
     const _path = process.cwd();
 
  let qq2
