@@ -13,7 +13,7 @@
 git clone https://gitee.com/wan13877501248/y-tian-plugin-for-yunzai-bot.git./plugins/y-tian-plugin/
 ```
 
-## 功能一览、
+## 功能一览
 
 | 命令| 说明|
 |:--------|------------|
