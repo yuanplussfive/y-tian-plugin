@@ -1,4 +1,4 @@
-<img decoding="async" align=right src="resources/1.jpg" width="30%">
+<img decoding="async" align=right src="resources/1.jpg" width="40%">
 
 # Y-Tian-Plugin （ 阴天插件 ）
 
