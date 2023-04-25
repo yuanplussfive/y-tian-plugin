@@ -1,0 +1,24 @@
+{
+  "name": "y-tian-plugin",
+  "version": "1.0.0",
+  "description": "Yunzai-Bot附属插件",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/wan13877501248/y-tian-plugin-for-yunzai-bot"
+  },
+  "keywords": [
+    "Yunzai-Bot",
+    "y-tian-plugin"
+  ],
+  "author": "Hello World",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.8.8"
+   
+  }
+}
