@@ -1,12 +1,8 @@
 //简单命令:查询,查自己QQ号;查询123456789,查询别人QQ号
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
-let segment = ""
-try{
-segment =(await import("oicq")).segment
-}catch(err){
-segment =(await import("icqq")).segment
-}
+limport {getSegment} from "../model/segment.js"
+    const segment = await getSegment()
 
 import common from'../../../lib/common/common.js'
 
