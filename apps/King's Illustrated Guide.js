@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-let segment = ""
 import {getSegment} from "../model/segment.js"
     const segment = await getSegment()
 import common from'../../../lib/common/common.js'
