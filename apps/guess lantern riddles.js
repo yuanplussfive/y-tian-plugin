@@ -1,7 +1,13 @@
+let segment=''
+try{
+segment = (await import('oicq')).segment
+}catch(err){
+segment = (await import('icqq')).segment
+}
 import { segment } from "oicq";
-import plugin from '../../lib/plugins/plugin.js'
+import plugin from '../../../lib/plugins/plugin.js'
 import fetch from "node-fetch";
-import common from'../../lib/common/common.js'
+import common from'../../../lib/common/common.js'
 const _path = process.cwd();
 
 let time = 0
@@ -14,7 +20,6 @@ let description = ""
 let url = `https://api.qqsuu.cn/api/dm-caizimi`;
 let res = await fetch(url)
 res = await res.json()
-let url2 = encodeURI(`http://ovooa.com/API/Lovely/api?type=image`)
 export class cdm extends plugin {
   constructor () {
     super({
@@ -61,7 +66,7 @@ async xyt(e) {
             daan = res.data.answer
              riddle = res.data.riddle
              type = res.data.type
-e.reply('猜灯谜开始了哦，答对有奖励哦！')
+e.reply('猜灯谜开始了哦')
 await common.sleep(3000)
            let msg = [`谜题：${riddle}`,"\n",
 `类型：${type}`,
@@ -101,8 +106,6 @@ let msg = [segment.at(e.user_id),"\n",
                     daan = res.data.answer
                     type = res.data.type
                     riddle = res.data.riddle
-                    e.reply('奖励你一张美图哦，记得感谢我！')
-                    e.reply([segment.image(url2)])
                     console.log(daan)
                  } else {          
                  e.reply()     
