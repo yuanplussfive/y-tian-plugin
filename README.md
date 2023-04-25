@@ -2,10 +2,10 @@
 
 # Y-Tian-Plugin for Yunzai-Bot
 
-#### 介绍
+## 介绍
 Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。
 
-#### 安装教程
+## 安装教程
 
 在Yunzai-Bot根目录下，运行cmd，输入以下指令
 
