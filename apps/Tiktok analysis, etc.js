@@ -1,6 +1,6 @@
 import fs from "fs"
 import fetch from 'node-fetch'
-import common from'../../lib/common/common.js'
+import common from'../../../lib/common/common.js'
 const _path = process.cwd();
 import request from 'request'
 let dirpath = _path + "/resources/douyingjx"
