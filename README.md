@@ -1,6 +1,6 @@
 <img decoding="async" align=right src="resources/1.jpg" width="40%">
 
-# Y-Tian-Plugin （ 阴天插件 ）
+# Y-Tian-Plugin（阴天插件）
 
 # ※使用本插件前一定要正确配置FFmpeg※
 
