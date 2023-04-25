@@ -18,7 +18,7 @@
   "author": "Hello World",
   "license": "MIT",
   "dependencies": {
-    "request": "^2.8.8"
+    "request": "^2.88.2"
    
   }
 }
