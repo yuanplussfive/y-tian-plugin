@@ -18,7 +18,7 @@ let num2 = ""
 let a;
 let text;
 let text2;
-import common from'../../lib/common/common.js'
+import common from'../../../lib/common/common.js'
 export class example extends plugin {
   constructor() {
     super({
