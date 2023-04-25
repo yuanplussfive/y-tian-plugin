@@ -1,4 +1,3 @@
-import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import fs from 'fs'
 let segment = ""
