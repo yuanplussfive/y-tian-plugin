@@ -1,9 +1,4 @@
-let segment=''
-try{
-segment = (await import('oicq')).segment
-}catch(err){
-segment = (await import('icqq')).segment
-}
+import {segment} from 'oicq'
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from "node-fetch";
 import common from'../../../lib/common/common.js'
