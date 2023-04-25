@@ -10,7 +10,7 @@
 在Yunzai-Bot根目录下，运行cmd，输入以下指令
 
 ```
-git clone https://gitee.com/wan13877501248/y-tian-plugin-for-yunzai-bot.git./plugins/y-tian-plugin/
+git clone https://gitee.com/wan13877501248/y-tian-plugin-for-yunzai-bot.git ./plugins/y-tian-plugin/
 ```
 
 ## 功能一览
