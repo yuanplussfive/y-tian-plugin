@@ -3,12 +3,8 @@
 
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../../../lib/common/common.js'
-let segment = ""
-try{
-    segment =(await import("oicq")).segment
-    }catch(err){
-    segment =(await import("icqq")).segment
-    }
+import {getSegment} from "../model/segment.js"
+    const segment = await getSegment()
     const _path = process.cwd();
 import lodash from 'lodash'
 import fs from "fs";
