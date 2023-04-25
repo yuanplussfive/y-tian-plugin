@@ -1,11 +1,8 @@
 //方法，机器人名+问题,名字自己在下面改;
 import plugin from '../../../lib/plugins/plugin.js'
 let segment = ""
-try{
-segment =(await import("oicq")).segment
-}catch(err){
-segment =(await import("icqq")).segment
-}
+import {getSegment} from "../model/segment.js"
+    const segment = await getSegment()
 import fetch from 'node-fetch'
 import _ from 'lodash'
 let botname = "claude";//你机器人的名字
