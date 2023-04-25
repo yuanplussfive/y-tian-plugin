@@ -1,6 +1,5 @@
 //方法，机器人名+问题,名字自己在下面改;
 import plugin from '../../../lib/plugins/plugin.js'
-let segment = ""
 import {getSegment} from "../model/segment.js"
     const segment = await getSegment()
 import fetch from 'node-fetch'
