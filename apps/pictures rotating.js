@@ -21,7 +21,7 @@ export class example extends plugin {
   
         event: 'message',
         /** 优先级，数字越小等级越高 */
-        priority: 5000,
+        priority: 1,
         rule: [
           
   
