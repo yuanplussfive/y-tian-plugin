@@ -6,7 +6,7 @@ import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
 let a = _path + "/plugins/y-tian-plugin/resources/css/y-t-help.css"
 let html;
-let tu = _path + "/plugins/y-tian-plugin/background/image/tu2.jpg"
+let tu2 = _path + "/plugins/y-tian-plugin/background/image/tu2.jpg"
 let cj = _path + "/plugins/y-tian-plugin/background/image/tu1.jpg"
 export class example extends plugin {
   constructor () {
