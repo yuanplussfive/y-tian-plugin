@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import fs from 'fs'
-import { segment } from "oicq";
+import {getSegment} from '../model/segment.js'
+const segment = await getSegment()
 import puppeteer from '../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
 let dirpath = "resources"
@@ -13,7 +14,7 @@ export class example extends plugin {
   constructor () {
     super({
       /** 功能名称 */
-      name: '今日运势',
+      name: 'help',
       /** 功能描述 */
       dsc: '简单开发示例',
       /** https://oicqjs.github.io/oicq/#events */
@@ -23,7 +24,7 @@ export class example extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#?op$',
+          reg: '^#?(阴天帮助|阴天help)$',
           /** 执行方法 */
           fnc: 'hi'
         }
