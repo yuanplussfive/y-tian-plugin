@@ -44,12 +44,11 @@ body {
 }
 .head_box .day_text {
   font-size: 30px;
+  color: green;
 }
-.head_box .genshin_logo {
-  position: absolute;
-  top: -1px;
-  right: 15px;
-  width: 97px;
+.head_box .title_text {
+ font-size: 40px;
+ color: white;
 }
 .base_info {
   position: relative;
