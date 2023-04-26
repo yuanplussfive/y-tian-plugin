@@ -31,7 +31,7 @@ export class example extends plugin {
   }
 async hi(e){
 let img= await puppeteer.screenshot("66", {                    
-tplFile: `${_path}/plugins/y-tian-plugin/resources/heml/help.html`,               
+tplFile: `${_path}/plugins/y-tian-plugin/resources/html/help.html`,               
 imgtype:'png',     
 a:a,
 tu:tu
