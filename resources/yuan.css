@@ -64,8 +64,8 @@ body {
   margin-top: 20px;
   margin-bottom: -20px;
   padding: 20px 0px 5px 0px;
-  background: #fff
-;
+  background: #fff;
+  background-image: url('../background/image/tu1');
   box-shadow: 0 5px 10px 0 rgb(0 0 0 / 15%);
   position: relative;
 }
