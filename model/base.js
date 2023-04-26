@@ -2,7 +2,7 @@ export default class base {
   constructor(e = {}) {
     this.e = e;
     this.user_id = e?.user_id;
-    this.model = "y-tian-plugin";
+    this.model = "y-t-help";
     this._path = process.cwd().replace(/\\/g, "/");
   }
 
