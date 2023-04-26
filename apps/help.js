@@ -4,10 +4,10 @@ import {getSegment} from '../model/segment.js'
 const segment = await getSegment()
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
-let a = _path + "plugins/y-tian-plugin/resources/css/y-t-help.css"
+let a = _path + "/plugins/y-tian-plugin/resources/css/y-t-help.css"
 let html;
-let tu = _path + "plugins/y-tian-plugin/background/tu2.jpg"
-let cj = _path + "plugins/y-tian-plugin/background/tu1.jpg"
+let tu = _path + "/plugins/y-tian-plugin/background/image/tu2.jpg"
+let cj = _path + "/plugins/y-tian-plugin/background/image/tu1.jpg"
 export class example extends plugin {
   constructor () {
     super({
@@ -34,7 +34,7 @@ let img= await puppeteer.screenshot("66", {
 tplFile: `${_path}/plugins/y-tian-plugin/resources/html/help.html`,               
 imgtype:'png',     
 a:a,
-tu:tu
+tu:tu2
 });
 await this.reply(img)
 }
