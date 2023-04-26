@@ -48,9 +48,11 @@ justify-content: space-between;
 }
 .head_box .day_text {
   font-size: 30px;
+  color: green;
 }
 .head_box .title_text {
   font-size: 40px;
+  color: white;
 }
 .head_box .logo {
 font-family: "tttgbnumber";
