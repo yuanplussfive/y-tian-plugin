@@ -86,7 +86,7 @@ let title = "历史记录"
 let summary = ``
 let ForwardMsg;
 try{
-      ForwardMsg = await e.group.makeForwardMsg(data_msg);}catch (err){reply('该隐藏功能只支持群聊');return}
+      ForwardMsg = await e.group.makeForwardMsg(data_msg);}catch (err){e.reply('该隐藏功能只支持群聊');return}
     let regExp = /<summary color=\"#808080\" size=\"26\">查看(\d+)条转发消息<\/summary>/g;
     let res2 = regExp.exec(ForwardMsg.data);
     let pcs = res2[1];
