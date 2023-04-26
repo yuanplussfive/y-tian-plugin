@@ -4,10 +4,10 @@ import {getSegment} from '../model/segment.js'
 const segment = await getSegment()
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
-let a = "../resources/css/y-t-help.css"
+let a = _path + "plugins/y-tian-plugin/resources/css/y-t-help.css"
 let html;
-let tu = "../background/tu2.jpg"
-let cj = "../background/tu1.jpg"
+let tu = _path + "plugins/y-tian-plugin/background/tu2.jpg"
+let cj = _path + "plugins/y-tian-plugin/background/tu1.jpg"
 export class example extends plugin {
   constructor () {
     super({
