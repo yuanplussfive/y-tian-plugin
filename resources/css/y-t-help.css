@@ -8,14 +8,13 @@ body {
   font-family: sans-serif;
   font-size: 16px;
   width: 1030px;
-  color: #1e1f20;
-background: #6B4226;
+  color: #008080;
+  background-image:url('https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
   transform: scale(1.5);
   transform-origin: 0 0;
 }
 .main {
   flex: 1;
-  background-image: url('https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
 background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: top;
@@ -84,9 +83,7 @@ font-family: "tttgbnumber";
 }
 
 .data_box {
-justify-content: space-between
-  border-radius: 15px;
-  border-radius: 15px 15px 15px 15px;
+justify-content: space-between;
   margin-top: 20px;
   margin-bottom: 20px;
   background-image: url('../../background/image/tu1.jpg');
@@ -95,6 +92,7 @@ background-attachment: fixed;
 background-size: 1500px,2000px;
   box-shadow: 0 5px 10px 0 rgb(0 0 0 / 15%);
   position: relative;
+  border-radius: 16px;
 }
 .tab_lable {
   position: absolute;
@@ -137,7 +135,7 @@ flex-direction:row;
 }
 
 .list .item {
-  width: 250px;
+  width: 400px;
   display: flex;
 flex-direction: row;
   align-items: center;
