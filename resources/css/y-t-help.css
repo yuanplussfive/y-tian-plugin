@@ -84,6 +84,7 @@ font-family: "tttgbnumber";
 .data_box {
 justify-content: space-between
   border-radius: 15px;
+  border-radius: 15px 15px 15px 15px;
   margin-top: 20px;
   margin-bottom: 20px;
   background-image: url('../../background/image/tu1.jpg');
