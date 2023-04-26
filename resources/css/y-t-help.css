@@ -138,7 +138,7 @@ flex-direction:row;
   display: flex;
 flex-direction: row;
   align-items: center;
-  background: #696969
+  background: #FFFFFF
 ;
   filter:opacity(0.7);
   padding: 8px 6px 8px 6px;
@@ -172,7 +172,7 @@ flex-direction: row;
 } */
 .list .item .title .dec{
   font-size: 16px;
-  color: #FFFF00;
+  color: #008080;
   margin-top: 10px;
 }
 
