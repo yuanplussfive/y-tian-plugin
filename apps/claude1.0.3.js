@@ -1,4 +1,5 @@
 //方法，机器人名+问题,名字自己在下面改;
+//更详细教程加群了解：756783127
 import plugin from '../../../lib/plugins/plugin.js'
 import {getSegment} from "../model/segment.js"
     const segment = await getSegment()
