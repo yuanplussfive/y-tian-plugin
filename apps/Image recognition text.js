@@ -14,12 +14,8 @@ import {
     from 'module'
 const require = createRequire(import.meta.url)
 const request = require("../node_modules/request/index.js")
-let segment = ""
-try{
-segment =(await import("oicq")).segment
-}catch(err){
-segment =(await import("icqq")).segment
-}
+import {getSegment} from "../model/segment.js"
+    const segment = await getSegment()
 let AK = "URmqLVxKCG5hm27btAgdTpeu"//你的Api-Key
 let SK = "54405zOTdDWsnkvyupTCDBpHXogGu19p"//你的secret-key
 export class example extends plugin {
