@@ -167,7 +167,7 @@ return
 console.log(black)
 data["blackQQ"] = {at,black}
 let yaml = YAML.stringify(data)
-yaml = yaml.replace("at:","").replace("black:","").replace("null","")
+yaml = yaml.replace("at:","").replace("black:","").replace(/null/g,"")
 fs.writeFileSync(file, yaml, "utf8")
 e.reply(`ok,${at}已被禁用功能了`)
 return
@@ -184,7 +184,7 @@ return
 }
 else{
 let yaml = YAML.stringify(data)
-yaml = yaml.replace(`- ${at}`,"")
+yaml = yaml.replace(`- ${at}`,"").replace(/null/g,"")
 fs.writeFileSync(file, yaml, "utf8")
 e.reply(`ok,${at}已被从禁用功能名单内放出来了`)
 return
