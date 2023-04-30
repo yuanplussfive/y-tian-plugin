@@ -1,7 +1,7 @@
 import fs from 'fs'
 import cfg from '../../../lib/config/config.js';
 import lodash from 'lodash'
-const { exec, execSync } = require("child_process");
+import { exec } from 'child_process'
 const _path = process.cwd()
 
 export class update extends plugin {
