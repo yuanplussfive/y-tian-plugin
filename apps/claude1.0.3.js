@@ -5,7 +5,10 @@ import {getSegment} from "../model/segment.js"
     const segment = await getSegment()
 import fetch from 'node-fetch'
 import _ from 'lodash'
-let botname = "claude";//你机器人的名字
+const _path = process.cwd()
+let dirpath = _path + '/plugins/y-tian-plugin/resources/claude token/claude.js'
+let js = JSON.parse(fs.readFileSync(dirpath,'utf8'))
+let botname = js.claude.botname;//你机器人的名字
 let token = ""//token
 let d = ""//cookie中的d值
 let channel = ""//频道
