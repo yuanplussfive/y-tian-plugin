@@ -54,7 +54,7 @@ fs.writeFileSync(dirpath,JSON.stringify({
     "claude":{
         "botname":ming,
     }
-})
+}))
 e.reply("claude修改触发名称成功")
 }
 async round(e){
