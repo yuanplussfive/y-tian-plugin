@@ -1,5 +1,5 @@
 import fs from 'fs'
-import Cfg from '../components/Cfg.js'
+import cfg from '../../../lib/config/config.js';
 import lodash from 'lodash'
 const { exec, execSync } = require("child_process");
 const _path = process.cwd()
