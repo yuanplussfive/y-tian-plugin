@@ -19,6 +19,7 @@ import path from 'path';
 import fetch from "node-fetch";
 import fs from "fs";
 import { url } from 'inspector';
+import { get } from "http";
 const folderPath = _path +'/resources/lunpandu';
 var dirpath = _path +'/resources/lunpandu';//路径
 var filename = '';//文件名
@@ -32,6 +33,18 @@ let a
 let u1
 let msg
 let id1
+function deleteFile(filePath) {
+  fs.unlink(filePath, err => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log(`${filePath} deleted，删除成功`);
+  });
+}
+function getImg(url){
+  return segment.image(url)
+}
 
 export class example extends plugin {
   constructor() {
@@ -70,7 +83,6 @@ export class example extends plugin {
   //执行方法
 
 
-
   async lpd(e) {if(!e.isGroup){e.reply('该功能仅群聊可用');return true}else{ filename=e.group_id+'.json'
     if (!fs.existsSync(dirpath+"/"+filename)) {
       fs.appendFileSync(dirpath + "/" + filename, JSON.stringify({"start": 1,"t":1}))
@@ -80,6 +92,7 @@ export class example extends plugin {
 }
 async lpd2(e) {let idd = e.user_id
     let url = `https://ovooa.caonm.net/API/yi/?QQ=${idd}`
+    let img = getImg(url)
   filename=e.group_id+'.json'
 u1 = e.user_id
 id1=e.sender.nickname
@@ -107,17 +120,11 @@ console.log(t)
 if (a <= 1/7) {  e.reply(e.sender.nickname+'若无其事地拿起左轮，把左轮手枪对准自己的太阳穴，一脸轻松地扣下扳机...');
 setTimeout(function(){
   e.group.muteMember(u1,time)
-  let msg = [segment.image(url),
+  let msg = [img,
   '\n砰————（枪声响起，红色液体和白色粘稠液体飞溅）恭喜他，他gg了。第一枪他就中枪了，他的运气真不是一般的好呢！在下面买张彩票吧！']
    e.reply(msg);
    t=0
-   fs.unlink(dirpath + "/" + filename, (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(filename+'已被删除！');
-  });
+   deleteFile(dirpath + "/" + filename);
 }, 2000); // 停顿2秒
 
    
@@ -138,7 +145,7 @@ setTimeout(function(){
        
        setTimeout(function(){
         e.group.muteMember(u1,time)
-        msg = [segment.image(url),
+        msg = [img,
           '\n砰————（枪声响起，红色液体和白色粘稠液体飞溅）恭喜他，他gg了。第二枪他就中枪了，他的运气看起来还行呢！']
            e.reply(msg);
         t=0
@@ -164,18 +171,13 @@ setTimeout(function(){
     if (a <= 1/5) { e.reply(e.sender.nickname+'颤抖着手，把左轮手枪对准自己的太阳穴，紧张地闭上眼睛，缓缓地扣下扳机...');
     setTimeout(function(){
       e.group.muteMember(u1,time)
-      msg = [segment.image(url),
+      msg = [img,
         '\n砰————（枪声响起，红色液体和白色粘稠液体飞溅）恭喜他，他gg了。这是第三枪，他的运气还可以。']
          e.reply(msg);
       
       t=0
-      fs.unlink(dirpath + "/" + filename, (err) => {
-       if (err) {
-         console.error(err);
-         return;
-       }
-       console.log(filename+'已被删除！');
-     });
+      deleteFile(dirpath + "/" + filename);
+   
   }, 2000); // 停顿2秒
     }else{
        e.reply(e.sender.nickname+'颤抖着手，把左轮手枪对准自己的太阳穴，紧张地闭上眼睛，缓缓地扣下扳机...');
@@ -192,17 +194,11 @@ setTimeout(function(){
     if (a <= 1/4) { e.reply(e.sender.nickname+'非常慌，他也没想到前面的人能够撑那么久没中枪，哆哆嗦嗦地把左轮手枪对准自己的太阳穴，紧张地闭上眼睛，缓缓地扣下扳机...');
     setTimeout(function(){
       e.group.muteMember(u1,time)
-      msg = [segment.image(url),
+      msg = [img,
         '\n砰————（枪声响起，红色液体和白色粘稠液体飞溅）恭喜他，他gg了。这是第四枪，他的运气还可以。']
          e.reply(msg);
       t=0
-      fs.unlink(dirpath + "/" + filename, (err) => {
-       if (err) {
-         console.error(err);
-         return;
-       }
-       console.log(filename+'已被删除！');
-     });
+      deleteFile(dirpath + "/" + filename);
   }, 2000); // 停顿2秒
     }else{
        e.reply(e.sender.nickname+'非常慌，他也没想到前面的人能够撑那么久没中枪，哆哆嗦嗦地把左轮手枪对准自己的太阳穴，紧张地闭上眼睛，缓缓地扣下扳机...');
@@ -216,17 +212,11 @@ setTimeout(function(){
     if (a <= 1/3) { e.reply(e.sender.nickname+'非常慌，面色煞白，祈祷着，把左轮手枪对准自己的太阳穴，颤抖着扣下扳机...');
     setTimeout(function(){
       e.group.muteMember(u1,time)
-      msg = [segment.image(url),
+      msg = [img,
         '\n砰————（枪声响起，红色液体和白色粘稠液体飞溅）恭喜他，他gg了。这是第五枪。真惨啊。。']
          e.reply(msg);
       t=0
-      fs.unlink(dirpath + "/" + filename, (err) => {
-       if (err) {
-         console.error(err);
-         return;
-       }
-       console.log(filename+'已被删除！');
-     });
+      deleteFile(dirpath + "/" + filename);
   }, 2000); // 停顿2秒
    }else{
        e.reply(e.sender.nickname+'非常慌，面色煞白，祈祷着，把左轮手枪对准自己的太阳穴，颤抖着扣下扳机...');
@@ -239,18 +229,12 @@ setTimeout(function(){
     if (a <= 1/2) { e.reply(e.sender.nickname+'哭了，不愿意上前，却被其他人逼着拿起了枪，非常艰难地扣下扳机...');
     setTimeout(function(){
       e.group.muteMember(u1,time)
-      msg = [segment.image(url),
+      msg = [img,
         '\n砰————（枪声响起，红色液体和白色粘稠液体飞溅）恭喜他，他gg了。这是第六枪。真惨啊，让我们为他默哀。。']
          e.reply(msg);
 
       t=0
-      fs.unlink(dirpath + "/" + filename, (err) => {
-       if (err) {
-         console.error(err);
-         return;
-       }
-       console.log(filename+'已被删除！');
-     });
+      deleteFile(dirpath + "/" + filename);
   }, 2000); // 停顿2秒
     
      return true}else{
@@ -282,17 +266,13 @@ for (let key in data) {
     console.log(randomValue1)
     setTimeout(function(){
       e.group.muteMember(randomValue1,time)
-      msg = [segment.image(`https://ovooa.caonm.net/API/yi/?QQ=${randomValue1}`),
+      url = `https://ovooa.caonm.net/API/yi/?QQ=${randomValue1}`
+      img = getImg(url)
+      msg = [img,
         '\n因为只剩最后一枪了，那枪肯定有子弹，所以没有人愿意主动开枪了，所以随机挑一个人出来击毙！\n砰————（枪声响起，红色液体和白色粘稠液体飞溅）恭喜天选之子：'+randomValue+'中枪，他gg了。这是最后一枪，这真是太惨了，都给我哭！']
          e.reply(msg);
       t=0
-      fs.unlink(dirpath + "/" + filename, (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log(filename+'已被删除！');
-      });
+      deleteFile(dirpath + "/" + filename);
   }, 2000); // 停顿2秒
    
     return true
