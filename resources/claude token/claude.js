@@ -1,0 +1,6 @@
+{
+    "claude":{
+        "botname":"claude",
+    }
+
+}
