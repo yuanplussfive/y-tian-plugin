@@ -3,9 +3,14 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import {getSegment} from "../model/segment.js"
     const segment = await getSegment()
+import fs from 'fs'
 import fetch from 'node-fetch'
 import _ from 'lodash'
 const _path = process.cwd()
+let data = _path + '/resources/claudedata'
+if(!fs.existsSync(data)){
+fs.mkdirSync(data)    
+}
 let dirpath = _path + '/plugins/y-tian-plugin/resources/claude token/claude.json'
 let js = JSON.parse(fs.readFileSync(dirpath,'utf8'))
 let botname = js.claude.botname;//你机器人的名字
@@ -44,9 +49,15 @@ export class example extends plugin {
 },{
           reg:"^#设置bot名(.*)",
           fnc:'name'
+},{
+          reg:'^#填写token(.*)',
+          fnc:'token'
 }
       ]
     })
+}
+async token(e){
+let token = e.msg.replace(/#填写token/g,'').trim
 }
 async name(e){
 let ming = e.msg.replace(/#设置bot名/g,'').trim();
