@@ -78,7 +78,8 @@ export class example extends plugin {
     e.reply('俄轮已开始，勇士们，拿起左轮手枪，弹匣一共七个孔，只有一个装有子弹，谁会成为那个幸运儿呢？发送 #开枪 感受心跳吧！')}else{e.reply('游戏早已经开始了哦，发送 #开枪 感受心跳吧！')}
     }
 }
-async lpd2(e) {let url = `https://ovooa.caonm.net/API/yi/?QQ=${e.user_id}`
+async lpd2(e) {let idd = e.user_id
+    let url = `https://ovooa.caonm.net/API/yi/?QQ=${idd}`
   filename=e.group_id+'.json'
 u1 = e.user_id
 id1=e.sender.nickname
