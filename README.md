@@ -22,6 +22,10 @@ git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-pl
 | #阴天更新 | 更新阴天插件 |
 | #阴天帮助 | 获取相关命令|
 
+### 插件相关
+
+claudeAI人工智能功能现已初步实现免注册免费，具体情况请加下方阴天插件官方群了解。
+
 
 ## 反馈
 
