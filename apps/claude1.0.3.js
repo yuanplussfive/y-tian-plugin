@@ -41,11 +41,22 @@ export class example extends plugin {
           reg: "^/reset",
           /** 执行方法 */
           fnc: 'round'
+},{
+          reg:"^#设置bot名(.*)",
+          fnc:'name'
 }
       ]
     })
 }
-
+async name(e){
+let ming = e.msg.replace(/#设置bot名/g,'').trim();
+fs.writeFileSync(dirpath,JSON.stringify({
+    "claude":{
+        "botname":ming,
+    }
+})
+e.reply("claude修改触发名称成功")
+}
 async round(e){
 let  a = await fetch(`https://${chong}.slack.com/api/chat.command`, {
   "method": "POST",
