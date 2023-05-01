@@ -56,7 +56,7 @@ export class example extends plugin {
     await page.setContent(html);  
     await page.setViewport({ width: 1920, height: 1080 });
     // 等待2秒钟
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
    const image = await page.screenshot({ fullPage: true ,quality: 100, type: 'jpeg'});
     await this.reply(segment.image(image));
     await browser.close()
