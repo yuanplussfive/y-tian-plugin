@@ -109,6 +109,7 @@ export class example extends plugin {
                   tplFile: _path +'/plugins/y-tian-plugin/resources/zhuan.html',
              imgtype:'png',
              a:e.img[0],
+             fullPage: true,
              
          });
          e.reply(img)
@@ -132,6 +133,7 @@ o=0
         tplFile: _path +'/plugins/y-tian-plugin/resources/zhuan.html',
    imgtype:'png',
    a:url,
+   fullPage: true,
    
 });
 e.reply(img)
