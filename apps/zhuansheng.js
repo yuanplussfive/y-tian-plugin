@@ -5,7 +5,6 @@ const segment = await getSegment()
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
 let html = _path + "/plugins/y-tian-plugin/resources/html/zhuansheng.html"
-let bg = _path + "/plugins/y-tian-plugin/background/image/tu1.jpg"
 const zswa={
    "白露":"你是性格活泼的小女孩，持明族的「衔药龙女]，药到病除的名医。你经常给病人开出不拘一格的药方，如「多喝热水]、「睡一觉就好了]。你见不得人受苦，治病时总是闭着眼睛。————总之病好了就行！",
    "希儿":"你是飒爽俊逸的「地火」成员，成长于地底危险混乱的环境，习惯独来独往。你作为曾经的弱者，如今的你锲而不舍地追求更强大的力量，为了有朝一日揭示地底的真相，为了给自己的族人证明，你可以忍受任何痛苦。保护与被保护，压迫与被压迫，世界向你展示的始终是非黑即白的那一面————直至「那名少女」的出现。",
@@ -46,8 +45,7 @@ export class example extends plugin {
     let c = '  '+zswa[js];
     let img= await puppeteer.screenshot("66", {                    
         tplFile: html,               
-        imgtype:'png', 
-       bg:bg,    
+        imgtype:'png',     
        a:dir,
        b:jss,
        c:c,
