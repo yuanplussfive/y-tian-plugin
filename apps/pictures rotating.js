@@ -4,7 +4,6 @@ import {getSegment} from "../model/segment.js"
     const segment = await getSegment()
     const _path = process.cwd();
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
-import axios from'../../../node_modules/.pnpm/axios@0.27.2/node_modules/axios/lib/axios.js'
 import fs from "fs";
 let o
 let a = 'zhuan.html'
