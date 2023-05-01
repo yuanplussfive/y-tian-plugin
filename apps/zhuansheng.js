@@ -41,7 +41,7 @@ export class example extends plugin {
     let randomjs = Math.floor(Math.random() * keysArr.length); 
     let js = keysArr[randomjs];
     let jss =`恭喜你转生为：`;
-    let dir = _path + "/plugins/y-tian-plugin/resources/转生/"+js+'.png';console.log(dir)
+    let dir = _path + "/plugins/y-tian-plugin/background/转生/"+js+'.png';
     let c = '  '+zswa[js];
     let img= await puppeteer.screenshot("66", {                    
         tplFile: html,               
