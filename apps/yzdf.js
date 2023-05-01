@@ -1,6 +1,7 @@
-import plugin from '../../lib/plugins/plugin.js'
+import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
-import { segment } from "oicq";
+import {getSegment} from "../model/segment.js"
+const segment = await getSegment()
 let url;
 export class example extends plugin {
   constructor() {
