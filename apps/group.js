@@ -479,8 +479,8 @@ return false;
 }
 if(e.user_id == cfg.masterQQ){
 console.log("对主人不生效")
-return
-}
+return false
+}else{
 msg[e.user_id] = e.msg + "";
 if (fs.existsSync(dirpath + "/" + `${e.group_id}.json`)) {
 let js = JSON.parse(fs.readFileSync(dirpath+"/"+`${e.group_id}.json`,"utf8"))
@@ -507,7 +507,7 @@ return
 }
 }
 }
-}
+}}
 }
 
 
