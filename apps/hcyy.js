@@ -9,7 +9,7 @@ let ying = "zhilingfa"
 import fetch from "node-fetch";
 const _path = process.cwd();
 let musical = 0
-mport {getSegment} from "../model/segment.js"
+import {getSegment} from "../model/segment.js"
 const segment = await getSegment()
 
 export class example extends plugin {
@@ -300,7 +300,6 @@ e.reply([segment.record(url)])
 return true
 }
 }    
-}
 }
 
 
