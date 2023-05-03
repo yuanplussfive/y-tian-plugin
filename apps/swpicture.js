@@ -45,9 +45,9 @@ g.push(gd)
 console.log(g)
 let gg = `${g}`
 let h = gg.replace(/,/g,"\n")
-html = fs.readFileSync(_path+'plugins/y-tian-plugin/resources/html/swpicture.html','utf-8');            
+html = fs.readFileSync(_path+'/plugins/y-tian-plugin/resources/html/swpicture.html','utf-8');            
 html = html.replace('wen', h).replace("COLOR",ys)
-fs.writeFileSync(_path+'plugins/y-tian-plugin/resources/html/swpicture.html', html);
+fs.writeFileSync(_path+'/plugins/y-tian-plugin/resources/html/swpicture.html', html);
 g.length=0
 let img= await puppeteer.screenshot("66", {                    
 tplFile: `${_path}/plugins/y-tian-plugin/resources/html/swpicture.html`,               
