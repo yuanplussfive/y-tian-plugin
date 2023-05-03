@@ -56,9 +56,9 @@ h:h,
 tu:tu
 });
 await e.reply(img)
-let html2 = fs.readFileSync(_path+'/plugins/example/swpicture.html','utf-8');            
+let html2 = fs.readFileSync(_path+'/plugins/y-tian-plugin/resources/html/swpicture.html','utf-8');            
 html2 = html2.replace(h,'wen').replace(ys,"COLOR")
-fs.writeFileSync(_path+'/plugins/example/swpicture.html', html2);
+fs.writeFileSync(_path+'/plugins/y-tian-plugin/resources/html/swpicture.html', html2);
 }
 }
 
