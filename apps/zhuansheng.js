@@ -3,8 +3,10 @@ import fs from 'fs'
 import {getSegment} from '../model/segment.js'
 const segment = await getSegment()
 import puppeteer from 'puppeteer'
-const _path = process.cwd();
 
+const _path = process.cwd();
+let cd = 10000
+let open =true
 const zswa={
    "白露":"你是性格活泼的小女孩，持明族的「衔药龙女]，药到病除的名医。你经常给病人开出不拘一格的药方，如「多喝热水]、「睡一觉就好了]。你见不得人受苦，治病时总是闭着眼睛。————总之病好了就行！",
    "希儿":"你是飒爽俊逸的「地火」成员，成长于地底危险混乱的环境，习惯独来独往。你作为曾经的弱者，如今的你锲而不舍地追求更强大的力量，为了有朝一日揭示地底的真相，为了给自己的族人证明，你可以忍受任何痛苦。保护与被保护，压迫与被压迫，世界向你展示的始终是非黑即白的那一面————直至「那名少女」的出现。",
@@ -38,6 +40,11 @@ export class example extends plugin {
       })
     }
   async zs(e){
+  if(open== false){e.reply("转生系统尚在冷却中，我知道你很急，但你先别急！");return false}
+else{open=false
+  setTimeout(async () => {
+                open = true;
+            }, cd);
     let html = _path + "/plugins/y-tian-plugin/resources/html/zhuansheng.html"
     html = fs.readFileSync(html,'utf-8')
     let randomjs = Math.floor(Math.random() * keysArr.length); 
@@ -60,7 +67,7 @@ export class example extends plugin {
    const image = await page.screenshot({ fullPage: true ,quality: 100, type: 'jpeg'});
     await this.reply(segment.image(image));
     await browser.close()
-
+}
 
 
 
