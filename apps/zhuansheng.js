@@ -58,7 +58,7 @@ else{open=false
     html = html.replace('{{b}}',jss)
     html = html.replace('{{c}}',c)
     html = html.replace('{{d}}',js)
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({args:['--no-sandbox','--disable-setuid-sandbox']});
     const page = await browser.newPage();
     await page.setContent(html);  
     await page.setViewport({ width: 1920, height: 1080 });
