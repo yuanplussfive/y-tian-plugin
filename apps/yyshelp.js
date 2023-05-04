@@ -217,7 +217,7 @@ if(now == -1){
 e.reply("未查找到当前角色的图鉴,可能还未录入")
 return false
 }
-if (!fs.existsSync(`${_path}/background/image/yys/${m}.jpg`)){
+if (!fs.existsSync(`${_path}/plugins/y-tian-plugin/background/image/yys/${m}.jpg`)){
 let msg = tu[now].url
 const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
@@ -231,10 +231,10 @@ await page.waitForTimeout(8000)
         path: `${_path}/background/image/yys/${m}.jpg`,
         fullPage: true,
  });    
-await e.reply([segment.image(`${_path}/background/image/yys/${m}.jpg`)])
+await e.reply([segment.image(`${_path}/plugins/y-tian-plugin/background/image/yys/${m}.jpg`)])
 await browser.close();
-}else if (fs.existsSync(`${_path}/background/image/yys/${m}.jpg`)){
-e.reply([segment.image(`${_path}/background/image/yys/${m}.jpg`)])
+}else if (fs.existsSync(`${_path}/plugins/y-tian-plugin/background/image/yys/${m}.jpg`)){
+e.reply([segment.image(`${_path}/plugins/y-tian-plugin/background/image/yys/${m}.jpg`)])
 }
 }
 }
