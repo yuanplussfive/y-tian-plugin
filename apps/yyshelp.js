@@ -228,7 +228,7 @@ await page.waitForTimeout(8000)
         height: 800
     });
     await page.screenshot({
-        path: `${_path}/background/image/yys/${m}.jpg`,
+        path: `${_path}/plugins/y-tian-plugin/background/image/yys/${m}.jpg`,
         fullPage: true,
  });    
 await e.reply([segment.image(`${_path}/plugins/y-tian-plugin/background/image/yys/${m}.jpg`)])
