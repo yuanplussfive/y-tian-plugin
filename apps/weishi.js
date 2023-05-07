@@ -6,8 +6,6 @@ import _ from 'lodash'
 import puppeteer from 'puppeteer'
 import common from'../../../lib/common/common.js'
 import fetch from "node-fetch";
-import {getSegment} from "../model/segment.js"
-const segment = await getSegment()
 let dirpath = _path + '/resources/weishi'
 if (!fs.existsSync(dirpath)) {
     fs.mkdirSync(dirpath);
