@@ -1,7 +1,6 @@
 import fetch from 'node-fetch'
 import fs from "fs"
-import {getSegment} from "../model/segment.js"
-const segment = await getSegment()
+
 let magic;
 export class example extends plugin {
   constructor () {
