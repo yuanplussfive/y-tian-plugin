@@ -1,7 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
-import {getSegment} from "../model/segment.js"
-    const segment = await getSegment()
+
 
 
 //方法:    攻受@x@x   或者   攻受xx和xx   
