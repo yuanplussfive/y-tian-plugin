@@ -255,11 +255,11 @@ num2 = text2.match(reg)
 if(!num){
 //console.log(num2)
 if(!num2){
-if((text2).includes("This request may violate our Acceptable")){
+if((text2).includes("Please note")){
 e.reply(text,true)
 console.log("text2")
 return
-}else if(!(text2).includes("This request may violate our Acceptable")){
+}else if(!(text2).includes("Please note")){
 e.reply(text2,true)
 return
 }
