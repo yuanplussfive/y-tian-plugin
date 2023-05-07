@@ -1,8 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import _ from 'lodash'
 import fetch from "node-fetch";
-import {getSegment} from "../model/segment.js"
-    const segment = await getSegment()
     const _path = process.cwd();
 import puppeteer from 'puppeteer'
 
