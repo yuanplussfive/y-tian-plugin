@@ -3,8 +3,6 @@ import plugin from '../../../lib/plugins/plugin.js'
 import _ from 'lodash'
 import fetch from "node-fetch";
 import cfg from '../../../lib/config/config.js';
-import {getSegment} from "../model/segment.js"
-    const segment = await getSegment()
 let key = "false";//是否开启r18,false否，true是
 export class a extends plugin {
     constructor () {
