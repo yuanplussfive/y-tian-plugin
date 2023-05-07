@@ -3,8 +3,7 @@
 
 
 
-import {getSegment} from "../model/segment.js"
-    const segment = await getSegment()
+
     const _path = process.cwd();
 
 import fs from "fs";
