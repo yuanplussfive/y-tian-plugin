@@ -3,8 +3,7 @@
 import puppeteer from 'puppeteer'
 import common from'../../../lib/common/common.js'
 import fetch from "node-fetch";
-import {getSegment} from "../model/segment.js"
-    const segment = await getSegment()
+
 export class example extends plugin {
   constructor() {
     super({
