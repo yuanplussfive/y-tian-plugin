@@ -1,5 +1,4 @@
-import {getSegment} from "../model/segment.js";
-    const segment = await getSegment()
+
 import fetch from "node-fetch";
 import common from'../../../lib/common/common.js'
 const _path = process.cwd();
