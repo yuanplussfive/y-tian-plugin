@@ -9,8 +9,6 @@ let ying = "zhilingfa"
 import fetch from "node-fetch";
 const _path = process.cwd();
 let musical = 0
-import {getSegment} from "../model/segment.js"
-const segment = await getSegment()
 
 export class example extends plugin {
   constructor() {
