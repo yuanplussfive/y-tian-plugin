@@ -1,7 +1,7 @@
 //方法，机器人名+问题,名字自己在下面改;
 //更详细教程加群了解：756783127
 import plugin from '../../../lib/plugins/plugin.js'
-
+import cfg from '../../../lib/config/config.js'
 import fs from 'fs'
 import fetch from 'node-fetch'
 import _ from 'lodash'
@@ -137,6 +137,10 @@ return
 }
 }
 async mc(e){
+if(e.user_id !== cfg.masterQQ[0]){
+e.reply('权限不够')
+return false
+}
 let ming = e.msg.replace(/#设置bot名/g,'').trim();
 botname = ming
 e.reply(`claude修改触发名称成功,现在触发名称是${ming}`)
