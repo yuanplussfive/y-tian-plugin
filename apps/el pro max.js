@@ -11,8 +11,7 @@
 
 
 
-import {getSegment} from "../model/segment.js"
-    const segment = await getSegment()
+
     const _path = process.cwd();
 import path from 'path';
 import fetch from "node-fetch";
