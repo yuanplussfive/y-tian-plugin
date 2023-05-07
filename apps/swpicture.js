@@ -1,7 +1,6 @@
 import fetch from 'node-fetch'
 import fs from 'fs'
-import {getSegment} from "../model/segment.js"
-const segment = await getSegment()
+
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
 let g = []
