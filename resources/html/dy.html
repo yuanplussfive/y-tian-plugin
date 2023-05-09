@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="{{dz}}/plugins/y-tian-plugin/resources/css/ks.css" />
+</head>
+<body background="{{dz}}/plugins/y-tian-plugin/background/image/bg.jpg"> 
+<div class="bt" >阴 天 视 频 列 表(抖 音)</div>
+<p class="nr" >/观看+数字来选择，例如/观看1</p>
+<table  class ="bg1" width="700">
+{{each nr2 na idx}}
+
+ {{if idx%2 !=0}}
+ 
+	
+	<td class="rw"><div align = center><img src= "{{na.uri}}"/></div><div class="wenzi">{{idx + 1}}.{{na.title}}</div></td></tr>
+	
+	{{/if}}
+	
+	{{if idx%2 ==0}}
+
+	<td class="rw"><div align = center><img src= "{{na.uri}}"/></div><div class="wenzi">{{idx + 1}}.{{na.title}}</div></td>
+	{{/if}}
+
+{{/each}}
+
+ </table>
+
+<p class="jw" >Created By Yunzai-Bot & y-tian-plugin 1.0.0</p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
