@@ -1,4 +1,7 @@
 const _path = process.cwd();
+if(!global.segment){
+global.segment = (await import('oicq')).segment
+}
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from "node-fetch"
 import fs from 'fs'
