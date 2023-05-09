@@ -45,7 +45,7 @@ export class example extends plugin {
 async fy(e){
 if(e.msg.includes("翻页")&&k.length!==0&&g.length!==0){
 num2 = num2 + 1
-console.log(num2)
+//console.log(num2)
 g.length=0
 k.length = 0
 let didv = new Date().getTime()
@@ -67,11 +67,11 @@ headers: {
 "body": JSON.stringify(data2)
 });
 a = await a.json()
-console.log(a)
+//console.log(a)
 let length =  await a.data.visionSearchPhoto.feeds.length
 feed = await a.data.visionSearchPhoto.feeds
-console.log(feed)
-console.log(feed[0])
+//console.log(feed)
+//console.log(feed[0])
 for(let i = 1;i<=length;i++){
 let content = feed[i-1].photo.caption
 let h = feed[i-1].photo.coverUrl
@@ -136,11 +136,11 @@ headers: {
 "body": JSON.stringify(data2)
 });
 a = await a.json()
-console.log(a)
+//console.log(a)
 let length =  await a.data.visionSearchPhoto.feeds.length
 feed = await a.data.visionSearchPhoto.feeds
-console.log(feed)
-console.log(feed[0])
+//console.log(feed)
+//console.log(feed[0])
 for(let i = 1;i<=length;i++){
 let content = feed[i-1].photo.caption
 let h = feed[i-1].photo.coverUrl
@@ -173,7 +173,7 @@ e.reply(img)
 
 if(e.msg.includes("观看")&&g.length!==0&&k.length!==0){
 let ag = e.msg.replace(/#?观看/g,"").trim()
-console.log(feed[ag-1])
+//console.log(feed[ag-1])
 if(feed[ag-1].photo.photoH265Url == ""){
 e.reply("当前选定解析失败，看看别的吧")
 return false
