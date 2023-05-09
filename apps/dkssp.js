@@ -92,7 +92,8 @@ op[i].title= op[i].title.replace(/<em class="keyword">/g, "").trim()
 let data = {
 						tplFile: './plugins/y-tian-plugin/resources/html/ks.html',
 						dz: _path,
-						nr2:op,        
+						nr2:op,  
+                        imgUrl:imgUrl      
 					}
 					let img = await puppeteer.screenshot("123", {
 						...data,
@@ -160,7 +161,8 @@ op[i].title= op[i].title.replace(/<em class="keyword">/g, "").trim()
 let data = {
 						tplFile: './plugins/y-tian-plugin/resources/html/ks.html',
 						dz: _path,
-						nr2:op,        
+						nr2:op,     
+                        imgUrl:imgUrl   
 					}
 					let img = await puppeteer.screenshot("123", {
 						...data,
