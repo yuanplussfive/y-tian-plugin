@@ -1,3 +1,6 @@
+if(!global.segment){
+global.segment = (await import('oicq')).segment
+}
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
 import fs from "fs"
