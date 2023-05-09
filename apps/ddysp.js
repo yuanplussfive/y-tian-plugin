@@ -76,7 +76,7 @@ op[i].title= op[i].title.replace(/<em class="keyword">/g, "").trim()
 
 }
 let data = {
-						tplFile: `{_path}/plugins/y-tian-plugin/resources/html/dy.html`,
+						tplFile: './plugins/y-tian-plugin/resources/html/dy.html',
 						dz: _path,
 						nr2:op,
           
