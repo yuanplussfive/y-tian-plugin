@@ -1,8 +1,8 @@
 const _path = process.cwd();
-import plugin from '../../lib/plugins/plugin.js'
+import plugin from '../../../lib/plugins/plugin.js'
 import fetch from "node-fetch"
 import fs from 'fs'
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 let g = []
 let time = 0
 let name = ""
@@ -89,7 +89,7 @@ op[i].title= op[i].title.replace(/<em class="keyword">/g, "").trim()
 
 }
 let data = {
-						tplFile: './plugins/example/ks.html',
+						tplFile: './plugins/y-tian-plugin/resources/html/ks.html',
 						dz: _path,
 						nr2:op,        
 					}
@@ -157,7 +157,7 @@ op[i].title= op[i].title.replace(/<em class="keyword">/g, "").trim()
 
 }
 let data = {
-						tplFile: './plugins/example/ks.html',
+						tplFile: './plugins/y-tian-plugin/resources/html/ks.html',
 						dz: _path,
 						nr2:op,        
 					}
