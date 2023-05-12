@@ -97,7 +97,7 @@ let videos = document.querySelectorAll(
 'img');
 return Array.from(videos).map(video => video.src);
 });
-let tu = segment.image(d[2])
+let tu = segment.image(d[1])
 console.log(d)
 await browser.close();        
 await e.reply(tu)
@@ -137,7 +137,7 @@ let videos = document.querySelectorAll(
 'img');
 return Array.from(videos).map(video => video.src);
 });
-let tu = segment.image(d[2])
+let tu = segment.image(d[1])
 console.log(d)
 await browser.close();        
 await e.reply(tu)
