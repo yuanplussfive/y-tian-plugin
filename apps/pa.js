@@ -29,7 +29,7 @@ export class a extends plugin {
     }
      async ttttt(e) {
         let u = e.msg.replace('#爬取','').trim()
-            const browser = await puppeteer.launch();
+            const browser = await puppeteer.launch({args:['--no-sandbox','--disable-setuid-sandbox']});
             const page = await browser.newPage();
             await page.goto(`${u}`);
             let a = await page.evaluate(() => {
