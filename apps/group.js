@@ -120,7 +120,7 @@ let muteTime = e.msg.match(/\d+/g);
 console.log(muteTime)
 let at = e.message.filter(item => item.type == 'at')?.map(item => item?.qq)
 console.log(at)
-if(e.sender.role == "admin"){
+if(e.sender.role == "admin"||e.sender.role == "owner"){
 await e.group.muteMember(at, 60 * muteTime)
 this.reply('给我闭嘴！')
 return false;
