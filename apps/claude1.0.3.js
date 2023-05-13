@@ -4,7 +4,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import cfg from '../../../lib/config/config.js'
 import fs from 'fs'
 import fetch from 'node-fetch'
-import _ from 'lodash'
+import _, { isPlainObject } from 'lodash'
 const _path = process.cwd()
 
 let dirpath = _path + '/resources/claude token'
@@ -12,6 +12,17 @@ if(!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
 }
 if (!fs.existsSync(dirpath + "/" + "data.json")){
+  try{
+let data = fs.readFileSync(dirpath + "/" + "data.json")
+let obj = JSON.parse(data)
+if (obj.claude.botname in obj.claude) {
+console.log('claude名字已初始化')
+}else{
+  obj.claude.botname = "claude"
+  fs.writeFileSync(dirpath + "/" + "data.json",JSON.parse(obj))
+ console.log("claude名字已初始化")
+}
+  }catch(err){console.log(err)}
 fs.writeFileSync(dirpath+ "/" + "data.json",JSON.stringify({
     "claude":{
         "token":"",
