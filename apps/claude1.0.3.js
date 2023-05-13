@@ -23,14 +23,16 @@ fs.writeFileSync(dirpath+ "/" + "data.json",JSON.stringify({
     }
   
 }))
-console.log('claude名字已初始化')}else{try{
+console.log('claude名字已初始化')}
+else{
+    try{
 let data = fs.readFileSync(dirpath + "/" + "data.json")
 let obj = JSON.parse(data)
 if (obj.claude.botname in obj.claude) {
 console.log('claude名字已初始化')
 }else{
   obj.claude.botname = "claude"
-  fs.writeFileSync(dirpath + "/" + "data.json",JSON.parse(obj))
+  fs.writeFileSync(dirpath + "/" + "data.json",JSON.stringify(obj))
  console.log("claude名字已初始化")
 }
   }catch(err){console.log(err)}}
