@@ -17,12 +17,20 @@ fs.writeFileSync(dirpath+ "/" + "data.json",JSON.stringify({
         "token":"",
         "d":"",
         "channel":"",
-        "chong":""
+        "chong":"",
+        "botname":"claude"
     }
 }))
 }
+let botname
+try{
+let data = fs.readFileSync(dirpath + "/" + "data.json")
+let obj = JSON.parse(data)
+ botname = `${obj.claude.botname}`
 
-let botname = "claude";
+
+}catch(err){console.log(err)}
+
 
 let token;
 let d;
@@ -73,12 +81,14 @@ let js = JSON.parse(fs.readFileSync(dirpath + "/" + "data.json",'utf8'))
 let d = js.claude.d
 let channel = js.claude.channel
 let chong = js.claude.chong
+let name = js.claude.botname
 fs.writeFileSync(dirpath + "/" + "data.json",JSON.stringify({
     "claude":{
         "token":token,
            "d":d,
         "channel":channel,
-        "chong":chong
+        "chong":chong,
+        "botname":name
     }
 }))
 e.reply("已成功填写token")
@@ -90,12 +100,14 @@ let js = JSON.parse(fs.readFileSync(dirpath + "/" + "data.json",'utf8'))
 let token = js.claude.token
 let channel = js.claude.channel
 let chong = js.claude.chong
+let name = js.claude.botname
 fs.writeFileSync(dirpath + "/" + "data.json",JSON.stringify({
     "claude":{
         "token":token,
            "d":d,
         "channel":channel,
-        "chong":chong
+        "chong":chong,
+        "botname":name
     }
 }))
 e.reply("已成功填写d")
@@ -107,12 +119,14 @@ let js = JSON.parse(fs.readFileSync(dirpath + "/" + "data.json",'utf8'))
 let d = js.claude.d
 let token = js.claude.token
 let chong = js.claude.chong
+let name = js.claude.botname
 fs.writeFileSync(dirpath + "/" + "data.json",JSON.stringify({
     "claude":{
         "token":token,
            "d":d,
         "channel":channel,
-        "chong":chong
+        "chong":chong,
+        "botname":name
     }
 }))
 e.reply("已成功填写channel")
@@ -124,12 +138,14 @@ let js = JSON.parse(fs.readFileSync(dirpath + "/" + "data.json",'utf8'))
 let d = js.claude.d
 let channel = js.claude.channel
 let token = js.claude.token
+let name = js.claude.botname
 fs.writeFileSync(dirpath + "/" + "data.json",JSON.stringify({
     "claude":{
         "token":token,
            "d":d,
         "channel":channel,
-        "chong":chong
+        "chong":chong,
+        "botname":name
     }
 }))
 e.reply("已成功填写chong")
@@ -142,7 +158,15 @@ e.reply('权限不够')
 return false
 }
 let ming = e.msg.replace(/#设置bot名/g,'').trim();
-botname = ming
+try{
+  let data = fs.readFileSync(dirpath + "/" + "data.json")
+  let obj = JSON.parse(data)
+   obj.claude.botname = `${ming}`
+   botname = ming
+   fs.writeFileSync(dirpath + "/" + "data.json",JSON.stringify(obj))
+  
+  }catch(err){console.log(err)}
+
 e.reply(`claude修改触发名称成功,现在触发名称是${ming}`)
 }
 async round(e){
