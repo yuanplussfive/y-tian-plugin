@@ -1,7 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import _ from 'lodash'
 import fetch from "node-fetch";
-import BingAIClient from './resources/BingAIClient.js'
+import BingAIClient from './../resources/BingAIClient.js'
 let duihua
 let response
 let bingAIClient = new BingAIClient({
