@@ -12,7 +12,18 @@ if(!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
 }
 if (!fs.existsSync(dirpath + "/" + "data.json")){
-  try{
+  
+fs.writeFileSync(dirpath+ "/" + "data.json",JSON.stringify({
+    "claude":{
+        "token":"",
+        "d":"",
+        "channel":"",
+        "chong":"",
+        "botname":"claude"
+    }
+  
+}))
+console.log('claude名字已初始化')}else{try{
 let data = fs.readFileSync(dirpath + "/" + "data.json")
 let obj = JSON.parse(data)
 if (obj.claude.botname in obj.claude) {
@@ -22,17 +33,7 @@ console.log('claude名字已初始化')
   fs.writeFileSync(dirpath + "/" + "data.json",JSON.parse(obj))
  console.log("claude名字已初始化")
 }
-  }catch(err){console.log(err)}
-fs.writeFileSync(dirpath+ "/" + "data.json",JSON.stringify({
-    "claude":{
-        "token":"",
-        "d":"",
-        "channel":"",
-        "chong":"",
-        "botname":"claude"
-    }
-}))
-}
+  }catch(err){console.log(err)}}
 let botname
 try{
 let data = fs.readFileSync(dirpath + "/" + "data.json")
