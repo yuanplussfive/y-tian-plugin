@@ -4,7 +4,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import cfg from '../../../lib/config/config.js'
 import fs from 'fs'
 import fetch from 'node-fetch'
-import _, { isPlainObject } from 'lodash'
+import _ from 'lodash'
 const _path = process.cwd()
 
 let dirpath = _path + '/resources/claude token'
