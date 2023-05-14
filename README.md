@@ -14,7 +14,10 @@ Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，
 ```
 git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 
-插件目录执行 pnpm install
+cd plugins/y-tian-plugin
+
+pnpm install
+
 ```
 ## 功能一览
 
