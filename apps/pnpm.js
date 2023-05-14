@@ -1,4 +1,4 @@
-﻿import fs from 'fs';
+import fs from 'fs';
 import { exec } from 'child_process';
 import path from 'path';
 import cfg from '../../../lib/config/config.js'
@@ -9,7 +9,7 @@ let dirpath2 = _path + '/plugins/y-tian-plugin'
 
 fs.promises.access(dirpath)
   .then(() => {
-  
+  return
   })
   .catch(() => { 
     const cmd = 'pnpm install';
@@ -18,12 +18,6 @@ fs.promises.access(dirpath)
     };
     
     exec(cmd, options, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`执行命令失败：${cmd}`);
-        console.error(`错误信息：${error.message}`);
-        return;
-      }
-      
       setTimeout(() => Bot.pickFriend(cfg.masterQQ[0]).sendMsg('检测到您的阴天依赖不完整，已自动为您安装依赖，请重启云崽以生效。'), 5000)
     
     });
