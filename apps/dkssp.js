@@ -110,7 +110,7 @@ if (fs.existsSync("./resources/ks.mp4")) {
     fs.unlinkSync("./resources/ks.mp4");
 }
 if(e.msg.includes("观看")){
-if(k.length==0||g.length==0||name == ""){
+if(name == ""){
 e.reply("你还没有搜索关键词呢")
 return false
 }
