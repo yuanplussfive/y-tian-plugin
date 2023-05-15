@@ -179,6 +179,8 @@ let ag = e.msg.replace(/#?观看/g,"").trim()
 //console.log(feed[ag-1])
 if(feed[ag-1].photo.photoH265Url == ""){
 e.reply("当前选定解析失败，看看别的吧")
+k.length = 0
+g.length = 0
 return false
 }
 let video = feed[ag-1].photo.photoH265Url
