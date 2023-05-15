@@ -35,7 +35,7 @@ export class example extends plugin {
 }
 async dy(e){
 if(e.msg.includes("/观看")){
-if(k.length==0||g.length==0||name == ""){
+if(name == ""){
 e.reply("你还没有搜索关键词呢")
 return false
 }
@@ -104,6 +104,8 @@ let hh = decodeURIComponent(gg[1])
 hh = hh.replace('src":"',"https:").replace('"},{"',"")
 if(hh == "undefined"){
 e.reply("解析失败了.....换个观看吧！")
+k.length = 0
+g.length = 0
 return false
 }
 console.log("解析成功,地址为:"+hh)
