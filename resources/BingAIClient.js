@@ -3,7 +3,7 @@ import WebSocket from "../node_modules/ws/index.js"
 import Keyv from "../node_modules/keyv/src/index.js"
 import { ProxyAgent } from "../node_modules/undici/index.js"
 import HttpsProxyAgent from 'https-proxy-agent';
-
+import { fetch,Headers,Request,Response } from "../node_modules/fetch-undici/lib/node.cjs"
 
 if (!globalThis.fetch) {
     globalThis.fetch = fetch
