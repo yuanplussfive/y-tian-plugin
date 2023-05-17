@@ -80,7 +80,7 @@ export class example extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: `^${botname}.+$`,
+          reg: `^${botname}(.*?)$`,
           /** 执行方法 */
           fnc: 'help3'
 },{
@@ -337,7 +337,8 @@ d = js2.claude.d//cookie中的d值
 channel = js2.claude.channel//频道
 chong = js2.claude.chong//url
 }
-let msg = e.msg.replace(botname,"")
+let msg = e.msg.replace(botname,"").trim()
+msg = encodeURIComponent(msg)
 let b = await fetch(`https://slack.com/api/chat.postMessage?channel=${channel}&text=${msg}&pretty=1`, {
   "method": "POST",
   "headers": {
