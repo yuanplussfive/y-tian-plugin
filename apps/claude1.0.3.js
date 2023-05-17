@@ -8,6 +8,13 @@ import _ from 'lodash'
 const _path = process.cwd()
 
 let dirpath = _path + '/resources/claude token'
+if (!fs.existsSync(dirpath + "/" + "ys.json")){
+  fs.writeFileSync(dirpath+ "/" + "ys.json",JSON.stringify({
+    "ys":[]
+  
+}))
+
+}
 if(!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
 }
@@ -73,7 +80,7 @@ export class example extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: `^${botname}`,
+          reg: `^${botname}\\S*`,
           /** 执行方法 */
           fnc: 'help3'
 },{
@@ -87,10 +94,104 @@ export class example extends plugin {
 },{
           reg:'^#填写token(.*)|^#填写chong(.*)|^#填写d(.*)|^#填写channel(.*)',
           fnc:'token'
+},{
+  reg:"^#新增对话预设(.*)",
+  fnc:'xzys'
+},{
+  reg:"^#删除对话预设(\\d+)",
+  fnc:'scys'
+},{
+  reg:"^#查看对话预设",
+  fnc:'ckys'
+},{
+  reg:"^#切换对话预设(\\d+)",
+  fnc:'qhys'
 }
       ]
     })
 }
+
+async xzys(e){
+let msg = e.msg.replace('#新增对话预设','').trim() 
+let data = fs.readFileSync(dirpath + "/" + "ys.json")
+let obj = JSON.parse(data)
+obj.ys.push(msg)
+fs.writeFileSync(dirpath + "/" + "ys.json",JSON.stringify(obj))
+e.reply('已添加该预设')
+}
+async scys(e){
+  let msg = e.msg.replace('#删除对话预设','').trim() 
+  let data = fs.readFileSync(dirpath + "/" + "ys.json")
+  let obj = JSON.parse(data)
+  if(msg>=1&&msg<=obj.ys.length){
+  obj.ys.splice(obj.ys.indexOf(obj.ys[msg-1]),1)
+  fs.writeFileSync(dirpath + "/" + "ys.json",JSON.stringify(obj))
+  e.reply('已删除该预设')}else{e.reply('请输入正确的预设序号')}
+  }
+  async ckys(e){
+
+    let data = fs.readFileSync(dirpath + "/" + "ys.json")
+    let obj = JSON.parse(data)
+    let msg = ''
+for(let i = 0;i<obj.ys.length;i++){
+     msg = msg+`预设${i+1}:${obj.ys[i].substring(0, 30)}......\n`
+  }
+    e.reply(msg)
+    }
+   async qhys(e){
+
+    let m = e.msg.replace('#切换对话预设','').trim() 
+    let data = fs.readFileSync(dirpath + "/" + "ys.json")
+    let obj = JSON.parse(data)
+    if(m>=1&&m<=obj.ys.length){
+    let ys = `${obj.ys[m-1]}`
+    e.reply(`正在激活预设${m}，请稍后。`)
+    await this.round(e)
+    setTimeout(async () => {
+      if (fs.existsSync(dirpath + "/" + "data.json")) {
+        let js2 = JSON.parse(fs.readFileSync(dirpath + "/" + "data.json",'utf8'))
+        token = js2.claude.token//token
+        d = js2.claude.d//cookie中的d值
+        channel = js2.claude.channel//频道
+        chong = js2.claude.chong//url
+      }
+            
+      let msg = ys
+      let b = await fetch(`https://slack.com/api/chat.postMessage?channel=${channel}&text=${msg}&pretty=1`, {
+        "method": "POST",
+        "headers": {
+          "accept": "*/*",
+          "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+          "content-type": "multipart/form-data; boundary=----WebKitFormBoundary0AkihCXpgdizq4Bd",
+          "sec-ch-ua": "\"Chromium\";v=\"112\", \"Microsoft Edge\";v=\"112\", \"Not:A-Brand\";v=\"99\"",
+          "sec-ch-ua-mobile": "?0",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "sec-fetch-dest": "empty",
+          "sec-fetch-mode": "cors",
+          "sec-fetch-site": "same-site", 
+      cookie:`d=${d}`,
+      "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.46"
+        },
+        "referrerPolicy": "no-referrer",
+        "body": `------WebKitFormBoundary0AkihCXpgdizq4Bd\r\nContent-Disposition: form-data; name=\"content\"\r\n\r\nnull\r\n------WebKitFormBoundary0AkihCXpgdizq4Bd\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n${token}\r\n------WebKitFormBoundary0AkihCXpgdizq4Bd--\r\n`
+      });
+      b= await b.json()
+      console.log(b)
+ 
+      await common.sleep(2500)
+      do {
+        await this.help2(e)
+      } while(num2 || num)
+    }, 2000)
+   
+    
+    }else{e.reply('请输入正确的预设序号')}
+    }
+      
+
+
+
+
 async token(e){
 if(e.msg.includes("#填写token")){
 let token = e.msg.replace(/#填写token/g,'').trim()
