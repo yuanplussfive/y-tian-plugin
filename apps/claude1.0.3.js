@@ -80,7 +80,7 @@ export class example extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: `^${botname}(.*)`,
+          reg: `^${botname}[^#]`,
           /** 执行方法 */
           fnc: 'help3'
 },{
