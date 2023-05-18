@@ -53,7 +53,7 @@ export class KeyWordsWithDraw extends plugin {
             /** 功能描述 */
             dsc: '简单开发示例',
             event: 'message.group',
-            priority: 30000,
+            priority: 300000,
             rule: [{
           /** 命令正则匹配 */
           reg:"^#?addban(.*)$",
