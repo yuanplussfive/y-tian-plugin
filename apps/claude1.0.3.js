@@ -106,6 +106,9 @@ export class example extends plugin {
 },{
   reg:"^#对话预设(\\d+)",
   fnc:'ckysm'
+},{
+  reg:"^#切换对话预设(\\d+)",
+  fnc:'qhys'
 }
       ]
     })
