@@ -8,15 +8,15 @@ import _ from 'lodash'
 const _path = process.cwd()
 
 let dirpath = _path + '/resources/claude token'
-if(!fs.existsSync(dirpath)){
-fs.mkdirSync(dirpath)
-}
 if (!fs.existsSync(dirpath + "/" + "ys.json")){
   fs.writeFileSync(dirpath+ "/" + "ys.json",JSON.stringify({
     "ys":[]
   
 }))
 
+}
+if(!fs.existsSync(dirpath)){
+fs.mkdirSync(dirpath)    
 }
 if (!fs.existsSync(dirpath + "/" + "data.json")){
   
@@ -104,13 +104,21 @@ export class example extends plugin {
   reg:"^#查看对话预设",
   fnc:'ckys'
 },{
-  reg:"^#切换对话预设(\\d+)",
-  fnc:'qhys'
+  reg:"^#对话预设(\\d+)",
+  fnc:'ckysm'
 }
       ]
     })
 }
-
+async ckysm(e){
+  let msg = e.msg.replace('#对话预设','').trim() 
+  let data = fs.readFileSync(dirpath + "/" + "ys.json")
+  let obj = JSON.parse(data)
+  if(msg>=1&&msg<=obj.ys.length){
+  msg = obj.ys[msg-1]
+  e.reply(msg)
+  }else{e.reply('请输入正确的预设序号')}
+}
 async xzys(e){
 let msg = e.msg.replace('#新增对话预设','').trim() 
 let data = fs.readFileSync(dirpath + "/" + "ys.json")
@@ -136,7 +144,7 @@ async scys(e){
 for(let i = 0;i<obj.ys.length;i++){
      msg = msg+`预设${i+1}:${obj.ys[i].substring(0, 30)}......\n`
   }
-    e.reply(msg)
+    e.reply(msg+"\n若想查看具体预设内容请发送：#对话预设+序号")
     }
    async qhys(e){
 
