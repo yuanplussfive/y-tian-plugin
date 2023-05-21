@@ -6,7 +6,7 @@ import fs from 'fs'
 import fetch from 'node-fetch'
 import _ from 'lodash'
 const _path = process.cwd()
-
+let dirpath = _path + '/resources/claude token'
 
 if(!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
@@ -36,7 +36,7 @@ else{
        console.log("claude名字已初始化")
       }
   }catch(err){console.log(err)}}
-let dirpath = _path + '/resources/claude token'
+
 if (!fs.existsSync(dirpath + "/" + "ys.json")){
   fs.writeFileSync(dirpath+ "/" + "ys.json",JSON.stringify({
     "ys":[]
