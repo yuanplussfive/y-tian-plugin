@@ -18,7 +18,7 @@ if (!globalThis.fetch) {
  */
 const genRanHex = (size) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 
-export default class BingAIClient {
+export default class BingAIClient2 {
     constructor(opts) {
         this.opts = {
             ...opts,
