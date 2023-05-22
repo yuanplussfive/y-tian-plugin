@@ -3,6 +3,7 @@ import _ from 'lodash'
 const _path = process.cwd();
 import fetch from "node-fetch";
 import BingAIClient from "../resources/BingAIClient.js"
+import bingAIClient2 from "../resources/bingAIClient2.js"
 import crypto from 'crypto';
 import { KeyvFile } from '../node_modules/keyv-file/lib/index.js';
 import path from 'path'
@@ -58,7 +59,7 @@ await this.bing(e)
 }
 async bing(e) {
 let id = e.user_id
-let bingAIClient = new BingAIClient({ 
+let bingAIClient = new bingAIClient2({ 
     host: 'https://cn.bing.com',
     userToken: id,
     proxy: '',
