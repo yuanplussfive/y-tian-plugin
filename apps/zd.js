@@ -1,4 +1,4 @@
-import cfg from '../../lib/config/config.js'
+import cfg from '../../../lib/config/config.js'
 let blacklist = []
 export class example extends plugin {
     constructor() {
