@@ -47,7 +47,7 @@ e.reply("成功取消针对啦")
    }else{e.reply("你不是主人哦");return false}
 }
 
-   async  jianting(e) {
+   async  jianting(e) {let m
 if(blacklist.includes(e.user_id)){
   try{m = (await e.group.getChatHistory(e.msg.seq, 1))
     .pop()}catch(err){
