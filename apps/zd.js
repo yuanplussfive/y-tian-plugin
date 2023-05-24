@@ -35,7 +35,7 @@ export class example extends plugin {
   
      
     }
-    async  gm(e) {let msg = e.toString().replace("#加超管")
+    async  gm(e) {let msg = e.toString().replace("#加超管").trim()
     let pattern = /{at:[^}]+}/
      let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
     let obj = JSON.parse(data)
@@ -52,7 +52,7 @@ export class example extends plugin {
   }
     
     async  zhendui(e) {
-      let msg = e.toString().replace("#针对")
+      let msg = e.toString().replace("#针对").trim()
     let pattern = /{at:[^}]+}/
        let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
       let obj = JSON.parse(data)
@@ -66,7 +66,7 @@ export class example extends plugin {
     }else{e.reply("请艾特一个群员");return false}
    }else{e.reply("你不是主人哦");return false}}
    async  quxiao(e) {
-    let msg = e.toString().replace("#取消针对")
+    let msg = e.toString().replace("#取消针对").trim()
     let pattern = /{at:[^}]+}/
      let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
     let obj = JSON.parse(data)
