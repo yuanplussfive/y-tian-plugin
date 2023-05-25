@@ -86,6 +86,8 @@ e.reply("成功取消针对啦")
 }
 
    async  jianting(e) {
+        let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
+      let obj = JSON.parse(data)
         let msg = e.toString().trim()
     let pattern = /#取消针对{at:[^}]+}/
        if(obj.gm.includes(`${e.user_id}`)&&pattern.test(msg)){return false}
