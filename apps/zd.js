@@ -85,14 +85,14 @@ e.reply("成功取消针对啦")
    }else{e.reply("你不是主人哦");return false}
 }
 
-   async  jianting(e) {
+   async  jianting(e) { let m
        m = (await e.group.getChatHistory(e.seq, 1)).pop()
         let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
       let obj = JSON.parse(data)
         let msg = e.toString().trim()
     let pattern = /#取消针对{at:[^}]+}/
        if(obj.gm.includes(`${e.user_id}`)&&pattern.test(msg)){return false}else{
-       let m
+      
 if(blacklist.includes(`${e.user_id}`)){
  
 
