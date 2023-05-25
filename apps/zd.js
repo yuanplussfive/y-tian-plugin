@@ -86,7 +86,7 @@ e.reply("成功取消针对啦")
 }
 
    async  jianting(e) { let m
-       m = (await e.group.getChatHistory(e.seq, 1)).pop()
+      
         let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
       let obj = JSON.parse(data)
         let msg = e.toString().trim()
@@ -95,7 +95,7 @@ e.reply("成功取消针对啦")
        {return false}}
       
 if(blacklist.includes(`${e.user_id}`)){
- 
+  m = (await e.group.getChatHistory(e.seq, 1)).pop()
 
 
 
