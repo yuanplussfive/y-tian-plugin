@@ -91,7 +91,8 @@ e.reply("成功取消针对啦")
       let obj = JSON.parse(data)
         let msg = e.toString().trim()
     let pattern = /#取消针对{at:[^}]+}/
-       if(obj.gm.includes(`${e.user_id}`)&&pattern.test(msg)){return false}else{
+    if(!obj.gm.includes(`${e.user_id}`)){}else{
+       if(pattern.test(msg)){return false}}
       
 if(blacklist.includes(`${e.user_id}`)){
  
@@ -99,7 +100,7 @@ if(blacklist.includes(`${e.user_id}`)){
 
 
   Bot.pickGroup(e.group_id).recallMsg(m)
-}else{return false}}
+}else{return false}
 
 
    }
