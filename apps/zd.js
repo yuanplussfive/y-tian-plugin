@@ -90,9 +90,9 @@ e.reply("成功取消针对啦")
         let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
       let obj = JSON.parse(data)
         let msg = e.toString().trim()
-    let pattern = /#取消针对{at:[^}]+}/
-    if(!obj.gm.includes(`${e.user_id}`)){}else{
-       if(pattern.test(msg)){return false}}
+    
+    if(!obj.gm.includes(`${e.user_id}`)){}else if(msg.includes("#取消针对")){
+       {return false}}
       
 if(blacklist.includes(`${e.user_id}`)){
  
