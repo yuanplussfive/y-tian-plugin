@@ -86,6 +86,7 @@ e.reply("成功取消针对啦")
 }
 
    async  jianting(e) {
+       m = (await e.group.getChatHistory(e.seq, 1)).pop()
         let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
       let obj = JSON.parse(data)
         let msg = e.toString().trim()
@@ -93,9 +94,8 @@ e.reply("成功取消针对啦")
        if(obj.gm.includes(`${e.user_id}`)&&pattern.test(msg)){return false}else{
        let m
 if(blacklist.includes(`${e.user_id}`)){
-  try{m = (await e.group.getChatHistory(e.msg.seq, 1))
-    .pop()}catch(err){
-m = (await e.group.getChatHistory(e.seq, 1)).pop()}
+ 
+
 
 
   Bot.pickGroup(e.group_id).recallMsg(m)
