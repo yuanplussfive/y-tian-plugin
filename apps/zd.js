@@ -5,7 +5,7 @@ let blacklist = []
 let dirpath = _path +'/resources/gm';
 if (!fs.existsSync(dirpath)) {
   fs.mkdirSync(dirpath);}
-  if (!fs.existsSync(dirpath+"/"+'GM.json')) {
+  if (!fs.existsSync(dirpath+"/"+'gm.json')) {
     fs.appendFileSync(dirpath + "/" + 'gm.json', JSON.stringify({"gm":[`${cfg.masterQQ[0]}`]}))}
 
 
