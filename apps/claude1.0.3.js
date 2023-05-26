@@ -7,7 +7,7 @@ import fetch from 'node-fetch'
 import _ from 'lodash'
 const _path = process.cwd()
 let dirpath = _path + '/resources/claude token'
-
+let quanjuys 
 if(!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
 }
@@ -113,6 +113,9 @@ export class example extends plugin {
       ]
     })
 }
+
+
+
 async ckysm(e){
   let msg = e.msg.replace('#对话预设','').trim() 
   let data = fs.readFileSync(dirpath + "/" + "ys.json")
@@ -156,8 +159,12 @@ for(let i = 0;i<obj.ys.length;i++){
     let obj = JSON.parse(data)
     if(m>=1&&m<=obj.ys.length){
     let ys = `${obj.ys[m-1]}`
+    quanjuys = ys
+
     e.reply(`正在激活预设${m}，请稍后。`)
+    
     await this.round(e)
+    if(quanjuys.length>800){await this.fenduan(e);return true}else{
     setTimeout(async () => {
       if (fs.existsSync(dirpath + "/" + "data.json")) {
         let js2 = JSON.parse(fs.readFileSync(dirpath + "/" + "data.json",'utf8'))
@@ -168,6 +175,7 @@ for(let i = 0;i<obj.ys.length;i++){
       }
             
       let msg = ys
+      msg = encodeURIComponent(msg)
       let b = await fetch(`https://slack.com/api/chat.postMessage?channel=${channel}&text=${msg}&pretty=1`, {
         "method": "POST",
         "headers": {
@@ -193,7 +201,7 @@ for(let i = 0;i<obj.ys.length;i++){
       do {
         await this.help2(e)
       } while(num2 || num)
-    }, 2000)
+    }, 2000)}
    
     
     }else{e.reply('请输入正确的预设序号')}
@@ -332,15 +340,18 @@ e.reply("重置失败了！")
 }
 }
  async help3(e){
-
+  let m = e.msg.replace(botname,"").trim()
+  quanjuys = m
+  if(quanjuys.length>800){await this.fenduan(e);return true}else{
 await this.help(e)
 await common.sleep(2500)
 do{
 
 await this.help2(e)
-}while(num2||num)
+}while(num2||num)}
 }
 async help(e) {
+
 if (fs.existsSync(dirpath + "/" + "data.json")){
 let js2 = JSON.parse(fs.readFileSync(dirpath + "/" + "data.json",'utf8'))
 token = js2.claude.token//token
@@ -349,7 +360,10 @@ channel = js2.claude.channel//频道
 chong = js2.claude.chong//url
 }
 let msg = e.msg.replace(botname,"").trim()
+
 msg = encodeURIComponent(msg)
+
+
 let b = await fetch(`https://slack.com/api/chat.postMessage?channel=${channel}&text=${msg}&pretty=1`, {
   "method": "POST",
   "headers": {
@@ -421,6 +435,84 @@ return
 }
 //console.log(text.match(reg))
 }
+
+async fenduan(e) {e.reply('检测到你的预设可能已经超出字数限制，将为你自动分段喂设定，机器人将会自动回复你两次内容，请耐心等待。。。')
+  let var1 = quanjuys.substring(0, 800)+"...注意角色扮演剧本我还没输入完，你现在只需要回复我：“我正在等待所有的设定输入完成,请稍后”(这一句话不需要遵循设定，不能输出任何多余的字符) 。接下来我还要发一段话，是角色扮演剧本的后半一部分，请注意听。"; // 提取前900个字符，存入变量var1中
+  
+  
+  if (fs.existsSync(dirpath + "/" + "data.json")) {
+    let js2 = JSON.parse(fs.readFileSync(dirpath + "/" + "data.json",'utf8'))
+    token = js2.claude.token//token
+    d = js2.claude.d//cookie中的d值
+    channel = js2.claude.channel//频道
+    chong = js2.claude.chong//url
+  }
+   
+  let msg = var1
+  
+  msg = encodeURIComponent(msg)
+  
+  let b = await fetch(`https://slack.com/api/chat.postMessage?channel=${channel}&text=${msg}&pretty=1`, {
+    "method": "POST",
+    "headers": {
+      "accept": "*/*",
+      "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+      "content-type": "multipart/form-data; boundary=----WebKitFormBoundary0AkihCXpgdizq4Bd",
+      "sec-ch-ua": "\"Chromium\";v=\"112\", \"Microsoft Edge\";v=\"112\", \"Not:A-Brand\";v=\"99\"",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"Windows\"",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site", 
+  cookie:`d=${d}`,
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.46"
+    },
+    "referrerPolicy": "no-referrer",
+    "body": `------WebKitFormBoundary0AkihCXpgdizq4Bd\r\nContent-Disposition: form-data; name=\"content\"\r\n\r\nnull\r\n------WebKitFormBoundary0AkihCXpgdizq4Bd\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n${token}\r\n------WebKitFormBoundary0AkihCXpgdizq4Bd--\r\n`
+  });
+  b= await b.json()
+  console.log(b)
+
+  await common.sleep(2500)
+  do {
+    await this.help2(e)
+  } while(num2 || num)
+
+  let var2 = quanjuys.substring(800); // 提取第900个字符之后的所有字符，存入变量var2中
+  msg = var2
+  msg = encodeURIComponent(msg)
+   b = await fetch(`https://slack.com/api/chat.postMessage?channel=${channel}&text=${msg}&pretty=1`, {
+    "method": "POST",
+    "headers": {
+      "accept": "*/*",
+      "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+      "content-type": "multipart/form-data; boundary=----WebKitFormBoundary0AkihCXpgdizq4Bd",
+      "sec-ch-ua": "\"Chromium\";v=\"112\", \"Microsoft Edge\";v=\"112\", \"Not:A-Brand\";v=\"99\"",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"Windows\"",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site", 
+  cookie:`d=${d}`,
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.46"
+    },
+    "referrerPolicy": "no-referrer",
+    "body": `------WebKitFormBoundary0AkihCXpgdizq4Bd\r\nContent-Disposition: form-data; name=\"content\"\r\n\r\nnull\r\n------WebKitFormBoundary0AkihCXpgdizq4Bd\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n${token}\r\n------WebKitFormBoundary0AkihCXpgdizq4Bd--\r\n`
+  });
+  b= await b.json()
+  console.log(b)
+
+  await common.sleep(2500)
+  do {
+    await this.help2(e)
+  } while(num2 || num)
+
+
+}
+
+
+
+
 }
 
 
