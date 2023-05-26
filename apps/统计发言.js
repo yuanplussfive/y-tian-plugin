@@ -26,7 +26,7 @@ export class example extends plugin {
           /** 执行方法 */
           fnc: 'xx'
 },{
-          reg: '^#?统计(.*)$',
+          reg: '^#?统计(.*)|^#消息统计(.*)$',
           /** 执行方法 */
           fnc: 'ct'
 },{
