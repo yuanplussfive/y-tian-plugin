@@ -154,6 +154,7 @@ async jy(e) {
     }
 async q(e){
  let at = e.message.filter(item => item.type == 'at')?.map(item => item?.qq)
+ if(at==cfg.masterQQ[0]){e.reply("Sorry,you can not attempt to do this to my master.Fuck man!");return false}
 //console.log(typeof(at))
 if(e.msg.includes("清除权限")){
 let file =  _path + '/config/config/other.yaml'
