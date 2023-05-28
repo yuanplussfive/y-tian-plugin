@@ -34,6 +34,7 @@ let msg = []
 let grouplist = [];//想要推送的群聊,以","隔开
 let muteTime = 1;//被禁言时间,单位分钟;
 let ok = ""
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -153,8 +154,13 @@ async jy(e) {
         }
     }
 async q(e){
+let dirpath = _path +'/resources/gm';
+let data = fs.readFileSync(dirpath + "/" + 'gm.json', 'utf-8');
+let obj = JSON.parse(data)
+if(!obj.gm.includes(`${e.user_id}`)){e.reply("Sorry,you are not GM that You can not do it.SHIT!");return false}
  let at = e.message.filter(item => item.type == 'at')?.map(item => item?.qq)
- if(at==cfg.masterQQ[0]){e.reply("Sorry,you can not attempt to do this to my master.Fuck man!");return false}
+
+if(at==cfg.masterQQ[0]){e.reply("Sorry,you can not attempt to do this to my master.Fuck man!");return false}
 //console.log(typeof(at))
 if(e.msg.includes("清除权限")){
 let file =  _path + '/config/config/other.yaml'
