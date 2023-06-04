@@ -10,7 +10,6 @@ Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，
 ## 安装教程
 
 在Yunzai-Bot根目录下，运行cmd，输入以下指令
-nin
 ```
 git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 
@@ -22,6 +21,8 @@ git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-pl
 | #阴天更新 | 更新阴天插件 |
 | #阴天帮助 | 获取相关命令|
 
+<img decoding="async"  src="resources/11.jpg" width="35%">
+<img decoding="async"  src="resources/22.jpg" width="35%">
 您也可以点击我们的[**插件展示页**](https://shouquan-1315544562.cos.ap-nanjing.myqcloud.com/YT.html)，然后选择右上角的<功能展示>以查看阴天插件本体以及爱发电部分功能的使用记录截图。
 
 
