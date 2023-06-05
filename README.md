@@ -50,7 +50,7 @@ git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-pl
 
 * Yunzai-Bot插件库：[☞Github](https://github.com/yhArcadia/Yunzai-Bot-plugins-index)/[☞Gitee](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 * Yunzai-Bot（V3）：[☞Github](https://github.com/Le-niao/Yunzai-Bot)/[☞Gitee](https://gitee.com/Le-niao/Yunzai-Bot) 
-* 阴天个人windos电脑一键部署云崽脚本：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
+* 阴天个人windows电脑一键部署云崽脚本：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
 * 严禁用于任何商业用途和非法行为
 
 
