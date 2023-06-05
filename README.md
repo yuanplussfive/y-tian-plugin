@@ -21,6 +21,8 @@ git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-pl
 | #阴天更新 | 更新阴天插件 |
 | #阴天帮助 | 获取相关命令|
 
+以下为Y-Tian-Plugin(阴天插件)详细功能介绍图以及链接：
+
 <img decoding="async"  src="resources/11.JPG" width="35%">   
 <img decoding="async"  src="resources/22.JPG" width="35%">   
 
