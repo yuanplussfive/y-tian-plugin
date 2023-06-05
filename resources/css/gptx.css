@@ -1,0 +1,140 @@
+
+body {
+    font-family: Arial, sans-serif;
+    font-color:#A0522D;
+    margin: 0;
+    padding: 0; 
+background-image:url("水墨.jpg")
+}
+@font-face {
+  font-family: "jty";
+  src: url("jty.OTF");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NZBZ";
+  src: url("NZBZ.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+.container {
+	box-shadow:3px 2px 3px #aaa;
+    display: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-left: 50px;
+	margin-right: 50px;
+	font-family:"jty";
+	font-size:28px;
+	background-color:rgba(255,255,255,0.9);
+	border-radius: 30px;
+}
+
+.user {
+    background-size: 100% 100% ;
+    display: flex-start;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    line-height:35px;
+    border-bottom:2px solid #ccc;
+    padding: 50px;
+    border-radius: 10px;
+  
+	font-family:"jty";
+	font-size:24px;
+	
+}
+.user img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    
+	margin-right: 30px;
+	box-shadow:3px 2px 3px #ccc;
+}
+.user2 {
+    background-size: 100% 100% ;
+    justify-content: flex-end;
+    text-align:right;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    line-height:35px;
+  
+    padding: 10px;
+    border-radius: 10px;
+  
+}
+.name{
+	font-size:20px;
+	padding-bottom:15px;
+
+	font-family:"NZBZ";
+}
+.user2 img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 50%;
+    
+box-shadow:3px 2px 3px #ccc;
+}
+
+.message {
+	padding-bottom:20px;
+	padding-top:20px;
+	text-indent:2em;
+    background-color:#FFCCFF;
+    padding: 15px;
+	padding-left: 30px;
+    border-radius: 15px;
+    box-shadow:3px 2px 3px #ccc;
+	
+	line-height:35px;
+
+	
+}
+
+.message p {
+    margin: 0;
+}
+.message2 {
+	padding-bottom:20px;
+	padding-top:20px;
+	padding-left:80px;
+	text-indent:2em;
+    background-color:#3399FF;
+    padding: 15px;
+	
+    border-radius: 15px;
+	border-bottom:2px solid #ccc;
+	box-shadow:3px 2px 3px #ccc;
+    line-height:35px;
+}
+
+.message2 p {
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
