@@ -1,7 +1,7 @@
 
 const _path = process.cwd();
-import plugin from '../../lib/plugins/plugin.js'
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
+import plugin from '../../../lib/plugins/plugin.js'
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 export class example extends plugin {
   constructor() {
     super({
@@ -26,9 +26,9 @@ export class example extends plugin {
 
 async help(e){
 let data = {
-						tplFile: `${_path}/plugins/example/gpthelp.html`,
-							dz:_path + "/plugins/example/NZBZ.ttf",
-            dz2:_path + "/plugins/example/jty.OTF"
+					      	tplFile: `${_path}/plugins/y-tian-plugin/resources/html/gpthelp.html`,
+							dz:_path + "/plugins/y=tian-plugin/resources/css/NZBZ.ttf",
+                            dz2:_path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
 					}
 					let img = await puppeteer.screenshot("777", {
 						...data,
