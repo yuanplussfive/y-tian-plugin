@@ -27,7 +27,7 @@ export class example extends plugin {
 async help(e){
 let data = {
 					      	tplFile: `${_path}/plugins/y-tian-plugin/resources/html/gpthelp.html`,
-							dz:_path + "/plugins/y=tian-plugin/resources/css/NZBZ.ttf",
+							dz:_path + "/plugins/y-tian-plugin/resources/css/NZBZ.ttf",
                             dz2:_path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
 					}
 					let img = await puppeteer.screenshot("777", {
