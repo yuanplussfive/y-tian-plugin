@@ -16,7 +16,7 @@ export class example extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: "^gpt?(help|帮助)",
+          reg: "^#?gpt?(help|帮助)",
           /** 执行方法 */
           fnc: 'help'
         }
