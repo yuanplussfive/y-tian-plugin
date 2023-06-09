@@ -3,7 +3,7 @@ import fetch from "node-fetch"
     const _path = process.cwd();
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import fs from "fs";
-let o
+let img1 =""
 let a = 'zhuan.html'
 let dirpath = _path + '/plugins/y-tian-plugin/resources/';//路径
 let m
@@ -25,7 +25,7 @@ export class example extends plugin {
             /** 命令正则匹配 */
             reg: '^#转(.*)$',
             /** 执行方法 */
-            fnc: 'test1'
+            fnc: '旋转'
           }, 
 
         ]})}
@@ -43,19 +43,26 @@ export class example extends plugin {
                               if (reply) {
                                 for (let val of reply) {
                                     if (val.type == "image") {
-                                      e.img = [val.url];
+                                       img1 = [val.url];
                                         break;
+                                       }
                                     
-                                    }}
                                 
-                        }console.log(e.img[0])
+                                      
+                                      
+                                      }
+                                
+                        }
+                        if(img1==""){e.reply("请确保回复的是图片或者艾特一个人");return false}
                         let img = await puppeteer.screenshot("123", {
                             tplFile: _path +'/plugins/y-tian-plugin/resources/zhuan.html',
                        imgtype:'png',
-                       a:e.img[0]
+                       a:img1[0]
                       
                    });
+                   img1=""
                    e.reply(img)
+                   
                    html = fs.readFileSync(dirpath+'/'+a,'utf-8')
 html = html.replace(m,'F');
 fs.writeFileSync(dirpath+'/'+a, html)
