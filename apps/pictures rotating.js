@@ -25,7 +25,7 @@ export class example extends plugin {
             /** 命令正则匹配 */
             reg: '^#转(.*)$',
             /** 执行方法 */
-            fnc: '旋转'
+            fnc: 'test1'
           }, 
 
         ]})}
@@ -38,21 +38,28 @@ export class example extends plugin {
             html = fs.readFileSync(dirpath+'/'+a,'utf-8');     
             html = html.replace('F', m);
             fs.writeFileSync(dirpath+'/'+a, html);
-            let reply = (await e.group.getChatHistory(e.source.seq, 1))
+            try{let reply = (await e.group.getChatHistory(e.source.seq, 1))
                               .pop()?.message;
                               if (reply) {
                                 for (let val of reply) {
                                     if (val.type == "image") {
                                        img1 = [val.url];
                                         break;
-                                       }
-                                    
-                                
-                                      
-                                      
+                                       }                           
                                       }
-                                
-                        }
+                        }}catch(err){
+                                let reply = (await e.friend.getChatHistory(e.source.time, 1))
+                                .pop().message;   
+                                if (reply) {
+                                  for (let val of reply) {
+                                      if (val.type == "image") {
+                                         img1 = [val.url];
+                                          break;
+                                         }                           
+                                        }
+                          }         
+                              }
+                            
                         if(img1==""){e.reply("请确保回复的是图片或者艾特一个人");return false}
                         let img = await puppeteer.screenshot("123", {
                             tplFile: _path +'/plugins/y-tian-plugin/resources/zhuan.html',
