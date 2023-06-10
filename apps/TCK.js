@@ -46,8 +46,8 @@ await browser.close();
  }
 }
 async sp(e){
- browser = await puppeteer.launch();
- page = await browser.newPage();
+ let browser = await puppeteer.launch();
+ let page = await browser.newPage();
  
  await page.goto('https://space.bilibili.com/587050283/channel/seriesdetail?sid=268447', {
    waitUntil: 'networkidle2'
