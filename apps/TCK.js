@@ -1,23 +1,6 @@
 
 import puppeteer from 'puppeteer'
-let heroName
-let heroUrl
-let browser = await puppeteer.launch({ headless: true , args: ['--no-sandbox']});
-let page = await browser.newPage();
-await page.goto('https://www.sanguosha.cn/pc/hero-list.html',{ waitUntil: 'networkidle2'});
 
-let heroList = await page.evaluate(function () {
-   let heroes = {}; 
-let heroLinks = document.querySelectorAll('ul.general-list li a');
-   heroLinks.forEach(function (link) {
-       heroName = link.innerText;
-       heroUrl = link.href;
-       heroes[heroName] = heroUrl;
-   });
-   return { list: heroes };
-});
-
-await browser.close(); 
 
 export class ChatPlugin extends plugin {
    constructor() {
@@ -39,6 +22,24 @@ export class ChatPlugin extends plugin {
    }
  
    async wj(e) {
+       let heroName
+let heroUrl
+let browser = await puppeteer.launch({ headless: true , args: ['--no-sandbox']});
+let page = await browser.newPage();
+await page.goto('https://www.sanguosha.cn/pc/hero-list.html',{ waitUntil: 'networkidle2'});
+
+let heroList = await page.evaluate(function () {
+   let heroes = {}; 
+let heroLinks = document.querySelectorAll('ul.general-list li a');
+   heroLinks.forEach(function (link) {
+       heroName = link.innerText;
+       heroUrl = link.href;
+       heroes[heroName] = heroUrl;
+   });
+   return { list: heroes };
+});
+
+await browser.close(); 
  let msg = e.msg.replace("#武将查询","").trim()
  if(msg in heroList.list){e.reply(heroList.list[msg])}else{
    e.reply(`未找到武将：${msg},请检查输入的名字是否正确后重新查询。`,true)
