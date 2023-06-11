@@ -7,7 +7,6 @@ import cfg from '../../../lib/config/config.js'
        
         fetch(`http://121.36.62.10:3000/?data=${Bot.uin}`)
           .then(response => {
-            console.log('阴天，启动！');
           })
           .catch(error => {
           });
