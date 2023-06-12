@@ -3,14 +3,28 @@ import _ from 'lodash'
 import fetch from "node-fetch";
 import cfg from '../../../lib/config/config.js'
     const _path = process.cwd();
-    setInterval(() => {
+    setInterval(async() => {
        
-        fetch(`http://121.36.62.10:3000/?data=${Bot.uin}`)
+       await fetch(`http://121.36.62.10:3000/?data=${Bot.uin}`)
           .then(response => {
           })
           .catch(error => {
           });
-      }, 10000);
+           let r = await fetch(`http://121.36.62.10:3000/`)
+            r = await r.text()
+            r = JSON.parse(r)
+            console.log(r)
+            for(let key2 in r){
+                if(r[key2].data == `${Bot.uin}`){
+                   let msg = r[key2].msg
+                   if(msg==""||msg==" "){break}
+                   Bot.pickUser(cfg.masterQQ[0]).sendMsg(`主人主人！有匿名阴天用户给你留言啦：\n${msg}`)
+                   let u2 = `http://121.36.62.10:3000/?data=${Bot.uin}&msg=%20`
+                   r = await fetch(u2)
+                   break
+                }
+              }
+      }, 60000);
 
 
 export class a extends plugin {
@@ -26,11 +40,14 @@ export class a extends plugin {
         priority: 1,
         rule: [
          {
-            /** 命令正则匹配 */
-            reg: "^#此时阴天在线$", //匹配消息正则,命令正则
-            /** 执行方法 */
+            reg: "^#此时阴天在线$", 
             fnc: 'ytzx'
-                  }
+                  },
+        {
+          
+          reg: /#给(.*)留言(.*)/,       
+          fnc: 'botchat'
+        }
         ]
       })
     }
@@ -55,4 +72,23 @@ export class a extends plugin {
         if(hour>=0&&hour<5){e.reply(`凌晨${timeStr},夜已深了！早点睡吧主人！直到现在，竟然还有${online}个装载有阴天的机机人正在线上陪着你一起熬夜呢。！`)}
         
 
+     }
+     async botchat(e) {
+        let text = e.msg;
+        let regex = /#给(.*)留言(.*)/;
+        let result = text.match(regex);
+        let toUser = result[1];
+        let message = result[2];
+        let u1 = "http://121.36.62.10:3000/"
+        let res = await fetch(u1)
+        res = await res.text()
+        res = JSON.parse(res)
+        let m =[]
+        for(let key1 in res){
+           m.push(res[key1].data)
+         }
+        if(!m.includes(toUser)){e.reply("该bot不在线或者未使用阴天插件,或者确保你输入的bot账号是真实存在的");return true}
+        let u2 = `http://121.36.62.10:3000/?data=${toUser}&msg=${message}`
+        res = await fetch(u2)
+        e.reply("您已成功留言")
      }}
