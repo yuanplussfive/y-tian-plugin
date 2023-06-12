@@ -47,7 +47,12 @@ export class a extends plugin {
           
           reg: /#给(.*)留言(.*)/,       
           fnc: 'botchat'
-        }
+        },
+        {
+          
+            reg: "^#谁在线上$",       
+            fnc: 'whobot'
+          }
         ]
       })
     }
@@ -91,4 +96,17 @@ export class a extends plugin {
         let u2 = `http://121.36.62.10:3000/?data=${toUser}&msg=${message}`
         res = await fetch(u2)
         e.reply("您已成功留言")
-     }}
+     }
+     async whobot(e) {
+        let u1 = "http://121.36.62.10:3000/"
+        let res = await fetch(u1)
+        res = await res.text()
+        res = JSON.parse(res)
+        let m =""
+        for(let key1 in res){
+           m+=`${res[key1].data}\n`
+         }
+         e.reply(`当前在线的阴天bot名单：`)
+         e.reply(`${m}`)
+     }
+    }
