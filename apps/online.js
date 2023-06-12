@@ -13,7 +13,6 @@ import cfg from '../../../lib/config/config.js'
            let r = await fetch(`http://121.36.62.10:3000/`)
             r = await r.text()
             r = JSON.parse(r)
-            console.log(r)
             for(let key2 in r){
                 if(r[key2].data == `${Bot.uin}`){
                    let msg = r[key2].msg
