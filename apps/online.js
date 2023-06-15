@@ -105,7 +105,13 @@ export class a extends plugin {
         for(let key1 in res){
            m+=`${res[key1].data}\n`
          }
-         e.reply(`当前在线的阴天bot名单：`)
-         e.reply(`${m}`)
+         let msg = []
+          msg.push({
+  message: `当前在线的阴天bot名单：\n${m}`,
+  nickname: Bot.nickname,
+  user_id: Bot.uin,
+});
+msg = await Bot.makeForwardMsg(msg)
+         e.reply(msg)
      }
     }
