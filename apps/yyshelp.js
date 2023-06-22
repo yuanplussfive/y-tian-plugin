@@ -190,7 +190,7 @@ export class example extends plugin {
   constructor () {
     super({
       /** 功能名称 */
-      name: '阴天',
+      name: '阴天[yys攻略]',
       /** 功能描述 */
       dsc: '简单开发示例',
       /** https://oicqjs.github.io/oicq/#events */
