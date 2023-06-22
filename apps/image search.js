@@ -16,9 +16,9 @@ export class example extends plugin {
   constructor() {
     super({
       /** 功能名称 */
-      name: 'zj',
+      name: '阴天[图识文]',
       /** 功能描述 */
-      dsc: '图识文',
+      dsc: '阴天[图识文]',
       /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */
