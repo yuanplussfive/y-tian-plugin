@@ -8,7 +8,7 @@ export class a extends plugin {
     constructor () {
       super({
         /** 功能名称 */
-        name: 'dm',
+        name: '阴天[sese]',
         /** 功能描述 */
         dsc: 'dm',
         /** https://oicqjs.github.io/oicq/#events */
