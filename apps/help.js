@@ -11,7 +11,7 @@ export class example extends plugin {
   constructor () {
     super({
       /** 功能名称 */
-      name: 'help',
+      name: '阴天[help]',
       /** 功能描述 */
       dsc: '简单开发示例',
       /** https://oicqjs.github.io/oicq/#events */
@@ -21,7 +21,7 @@ export class example extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#?(阴天帮助|阴天help)$',
+          reg: '^#?(阴天帮助|阴天help|yt帮助)$',
           /** 执行方法 */
           fnc: 'hi'
         }
