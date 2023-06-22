@@ -16,7 +16,7 @@ export class ktccy extends plugin {
   constructor () {
     super({
       /** 功能名称 */
-      name: '看图猜成语',
+      name: '阴天[看图猜成语]',
       /** 功能描述 */
       dsc: '看图猜成语',
       /** https://oicqjs.github.io/oicq/#events */
