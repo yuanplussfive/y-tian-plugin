@@ -14,7 +14,7 @@ export class example extends plugin {
   constructor() {
     super({
       /** 功能名称 */
-      name: '语音合成',
+      name: '阴天[语音合成]',
       /** 功能描述 */
       dsc: '语音合成',
       /** https://oicqjs.github.io/oicq/#events */
