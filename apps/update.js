@@ -15,7 +15,7 @@ let uping = false;
 export class update extends plugin {
   constructor() {
     super({
-      name: "[阴天插件]更新",
+      name: "阴天[插件更新]",
       event: "message",
       priority: 1145,
       rule: [
