@@ -5,9 +5,9 @@ export class example extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '阴天[表情包]',
+            name: '阴天[搜索表情包]',
             /** 功能描述 */
-            dsc: 'bing',
+            dsc: 'bqb',
             /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
