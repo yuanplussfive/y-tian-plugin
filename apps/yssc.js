@@ -23,7 +23,7 @@ let style = {
              export class example extends plugin {
                 constructor() {
                   super({
-                    name: '阴天claude',
+                    name: '阴天[claude预设]',
                     dsc: 'mm',
                     event: 'message',
                     priority: 1,
