@@ -6,7 +6,7 @@ export class example extends plugin {
   constructor() {
     super({
       /** 功能名称 */
-      name: '阴天',
+      name: '阴天[颜值打分]',
       /** 功能描述 */
       dsc: '颜值打分',
       /** https://oicqjs.github.io/oicq/#events */
