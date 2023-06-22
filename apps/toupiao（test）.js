@@ -23,7 +23,7 @@ if (!fs.existsSync(dirpath)) {
 export class tt extends plugin{
 constructor(){
 super({ 
-    name:'toupiao' ,
+    name:'阴天[投票]' ,
     event: 'message', 
        priority: 5000, //优先级，越小优先度越高
         describe: "", 
