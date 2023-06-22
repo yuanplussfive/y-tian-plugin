@@ -16,7 +16,7 @@ export class cdm extends plugin {
   constructor () {
     super({
       /** 功能名称 */
-      name: '猜灯谜',
+      name: '阴天[猜灯谜]',
       /** 功能描述 */
       dsc: '猜灯谜',
       /** https://oicqjs.github.io/oicq/#events */
