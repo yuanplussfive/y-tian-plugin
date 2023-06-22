@@ -14,7 +14,7 @@ export class example extends plugin {
   constructor() {
     super({
       /** 功能名称 */
-      name: 'xgn',
+      name: '阴天[短视频]',
       /** 功能描述 */
       dsc: 'xgn',
       /** https://oicqjs.github.io/oicq/#events */
