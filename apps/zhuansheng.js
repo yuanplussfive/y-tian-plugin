@@ -28,7 +28,7 @@ const keysArr = Object.keys(zswa);
 export class example extends plugin {
     constructor () {
       super({
-        name: '阴天',
+        name: '阴天[转生]',
         dsc: '转生',
         event: 'message',
         priority: 40,
