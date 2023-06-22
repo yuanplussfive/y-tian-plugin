@@ -156,7 +156,7 @@ flex-direction: row;
 .list .item .icon{
   width: 40px;
   height: 20px;
-  background-image: url('bg.jpg');
+  background-image: url('../background/1.jpg');
   background-size: 100% 100%;
   position: relative;
   flex-shrink: 0;
