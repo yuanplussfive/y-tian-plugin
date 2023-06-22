@@ -7,7 +7,7 @@ let aa = {}
 export class RpgGame extends plugin{
 constructor() {
 super({
-      name: '20qGame', 
+      name: '阴天[20qGame]', 
       dsc: 'A text based 20q game',
       event: 'message', 
       priority: 7000,
