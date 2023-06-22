@@ -47,7 +47,7 @@ let chou = '玩家1'
 export class example extends plugin {
     constructor () {
       super({
-        name: '阴天',
+        name: '阴天[乌龟牌]',
         dsc: '乌龟王八蛋',
         event: 'message',
         priority: 1,
