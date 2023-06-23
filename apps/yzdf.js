@@ -52,8 +52,6 @@ let score1 = await res.data.grade.score1
 let score2 = await res.data.grade.score2
 let img = await res.data.rep_image
 let tu  = [segment.image(encodeURI(img))]
-let msg = [`@${key0}打分:`,"\n",`${score0}`,"\n",`@${key1}打分:`,"\n",`${score1}`,"\n",`@${key2}打分:`,"\n",`${score2}`]
-e.reply(msg)
 e.reply(tu)
 }
   }
