@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>排行榜</title>
+  <style>
+@font-face {
+  font-family: "jty";
+  src: url("{{src}}");
+  font-weight: normal;
+  font-style: normal;
+}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      font-family: "jty";
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .top1 {
+      font-family: "jty";
+      font-weight: bold;
+      color: gold;
+    }
+    .top2 {
+      font-family: "jty";
+      font-weight: bold;
+      color: silver;
+    }
+    .top3 {
+      font-family: "jty";
+      font-weight: bold;
+      color: #cc9966;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>排名:</th>
+        <th>头像:</th>
+        <th>QQ号:</th>
+        <th>发言次数:</th>
+      </tr>
+    </thead>
+    <tbody id="ranking-table">
+    </tbody>
+  </table>
+  <script>
+    const rankingData = __SHUJU__
+    function generateRankingTable(data) {
+      const tableBody = document.getElementById("ranking-table");
+      let tableContent = "";
+
+      data.forEach((item, index) => {
+        let rankClass = "";
+        if (index === 0) rankClass = "top1";
+        else if (index === 1) rankClass = "top2";
+        else if (index === 2) rankClass = "top3";
+
+        tableContent += `
+          <tr class="${rankClass}">
+            <td>${index + 1}</td>
+            <td><img class="avatar" src="${item.url}" alt="头像" /></td>
+            <td>${item.qq}</td>
+            <td>${item.cs}</td>
+          </tr>
+        `;
+      });
+
+      tableBody.innerHTML = tableContent;
+    }
+
+    generateRankingTable(rankingData);
+  </script>
+</body>
+</html>
