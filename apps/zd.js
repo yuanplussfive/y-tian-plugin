@@ -13,7 +13,7 @@ if (!fs.existsSync(dirpath)) {
 export class example extends plugin {
     constructor() {
       super({
-        name: '阴天example',
+        name: '阴天[针对]',
         dsc: 'test',
         event: 'message',
         priority: 1,
