@@ -25,7 +25,7 @@ export class example extends plugin {
           /** 执行方法 */
           fnc: 'xx'
 },{
-          reg: '^#?统计(.*)|^#群发言(.*)$',
+          reg: "#?群发言(.*)",
           /** 执行方法 */
           fnc: 'ct'
 },{
@@ -115,12 +115,12 @@ function processHtml(htmlString, data) {
   return htmlString.replace('__SHUJU__', JSON.stringify(data));
 }
 const rankingData = op
-const htmlString = fs.readFileSync(`${_path}/plugins/example/ph.html`, 'utf-8');
+const htmlString = fs.readFileSync(`${_path}/plugins/y-tian-plugin/resources/html/ph.html`, 'utf-8');
 const processedHtml = processHtml(htmlString, rankingData);
-fs.writeFileSync(`${_path}/plugins/example/ph2.html`,processedHtml,'utf-8');
-let src = _path + "/plugins/example/jty.OTF"
+fs.writeFileSync(`${_path}/plugins/y-tian-plugin/resources/html/ph2.html`,processedHtml,'utf-8');
+ let src = _path + "/plugins/y-tian-plugin/resources/ttf/jty.OTF"
   let img = await puppeteer.screenshot("66", {
-    tplFile: `${_path}/plugins/example/ph2.html`,
+    tplFile: `${_path}/plugins/y-tian-plugin/resources/html/ph2.html`,
     imgtype: 'png',
     src:src
   });
