@@ -51,8 +51,7 @@ git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-pl
 
 * Yunzai-Bot插件库：[☞Github](https://github.com/yhArcadia/Yunzai-Bot-plugins-index)/[☞Gitee](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 * Yunzai-Bot（V3）：[☞Github](https://github.com/Le-niao/Yunzai-Bot)/[☞Gitee](https://gitee.com/Le-niao/Yunzai-Bot) 
-* Alemon-Bot：[☞Gitee](https://gitee.com/ningmengchongshui/alemon-bot) 
-* Alemon-Bot插件库：[☞Gitee](https://gitee.com/ningmengchongshui/lemonade/blob/main/docs/root/examples/about/plugins.md)
+* Alemon-Bot：[☞官方文档](http://ningmengchongshui.gitee.io/lemonade) /[☞Gitee](https://gitee.com/ningmengchongshui/alemon-bot) 
 * 阴天插件Alemon-Bot版本：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
 * 阴天个人windows电脑一键部署云崽脚本：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
 * 严禁用于任何商业用途和非法行为
