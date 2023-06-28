@@ -11,7 +11,7 @@ export class example extends plugin {
     constructor() {
       super({
         /** 功能名称 */
-        name: '阴天[小游戏]',
+        name: '阴天[猜游戏]',
         /** 功能描述 */
         dsc: 'yall',
         /** https://oicqjs.github.io/oicq/#events */
