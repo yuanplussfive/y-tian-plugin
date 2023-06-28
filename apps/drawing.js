@@ -23,7 +23,7 @@ export class example extends plugin {
       /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */
-      priority: 1,
+      priority: 6666,
       rule: [
         {
           /** 命令正则匹配 */
