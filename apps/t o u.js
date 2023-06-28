@@ -66,7 +66,7 @@ export class example extends plugin {
   constructor () {
     super({
       /** 功能名称 */
-      name: 'impart',
+      name: '阴天[impart]',
       /** 功能描述 */
       dsc: 'impart',
       /** https://oicqjs.github.io/oicq/#events */
