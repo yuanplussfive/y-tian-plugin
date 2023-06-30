@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>歌词呈现</title>
+  <style>
+@font-face {
+  font-family: "jty";
+  src: url("{{src}}");
+  font-weight: normal;
+  font-style: normal;
+}
+    body {
+font-family: "jty", sans-serif;
+      background-color: #282c34;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .lyrics-container {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .lyrics-container h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .lyrics-container h2 {
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .lyrics-container p {
+      font-color:#32CD99;
+      font-size: 24px;
+      margin: 0;
+    }
+
+    lyrics-container k {
+      font-size: 18px;
+      font-color:#32CD99;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="lyrics-container">
+    <h1>{{name}}</h1>
+ <k>(Created by {{user}} )</k>
+    <p>{{song}}</p>
+   
+  </div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
