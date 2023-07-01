@@ -55,6 +55,7 @@ git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-pl
 * Alemon-Bot：[☞官方文档](http://ningmengchongshui.gitee.io/lemonade) /[☞Gitee](https://gitee.com/ningmengchongshui/alemon-bot) 
 * 阴天插件Alemon-Bot版本：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
 * 阴天个人windows电脑一键部署云崽脚本：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
+* 阴天Discord的Python机器人框架：[☞Gitee](https://gitee.com/eydn1830/y-tian-discord-bot)
 * 严禁用于任何商业用途和非法行为
 
 
