@@ -30,13 +30,13 @@ git clone https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-pl
 
 ## gptx功能演示
 
-<img decoding="async"  src="background/image/gpt1.jpg" width="35%">   
-<img decoding="async"  src="background/image/gpt2.jpg" width="35%">
-<img decoding="async"  src="background/image/gpt3.jpg" width="35%">
-<img decoding="async"  src="background/image/gpt4.jpg" width="35%">
-<img decoding="async"  src="background/image/gpt5.jpg" width="35%">
-<img decoding="async"  src="background/image/gpt6.jpg" width="35%">
-<img decoding="async"  src="background/image/gpt7.jpg" width="35%">
+<img decoding="async"  src="background/image/gpt1.jpg" width="100%">   
+<img decoding="async"  src="background/image/gpt2.jpg" width="100%">
+<img decoding="async"  src="background/image/gpt3.jpg" width="100%">
+<img decoding="async"  src="background/image/gpt4.jpg" width="100%">
+<img decoding="async"  src="background/image/gpt5.jpg" width="100%">
+<img decoding="async"  src="background/image/gpt6.jpg" width="100%">
+<img decoding="async"  src="background/image/gpt7.jpg" width="100%">
 
 
 ## 反馈
