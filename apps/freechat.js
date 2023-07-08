@@ -31,6 +31,7 @@ export class example extends plugin {
       priority: 9000,
       rule: [
        {
+           
           /** 命令正则匹配 */
           reg: "^#?AI列表$", //匹配消息正则,命令正则
           /** 执行方法 */
