@@ -9,7 +9,7 @@ let daan = ""
 let tp = ""
 let gs = ""
 let dati = ""
- let url = `https://xiaoapi.cn/API/game_ktccy.php?msg=开始游戏&id=1828222534`;
+ let url = `http://xiaoapi.cn/API/game_ktccy.php?msg=开始游戏&id=1828222534`;
 let res = await fetch(url)
 res = await res.json()
 export class ktccy extends plugin {
@@ -52,7 +52,7 @@ time = 0
 
 async xyyx(e) {
        if (time == 1 & e.msg == '#下一条' ) {
-            let url = `https://xiaoapi.cn/API/game_ktccy.php?msg=开始游戏&id=1828222534`;
+            let url = `http://xiaoapi.cn/API/game_ktccy.php?msg=开始游戏&id=1828222534`;
             let res = await fetch(url)
             res = await res.json()
             daan = res.data.answer
@@ -97,7 +97,7 @@ let msg = [segment.at(e.user_id),"\n",
         }
         if (time == 0 & e.msg == '#猜成语' ) {
   
-            let url = `https://xiaoapi.cn/API/game_ktccy.php?msg=开始游戏&id=1828222534`;
+            let url = `http://xiaoapi.cn/API/game_ktccy.php?msg=开始游戏&id=1828222534`;
             let res = await fetch(url)
             res = await res.json()
             daan = res.data.answer
