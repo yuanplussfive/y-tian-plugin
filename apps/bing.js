@@ -34,7 +34,7 @@ export class example extends plugin {
                     reg: '^/必应(.*)$',
                     fnc: 'bingai'
                     },{
-                    reg: "^bing(.*)",
+                    reg: "^/bing(.*)",
                     fnc: 'bingai2',
                     },{
                     reg: "^/重置bing",
