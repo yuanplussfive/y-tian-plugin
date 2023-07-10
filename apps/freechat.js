@@ -5,7 +5,7 @@ import fs from "fs"
 import axios from '../node_modules/axios/index.js'
 import fetch from "node-fetch";
 import request from "../node_modules/request/index.js"
-let botname = "#问";//这里是名字
+let botname = "#Bot";//这里是名字
 let time = new Date().getTime()
 let msg = ""
 let ai = "gpt3"
@@ -14,7 +14,10 @@ let history = []
 let prompt = ""
 let content2;
 let zs;
-
+let model;
+let ming
+let ming2
+let history2 = []
 export class example extends plugin {
   constructor() {
     super({
@@ -52,7 +55,33 @@ export class example extends plugin {
       ]
     })
   }
-  
+async gpt5(e){
+msg = _.trimStart(e.msg, botname)  
+history2.push({"role":"user","content":msg})
+let data = {
+"model":{
+"id":ming,
+"name":ming2,
+"maxLength":24000,
+"tokenLimit":8192
+},
+"messages":history2,
+"prompt":"",
+"temperature":1
+}
+let a = await fetch("https://gpt.free.lsdev.me/api/chat", {
+  "headers": {
+    "content-type": "application/json",
+"User-Agent":
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.67"
+  },
+  "body": JSON.stringify(data),
+  "method": "POST"
+});
+a = await a.text()
+e.reply(a,true)
+history2.push({"role":"assistant","content":a})
+}
 async AIlist(e) {
 await this.makeForwardMsg(e)
 e.reply("请发送#切换AI+序号切换",true)
@@ -63,6 +92,8 @@ return false
 }
 time = new Date().getTime()
 let msg = "gpt对话已经重置了"
+history = []
+history2 = []
 e.reply(msg,true)
 }
 async gpt1(e){
@@ -258,8 +289,41 @@ ai = "ownthink"
 e.reply("切换成功，当前为思知ai")
 return
 }
+if(p>12&&p<=12+url.length){
+try{
+let url = await fetch("https://gpt.free.lsdev.me/api/models", {
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": "{\"key\":\"\"}",
+  "method": "POST"
+});
+url = await url.json()
+ming = url[p-13].id
+ming2 = url[p-13].name
+e.reply(`切换成功，当前为${ming}`)
+ai = url[p-13].id
+return true
+}catch{e.reply("当前模型由于限制无法使用")}
+}
 }
 async chatlist(e) {
+try{
+let url = await fetch("https://gpt.free.lsdev.me/api/models", {
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": "{\"key\":\"\"}",
+  "method": "POST"
+});
+url = await url.json()
+for(var i = 0;i<url.length;i++){
+if(ai ==url[i].id){
+await this.gpt5(e)
+return true
+}
+}
+}catch{}
 if(ai=="xiaoai"){
 await this.xiaoai(e)
 return true
@@ -321,7 +385,7 @@ e.reply(text)
 }
 async qingyunke(e){
 console.log("当前为青云客ai")
-msg = _.trimStart(e.msg, botname2)  
+msg = _.trimStart(e.msg, botname)  
 let op = await fetch(`http://api.qingyunke.com/api.php?key=free&appid=0&msg=${msg}_=1679304122248`,{
 method:"get",
 headers:{
@@ -568,6 +632,24 @@ let t = {
 ...userInfo,
 message:"请发送#切换AI+id来切换"
 }
+try{
+let url = await fetch("https://gpt.free.lsdev.me/api/models", {
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": "{\"key\":\"\"}",
+  "method": "POST"
+});
+url = await url.json()
+for(var i = 0;i< url.length;i++){
+let id = "id:"+Number(i+13) + "\n" +"模型:"+ url[i].id 
+let c = {
+...userInfo,
+message:id
+}
+forwardMsg.push(c)
+}
+}catch{}
 forwardMsg.push(t)
 if (this.e.isGroup) {
 forwardMsg = await this.e.group.makeForwardMsg(forwardMsg)
