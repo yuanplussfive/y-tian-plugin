@@ -289,7 +289,6 @@ ai = "ownthink"
 e.reply("切换成功，当前为思知ai")
 return
 }
-if(p>12&&p<=12+url.length){
 try{
 let url = await fetch("https://gpt.free.lsdev.me/api/models", {
   "headers": {
@@ -299,6 +298,7 @@ let url = await fetch("https://gpt.free.lsdev.me/api/models", {
   "method": "POST"
 });
 url = await url.json()
+if(p>12&&p<12+url.length){
 ming = url[p-13].id
 ming2 = url[p-13].name
 e.reply(`切换成功，当前为${ming}`)
