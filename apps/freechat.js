@@ -304,8 +304,8 @@ ming2 = url[p-13].name
 e.reply(`切换成功，当前为${ming}`)
 ai = url[p-13].id
 return true
-}catch{e.reply("当前模型由于限制无法使用")}
 }
+}catch{e.reply("当前模型由于限制无法使用")}
 }
 async chatlist(e) {
 try{
