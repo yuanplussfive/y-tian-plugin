@@ -31,7 +31,7 @@ export class example extends plugin {
       rule: [
        {
           /** 命令正则匹配 */
-          reg: "^#?列表$", //匹配消息正则,命令正则
+          reg: "^#?AI列表$", //匹配消息正则,命令正则
           /** 执行方法 */
           fnc: 'AIlist'
         },{
