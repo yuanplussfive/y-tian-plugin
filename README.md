@@ -4,6 +4,12 @@
 
 # ※使用本插件前一定要正确配置FFmpeg※
 
+<div align="center">
+
+[![访问量](https://profile-counter.glitch.me/y-tian-plugin-for-yunzai-bot/count.svg)](https://gitee.com/wan13877501248/y-tian-plugin-for-yunzai-bot.git)
+
+</div>
+
 ## 介绍
 Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。（进插件群解锁更多玩法！！！）
 
