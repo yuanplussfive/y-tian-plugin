@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import fs from 'fs'
 
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 const _path = process.cwd();
 let a = _path + "/plugins/y-tian-plugin/resources/css/y-t-help.css"
 let html;
@@ -35,7 +35,7 @@ async help(e){
 let src = _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
 let src2 = _path + "/plugins/y-tian-plugin/resources/css/NZBZ.ttf"
 let data2 = {
-          tplFile: _path + "/plugins/example/help2.html",
+          tplFile: _path + "/plugins/y-tian-plugin/resources/html/help2.html",
           src2:src2,
           src:src
         };
