@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 200px;
+            padding: 20px;
+            margin: 0 40px;
+        }
+
+        .player-image {
+            width: 150px;
+            height: 150px;
+            margin-top: 20px;
+            object-fit: cover;
+        }
+
+        .health-bar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .health-bar {
+            flex-grow: 1;
+            height: 20px;
+            border-radius: 10px;
+            background-color: red;
+            transition: width 1s;
+            margin-left: 10px;
+            border: 2px solid white;
+            box-sizing: border-box;
+        }
+
+        .health-bar-background {
+            flex-grow: 1;
+            height: 20px;
+            border-radius: 10px;
+            background-color: grey;
+        }
+
+        .health-bar-text {
+    
+    margin-bottom: 20px;
+        }
+
+        .vs {
+            font-size: 40px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="player">
+        <div class="health-bar-container">
+            <div>p1:
+            </div>
+            <div class="health-bar-background">
+                <div class="health-bar" id="player1-health" style="width: {{percent1}}%;"></div>
+            </div>
+            <div class="health-bar-text" id="player1-health-text">
+            </div>
+        </div>
+        <img class="player-image" src="http://q.qlogo.cn/headimg_dl?dst_uin={{qq1}}&spec=640&img_type=jpg"
+            alt="Player 1">
+    </div>
+    <div class="vs">VS</div>
+    <div class="player">
+        <div class="health-bar-container">
+            <div>p2:</div>
+            <div class="health-bar-background">
+                <div class="health-bar" id="player2-health" style="width: {{percent2}}%;"></div>
+            </div>
+            <div class="health-bar-text" id="player2-health-text"></div>
+        </div>
+        <img class="player-image" src="http://q.qlogo.cn/headimg_dl?dst_uin={{qq2}}&spec=640&img_type=jpg"
+            alt="Player 2">
+    </div>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

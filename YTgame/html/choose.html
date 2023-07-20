@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>角色档案</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      color:	#00FFFF;
+      min-height: 100vh;
+    }
+
+    .container {
+      flex-grow: 1;
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    .pet-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .pet-image {
+      width: 200px;
+      height: 200px;
+      background: url('http://q.qlogo.cn/headimg_dl?dst_uin={{qq}}&spec=640&img_type=jpg') no-repeat center;
+      background-size: cover;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+     
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+    }
+
+    .stat {
+      font-size:25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-value {
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+      line-height: 30px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    .beijing-time {
+      color: blue;
+      background-color: yellow;
+      padding: 5px;
+      border-radius: 5px;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+  <script>
+    function getBeijingTime() {
+      let time = new Date().getTime()
+var t = new Date(time).toLocaleString(); 
+      return `${t}`;
+    }
+
+    function updateBeijingTime() {
+      const beijingTimeElement = document.getElementById('beijing-time');
+   beijingTimeElement.textContent = `现在时间：${getBeijingTime()}`;
+      setTimeout(updateBeijingTime, 1000);
+    }
+  </script>
+</head>
+<body onload="updateBeijingTime()">
+  <div class="container">
+    <div class="pet-card">
+      <h2>当前群聊:{{group}}</h2>
+      <div class="pet-image"></div>
+      <h3>当前属性:</h3>
+      <div class="stats">
+        <div class="stat">
+          <span>等级</span>
+          <span class="stat-value">{{level}}</span>
+        </div>
+        <div class="stat">
+          <span>体力</span>
+          <span class="stat-value">{{energy}}</span>
+        </div>
+        <div class="stat">
+          <span>精力</span>
+          <span class="stat-value">{{atk}}</span>
+        </div>
+        <div class="stat">
+          <span>暴击率</span>
+          <span class="stat-value">{{cth}}</span>
+        </div>
+        <div class="stat">
+          <span>闪避率</span>
+          <span class="stat-value">{{miss}}</span>
+        </div>
+          <div class="stat">
+          <span>当前经验:</span>
+          <span class="stat-value">{{experience}}</span>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+  <div id="beijing-time" class="beijing-time"></div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+@font-face {
+  font-family: "jty";
+  src: url("{{src}}");
+  font-weight: normal;
+  font-style: normal;
+}
+    body {
+      font-family: "jty";
+      margin: 0;
+      padding: 0;
+      position: relative;
+      background-color: #f4f4f4;
+    }
+
+    body::after {
+      content: "";
+      background: url('https://img.paulzzh.com/touhou/konachan/image/de030e2815f53a8444b0b9640d8b49db.jpg');
+      opacity: 0.6;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -1;   
+    }
+
+    .title {
+      text-align: center;
+      font-size: 2.5em;
+      text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+      background: -webkit-linear-gradient(#eee, #333);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .ranking-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 10%;
+    }
+
+    .ranking-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      border: 1px solid #000;
+      padding: 20px;
+      border-radius: 50px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+      background-color: white;
+    }
+
+    .ranking-item img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .ranking-item div {
+      font-size:24px;
+      margin-left: 10px;
+    }
+
+    .rank-1 { color: gold; }
+    .rank-2 { color: silver; }
+    .rank-3 { color: #cd7f32; }
+  </style>
+</head>
+<body>
+  <h1 class="title">群被透记录</h1>
+  <div class="ranking-container" id="ranking-container">
+    
+  </div>
+
+  <script>
+    var data = {{data}}
+
+    data.sort(function(a, b) {
+      return b.bonus - a.bonus; // 降序排列
+    });
+
+    var container = document.getElementById('ranking-container');
+
+    for (let i = 0; i < data.length; i++) {
+      var rankItem = document.createElement('div');
+      rankItem.className = 'ranking-item';
+
+      var image = document.createElement('img');
+      image.src = data[i].image;
+      rankItem.appendChild(image);
+
+      var rank = document.createElement('div');
+      if (i == 0) rank.className = 'rank-1';
+      if (i == 1) rank.className = 'rank-2';
+      if (i == 2) rank.className = 'rank-3';
+      rank.innerText = '排名: ' + (i + 1);
+      rankItem.appendChild(rank);
+
+      var prize = document.createElement('div');
+      prize.innerText = '被透总量: ' + data[i].bonus + "ml";
+      rankItem.appendChild(prize);
+
+      var quantity = document.createElement('div');
+      quantity.innerText = 'qq: ' + data[i].quantity;
+      rankItem.appendChild(quantity);
+
+      container.appendChild(rankItem);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
