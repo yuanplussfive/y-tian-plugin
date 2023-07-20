@@ -1,0 +1,387 @@
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+@font-face {
+  font-family: "jty";
+  src: url("{{src}}");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NZBZ";
+  src: url("{{src2}}");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "jty";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;  
+  margin: 0 auto;
+  padding: 20px; 
+  background: #f3f3f3;
+  color: black;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+    font-family: "jty";
+    text-align: center;
+    font-size: 2em;
+    color: #00FFFF;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: -webkit-linear-gradient(right top, #ffac1e, black);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.panel {
+  
+  width: 100%;  
+  margin: 1em 0;
+  padding: 1em;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-size: cover;
+}
+
+.panel .title {
+  font-family: "jty";
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.2em;
+  line-height: 1.2em;
+  color: black;
+  padding: 8px 16px; 
+  z-index: 1; 
+}
+
+.panel .title::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: #CCFFFF;
+  border-radius: 50px; 
+  z-index: -1;
+}
+
+ .title-item {
+      
+      display: flex;
+      flex-wrap: wrap; 
+      justify-content: space-between;
+    }
+
+    .feature-item {
+      flex: 1 0 calc(30% - 2em); 
+      margin: 1em;
+      padding: 1em;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background: #CCCCCC;
+      text-align: left;
+      box-sizing: border-box; 
+    }
+
+
+    .feat-item {
+      flex: 1 0 calc(30% - 2em); 
+      margin: 1em;
+      padding: 1em;
+      border-radius: 15px;
+      border: 1px solid #CCFF99;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background: #99FFFF;
+      text-align: left;
+      box-sizing: border-box; 
+    }
+
+.feat2-item {
+      flex: 1 0 calc(30% - 2em); 
+      margin: 1em;
+      padding: 1em;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background: #CCFF99;
+      text-align: left;
+      box-sizing: border-box; 
+    }
+
+.feat3-item {
+      flex: 1 0 calc(30% - 2em); 
+      margin: 1em;
+      padding: 1em;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background: #99CCFF;
+      text-align: left;
+      box-sizing: border-box; 
+    }
+
+.feat4-item {
+      flex: 1 0 calc(30% - 2em); 
+      margin: 1em;
+      padding: 1em;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background: #FF6699;
+      text-align: left;
+      box-sizing: border-box; 
+    }
+
+.feat5-item {
+      flex: 1 0 calc(30% - 2em); 
+      margin: 1em;
+      padding: 1em;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background: #CC6633;
+      text-align: left;
+      box-sizing: border-box; 
+    }
+
+.ending { 
+  font-color: #ddd;
+  font-family: "jty";
+  text-align: center; 
+  margin: 18px 0;  
+  font-size: 1.2em; 
+}
+
+</style>
+</head>
+<body>
+    <h1>Y-Tian-Plugin帮助菜单</h1>
+    <div class="panel" style="background-image: url('https://img.paulzzh.com/touhou/konachan/image/f0d13b4e8ed3204807d0563da93cde10.jpg');">
+        <div class="title">娱乐功能</div>
+        <p></p>
+
+        <div class="title-item">
+            <div class="feature-item">
+                <div class="title">表情包搜索</div>
+                <p>发送：/bq+关键词,搜索相关表情包(100张/次)</p>
+            </div>
+            <div class="feat2-item">
+                <div class="title">猜你所想(20q)</div>
+                <p>       发送:#20q,开始游戏;#q+序号,选择选项</p>
+            </div>
+   <div class="feat4-item">
+                <div class="title">颜值打分</div>
+                <p>   发送:#颜值打分+图片(仅支持三次元)</p>
+            </div>
+   <div class="feat3-item">
+                <div class="title">藏头诗</div>
+                <p>发送：#藏头诗五言+内容;#藏尾诗五言+内容;七言同理</p>
+            </div>
+   <div class="feat5-item">
+                <div class="title">语音合成</div>
+                <p>输入：#音色列表，以查看,#合成+内容以合成语音,#切换音色+id切换</p>
+            </div>
+<div class="feat-item">
+                <div class="title">小功能合集</div>
+                <p>发送#小功能帮助,阴天小功能整合</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel" style="background-image: url('https://img.paulzzh.com/touhou/konachan/jpeg/6e6807546c165c7e6a686b9b5488489b.jpg');">
+        <div class="title">群管功能</div>
+        <p></p>
+
+        <div class="title-item">
+            <div class="feat-item">
+                <div class="title">全网针对</div>
+                <p>让他发不出消息!方法:#针对@xxx;#取消针对@xxx</p>
+            </div>
+            <div class="feat2-item">
+                <div class="title">关键词禁言</div>
+                <p>①addban+内容,添加禁言词②openban,开启撤回禁言,offban同理③给主人带话+内容,顾名思义</p>
+            </div>
+
+<div class="feat3-item">
+                <div class="title">机器人权限管理</div>
+                <p>①#清除权限@××,取消机器人对用户的权限②允许权限同理</p>
+            </div>
+
+<div class="feat4-item">
+                <div class="title">群聊管理</div>
+                <p>①#启用该群,允许机器人在该群使用②#禁用该群,同理</p>
+            </div>
+
+<div class="feat5-item">
+                <div class="title">群发言统计</div>
+               <p>#群发言+条数,寻找当前发言量下所有发言人的统计记录</p>
+            </div>
+
+<div class="feature-item">
+                <div class="title">群投票</div>
+                <p>发送：#发起投票+两个及以上的投票项目 即可开始投票，项目之间用空格隔开。</p>
+            </div>
+
+        </div>
+    </div>
+
+  <div class="panel" style="background-image: url('https://img.paulzzh.com/touhou/konachan/jpeg/1751c9e676a80f006a08f80172cdcad2.jpg');">
+        <div class="title">AI功能专区</div>
+        <p></p>
+
+        <div class="title-item">
+            <div class="feature-item">
+                <div class="title">gptx</div>
+                <p>仅发电用户使用,具体请发送#gpt帮助</p>
+            </div>
+            <div class="feat3-item">
+                <div class="title">免费AI</div>
+                <p>提供免费AI模型,具体请发送#AI列表,#切换AI+序号;</p>
+            </div>
+ <div class="feat4-item">
+                <div class="title">AI作曲</div>
+                <p>简单的AI作词,方法:#作曲+内容</p>
+            </div>
+            <div class="feat-item">
+                <div class="title">claude</div>
+                <p>详细配置请看群文件,自己填写相关值才可使用,详情发送#claude帮助</p>
+            </div>
+<div class="feat2-item">
+                <div class="title">动漫预设</div>
+                <p>发送#动漫预设,随机生成一段动漫预设,可用于gpt</p>
+            </div>
+        </div>
+    </div>
+
+  <div class="panel" style="background-image: url('https://img.paulzzh.com/touhou/konachan/image/e77dd3aebf522f506b9a2df878524585.jpg');">
+        <div class="title">图视相关</div>
+        <p></p>
+
+        <div class="title-item">
+            <div class="feat2-item">
+                <div class="title">点抖音/快手视频</div>
+                <p>发送：dy+内容,搜索抖音视频,/观看+序号,观看视频;ks+内容,搜索快手视频,观看+序号,观看视频;</p>
+            </div>
+            <div class="feature-item">
+                <div class="title">随机微视</div>
+                <p>发送:#随机微视or#微视(获取随机微视视频)</p>
+            </div>
+
+   <div class="feat5-item">
+                <div class="title">爬图</div>
+                <p>发送:#爬取+网址,抓取一个网页的所有图片</p>
+            </div>
+<div class="feat3-item">
+                <div class="title">好看的</div>
+                <p>发送#coser,随机获取某个coser合集;#ht/#st,随机获取一张色图;/动漫图,随机获取1张动漫图;/动漫合集,随机获取30张动漫图</p>
+            </div>
+        </div>
+    </div>
+
+
+<div class="panel" style="background-image: url('https://img.paulzzh.com/touhou/konachan/image/c78fc988667e5e5882537771c53b894a.jpg');">
+        <div class="title">游戏相关功能</div>
+        <p></p>
+
+        <div class="title-item">
+            <div class="feat4-item">
+                <div class="title">阴阳师相关</div>
+                <p>发送：
+/yys+角色名称,获取相关角色图鉴;
+#yyscos,获取阴阳师cos图片数据来源于官网;
+#yys同人,获取一张同人绘;
+#yyssp,获取一个yys短视频随机</p>
+            </div>
+            <div class="feature-item">
+                <div class="title">三国杀相关</div>
+                <p>发送#武将查询+武将名 可查询指定武将。发送#随机一蒸 随机从B站爬取一个三国杀精彩视频（自带视频解析）</p>
+            </div>
+        </div>
+    </div>
+
+<div class="panel" style="background-image: url('https://img.paulzzh.com/touhou/konachan/image/b70e2a3ed2c946144934cda46d0438b7.jpg');">
+        <div class="title">群游戏功能</div>
+        <p></p>
+
+        <div class="title-item">
+            <div class="feat3-item">
+                <div class="title">猜灯谜</div>
+                <p>输入：#开始猜灯谜 即可开始游戏，隔一段时间若无正确答案则会公布答案，后续命令有#下一题和#结束猜灯谜,回答请发送:是xxx</p>
+            </div>
+            <div class="feat5-item">
+                <div class="title">猜成语</div>
+                <p>发送：#猜成语 开始游戏。后续指令有#下一条,#结束猜成语,若回答请用:答xxx</p>
+            </div>
+      <div class="feat4-item">
+                <div class="title">乌龟牌</div>
+                <p>发送#抽乌龟,开始游戏，#抽一张,#清除抽乌龟数据，清除记录</p>
+       
+            </div>
+
+<div class="feature-item">
+                <div class="title">星穹转生</div>
+                <p>发送#星穹转生,看看你今天转了啥？</p>
+            </div>
+
+<div class="feat-item">
+                <div class="title">银趴功能</div>
+                <p>发送/impact帮助获取详情</p>
+            </div>
+
+
+        </div>
+    </div>
+
+<div class="panel" style="background-image: url('https://img.paulzzh.com/touhou/konachan/image/615de2c60c581cc94a8c08a70d251c01.jpg');">
+        <div class="title">系统功能</div>
+        <p></p>
+
+        <div class="title-item">
+            <div class="feat5-item">
+                <div class="title">阴天社区</div>
+                <p>发送:#此时阴天在线,查看现在正在用阴天插件的机器人;#谁在线上,查看在线的机器人;#给xxx留言xxx;前面为bot的QQ号,后面加内容</p>
+            </div>
+            <div class="feature-item">
+                <div class="title">插件更新</div>
+                <p>发送#阴天更新,或者#阴天强制更新</p>
+            </div>
+        </div>
+    </div>
+
+<div class="ending">
+  created by Y-Tian-Plugin&&Yunzai-Bot
+</div>
+</body>
+</html>
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
