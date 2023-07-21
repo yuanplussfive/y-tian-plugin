@@ -14,6 +14,7 @@ let k = []
 let m = []
 let imgUrl = _path + '/plugins/y-tian-plugin/background/image/bg.jpg'
 let num2 = 0
+
 //1.定义命令规则
 export class example extends plugin {
   constructor() {
