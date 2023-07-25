@@ -22,6 +22,7 @@ export class ChatPlugin extends plugin {
    }
  
    async wj(e) {
+       
        let heroName
 let heroUrl
 let browser = await puppeteer.launch({ headless: true , args: ['--no-sandbox']});
