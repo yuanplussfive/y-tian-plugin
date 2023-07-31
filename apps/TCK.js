@@ -25,7 +25,7 @@ export class ChatPlugin extends plugin {
        
        let heroName
 let heroUrl
-let browser = await puppeteer.launch({ headless: true , args: ['--no-sandbox']});
+let browser = await puppeteer.launch({ headless: true , args:['--no-sandbox','--disable-setuid-sandbox']});
 let page = await browser.newPage();
 await page.goto('https://www.sanguosha.cn/pc/hero-list.html',{ waitUntil: 'networkidle2'});
 
@@ -47,7 +47,7 @@ await browser.close();
  }
 }
 async sp(e){
- let browser = await puppeteer.launch();
+ let browser = await puppeteer.launch({ headless: true , args:['--no-sandbox','--disable-setuid-sandbox']});
  let page = await browser.newPage();
  
  await page.goto('https://space.bilibili.com/587050283/channel/seriesdetail?sid=268447', {
