@@ -1,4 +1,4 @@
-import plugin from '../../lib/plugins/plugin.js'
+import plugin from '../../../lib/plugins/plugin.js'
 import _ from 'lodash'
 import fetch from "node-fetch";
     const _path = process.cwd();
