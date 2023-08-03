@@ -210,7 +210,7 @@ answer = await fetch(`https://slack.com/api/conversations.replies?channel=${chan
   "method": "POST"
 });
 answer = await answer.json()
-console.log(answer)
+//console.log(answer)
 if(answer.messages[1]&&!answer.messages[1].text.includes("_Typing…_")){
 let daan = [segment.at(e.user_id),answer.messages[1].text]
 e.reply(daan)
