@@ -79,6 +79,7 @@ history[e.user_id] = "114514"
 e.reply(`用户:${e.sender.nickname}成功重置对话了`,true)
 }
 async changename(e){
+if(!e.isMaster){return false}
 try{
 let msg = e.msg.replace(/\/slack触发/g,"").trim()
 if (fs.existsSync(dirpath + "/" + "data.json")){
