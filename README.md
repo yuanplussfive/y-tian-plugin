@@ -11,7 +11,7 @@
 </div>
 
 ## 介绍
-Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。（进插件群解锁更多玩法！！！）
+Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的AI，免费的gpt4，还有更多你想都不敢想的东西，真的不来看看吗？（进插件群解锁更多玩法！！！）
 
 ## 安装教程
 
@@ -34,7 +34,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 您也可以点击我们的[**插件展示页**](https://shouquan-1315544562.cos.ap-nanjing.myqcloud.com/YT.html)，然后选择右上角的<功能展示>以查看阴天插件本体以及爱发电部分功能的使用记录截图。
 
-## gptx功能演示
+## 部分AI功能演示
 
 <img decoding="async"  src="background/image/gpt1.jpg" width="80%">   
 <img decoding="async"  src="background/image/gpt2.jpg" width="80%">
@@ -57,10 +57,10 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 | 名单     | 联系方式     | 主要贡献     |
 | -------- | ------------ | ------------ |
-| 天球生物 | QQ928368902 | 阴天插件部分功能编写，提供plugin本体，实现alemon移植工作等 |
-| 鸢    | QQ2166683295 | 阴天插件大部分功能编写，官网撰写， 整合工作等|
-| op要喝op果奶   | QQ715494637 | 阴天python机器人移植工作,实现discord插件移植|
-| Mr.k   | QQ3302843718 | 阴天插件UI设计，美工 |
+| 天球生物 | QQ928368902 | 阴天工作室Python，JavaScript工程师 |
+| 鸢    | QQ2166683295 | 阴天工作室全栈开发工程师|
+| op要喝op果奶   | QQ715494637 | 阴天工作室python爬虫工程师|
+| Mr.k   | QQ3302843718 | 阴天工作室UI设计师 |
 
 ### 传送门
 
