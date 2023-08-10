@@ -652,11 +652,7 @@ forwardMsg = await this.e.group.makeForwardMsg(forwardMsg)
 }else{
 forwardMsg = await this.e.friend.makeForwardMsg(forwardMsg)
 }
-forwardMsg.data = forwardMsg.data
-      .replace(/\n/g, '')
-      .replace(/<title color="#777777" size="26">(.+?)<\/title>/g, '___')
-      .replace(/___+/, `<title color="#777777" size="26">${title}</title>`)
-    e.reply(forwardMsg)
+e.reply(forwardMsg)
 
 }
 
