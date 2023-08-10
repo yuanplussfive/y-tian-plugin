@@ -36,13 +36,6 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 ## 部分AI功能演示
 
-<img decoding="async"  src="background/image/gpt1.jpg" width="80%">   
-<img decoding="async"  src="background/image/gpt2.jpg" width="80%">
-<img decoding="async"  src="background/image/gpt3.jpg" width="80%">
-<img decoding="async"  src="background/image/gpt4.jpg" width="80%">
-<img decoding="async"  src="background/image/gpt5.jpg" width="80%">
-<img decoding="async"  src="background/image/gpt6.jpg" width="80%">
-<img decoding="async"  src="background/image/gpt7.jpg" width="80%">
 
 
 ## 反馈
