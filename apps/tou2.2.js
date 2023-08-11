@@ -6,7 +6,7 @@ import fs from 'fs'
 import common from '../../../lib/common/common.js'
 
 const _path = process.cwd()
-import cfg from '../../lib/config/config.js'
+import cfg from '../../../lib/config/config.js'
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 
 let CD = {}
