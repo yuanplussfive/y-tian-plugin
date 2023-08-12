@@ -89,6 +89,7 @@ return false
 if (fs.existsSync(dirpath + "/" + `${msg}`)){
 prompt = fs.readFileSync(dirpath + "/" + `${msg}`,"utf-8")
 e.reply("切换成功",true)
+history = []
 }}
 async gptx(e){
 let msg = e.msg.replace(botname,"").trim()
