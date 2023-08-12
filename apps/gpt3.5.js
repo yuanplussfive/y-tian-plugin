@@ -34,7 +34,7 @@ export class example extends plugin {
           fnc: 'gptend'
         },
         {
-          reg: "^#gpt新增预设(.*?)$",
+          reg: "^#gpt新增预设(.*)$",
           fnc: 'gptaddys'
         },
         {
