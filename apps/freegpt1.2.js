@@ -1,6 +1,5 @@
 import fetch from 'node-fetch'
 import fs from 'fs'
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
 let prompt = false
 let history = []
 const _path = process.cwd()
