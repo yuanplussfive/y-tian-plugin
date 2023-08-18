@@ -1,8 +1,7 @@
-//方法，机器人名+问题,名字自己在下面改;
-//更详细教程加群了解：756783127
-import plugin from '../../lib/plugins/plugin.js'
-import cfg from '../../lib/config/config.js'
-import common from'../../lib/common/common.js'
+
+import plugin from '../../../lib/plugins/plugin.js'
+import cfg from '../../../lib/config/config.js'
+import common from'../../../lib/common/common.js'
 import fetch from 'node-fetch'
 import fs from 'fs'
 import _ from 'lodash'
