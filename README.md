@@ -46,7 +46,8 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 如果你喜欢我们的插件，不妨给个star
 
-赞助：[爱发电1](https://afdian.net/a/Tianqiu)，[爱发电2(暂时请用)](https://afdian.net/a/yuan_20)
+赞助方面：[爱发电1](https://afdian.net/a/Tianqiu)，[爱发电2(暂时请用)](https://afdian.net/a/yuan_20)
+
 你的支持将是我们的动力，且发电用户有机会提前体验本插件未公布的的新功能。
 
 ### 鸣谢
