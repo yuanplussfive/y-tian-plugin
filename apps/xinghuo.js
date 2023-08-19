@@ -26,7 +26,7 @@ export class example extends plugin {
       /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */
-      priority: 400,
+      priority: 4000,
       rule: [
         {
           reg: "^#星火(.*)$",
@@ -121,7 +121,7 @@ const connectWebSocket = async () => {
     ws.on('message', (data) => {
       console.log('传递数据:', data);
       let shu = JSON.parse(data.toString("utf-8"))
-      if(!shu.payload.choices){e.reply("通讯失败!请检查参数是否填写正确");return false}
+      if(!shu.payload){e.reply("通讯失败!请检查参数是否填写正确");return false}
       shu = shu.payload.choices.text[0].content
       //console.log(shu)
       content += shu;
