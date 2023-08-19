@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import fs from 'fs'
 import crypto from 'crypto'
 import querystring from 'querystring'
-import WebSocket from '../../plugins/y-tian-plugin/node_modules/ws/index.js'
+import WebSocket from '../node_modules/ws/index.js'
 let history = []
 const _path = process.cwd()
 let dirpath = _path + '/data/YTxinghuo'
