@@ -22,7 +22,8 @@ export class example extends plugin {
           fnc: 'zhendui'
         },{
           reg: '.*',
-          fnc: 'jianting'
+          fnc: 'jianting',
+          log: false
         },
         {
           reg: '^#取消针对(.*)',
