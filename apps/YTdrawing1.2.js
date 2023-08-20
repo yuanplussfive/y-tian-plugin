@@ -72,7 +72,7 @@ export class example extends plugin {
     })
   }
 async endlora(e){
-weight = ""
+weight = 0.8
 lora = ""
 keylora = ""
 e.reply("lora参数已清空")
