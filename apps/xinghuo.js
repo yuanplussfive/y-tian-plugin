@@ -42,6 +42,7 @@ export class example extends plugin {
     })
   }
 async apikey(e){
+if(!e.isMaster){return false}
 let msg = e.msg.replace(/#填写appId/g,"").replace(/#填写apiSecret/g,"").replace(/#填写apiKey/g,"").trim()
 let data = JSON.parse(fs.readFileSync(dirpath+"/"+"data.json"))
 if(e.msg.includes("#填写appId")){
