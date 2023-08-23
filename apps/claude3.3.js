@@ -266,7 +266,8 @@ let ifclose = "open";
 let typingCount = 0; // 计数器，记录"Typing..."的次数
 
 async function executeRequest() {
-  let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${ts}`, {
+  let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${history[e.user_id]}&pretty=1&oldest=${ts}
+`, {
     "headers": {
       "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryTotJQ9kaNkT7dchz",
       "cookie": `d=${d}`
@@ -433,7 +434,8 @@ let ifclose = "open"
 let typingCount = 0; // 计数器，记录"Typing..."的次数
 
 async function executeRequest() {
-  let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${ts}`, {
+  let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${history[e.user_id]}&pretty=1&oldest=${ts}
+`, {
     "headers": {
       "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryTotJQ9kaNkT7dchz",
       "cookie": `d=${d}`
