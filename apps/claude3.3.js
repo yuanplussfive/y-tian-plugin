@@ -263,6 +263,8 @@ time[e.user_id] = ts
 }
 let answer;
 let ifclose = "open";
+let typingCount = 0; // 计数器，记录"Typing..."的次数
+
 async function executeRequest() {
   let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${ts}`, {
     "headers": {
@@ -272,22 +274,32 @@ async function executeRequest() {
     "body": `------WebKitFormBoundaryTotJQ9kaNkT7dchz\r\nContent-Disposition: form-data; name=\"content\"\r\n\r\nnull\r\n------WebKitFormBoundaryTotJQ9kaNkT7dchz\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n${token}\r\n------WebKitFormBoundaryTotJQ9kaNkT7dchz--\r\n`,
     "method": "POST"
   });
+
   const result = await answer.json();
   console.log(result);
+
+  if (result.messages[1] && result.messages[1].text === "_Typing…_") {
+    typingCount++;
+  } else {
+    typingCount = 0; // 重置计数器
+  }
+
+  if (typingCount === 10) {
+    clearInterval(intervalId); // 达到十次，停止定时请求
+    e.reply("slack通讯失败，请重试!",true)
+    return true;
+  }
+
   if (result.messages[1] && !result.messages[1].text.includes("_Typing…_")) {
     let daan = [segment.at(e.user_id), result.messages[1].text];
     e.reply(daan);
-    ifclose = "close";
-  }
-
-  // 检查是否达到要求，如果达到则清除定时器
-  if (ifclose === "close") {
-    clearInterval(intervalId);
+    clearInterval(intervalId); // 有回复消息，停止定时请求
   }
 }
 
 // 每隔五秒钟执行一次请求
 const intervalId = setInterval(executeRequest, 5000);
+
 }}}
 async endchat(e){
 time[e.user_id] = ""
@@ -418,8 +430,10 @@ let answer
 //console.log(history[e.user_id])
 let count = 0;
 let ifclose = "open"
+let typingCount = 0; // 计数器，记录"Typing..."的次数
+
 async function executeRequest() {
-  let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${history[e.user_id]}&pretty=1&oldest=${ts}`, {
+  let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${ts}`, {
     "headers": {
       "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryTotJQ9kaNkT7dchz",
       "cookie": `d=${d}`
@@ -427,28 +441,32 @@ async function executeRequest() {
     "body": `------WebKitFormBoundaryTotJQ9kaNkT7dchz\r\nContent-Disposition: form-data; name=\"content\"\r\n\r\nnull\r\n------WebKitFormBoundaryTotJQ9kaNkT7dchz\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n${token}\r\n------WebKitFormBoundaryTotJQ9kaNkT7dchz--\r\n`,
     "method": "POST"
   });
+
   const result = await answer.json();
   console.log(result);
-  if (result.messages[1] && !result.messages[1].text.includes("_Typing…_")) {
-let answer = result.messages[1].text
-function escape2Html(str) {
-  var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
-  return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){
-    return arrEntities[t];
-  });
-}
-    let daan = [segment.at(e.user_id),escape2Html(answer)];
-    e.reply(daan);
-    ifclose = "close";
+
+  if (result.messages[1] && result.messages[1].text === "_Typing…_") {
+    typingCount++;
+  } else {
+    typingCount = 0; // 重置计数器
   }
-  // 检查是否达到要求，如果达到则清除定时器
-  if (ifclose === "close") {
-    clearInterval(intervalId);
+
+  if (typingCount === 10) {
+    clearInterval(intervalId); // 达到十次，停止定时请求
+    e.reply("slack通讯失败，请重试!",true)
+    return true;
+  }
+
+  if (result.messages[1] && !result.messages[1].text.includes("_Typing…_")) {
+    let daan = [segment.at(e.user_id), result.messages[1].text];
+    e.reply(daan);
+    clearInterval(intervalId); // 有回复消息，停止定时请求
   }
 }
 
 // 每隔五秒钟执行一次请求
 const intervalId = setInterval(executeRequest, 5000);
+
 }}}
 
 
