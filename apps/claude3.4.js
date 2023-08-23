@@ -1,7 +1,7 @@
 
-import plugin from '../../lib/plugins/plugin.js'
-import cfg from '../../lib/config/config.js'
-import common from'../../lib/common/common.js'
+import plugin from '../../../lib/plugins/plugin.js'
+import cfg from '../../../lib/config/config.js'
+import common from'../../../lib/common/common.js'
 import fetch from 'node-fetch'
 import fs from 'fs'
 import _ from 'lodash'
