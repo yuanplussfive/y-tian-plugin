@@ -20,7 +20,7 @@ export class example extends plugin {
       /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */
-      priority: 4,
+      priority: -4,
       rule: [
         {
           reg: "^千帆(.*)|^文心(.*)",
@@ -33,14 +33,17 @@ export class example extends plugin {
     })
   }
 async end(e){
-history = []
-e.reply("文心千帆已经重置对话了")
+history[e.user_id] = []
+e.reply(`文心千帆:用户${e.sender.nickname}已经重置对话了`)
 }
 async help(e){
 let msg = e.msg.replace(/千帆/g,"").replace(/文心/g,"").trim()
 console.log(msg)
-//console.log(history)
-history.push({
+console.log(history[e.user_id])
+  if (!history[e.user_id]) {
+    history[e.user_id] = []; // 如果该用户的聊天记录不存在，则创建一个空数组
+  }
+history[e.user_id].push({
         role: 'user',
         content: msg
       })
@@ -77,7 +80,7 @@ async function main() {
   let url = `https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=${accessToken}`;
 
   let payload = JSON.stringify({
-    messages: history
+    messages: history[e.user_id]
   });
 
   let headers = {
@@ -95,16 +98,25 @@ async function main() {
 if(data.error_code){
 if(data.error_code == '110'){
 e.reply("未填写相关CK或填写的有误",true)
-history.pop()
+history[e.user_id] = []
 return false
-}else{
-e.reply("文本长度超过限制,请缩减文本",true)
-history.pop()
+}else if(data.error_code == '336003'){
+e.reply("你问太快了,已经自动重置,请重新提问",true)
+history[e.user_id] = []
+return false
+}else if(data.error_code == '17'){
+e.reply("你还没有开通模型付费服务,请参考群教程进行配置",true)
+history[e.user_id] = []
+return false
+}
+else{
+e.reply("文本长度超过限制,自动重置",true)
+history[e.user_id] = []
 return false
 }
 }
   e.reply(data.result,true);
-  history.push({
+  history[e.user_id].push({
         role: 'assistant',
         content: data.result
       })
@@ -113,7 +125,6 @@ return false
 main();
     }
 }
-
 
 
 
