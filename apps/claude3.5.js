@@ -254,15 +254,18 @@ let c = await  fetch(url, {
   })
 c = await c.json()
 console.log(c)
-
 if(c.error){e.reply("当前预设过长",true);return false}
 let ts = await c.message.ts
+if(history[e.user_id] == undefined||history[e.user_id] == "114514"){
+history[e.user_id] = ts
+time[e.user_id] = ts
+}
 let answer;
 let count = 0;
 let ifclose = "open"
 let typingCount = 0; // 计数器，记录"Typing..."的次数
 async function executeRequest() {
-  let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${ts}`, {
+  let answer = await fetch(`https://slack.com/api/conversations.replies?channel=${channel}&ts=${history[e.user_id]}&pretty=1&oldest=${ts}`, {
     "headers": {
       "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryTotJQ9kaNkT7dchz",
       "cookie": `d=${d}`
