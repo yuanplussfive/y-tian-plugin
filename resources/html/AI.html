@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>帮助页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0; 
+            background-image:url("水墨.jpg");
+        }
+        @font-face {
+          font-family: "jty";
+          src: url("{{src}}");
+          font-weight: normal;
+          font-style: normal;
+        }
+
+        @font-face {
+          font-family: "NZBZ";
+          src: url("NZBZ.ttf");
+          font-weight: normal;
+          font-style: normal;
+        }
+        .container {
+            box-shadow:3px 2px 3px #aaa;
+            display: flex-start;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: center; /* 新增样式 */
+            margin-left: 50px;
+            margin-right: 50px;
+            font-family:"jty";
+            font-size:28px;
+            background-color:rgba(255,255,255,0.9);
+            border-radius: 30px;
+        }
+
+        .user {
+            background-size: 100% 100% ;
+            display: flex-start;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+            line-height:35px;
+            border-bottom:2px solid #ccc;
+            padding: 50px;
+            border-radius: 10px;
+          
+            font-family:"jty";
+            font-size:24px;
+            
+        }
+        .user img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 30px;
+            box-shadow:3px 2px 3px #ccc;
+        }
+        .user2 {
+            background-size: 100% 100% ;
+            justify-content: flex-end;
+            text-align:right;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+            line-height:35px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .name{
+            font-size:20px;
+            padding-bottom:15px;
+            font-family:"NZBZ";
+        }
+        .user2 img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow:3px 2px 3px #ccc;
+        }
+        .message {
+            padding-bottom:20px;
+            padding-top:20px;
+            text-indent:2em;
+            background-color:#FFCCFF;
+            padding: 15px;
+            padding-left: 30px;
+            border-radius: 15px;
+            box-shadow:3px 2px 3px #ccc;
+            line-height:35px;
+            text-align: center; /* 新增样式 */
+        }
+        .message p {
+            margin: 0;
+        }
+        .message2 {
+            padding-bottom:20px;
+            padding-top:20px;
+            padding-left:20px;
+            text-indent:1em;
+            background-color:#CCFFFF;
+            padding: 15px;
+            border-radius: 15px;
+            border-bottom:2px solid #ccc;
+            box-shadow:3px 2px 3px #ccc;
+            line-height:35px;
+        }
+        .message2 p {
+            margin: 0;
+        }
+        .help {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        .help-item {
+            box-shadow:3px 2px 3px #aaa;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color:rgba(255,255,255,0.9);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="user">
+            <img src="https://acg.suyanw.cn/api.php" alt="User Image">
+            <div class="message">
+                <p><strong>阴天爱发电模型帮助</strong></p>
+            </div>
+        </div>
+        <div class="help">
+       <div class="help-item">
+                <div class="message2">
+                    <p><strong>对话方式为at或bot名</strong></p>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>#gpt绘图+内容,Gpt的画图</strong></p>
+                </div>
+            </div>
+            
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>#tts大全,查看音色;#开启tts;#关闭tts;是否开启语音</strong></p>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>#阴天模型大全,查看所有模型</strong></p>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>#创建slack频道,使用claude的前置工作</strong></p>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>#切换阴天模型+名称,切换相关模型</strong></p>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>#切换tts+序号,切换语音合成模型</strong></p>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>#对话方式+(图片|文字|转发),更改bot交互</strong></p>
+                </div>
+            </div>
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>#开启群对话,读取群信息,概率回复群友消息,结束的话,请发#关闭群对话;(注意:群对话读取回复默认使用gpt)</strong></p>
+                </div>
+            </div>
+<div class="help-item">
+                <div class="message2">
+                    <p><strong>#群对话概率+数字,设置群聊回复概率</strong></p>
+                </div>
+            </div>
+
+            <div class="help-item">
+                <div class="message2">
+                    <p><strong>虚拟建模对话正在咕咕中</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
