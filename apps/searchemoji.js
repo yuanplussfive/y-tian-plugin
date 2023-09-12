@@ -1,5 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import plugin from '../../../lib/common/common.js'
+import common from '../../../lib/common/common.js'
 import fetch from "node-fetch";
 let bqb = []
 export class example extends plugin {
