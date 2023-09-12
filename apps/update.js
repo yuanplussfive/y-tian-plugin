@@ -218,13 +218,6 @@ export class update extends plugin {
     } else {
       forwardMsg = await this.e.friend.makeForwardMsg(forwardMsg);
     }
-
-    /** 处理描述 */
-    forwardMsg.data = forwardMsg.data
-      .replace(/\n/g, "")
-      .replace(/<title color="#777777" size="26">(.+?)<\/title>/g, "___")
-      .replace(/___+/, `<title color="#777777" size="26">${title}</title>`);
-
     return forwardMsg;
   }
 
