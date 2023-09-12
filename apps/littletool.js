@@ -4,44 +4,44 @@ import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import fs from "fs"
 const _path = process.cwd()
 export class manhua extends plugin {
-    constructor() {
-      super({
-        name: '阴天[小功能]',
-        dsc: 'test',
-        event: 'message',
-        priority: 1,
-        rule: [{
-          reg: "^#?云语录$",
-          fnc: 'test',
-},{
-          reg: "^#?动漫预设$",
-          fnc: 'randomwife'
-},{
-          reg: "^#上联(.*?)$",
-          fnc: 'ddl'
-},{
-          reg: "^#历史上的今天$",
-          fnc: 'history'
-},{
-          reg: "^#微博热搜$",
-          fnc: 'hot'
-},{
-          reg: "^#网易云热评$",
-          fnc: 'hotchat'
-},{
-          reg: "^#百科介绍(.*?)$",
-          fnc: 'infor'
-},{
-          reg: "^/小功能帮助$",
-          fnc: 'help'
-        }]
-      });
-  
-     
-    }
-async help(e){
-if (!fs.existsSync(_path + "/data/littletool.html")){
-let html = `<html>
+  constructor() {
+    super({
+      name: '阴天[小功能]',
+      dsc: 'test',
+      event: 'message',
+      priority: 1,
+      rule: [{
+        reg: "^#?云语录$",
+        fnc: 'test',
+      }, {
+        reg: "^#?动漫预设$",
+        fnc: 'randomwife'
+      }, {
+        reg: "^#上联(.*?)$",
+        fnc: 'ddl'
+      }, {
+        reg: "^#历史上的今天$",
+        fnc: 'history'
+      }, {
+        reg: "^#微博热搜$",
+        fnc: 'hot'
+      }, {
+        reg: "^#网易云热评$",
+        fnc: 'hotchat'
+      }, {
+        reg: "^#百科介绍(.*?)$",
+        fnc: 'infor'
+      }, {
+        reg: "^/小功能帮助$",
+        fnc: 'help'
+      }]
+    });
+
+
+  }
+  async help(e) {
+    if (!fs.existsSync(_path + "/data/littletool.html")) {
+      let html = `<html>
 <head>
 <style>
 h1 {
@@ -92,140 +92,118 @@ li:before {
 </ul>
 </body>
 </html>`
-fs.writeFileSync(_path + "/data/littlehelp.html",html,"utf-8")
-let data = {
-              tplFile: _path + "/data/littlehelp.html",	          
+      fs.writeFileSync(_path + "/data/littlehelp.html", html, "utf-8")
+      let data = {
+        tplFile: _path + "/data/littlehelp.html",
+      }
+      let img = await puppeteer.screenshot("777", {
+        ...data,
+      });
+      e.reply(img)
+    } else {
+      let data = {
+        tplFile: _path + "/data/littlehelp.html",
+      }
+      let img = await puppeteer.screenshot("777", {
+        ...data,
+      });
+      e.reply(img)
+    }
+  }
+  async infor(e) {
+    let msg = e.msg.replace(/#百科介绍/g, "").trim()
+    let url = `https://xiaoapi.cn/API/bk.php?m=json&type=bd&msg=${msg}`
+    let res = await fetch(url)
+    res = await res.json()
+    let information = await res.msg
+    let pic = await res.pic
+    let zhan = await res.more
+    let answer = [segment.image(pic), `介绍:${information}\n`, `拓展链接:${zhan}`]
+    e.reply(answer)
+  }
+  async hotchat(e) {
+    let url = `https://xiaoapi.cn/API/wyrp.php?id=${e.user_id}`
+    let res = await fetch(url)
+    res = await res.text()
+    let picture = res.match(/图片(.*)/g)
+    picture = `${picture}`
+    picture = picture.replace(/图片：/g, "")
+    let image = segment.image(picture)
+    res = await res.replace(picture, "")
+    //console.log(picture)
+    let answer = [image, res]
+    e.reply(answer, true)
+  }
+  async hot(e) {
+    let url = "https://xiaoapi.cn/API/resou.php?type=weibo"
+    let res = await fetch(url)
+    res = await res.text()
+    e.reply(res)
+  }
+  async history(e) {
+    let url = "https://xiaoapi.cn/API/lssdjt_pic.php"
+    e.reply(segment.image(url))
+  }
+  async ddl(e) {
+    let msg = e.msg.replace(/#上联/g, "").trim()
+    let url = await fetch(`https://seq2seq-couplet-model.rssbrain.com/v0.2/couplet/${msg}`)
+    url = await url.json()
+    let p = "下联:" + "\n"
+    for (var i = 0; i < url.output.length; i++) {
+      p = p + `${i + 1}:` + url.output[i] + "\n"
+    }
+    e.reply(p)
+  }
+  async test(e) {
+    try {
+      let url = "https://www.yduanzi.com/"
+      let res = await fetch(url)
+      res = await res.text()
+      let yun = res.match(/<span id='duanzi-text'>(.*?)<\/span>/g)
+      yun = `${yun}`
+      let answer = yun.replace(/<span id='duanzi-text'>/g, "").replace(/<br>/g, "\n").replace(/<\/span>/g, "")
+      if (answer == "null") { e.reply("获取失败了"); return false }
+      e.reply(answer)
+    } catch { }
+  }
+  async randomwife(e) {
+    let getRandomInt = Math.floor(Math.random() * 80000) + 1;
+    let image = segment.image(`https://www.thiswaifudoesnotexist.net/example-${getRandomInt}.jpg`)
+    let txt = await fetch(`https://www.thiswaifudoesnotexist.net/snippet-${getRandomInt}.txt`)
+    txt = await txt.text()
+    txt = txt.replace(/\n/g, ".")
+    txt = "Starting from below, we will enter a role-playing state. You need to randomly play one of the characters. Below is the overall setting of the scene, and you need to enter the animation settings,All of the following are the specific settings for the scene:" + "\n" + txt
+    let nickname = Bot.nickname
+    let title = "随机动漫世界预设"
+    let forwardMsg = []
+    if (this.e.isGroup) {
+      let info = await Bot.getGroupMemberInfo(this.e.group_id, Bot.uin)
+      nickname = info.card ?? info.nickname
+    }
+    let userInfo = {
+      user_id: Bot.uin,
+      nickname
+    }
+    let c = {
+      ...userInfo,
+      message: image
+    }
+    forwardMsg.push(c)
+    let h = {
+      ...userInfo,
+      message: "你的随机动漫预设如下:"
+    }
+    forwardMsg.push(h)
+    let d = {
+      ...userInfo,
+      message: txt
+    }
+    forwardMsg.push(d)
+    if (this.e.isGroup) {
+      forwardMsg = await this.e.group.makeForwardMsg(forwardMsg)
+    } else {
+      forwardMsg = await this.e.friend.makeForwardMsg(forwardMsg)
+    }
+    e.reply(forwardMsg)
+  }
 }
-let img = await puppeteer.screenshot("777", {
-              ...data,
-            });
-e.reply(img)
-}else{
-let data = {
-              tplFile: _path + "/data/littlehelp.html",	          
-}
-let img = await puppeteer.screenshot("777", {
-              ...data,
-            });
-e.reply(img)
-}}
-async infor(e){
-let msg = e.msg.replace(/#百科介绍/g,"").trim()
-let url = `https://xiaoapi.cn/API/bk.php?m=json&type=bd&msg=${msg}`
-let res = await fetch(url)
-res = await res.json()
-let information = await res.msg
-let pic = await res.pic
-let zhan = await res.more
-let answer = [segment.image(pic),`介绍:${information}\n`,`拓展链接:${zhan}`]
-e.reply(answer)
-}
-async hotchat(e){
-let url = `https://xiaoapi.cn/API/wyrp.php?id=${e.user_id}`
-let res = await fetch(url)
-res = await res.text()
-let picture = res.match(/图片(.*)/g)
-picture = `${picture}`
-picture = picture.replace(/图片：/g,"")
-let image = segment.image(picture)
-res = await res.replace(picture,"")
-//console.log(picture)
-let answer = [image,res]
-e.reply(answer,true)
-}
-async hot(e){
-let url = "https://xiaoapi.cn/API/resou.php?type=weibo"
-let res = await fetch(url)
-res = await res.text()
-e.reply(res)
-}
-async history(e){
-let url = "https://xiaoapi.cn/API/lssdjt_pic.php"
-e.reply(segment.image(url))
-}
-async ddl(e){
-let msg = e.msg.replace(/#上联/g,"").trim()
-let url = await fetch(`https://seq2seq-couplet-model.rssbrain.com/v0.2/couplet/${msg}`)
-url = await url.json()
-let p = "下联:"+"\n"
-for(var i = 0;i<url.output.length;i++){
-p = p + `${i+1}:` + url.output[i] + "\n"
-}
-e.reply(p)
-}
-async test(e) {
-try{
-let url = "https://www.yduanzi.com/"
-let res = await fetch(url)
-res = await res.text()
-let yun = res.match(/<span id='duanzi-text'>(.*?)<\/span>/g)
-yun = `${yun}`
-let answer = yun.replace(/<span id='duanzi-text'>/g,"").replace(/<br>/g,"\n").replace(/<\/span>/g,"")
-if(answer == "null"){e.reply("获取失败了");return false}
-e.reply(answer)
-}catch{}
-}
-async randomwife(e){
-let getRandomInt = Math.floor(Math.random() * 80000) + 1;
-let image = segment.image(`https://www.thiswaifudoesnotexist.net/example-${getRandomInt}.jpg`)
-let txt = await fetch(`https://www.thiswaifudoesnotexist.net/snippet-${getRandomInt}.txt`)
-txt = await txt.text()
-txt = txt.replace(/\n/g,".")
-txt = "Starting from below, we will enter a role-playing state. You need to randomly play one of the characters. Below is the overall setting of the scene, and you need to enter the animation settings,All of the following are the specific settings for the scene:" + "\n" + txt
-let nickname = Bot.nickname
-let title = "随机动漫世界预设"
-let forwardMsg = []
-if (this.e.isGroup) {
-let info = await Bot.getGroupMemberInfo(this.e.group_id, Bot.uin)
-nickname = info.card ?? info.nickname
-}
-let userInfo = {
-user_id: Bot.uin,
-nickname
-}
-let c = {
-...userInfo,
-message:image
-}
-forwardMsg.push(c) 
-let h = {
-...userInfo,
-message:"你的随机动漫预设如下:"
-}
-forwardMsg.push(h) 
-let d = {
-...userInfo,
-message:txt
-}
-forwardMsg.push(d)
-if (this.e.isGroup) {
-forwardMsg = await this.e.group.makeForwardMsg(forwardMsg)
-}else{
-forwardMsg = await this.e.friend.makeForwardMsg(forwardMsg)
-}
-e.reply(forwardMsg)
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
