@@ -4,61 +4,52 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import puppeteer from 'puppeteer'
 import fetch from 'node-fetch'
-import fs from 'fs'
 export class example extends plugin {
   constructor() {
     super({
-      /** 功能名称 */
       name: '阴天[看网页]',
-      /** 功能描述 */
       dsc: 'xiao',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 50,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?看网页(.*)$',
-          /** 执行方法 */
           fnc: 'ks'
-       },{
-         /** 命令正则匹配 */
+        }, {
           reg: '^#?卡路里(.*)$',
-          /** 执行方法 */
           fnc: 'kll'
-       }
+        }
       ]
     })
   }
-async kll(e) {
-let gs = e.msg.replace(/#?卡路里/g, "").trim();
-let url = `http://apis.liaomengyun.top/API/calorie.php?food=${gs}&page=1`
-let res = await fetch(url)
-res = await res.json()
-let food2 = await res.data[2].food
-let calories2 = await res.data[2].calories
-let food = await res.data[1].food
-let calories = await res.data[1].calories
-let food3 = await res.data[3].food
-let calories3 = await res.data[3].calories
-let food0 = await res.data[0].food
-let calories0 = await res.data[0].calories
-let msg = ['品种1:'+food+"\n"+'卡路里:'+calories+"\n"+'品种2:'+food0+"\n"+'卡路里:'+calories0+"\n"+'品种3:'+food2+"\n"+'卡路里:'+calories2+"\n"+'品种4:'+food3+"\n"+'卡路里:'+calories3]
-e.reply(msg)
-}
-async ks(e) {
-let gs = e.msg.replace(/#?看网页/g, "").trim();
-const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+  async kll(e) {
+    let gs = e.msg.replace(/#?卡路里/g, "").trim();
+    let url = `http://apis.liaomengyun.top/API/calorie.php?food=${gs}&page=1`
+    let res = await fetch(url)
+    res = await res.json()
+    let food2 = await res.data[2].food
+    let calories2 = await res.data[2].calories
+    let food = await res.data[1].food
+    let calories = await res.data[1].calories
+    let food3 = await res.data[3].food
+    let calories3 = await res.data[3].calories
+    let food0 = await res.data[0].food
+    let calories0 = await res.data[0].calories
+    let msg = ['品种1:' + food + "\n" + '卡路里:' + calories + "\n" + '品种2:' + food0 + "\n" + '卡路里:' + calories0 + "\n" + '品种3:' + food2 + "\n" + '卡路里:' + calories2 + "\n" + '品种4:' + food3 + "\n" + '卡路里:' + calories3]
+    e.reply(msg)
+  }
+  async ks(e) {
+    let gs = e.msg.replace(/#?看网页/g, "").trim();
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
     const page = await browser.newPage();
     await page.goto(`${gs}`);
     await page.setViewport({
-        width: 1200,
-        height: 800
+      width: 1200,
+      height: 800
     });
     await page.screenshot({
-        path: 'resources/1.png',
-        fullPage: true
+      path: 'resources/1.png',
+      fullPage: true
     });
 
     await browser.close();
@@ -66,21 +57,3 @@ const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setui
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

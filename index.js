@@ -1,6 +1,10 @@
 import fs from 'node:fs'
 import chalk from 'chalk'
 
+if (!global.segment) {
+  global.segment = (await import("oicq")).segment
+}
+
 const files = fs.readdirSync('./plugins/y-tian-plugin/apps').filter(file => file.endsWith('.js'))
 
 let ret = []

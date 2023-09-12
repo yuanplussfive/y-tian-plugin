@@ -1,94 +1,60 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import _ from 'lodash'
-import fetch from "node-fetch";
-    const _path = process.cwd();
+const _path = process.cwd();
 import puppeteer from 'puppeteer'
 
-
-
 export class a extends plugin {
-    constructor () {
-      super({
-        /** 功能名称 */
-        name: '阴天[简单爬图]',
-        /** 功能描述 */
-        dsc: '简单爬图',
-        /** https://oicqjs.github.io/oicq/#events */
-        event: 'message',
-        /** 优先级，数字越小等级越高 */
-        priority: -1,
-        rule: [
-         {
-            /** 命令正则匹配 */
-            reg: "^#爬取(.*)$", //匹配消息正则,命令正则
-            /** 执行方法 */
-            fnc: 'ttttt'
-                  }
-        ]
-      })
+  constructor() {
+    super({
+      name: '阴天[简单爬图]',
+      dsc: '简单爬图',
+      event: 'message',
+      priority: -1,
+      rule: [
+        {
+          reg: "^#爬取(.*)$",
+          fnc: 'ttttt'
+        }
+      ]
+    })
+  }
+  async ttttt(e) {
+    let u = e.msg.replace('#爬取', '').trim()
+    const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+    const page = await browser.newPage();
+    await page.goto(`${u}`);
+    let a = await page.evaluate(() => {
+      let images = document.querySelectorAll('img');
+      return Array.from(images).map(img => img.src);
+    });
+
+
+    console.log(a);
+
+    await browser.close();
+    let nickname = Bot.nickname
+    let title = "爬取结果"
+    let forwardMsg = []
+    if (this.e.isGroup) {
+      let info = await Bot.getGroupMemberInfo(this.e.group_id, Bot.uin)
+      nickname = info.card ?? info.nickname
     }
-     async ttttt(e) {
-        let u = e.msg.replace('#爬取','').trim()
-            const browser = await puppeteer.launch({args:['--no-sandbox','--disable-setuid-sandbox']});
-            const page = await browser.newPage();
-            await page.goto(`${u}`);
-            let a = await page.evaluate(() => {
-              let images = document.querySelectorAll('img');
-              return Array.from(images).map(img => img.src);
-            });
-        
-            
-                        console.log(a);
-                       
-            await browser.close();
-           let nickname = Bot.nickname
-let title = "爬取结果"
-let forwardMsg = []
-if (this.e.isGroup) {
-let info = await Bot.getGroupMemberInfo(this.e.group_id, Bot.uin)
-nickname = info.card ?? info.nickname
+    let userInfo = {
+      user_id: Bot.uin,
+      nickname
+    }
+    for (let i = 0; i < a.length; i++) {
+      let headurl = {
+        ...userInfo,
+        message: segment.image(a[i])
+      }
+      forwardMsg.push(headurl)
+    }
+    if (this.e.isGroup) {
+      forwardMsg = await this.e.group.makeForwardMsg(forwardMsg)
+    } else {
+      forwardMsg = await this.e.friend.makeForwardMsg(forwardMsg)
+    }
+    e.reply(forwardMsg)
+  }
 }
-let userInfo = {
-user_id: Bot.uin,
-nickname
-}
-for(let i = 0;i<a.length;i++){
-let headurl = {
-...userInfo,
-message:segment.image(a[i])
-}
-forwardMsg.push(headurl) 
-}
-if (this.e.isGroup) {
-forwardMsg = await this.e.group.makeForwardMsg(forwardMsg)
-}else{
-forwardMsg = await this.e.friend.makeForwardMsg(forwardMsg)
-}
-e.reply(forwardMsg)
-
-           
-        
-
-
-     }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
