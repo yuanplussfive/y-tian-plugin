@@ -31,7 +31,7 @@ export class example extends plugin {
           reg: "^#?切换AI(.*)$",
           fnc: 'change'
         }, {
-          reg: `^${botname}(.*)$`,
+          reg: `^${botname}(.*)`,
           fnc: 'chatlist'
         }, {
           reg: "^#结束问答$",
