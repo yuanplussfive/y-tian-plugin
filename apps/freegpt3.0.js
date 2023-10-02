@@ -1,5 +1,5 @@
 import fetch from "node-fetch"
-import common from "../../lib/common/common.js"
+import common from "../../../lib/common/common.js"
 import fs from "fs"
 const _path = process.cwd()
 let modelId = "anything-v4"
