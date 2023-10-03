@@ -195,7 +195,7 @@ let forwardMsg = [{
 message: "基础绘图模型大全"
 }]
 
-for(var i = 0; i < 99; i++){
+for(var i = 0; i < 66; i++){
 const id = response[i].id;
 const name = response[i].name;
 const img = response[i].img;
