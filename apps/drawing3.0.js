@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import fs from 'fs'
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
-import common from'../../lib/common/common.js'
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+import common from'../../../lib/common/common.js'
 import YAML from "yaml"
 let uid
 let id
