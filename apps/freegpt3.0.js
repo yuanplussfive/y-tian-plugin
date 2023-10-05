@@ -25,7 +25,7 @@ export class example extends plugin {
       /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */
-      priority: -10,
+      priority: -9999,
       rule: [
         {
           reg: "^#freegpt(.*)",
