@@ -31,7 +31,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 您也可以点击我们的[**插件展示页**](https://shouquan-1315544562.cos.ap-nanjing.myqcloud.com/YT.html)，然后选择右上角的<功能展示>以查看阴天插件本体以及爱发电部分功能的使用记录截图。
 
-<img decoding="async"  src="background/image/0d11e3eef46a19d6fb914f77c6e1072d.jpg" width="35%">   
+<img decoding="async"  src="background/image/帮助.jpg" width="35%">   
 
 
 
