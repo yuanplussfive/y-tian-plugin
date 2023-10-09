@@ -1,0 +1,273 @@
+ 
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>gotgod-help</title>
+  <style>
+@font-face {
+  font-family: "jty";
+  src: url("{{src}}");
+  font-weight: normal;
+  font-style: normal;
+}
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    #container {
+      font-family: "jty";
+      width: 900px;
+      background-color: #fff;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #000;
+      font-size: 20px;
+      text-align: center; /* 添加文本居中样式 */
+    }
+
+    h1 {
+      font-family: "jty";
+      color: #b83a3a;
+      font-size: 40px;
+      margin: 10px 20px;
+      background-color: #fff;
+      font-family: 'Arial Black', sans-serif; /* 使用艺术字体 */
+    }
+
+    h3 {
+      color: #c9843b;
+      margin: 10px 50px;
+      text-shadow: 1px 0px 0px #fff;
+    }
+
+    .content {
+      margin-top: 20px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    h2 {
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 10px 10px 0 0;
+      margin: 0 10px;
+      padding: 5px;
+      line-height: 40px;
+      text-align: center;
+    }
+
+    .content-div {
+      padding: 10px;
+      margin: 7px;
+      border-radius: 5px;
+    }
+
+    .content-box {
+      background-color: rgba(0, 0, 0, 0.3);
+      margin: 0 10px 10px 10px;
+      border-radius: 0 0 10px 10px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+
+       .content-box .children-box {
+      padding: 20px 10px;
+      display: flex;
+      width: calc(33.33% - 20px); /* 修改宽度为33.33% */
+      flex-direction: row;
+      background-color: rgba(0, 0, 0, 0.3);
+      align-items: center;
+      justify-content: center; /* 添加居中对齐 */
+    }
+
+
+    .children-box:nth-child(2n) {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    /* 修改问题答案框的颜色，使每个问题的颜色都不相同，并且左右均匀铺展开 */
+    .content-box .children-box:nth-child(1) {
+      background-color: #E84A5F;
+    }
+    
+    .content-box .children-box:nth-child(2) {
+      background-color: #FF847C;
+    }
+    
+    .content-box .children-box:nth-child(3) {
+      background-color: #FECEAB;
+    }
+    
+    .content-box .children-box:nth-child(4) {
+      background-color: #99B898;
+    }
+    
+    .content-box .children-box:nth-child(5) {
+      background-color: #2A363B;
+    }
+
+  .content-box .children-box:nth-child(6) {
+      background-color: #E84A5F;
+    }
+    
+    .content-box .children-box:nth-child(7) {
+      background-color: #FF847C;
+    }
+    
+    .content-box .children-box:nth-child(8) {
+      background-color: #FECEAB;
+    }
+    
+    .content-box .children-box:nth-child(9) {
+      background-color: #99B898;
+    }
+    
+    .content-box .children-box:nth-child(10) {
+      background-color: #2A363B;
+    }
+    .left {
+      width: 40px;
+      height: 40px;
+      background-size: 500px 1500px;
+      background-repeat: no-repeat;
+    }
+
+       .right {
+      display: flex;
+      width: 80%;
+      padding-left: 0px;
+      flex-direction: column;
+      align-items: center; /* 保持文本对齐方式为居中 */
+      text-align: center; /* 添加文本对齐方式为居中 */
+    }
+
+    .right span:nth-child(1) {
+      font-weight: 600;
+    }
+
+    .right span:nth-child(2) {
+      font-family: "jty";
+      margin-top: 5px;
+      font-size: 14px;
+      text-align: left;
+      color: #e9e9e9;
+    }
+
+    .version {
+      background-color: gainsboro;
+      padding: 10px 0;
+      text-align: center; /* 居中显示版本信息 */
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>GodGPT-Help</h1>
+    <div class="content">
+      <h2>主要指令</h2>
+      <div class="content-div">
+        <div class="content-box">
+          <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/填写godsk+sk</span>
+              <span>用此指令填写你个人的godsk</span>
+            </div>
+          </div>
+          <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/开启联网搜索</span>
+              <span>用此指令能开启所有模型的联网</span>
+            </div>
+          </div>
+ <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/godgpt+问题</span>
+              <span>开始gpt对话</span>
+            </div>
+          </div>
+ <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/关闭联网搜索</span>
+              <span>用此指令能关闭所有模型的联网</span>
+            </div>
+          </div>
+          <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>AI生图(未上线)</span>
+              <span>mj的绘图</span>
+            </div>
+          </div>
+          <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/查询个人积分</span>
+              <span>查询当前个人剩余的god积分</span>
+            </div>
+          </div>
+          <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/结束god对话</span>
+              <span>结束当前用户对话</span>
+            </div>
+          </div>
+       <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/god模型大全</span>
+              <span>查看所有god模型</span>
+            </div>
+          </div>
+ <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/切换god模型+序号</span>
+              <span>切换god模型</span>
+            </div>
+          </div>
+ <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/查看god预设</span>
+              <span>查看添加的所有预设</span>
+            </div>
+          </div>
+ <div class="children-box">
+            <div class="left"></div>
+            <div class="right">
+              <span>/切换god预设+序号</span>
+              <span>切换当前的预设</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="version">
+      <h3>版本信息</h3>
+      <p>当前版本：1.0.0</p>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
