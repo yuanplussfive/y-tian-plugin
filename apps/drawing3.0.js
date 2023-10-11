@@ -21,7 +21,7 @@ if (!fs.existsSync(dirpath)) {
   fs.mkdirSync(dirpath)
 }
 if (!fs.existsSync(dirpath + "/" + "drawing.yaml")) {
-  fs.writeFileSync(dirpath + "/" + "drawing.yaml", 'satoken: "xxxxx";token: "xxxxx"', "utf-8")
+  fs.writeFileSync(dirpath + "/" + "drawing.yaml", 'cookie: "satoken=xxxxx; token=xxxxx"', "utf-8")
 }
 
 export class example extends plugin {
