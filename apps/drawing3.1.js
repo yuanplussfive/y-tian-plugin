@@ -13,7 +13,7 @@ let loraCode = []
 let lora = ""
 let keylora = ""
 let negPrompt = "(worst quality, low quality:1.4), bad anatomy, watermarks, text, signature, blur,messy, low quality, sketch by bad-artist, (semi-realistic,  sketch, cartoon, drawing, anime:1.4), cropped, out of frame, worst quality, low quality, jpeg artifacts"
-let models = "ad23ccaf-0f6b-4971-8034-cfabf0673024"
+let models = "62a46462-fa74-441c-b141-640a16248a71"
 let steps = 20
 const _path = process.cwd();
 export class example extends plugin {
@@ -182,7 +182,7 @@ e.reply("切换成功",true)
 }
 async searchlora(e){
 let msg = e.msg.replace(/\/搜索lora/g,"").trim()
-let search = await fetch(`http://www.vegaai.net/apis/lora/getLoraModels/v1?auth=public&pageNo=0&pageSize=60&orderType=collection&keyword=${msg}`, {
+let search = await fetch(`https://www.vegaai.net/apis/lora/getLoraModels/v1?auth=public&pageNo=0&pageSize=60&orderType=collection&keyword=${msg}`, {
   "headers": {
     "accept": "application/json, text/plain, */*",
     "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -245,7 +245,7 @@ return false
 }
 let img = `http://q.qlogo.cn/headimg_dl?dst_uin=${at}&spec=640&img_type=jpg`
 let msg = e.msg.replace(/\/头生图/g,"").trim()
-const apiUrl = "http://www.vegaai.net/apis/image2Image/create";
+const apiUrl = "https://www.vegaai.net/apis/image2Image/create";
 const data = {
   model: models,
   relation: true,
@@ -295,7 +295,7 @@ console.log(id)
 async images(e){
 let img = e.img[0]
 let msg = e.msg.replace(/\/图生图/g,"").trim()
-const apiUrl = "http://www.vegaai.net/apis/image2Image/create";
+const apiUrl = "https://www.vegaai.net/apis/image2Image/create";
 const data = {
   model: models,
   relation: true,
@@ -362,7 +362,7 @@ e.reply("错误的参数,画图步数范围为15-30",true)
 }
 }
 async models(e){
-let model = await fetch("http://www.vegaai.net/apis/model/getBaseModels", {
+let model = await fetch("https://www.vegaai.net/apis/model/getBaseModels", {
  "method": "GET",
   "headers": {
     "accept": "application/json, text/plain, */*",
@@ -430,13 +430,12 @@ let data = {
 "loraKeyword":keylora,
 "prompt": msg
 }
-let a = await fetch("http://www.vegaai.net/apis/text2image/create", {
+let a = await fetch("https://www.vegaai.net/apis/text2image/create", {
   "headers": {
     "accept": "application/json, text/plain, */*",
-    
-    "content-type": "application/json",
     "cookie": await getcookie(),
-    "Referer": "https://rightbrain.art/text2Image",
+    "Referer": "https://www.vegaai.net/text2Image",
+    "content-type": "application/json",
   },
   "body": JSON.stringify(data),
   "method": "POST"
@@ -466,7 +465,7 @@ console.log(id)
 
 }
 async function doSomething(e) {
-let history = await fetch("http://www.vegaai.net/apis/user/getHistoryImages?type=text2Image,textSuperResolution,textUpResolution&pageNo=0&pageSize=1", {
+let history = await fetch("https://www.vegaai.net/apis/user/getHistoryImages?type=text2Image,textSuperResolution,textUpResolution&pageNo=0&pageSize=1", {
   "headers": {
     "accept": "application/json, text/plain, */*",
     "cookie": await getcookie(),
@@ -489,7 +488,7 @@ await e.reply(answer,true)
 }}
 async function wait(e){
 let b = await
-fetch(`http://www.vegaai.net/apis/text2image/getImage?requestid=${requestid}`, {
+fetch(`https://www.vegaai.net/apis/text2image/getImage?requestid=${requestid}`, {
 method:"get",
   "headers": {
     "accept": "application/json, text/plain, */*",
@@ -507,7 +506,7 @@ let cookie = data.cookie
 return cookie;
 }
 async function getimages(e) {
-let history = await fetch("http://www.vegaai.net/apis/user/getHistoryImages?type=image2Image,textSuperResolution,textUpResolution&pageNo=0&pageSize=1", {
+let history = await fetch("https://www.vegaai.net/apis/user/getHistoryImages?type=image2Image,textSuperResolution,textUpResolution&pageNo=0&pageSize=1", {
   "headers": {
     "accept": "application/json, text/plain, */*",
     "cookie": await getcookie(),
