@@ -16,6 +16,13 @@ let negPrompt = "(worst quality, low quality:1.4), bad anatomy, watermarks, text
 let models = "62a46462-fa74-441c-b141-640a16248a71"
 let steps = 20
 const _path = process.cwd();
+let dirpath = _path + '/data/YTdrawing'
+if(!fs.existsSync(dirpath)){
+fs.mkdirSync(dirpath)    
+}
+if (!fs.existsSync(dirpath + "/" + "drawing.yaml")){
+fs.writeFileSync(dirpath+ "/" + "drawing.json",'cookie: "satoken=xxxx;token=xxxx"',"utf-8")
+}
 export class example extends plugin {
   constructor () {
     super({
