@@ -8,6 +8,8 @@
 
 [![访问量](https://profile-counter.glitch.me/y-tian-plugin-for-yunzai-bot/count.svg)](https://gitee.com/wan13877501248/y-tian-plugin-for-yunzai-bot.git)
 
+[![Security Status](https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg)](https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024)
+
 </div>
 
 ## 介绍
