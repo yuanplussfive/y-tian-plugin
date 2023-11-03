@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>设置面板</title>
+    <style>
+@font-face {
+  font-family: "jty";
+  src: url("{{src}}");
+  font-weight: normal;
+  font-style: normal;
+}
+        body {
+            font-family: "jty";
+            background-color: #98FB98;
+            padding: 50px;
+
+        }
+        .card {
+            background: linear-gradient(to right, #FFD700, #F0E68C);
+            width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            margin: 0 auto;
+        }
+        .settings, .status {
+            width: 50%;
+            padding: 20px;
+        }
+        .settings-item, .status-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        .settings-item {
+            background-color:#ADD8E6; 
+            color:  black;
+            transition: all 0.3s ease;
+        }
+        .status-item {
+            background-color: #7B68EE; 
+            color:#fff;
+            transition: all 0.31s ease;
+        }
+        .settings-item:hover, .status-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transform: translate3D(0, -1px, 0);
+        }
+         h2 {
+            color: #DB9370;
+            border-bottom: 1px solid  #4E2F2F;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+     </style>
+</head>
+<body>
+    <div class="card">
+        <div class="settings">
+            <h2>godgpt设置页(发/god帮助,来修改)</h2>
+            <div class="settings-item">※ 艾特回复</div>
+            <div class="settings-item">※ 联网搜索</div>
+            <div class="settings-item">※ 群友积分限制</div>
+            <div class="settings-item">※ 当前对话模型</div>
+            <div class="settings-item">※ 当前对话渠道</div>
+            <div class="settings-item">※ 反向代理</div>
+            <div class="settings-item">※ 当前对话方式</div>
+            <div class="settings-item">※ 图片分析方式</div>
+            <div class="settings-item">※ tts合成</div>
+            <div class="settings-item">※ tts音色</div>
+           <div class="settings-item">※ 总积分剩余</div>
+        </div>
+        <div class="status">
+            <h2>当前状态(≧▽≦)</h2>
+            <div class="status-item">{{atbot}}</div>
+            <div class="status-item">{{search}}</div>
+            <div class="status-item">{{permission}}</div>
+           <div class="status-item">{{model}}</div>
+            <div class="status-item">{{channel}}</div>
+            <div class="status-item">{{proxy}}</div>
+            <div class="status-item">{{style}}</div>
+            <div class="status-item">{{image}}</div>
+            <div class="status-item">{{tts}}</div>
+            <div class="status-item">{{role}}</div>
+          <div class="status-item">{{left}}</div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
