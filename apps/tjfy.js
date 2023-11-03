@@ -21,27 +21,15 @@ export class example extends plugin {
       priority: 9,
       rule: [
         {
-          reg: '^#?相似度(.*)$',
-          /** 执行方法 */
-          fnc: 'xx'
-},{
           reg: "#?群发言(.*)",
           /** 执行方法 */
-          fnc: 'ct'
-},{
-          reg: '^#?验证(.*)$',
-          /** 执行方法 */
-          fnc: 'gb'
+          fnc: 'spec'
 
-}
+        }
       ]
     })
 }
-async gb(e){
-ms = e.msg.replace(/#?验证/g,"").trim()
-e.reply("请发送要查重的")
-}
-async ct(e){
+async spec(e){
 let n = []
 let arr = []
 let sr = e.msg.replace(/#?统计/g, "").trim();
@@ -126,28 +114,6 @@ fs.writeFileSync(`${_path}/plugins/y-tian-plugin/resources/html/ph2.html`,proces
   });
 await e.reply(img)
 }
-async xx(e){
-let msg = e.msg.replace(/#?相似度/g,"").trim()
-let a = await 
-fetch("http://life.chacuo.net/convertsimilar/", {
-  "headers": {
-    "accept": "*/*",
-    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-    "proxy-connection": "keep-alive",
-    "x-requested-with": "XMLHttpRequest",
-    "Referer": "http://life.chacuo.net/convertsimilar/",
-  },
-  "body": `data=${ms}%5E%5E%5E${msg}&type=similar&arg=&beforeSend=undefined`,
-  "method": "POST"
-});
-a = await a.json()
-let b = JSON.stringify(await a.data)
-b = b.replace("[","").replace("]","").replace(/"/g,"").replace(/,(.*?),(.*?),/g,"").replace(/!(.*?)%/g,"").replace("文档一与文档二","")
-console.log(b)
-e.reply(b)
-}
-
 }
 
 
