@@ -1,15 +1,15 @@
 import fs from "fs"
-import cfg from '../../lib/config/config.js';
+import cfg from '../../../lib/config/config.js';
 let k;
 import fetch from "node-fetch"
 import crypto from 'crypto'
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
-import common from "../../lib/common/common.js"
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+import common from "../../../lib/common/common.js"
 let mm = {}
 let gg = {}
 let aa = {}
 let history = []
-import request from "../../plugins/y-tian-plugin/node_modules/request/index.js"
+import request from "../node_modules/request/index.js"
 const _path = process.cwd()
 export class RpgGame extends plugin{
        constructor() {
