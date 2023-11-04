@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>免费画图功能</title>
+<style>  
+ @font-face {
+    font-family: "jty";
+    src: url("{{src}}");
+    font-weight: normal;
+    font-style: normal;
+  }
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');  
+body {    
+font-family: "jty", sans-serif;    
+background: #f9f9f9;    
+margin: 0;    
+padding: 20px;
+} 
+.main-title {    
+font-family: "jty", cursive;    
+font-size: 50px;    
+background: -webkit-linear-gradient(left, #2e4e7e, #1685a9);    
+-webkit-background-clip: text;    -webkit-text-fill-color: transparent;    margin-bottom: 30px;    
+text-align: center;  
+}  
+.panel {    
+background: #fff;    
+border-radius: 10px;    
+box-shadow: 0 6px 12px rgba(0,0,0,0.1);    
+margin: 20px auto;    
+padding: 20px;    
+width: 90%;    
+max-width: 800px; 
+} 
+.title {    
+display: inline-block;    
+font-size: 24px;    
+background: -webkit-linear-gradient(left, #000000,#424c50);    
+-webkit-background-clip: text;    -webkit-text-fill-color: transparent;    
+border-radius: 50px;    
+padding: 8px 20px;    
+margin-bottom: 20px;
+} 
+.feature-item {    
+display: flex;    
+align-items: center;    
+border-radius: 15px;    
+padding: 15px 25px;    
+margin-bottom: 15px;    
+transition: transform 0.3s ease;
+} 
+.feature-item:hover {    
+transform: translateY(-5px);
+} 
+.feature-item:nth-child(odd) {    
+background: linear-gradient(135deg, #00bc12, #bddd22);    
+color: #2d3436;
+}
+.feature-item:nth-child(even) {    
+background: linear-gradient(135deg, #2e4e7e, #1685a9);    
+color: #fff; 
+} 
+.feature-number {    
+font-size: 18px;    
+font-weight: bold;    
+color: #2d3436;    
+border-radius: 50%;    
+width: 30px;    
+height: 30px;    
+display: flex;    
+align-items: center;    
+justify-content: center;    
+margin-right: 10px;    
+background: #fff;    
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.feature-item .title {    
+font-weight: bold;    
+margin: 0; 
+} 
+.feature-item p {    
+font-size: 16px;    
+margin-top: 5px;
+}
+.created-by {    
+font-size: 20px;    
+background: -webkit-linear-gradient(right, #00bc12, #bddd22);    
+-webkit-background-clip: text;    -webkit-text-fill-color: transparent;    
+text-align: center;    
+margin-top: 40px
+}
+.ps {    
+font-size: 30px;    
+background: -webkit-linear-gradient(right, black);    
+-webkit-background-clip: text;    -webkit-text-fill-color: transparent;    
+text-align: center;    
+margin-top: 0px; 
+}
+</style>
+</head>
+<body>
+<div class="main-title">Y-Tian-Plugin免费画图帮助</div>
+<div class="created-by">(ps:请参考群文件配置相关tk值才可以使用)</div>
+<div class="panel"> 
+ <div class="feature-item">  
+  <div>    
+  <div class="title">开始画图</div>    
+  <p>/画图+描述词内容,开始画图了,例如:/画图萝莉</p>   
+</div>
+</div>  
+<div class="feature-item">   
+<div>    
+<div class="title">模型大全</div>      
+<p>/图模型大全,查看所有画图的模型</p>   
+ </div> 
+ </div> 
+ <div class="feature-item">  
+  <div>    
+  <div class="title">切换当前模型</div>    
+  <p>/切换图模型+序号,切换当前模型,例如:/切换图模型3</p>   
+</div>
+</div>  
+<div class="feature-item">   
+<div>    
+<div class="title">lora相关</div>      
+<p>① /搜索lora+关键词,搜索相关lora,例如:/搜索lora萝莉;② /切换lora+序号,更改当前lora,例如:/切换lora2</p>   
+ </div> 
+ </div> 
+<div class="feature-item">   
+<div>    
+<div class="title">以图生图</div>      
+<p>① /图生图+形容词(再带上一张图片),根据形容词和当前图片进行画图;② @xxx/头生图+关键词,艾特一个对象,根据对方头像和你的修饰词进行画图</p>   
+ </div> 
+ </div> 
+</div>
+<div class="created-by">Created by yuan</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
