@@ -29,17 +29,17 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 | #阴天更新 | 更新阴天插件 |
 | #阴天帮助 | 获取相关命令|
 
-以下为Y-Tian-Plugin(阴天插件)详细功能介绍图以及链接：
+以下为Y-Tian-Plugin(阴天插件)详细功能介绍图:
 
-您也可以点击我们的[**插件展示页**](https://shouquan-1315544562.cos.ap-nanjing.myqcloud.com/YT.html)，然后选择右上角的<功能展示>以查看阴天插件本体以及爱发电部分功能的使用记录截图。
+<img decoding="async"  src="background/image/帮助.jpg" width="35%">
+  
+## 部分AI功能演示:
 
-<img decoding="async"  src="background/image/帮助.jpg" width="35%">   
+1,AI绘图：
 
-
-
-## 部分AI功能演示
-
-
+【dalle3】
+> <img src="./background/image/dalle3-1.jpg" alt="实例1" style="zoom:50%;" />
+> <img src="./background/image/dalle3-2.jpg" alt="实例2" style="zoom:50%;" />
 
 ## 反馈
 
