@@ -2,8 +2,8 @@
 
 # Y-Tian-Plugin（阴天插件）
 <img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark' alt='star'></img></a></h1></div>
-# ※使用本插件前一定要正确配置FFmpeg※
-
+<img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark' alt='fork'></img></a></h1></div>
+<img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/watching.svg?theme=dark' alt='watching'></img></a></h1></div>
 <div align="center">
 
 [![访问量](https://profile-counter.glitch.me/y-tian-plugin-for-yunzai-bot/count.svg)](https://gitee.com/wan13877501248/y-tian-plugin-for-yunzai-bot.git)
@@ -13,6 +13,9 @@
 </div>
 
 ##  :grinning: 介绍
+
+# ※使用本插件前一定要正确配置FFmpeg※
+
 Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的AI，廉价的gpt4，claude2等，还有更多你想都不敢想的东西，真的不来看看吗？（进插件群解锁更多玩法！！！）
 
 ##  :laughing: 安装教程
