@@ -38,7 +38,9 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 1,AI绘图：
 
 【dalle3】
+> 示例1：
 > <img src="./background/image/dalle3-1.jpg" alt="实例1" style="zoom:50%;" />
+> 实例2：
 > <img src="./background/image/dalle3-2.jpg" alt="实例2" style="zoom:50%;" />
 
 ## 反馈
