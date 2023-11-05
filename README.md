@@ -27,7 +27,12 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 | 命令| 说明|
 |:--------|------------|
 | #阴天更新 | 更新阴天插件 |
-| #阴天帮助 | 获取相关命令|
+| #阴天帮助 | 获取插件命令|
+| /god帮助 | 获取godgpt相关帮助 |
+| #娱乐帮助 | 获取阴天娱乐功能帮助|
+| #群管帮助| 获取阴天群管功能帮助 |
+| #游戏帮助 | 获取阴天游戏功能帮助|
+| ...... | ...... |
 
 以下为Y-Tian-Plugin(阴天插件)详细功能介绍图:
 
@@ -38,7 +43,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 1,AI绘图：
 
 【dalle3】
-> 示例1：
+> 实例1：
 > <img src="./background/image/dalle3-1.jpg" alt="实例1" style="zoom:50%;" />
 > 实例2：
 > <img src="./background/image/dalle3-2.jpg" alt="实例2" style="zoom:50%;" />
