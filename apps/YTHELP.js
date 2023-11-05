@@ -1,4 +1,4 @@
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import fetch from "node-fetch"
 const _path = process.cwd()
 let src = _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
