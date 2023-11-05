@@ -46,6 +46,14 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 > 实例2：
 > <img src="./background/image/dalle3-2.jpg" alt="实例2" style="zoom:50%;" />
 
+【mj】
+> 实例：
+> <img src="./background/image/mj画图1.jpg" alt="实例1" style="zoom:50%;" />
+
+【sd】
+> 实例：
+> <img src="./background/image/画图2.jpg" alt="实例1" style="zoom:50%;" />
+
 ## 反馈
 
 如果你对本插件有任何意见或看法
