@@ -1,7 +1,7 @@
 <img decoding="async" align=right src="resources/logo.png" width="35%">
 
 # Y-Tian-Plugin（阴天插件）
-
+<img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark' alt='star'></img></a></h1></div>
 # ※使用本插件前一定要正确配置FFmpeg※
 
 <div align="center">
