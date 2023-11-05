@@ -38,7 +38,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
   
 ##  :stuck_out_tongue_winking_eye: 部分AI功能演示:
 
-1,AI绘图：
+## AI绘图：
 
 【dalle3】
 > 实例1：
@@ -53,6 +53,18 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 【sd】
 > 实例：
 > <img src="./background/image/画图2.jpg" alt="实例1" style="zoom:50%;" />
+
+## AI交互
+
+【部分展示】
+> 实例1：
+> <img src="./background/image/6.jpg" alt="实例1" style="zoom:50%;" />
+> 实例2：
+> <img src="./background/image/7.jpg" alt="实例2" style="zoom:50%;" />
+> 实例3：
+> <img src="./background/image/8.jpg" alt="实例1" style="zoom:50%;" />
+> 实例4：
+> <img src="./background/image/9.jpg" alt="实例2" style="zoom:50%;" />
 
 ## 反馈
 
