@@ -1,11 +1,9 @@
-<img decoding="async" align=right src="resources/logo.png" width="35%">
-
 # Y-Tian-Plugin（阴天插件）
 <img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark' alt='star'></img></a></h1></div>
 <img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark' alt='fork'></img></a></h1></div>
 [![JavaScript](https://img.shields.io/badge/-JavaScript-eed718?style=flat&logo=javascript&logoColor=ffffff)](https://zh.wikipedia.org/wiki/JavaScript)
 <div align="center">
-
+[![Nodejs](https://img.shields.io/badge/-Node.js-3C873A?style=flat&logo=Node.js&logoColor=white)](https://nodejs.org/en/download)
 [![Security Status](https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg)](https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024)
 
 </div>
@@ -78,5 +76,6 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 * 阴天插件Alemon-Bot版本：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
 * 阴天个人windows电脑一键部署云崽脚本：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
 * 严禁用于任何商业用途和非法行为
+
 
 
