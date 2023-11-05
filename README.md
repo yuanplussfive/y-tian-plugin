@@ -12,17 +12,17 @@
 
 </div>
 
-## 介绍
+##  :grinning: 介绍
 Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的AI，廉价的gpt4，claude2等，还有更多你想都不敢想的东西，真的不来看看吗？（进插件群解锁更多玩法！！！）
 
-## 安装教程
+##  :laughing: 安装教程
 
 在Yunzai-Bot根目录下，运行cmd，输入以下指令
 ```
 git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 
 ```
-## 功能一览
+##  :kissing_heart: 功能一览
 
 | 命令| 说明|
 |:--------|------------|
@@ -38,7 +38,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 <img decoding="async"  src="background/image/帮助.jpg" width="35%">
   
-## 部分AI功能演示:
+##  :stuck_out_tongue_winking_eye: 部分AI功能演示:
 
 1,AI绘图：
 
@@ -60,7 +60,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 你的支持将是我们的动力，且发电用户有机会提前体验本插件未公布的的新功能。
 
-### 鸣谢
+###  :relaxed: 鸣谢
 
 | 名单     | 联系方式     | 主要职责     |
 | -------- | ------------ | ------------ |
@@ -69,7 +69,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 | op要喝op果奶   | QQ715494637 | 阴天工作室python爬虫工程师|
 | Mr.k   | QQ3302843718 | 阴天工作室UI设计师 |
 
-### 传送门
+###  :sunglasses: 传送门
 
 * Yunzai-Bot插件库：[☞Github](https://github.com/yhArcadia/Yunzai-Bot-plugins-index)/[☞Gitee](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 * Yunzai-Bot（V3）：[☞Github](https://github.com/Le-niao/Yunzai-Bot)/[☞Gitee](https://gitee.com/Le-niao/Yunzai-Bot) 
