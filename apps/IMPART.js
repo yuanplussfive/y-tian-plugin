@@ -1,5 +1,3 @@
-//基于原先的tou.js进行2.0改版,优化细节增加了部分功能,需配合阴天插件一起使用
-//食用方法:将该文件放至example即可
 
 import fetch from 'node-fetch'
 import fs from 'fs'
@@ -116,7 +114,7 @@ export class YTtou extends plugin {
       name: '阴天[tou]',
       dsc: 'test',
       event: 'message',
-      priority: 9999,
+      priority: 6000,
       rule: [{
         reg: '^/impart帮助$',
         fnc: 'help'
@@ -611,7 +609,7 @@ export class YTtou extends plugin {
           }
         }))
         let data2 = {
-          tplFile: _path + '/plugins/example/choose.html',
+          tplFile: _path + '/plugins/y-tian-plugin/YTgame/html',
           'level': 1,
           'energy': energy,
           'atk': atk,
