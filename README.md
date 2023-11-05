@@ -82,10 +82,11 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 | 名单     | 联系方式     | 主要职责     |
 | -------- | ------------ | ------------ |
-| 天球生物 | QQ928368902 | 阴天工作室Python，JavaScript工程师 |
-| 鸢    | QQ2166683295 | 阴天工作室全栈开发工程师|
+| 鸢    | QQ2166683295 | 阴天工作室全栈开发工程师 |
+| 天球生物 | QQ928368902 | 阴天工作室Python，JavaScript工程师|
 | op要喝op果奶   | QQ715494637 | 阴天工作室python爬虫工程师|
 | Mr.k   | QQ3302843718 | 阴天工作室UI设计师 |
+| 恣意   | QQ1984871009 | godgpt供应商，管理者|
 
 ###  :sunglasses: 传送门
 
