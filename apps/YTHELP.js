@@ -31,9 +31,22 @@ export class example extends plugin {
        },{
           reg: "^(/|#)?slack帮助$",
           fnc: 'slack'
+       },{
+          reg: "^(/|#)?(ai|AI)专业版帮助$",
+          fnc: 'chatgpt'
        }
       ]
     })
+  }
+async chatgpt(e) {
+    let data = {
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help7.html',
+      src:src
+    }
+    let img = await puppeteer.screenshot('777', {
+      ...data,
+    })
+    e.reply(img)
   }
 async slack(e) {
     let data = {
