@@ -28,7 +28,7 @@ export class example extends plugin {
       priority: 1000,
       rule: [
         {
-          reg: "^(/|#)?slack(.*)",
+          reg: "^/slack(.*)",
           fnc: 'chat'
        },{
           reg: "^(/|#)?结束slack对话$",
@@ -49,6 +49,7 @@ if (fs.existsSync(dirpath + "/" + "data.json")){
 let data = JSON.parse(fs.readFileSync(dirpath+"/"+"data.json"))
 let token = data.claude.token
 let d = data.claude.d
+let botid = data.claude.botid
 var randomNumber = Math.floor(Math.random() * 90000) + 10000;
 let infor = await
 fetch(`https://slack.com/api/conversations.create?name=${e.user_id}-${randomNumber}&pretty=1`, {
@@ -64,7 +65,7 @@ infor = await infor.json()
 if(infor.error){e.reply("你已经创建过频道了.",true);return false}
 data.claude.channel = await infor.channel.id
 fs.writeFileSync(dirpath + "/" + "data.json",JSON.stringify(data),"utf-8")
-let content = await fetch(`https://slack.com/api/conversations.invite?channel=${infor.channel.id}&users=U058FBR48J3&pretty=1`, {
+let content = await fetch(`https://slack.com/api/conversations.invite?channel=${infor.channel.id}&users=${botid}&pretty=1`, {
   "headers": {
     "content-type": "multipart/form-data; boundary=----WebKitFormBoundaryfEj5VJT61Hk62UNo",
    "cookie": `d=${d}`
