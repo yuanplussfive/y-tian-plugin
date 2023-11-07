@@ -9,7 +9,7 @@
 
 ##  :satisfied: 体验chatgpt：
 
-**点击体验[Y-Tian-Chat](https://y-tian-plugin.top:3000/writer.html)**演示网页
+**点击体验[Y-Tian-Chat](https://y-tian-plugin.top:3000/writer.html)演示网页**
 
 ##  :grinning: 介绍
 
