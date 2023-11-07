@@ -6,9 +6,10 @@
 [![Miao-Yunzai](https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat&logo=dependabot)](https://gitee.com/yoimiya-kokomi/Miao-Yunzai) 
 [![Security Status](https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg)](https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024)
 </div>
-##  :satisfied: 体验chatgpt
 
-**点击体验[Y-Tian-Chat](https://y-tian-plugin.top:3000/writer.html)**
+##  :satisfied: 体验chatgpt：
+
+**点击体验[Y-Tian-Chat](https://y-tian-plugin.top:3000/writer.html)**演示网页
 
 ##  :grinning: 介绍
 
