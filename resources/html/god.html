@@ -25,16 +25,15 @@
       background-position: center;
       color: #000;
       font-size: 20px;
-      text-align: center; /* 添加文本居中样式 */
+      text-align: center;
     }
 
-    h1 {
-      font-family: "jty";
+    h1 {      
       color: #b83a3a;
       font-size: 40px;
       margin: 10px 20px;
       background-color: #fff;
-      font-family: 'Arial Black', sans-serif; /* 使用艺术字体 */
+      font-family: "jty",sans-serif;
     }
 
     h3 {
@@ -67,7 +66,7 @@
     }
 
     .content-box {
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(0, 20, 100, 0.2);
       margin: 0 10px 10px 10px;
       border-radius: 0 0 10px 10px;
       display: flex;
@@ -81,134 +80,14 @@
       display: flex;
       width: calc(33.33% - 20px); /* 修改宽度为33.33% */
       flex-direction: row;
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(0, 0, 0, 0.42);
       align-items: center;
       justify-content: center; /* 添加居中对齐 */
     }
 
 
     .children-box:nth-child(2n) {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    /* 修改问题答案框的颜色，使每个问题的颜色都不相同，并且左右均匀铺展开 */
-    .content-box .children-box:nth-child(1) {
-      background-color: #E84A5F;
-    }
-    
-    .content-box .children-box:nth-child(2) {
-      background-color: #FF847C;
-    }
-    
-    .content-box .children-box:nth-child(3) {
-      background-color: #FECEAB;
-    }
-    
-    .content-box .children-box:nth-child(4) {
-      background-color: #99B898;
-    }
-    
-    .content-box .children-box:nth-child(5) {
-      background-color: #2A363B;
-    }
-
-  .content-box .children-box:nth-child(6) {
-      background-color: #E84A5F;
-    }
-    
-    .content-box .children-box:nth-child(7) {
-      background-color: #FF847C;
-    }
-    
-    .content-box .children-box:nth-child(8) {
-      background-color: #FECEAB;
-    }
-    
-    .content-box .children-box:nth-child(10) {
-      background-color: #99B898;
-    }
-    
-    .content-box .children-box:nth-child(9) {
-      background-color: #2A363B;
-    }
-
-  .content-box .children-box:nth-child(11) {
-      background-color: #E84A5F;
-    }
-    
-    .content-box .children-box:nth-child(15) {
-      background-color: #FF847C;
-    }
-    
-    .content-box .children-box:nth-child(12) {
-      background-color: #FECEAB;
-    }
-      .content-box .children-box:nth-child(13) {
-      background-color: #E84A5F;
-    }
-    
-    .content-box .children-box:nth-child(16) {
-      background-color: #FF847C;
-    }
-    
-    .content-box .children-box:nth-child(14) {
-      background-color: #CC9900;
-    }
-    
-    .content-box .children-box:nth-child(17) {
-      background-color: #99B898;
-    }
-    
-    .content-box .children-box:nth-child(18) {
-      background-color: #2A363B;
-    }
-
-      .content-box .children-box:nth-child(19) {
-      background-color: #E84A5F;
-    }
-    
-    .content-box .children-box:nth-child(20) {
-      background-color: #FF847C;
-    }
-    
-    .content-box .children-box:nth-child(21) {
-      background-color: #CC9900;
-    }
-    
-    .content-box .children-box:nth-child(22) {
-      background-color: #99B898;
-    }
-    
-    .content-box .children-box:nth-child(23) {
-      background-color: #2A363B;
-    }
-
- .content-box .children-box:nth-child(24) {
-      background-color: #E84A5F;
-    }
-    
-    .content-box .children-box:nth-child(25) {
-      background-color: #FF847C;
-    }
-    
-    .content-box .children-box:nth-child(26) {
-      background-color: #CC9900;
-    }
-
-  .content-box .children-box:nth-child(20) {
-      background-color: #FF847C;
-    }
-    
-    .content-box .children-box:nth-child(21) {
-      background-color: #CC9900;
-    }
-    
-    .content-box .children-box:nth-child(22) {
-      background-color: #99B898;
-    }
-    
-    .content-box .children-box:nth-child(23) {
-      background-color: #2A363B;
+      background-color: rgba(0, 0, 0, 0.24);
     }
 
     .left {
@@ -218,13 +97,13 @@
       background-repeat: no-repeat;
     }
 
-       .right {
+.right {
       display: flex;
-      width: 80%;
+      width: 100%;
       padding-left: 0px;
       flex-direction: column;
-      align-items: center; /* 保持文本对齐方式为居中 */
-      text-align: center; /* 添加文本对齐方式为居中 */
+      align-items: left; 
+      text-align: left; 
     }
 
     .right span:nth-child(1) {
@@ -236,7 +115,7 @@
       margin-top: 5px;
       font-size: 14px;
       text-align: left;
-      color: #e9e9e9;
+      color: #fff;
     }
 
     .version {
@@ -383,7 +262,7 @@
             <div class="left"></div>
             <div class="right">
               <span>/god关闭艾特</span>
-              <span>顾名思义</span>
+              <span>关闭@回复,at机器人将不会回复</span>
             </div>
           </div>
 <div class="children-box">
@@ -396,22 +275,22 @@
 <div class="children-box">
             <div class="left"></div>
             <div class="right">
-              <span>/开启tts;/关闭tts</span>
-              <span>顾名思义</span>
+              <span>/开启tts</span>
+              <span>开启语音回复,关闭同理/关闭tts</span>
             </div>
           </div>
 <div class="children-box">
             <div class="left"></div>
             <div class="right">
-              <span>/god开启代理;/god关闭代理</span>
-              <span>如果你是香港or国外服务器or正在科学上网,请开启god代理</span>
+              <span>/god开启代理</span>
+              <span>如果你是香港or国外服务器or正在科学上网,请开启god代理,关闭/god关闭代理</span>
             </div>
           </div>
 <div class="children-box">
             <div class="left"></div>
             <div class="right">
-              <span>/god使用(积分)(官方)渠道;</span>
-              <span>两种渠道积分和官方,god积分制连接不上可尝试切换官方渠道</span>
+              <span>/god使用官方渠道;</span>
+              <span>两种渠道,god积分制连接不上可尝试切换官方渠道,/god使用积分渠道,使用积分制</span>
             </div>
           </div>
    <div class="children-box">
@@ -448,7 +327,7 @@
     </div>
     <div class="version">
       <h3>版本信息</h3>
-      <p>当前版本：1.2.1</p>
+      <p>当前版本：1.2.3</p>
     </div>
   </div>
 </body>
