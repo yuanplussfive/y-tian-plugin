@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <style>
+@font-face {
+    font-family: "jty";
+    src: url("{{src}}");
+    font-weight: normal;
+    font-style: normal;
+  }
+    table {
+      font-family: "jty";
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      font-family: "jty";
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>最大token:</th>
+      <th>模型消耗倍率:</th>
+      <th>支持的key:</th>
+    </tr>
+    <script>
+    let model = 
+{
+  "models": [
+    {
+      "id": "1",
+      "name": "gpt-3.5-turbo",
+      "token_count": "4096",
+      "Magnification": 0.75,
+      "support": "官key/转key"
+    },
+    {
+      "id": "2",
+      "name": "gpt-3.5-turbo-0301",
+      "token_count": "4096",
+      "Magnification": 0.75,
+      "support": "官key/转key"
+    },
+    {
+      "id": "3",
+      "name": "gpt-3.5-turbo-0613",
+      "token_count": "4096",
+      "Magnification": 0.75,
+      "support": "官key/转key"
+    },
+    {
+      "id": "4",
+      "name": "gpt-3.5-turbo-instruct",
+      "token_count": "4096",
+      "Magnification": 0.75,
+      "support": "转key"
+    },
+    {
+      "id": "5",
+      "name": "gpt-3.5-turbo-16k",
+      "token_count": "16384",
+      "Magnification": 1.5,
+      "support": "官key/转key"
+    },
+    {
+      "id": "6",
+      "name": "gpt-3.5-turbo-16k-0613",
+      "token_count": "16384",
+      "Magnification": 1.5,
+      "support": "官key/转key"
+    },
+    {
+      "id": "7",
+      "name": "gpt-4",
+      "token_count": "8192",
+      "Magnification": 15,
+      "support": "官key/转key"
+    },
+    {
+      "id": "8",
+      "name": "gpt-4-0314",
+      "token_count": "8192",
+      "Magnification": 15,
+      "support": "官key/转key"
+    },
+    {
+      "id": "9",
+      "name": "gpt-4-0613",
+      "token_count": "8192",
+      "Magnification": 15,
+      "support": "官key/转key"
+    },
+    {
+      "id": "10",
+      "name": "gpt-4-32k",
+      "token_count": "32768",
+      "Magnification": 30,
+      "support": "官key"
+    },
+    {
+      "id": "11",
+      "name": "gpt-4-32k-0314",
+      "token_count": "32768",
+      "Magnification": 30,
+      "support": "官key"
+    },
+    {
+      "id": "12",
+      "name": "gpt-4-32k-0613",
+      "token_count": "32768",
+      "Magnification": 30,
+      "support": "官key"
+    },
+    {
+      "id": "13",
+      "name": "gpt-4-all",
+      "token_count": "32768",
+      "Magnification": 15,
+      "support": "官key/转key"
+    },
+    {
+      "id": "14",
+      "name": "search",
+      "token_count": "∝",
+      "Magnification": 0.1,
+      "support": "官key"
+    },
+    {
+      "id": "15",
+      "name": "gpt-4-1106-preview",
+      "token_count": "131072",
+      "Magnification": 5,
+      "support": "官key"
+    }
+  ]
+}
+
+      model.models.forEach(item => {
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.token_count}</td>
+            <td>${item.Magnification}</td>
+            <td>${item.support}</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

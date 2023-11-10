@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <style>
+@font-face {
+    font-family: "jty";
+    src: url("{{src}}");
+    font-weight: normal;
+    font-style: normal;
+  }
+    table {
+      font-family: "jty";
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      font-family: "jty";
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>最大token:</th>
+      <th>消耗积分:</th>
+      <th>计费方式:</th>
+    </tr>
+    <script>
+    let model = 
+{
+  "models": [
+    {
+      "id": "1",
+      "name": "gpt-3.5-turbo",
+      "token_count": "4096",
+      "Magnification": 10,
+      "support": "次数"
+    },
+    {
+      "id": "2",
+      "name": "gpt-3.5-turbo-16k",
+      "token_count": "16384",
+      "Magnification": 10,
+      "support": "次数"
+    },
+    {
+      "id": "3",
+      "name": "gpt-4",
+      "token_count": "8192",
+      "Magnification": 600,
+      "support": "次数"
+    },
+    {
+      "id": "4",
+      "name": "gpt-4-32k",
+      "token_count": "32768",
+      "Magnification": "2/token",
+      "support": "token"
+    },
+    {
+      "id": "5",
+      "name": "gpt-4-all",
+      "token_count": "32768",
+      "Magnification": 1000,
+      "support": "次数"
+    },
+    {
+      "id": "6",
+      "name": "claude-1-100k",
+      "token_count": "100000",
+      "Magnification": 20,
+      "support": "次数"
+    },
+    {
+      "id": "7",
+      "name": "claude-2-100k",
+      "token_count": "100000",
+      "Magnification": 20,
+      "support": "次数"
+    },
+    {
+      "id": "8",
+      "name": "google-palm",
+      "token_count": "4095",
+      "Magnification": 10,
+      "support": "次数"
+    },
+    {
+      "id": "9",
+      "name": "llama-2-7b",
+      "token_count": "4096",
+      "Magnification": 10,
+      "support": "次数"
+    },
+    {
+      "id": "10",
+      "name": "llama-2-13b",
+      "token_count": "4096",
+      "Magnification": 10,
+      "support": "次数"
+    },
+    {
+      "id": "11",
+      "name": "llama-2-70b",
+      "token_count": "8192",
+      "Magnification": 10,
+      "support": "次数"
+    },
+    {
+      "id": "12",
+      "name": "code-llama-70b",
+      "token_count": "8192",
+      "Magnification": 10,
+      "support": "次数"
+    },
+    {
+      "id": "13",
+      "name": "code-llama-7b",
+      "token_count": "4096",
+      "Magnification": 10,
+      "support": "次数"
+    },
+    {
+      "id": "14",
+      "name": "code-llama-13b",
+      "token_count": "4096",
+      "Magnification": 10,
+      "support": "次数"
+    }
+  ]
+}
+
+      model.models.forEach(item => {
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.token_count}</td>
+            <td>${item.Magnification}</td>
+            <td>${item.support}</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
