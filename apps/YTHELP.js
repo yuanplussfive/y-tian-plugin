@@ -46,7 +46,7 @@ export class example extends plugin {
   }
 async godgpt(e){
 let data = {
-      tplFile: _path + ' '/plugins/y-tian-plugin/YTfreeai/config/html/help9.html',
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help9.html',
       src:src
     }
     let img = await puppeteer.screenshot('777', {
