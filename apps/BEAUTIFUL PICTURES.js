@@ -1,8 +1,8 @@
 import fetch from "node-fetch"
 import fs from "fs"
 const _path = process.cwd()
-import common from "../../lib/common/common.js"
-import puppeteer from '../../lib/puppeteer/puppeteer.js'
+import common from "../../../lib/common/common.js"
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 export class example extends plugin {
   constructor() {
     super({
