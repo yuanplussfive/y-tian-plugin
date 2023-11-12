@@ -19,10 +19,10 @@ export class example extends plugin {
       priority: 4000,
       rule: [
         {
-          reg: "^千问(.*)",
+          reg: "^#千问(.*)",
           fnc: 'help'
         }, {
-          reg: "^结束千问对话$",
+          reg: "^#结束千问对话$",
           fnc: 'end'
         }
       ]
@@ -34,7 +34,7 @@ export class example extends plugin {
   }
   async help(e) {
     //console.log(history)
-    let msg = e.msg.replace(/千问/g, "").trim()
+    let msg = e.msg.replace(/#千问/g, "").trim()
     let url = 'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation';
     const apiKey = await getcookie()
 
