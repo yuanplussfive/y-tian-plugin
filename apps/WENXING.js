@@ -23,7 +23,7 @@ export class example extends plugin {
       priority: -4,
       rule: [
         {
-          reg: "#^文心(.*)",
+          reg: "^#文心(.*)",
           fnc: 'help'
       },
       {
