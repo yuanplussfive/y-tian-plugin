@@ -23,12 +23,13 @@ export class example extends plugin {
       priority: -4,
       rule: [
         {
-          reg: "^千帆(.*)|^文心(.*)",
+          reg: "#^文心(.*)",
           fnc: 'help'
-},{
-          reg: "^结束文心对话$",
+      },
+      {
+          reg: "^#结束文心对话$",
           fnc: 'end'
-}
+        }
       ]
     })
   }
@@ -37,11 +38,11 @@ history[e.user_id] = []
 e.reply(`文心千帆:用户${e.sender.nickname}已经重置对话了`)
 }
 async help(e){
-let msg = e.msg.replace(/千帆/g,"").replace(/文心/g,"").trim()
+let msg = e.msg.replace(/#文心/g,"").trim()
 console.log(msg)
 console.log(history[e.user_id])
   if (!history[e.user_id]) {
-    history[e.user_id] = []; // 如果该用户的聊天记录不存在，则创建一个空数组
+    history[e.user_id] = [];
   }
 history[e.user_id].push({
         role: 'user',
