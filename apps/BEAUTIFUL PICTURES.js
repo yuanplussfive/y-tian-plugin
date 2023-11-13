@@ -145,7 +145,7 @@ data = data
 .replace(/\\n/g,"<br>")
 return htmlString.replace('{{song}}', data);
 }
-const htmlString = fs.readFileSync(`${_path}/plugins/example/noval.html`, 'utf-8');
+const htmlString = fs.readFileSync(`${_path}/plugins/y-tian-plugin/resources/html/noval.html`, 'utf-8');
 const processedHtml = processHtml(htmlString, cleanedStory);
 fs.writeFileSync(`${_path}/resources/noval.html`,processedHtml,'utf-8');
 await common.sleep(1590)
