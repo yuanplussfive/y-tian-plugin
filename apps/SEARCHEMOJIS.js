@@ -20,7 +20,7 @@ export class example extends plugin {
   async searchemoji(e) {
     try {
       let msg = e.msg.replace("/bq", "").trim()
-      e.reply("我正在搜索表情包，请稍等哦~",true,{ recallMsg: 8000 })
+      e.reply("我正在搜索表情包，请稍等哦~",true,{ recallMsg: 8 })
       let a = await fetch(`https://www.dbbqb.com/api/search/json?start=0&w=${msg}`, {
         "headers": {
           "accept": "application/json",
