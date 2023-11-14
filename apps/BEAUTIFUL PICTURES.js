@@ -31,10 +31,60 @@ export class example extends plugin {
         {     
           reg: "^#(story|随机故事)$",
           fnc: 'story'  
+        },
+        {     
+          reg: "^#(p|P)站(色|涩)图$|#(p|P)站搜索(.*?)$",
+          fnc: 'pixiv'  
+       },
+       {     
+          reg: "^#来张(色|美)图$",
+          fnc: 'colours'  
        }
       ]
     })
   }
+async colours(e){
+if(!e.msg.includes("色图")){
+e.reply(segment.image("https://moe.jitsu.top/api"))
+}else{
+let url = "https://moe.jitsu.top/api?sort=r18"
+let MsgList = []
+MsgList.push(segment.image(url))
+let forwardMsg = await common.makeForwardMsg(e, MsgList, '诶嘿，图来喽~');
+await e.reply(forwardMsg)
+}}
+async pixiv(e){
+if(e.msg.includes("#p站搜索") || e.msg.includes("#P站搜索")){
+let msg = e.msg.replace(/#p站搜索/g,"")
+.replace(/#P站搜索/g,"").trim()
+try{
+let url = `https://lolisuki.cn/api/setu/v1?tag=${msg}&r18=1&num=5`
+let response = await fetch(url)
+let res = await response.json()
+let imgurl = res.data
+console.log(imgurl)
+let MsgList = []
+for(var a = 0;a < imgurl.length;a++){
+MsgList.push(segment.image(imgurl[a].urls.original))
+}
+console.log(MsgList)
+let forwardMsg = await common.makeForwardMsg(e, MsgList, '诶嘿，图来喽~');
+await e.reply(forwardMsg)
+}catch{e.reply("换一个描述词吧~",true)}
+}else{
+const url = "https://setu.yuban10703.xyz/setu?replace_url=https://i.pixiv.cat/&r18=1&tags=nude"
+let response = await fetch(url)
+let data = await response.json()
+data.data.forEach(item => {
+  let title = "标题: " + item.artwork.title
+  let author = "\n作者: " + item.author.name
+  let date = "\n创建日期: " + item.create_date
+  let tags = "\n标签: " + item.tags.join(", ")
+  let imgurl = "\n图片链接: " + item.urls.original
+  let allin = [title+author+date+tags+imgurl]
+  e.reply(allin)
+});
+}}
 async beauty_video(e){
 var random = Math.random();
 if(random >= 0 && random < 0.34){
