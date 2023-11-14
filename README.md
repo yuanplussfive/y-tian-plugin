@@ -82,6 +82,12 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] midjourney
 - [✓] DALL-E 3
 
+#### 识图类：
+
+- [✓] gpt-4-v
+- [✓] 星火识图
+- [✓] bing
+
 ## AI绘图：
 
 【dalle3】
