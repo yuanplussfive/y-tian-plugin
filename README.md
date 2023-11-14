@@ -42,6 +42,46 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
   
 ##  :stuck_out_tongue_winking_eye: 部分AI功能演示:
 
+## 支持的AI模型：
+
+#### 对话类：
+
+- [✓] gpt-3.5-turbo
+- [✓] gpt-3.5-turbo-0613
+- [✓] gpt-3.5-turbo-instruct
+- [✓] gpt-3.5-turbo-1106
+- [✓] gpt-3.5-turbo-16k
+- [✓] gpt-3.5-turbo-16k-0613
+- [✓] gpt-4
+- [✓] gpt-4-0314
+- [✓] gpt-4-0613
+- [✓] gpt-4-32k
+- [✓] gpt-4-32k-0613
+- [✓] gpt-4-all(alltools)
+- [✓] gpt-4-1106-preview
+- [✓] claude-1-100k
+- [✓] claude-2-100k
+- [✓] bing(sydney)
+- [✓] google-palm
+- [✓] llama-2-7b
+- [✓] llama-2-13b
+- [✓] llama-2-70b
+- [✓] code-llama-7b
+- [✓] code-llama-13b
+- [✓] code-llama-34b
+- [✓] chatglm
+- [✓] kimi
+- [✓] 文心一言
+- [✓] 星火模型
+- [✓] 通义千问
+- [✓] 百川模型
+
+#### 绘图类：
+
+- [✓] Stable-diffusion
+- [✓] midjourney
+- [✓] DALL-E 3
+
 ## AI绘图：
 
 【dalle3】
@@ -100,6 +140,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 * 阴天插件Alemon-Bot版本：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
 * 阴天个人windows电脑一键部署云崽脚本：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
 * 严禁用于任何商业用途和非法行为
+
 
 
 
