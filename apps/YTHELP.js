@@ -23,7 +23,7 @@ export class example extends plugin {
           reg: "^(/|#)?群管帮助$",
           fnc: 'group'
         },{
-          reg: "^(/|#)?免费(AI|Ai|ai)帮助$",
+          reg: "^(/|#)?(AI|Ai|ai)免费版帮助$",
           fnc: 'freeai'
        },{
           reg: "^(/|#)?(阴天|免费)(绘图|画图)帮助$",
@@ -32,7 +32,7 @@ export class example extends plugin {
           reg: "^(/|#)?slack帮助$",
           fnc: 'slack'
        },{
-          reg: "^(/|#)?(ai|AI)专业版帮助$",
+          reg: "^(/|#)?(ai|AI|Ai)专业版帮助$",
           fnc: 'chatgpt'
        },{
           reg: "^#chat模型大全$",
@@ -40,10 +40,36 @@ export class example extends plugin {
        },{
           reg: "^(/|#)god模型大全$",
           fnc: "godgpt"
+       },{
+          reg: "^(/|#)图视帮助$",
+          fnc: "vision"
+       },{
+          reg: "^(/|#)(AI|Ai|ai)国产版帮助$",
+          fnc: "ChineseAI"
        }
       ]
     })
   }
+async ChineseAI(e){
+let data = {
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help11.html',
+      src:src
+    }
+    let img = await puppeteer.screenshot('777', {
+      ...data,
+    })
+    e.reply(img)
+}
+async vision(e){
+let data = {
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help10.html',
+      src:src
+    }
+    let img = await puppeteer.screenshot('777', {
+      ...data,
+    })
+    e.reply(img)
+}
 async godgpt(e){
 let data = {
       tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help9.html',
