@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signal Strength</title>
+    <style>
+@font-face {
+    font-family: "jty";
+    src: url("{{src}}");
+    font-weight: normal;
+    font-style: normal;
+  }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "jty";
+            width: 80%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .signal-strength {
+            width: 150px;
+            height: 20px;
+            border-radius: 20px;
+            background-color: red;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signal-strength span {
+            display: block;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: green;
+            border-right: 1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>模型名称:</th>
+            <th>负载强度:</th>
+            <th>负载宏观对照图:</th>
+        </tr>
+       
+    </table>
+
+    <script>
+        var data = {{status}}
+
+        var table = document.querySelector('table');
+
+        for (var key in data) {
+            var tr = document.createElement('tr');
+
+            var td1 = document.createElement('td');
+            td1.textContent = key;
+            tr.appendChild(td1);
+
+            var td2 = document.createElement('td');
+            td2.textContent = (data[key] * 100).toFixed(2) + '%';
+            tr.appendChild(td2);
+
+            var td3 = document.createElement('td');
+            var div = document.createElement('div');
+            div.className = 'signal-strength';
+            var span = document.createElement('span');
+            span.style.width = (data[key] * 100) + '%';
+            div.appendChild(span);
+            td3.appendChild(div);
+            tr.appendChild(td3);
+
+            table.appendChild(tr);
+        }
+    </script>
+</body>
+</html>
