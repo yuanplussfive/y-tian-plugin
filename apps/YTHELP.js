@@ -2,6 +2,10 @@ import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import fetch from "node-fetch"
 const _path = process.cwd()
 let src = _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
+let dirpath = _path + '/data/阴天预设'
+if(!fs.existsSync(dirpath)){
+fs.mkdirSync(dirpath)    
+}
 export class example extends plugin {
   constructor() {
     super({
