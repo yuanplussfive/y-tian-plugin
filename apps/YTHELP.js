@@ -1,6 +1,5 @@
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import fetch from "node-fetch"
-import fs from 'fs'
 const _path = process.cwd()
 let src = _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
 let dirpath = _path + '/data/阴天预设'
@@ -46,6 +45,12 @@ export class example extends plugin {
           reg: "^(/|#)god模型大全$",
           fnc: "godgpt"
        },{
+          reg: "^(/|#)附加模型大全$",
+          fnc: "others"
+       },{
+          reg: "^(/|#)(AI|Ai|ai)附加版帮助$",
+          fnc: "otherhelp"
+       },{
           reg: "^(/|#)图视帮助$",
           fnc: "vision"
        },{
@@ -55,9 +60,29 @@ export class example extends plugin {
       ]
     })
   }
+async otherhelp(e){
+let data = {
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help16.html',
+      src:src
+    }
+    let img = await puppeteer.screenshot('777', {
+      ...data,
+    })
+    e.reply(img)
+}
+async others(e){
+let data = {
+      tplFile: _path + ''/plugins/y-tian-plugin/YTfreeai/config/html/help14.html',
+      src:src
+    }
+    let img = await puppeteer.screenshot('777', {
+      ...data,
+    })
+    e.reply(img)
+}
 async ChineseAI(e){
 let data = {
-      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help11.html',
+      tplFile: _path + ''/plugins/y-tian-plugin/YTfreeai/config/html/help11.html',
       src:src
     }
     let img = await puppeteer.screenshot('777', {
