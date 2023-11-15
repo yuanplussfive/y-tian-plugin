@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <style>
+@font-face {
+    font-family: "jty";
+    src: url("{{src}}");
+    font-weight: normal;
+    font-style: normal;
+  }
+    table {
+      font-family: "jty";
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      font-family: "jty";
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>来源:</th>
+      <th>最大token:</th>
+    </tr>
+    <script>
+    let model = 
+{
+  models:[
+  {
+    "id":1,
+    "model": "gpt-3.5-turbo",
+    "points": "OpenAI",
+    "token": 4096
+  },
+  {
+    "id":2,
+    "model": "gpt-3.5-turbo-16k",
+    "points": "OpenAI",
+    "token": 16384
+  },
+  {
+    "id":3,
+    "model": "gpt-4(简易版)",
+    "points": "slack+OpenAI",
+    "token": 8192
+  },
+  {
+    "id":4,
+    "model": "联网搜索",
+    "points": "local",
+    "token": "-"
+  },
+  {
+    "id":5,
+    "model": "claude",
+    "points": "逆向poe",
+    "token": 10000
+  },
+  {
+    "id":6,
+    "model": "claude+",
+    "points": "逆向poe",
+    "token": 10000
+  },
+  {
+    "id":7,
+    "model": "claude-100k",
+    "points": "逆向poe",
+    "token": 100000
+  },
+  {
+    "id":8,
+    "model": "claude-2",
+    "points": "逆向poe",
+    "token": 10000
+  },
+  {
+    "id":9,
+    "model": "wenxing",
+    "points": "baidu",
+    "token": 4096
+  },
+  {
+    "id":10,
+    "model": "Bing",
+    "points": "逆向Bing",
+    "token": 8192
+  },
+  {
+    "id":11,
+    "model": "chatglm-2",
+    "points": "清华智谱",
+    "token": 8192
+  },
+  {
+    "id":12,
+    "model": "google-bard",
+    "points": "逆向google",
+    "token": 8192
+  },
+  {
+    "id":13,
+    "model": "code_llama_34b_instruct",
+    "points": "local",
+    "token": 4096
+  },
+  {
+    "id":14,
+    "model": "llama_2_70b_chat",
+    "points": "local",
+    "token": 4096
+  },
+  {
+    "id":15,
+    "model": "law(法律助手)",
+    "points": "北大",
+    "token": 4096
+  }
+]
+}
+
+      model.models.forEach(item => {
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.model}</td>
+            <td>${item.points}</td>
+            <td>${item.token}</td>
+          
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
