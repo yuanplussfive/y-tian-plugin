@@ -102,21 +102,17 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 【sd】
 
-<img src="./background/image/画图1.jpg"  style="zoom:50%;" />
+<img src="./background/image/画图1.png"  style="zoom:50%;" />
 
 <img src="./background/image/画图2.png"  style="zoom:50%;" />
 
 ## AI对话
 
-【部分展示】
-> 实例1：
-> <img src="./background/image/6.png" alt="实例1" style="zoom:50%;" />
-> 实例2：
-> <img src="./background/image/7.png" alt="实例2" style="zoom:50%;" />
-> 实例3：
-> <img src="./background/image/8.jpg" alt="实例3" style="zoom:50%;" />
-> 实例4：
-> <img src="./background/image/9.png" alt="实例4" style="zoom:50%;" />
+<img src="./background/image/对话1.png" alt="实例1" style="zoom:50%;" />
+
+<img src="./background/image/图识对话1.jpg" alt="实例2" style="zoom:50%;" />
+
+<img src="./background/image/图识对话2.png" alt="实例3" style="zoom:50%;" />
 
 ## 反馈
 
