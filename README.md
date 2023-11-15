@@ -92,19 +92,21 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 【DELL E-3】
 > 实例1：
-> <img src="./background/image/dalle3.1.jpg" alt="实例1" style="zoom:50%;" />
+> <img src="./background/image/dalle3.1.png" alt="实例1" style="zoom:50%;" />
 > 实例2：
-> <img src="./background/image/dalle3.2.jpg" alt="实例2" style="zoom:50%;" />
+> <img src="./background/image/dalle3.2.png" alt="实例2" style="zoom:50%;" />
 
 【mj】
 > 实例：
-> <img src="./background/image/mj画图1.jpg" alt="实例1" style="zoom:50%;" />
+> <img src="./background/image/mj.1.png" alt="实例1" style="zoom:50%;" />
 
 【sd】
-> 实例：
-> <img src="./background/image/画图2.jpg" alt="实例1" style="zoom:50%;" />
+> 实例1：
+> <img src="./background/image/画图1.jpg" alt="实例1" style="zoom:50%;" />
+> 实例2：
+> <img src="./background/image/画图2.png" alt="实例2" style="zoom:50%;" />
 
-## AI交互
+## AI对话
 
 【部分展示】
 > 实例1：
