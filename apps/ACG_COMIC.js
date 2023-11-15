@@ -88,7 +88,7 @@ return false
 }
 let videos = await result.data.videos
 body[e.user_id] = videos
-let html = fs.readFileSync(_path + '/plugins/example/help13.html',"utf-8")
+let html = fs.readFileSync(_path + '/plugins/y-tian-plugin/freeai/html/help13.html',"utf-8")
 html = html.replace("{{JSON}}",JSON.stringify(videos))
 fs.writeFileSync(_path + '/resources/ACG.html',html,"utf-8")
 let data = {
