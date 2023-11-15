@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频信息</title>
+    <style>
+ @font-face {
+    font-family: "jty";
+    src: url("{{src}}");
+    font-weight: normal;
+    font-style: normal;
+  }
+        body {
+            font-family: "jty", sans-serif;
+            background: #D9D9F3;
+            margin: 0;
+            padding: 20px;
+        }
+        .video-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #CDCDCD;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .video-cover {
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
+        .video-details {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+        .video-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #97694F;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+        .video-intro {
+            font-size: 16px;
+            padding: 10px;
+            background-color: #C0C0C0;
+            color: black;
+            border-radius: 5px;
+            word-wrap: break-word;
+            max-height: 10.8em; /* 10 lines x 1.08em line height */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 10; /* Limit to 10 lines */
+            -webkit-box-orient: vertical;
+        }
+    </style>
+</head>
+<body>
+    <!-- 使用循环处理JSON数组中的每个视频对象 -->
+    <div id="video-container">
+        <!-- JSON数组数据将被填充到这里 -->
+    </div>
+
+    <script>
+        // 模拟JSON数组数据
+        const jsonArrayData = {{JSON}}
+
+        // 查找要填充数据的容器元素
+        const videoContainer = document.getElementById('video-container');
+
+        // 循环处理JSON数组中的每个视频对象
+        jsonArrayData.forEach(videoData => {
+            // 创建一个视频卡片容器元素
+            const videoCard = document.createElement('div');
+            videoCard.classList.add('video-card');
+
+            // 创建封面图像元素
+            const coverImg = document.createElement('img');
+            coverImg.classList.add('video-cover');
+            coverImg.src = videoData.cover;
+            videoCard.appendChild(coverImg);
+
+            // 创建视频详情容器
+            const videoDetails = document.createElement('div');
+            videoDetails.classList.add('video-details');
+
+            // 创建标题元素
+            const title = document.createElement('div');
+            title.classList.add('video-title');
+            title.textContent = videoData.name;
+            videoDetails.appendChild(title);
+
+            // 创建介绍元素
+            const intro = document.createElement('div');
+            intro.classList.add('video-intro');
+            intro.textContent = videoData.intro;
+            videoDetails.appendChild(intro);
+
+            // 将视频详情容器添加到视频卡片容器
+            videoCard.appendChild(videoDetails);
+
+            // 将视频卡片容器添加到主容器中
+            videoContainer.appendChild(videoCard);
+        });
+    </script>
+</body>
+</html>
