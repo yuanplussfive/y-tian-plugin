@@ -72,7 +72,7 @@ let data = {
 }
 async others(e){
 let data = {
-      tplFile: _path + ''/plugins/y-tian-plugin/YTfreeai/config/html/help14.html',
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help14.html',
       src:src
     }
     let img = await puppeteer.screenshot('777', {
@@ -82,7 +82,7 @@ let data = {
 }
 async ChineseAI(e){
 let data = {
-      tplFile: _path + ''/plugins/y-tian-plugin/YTfreeai/config/html/help11.html',
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help11.html',
       src:src
     }
     let img = await puppeteer.screenshot('777', {
