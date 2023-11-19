@@ -138,7 +138,6 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 ###  :sunglasses: 传送门
 
-* Yunzai-Bot插件库：[☞Github](https://github.com/yhArcadia/Yunzai-Bot-plugins-index)/[☞Gitee](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 * Yunzai-Bot（V3）：[☞Github](https://github.com/Le-niao/Yunzai-Bot)/[☞Gitee](https://gitee.com/Le-niao/Yunzai-Bot) 
 * Alemon-Bot：[☞官方文档](http://ningmengchongshui.gitee.io/lemonade) /[☞Gitee](https://gitee.com/ningmengchongshui/alemon-bot) 
 * 阴天插件Alemon-Bot版本：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
