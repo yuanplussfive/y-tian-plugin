@@ -7,9 +7,9 @@
 [![Security Status](https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg)](https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024)
 </div>
 
-##  :satisfied: 体验chatgpt：
+##  :satisfied: 阴天插件索引页：
 
-**点击体验[Y-Tian-Chat](https://y-tian-plugin.top:3000/writer.html)演示网页**
+**点击跳转阴天[Y-Tian-Plugin](https://y-tian-plugin.top:3000/#)索引页面**
 
 ##  :grinning: 介绍
 
