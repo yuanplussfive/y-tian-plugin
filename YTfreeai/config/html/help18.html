@@ -1,133 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>AI版功能</title>
-<style>  
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI版功能</title>
+<style>
+  
  @font-face {
     font-family: "jty";
     src: url("{{src}}");
     font-weight: normal;
     font-style: normal;
   }
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');  
-body {    
-font-family: "jty", sans-serif;    
-background: #f9f9f9;    
-margin: 0;    
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+  
+body {
+    
+font-family: "jty", sans-serif;
+    
+background: #f9f9f9;
+    
+margin: 0;
+    
 padding: 20px;
-} 
-.main-title {    
-font-family: "jty", cursive;    
-font-size: 50px;    
-background: -webkit-linear-gradient(left, #778899, #696969);    
--webkit-background-clip: text;    -webkit-text-fill-color: transparent;    margin-bottom: 30px;    
-text-align: center;  
-}  
-.panel {    
-background: #fff;    
-border-radius: 10px;    
-box-shadow: 0 6px 12px rgba(0,0,0,0.1);    
-margin: 20px auto;    
-padding: 20px;    
-width: 90%;    
-max-width: 800px; 
-} 
-.title {    
-display: inline-block;    
-font-size: 24px;    
-background: -webkit-linear-gradient(left, #000000,#424c50);    
--webkit-background-clip: text;    -webkit-text-fill-color: transparent;    
-border-radius: 50px;    
-padding: 8px 20px;    
+}
+ 
+.main-title {
+    
+font-family: "jty", cursive;
+    
+font-size: 50px;
+    
+background: -webkit-linear-gradient(left, #778899, #696969);
+    
+-webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+    
+text-align: center;
+  
+}
+  
+.panel {
+    
+background: #fff;
+    
+border-radius: 10px;
+    
+box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    
+margin: 20px auto;
+    
+padding: 20px;
+    
+width: 90%;
+    
+max-width: 800px;
+ 
+}
+ 
+.title {
+    
+display: inline-block;
+    
+font-size: 24px;
+    
+background: -webkit-linear-gradient(left, #000000,#424c50);
+    
+-webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+border-radius: 50px;
+    
+padding: 8px 20px;
+    
 margin-bottom: 20px;
-} 
-.feature-item {    
-display: flex;    
-align-items: center;    
-border-radius: 15px;    
-padding: 15px 25px;    
-margin-bottom: 15px;    
+}
+ 
+.feature-item {
+    
+display: flex;
+    
+align-items: center;
+    
+border-radius: 15px;
+    
+padding: 15px 25px;
+    
+margin-bottom: 15px;
+    
 transition: transform 0.3s ease;
-} 
-.feature-item:hover {    
+}
+ 
+.feature-item:hover {
+    
 transform: translateY(-5px);
-} 
-.feature-item:nth-child(odd) {    
-background: linear-gradient(135deg, #48D1CC, #E0FFFF);    
+}
+ 
+.feature-item:nth-child(odd) {
+    
+background: linear-gradient(135deg, #48D1CC, #E0FFFF);
+    
 color: #2d3436;
 }
-.feature-item:nth-child(even) {    
-background: linear-gradient(135deg, #696969,#778899);    
-color: #fff; 
-} 
-.feature-number {    
-font-size: 18px;    
-font-weight: bold;    
-color: #2d3436;    
-border-radius: 50%;    
-width: 30px;    
-height: 30px;    
-display: flex;    
-align-items: center;    
-justify-content: center;    
-margin-right: 10px;    
-background: #fff;    
+.feature-item:nth-child(even) {
+    
+background: linear-gradient(135deg, #696969,#778899);
+    
+color: #fff;
+ 
+}
+ 
+.feature-number {
+    
+font-size: 18px;
+    
+font-weight: bold;
+    
+color: #2d3436;
+    
+border-radius: 50%;
+    
+width: 30px;
+    
+height: 30px;
+    
+display: flex;
+    
+align-items: center;
+    
+justify-content: center;
+    
+margin-right: 10px;
+    
+background: #fff;
+    
 box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-.feature-item .title {    
-font-weight: bold;    
-margin: 0; 
-} 
-.feature-item p {    
-font-size: 16px;    
+.feature-item .title {
+    
+font-weight: bold;
+    
+margin: 0;
+ 
+}
+ 
+.feature-item p {
+    
+font-size: 16px;
+    
 margin-top: 5px;
 }
-.created-by {    
-font-size: 20px;    
-background: -webkit-linear-gradient(right, #48D1CC, #E0FFFF);    
--webkit-background-clip: text;    -webkit-text-fill-color: transparent;    
-text-align: center;    
-margin-top: 40px; 
- }</style>
+.created-by {
+    
+font-size: 20px;
+    
+background: -webkit-linear-gradient(right, #48D1CC, #E0FFFF);
+    
+-webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+text-align: center;
+    
+margin-top: 40px;
+ 
+ }
+</style>
 </head>
-<body>
-<div class="main-title">Y-Tian-Plugin Sesskey帮助</div>
-<div class="panel"> 
-<div class="feature-item">   
-<div>    
-<div class="title">开始对话</div>      
-<p>#sess+问题,AI对话,例如:#sess hello;</p>   
- </div> 
- </div> 
- <div class="feature-item">  
-  <div>    
-  <div class="title">查看模型</div>    
-  <p>#查看sess模型,查看所有附加模型;</p>   
+<body>
+
+<div class="main-title">Y-Tian-Plugin Sesskey帮助</div>
+
+<div class="panel">
+ 
+<div class="feature-item">
+   
+<div>
+    
+<div class="title">开始对话</div>
+      
+<p>#sess+问题,AI对话,例如:#sess hello;</p>
+   
+ </div>
+ 
+ </div>
+
+ <div class="feature-item">
+   
+<div>
+    
+<div class="title">填写密钥</div>
+      
+<p>#填写sesskey+获取的sess</p>
+   
+ </div>
+ 
+ </div>
+ 
+ <div class="feature-item">
+  
+  <div>
+    
+  <div class="title">查看模型</div>
+    
+  <p>#查看sess模型,查看所有附加模型;</p>
+   
 </div>
-</div>  
-<div class="feature-item">   
-<div>    
-<div class="title">切换模型</div>      
-<p>#切换sess模型+序号,切换当前附加模型,例如:#切换sess模型2;</p>   
- </div> 
- </div> 
-<div class="feature-item">   
-<div>    
-<div class="title">切换预设</div>      
-<p>① #查看sess预设,查看所有相关预设 ② #切换sess预设+序号,切换当前附加模型,例如:#切换sess预设2;</p>   
- </div> 
- </div> 
- <div class="feature-item">  
-  <div>    
-  <div class="title">结束对话</div>    
-  <p>#结束sess对话,结束全部对话</p>   
 </div>
-</div>  
-</div>
-<div class="created-by">Created by yuan</div>
-</body>
-</html>
+  
+<div class="feature-item">
+   
+<div>
+    
+<div class="title">切换模型</div>
+      
+<p>#切换sess模型+序号,切换当前附加模型,例如:#切换sess模型2;</p>
+   
+ </div>
+ 
+ </div>
+ 
+<div class="feature-item">
+   
+<div>
+    
+<div class="title">切换预设</div>
+      
+<p>① #查看sess预设,查看所有相关预设 ② #切换sess预设+序号,切换当前附加模型,例如:#切换sess预设2;</p>
+   
+ </div>
+ 
+ </div>
+ 
+ <div class="feature-item">
+  
+  <div>
+    
+  <div class="title">结束对话</div>
+    
+  <p>#结束sess对话,结束全部对话</p>
+   
+</div>
+</div>
+  
+
+</div>
+
+
+<div class="created-by">Created by yuan</div>
+
+</body>
+
+</html>
 
 
 
