@@ -57,10 +57,36 @@ export class example extends plugin {
        },{
           reg: "^(/|#)(AI|Ai|ai)国产版帮助$",
           fnc: "ChineseAI"
+      },{
+          reg: "^(/|#)(AI|Ai|ai)交互帮助$",
+          fnc: "workai"
+      },{
+          reg: "^/sess帮助$",
+          fnc: "sessai"
        }
       ]
     })
   }
+async sessai(e){
+let data = {
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help18.html',
+      src:src
+    }
+    let img = await puppeteer.screenshot('777', {
+      ...data,
+    })
+    e.reply(img)
+}
+async workai(e){
+let data = {
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help17.html',
+      src:src
+    }
+    let img = await puppeteer.screenshot('777', {
+      ...data,
+    })
+    e.reply(img)
+}
 async otherhelp(e){
 let data = {
       tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help16.html',
@@ -204,13 +230,6 @@ async game(e) {
     e.reply(img)
   }
 }
-
-
-
-
-
-
-
 
 
 
