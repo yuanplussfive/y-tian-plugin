@@ -7,6 +7,7 @@ let dirpath = _path + '/data/阴天预设'
 if(!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
 }
+
 export class example extends plugin {
   constructor() {
     super({
@@ -63,10 +64,23 @@ export class example extends plugin {
       },{
           reg: "^/sess帮助$",
           fnc: "sessai"
+      },{
+          reg: "^(/|#)(AI|Ai|ai)总帮助$",
+          fnc: "totalai"
        }
       ]
     })
   }
+async totalai(e){
+let data = {
+      tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help19.html',
+      src:src
+    }
+    let img = await puppeteer.screenshot('777', {
+      ...data,
+    })
+    e.reply(img)
+}
 async sessai(e){
 let data = {
       tplFile: _path + '/plugins/y-tian-plugin/YTfreeai/config/html/help18.html',
@@ -230,6 +244,12 @@ async game(e) {
     e.reply(img)
   }
 }
+
+
+
+
+
+
 
 
 
