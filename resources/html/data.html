@@ -60,36 +60,51 @@
 <body>
     <div class="card">
         <div class="settings">
-            <h2>godgpt设置页(发/god帮助,来修改)</h2>
+            <h2>AI总设置页</h2>
+            <div class="settings-item">※ 当前at方案</div>
             <div class="settings-item">※ 艾特回复</div>
-            <div class="settings-item">※ 联网搜索</div>
-            <div class="settings-item">※ 群友积分限制</div>
-            <div class="settings-item">※ 当前对话模型</div>
-            <div class="settings-item">※ 当前对话渠道</div>
-            <div class="settings-item">※ 反向代理</div>
+            <div class="settings-item">※ god触发名</div>
+            <div class="settings-item">※ chat触发名</div>
+            <div class="settings-item">※ 附加触发名</div>
+            <div class="settings-item">※ sess触发名</div>
             <div class="settings-item">※ 当前对话方式</div>
-            <div class="settings-item">※ 图片分析方式</div>
-            <div class="settings-item">※ tts合成</div>
-            <div class="settings-item">※ tts音色</div>
-           <div class="settings-item">※ 总积分剩余</div>
+            <div class="settings-item">※ tts回复</div>
+            <div class="settings-item">※ tts角色</div>
+            <div class="settings-item">※ 禁用方案</div>
+            <div class="settings-item">※ 禁用群聊</div>
+           <div class="settings-item">※ 禁用群员</div>
         </div>
         <div class="status">
             <h2>当前状态(≧▽≦)</h2>
-            <div class="status-item">{{atbot}}</div>
-            <div class="status-item">{{search}}</div>
-            <div class="status-item">{{permission}}</div>
-           <div class="status-item">{{model}}</div>
-            <div class="status-item">{{channel}}</div>
-            <div class="status-item">{{proxy}}</div>
-            <div class="status-item">{{style}}</div>
-            <div class="status-item">{{image}}</div>
-            <div class="status-item">{{tts}}</div>
-            <div class="status-item">{{role}}</div>
-          <div class="status-item">{{left}}</div>
+            <div class="status-item">※ : {{ai_chat}}</div>
+            <div class="status-item">※ : {{ai_chat_at}}</div>
+            <div class="status-item">※ : {{ai_name_godgpt}}</div>
+            <div class="status-item">※ : {{ai_name_chat}}</div>
+           <div class="status-item">※ : {{ai_name_others}}</div>
+            <div class="status-item">※ : {{ai_name_sess}}</div>
+            <div class="status-item">※ : {{ai_chat_style}}</div>
+            <div class="status-item">※ : {{ai_tts}}</div>
+            <div class="status-item">※ : {{ai_tts_role}}</div>
+            <div class="status-item">※ : {{ai_ban_plans}}</div>
+            <div class="status-item">※ : {{ai_ban_group}}</div>
+          <div class="status-item">※ : {{ai_ban_number}}</div>
         </div>
     </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
