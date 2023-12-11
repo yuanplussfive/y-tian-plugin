@@ -40,7 +40,7 @@ export class example extends plugin {
       name: '阴天[AI总设置]',
       dsc: '',
       event: 'message',
-      priority: 4000,
+      priority: 2000,
       rule: [
         {
           reg: "^#(ai|Ai|AI)对话方式(文本|图片|引用)",
@@ -206,7 +206,7 @@ async toggleTtsRole(e) {
     if(speakers == undefined){e.reply("不存在当前角色",true);return false}
     data.chatgpt.ai_tts_role = speakers
     writeJsonFile(dataFilePath, data);
-    e.reply(`当前tts角色已成功切换为${speakers}`)
+    e.reply(`当前tts角色已切换为${speakers}\n若想进行微调,请打开文件:${_path}/data/YTtts_Setting/Setting.yaml`)
 }
 
 async toggleAiTts(e) {
