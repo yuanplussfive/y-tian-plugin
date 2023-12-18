@@ -20,7 +20,9 @@ async function Anime_tts(speakers, answer) {
       "ZH",
       null,
       "Happy",
-      "Text prompt"
+      "Text prompt",
+      "",
+      0.7
     ],
     "event_data": null,
     "fn_index": 0,
