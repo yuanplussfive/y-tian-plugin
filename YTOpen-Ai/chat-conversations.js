@@ -1,6 +1,5 @@
 async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, Bot_Name, fetch, replyBasedOnStyle, Anime_tts) {
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
-   //console.log(chatgptConfig)
     const { model, stoken, search } = chatgptConfig;
     let msg = await formatMessage(e.msg);
     let history 
@@ -43,10 +42,6 @@ async function handleImages(e, msg) {
     let images = e.img.map(imgUrl => `${imgUrl} `).join('');
     return images + msg;
 }
-async function handleImages(e, msg) {
-    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
-    return images + msg;
-}
 async function handleSearchModel(e, msg, stoken, apiurl) {
     const response = await fetch(apiurl, {
         method: 'POST',
@@ -65,7 +60,7 @@ async function handleSearchModel(e, msg, stoken, apiurl) {
     e.reply(answer);
 }
 async function handleGpt4AllModel(e, history, stoken, search, model, apiurl) {
-console.log(history)
+//console.log(history)
     const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
@@ -90,7 +85,9 @@ let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json'))
 let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
     let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
     let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
-await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer)
+if (aiSettings.chatgpt.ai_tts_open) {
+   await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
+    }
 }
 async function saveUserHistory(userId, history) {
     fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");

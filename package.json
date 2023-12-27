@@ -1,7 +1,7 @@
 {
   "name": "y-tian-plugin",
   "version": "1.0.2",
-  "description": "Yunzai-Bot附属插件",
+  "description": "Yunzai-Bot附属多功能插件",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -25,6 +25,9 @@
     "fetch-undici": "^3.0.1",
     "keyv-file":"^0.2.0",
     "axios":"^1.4.0"
+  },
+    "imports": {
+    "#YTdependence": "./YTdependence/dependencies.js"
   }
 }
 

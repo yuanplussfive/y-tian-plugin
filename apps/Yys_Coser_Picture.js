@@ -16,12 +16,12 @@ export class example extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#yyscos$|^#yys同人$',
+          reg: '^#yys(cos|同人)$',
           /** 执行方法 */
           fnc: 'yyscos'
         },{
           /** 命令正则匹配 */
-          reg: '^(#yyssp|#yys视频)$',
+          reg: '^#yys(sp|视频)$',
           /** 执行方法 */
           fnc: 'yyssp'
         }

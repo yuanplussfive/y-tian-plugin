@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>排行榜</title>
+  <style>
+@font-face {
+  font-family: "jty";
+  src: url("{{src}}");
+  font-weight: normal;
+  font-style: normal;
+}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      font-family: "jty";
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .top1 {
+      font-family: "jty";
+      font-weight: bold;
+      color: gold;
+    }
+    .top2 {
+      font-family: "jty";
+      font-weight: bold;
+      color: silver;
+    }
+    .top3 {
+      font-family: "jty";
+      font-weight: bold;
+      color: #cc9966;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>排名:</th>
+        <th>头像:</th>
+        <th>QQ号:</th>
+        <th>发言次数:</th>
+      </tr>
+    </thead>
+    <tbody id="ranking-table">
+    </tbody>
+  </table>
+  <script>
+    const rankingData = [{"qq":3346069936,"cs":17,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=3346069936&spec=640&img_type=jpg"},{"qq":2518182759,"cs":10,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2518182759&spec=640&img_type=jpg"},{"qq":3889002322,"cs":10,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=3889002322&spec=640&img_type=jpg"},{"qq":2150925343,"cs":9,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2150925343&spec=640&img_type=jpg"},{"qq":2857896171,"cs":6,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2857896171&spec=640&img_type=jpg"},{"qq":3448943919,"cs":5,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=3448943919&spec=640&img_type=jpg"},{"qq":3212199754,"cs":5,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=3212199754&spec=640&img_type=jpg"},{"qq":2717253260,"cs":5,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2717253260&spec=640&img_type=jpg"},{"qq":1540795320,"cs":4,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=1540795320&spec=640&img_type=jpg"},{"qq":578681567,"cs":4,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=578681567&spec=640&img_type=jpg"},{"qq":2692167682,"cs":4,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2692167682&spec=640&img_type=jpg"},{"qq":2112500134,"cs":2,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2112500134&spec=640&img_type=jpg"},{"qq":976178215,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=976178215&spec=640&img_type=jpg"},{"qq":2608259582,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2608259582&spec=640&img_type=jpg"},{"qq":1007317544,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=1007317544&spec=640&img_type=jpg"},{"qq":3131335925,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=3131335925&spec=640&img_type=jpg"},{"qq":2302777307,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2302777307&spec=640&img_type=jpg"},{"qq":2720569858,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2720569858&spec=640&img_type=jpg"},{"qq":3131332353,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=3131332353&spec=640&img_type=jpg"},{"qq":2166683295,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2166683295&spec=640&img_type=jpg"},{"qq":3214478745,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=3214478745&spec=640&img_type=jpg"},{"qq":2716671412,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2716671412&spec=640&img_type=jpg"},{"qq":3568047885,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=3568047885&spec=640&img_type=jpg"},{"qq":911918569,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=911918569&spec=640&img_type=jpg"},{"qq":2815508597,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=2815508597&spec=640&img_type=jpg"},{"qq":1017734891,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=1017734891&spec=640&img_type=jpg"},{"qq":1442657351,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=1442657351&spec=640&img_type=jpg"},{"qq":1545043459,"cs":1,"url":"http://q.qlogo.cn/headimg_dl?dst_uin=1545043459&spec=640&img_type=jpg"}]
+    function generateRankingTable(data) {
+      const tableBody = document.getElementById("ranking-table");
+      let tableContent = "";
+
+      data.forEach((item, index) => {
+        let rankClass = "";
+        if (index === 0) rankClass = "top1";
+        else if (index === 1) rankClass = "top2";
+        else if (index === 2) rankClass = "top3";
+
+        tableContent += `
+          <tr class="${rankClass}">
+            <td>${index + 1}</td>
+            <td><img class="avatar" src="${item.url}" alt="头像" /></td>
+            <td>${item.qq}</td>
+            <td>${item.cs}</td>
+          </tr>
+        `;
+      });
+
+      tableBody.innerHTML = tableContent;
+    }
+
+    generateRankingTable(rankingData);
+  </script>
+</body>
+</html>
