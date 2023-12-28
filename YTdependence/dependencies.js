@@ -2,6 +2,7 @@ import fetch from "node-fetch"
 import path from "path"
 import crypto from 'crypto'
 import https from "https"
+import yaml from "yaml"
 import querystring from 'querystring'
 import fs from "fs"
 import cfg from "../../../lib/config/config.js"
@@ -25,6 +26,7 @@ export const dependencies = {
   _path: _path,
   fetch: fetch,
   path: path,
+  yaml: yaml,
   crypto: crypto,
   common: common,
   fs: fs,
