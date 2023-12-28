@@ -1,4 +1,4 @@
-async function god_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, appId, apiKey, apiSecret, AK, SK) {
+async function god_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, appId, apiKey, apiSecret, AK, SK) {
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
     const { search } = chatgptConfig;
     const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
