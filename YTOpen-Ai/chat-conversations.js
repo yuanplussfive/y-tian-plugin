@@ -43,6 +43,7 @@ async function handleImages(e, msg) {
     return images + msg;
 }
 async function handleSearchModel(e, msg, stoken, apiurl) {
+  try{
     const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
@@ -57,47 +58,52 @@ async function handleSearchModel(e, msg, stoken, apiurl) {
     let response_json = await response.json()
  //console.log(response_json)
  let answer = await response_json.choices[0].message.content
-    e.reply(answer);
-}
+ e.reply(answer);
+} catch { e.reply("与服务器通讯失败!") }}
+
 async function handleGpt4AllModel(e, history, stoken, search, model, apiurl) {
-//console.log(history)
+  try {
+    let answer;
     const response = await fetch(apiurl, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${stoken}`,
-        },
-        body: JSON.stringify({
-            model: model,
-            messages: history,
-            search: search,
-        }),
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${stoken}`,
+      },
+      body: JSON.stringify({
+        model: model,
+        messages: history,
+        search: search,
+      }),
     });
- let response_json = await response.json()
- //console.log(response_json)
- let answer = await response_json.choices[0].message.content
-history.push({
-        "role": "assistant",
-        "content": answer
+    let response_json = await response.json();
+    answer = await response_json.choices[0].message.content;
+    history.push({
+      "role": "assistant",
+      "content": answer
     });
-let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
-  await replyBasedOnStyle(styles, answer, e, common, puppeteer, fs, _path, msg)
-let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
+    let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
+    await replyBasedOnStyle(styles, answer, e, common, puppeteer, fs, _path, msg);
+    let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
     let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
     let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
-if (aiSettings.chatgpt.ai_tts_open) {
-   await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
+    if (aiSettings.chatgpt.ai_tts_open) {
+      await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
     }
-   if (model == "gpt-4-all") {
-    const urls = await get_address(answer)
-   if (urls.length !== 0){
-  if(!urls[0].startsWith("https://files.oaiusercontent.com/")) {
-e.reply(segment.image(urls[0])) 
-}}
-   urls.forEach(async (url) => {
-  await downloadAndSaveFile(url,path,fetch,_path,fs,e)
-  });
- }
+    if (model == "gpt-4-all") {
+      const urls = await get_address(answer);
+      if (urls.length !== 0) {
+        if (!urls[0].startsWith("https://files.oaiusercontent.com/")) {
+          e.reply(segment.image(urls[0]));
+        }
+      }
+      urls.forEach(async (url) => {
+        await downloadAndSaveFile(url, path, fetch, _path, fs, e);
+      });
+    }
+  } catch (error) {
+    e.reply("与服务器通讯失败!")
+  }
 }
 
 async function saveUserHistory(userId, history) {
