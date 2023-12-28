@@ -104,7 +104,13 @@ let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
 if (aiSettings.chatgpt.ai_tts_open) {
    await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
     }
-}
+    if (model == "gpt-4-all") {
+    const urls = await get_address(answer)
+   if (urls.length !== 0){
+ if(!urls[0].startsWith("https://files.oaiusercontent.com/")) {
+e.reply(segment.image(urls[0])) 
+}}}}
+
 async function saveUserHistory(userId, history) {
     fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");
  }
@@ -267,6 +273,46 @@ let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
     let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
 if (aiSettings.chatgpt.ai_tts_open) {
    await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
+  }
+}
+
+async function get_address(inputString){
+const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/download|files\.oaiusercontent\.com)[^\s\)]+)\))/g;
+let match;
+let links = [];
+while ((match = regex.exec(inputString)) !== null) {
+  const link = match[2];
+  if (!links.includes(link)) {
+    links.push(link);
+  }
+}
+console.log(links);
+return links
+}
+
+async function downloadAndSaveFile(url,path,fetch,_path,fs,e) {
+  try {
+    const response = await fetch(url);
+    const fileBuffer = await response.buffer();
+    const urlPartArray = url.split('/');
+    const filename = urlPartArray[urlPartArray.length - 1];
+    let fileExtension 
+   if(url.startsWith("https://files.oaiusercontent.com/")) {
+const regex = /filename%3D(.*?)&/;
+const match = regex.exec(url);
+if (match) {
+  fileExtension = decodeURIComponent(match[1]);
+   }
+ } else { fileExtension = ".webp" }
+    const time = new Date().getTime()
+    if(!fs.existsSync(`${_path}/resources/YT_alltools`)){
+     fs.mkdirSync(`${_path}/resources/YT_alltools`)    
+    }
+    const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
+    fs.writeFileSync(filePath, fileBuffer);
+    e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
+  } catch (error) {
+    console.error(`失败了: ${url}: ${error}`);
   }
 }
 
