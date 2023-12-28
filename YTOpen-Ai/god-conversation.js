@@ -46,6 +46,7 @@ async function handleImages(e, msg) {
     return images + msg;
 }
 async function OtherModel(e, msg, stoken, apiurl, image) {
+ try{
    if(image == "gpt-4-v" || image == "gemini-pro-vision") {
     const response = await fetch(apiurl, {
         method: 'POST',
@@ -74,9 +75,10 @@ if (aiSettings.chatgpt.ai_tts_open) {
    } else if (image == "xinghuo") {
      await xinghuo_analysis(e, msg, crypto, querystring, common, appId, apiKey, apiSecret, fs, _path, https, WebSocket, replyBasedOnStyle, puppeteer, handleTTS)
     }
-}
+} catch { e.reply("与服务器通讯失败!") }}
+
 async function MainModel(e, history, stoken, search, model, apiurl) {
-//console.log(history)
+ try{
     const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
@@ -109,7 +111,8 @@ if (aiSettings.chatgpt.ai_tts_open) {
    if (urls.length !== 0){
  if(!urls[0].startsWith("https://files.oaiusercontent.com/")) {
 e.reply(segment.image(urls[0])) 
-}}}}
+}}}
+} catch { e.reply("与服务器通讯失败!") }}
 
 async function saveUserHistory(userId, history) {
     fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");
