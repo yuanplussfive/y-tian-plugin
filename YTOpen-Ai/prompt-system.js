@@ -4,7 +4,7 @@ console.log(history)
         const presetsPath = `${_path}/data/阴天预设`;
         const dirname = fs.readdirSync(presetsPath, "utf-8");
         if (e.msg.includes("#查看")) {
-            const forwardMsg = await createAndSendForwardMessage(e, dirname, presetsPath);
+            const forwardMsg = await createAndSendForwardMessage(e, dirname, presetsPath, fs, common);
         } else if (e.msg.includes("#切换")) {
             await switchPresetAndReply(e, dirname, presetsPath, fs, history) 
         }
@@ -14,7 +14,7 @@ console.log(history)
     }
 }
 
-async function createAndSendForwardMessage(e, dirname, presetsPath) {
+async function createAndSendForwardMessage(e, dirname, presetsPath, fs, common) {
     const forwardMsg = dirname.map((filename, index) => {
         const name = filename.replace(/\..txt/g, "");
         const weight = fs.readFileSync(`${presetsPath}/${filename}`, "utf-8").slice(0, 100);
