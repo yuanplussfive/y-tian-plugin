@@ -31,78 +31,60 @@ export const other_models = [
   },
   {
     "id":6,
-    "model": "二次元模型-画图",
-    "points": "sd",
-    "token": "∝"
-  },
-  {
-    "id":7,
-    "model": "写实模型-画图",
-    "points": "sd",
-    "token": "∝"
-  },
-  {
-    "id":8,
-    "model": "claude",
-    "points": "poe",
-    "token": 10000
-  },
-  {
-    "id":9,
-    "model": "claude-1-100k",
-    "points": "poe",
+    "model": "claude-1.3-100k",
+    "points": "Claude",
     "token": 100000
   },
   {
-    "id":10,
+    "id":7,
+    "model": "claude-2",
+    "points": "Claude",
+    "token": 100000
+  },
+  {
+    "id":8,
     "model": "chatglm-turbo",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":11,
+    "id":9,
     "model": "chatglm-pro",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":12,
-    "model": "copilot",
-    "points": "Microsoft",
-    "token": "8192"
-  },
-  {
-    "id":13,
+    "id":10,
     "model": "meta-llama",
     "points": "llama",
     "token": "70000"
   },
   {
-    "id":14,
+    "id":11,
     "model": "mistralai",
     "points": "Mistral",
     "token": "8500"
   },
   {
-    "id":15,
+    "id":12,
     "model": "codellama",
     "points": "Microsoft",
     "token": "34000"
   },
   {
-    "id":16,
+    "id":13,
     "model": "jondurbin",
     "points": "airoboros",
     "token": "70000"
   },
   {
-    "id":17,
+    "id":14,
     "model": "ownthink",
     "points": "sizhi",
     "token": "∝"
   },
   {
-    "id":18,
+    "id":15,
     "model": "qingyunke",
     "points": "qingyunke",
     "token": "∝"
