@@ -1,8 +1,6 @@
-import fetch from "node-fetch"
-import fs from "fs"
-const _path = process.cwd()
+import { dependencies } from "../YTdependence/dependencies.js";
+const  { fs, fetch, _path, puppeteer } = dependencies
 import { Anime_tts_roles } from "../model/Anime_tts_roles.js"
-import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 let dirpath = _path + '/data/YTAi_Setting'
 if(!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
@@ -63,6 +61,16 @@ export class example extends plugin {
           permission: 'master'
         },
         {
+          reg: "^#私聊回复使用(god|chat|sess|附加)$",
+          fnc: 'changeAiChat_private',
+          permission: 'master'
+        },
+        {
+          reg: "^#(开启|关闭)私聊回复$",
+          fnc: 'toggleAi_private',
+          permission: 'master'
+        },
+        {
           reg: "^#(开启|关闭)(tts|TTS)回复$",
           fnc: 'toggleAiTts',
           permission: 'master'
@@ -96,6 +104,32 @@ export class example extends plugin {
     })
   }
 
+async toggleAi_private(e) {
+    let data = readJsonFile(dataFilePath);
+    data.chatgpt.ai_private_open = e.msg.includes("开启");
+    writeJsonFile(dataFilePath, data);
+    e.reply(`bot私聊回复已${data.chatgpt.ai_private_open ? '开启' : '关闭'}`);
+}
+
+async changeAiChat_private(e) {
+    let data = readJsonFile(dataFilePath);
+    const responseMap = {
+        "god": "godgpt",
+        "chat": "chat",
+        "附加": "others",
+        "sess": "sess"
+    };
+
+    const foundKey = Object.keys(responseMap).find(key => e.msg.includes(key));
+    if (foundKey) {
+        data.chatgpt.ai_private_plan = responseMap[foundKey];
+        writeJsonFile(dataFilePath, data);
+        e.reply(`当前bot私聊回复使用${foundKey}方案,请参考:/${foundKey}帮助`);
+    } else {
+        e.reply("无效的方案名称.", true);
+    }
+}
+
 async ai_settings(e){
 let response = readJsonFile(dataFilePath);
 const chatgptArray = Object.values(response.chatgpt);
@@ -109,6 +143,8 @@ const chatgptArray = Object.values(response.chatgpt);
       ai_name_godgpt: chatgptArray[4],
       ai_name_chat: chatgptArray[5],
       ai_name_others: chatgptArray[6],
+      ai_private_open: chatgptArray[12],
+      ai_private_plan: chatgptArray[13],
       ai_tts: chatgptArray[7],
       ai_tts_role: chatgptArray[8],
       ai_ban_plans: chatgptArray[9],
@@ -287,28 +323,3 @@ async changeStyles(e) {
     } else {
         e.reply("无效的方案名称.", true);
     }}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
