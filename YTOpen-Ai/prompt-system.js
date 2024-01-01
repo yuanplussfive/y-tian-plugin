@@ -3,9 +3,9 @@ console.log(history)
     try {
         const presetsPath = `${_path}/data/阴天预设`;
         const dirname = fs.readdirSync(presetsPath, "utf-8");
-        if (e.msg.includes("#查看")) {
+        if (e.msg.startsWith("#查看")) {
             const forwardMsg = await createAndSendForwardMessage(e, dirname, presetsPath, fs, common);
-        } else if (e.msg.includes("#切换")) {
+        } else if (e.msg.startsWith("#切换")) {
             await switchPresetAndReply(e, dirname, presetsPath, fs, history) 
         }
     } catch (error) {
@@ -38,11 +38,3 @@ async function switchPresetAndReply(e, dirname, presetsPath, fs, history) {
  }
 
 export { handleSystemCommand }
-
-
-
-
-
-
-
-
