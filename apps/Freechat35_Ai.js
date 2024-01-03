@@ -1,5 +1,5 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const  { fetch, request } = dependencies
+const  { fetch, request, crypto } = dependencies
 let botname = "#Bot";//这里可以更改名
 let time = new Date().getTime()
 let msgData = []
@@ -94,16 +94,16 @@ async function executeFunctions(functions, history, msg) {
     });
 }
 
-async function chat35_1(msgData, msg){
+async function chat35_2(msgData, msg){
     let data = {
                messages: msgData,
                stream: false,
                model: 'gpt-3.5-turbo-16k',
                temperature: 0.7,
                presence_penalty: 0
-              }
+            }
     try{
-     let response = await fetch("https://postapi.lbbai.cc/v1/chat/completions", {
+     let response = await fetch("https://openai.lbbai.cc/v1/chat/completions", {
           "headers": {
             "accept": "text/event-stream",
             "content-type": "application/json",
@@ -117,16 +117,47 @@ async function chat35_1(msgData, msg){
 return res.choices[0].message.content
 } catch { return undefined }}
 
-async function chat35_2(msgData, msg){
-try{
-let response = await fetch("https://promplate-demo.onrender.com/single/chat_messages", {
+async function chat35_1(msgData, msg){
+const generateSignature = async r => {
+    const { t: e, m: t } = r,
+          n = {}.PUBLIC_SECRET_KEY || "",
+          a = `${e}:${t}:${n}`;
+    return await digestMessage(a);
+}
+const be = Date.now();
+const _e = msgData
+let sign = await generateSignature({
+    t: be,
+    m: _e[_e.length - 1].content
+})
+let body = {
+"model": "gpt-3.5-turbo-16k",
+"messages": msgData,
+"time": be,
+"pass": null,
+"sign": sign
+}
+let response = await fetch("https://s.aifree.site/api/generate", {
   "headers": {
-    "content-type": "application/json",
-    "Referer": "https://she1.free-chat.asia/"
+    "authorization": "Bearer null",
+    "content-type": "text/plain;charset=UTF-8",
+    "Referer": "https://zz.aifree.site/"
   },
-  "body": JSON.stringify({messages:msgData}),
-  "method": "PUT"
+  "body": JSON.stringify(body),
+  "method": "POST"
 });
-let result = await response.text()
-return result
-} catch { return undefined }}
+let answer = await response.text()
+return answer
+}
+
+async function digestMessage(r) {
+    if (typeof crypto < "u" && crypto?.subtle?.digest) {
+        const e = new TextEncoder().encode(r),
+              t = await crypto.subtle.digest("SHA-256", e);
+        return Array.from(new Uint8Array(t)).map(a => a.toString(16).padStart(2, "0")).join("");
+    } else {
+        const hash = crypto.createHash('sha256');
+        hash.update(r);
+        return hash.digest('hex');
+    }
+}
