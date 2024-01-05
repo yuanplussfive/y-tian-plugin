@@ -90,6 +90,14 @@ async function handleGpt4AllModel(e, history, stoken, search, model, apiurl) {
     if (aiSettings.chatgpt.ai_tts_open) {
       await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
     }
+    if (model == "gpt-4-dalle") {
+    let result = await extractImageLinks(answer)
+    let imgs = result.map(link => segment.image(link));
+     if (imgs.length === 0) {
+      return false;
+    }
+      e.reply(imgs);
+    }
     if (model == "gpt-4-all") {
       const urls = await get_address(answer);
       if (urls.length !== 0) {
@@ -164,34 +172,10 @@ if (match) {
   }
 }
 
+async function extractImageLinks(answer) {
+       const imageLinkRegex = /!\[.*?\]\((https?:\/\/.*?)\)/g;
+       const imageLinks = answer.matchAll(imageLinkRegex);
+  return Array.from(imageLinks, (match) => match[1]);
+}
+
 export { run_conversation }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
