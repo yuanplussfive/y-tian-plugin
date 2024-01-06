@@ -49,6 +49,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] gpt-3.5-turbo
 - [✓] gpt-3.5-turbo-0613
 - [✓] gpt-3.5-turbo-instruct
+- [✓] gpt-3.5-turbo-online
 - [✓] gpt-3.5-turbo-1106
 - [✓] gpt-3.5-turbo-16k
 - [✓] gpt-3.5-turbo-16k-0613
@@ -57,24 +58,40 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] gpt-4-0613
 - [✓] gpt-4-32k
 - [✓] gpt-4-32k-0613
-- [✓] gpt-4-all(alltools)
+- [✓] gpt-4-dalle
+- [✓] gpt-4-vision
+- [✓] gpt-4-all
 - [✓] gpt-4-1106-preview
 - [✓] claude-1-100k
-- [✓] claude-2-100k
-- [✓] bing(sydney)
+- [✓] claude-1.3-100k
+- [✓] claude-2
+- [✓] claude-2-sillytavern
+- [✓] bing
+- [✓] copilot
 - [✓] google-palm
+- [✓] google-bard
+- [✓] gemini-pro
+- [✓] gemini-pro-vision
 - [✓] llama-2-7b
 - [✓] llama-2-13b
 - [✓] llama-2-70b
 - [✓] code-llama-7b
 - [✓] code-llama-13b
 - [✓] code-llama-34b
-- [✓] chatglm
-- [✓] kimi
-- [✓] 文心一言
-- [✓] 星火模型
-- [✓] 通义千问
-- [✓] 百川模型
+- [✓] chatglm-pro
+- [✓] chatglm-turbo
+- [✓] chatglm-130b
+- [✓] mistral-8x7b
+- [✓] mistral-34b
+- [✓] moonshot-kimi
+- [✓] wenxing-3.5
+- [✓] xinghuo-v1/2/3
+- [✓] qwen-72b
+- [✓] baichuan
+- [✓] tiger-bot
+- [✓] 360-ai
+- [✓] deepseek
+- [✓] baidu-search
 
 #### 绘图类：
 
