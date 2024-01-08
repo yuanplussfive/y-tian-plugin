@@ -49,72 +49,84 @@ export const other_models = [
   },
   {
     "id":9,
+    "model": "claude-1.2-100k-advisor",
+    "points": "Claude+Content_Advisor",
+    "token": 100000
+  },
+  {
+    "id":10,
     "model": "claude-1.3-100k",
     "points": "Claude",
     "token": 100000
   },
   {
-    "id":10,
+    "id":11,
     "model": "claude-2",
     "points": "Claude",
-    "token": 100000
-  },
-  {
-    "id":11,
-    "model": "claude-2-sillytavern",
-    "points": "Claude+sillytavern",
-    "token": 100000
+    "token": 200000
   },
   {
     "id":12,
+    "model": "claude-2-sillytavern",
+    "points": "Claude+sillytavern",
+    "token": 200000
+  },
+  {
+    "id":13,
+    "model": "claude-2-advisor",
+    "points": "Claud+Content_Advisor",
+    "token": 100000
+  },
+  {
+    "id":14,
     "model": "chatglm-turbo",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":13,
+    "id":15,
     "model": "chatglm-pro",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":14,
+    "id":16,
     "model": "meta-llama",
     "points": "llama",
     "token": "70000"
   },
   {
-    "id":15,
+    "id":17,
     "model": "mistralai",
     "points": "Mistral",
     "token": "8500"
   },
   {
-    "id":16,
+    "id":18,
     "model": "mistral-34b",
     "points": "Mistral",
     "token": 34000
   },
   {
-    "id":17,
+    "id":19,
     "model": "codellama",
     "points": "Microsoft",
     "token": "34000"
   },
   {
-    "id":18,
+    "id":20,
     "model": "jondurbin",
     "points": "airoboros",
     "token": "70000"
   },
   {
-    "id":19,
+    "id":21,
     "model": "ownthink",
     "points": "sizhi",
     "token": "∝"
   },
   {
-    "id":20,
+    "id":22,
     "model": "qingyunke",
     "points": "qingyunke",
     "token": "∝"
