@@ -9,7 +9,7 @@
 
 ##  :satisfied: 阴天插件索引页：
 
-**点击跳转阴天[Y-Tian-Plugin](https://y-tian-plugin.top:3000/#)索引页面**
+**点击跳转阴天[Y-Tian-Plugin](https://y-tian-plugin.top:1111/chat)对话页面**
 
 ##  :grinning: 介绍
 
