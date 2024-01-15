@@ -14,7 +14,20 @@ async function god_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     }
     let image_url = 0
     if (e.message.find(val => val.type === 'image')) {
+        if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
+        msg = [ 
+        {
+         "type": "image_url",
+         "image_url": await TakeImages(e, msg)
+        }, 
+        {
+         "type": "text",
+         "text": await handleMsg(e, msg)
+        }
+       ]
+     } else {
         msg = await handleImages(e, msg);
+     }
         image_url = 1
     }
     history.push({
@@ -31,9 +44,11 @@ async function god_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     } else {
     await saveUserHistory(e.group_id, history);
     }
+
 async function formatMessage(originalMsg) {
     return originalMsg.replace(/\/chat|#chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
 }
+
 async function loadUserHistory(userId) {
     const historyPath = `${dirpath}/user_cache/${userId}.json`;
     if (fs.existsSync(historyPath)) {
@@ -41,10 +56,23 @@ async function loadUserHistory(userId) {
     }
     return [];
 }
+
+async function handleMsg(e, msg) {
+    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
+    let msgs = msg.replace(new RegExp(images, "g"), "")
+    return msgs.trim()
+}
+
 async function handleImages(e, msg) {
     let images = e.img.map(imgUrl => `${imgUrl} `).join('');
     return images + msg;
 }
+
+async function TakeImages(e, msg) {
+    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
+    return images
+}
+
 async function OtherModel(e, msg, stoken, apiurl, image) {
  try{
    if(image == "gpt-4-v" || image == "gemini-pro-vision") {
@@ -320,33 +348,3 @@ if (match) {
 }
 
 export { god_conversation }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
