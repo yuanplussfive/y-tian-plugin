@@ -10,7 +10,21 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     }
     //console.log(history)
     if (e.message.find(val => val.type === 'image')) {
+      const imgurl = await TakeImages(e, msg)
+      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision") {
+        msg = [ 
+        {
+         "type": "image_url",
+         "image_url": await TakeImages(e, msg)
+        }, 
+        {
+         "type": "text",
+         "text": await handleMsg(e, msg)
+        }
+       ]
+     } else {
         msg = await handleImages(e, msg);
+     }
     }
     history.push({
         "role": "user",
@@ -42,6 +56,18 @@ async function handleImages(e, msg) {
     let images = e.img.map(imgUrl => `${imgUrl} `).join('');
     return images + msg;
 }
+
+async function handleMsg(e, msg) {
+    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
+    let msgs = msg.replace(new RegExp(images, "g"), "")
+    return msgs.trim()
+}
+
+async function TakeImages(e, msg) {
+    let images = e.img.map(imgUrl => `${imgUrl} `).join('')
+    return images
+}
+
 async function handleSearchModel(e, msg, stoken, apiurl) {
   try{
     const response = await fetch(apiurl, {
