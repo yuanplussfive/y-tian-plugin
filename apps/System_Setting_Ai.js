@@ -99,10 +99,37 @@ export class example extends plugin {
           reg: "^#(ai|AI|Ai)(禁用|解禁)该群$",
           fnc: 'ban_group',
           permission: 'master'
+        },
+        {
+          reg: "^#(ai|AI|Ai)(开启|关闭)记忆限制$",
+          fnc: 'moment_limit',
+          permission: 'master'
+        },
+        {
+          reg: "^#设置记忆条数(.*?)$",
+          fnc: 'moment_numbers',
+          permission: 'master'
         }
       ]
     })
   }
+
+async moment_numbers(e) {
+   var nums = e.msg.match(/\d+/g).map(Number);
+   console.log(nums[0])
+   if (nums[0] >= 1) {
+   let data = readJsonFile(dataFilePath);
+    data.chatgpt.ai_moment_numbers = nums[0]
+    writeJsonFile(dataFilePath, data);
+    e.reply(`已将所有对话记忆限制为: ${nums[0]} 条,仅god/专业版方案生效`)
+}}
+
+async moment_limit(e) {
+    let data = readJsonFile(dataFilePath);
+    data.chatgpt.ai_moment_open = e.msg.includes("开启");
+    writeJsonFile(dataFilePath, data);
+    e.reply(`bot记忆限制已${data.chatgpt.ai_moment_open ? '开启' : '关闭'}`);
+}
 
 async toggleAi_private(e) {
     let data = readJsonFile(dataFilePath);
