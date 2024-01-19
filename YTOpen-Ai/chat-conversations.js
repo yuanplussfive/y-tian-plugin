@@ -2,11 +2,17 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
     const { model, stoken, search } = chatgptConfig;
     let msg = await formatMessage(e.msg);
+    let SettingsPath = _path + '/data/YTAi_Setting/data.json';
+    let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
+    let { ai_moment_numbers, ai_moment_open } = Settings.chatgpt;
     let history 
     if(group == false){
     history = await loadUserHistory(e.user_id);
     } else {
     history = await loadUserHistory(e.group_id);
+    }
+    if (ai_moment_open == true) {
+    history = await processArray(history, ai_moment_numbers)
     }
     //console.log(history)
     if (e.message.find(val => val.type === 'image')) {
@@ -42,6 +48,7 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     } else {
     await saveUserHistory(e.group_id, history);
     }
+    
 async function formatMessage(originalMsg) {
     return originalMsg.replace(/\/chat|#chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
 }
@@ -202,6 +209,19 @@ async function extractImageLinks(answer) {
        const imageLinkRegex = /!\[.*?\]\((https?:\/\/.*?)\)/g;
        const imageLinks = answer.matchAll(imageLinkRegex);
   return Array.from(imageLinks, (match) => match[1]);
+}
+
+async function processArray(arr, numbers) {
+    const userCount = arr.reduce((count, obj) => obj.role === "user" ? count + 1 : count, 0);
+    if (userCount >= numbers) {
+        const systemIndex = arr.findIndex(obj => obj.role === "system");
+        if (systemIndex !== -1) {
+            return [arr[systemIndex]];
+        } else {
+            return [];
+        }
+    }
+    return arr;
 }
 
 export { run_conversation }
