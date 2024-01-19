@@ -6,11 +6,17 @@ async function god_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     const imageConfig = JSON.parse(fs.readFileSync(`${dirpath}/setting.json`, "utf-8")).godgpt;
     const { image } = imageConfig
     let msg = await formatMessage(e.msg);
+    let SettingsPath = _path + '/data/YTAi_Setting/data.json';
+    let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
+    let { ai_moment_numbers, ai_moment_open } = Settings.chatgpt;
     let history 
     if(group == false){
     history = await loadUserHistory(e.user_id);
     } else {
     history = await loadUserHistory(e.group_id);
+    }
+    if (ai_moment_open == true) {
+    history = await processArray(history, ai_moment_numbers)
     }
     let image_url = 0
     if (e.message.find(val => val.type === 'image')) {
@@ -345,6 +351,19 @@ if (match) {
   } catch (error) {
     console.error(`失败了: ${url}: ${error}`);
   }
+}
+
+async function processArray(arr, numbers) {
+    const userCount = arr.reduce((count, obj) => obj.role === "user" ? count + 1 : count, 0);
+    if (userCount >= numbers) {
+        const systemIndex = arr.findIndex(obj => obj.role === "system");
+        if (systemIndex !== -1) {
+            return [arr[systemIndex]];
+        } else {
+            return [];
+        }
+    }
+    return arr;
 }
 
 export { god_conversation }
