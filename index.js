@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import chalk from 'chalk'
+const _path = process.cwd()
 
 if (!global.segment) {
   global.segment = (await import("oicq")).segment
@@ -8,19 +9,12 @@ if (!global.segment) {
 const files = fs.readdirSync('./plugins/y-tian-plugin/apps').filter(file => file.endsWith('.js'))
 
 let ret = []
-
-logger.info(chalk.rgb(50, 240, 108)(`---~~~~·❤·~~~~---`))
-logger.info(chalk.white(`       ☁️☁️☁️☁️☁️☁️☁️`)+chalk.white(`⚡    ⚡`)+chalk.white(`  ⚡⚡⚡⚡⚡`))
-logger.info(chalk.blue(`        💧💧💧`)
-+chalk.white(`  ⚡⚡`)+chalk.white(`        ⚡`))
-logger.info(chalk.white(`     ☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️`)
-+chalk.white(` ⚡`)+chalk.white(`         ⚡`))
-logger.info(chalk.blue(`     💧💧💧💧💧`)
-+chalk.white(`  ⚡ `)+chalk.white(`        ⚡`))
-logger.info(chalk.white(`☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️☁️`))
-
-logger.info(chalk.rgb(50, 240, 108)(`阴天插件Y-Tian-plugin已装载完毕`))
+let configData = JSON.parse(fs.readFileSync(`${_path}/data/YTAi_Setting/data.json`, 'utf-8'));
+logger.info(chalk.rgb(50, 240, 108)(`---~~·☁️☁️☁️·~~---`))
+logger.info(chalk.rgb(50, 240, 108)(`Y-Tian-plugin加载完毕`))
 logger.info(chalk.rgb(50, 240, 108)(`作者-鸢 & 天球生物`))
+logger.info(chalk.rgb(0, 255, 255)(`当前阴天AI状态:`))
+logger.info(chalk.rgb(44, 117, 255)(JSON.stringify(configData.chatgpt, null, 2)));
 logger.info(chalk.rgb(50, 240, 108)(`---------------------`));
  
 files.forEach((file) => {
