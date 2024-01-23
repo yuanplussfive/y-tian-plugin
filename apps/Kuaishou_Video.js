@@ -12,6 +12,7 @@ let m = []
 let imgUrl = _path + '/plugins/y-tian-plugin/background/image/bg.jpg'
 let num2 = 0
 let cookie = "did=web_fb27026de413afaebe6f7e360b1669d5;  ktrace-context=1|MS43NjQ1ODM2OTgyODY2OTgyLjg2ODM5NjI1LjE2ODM0NzQ0NzUzNDMuMzMyMTkw|MS43NjQ1ODM2OTgyODY2OTgyLjY1NjYxNDQzLjE2ODM0NzQ0NzUzNDMuMzMyMTkx|0|graphql-server|webservice|false|NA; userId=2455214856; kuaishou.server.web_st=ChZrdWFpc2hvdS5zZXJ2ZXIud2ViLnN0EqAB4vhVXLoLuKxhy5cmc5RO6GSMRhrG3aGTvkwbIIvB7BFBoQ2IES3psZ8mbcyyX4oXl5dQOGH7zkQ8JbSZeByMpcs2o4WCFS500FCPYuC1NV53NCSf8lzFLsr8FC49RyO53atQb3aEIKYSc8uVWUbWF-DWWD-V78h2aoE9gGq_VNWIV6r8lqD-L9ouvwOM4m1v_xZYTj4vu1KzvBgk5lof-hoS7YoRGiN2PM_7zCD1Dj9m5oYoIiAD6wnaMgFwnh4AFY--a0dDY6q5giaHF6yyIIaQe7eVpigFMAE; kuaishou.server.web_ph=2d168bb863b6628554a6b27231970003b297"
+
 export class example extends plugin {
   constructor() {
     super({
@@ -21,15 +22,15 @@ export class example extends plugin {
       priority: 600,
       rule: [
         {
-          reg: "^#(ks|快手)(.*)$|^#看(快手|ks)视频(.*?)$",
-          fnc: 'watch'
-        }, {
           reg: "^#(快手|ks)翻页$",
           fnc: 'pages'
+        },
+        {
+          reg: "^#(ks|快手)(.*)$|^#看(快手|ks)视频(.*?)$",
+          fnc: 'watch'
         }
       ]
     })
-
   }
 
 
