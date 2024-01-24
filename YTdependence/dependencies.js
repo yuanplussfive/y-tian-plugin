@@ -21,18 +21,22 @@ import { replyBasedOnStyle } from "../YTOpen-Ai/answer-styles.js"
 import { handleSystemCommand } from "../YTOpen-Ai/prompt-system.js"
 import { run_conversation } from "../YTOpen-Ai/chat-conversations.js"
 import { god_conversation } from "../YTOpen-Ai/god-conversation.js"
+import FormData from "../node_modules/form-data/lib/form_data.js"
+import axios from "../node_modules/axios/index.js"
 
 export const dependencies = {
   _path: _path,
   fetch: fetch,
   path: path,
   yaml: yaml,
+  FormData: FormData,
   crypto: crypto,
   common: common,
   fs: fs,
   WebSocket: WebSocket,
   https: https,
   cfg: cfg,
+  axios: axios,
   puppeteer: puppeteer,
   request: request,
   querystring: querystring,
@@ -47,35 +51,3 @@ export const dependencies = {
   replyBasedOnStyle,
   handleSystemCommand
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
