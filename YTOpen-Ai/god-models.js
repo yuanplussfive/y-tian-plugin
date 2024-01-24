@@ -1,12 +1,12 @@
 export const god_models = [
   {
     "model": "gpt-3.5-turbo",
-    "points": 15,
+    "points": 10,
     "token": 4096
   },
   {
     "model": "gpt-3.5-turbo-16k",
-    "points": 15,
+    "points": 10,
     "token": 16384
   },
   {
