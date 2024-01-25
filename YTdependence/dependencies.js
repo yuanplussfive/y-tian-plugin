@@ -1,16 +1,19 @@
+const _path = process.cwd()
 import fetch from "node-fetch"
 import path from "path"
 import crypto from 'crypto'
 import https from "https"
 import yaml from "yaml"
 import querystring from 'querystring'
+import cheerio from 'cheerio'
 import fs from "fs"
 import cfg from "../../../lib/config/config.js"
 import puppeteer from "../../../lib/puppeteer/puppeteer.js"
 import request from "../node_modules/request/index.js"
 import common from "../../../lib/common/common.js"
 import WebSocket from "../node_modules/ws/index.js"
-const _path = process.cwd()
+import FormData from "../node_modules/form-data/lib/form_data.js"
+import axios from "../node_modules/axios/index.js"
 import { Anime_tts } from "../model/Anime_tts.js"
 import { other_models } from "../YTOpen-Ai/other-models.js"
 import { god_models } from "../YTOpen-Ai/god-models.js"
@@ -21,14 +24,13 @@ import { replyBasedOnStyle } from "../YTOpen-Ai/answer-styles.js"
 import { handleSystemCommand } from "../YTOpen-Ai/prompt-system.js"
 import { run_conversation } from "../YTOpen-Ai/chat-conversations.js"
 import { god_conversation } from "../YTOpen-Ai/god-conversation.js"
-import FormData from "../node_modules/form-data/lib/form_data.js"
-import axios from "../node_modules/axios/index.js"
 
 export const dependencies = {
   _path: _path,
   fetch: fetch,
   path: path,
   yaml: yaml,
+  cheerio: cheerio,
   FormData: FormData,
   crypto: crypto,
   common: common,
