@@ -5,14 +5,14 @@ import crypto from 'crypto'
 import https from "https"
 import yaml from "yaml"
 import querystring from 'querystring'
-import cheerio from 'cheerio'
 import fs from "fs"
 import cfg from "../../../lib/config/config.js"
 import puppeteer from "../../../lib/puppeteer/puppeteer.js"
-import request from "../node_modules/request/index.js"
 import common from "../../../lib/common/common.js"
+import request from "../node_modules/request/index.js"
 import WebSocket from "../node_modules/ws/index.js"
 import FormData from "../node_modules/form-data/lib/form_data.js"
+import cheerio from '../node_modules/cheerio/lib/index.js'
 import axios from "../node_modules/axios/index.js"
 import { Anime_tts } from "../model/Anime_tts.js"
 import { other_models } from "../YTOpen-Ai/other-models.js"
