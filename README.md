@@ -40,8 +40,6 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 <img decoding="async"  src="background/image/帮助.jpg" width="35%">
   
-##  :stuck_out_tongue_winking_eye: 部分AI功能演示:
-
 ## 支持的AI模型：
 
 #### 对话类：
@@ -67,7 +65,6 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] claude-2
 - [✓] claude-2-sillytavern
 - [✓] bing
-- [✓] copilot
 - [✓] google-palm
 - [✓] google-bard
 - [✓] gemini-pro
@@ -81,15 +78,18 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] chatglm-pro
 - [✓] chatglm-turbo
 - [✓] chatglm-130b
+- [✓] chatglm-4
+- [✓] chatglm-4-alltools
 - [✓] mistral-8x7b
 - [✓] mistral-34b
-- [✓] moonshot-kimi
+- [✓] moonshot
 - [✓] wenxing-3.5
 - [✓] xinghuo-v1/2/3
 - [✓] qwen-72b
-- [✓] baichuan
+- [✓] yi-34b
 - [✓] tiger-bot
 - [✓] 360-ai
+- [✓] 360-search
 - [✓] deepseek
 - [✓] baidu-search
 
@@ -97,14 +97,14 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 - [✓] Stable-diffusion
 - [✓] midjourney
-- [✓] DALL-E 3
+- [✓] DALL-E
 
 #### 识图类：
 
 - [✓] gpt-4-v
 - [✓] 星火识图
-- [✓] bing
 - [✓] 千问识图
+- [✓] gemini-pro-vision
 
 #### 语音类：
 
