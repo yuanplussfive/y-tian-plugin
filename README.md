@@ -111,25 +111,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] 原神崩三等
 - [✓] OpenAI-TTS
 
-## AI绘图：
-
-【DELL E-3】
-
-<img src="./background/image/dalle3.1.png"  style="zoom:50%;" />
-
-<img src="./background/image/dalle3.2.png"  style="zoom:50%;" />
-
-【mj】
-
-<img src="./background/image/mj.1.png"  style="zoom:50%;" />
-
-【sd】
-
-<img src="./background/image/画图1.png"  style="zoom:50%;" />
-
-<img src="./background/image/画图2.png"  style="zoom:50%;" />
-
-## AI功能
+## AI功能展示：
 
 <img src="./background/image/对话1.png" style="zoom:50%;" />
 
