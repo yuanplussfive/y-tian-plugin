@@ -15,7 +15,7 @@
 
 # ※使用本插件前一定要正确配置FFmpeg※
 
-Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的AI，廉价的gpt4，claude2等，还有更多你想都不敢想的东西，真的不来看看吗？（进插件群解锁更多玩法！！！）
+Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的AI，还有更多你想都不敢想的东西，真的不来看看吗？（进插件群解锁更多玩法！！！）
 
 ##  :laughing: 安装教程
 
@@ -104,6 +104,12 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] gpt-4-v
 - [✓] 星火识图
 - [✓] bing
+- [✓] 千问识图
+
+#### 语音类：
+
+- [✓] 原神崩三等
+- [✓] OpenAI-TTS
 
 ## AI绘图：
 
@@ -123,13 +129,19 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 <img src="./background/image/画图2.png"  style="zoom:50%;" />
 
-## AI对话
+## AI功能
 
 <img src="./background/image/对话1.png" style="zoom:50%;" />
 
-<img src="./background/image/图识对话1.png" style="zoom:50%;" />
+<img src="./background/image/对话2.png" style="zoom:50%;" />
 
-<img src="./background/image/图识对话2.png" style="zoom:50%;" />
+<img src="./background/image/对话3.png" style="zoom:50%;" />
+
+<img src="./background/image/对话4.png" style="zoom:50%;" />
+
+<img src="./background/image/对话5.png" style="zoom:50%;" />
+
+<img src="./background/image/对话6.png" style="zoom:50%;" />
 
 ## 反馈
 
@@ -145,13 +157,11 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 ###  :relaxed: 鸣谢
 
-| 名单     | 联系方式     | 主要职责     |
+| 名单     | 联系方式     | 职责     |
 | -------- | ------------ | ------------ |
 | 鸢    | QQ2166683295 | 阴天工作室全栈开发工程师 |
 | 天球生物 | QQ928368902 | 阴天工作室Python，JavaScript工程师|
-| op要喝op果奶   | QQ715494637 | 阴天工作室python爬虫工程师|
 | Mr.k   | QQ3302843718 | 阴天工作室UI设计师 |
-| 恣意   | QQ1984871009 | godgpt供应商，管理者|
 
 ###  :sunglasses: 传送门
 
