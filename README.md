@@ -111,19 +111,19 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] 原神崩三等
 - [✓] OpenAI-TTS
 
-## AI功能展示：
+## 部分AI功能展示：
 
-<img src="./background/image/对话1.png" style="zoom:50%;" />
+<img src="./background/image/对话1.jpg" style="zoom:50%;" />
 
-<img src="./background/image/对话2.png" style="zoom:50%;" />
+<img src="./background/image/对话2.jpg" style="zoom:50%;" />
 
-<img src="./background/image/对话3.png" style="zoom:50%;" />
+<img src="./background/image/对话3.jpg" style="zoom:50%;" />
 
-<img src="./background/image/对话4.png" style="zoom:50%;" />
+<img src="./background/image/对话4.jpg" style="zoom:50%;" />
 
-<img src="./background/image/对话5.png" style="zoom:50%;" />
+<img src="./background/image/对话5.jpg" style="zoom:50%;" />
 
-<img src="./background/image/对话6.png" style="zoom:50%;" />
+<img src="./background/image/对话6.jpg" style="zoom:50%;" />
 
 ## 反馈
 
