@@ -86,42 +86,54 @@ export const chat_models = {
     },
     {
       "id": "15",
+      "name": "gpt-4-0125-preview",
+      "token_count": "131072",
+      "Magnification": 5
+    },
+    {
+      "id": "16",
+      "name": "gpt-4-turbo-preview",
+      "token_count": "131072",
+      "Magnification": 5
+    },
+    {
+      "id": "17",
       "name": "gpt-4-all",
       "token_count": "32768",
       "Magnification": 15
     },
     {
-      "id": "16",
+      "id": "18",
       "name": "search",
       "token_count": "∝",
       "Magnification": 0.1
     },
     {
-      "id": "17",
+      "id": "19",
       "name": "gpt-4-dalle",
       "token_count": "32768",
       "Magnification": 15
     },
     {
-      "id": "18",
+      "id": "20",
       "name": "gpt-4-v",
       "token_count": "32768",
       "Magnification": 15
     },
     {
-      "id": "19",
+      "id": "21",
       "name": "gemini-pro",
       "token_count": "8000",
       "Magnification": 1
     },
     {
-      "id": "20",
+      "id": "22",
       "name": "gemini-pro-vision",
       "token_count": "8000",
       "Magnification": 2
     },
     {
-      "id": "21",
+      "id": "23",
       "name": "qwen-72b",
       "token_count": "72000",
       "Magnification": 1
