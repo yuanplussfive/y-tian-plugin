@@ -1,6 +1,6 @@
-async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, Anime_tts) {
+async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, Anime_tts, Apikey) {
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
-    const { model, stoken, search } = chatgptConfig;
+    const { model, search } = chatgptConfig;
     let msg = await formatMessage(e.msg);
     let SettingsPath = _path + '/data/YTAi_Setting/data.json';
     let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
@@ -38,10 +38,10 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     });
     switch (model) {
         case "search":
-            await handleSearchModel(e, msg, stoken, apiurl);
+            await handleSearchModel(e, msg, Apikey, apiurl);
             break;
         default:
-            await handleGpt4AllModel(e, history, stoken, search, model, apiurl);
+            await handleGpt4AllModel(e, history, Apikey, search, model, apiurl);
     }
      if(group == false){
     await saveUserHistory(e.user_id, history);
@@ -75,13 +75,13 @@ async function TakeImages(e, msg) {
     return images
 }
 
-async function handleSearchModel(e, msg, stoken, apiurl) {
+async function handleSearchModel(e, msg, Apikey, apiurl) {
   try{
     const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${stoken}`,
+            "Authorization": `Bearer ${Apikey}`,
         },
         body: JSON.stringify({
             model: "search",
@@ -94,14 +94,14 @@ async function handleSearchModel(e, msg, stoken, apiurl) {
  e.reply(answer);
 } catch { e.reply("与服务器通讯失败!") }}
 
-async function handleGpt4AllModel(e, history, stoken, search, model, apiurl) {
+async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl) {
   try {
     let answer;
     const response = await fetch(apiurl, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${stoken}`,
+        "Authorization": `Bearer ${Apikey}`,
       },
       body: JSON.stringify({
         model: model,
@@ -179,7 +179,7 @@ console.log(links);
 return links
 }
 
-async function downloadAndSaveFile(url,path,fetch,_path,fs,e) {
+async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
   try {
     const response = await fetch(url);
     const fileBuffer = await response.buffer();
