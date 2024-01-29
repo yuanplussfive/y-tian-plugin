@@ -30,6 +30,16 @@ export const god_models = [
     "token": 128000
   },
   {
+    "model": "gpt-4-0125-preview",
+    "points": 1,
+    "token": 128000
+  },
+  {
+    "model": "gpt-4-turbo-preview",
+    "points": 1,
+    "token": 128000
+  },
+  {
     "model": "claude-1-100k",
     "points": 20,
     "token": 100000
