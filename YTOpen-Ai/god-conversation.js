@@ -132,8 +132,39 @@ history.push({
         "role": "assistant",
         "content": answer
     });
-let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
-  await replyBasedOnStyle(styles, answer, e, common, puppeteer, fs, _path, msg)
+    let Messages = "undefined"
+    //console.log(answer)
+    if ((model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") && answer.startsWith(`
+\`\`\`json dalle-prompt`)) {
+    const extractJsonAndDescription = (str) => {
+    const jsonMatch = str.match(/```json[^{]*({.*?})\s*```/s);
+    const jsonPart = jsonMatch ? jsonMatch[1] : '';
+    const descriptionMatch = str.match(/\[下载\d+\]\(https:\/\/[^\)]+\)\s*\n([\s\S]+)$/);
+    let descriptionPart;
+    if (descriptionMatch.length !== 0 && jsonMatch.length !== 0) {
+    descriptionPart = descriptionMatch ? descriptionMatch[1].trim() : '';
+    } else if (descriptionMatch.length == 0 && jsonMatch.length !== 0) {
+     const regex = new RegExp(jsonPart, "g");
+     descriptionPart = answer.replace(regex, "");
+    } else {
+     descriptionPart = answer
+    }
+    console
+    return { jsonPart, descriptionPart };
+  };
+    const result = extractJsonAndDescription(answer);
+    let forwardMsg = []
+ forwardMsg.push(JSON.parse(result.jsonPart).prompt)
+    forwardMsg.push(JSON.parse(result.jsonPart).size)
+    const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'dall-e-3绘图prompt');
+    e.reply(JsonPart)
+    Messages = result.descriptionPart
+   }
+   if (Messages == "undefined") {
+   Messages = answer
+   }
+   let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
+  await replyBasedOnStyle(styles, Messages, e, common, puppeteer, fs, _path, msg)
 let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
     let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
     let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
