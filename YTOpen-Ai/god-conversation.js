@@ -1,4 +1,4 @@
-async function god_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, appId, apiKey, apiSecret, AK, SK) {
+async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, appId, apiKey, apiSecret, AK, SK) {
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
     const { search } = chatgptConfig;
     const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
@@ -19,12 +19,14 @@ async function god_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     history = await processArray(history, ai_moment_numbers)
     }
     let image_url = 0
+    let message = msg
     if (e.message.find(val => val.type === 'image')) {
         if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
+       message = await handleMsg(e, msg)
         msg = [ 
         {
          "type": "image_url",
-         "image_url": await TakeImages(e, msg)
+         "image_url": imgurl
         }, 
         {
          "type": "text",
@@ -96,7 +98,7 @@ async function OtherModel(e, msg, stoken, apiurl, image) {
     let response_json = await response.json()
     let answer = await response_json.choices[0].message.content
     let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
-  await replyBasedOnStyle(styles, answer, e, common, puppeteer, fs, _path, msg)
+  await replyBasedOnStyle(styles, answer, e, common, puppeteer, fs, _path, message)
 let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
     let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
     let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
