@@ -1,4 +1,4 @@
-async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, Anime_tts, Apikey) {
+async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, Anime_tts, Apikey, imgurl) {
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
     const { model, search } = chatgptConfig;
     let msg = await formatMessage(e.msg);
@@ -15,13 +15,14 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     history = await processArray(history, ai_moment_numbers)
     }
     //console.log(history)
-    if (e.message.find(val => val.type === 'image')) {
-      const imgurl = await TakeImages(e, msg)
+    let message = msg
+    if (e.message.find(val => val.type === 'image')) {    
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision") {
+       message = await handleMsg(e, msg)
         msg = [ 
         {
          "type": "image_url",
-         "image_url": await TakeImages(e, msg)
+         "image_url": imgurl
         }, 
         {
          "type": "text",
@@ -59,6 +60,7 @@ async function loadUserHistory(userId) {
     }
     return [];
 }
+
 async function handleImages(e, msg) {
     let images = e.img.map(imgUrl => `${imgUrl} `).join('');
     return images + msg;
@@ -147,7 +149,7 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl) {
    Messages = answer
    }
     let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
-    await replyBasedOnStyle(styles, Messages, e, common, puppeteer, fs, _path, msg);
+    await replyBasedOnStyle(styles, Messages, e, common, puppeteer, fs, _path, message);
     let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
     let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
     let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
