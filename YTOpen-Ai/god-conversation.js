@@ -136,8 +136,8 @@ history.push({
     });
     let Messages = "undefined"
     //console.log(answer)
-    if ((model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") && answer.startsWith(`
-\`\`\`json dalle-prompt`)) {
+    if ((model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") && (answer.startsWith(`
+\`\`\`json dalle-prompt`) || answer.includes(`\`\`\`json dalle-prompt`))) {
     const extractJsonAndDescription = (str) => {
     const jsonMatch = str.match(/```json[^{]*({.*?})\s*```/s);
     const jsonPart = jsonMatch ? jsonMatch[1] : '';
