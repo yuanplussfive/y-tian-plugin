@@ -1,0 +1,39 @@
+@column-count: 4;
+@column-gap: 20px;
+
+.container {
+  column-count: @column-count;
+  column-gap: @column-gap;
+}
+
+.item {
+  break-inside: avoid;
+  margin-bottom: 20px;
+}
+
+.item img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.item-info {
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 0 0 8px 8px;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: darken(#007bff, 10%);
+}
