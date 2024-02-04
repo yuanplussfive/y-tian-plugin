@@ -115,6 +115,9 @@ if (aiSettings.chatgpt.ai_tts_open) {
 
 async function MainModel(e, history, stoken, search, model, apiurl) {
  try{
+    if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
+     search = false
+    }
     const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
