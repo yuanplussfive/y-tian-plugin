@@ -1,132 +1,109 @@
-import fetch from 'node-fetch'
-import fs from "fs"
-
+import { dependencies } from "../YTdependence/dependencies.js";
+const { fs, fetch } = dependencies
 let magic;
+
 export class example extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
-      name: '阴天[yyscos]',
-      /** 功能描述 */
+      name: '阴天[阴阳师cos]',
       dsc: '简单开发示例',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
-      priority: 2500,
+      priority: 2000,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#yys(cos|同人)$',
-          /** 执行方法 */
           fnc: 'yyscos'
-        },{
-          /** 命令正则匹配 */
+        },
+        {
           reg: '^#yys(sp|视频)$',
-          /** 执行方法 */
           fnc: 'yyssp'
         }
       ]
     })
   }
-async yyssp(e){
-function gailv() {
-  let num = Math.floor(Math.random() * 320) + 1
-  let nums = new Set()
-  while (nums.has(num)) {
-    num = Math.floor(Math.random() * 320) + 1
+
+async yyssp(e) {
+  function getRandomNumber() {
+    return Math.floor(Math.random() * 320) + 1;
   }
-  nums.add(num)
-  if (nums.size === 320) nums.clear()
-  return num
-}
-let time = new Date().getTime()
-let url = `https://g37community.tongren.163.com/article/apps/web/game/g37/?sort=-new&span=1&tags=视频&start=${gailv()}&random=${time}`
-let a = await fetch(url,{
-method:"get",
-headers:{
-"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.64"
-}
-})
-a = await a.json()
-console.log(a.data.articles[0].body[0].fp_data.url)
-let title = await a.data.articles[0].title
-let name = await a.data.articles[0].author_nickname
-let imgurl = await a.data.articles[0].author.avatar
-let body = await a.data.articles[0].body[0].fp_data.url
-let msg = ["作者:"+ name,"\n","作者头像:","\n",segment.image(imgurl)]
-await this.reply(msg)
-let response = await fetch(body);
-let buff = await response.arrayBuffer()
-fs.writeFileSync("./resources/yyssp.avi", Buffer.from(buff), "binary", );
-if (fs.existsSync("./resources/yyssp.avi")) {
-fs.stat("./resources/yyssp.avi",(err, stats) => {
-if (err) throw err;
-let dx = Math.round(stats.size/1048576)
-if(dx >= 100){
-e.reply(`解析文件大小为 ${dx} MB，太大了发不出来，诶嘿,给你无水印地址:${body}`)
-return false
-}else{
-e.reply([segment.video("./resources/yyssp.avi")])
-}
-})
-}
-}
-async yyscos(e){
-if(e.msg.includes("#yyscos")){
-magic = "Cosplay"
-}
-if(e.msg.includes("#yys同人")){
-magic = "同人绘"
-}
-function gailv() {
-  let num = Math.floor(Math.random() * 2000) + 1
-  let nums = new Set()
-  while (nums.has(num)) {
-    num = Math.floor(Math.random() * 2000) + 1
+  const time = new Date().getTime();
+  const url = `https://g37community.tongren.163.com/article/apps/web/game/g37/?sort=-new&span=1&tags=视频&start=${getRandomNumber()}&random=${time}`;
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'user-agent': 'Your User Agent String'
+      }
+    });
+    const jsonData = await response.json();
+    const { title, author: { nickname, avatar }, body } = jsonData.data.articles[0];
+    const videoUrl = body[0].fp_data.url;
+    //console.log(videoUrl);
+    const authorInfo = `作者: ${nickname}\n作者头像:\n${segment.image(avatar)}`;
+    await e.reply(authorInfo);
+    const fileResponse = await fetch(videoUrl);
+    const buffer = await fileResponse.buffer();
+    const filePath = "./resources/yyssp.avi";
+    await fs.writeFile(filePath, buffer);
+    const stats = await fs.stat(filePath);
+    const fileSizeInMB = Math.round(stats.size / 1048576);
+    if (fileSizeInMB >= 100) {
+      await e.reply(`解析文件大小为 ${fileSizeInMB} MB，太大了发不出来，诶嘿,给你无水印地址:${videoUrl}`);
+    } else {
+      await e.reply([segment.video(filePath)]);
+    }
+  } catch (err) {
+    await e.reply('请求失败了!');
   }
-  nums.add(num)
-  if (nums.size === 2000) nums.clear()
-  return num
-}
-let time = new Date().getTime()
-console.log(time)
-let b = await fetch(`https://g37community.tongren.163.com/article/apps/web/game/g37/?sort=-new&span=1&tags=${magic}&start=${gailv()}&random=${time}`,{
-method:"get",
-headers:{
-"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.64"
-}})
-b = await b.json()
-//console.log(b.data)
-let title = await b.data.articles[0].title
-let length = (await b.data.articles[0].body).length
-let num2 = Math.ceil(Math.random()*length-1);
-//console.log(title)
-//console.log(b.data.articles[0].body)
-let data = await b.data.articles[0].body[num2].fp_data.url
-//console.log(data)
-let update_time = await b.data.articles[0].update_time
-let author_nickname = await b.data.articles[0].author_nickname
-let msg = ["标题:"+title,"\n","分类:"+"["+author_nickname+"]","\n","更新时间:"+ update_time,"\n",segment.image(data)]
-e.reply(msg)
-}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+async yyscos(e) {
+  const tagMappings = {
+    "#yyscos": "Cosplay",
+    "#yys同人": "同人绘"
+  };
+  let magic = null;
+  for (const tag in tagMappings) {
+    if (event.msg.includes(tag)) {
+      magic = tagMappings[tag];
+      break;
+    }
+  }
+  if (!magic) {
+    e.reply("抓取图片失败了")
+    return;
+  }
+  const generateRandomNumber = () => Math.floor(Math.random() * 2000) + 1;
+  try {
+    const time = new Date().getTime();
+    const response = await fetch(`https://g37community.tongren.163.com/article/apps/web/game/g37/?sort=-new&span=1&tags=${magic}&start=${generateRandomNumber()}&random=${time}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    const data = await response.json();
+    if (!data || !data.data || !data.data.articles || data.data.articles.length === 0) {
+      return;
+    }
+    const article = data.data.articles[0];
+    const title = article.title;
+    const articleLength = article.body.length;
+    const randomIndex = Math.floor(Math.random() * articleLength);
+    const imageUrl = article.body[randomIndex].fp_data.url;
+    const updateTime = article.update_time;
+    const authorNickname = article.author_nickname;
+    let message = [
+      `标题: ${title}\n`,
+      `分类: [${authorNickname}]\n`,
+      `更新时间: ${updateTime}\n`,
+      segment.image(imageUrl)
+    ];
+    e.reply(message);
+  } catch (error) {
+    console.error(error);
+  }
+ }
+}
