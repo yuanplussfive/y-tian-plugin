@@ -43,54 +43,60 @@ export const other_models = [
   },
   {
     "id":8,
+    "model": "claude-2",
+    "points": "Claude",
+    "token": 200000
+  },
+  {
+    "id":9,
     "model": "claude-2-sillytavern",
     "points": "Claude+sillytavern",
     "token": 200000
   },
   {
-    "id":9,
+    "id":10,
     "model": "chatglm-turbo",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":10,
+    "id":11,
     "model": "chatglm-pro",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":11,
+    "id":12,
     "model": "chatglm-4",
     "points": "清华&智谱",
     "token": 130000
   },
   {
-    "id":12,
+    "id":13,
     "model": "meta-llama",
     "points": "llama",
     "token": "70000"
   },
   {
-    "id":13,
+    "id":14,
     "model": "mistralai",
     "points": "Mistral",
     "token": "8500"
   },
   {
-    "id":14,
+    "id":15,
     "model": "codellama",
     "points": "Microsoft",
     "token": "34000"
   },
   {
-    "id":15,
+    "id":16,
     "model": "jondurbin",
     "points": "airoboros",
     "token": "70000"
   },
   {
-    "id":16,
+    "id":17,
     "model": "gemini-pro",
     "points": "google",
     "token": "8000"
