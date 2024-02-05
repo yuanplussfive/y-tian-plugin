@@ -1,139 +1,64 @@
 
-import plugin from '../../../lib/plugins/plugin.js'
-import fetch from 'node-fetch'
-import fs from "fs"
-if(!global.segment){
-global.segment = (await import('oicq')).segment
-}
+import { dependencies } from "../YTdependence/dependencies.js";
+const { puppeteer, _path, fetch, fs } = dependencies
 let ms
-const _path = process.cwd();
-import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+
 export class example extends plugin {
   constructor() {
     super({
-      /** 功能名称 */
       name: '阴天[统计发言]',
-      /** 功能描述 */
-      dsc: '01',
-      /** https://oicqjs.github.io/oicq/#events */
+      dsc: '',
       event: 'message',
-      /** 优先级，数字越小等级越高 */
-      priority: 9,
+      priority: 0,
       rule: [
         {
-          reg: "#?群发言(.*)",
-          /** 执行方法 */
+          reg: "#群发言(.*)",
           fnc: 'spec'
+       }
+     ]
+   })
+ }
 
-        }
-      ]
-    })
-}
 async spec(e){
-let n = []
-let arr = []
-let sr = e.msg.replace(/#?统计/g, "").trim();
-sr = sr.match(/\d+/g);
-let chat = await e.group.getChatHistory(0, 1);
-let seq = chat[0].seq
-let time = chat[0].time
-let ranklistData = {}
-ranklistData[e.group_id] = ranklistData[e.group_id] ? ranklistData[e.group_id] : {
-        lastseq: 0,
-        acount: 0
-}
-e.reply("正在为您分析中，请稍等~")
-var start = new Date().getTime()
-let CharList = ranklistData[e.group_id].list ? ranklistData[e.group_id].list : {};
-let y = Number(seq)-Number(sr)
-console.log(y)
-console.log(seq)
-for (let p = seq; p>y; p=p-1) {
-let Char = await e.group.getChatHistory(p, 1);
-//console.log(Char)
-for (let  a = 0; a<sr; a++) {
-if (typeof(Char[a])=== "undefined") {
-break;
-}
-let jl = Char[a].raw_message
-let uid = Char[a].sender.user_id
-let name = Char[a].sender.title
-let card = Char[a].sender.card
-let message = ["\n",`群称呼:[${name}]`,"\n",`群名称:[${card}]`,"\n",`qq:[${uid}]`,"\n",`发言内容:[${jl}]`,"\n","\n"]
-n.push(message)
-arr.push(uid)
-}
-//console.log(n)
-}
-var end = new Date().getTime()
-let sj = Number(end - start)/Number(1000)
-e.reply(`已经完成了,用时${sj}s`)
-function qc(arr) {
-  let tempArr = []
-  let obj = {}
-  let resultArr = []
-  arr.forEach(v=>{
-    if(!tempArr.includes(v)) {
-      tempArr.push(v)
+    console.log('Processing request...');
+    const start = Date.now();
+    const group_id = e.group_id;
+    const sr = +e.msg.replace(/#?统计/g, "").trim();
+    const { seq: upperSeq } = await e.group.getChatHistory(0, 1)[0];
+    const ranklistData = { 
+        [group_id]: { lastseq: 0, acount: 0, list: {} } 
+    };
+    await e.reply("正在为您分析中，请稍等~");
+    let arr = [], p = upperSeq, lowerSeq = upperSeq - sr;
+    while (p > lowerSeq) {
+        const chats = await Promise.all([...Array(p - lowerSeq).keys()].map(i => e.group.getChatHistory(lowerSeq + i, 1)));
+        chats.flatMap(chat => chat.filter(c => !!c).map(char => {
+            arr.push(char.sender.user_id);
+            return {
+                name: char.sender.title, 
+                card: char.sender.card, 
+                uid: char.sender.user_id, 
+                content: char.raw_message
+            };
+        }));
+        p -= sr;
     }
-  })
-  arr.forEach(v=>{
-    if(obj[v]) {
-      obj[v]++
-    }else {
-      obj[v] = 1
-    }
-  })
-  tempArr.forEach(v=>{
-    resultArr.push({
-      "qq": v,
-      "cs": obj[v],
-      "url": `http://q.qlogo.cn/headimg_dl?dst_uin=${v}&spec=640&img_type=jpg`
-    })
-  })
-resultArr.sort((a, b) => {
-  return b.cs - a.cs;
-});
-  return resultArr
+    const timeTaken = (Date.now() - start) / 1000;
+    console.log(`Processing complete in ${timeTaken}s`);
+    const frequencyMap = arr.reduce((acc, uid) => {
+        acc[uid] ? acc[uid]++ : acc[uid] = 1;
+        return acc;
+    }, {});
+    const transformedData = Object.entries(frequencyMap).map(([k, v]) => ({
+        'qq': k, 'cs': v, 'url': `http://q.qlogo.cn/headimg_dl?dst_uin=${k}&spec=640&img_type=jpg`
+    })).sort((a, b) => b.cs - a.cs);
+    const htmlString = fs.readFileSync(`${_path}/plugins/y-tian-plugin/resources/html/ph.html`, 'utf-8');
+    const processedHtml = htmlString.replace('__SHUJU__', JSON.stringify(transformedData));
+    fs.writeFileSync(`${_path}/plugins/y-tian-plugin/resources/html/ph2.html`, processedHtml, 'utf-8');
+    e.reply(await puppeteer.screenshot("66", {
+        tplFile: `${_path}/plugins/y-tian-plugin/resources/html/ph2.html`,
+        imgtype:'png',
+        src: `${_path}/plugins/y-tian-plugin/resources/ttf/jty.OTF`
+    }));
+  }
 }
-let op = await qc(arr)
- let gei = JSON.stringify(op).replace(/\//g, "")
- 
-function processHtml(htmlString, data) {
-  return htmlString.replace('__SHUJU__', JSON.stringify(data));
-}
-const rankingData = op
-const htmlString = fs.readFileSync(`${_path}/plugins/y-tian-plugin/resources/html/ph.html`, 'utf-8');
-const processedHtml = processHtml(htmlString, rankingData);
-fs.writeFileSync(`${_path}/plugins/y-tian-plugin/resources/html/ph2.html`,processedHtml,'utf-8');
- let src = _path + "/plugins/y-tian-plugin/resources/ttf/jty.OTF"
-  let img = await puppeteer.screenshot("66", {
-    tplFile: `${_path}/plugins/y-tian-plugin/resources/html/ph2.html`,
-    imgtype: 'png',
-    src:src
-  });
-await e.reply(img)
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
