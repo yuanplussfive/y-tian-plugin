@@ -3,6 +3,7 @@ const  { fetch, request, crypto } = dependencies
 let botname = "#Bot";//这里可以更改名
 let time = new Date().getTime()
 let msgData = []
+
 export class example extends plugin {
   constructor() {
     super({
@@ -30,7 +31,7 @@ e.reply("对话已重置")
 }
 
 async free_chat(e){
-   const msg = e.msg.replace(/#Bot/g,"").trim()
+   const msg = await formatMessage(e.msg)
     msgData.push({ role: "user", content: msg })
     const functions_35 = [chat35_1, chat35_2];
     let answer = await executeFunctions(functions_35, msgData, msg);
@@ -160,4 +161,8 @@ async function digestMessage(r) {
         hash.update(r);
         return hash.digest('hex');
     }
+}
+
+async function formatMessage(msg) {
+    return msg.replace(/#Bot/g, "").trim().replace(new RegExp(botname, "g"), "");
 }
