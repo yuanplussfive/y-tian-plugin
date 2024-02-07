@@ -3,7 +3,7 @@ import fetch from "node-fetch"
 import path from "path"
 import crypto from 'crypto'
 import https from "https"
-import yaml from "yaml"
+import YAML from "yaml"
 import querystring from 'querystring'
 import fs from "fs"
 import cfg from "../../../lib/config/config.js"
@@ -29,7 +29,7 @@ export const dependencies = {
   _path: _path,
   fetch: fetch,
   path: path,
-  yaml: yaml,
+  YAML: YAML,
   cheerio: cheerio,
   FormData: FormData,
   crypto: crypto,
