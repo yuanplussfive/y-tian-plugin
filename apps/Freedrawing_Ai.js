@@ -1,550 +1,478 @@
-import fetch from 'node-fetch'
-import fs from 'fs'
-import puppeteer from '../../../lib/puppeteer/puppeteer.js'
-import common from'../../../lib/common/common.js'
-import YAML from "yaml"
+import { dependencies } from "../YTdependence/dependencies.js";
+const { fetch, common, _path, fs, YAML, puppeteer } = dependencies
 let uid
 let id
 let body
 let requestid
-let isFinished = false
-let ifFinished = false
-let loraCode = []
+let loraID = []
 let lora = ""
 let keylora = ""
+let weightlora = 0.8
 let negPrompt = "(worst quality, low quality:1.4), bad anatomy, watermarks, text, signature, blur,messy, low quality, sketch by bad-artist, (semi-realistic,  sketch, cartoon, drawing, anime:1.4), cropped, out of frame, worst quality, low quality, jpeg artifacts"
 let models = "62a46462-fa74-441c-b141-640a16248a71"
 let steps = 20
-const _path = process.cwd();
 let dirpath = _path + '/data/YTdrawing'
-if(!fs.existsSync(dirpath)){
+ if (!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
 }
-if (!fs.existsSync(dirpath + "/" + "drawing.yaml")){
-fs.writeFileSync(dirpath+ "/" + "drawing.yaml",'cookie: "satoken=xxxx;token=xxxx"',"utf-8")
+ if (!fs.existsSync(dirpath + "/" + "drawing.yaml")) {
+  fs.writeFileSync(dirpath+ "/" + "drawing.yaml",'cookie: "satoken=xxxx"',"utf-8")
 }
+
 export class example extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
-      name: '阴天[drawing3.0]',
-      /** 功能描述 */
-      dsc: '简单开发示例',
-      /** https://oicqjs.github.io/oicq/#events */
+      name: '阴天[FreeDrawing]',
+      dsc: '',
       event: 'message',
-      /** 优先级，数字越小等级越高 */
-      priority: 40,
+      priority: 2000,
       rule: [
         {
           reg: "^/画图(.*)",
-          fnc: 'help'
-},{
+          fnc: 'optimize'
+        },
+        {
           reg: "^/图模型大全$|^/切换图模型(.*?)$",
           fnc: 'models'
-},{      
+        },
+        {      
           reg: "^/切换步数(.*?)$",
-          fnc: 'step'
-},{      
-          reg: "^/图生图(.*?)$",
+          fnc: 'optimizeSteps'
+        },
+        {      
+          reg: "^/(图|头)生图(.*?)$",
           fnc: 'images'
-},{      
-          reg: "^/头生图(.*?)$",
-          fnc: 'comic'
-},{      
+        },
+        {      
           reg: "^/搜索lora(.*?)$",
           fnc: 'searchlora'
-},{      
+        },
+        {      
           reg: "^/切换lora(.*?)$",
           fnc: 'changelora'
-},{      
+        },
+        {      
           reg: "^/清空lora$",
           fnc: 'endlora'
-},{      
+        },
+        {      
           reg: "^/lora权重(.*?)$",
           fnc: 'loraweight'
-},{      
-          reg: "^/阴天画图帮助$",
-          fnc: 'drawinghelp'
+        },
+        {      
+          reg: "^/清晰度提升$",
+          fnc: 'improve'
         }
       ]
     })
   }
+
+async improve(e) {
+ if (e.message.find(val => val.type === 'image')) {
+  const rawImageUrl = e.img[0]
+  try {
+    const imgUrls = 'https://www.vegaai.net/apis/text2image/getImage';
+    const req = await IncreaseImage(rawImageUrl) 
+    if (!req.success) {
+      const replyMessage = req.message 
+        ? '上一个图片任务正在进行中，请稍候!' 
+        : '验证错误,  请确保填写正确的参数!';
+      await e.reply(replyMessage);
+      return;
+    }
+    const { timeWait, dealTime, requestId } = req;
+    await e.reply(`我在画了，请稍等哦，大概需要 ${dealTime}~${timeWait}s`);
+    const result = await fetchImage(imgUrls, requestId);
+    const image = JSON.parse(result.data.image);
+    const output = await AnalysisUrl(image);
+    await e.reply(output);
+  } catch (error) {
+    await e.reply('处理图片过程中出现错误，请稍后再试！');
+  }
+ }
+}
+
 async loraweight(e){
-const str = e.msg
-const match = str.match(/\d+/);
-if (match) {
-  const number = parseInt(match[0]);
-  if (number > 0 && number <= 100) {
-    keylora = number
+  const str = e.msg
+  const match = str.match(/\d+/);
+  if (match) {
+   const number = parseInt(match[0]);
+   if (number > 0 && number <= 100) {
+    weightlora = number/100
     e.reply(`lora权重已改为${keylora}`)
     console.log(number);
   }
+ }
 }
-}
+
 async endlora(e){
-lora = ""
-e.reply("lora已成功清空")
+  lora = ""
+  keylora = ""
+  negPrompt = "(worst quality, low quality:1.4), bad anatomy, watermarks, text, signature, blur,messy, low quality, sketch by bad-artist, (semi-realistic,  sketch, cartoon, drawing, anime:1.4), cropped, out of frame, worst quality, low quality, jpeg artifacts"
+  e.reply("lora已成功清空")
 }
-async drawinghelp(e){
-if (!fs.existsSync(_path + "/data/YTdrawing.html")){
-let html = 
-`<!DOCTYPE html>
-<html>
-<head>
-  <title>画图功能菜单</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-    }
 
-    .container {
-      margin: 20px auto;
-      width: 500px;
-      background-color: #fff;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+async changelora(e) {
+  //console.log(loraID)
+  let msgIndex = parseInt(e.msg.replace(/\/切换lora/g, "").trim()) - 1;
+  if (Array.isArray(loraID) && !isNaN(msgIndex) && loraID[msgIndex]) {
+    lora = loraID[msgIndex].loraCode;
+    keylora = loraID[msgIndex].loraKeyword;
+    negPrompt = loraID[msgIndex].negPrompt;
+    e.reply("切换成功", true);
+  } else {
+    if (!Array.isArray(loraID) || !loraID.length) {
+      e.reply("你还没搜索呢，我切换个毛!", true);
+    } else if (isNaN(msgIndex) || !(msgIndex in loraID)) {
+      e.reply("错误的参数，请重新输入", true);
     }
-
-    h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .branch {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>阴天免费画图</h1>
-    <div class="branch">
-      <h2>/画图+内容</h2>
-      <p>开始画图了</p>
-    </div>
-    <div class="branch">
-      <h2>/图模型大全</h2>
-      <p>查看所有的画图主模型</p>
-    </div>
-    <div class="branch">
-      <h2>/切换图模型+序号</h2>
-      <p>切换当前画图的模型</p>
-    </div>
-    <div class="branch">
-      <h2>/搜索lora+内容</h2>
-      <p>搜索相关的画图lora</p>
-    </div>
-    <div class="branch">
-      <h2>/切换lora+序号</h2>
-      <p>切换相关的画图lora</p>
- </div>
-  <div class="branch">
-      <h2>/图生图(带上一张图片)+关键词</h2>
-      <p>根据你的关键词和图片进行画图</p>
-    </div>
-<div class="branch">
-      <h2>/头生图(艾特一个群友)+关键词</h2>
-      <p>根据你的关键词和群友头像进行画图</p>
-    </div>
-<div class="branch">
-      <h2>PS:免费画图需要配置tk,sk,教程请在群里查看</h2>
-    </div>
-    </div>
-  </div>
-</body>
-</html>`
-fs.writeFileSync(_path + "/data/YTdrawing.html",html,"utf-8")
-let data = {
-              tplFile: _path + "/data/YTdrawing.html",	          
-}
-let img = await puppeteer.screenshot("777", {
-              ...data,
-            });
-e.reply(img)
-}else{
-let data = {
-              tplFile: _path + "/data/YTdrawing.html",	          
-}
-let img = await puppeteer.screenshot("777", {
-              ...data,
-            });
-e.reply(img)
-}}
-async changelora(e){
-let msg = e.msg.replace(/\/切换lora/g,"").trim()
-if(!loraCode.length == 0){
-if(loraCode[msg-1]){
-lora = loraCode[msg-1].loracode
-keylora = loraCode[msg-1].lorakey
-e.reply("切换成功",true)
-}else{e.reply("错误的参数，请重新输入",true);return false}
-}else{e.reply("你还没搜索呢，我切换个毛!",true)}
-}
-async searchlora(e){
-let msg = e.msg.replace(/\/搜索lora/g,"").trim()
-let search = await fetch(`https://www.vegaai.net/apis/lora/getLoraModels/v1?auth=public&pageNo=0&pageSize=60&orderType=collection&keyword=${msg}`, {
-  "headers": {
-    "accept": "application/json, text/plain, */*",
-    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-    "sec-ch-ua": "\"Not/A)Brand\";v=\"99\", \"Microsoft Edge\";v=\"115\", \"Chromium\";v=\"115\"",
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": "\"Windows\"",
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "cookie": await getcookie(),
-    "Referer": "https://rightbrain.art/text2Image",
-    "Referrer-Policy": "strict-origin-when-cross-origin"
-  },
-  "body": null,
-  "method": "GET"
-});
-search = await search.json()
-let data = await search.data.list
-//console.log(data)
-let nickname = Bot.nickname
-let userInfo = {
-user_id: Bot.uin,
-nickname
-}
-let forwardMsg = [{
-...userInfo,
-message: `lora【${msg}】搜索结果:`
-}]
-loraCode = []
-for(var i = 0; i<data.length;i++){
-let loraid = `序号:${i+1}`+"\n"
-let loracode = data[i].loraCode
-let lorakey = data[i].loraKeyword
-loraCode.push({"loracode":loracode,"lorakey":lorakey})
-let loraName = "lora名称:"+data[i].loraName+"\n"
-let loraBaseName = "基于模型名称:"+data[i].loraBaseName+"\n"
-let loraKeyword = "lora关键词:"+data[i].loraKeyword+"\n"
-let createUser = "创建者名称:"+data[i].createUser+"\n"
-let remark = "画图示例:"+"\n"+"("+data[i].remark+")"
-let allin = [loraid,loraName,loraBaseName,loraKeyword,createUser,remark]
-let content = {
-...userInfo,
-message: allin
-}
-forwardMsg.push(content)
-}
-if (this.e.isGroup) {
-forwardMsg = await this.e.group.makeForwardMsg(forwardMsg)
-}else{
-forwardMsg = await this.e.friend.makeForwardMsg(forwardMsg)
-}
-e.reply(forwardMsg)
-e.reply("请发送/切换lora+id",true)
-}
-async comic(e){
-let at = e.message.filter(item => item.type == 'at')?.map(item => item?.qq)
-if(at.length == 0){
-e.reply("请艾特一个对象",true)
-return false
-}
-let img = `http://q.qlogo.cn/headimg_dl?dst_uin=${at}&spec=640&img_type=jpg`
-let msg = e.msg.replace(/\/头生图/g,"").trim()
-const apiUrl = "https://www.vegaai.net/apis/image2Image/create";
-const data = {
-  model: models,
-  relation: true,
-  useHd: 1,
-  imageNum: 2,
-  width: 696,
-  height: 696,
-  stepNum: steps,
-  cfgScale: 7,
-  denoisingStrength: 0.45,
-  sampler: "DPM++ SDE Karras",
-  seed: -1,
-  negPrompt: negPrompt,
-  loraId: lora,
-  loraWeight: 0.8,
-  loraKeyword: keylora,
-  prompt: msg,
-  initImages: [img],
-  maskImg: "None"
-};
-let response = await fetch(apiUrl, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Cookie": await getcookie()
-  },
-  body: JSON.stringify(data)
-})
-response = await response.json()
-if(response.code == '00000'){
-e.reply('当前有图片任务在执行中',true)
-return false
-}
-requestid = await response.data.requestid
-e.reply("我正在头生图了，请稍等片刻")
-do{
-await wait(e)
-}while(body == null)
-console.log(body)
-uid = body.id
-do {
-await getimages(e);
-console.log(uid)
-console.log(id)
-}while (!uid == id);
-}
-async images(e){
-let img = e.img[0]
-let msg = e.msg.replace(/\/图生图/g,"").trim()
-const apiUrl = "https://www.vegaai.net/apis/image2Image/create";
-const data = {
-  model: models,
-  relation: true,
-  useHd: 1,
-  imageNum: 2,
-  width: 696,
-  height: 696,
-  stepNum: 20,
-  cfgScale: 7,
-  denoisingStrength: 0.45,
-  sampler: "DPM++ SDE Karras",
-  seed: -1,
-  negPrompt: negPrompt,
-  loraId: "",
-  loraWeight: "",
-  loraKeyword: "",
-  prompt: msg,
-  initImages: [img],
-  maskImg: "None"
-};
-let response = await fetch(apiUrl, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-origin",
-    "Referer": "http://www.vegaai.net/imageToImage",
-    "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Cookie": await getcookie(),
-    "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"99\", \"Microsoft Edge\";v=\"115\", \"Chromium\";v=\"115\"",
-    "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": "\"Windows\""
-  },
-  body: JSON.stringify(data)
-})
-response = await response.json()
-if(response.message == '当前有文生图任务在执行中'){
-e.reply('当前有文生图任务在执行中',true)
-return false
-}
-requestid = await response.data.requestid
-e.reply("我正在图生图了，请稍等片刻")
-do{
-await wait(e)
-}while(body == null)
-console.log(body)
-uid = body.id
-do {
-await getimages(e);
-console.log(uid)
-console.log(id)
-}while (!uid == id);
-}
-async step(e){
-let msg = e.msg.replace(/\/切换步数/g,"").trim()
-if(msg<=30&&msg>15){
-steps = msg
-e.reply(`切换成功，现在绘图步数为${steps}`,true)
-}else{
-e.reply("错误的参数,画图步数范围为15-30",true)
-}
-}
-async models(e){
-let model = await fetch("https://www.vegaai.net/apis/model/getBaseModels", {
- "method": "GET",
-  "headers": {
-    "accept": "application/json, text/plain, */*",
-    "cookie": await getcookie(),
-    "Referer": "https://rightbrain.art/text2Image"
   }
-});
-model = await model.json()
-let data = await model.data
-let nickname = Bot.nickname
-if(e.msg.includes("/图模型大全")){
-let userInfo = {
-user_id: Bot.uin,
-nickname
-}
-let forwardMsg = [{
-...userInfo,
-message:"画图模型大全:"
-}]
-for(var i = 0;i < data.length;i++){
-let id = data[i].code
-let name = "序号:" + `${i+1}` + "\n" + "模型名称:" + data[i].name
-let np = "\n" + "负面效果:" + data[i].negPrompt + "\n"
-let remarks = "画图示例:" + data[i].remark
-let msg = [name,np,remarks,remarks]
-let c = {
-...userInfo,
-message:msg
-}
-forwardMsg.push(c)
-}
-if (this.e.isGroup) {
-forwardMsg = await this.e.group.makeForwardMsg(forwardMsg)
-}else{
-forwardMsg = await this.e.friend.makeForwardMsg(forwardMsg)
-}
-e.reply(forwardMsg)
-}else if(e.msg.includes("/切换图模型")){
-let msg = e.msg.replace(/\/切换图模型/g,"").trim()
-models = data[msg-1].code
-negPrompt = data[msg-1].negPrompt
-console.log(models)
-e.reply("切换成功",true)
-}}
-async help(e){
-isFinished = false
-ifFinished = false
-console.log(models)
-let msg = e.msg.replace(/\/画图/g,"").trim()
-let data = {
-"model": models,
-"relation":true,
-"imageRatio":"1:1",
-"width": 516,
-"height": 516,
-"useHd":1,
-"imageNum":2,
-"stepNum": steps,
-"cfgScale":7,
-"sampler":"DPM++ SDE Karras",
-"seed":-1,
-"negPrompt": negPrompt,
-"loraId":lora,
-"loraWeight":"0.8",
-"loraKeyword":keylora,
-"prompt": msg
-}
-let a = await fetch("https://www.vegaai.net/apis/text2image/create", {
-  "headers": {
-    "accept": "application/json, text/plain, */*",
-    "cookie": await getcookie(),
-    "Referer": "https://www.vegaai.net/text2Image",
-    "content-type": "application/json",
-  },
-  "body": JSON.stringify(data),
-  "method": "POST"
-});
-a = await a.json()
-console.log(a)
-if(a.code == '00000'){
-e.reply('当前有图片任务在执行中',true)
-return false
-}
-requestid = await a.data.requestid
-let time = await a.data.dealTime
-let timewait = await a.data.timeWait
-e.reply(`我正在画了,请稍等片刻,大概需要${time}s ~ ${timewait}s`,true)
-//console.log(requestid)
-do{
-await wait(e)
-}while(body == null)
-console.log(body)
-uid = body.id
-do {
-await doSomething(e);
-console.log(uid)
-console.log(id)
-} while (!uid == id);
 }
 
+async searchlora(e) {
+    const msg = e.msg.replace(/\/搜索lora/g, '').trim();
+    const response = await fetch(`https://www.vegaai.net/apis/lora/getLoraModels/v1?auth=public&pageNo=0&pageSize=60&orderType=collection&keyword=${msg}`, {
+        method: "GET",
+        headers: {
+            "cookie": await getcookie(),
+            "Referer": "https://rightbrain.art/text2Image"
+        }
+    });
+    const search = await response.json();
+    const data = await search.data.list;
+    const forwardMsg = [`lora【${msg}】搜索结果: ${data.length}个结果`];
+    const loraCodes = data.map((item, i) => {
+        const { loraCode, loraKeyword, loraName, loraBaseName, createUser, remark } = item;
+        loraID.push({ loraCode, loraKeyword, negPrompt })
+        return [
+            `序号: ${i+1}\n`,
+            `lora名称: ${loraName}\n`,
+            `基于模型名称: ${loraBaseName}\n`,
+            `lora关键词: ${loraKeyword}\n`,
+            `创建者名称: ${createUser}\n`,
+            `模型ID: ${loraCode}\n`,
+            `画图示例:\n(${remark})`
+        ];
+    });
+    forwardMsg.push(...loraCodes);
+    console.log(forwardMsg);
+    const resultMsg = await common.makeForwardMsg(e, forwardMsg, 'lora搜索结果');
+    await e.reply(resultMsg);
+    e.reply("请发送/切换lora+id", true); 
 }
-async function doSomething(e) {
-let history = await fetch("https://www.vegaai.net/apis/user/getHistoryImages?type=text2Image,textSuperResolution,textUpResolution&pageNo=0&pageSize=1", {
-  "headers": {
-    "accept": "application/json, text/plain, */*",
-    "cookie": await getcookie(),
-    "Referer": "http://www.vegaai.net/text2Image",
-  },
-  "method": "GET"
-});
-history = await history.json()
-//console.log(history)
-id = await history.data.list[0].id
-if(uid == id){
-let image = await history.data.list[0].image
-let picture = image.match(/https:(.*?).png/g)
-let pick = segment.image(picture[1])
-let change = segment.image(picture[0])
-let answer = [change,pick]
-isFinished = true; // 设置任务完成标志为 true
-await e.reply(answer,true)
 
-}}
-async function wait(e){
-let b = await
-fetch(`https://www.vegaai.net/apis/text2image/getImage?requestid=${requestid}`, {
-method:"get",
-  "headers": {
-    "accept": "application/json, text/plain, */*",
-    "cookie": await getcookie(),
-    "Referer": "https://rightbrain.art/text2Image",
+async images(e) {
+let img;
+let message = e.msg.replace(/\/(图|头)生图/g,"").trim()
+const apiUrl = "https://www.vegaai.net/apis/text2image/getImage";
+if (e.message.find(val => val.type === 'image')) {
+ img = e.img[0]
 }
-})
-b = await b.json()
-body = await b.data.data
+if (e.msg.startsWith("/头生图")) {
+ const qq = e.message.filter(item => item.type == 'at')?.map(item => item?.qq)
+if (qq.length == 0) {
+ e.reply("请艾特一个对象",true)
+ return false
 }
-async function getcookie(){
-let file = _path + "/data/YTdrawing/drawing.yaml"
-let data = YAML.parse(fs.readFileSync(file, 'utf8'))
-let cookie = data.cookie
-return cookie;
+ img = `http://q.qlogo.cn/headimg_dl?dst_uin=${qq}&spec=640&img_type=jpg`
 }
-async function getimages(e) {
-let history = await fetch("https://www.vegaai.net/apis/user/getHistoryImages?type=image2Image,textSuperResolution,textUpResolution&pageNo=0&pageSize=1", {
-  "headers": {
-    "accept": "application/json, text/plain, */*",
-    "cookie": await getcookie(),
-    "Referer": "https://rightbrain.art/image2Image",
-  },
-  "method": "GET"
-});
-history = await history.json()
-//console.log(history)
-id = await history.data.list[0].id
-if(uid == id){
-let image = await history.data.list[0].image
-let picture = image.match(/https:(.*?).png/g)
-let pick = segment.image(picture[1])
-let change = segment.image(picture[0])
-let answer = [change,pick]
-isFinished = true; // 设置任务完成标志为 true
-await e.reply(answer,true)
+ try {
+    const imgUrls = 'https://www.vegaai.net/apis/text2image/getImage';
+    const req = await sendMessage2(message, img, models, steps, negPrompt, lora, keylora);
+    if (!req.success) {
+      const replyMessage = req.message 
+        ? '上一个图片任务正在进行中，请稍候!' 
+        : '验证错误,  请确保填写正确的参数!';
+      await e.reply(replyMessage);
+      return;
+    }
+    const { timeWait, dealTime, requestId } = req;
+    await e.reply(`我在画了，请稍等哦，大概需要 ${dealTime}~${timeWait}s`);
+    const result = await fetchImage(imgUrls, requestId);
+    const image = JSON.parse(result.data.image);
+    const output = await AnalysisUrl(image);
+    await e.reply(output);
+  } catch (error) {
+    await e.reply('处理图片过程中出现错误，请稍后再试！');
+  }
+ }
 
-}}
+async optimizeSteps(e) {
+  try {
+    let msg = e.msg.split("/切换步数").join("").trim();
+    let parsedMsg = parseInt(msg, 10);
+    if (isNaN(parsedMsg)) {
+      e.reply("参数需要为数字");
+    }
+    if (parsedMsg > 15 && parsedMsg <= 30) {
+      steps = parsedMsg;
+      e.reply(`切换成功，现在绘图步数为${steps}`, true);
+    } else {
+      e.reply("错误的参数,画图步数范围为15-30");
+    }
+  } catch (error) {
+    await e.reply(`${error.message}`, true);
+  }
+}
 
+async models(e) { 
+  const data = await getModelsData();  
+  if(e.msg.includes("/图模型大全")){
+    const messages = data.map((model, index) => {
+      let name = `序号:${index + 1}\n模型名称:${model.name}`;
+      let np = `\n负面效果:${model.negPrompt}\n`;
+      let remarks = `画图示例:${model.remark}`;
+      return [name, np, remarks];
+    });   
+    const resultMsg = await common.makeForwardMsg(e, messages, '图模型大全');
+    e.reply(resultMsg); 
+  } else if(e.msg.includes("/切换图模型")){ 
+    let modelIndex = Number(e.msg.replace(/\/切换图模型/g,"").trim()) - 1;
+    models = data[modelIndex].code;
+    console.log(models);
+    e.reply("切换成功",true)
+  }
+}
 
+async optimize(e) {
+  try {
+    const message = e.msg.replace(/\/画图/g, '').trim();
+    const imgUrls = 'https://www.vegaai.net/apis/text2image/getImage';
+    const req = await sendMessage(message, models, steps, negPrompt, lora, keylora);
+    if (!req.success) {
+      const replyMessage = req.message 
+        ? '上一个图片任务正在进行中，请稍候!' 
+        : '验证错误,  请确保填写正确的参数!';
+      await e.reply(replyMessage);
+      return;
+    }
+    const { timeWait, dealTime, requestId } = req;
+    await e.reply(`我在画了，请稍等哦，大概需要 ${dealTime}~${timeWait}s`);
+    const result = await fetchImage(imgUrls, requestId);
+    const image = JSON.parse(result.data.image);
+    const output = await AnalysisUrl(image);
+    await e.reply(output);
+  } catch (error) {
+    await e.reply('处理图片过程中出现错误，请稍后再试！');
+  }
+ }
+}
 
+async function getcookie() {
+  const file = _path + "/data/YTdrawing/drawing.yaml"
+  const data = YAML.parse(fs.readFileSync(file, 'utf8'))
+  const { cookie } = data
+  return cookie
+}
 
+async function fetchImage(imgUrls, requestid, maxTryTimes = 30, intervalTime = 4000) {
+  console.log(requestid);
+  let tryTimes = 0;
+  return new Promise((resolve, reject) => {
+    const timer = setInterval(async () => {
+      if (tryTimes >= maxTryTimes) {
+        clearInterval(timer);
+        console.log('反馈结果失败!');
+        resolve(undefined);
+        return;
+      }
+      tryTimes++;
+      try {
+        const response = await fetch(`${imgUrls}?requestId=${requestid}`, {
+          headers: {
+            accept: "application/json, text/plain, */*",
+            cookie: await getcookie(),
+            Referer: "https://www.vegaai.net/",
+          },
+          method: "GET"
+        });       
+        const res = await response.json();
+        const data = res.data;
+        //console.log(res);
+        if (data === null || data.list.length === 0) {
+          console.log(`异步请求数: ${tryTimes}...`);
+        } else {
+          clearInterval(timer);
+          resolve(data);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    }, intervalTime);
+  });
+}
 
+async function sendMessage(msg, models, steps, negPrompt, lora, keylora) {
+    const data = await createPayload(msg, models, steps, negPrompt, lora, keylora);   
+    console.log(data)
+    const res = await fetch("https://www.vegaai.net/apis/text2image/create", {
+        headers: {
+          "accept": "application/json, text/plain, */*",
+          "cookie": await getcookie(),
+          "Referer": "https://www.vegaai.net/text2Image",
+          "content-type": "application/json",
+          "User-Agent":
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
+        },
+        body: JSON.stringify(data),
+        method: "POST"
+    });
+    const response = await res.json();
+    console.log(response);
+    if (response.code === '00000') {
+        //console.log('当前有图片任务在执行中');
+        return {
+            success: false,
+            message: '当前有图片任务在执行中'
+        }
+    } 
+    const requestId = response.data.requestId;
+    const dealTime = response.data.dealTime;
+    const timeWait = response.data.timeWait;
+    return {
+        success: true,
+        requestId,
+        dealTime,
+        timeWait
+    };
+}
 
+async function createPayload(msg, models, steps, negPrompt, lora, keylora) {
+    msg = msg.replace(/\/画图/g,"").trim();
+    return {
+        "model": models,
+        "relation":true,
+        "imageRatio":"1:1",
+        "width": 516,
+        "height": 516,
+        "useHd":1,
+        "imageNum":2,
+        "stepNum": steps,
+        "cfgScale":7,
+        "sampler":"DPM++ SDE Karras",
+        "seed":-1,
+        "negPrompt": negPrompt,
+        "loraId":lora,
+        "loraWeight":weightlora,
+        "loraKeyword":keylora,
+        "prompt": msg
+    };
+}
 
+async function createImageLoad(msg, img, models, steps, negPrompt, lora, keylora) {
+    msg = msg.replace(/\/画图/g,"").trim();
+    return {
+       "model": models,
+       "relation": true,
+       "useHd": 1,
+       "imageNum": 2,
+       "width": 512,
+       "height": 512,
+       "stepNum": steps,
+       "cfgScale": 7,
+       "denoisingStrength": 0.45,
+       "sampler": "DPM++ SDE Karras",
+       "seed": -1,
+       "negPrompt": negPrompt,
+       "loraId": lora,
+       "loraWeight": weightlora,
+       "loraKeyword": keylora,
+       "prompt": msg,
+       "initImages": [img],
+       "maskImg": "None"
+    };
+}
 
+async function IncreaseImage(rawImageUrl) {
+    const data = { 
+         height: 4096,
+         rawImageUrl: rawImageUrl,
+         resolution: "2k",
+         width: 4096
+     }
+    const res = await fetch("https://www.vegaai.net/apis/hdRepair/create", {
+        headers: {
+            "accept": "application/json, text/plain, */*",
+            "cookie": await getcookie(),
+            "Referer": "https://www.vegaai.net/",
+            "content-type": "application/json",
+            "User-Agent":
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
+        },
+        body: JSON.stringify(data),
+        method: "POST"
+    });
+    const response = await res.json();
+    console.log(response);
+    if (response.code === '00000') {
+        //console.log('当前有图片任务在执行中');
+        return {
+            success: false,
+            message: '当前有图片任务在执行中'
+        }
+    } 
+    const requestId = response.data.requestId;
+    const dealTime = response.data.dealTime;
+    const timeWait = response.data.timeWait;
+    return {
+        success: true,
+        requestId,
+        dealTime,
+        timeWait
+    };
+}
 
+async function AnalysisUrl(array) {
+  console.log(array)
+  const new_arr = array.filter(item => item !== 'willBePreview' && item !== 'None').map(segment.image);
+  return new_arr
+}
 
+async function getModelsData() {
+  const response = await fetch("https://www.vegaai.net/apis/model/getBaseModels", {
+    "method": "GET",
+    "headers": {
+      "accept": "application/json, text/plain, */*",
+      "cookie": await getcookie(),
+      "Referer": "https://rightbrain.art/text2Image"
+    }
+  });
+  const modelJson = await response.json();
+  console.log(modelJson)
+  return modelJson.data;
+}
 
-
-
-
+async function sendMessage2(msg, img, models, steps, negPrompt, lora, keylora) {
+    const data = await createImageLoad(msg, img, models, steps, negPrompt, lora, keylora);   
+    console.log(data)
+    const res = await fetch("https://www.vegaai.net/apis/image2Image/create", {
+        headers: {
+          "accept": "application/json, text/plain, */*",
+          "cookie": await getcookie(),
+          "Referer": "https://www.vegaai.net/text2Image",
+          "content-type": "application/json",
+          "User-Agent":
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
+        },
+        body: JSON.stringify(data),
+        method: "POST"
+    });
+    const response = await res.json();
+    console.log(response);
+    if (response.code === '00000') {
+        console.log('当前有图片任务在执行中');
+        return {
+            success: false,
+            message: '当前有图片任务在执行中'
+        }
+    } 
+    const requestId = response.data.requestId;
+    const dealTime = response.data.dealTime;
+    const timeWait = response.data.timeWait;
+    return {
+        success: true,
+        requestId,
+        dealTime,
+        timeWait
+    };
+}
