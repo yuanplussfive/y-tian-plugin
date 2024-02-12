@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阴天状态</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+@font-face {
+    font-family: "jty";
+    src: url("{{SRC}}");
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+  --primary-color: #30a7d7;
+  --secondary-color: #292E49;
+  --accent-color: #4F5B93;
+  --text-color: #E3E3E3;
+  --background-color: #1F2235;
+  --background-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  --overlay-color: rgba(0, 0, 0, 0.6);
+}
+
+body {
+  font-family: "jty", sans-serif;
+  background-color: var(--background-color);
+  background-image: var(--background-gradient);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.data-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, var(--secondary-color), var(--background-color));
+  background-blend-mode: multiply;
+}
+
+.avatar img {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 4px solid var(--primary-color);
+}
+
+.data-info {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(145deg, var(--accent-color), var(--secondary-color));
+  background-blend-mode: multiply;
+}
+
+h1 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+p {
+  margin: 10px 0;
+  font-size: 25px;
+}
+
+strong {
+  color: var(--primary-color);
+}
+
+@media (min-width: 768px) {
+  .data-container {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .data-info {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 20px;
+    background: none;
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+.settings-container {
+    margin: 20px 0;
+}
+
+.system-settings, .personal-settings {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--overlay-color);
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 30px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.material-icons {
+    vertical-align: middle;
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.materials-icons {
+    vertical-align: middle;
+    margin-right: 5px;
+    font-size: 40px;
+}
+
+.logo-icon {
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.system-settings h2, .personal-settings h2 {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--overlay-color);
+    margin-bottom: 20px;
+}
+
+</style>
+</head>
+<body>
+    <div class="data-container">
+        <div class="avatar">
+            <img src="{{avatar}}" alt="Avatar" id="avatarImage">
+        </div>
+     <div class="data-info">
+   <div class="settings-container">
+    <div class="personal-settings">
+    <div class="personal-settings">
+    <span class="material-icons" style="font-size:40px;">cloud</span>
+    <h2>阴天状态: </h2>
+    <div class="system-settings">
+        <p><span class="material-icons">cloud</span><strong>阴天用户数：</strong><span id="totalNumbers">{{total_numbers}}</span></p>
+        <p><span class="material-icons">group</span><strong>Q群用户数：</strong><span id="qqNumbers">{{qq_numbers}}</span></p>
+        <p><span class="material-icons">public</span><strong>当前在线数：</strong><span id="nowNumbers">{{now_numbers}}</span></p>
+        <p><span class="material-icons">chat</span><strong>微信用户数：</strong><span id="wxNumbers">{{wx_numbers}}</span></p>
+        <p><span class="material-icons">headset_mic</span><strong>DS用户数：</strong><span id="dcNumbers">{{dc_numbers}}</span></p>
+        <p><span class="material-icons">live_tv</span><strong>Q频用户数：</strong><span id="qgNumbers">{{qg_numbers}}</span></p>
+        <p><span class="material-icons">devices_other</span><strong>其他平台数：</strong><span id="otNumbers">{{ot_numbers}}</span></p>
+    </div>
+</div>
+  <div class="personal-settings">
+    <span class="material-icons" style="font-size:40px;">account_box</span>
+    <h2>Bot状态: </h2>
+    <div class="personal-settings">
+        <p><span class="material-icons">account_box</span><strong>第一主人Q：</strong><span id="ownerQQ">{{MasterQQ}}</span></p>
+        <p><span class="material-icons">group</span><strong>Bot主人数：</strong><span id="qqNumbers">{{owner_numbers}}</span></p>
+        <p><span class="material-icons">send</span><strong>消息发送数：</strong><span id="sent">{{Sent}}</span></p>
+        <p><span class="material-icons">inbox</span><strong>消息接收数：</strong><span id="recv">{{Recv}}</span></p>
+        <p><span class="material-icons">person_add</span><strong>Bot好友数：</strong><span id="friendQuantity">{{FriendQuantity}}</span></p>
+        <p><span class="material-icons">group_work</span><strong>Bot群组数：</strong><span id="groupQuantity">{{GroupQuantity}}</span></p>
+        <p><span class="material-icons">people</span><strong>服务用户数：</strong><span id="ServiceUsers">{{UserNumbers}}</span></p>
+        <p><span class="material-icons">timer</span><strong>运行时间：</strong><span id="uptime">{{systime}}</span></p>
+        <p><span class="material-icons">computer</span><strong>Yunzai型号：</strong><span id="platformName">{{yunzaiName}}</span></p>
+        <p><span class="material-icons">info</span><strong>Bot版本号：</strong><span id="botVersion">{{BotVersion}}</span></p>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
