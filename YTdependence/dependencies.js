@@ -4,8 +4,12 @@ import path from "path"
 import crypto from 'crypto'
 import https from "https"
 import YAML from "yaml"
+import os from "os"
 import querystring from 'querystring'
 import fs from "fs"
+import moment from "moment"
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 import cfg from "../../../lib/config/config.js"
 import puppeteer from "../../../lib/puppeteer/puppeteer.js"
 import common from "../../../lib/common/common.js"
@@ -34,7 +38,10 @@ export const dependencies = {
   FormData: FormData,
   crypto: crypto,
   common: common,
+  moment: moment,
+  require,
   fs: fs,
+  os: os,
   WebSocket: WebSocket,
   https: https,
   cfg: cfg,
