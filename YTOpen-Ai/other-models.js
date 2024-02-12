@@ -94,11 +94,5 @@ export const other_models = [
     "model": "jondurbin",
     "points": "airoboros",
     "token": "70000"
-  },
-  {
-    "id":17,
-    "model": "gemini-pro",
-    "points": "google",
-    "token": "8000"
   }
 ]
