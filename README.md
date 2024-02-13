@@ -43,7 +43,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 <img decoding="async"  src="background/image/帮助.jpg" width="35%">
   
 ## 支持的AI模型：
-<br>
+
 <details> <summary>对话类</summary>
 
 - [✓] gpt-3.5-turbo
@@ -94,10 +94,11 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] 360-search
 - [✓] deepseek
 - [✓] baidu-search
+
 </details>
-<br>
 
 <br>
+
 <details> <summary>绘图类</summary>
 
 - [✓] Stable-diffusion
@@ -105,9 +106,9 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] DALL-E
 
 </details>
-<br>
 
 <br>
+
 <details> <summary>识图类</summary>
 
 - [✓] gpt-4-v
@@ -116,39 +117,38 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] gemini-pro-vision
 
 </details>
-<br>
 
 <br>
+
 <details> <summary>语音类</summary>
 
 - [✓] 原神崩三等
 - [✓] OpenAI-TTS
 
 </details>
-<br>
 
 ## 部分AI功能展示：
-
+<br>
 <details> <summary>免费sess模型</summary>
 <img src="./background/image/对话1.jpg" style="zoom:50%;" />
 </details>
-
+<br>
 <details> <summary>免费国产模型</summary>
 <img src="./background/image/对话2.jpg" style="zoom:50%;" />
 </details>
-
+<br>
 <details> <summary>免费dalle绘图</summary>
 <img src="./background/image/对话4.jpg" style="zoom:50%;" />
 </details>
-
+<br>
 <details> <summary>gpt-4多模态</summary>
 <img src="./background/image/对话3.jpg" style="zoom:50%;" />
 </details>
-
+<br>
 <details> <summary>文生视频等</summary>
 <img src="./background/image/对话5.jpg" style="zoom:50%;" />
 </details>
-
+<br>
 <details> <summary>TTS交互模型</summary>
 <img src="./background/image/对话6.jpg" style="zoom:50%;" />
 </details>
