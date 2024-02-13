@@ -44,7 +44,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
   
 ## 支持的AI模型：
 
-#### 对话类：
+<details> <summary>表情包仓库</summary>
 
 - [✓] gpt-3.5-turbo
 - [✓] gpt-3.5-turbo-0613
