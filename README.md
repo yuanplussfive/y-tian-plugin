@@ -66,7 +66,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] claude-1.3-100k
 - [✓] claude-2
 - [✓] claude-2-sillytavern
-- [✓] bing
+- [✓] github-copilot
 - [✓] google-palm
 - [✓] google-bard
 - [✓] gemini-pro
@@ -94,26 +94,38 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] 360-search
 - [✓] deepseek
 - [✓] baidu-search
-
+</details>
 <br>
 
-#### 绘图类：
+<br>
+<details> <summary>绘图类</summary>
 
 - [✓] Stable-diffusion
 - [✓] midjourney
 - [✓] DALL-E
 
-#### 识图类：
+</details>
+<br>
+
+<br>
+<details> <summary>识图类</summary>
 
 - [✓] gpt-4-v
 - [✓] 星火识图
 - [✓] 千问识图
 - [✓] gemini-pro-vision
 
-#### 语音类：
+</details>
+<br>
+
+<br>
+<details> <summary>语音类</summary>
 
 - [✓] 原神崩三等
 - [✓] OpenAI-TTS
+
+</details>
+<br>
 
 ## 部分AI功能展示：
 
