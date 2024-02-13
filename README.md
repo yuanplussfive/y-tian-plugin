@@ -129,17 +129,29 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 ## 部分AI功能展示：
 
+<details> <summary>免费sess模型</summary>
 <img src="./background/image/对话1.jpg" style="zoom:50%;" />
+</details>
 
+<details> <summary>免费国产模型</summary>
 <img src="./background/image/对话2.jpg" style="zoom:50%;" />
+</details>
 
-<img src="./background/image/对话3.jpg" style="zoom:50%;" />
-
+<details> <summary>免费dalle绘图</summary>
 <img src="./background/image/对话4.jpg" style="zoom:50%;" />
+</details>
 
+<details> <summary>gpt-4多模态</summary>
+<img src="./background/image/对话3.jpg" style="zoom:50%;" />
+</details>
+
+<details> <summary>文生视频等</summary>
 <img src="./background/image/对话5.jpg" style="zoom:50%;" />
+</details>
 
+<details> <summary>TTS交互模型</summary>
 <img src="./background/image/对话6.jpg" style="zoom:50%;" />
+</details>
 
 ## 反馈
 
