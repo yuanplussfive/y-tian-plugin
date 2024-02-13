@@ -30,18 +30,18 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 | 命令| 说明|
 |:--------|------------|
-| #阴天更新 | 更新阴天插件 |
-| #阴天帮助 | 获取插件命令|
-| /god帮助 | 获取godgpt相关帮助 |
-| #娱乐帮助 | 获取阴天娱乐功能帮助|
-| #群管帮助| 获取阴天群管功能帮助 |
-| #游戏帮助 | 获取阴天游戏功能帮助|
+| #阴天更新 | 同步更新阴天插件 |
+| #阴天帮助 | 获取插件命令帮助|
+| #娱乐帮助 | 获取娱乐功能帮助|
+| #群管帮助| 获取群管功能帮助 |
+| #游戏帮助 | 获取游戏功能帮助|
+| #AI总帮助 | 获取AI功能总帮助|
 | ...... | ...... |
 
-以下为Y-Tian-Plugin(阴天插件)详细功能介绍图:
-
+<details> <summary>阴天帮助面板</summary>
 <img decoding="async"  src="background/image/帮助.jpg" width="35%">
-  
+</details>
+
 ## 支持的AI模型：
 
 <details> <summary>对话类</summary>
