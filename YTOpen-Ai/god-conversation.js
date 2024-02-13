@@ -21,7 +21,7 @@ async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppe
     let image_url = 0
     let message = msg
     if (e.message.find(val => val.type === 'image')) {
-        if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
+        if (image == "gpt-4-v" || image == "gemini-pro-vision" ) {
        message = await handleMsg(e, msg)
         msg = [ 
         {
