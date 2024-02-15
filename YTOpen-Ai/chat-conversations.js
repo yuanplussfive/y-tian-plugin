@@ -116,37 +116,44 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl) {
     });
     let response_json = await response.json();
     answer = await response_json.choices[0].message.content;
+    console.log(answer)
     history.push({
       "role": "assistant",
       "content": answer
     });
     let Messages = "undefined"
-    //console.log(answer)
-    if ((model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") && (answer.startsWith(`
-\`\`\`json dalle-prompt`) || answer.includes(`\`\`\`json dalle-prompt`))) {
-    const extractJsonAndDescription = (str) => {
-    const jsonMatch = str.match(/```json[^{]*({.*?})\s*```/s);
-    const jsonPart = jsonMatch ? jsonMatch[1] : '';
-    const descriptionMatch = str.match(/\[下载\d+\]\(https:\/\/[^\)]+\)\s*\n([\s\S]+)$/);
-    let descriptionPart;
-    if (descriptionMatch.length !== 0 && jsonMatch.length !== 0) {
-    descriptionPart = descriptionMatch ? descriptionMatch[1].trim() : '';
-    } else if (descriptionMatch.length == 0 && jsonMatch.length !== 0) {
-     const regex = new RegExp(jsonPart, "g");
-     descriptionPart = answer.replace(regex, "");
-    } else {
-     descriptionPart = answer
-    }
-    console
-    return { jsonPart, descriptionPart };
-  };
+    if ((model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") && (answer.startsWith(`\`\`\`json dalle-prompt`) || answer.includes(`\`\`\`json dalle-prompt`)|| answer.includes(`{"prompt":"`))) {
+   const extractJsonAndDescription = (str) => {
+  let jsonMatch = str.match(/\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s);
+  try {
+  const jsonPart = jsonMatch[0];
+  const regex =  /\{\s*"prompt"\s*:"[\s\S]*?","size"\s*:"[\s\S]*?"\s*\}/;
+  let descriptionMatch = str.replace(/(```json dalle-prompt|```json dalle|```json|```)/g, '')
+ descriptionMatch = descriptionMatch.replace(/\!\[.*?\]\(https:\/\/filesystem.site\/cdn\/.*?\)\n\n/g, '')
+ descriptionMatch = descriptionMatch.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '')
+ descriptionMatch = descriptionMatch.replace(regex, '')
+ descriptionMatch = descriptionMatch.replace(jsonPart, '').trim();
+  return { jsonPart, descriptionMatch };
+} catch (error) {
+  return { str };
+}
+}
     const result = extractJsonAndDescription(answer);
+   try {
+   if (result.hasOwnProperty('jsonPart') && JSON.parse(result.jsonPart).prompt && JSON.parse(result.jsonPart).size) {
+   console.log(result)
     let forwardMsg = []
- forwardMsg.push(JSON.parse(result.jsonPart).prompt)
+    forwardMsg.push(JSON.parse(result.jsonPart).prompt)
     forwardMsg.push(JSON.parse(result.jsonPart).size)
     const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'dall-e-3绘图prompt');
     e.reply(JsonPart)
-    Messages = result.descriptionPart
+   }
+   } catch {}
+    if (result.hasOwnProperty('jsonPart')) {
+    Messages = result.descriptionMatch.trim()
+   } else {
+    Messages = result.str
+   }
    }
    if (Messages == "undefined") {
    Messages = answer
