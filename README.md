@@ -51,6 +51,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] gpt-3.5-turbo-instruct
 - [✓] gpt-3.5-turbo-online
 - [✓] gpt-3.5-turbo-1106
+- [✓] gpt-3.5-turbo-0125
 - [✓] gpt-3.5-turbo-16k
 - [✓] gpt-3.5-turbo-16k-0613
 - [✓] gpt-4
@@ -60,12 +61,16 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] gpt-4-32k-0613
 - [✓] gpt-4-dalle
 - [✓] gpt-4-vision
-- [✓] gpt-4-all
 - [✓] gpt-4-1106-preview
+- [✓] gpt-4-0125-preview
+- [✓] gpt-4-turbo-preview
+- [✓] gpt-4-all
+- [✓] gpt-4-plugins
 - [✓] claude-1-100k
 - [✓] claude-1.3-100k
 - [✓] claude-2
 - [✓] claude-2-sillytavern
+- [✓] claude-2.1
 - [✓] github-copilot
 - [✓] google-palm
 - [✓] google-bard
@@ -84,10 +89,13 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] chatglm-4-alltools
 - [✓] mistral-8x7b
 - [✓] mistral-34b
-- [✓] moonshot
+- [✓] qwen-72b
+- [✓] qwen-alltools
+- [✓] moonshot-128k
+- [✓] moonshot-alltools
 - [✓] wenxing-3.5
 - [✓] xinghuo-v1/2/3
-- [✓] qwen-72b
+- [✓] webgpt
 - [✓] yi-34b
 - [✓] tiger-bot
 - [✓] 360-ai
@@ -101,9 +109,12 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 <details> <summary>绘图类</summary>
 
-- [✓] Stable-diffusion
-- [✓] midjourney
-- [✓] DALL-E
+- [✓] Stable-diffusion 1.5
+- [✓] Stable-diffusion-anything V5
+- [✓] Stable-diffusion XL
+- [✓] Midjourney
+- [✓] Dall-e 3
+- [✓] Plus Dall-e 3
 
 </details>
 
@@ -111,9 +122,11 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 <details> <summary>识图类</summary>
 
+- [✓] ocr
 - [✓] gpt-4-v
-- [✓] 星火识图
-- [✓] 千问识图
+- [✓] xinghuo
+- [✓] qwen
+- [✓] chatglm-4-alltools
 - [✓] gemini-pro-vision
 
 </details>
