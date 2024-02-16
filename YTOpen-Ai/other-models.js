@@ -28,69 +28,75 @@ export const other_models = [
     "model": "gpt-4-1106-preview",
     "points": "OpenAi",
     "token": 131072
-  },
+  },  
   {
     "id":6,
+    "model": "gpt-4-plugins",
+    "points": "OpenAi",
+    "token": 131072
+  },
+  {
+    "id":7,
     "model": "search",
     "points": "google/duckduckgo/baidu",
     "token": "∝"
   },
   {
-    "id":7,
+    "id":8,
     "model": "claude-1.3-100k",
     "points": "Claude",
     "token": 100000
   },
   {
-    "id":8,
+    "id":9,
     "model": "claude-2",
     "points": "Claude",
     "token": 200000
   },
   {
-    "id":9,
+    "id":10,
     "model": "claude-2-sillytavern",
     "points": "Claude+sillytavern",
     "token": 200000
   },
   {
-    "id":10,
+    "id":11,
     "model": "chatglm-turbo",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":11,
+    "id":12,
     "model": "chatglm-pro",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":12,
+    "id":13,
     "model": "chatglm-4",
     "points": "清华&智谱",
     "token": 130000
   },
   {
-    "id":13,
+    "id":14,
     "model": "meta-llama",
     "points": "llama",
     "token": "70000"
   },
   {
-    "id":14,
+    "id":15,
     "model": "mistralai",
     "points": "Mistral",
     "token": "8500"
   },
   {
-    "id":15,
+    "id":16,
     "model": "codellama",
     "points": "Microsoft",
     "token": "34000"
   },
   {
-    "id":16,
+    "id":17,
     "model": "jondurbin",
     "points": "airoboros",
     "token": "70000"
