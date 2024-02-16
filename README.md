@@ -71,7 +71,6 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] claude-2
 - [✓] claude-2-sillytavern
 - [✓] claude-2.1
-- [✓] github-copilot
 - [✓] google-palm
 - [✓] google-bard
 - [✓] gemini-pro
@@ -89,19 +88,20 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 - [✓] chatglm-4-alltools
 - [✓] mistral-8x7b
 - [✓] mistral-34b
+- [✓] 360-ai
+- [✓] 360-search
 - [✓] qwen-72b
 - [✓] qwen-alltools
 - [✓] moonshot-128k
 - [✓] moonshot-alltools
+- [✓] github-copilot
 - [✓] wenxing-3.5
 - [✓] xinghuo-v1/2/3
+- [✓] baidu-search
 - [✓] webgpt
 - [✓] yi-34b
 - [✓] tiger-bot
-- [✓] 360-ai
-- [✓] 360-search
 - [✓] deepseek
-- [✓] baidu-search
 
 </details>
 
