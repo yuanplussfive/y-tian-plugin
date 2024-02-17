@@ -42,7 +42,7 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
             await handleSearchModel(e, msg, Apikey, apiurl);
             break;
         default:
-            await handleGpt4AllModel(e, history, Apikey, search, model, apiurl);
+            await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path);
     }
      if(group == false){
     await saveUserHistory(e.user_id, history);
@@ -96,7 +96,7 @@ async function handleSearchModel(e, msg, Apikey, apiurl) {
  e.reply(answer);
 } catch { e.reply("与服务器通讯失败!") }}
 
-async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl) {
+async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path) {
   try {
     let answer;
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
@@ -116,7 +116,7 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl) {
     });
     let response_json = await response.json();
     answer = await response_json.choices[0].message.content;
-    console.log(answer)
+    //console.log(answer)
     history.push({
       "role": "assistant",
       "content": answer
@@ -124,10 +124,27 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl) {
     let Messages = "undefined"
     if ((model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") && (answer.startsWith(`\`\`\`json dalle-prompt`) || answer.includes(`\`\`\`json dalle-prompt`)|| answer.includes(`{"prompt":"`))) {
    const extractJsonAndDescription = (str) => {
-  let jsonMatch = str.match(/\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s);
-  try {
+   let jsonMatch;
+   try {
+    jsonMatch = str.match(/\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s);
+    if (!jsonMatch || jsonMatch.length === 0) {
+     jsonMatch = str.match(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s)
+    }
+  } catch {
+     jsonMatch = str.match(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s);
+ }
+ try {
   const jsonPart = jsonMatch[0];
   const regex =  /\{\s*"prompt"\s*:"[\s\S]*?","size"\s*:"[\s\S]*?"\s*\}/;
+  let matches
+  try {
+    matches = str.match(regex);
+    if (!matches || matches.length === 0) {
+    descriptionMatch = descriptionMatch.replace(/\{\s*"size"\s*:"[\s\S]*?","promot"\s*:"[\s\S]*?"\s*\}/)
+    }
+  } catch {
+    descriptionMatch = descriptionMatch.replace(regex, '')
+ }
   let descriptionMatch = str.replace(/(```json dalle-prompt|```json dalle|```json|```)/g, '')
  descriptionMatch = descriptionMatch.replace(/\!\[.*?\]\(https:\/\/filesystem.site\/cdn\/.*?\)\n\n/g, '')
  descriptionMatch = descriptionMatch.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '')
@@ -177,17 +194,38 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl) {
     if (model == "gpt-4-all") {
       const urls = await get_address(answer);
       if (urls.length !== 0) {
-        if (!urls[0].startsWith("https://files.oaiusercontent.com/")) {
-          e.reply(segment.image(urls[0]));
+     function getFileExtension(filename) {
+    let ext = path.extname(filename);
+    if (ext.startsWith(".")) {
+        return ext; 
+    }   
+    return '无法识别的文件类型';
+   }
+    function getFileExtensionFromUrl(url) {
+     let filename = path.basename(url);
+     return getFileExtension(filename);
+   }
+     let fileExtension = getFileExtensionFromUrl(urls[0]);
+     console.log(fileExtension)
+      if (fileExtension == ".webp") {
+         e.reply(segment.image(urls[0]));
         }
       }
-      urls.forEach(async (url) => {
-        await downloadAndSaveFile(url, path, fetch, _path, fs, e);
-      });
-    }
-  } catch (error) {
-    e.reply("与服务器通讯失败!")
+    const set = new Set(urls.filter(url => url.startsWith("https://filesystem.site/cdn/") && !url.includes("/download/")));
+    const filteredUrls = urls.filter(url => {
+    if (url.startsWith("https://filesystem.site/cdn/download/")) {
+    return !set.has(url.replace('/download', ''));
+  } else {
+    return true;
   }
+});
+     filteredUrls.forEach(async (url) => {
+      await downloadAndSaveFile(url, path, fetch, _path, fs, e);
+     });
+   }
+ } catch(error) { 
+   e.reply("与服务器通讯失败")
+ }
 }
 
 async function saveUserHistory(userId, history) {
@@ -209,7 +247,7 @@ async function handleTTS(e, speakers, answer) {
 }
 
 async function get_address(inputString){
-const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/download|files\.oaiusercontent\.com)[^\s\)]+)\))/g;
+const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/)[^\s\)]+)\))/g;
 let match;
 let links = [];
 while ((match = regex.exec(inputString)) !== null) {
@@ -227,17 +265,21 @@ async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
     const response = await fetch(url);
     const fileBuffer = await response.buffer();
     const urlPartArray = url.split('/');
-    const filename = urlPartArray[urlPartArray.length - 1];
-    let fileExtension 
-   if(url.startsWith("https://files.oaiusercontent.com/")) {
-const regex = /filename%3D(.*?)&/;
-const match = regex.exec(url);
-if (match) {
-  fileExtension = decodeURIComponent(match[1]);
+    const filename = urlPartArray[urlPartArray.length - 1];   
+   function getFileExtension(filename) {
+    let ext = path.extname(filename);
+    if (ext.startsWith(".")) {
+        return ext; 
+    }   
+    return '无法识别的文件类型';
    }
- } else { fileExtension = ".webp" }
+    function getFileExtensionFromUrl(url) {
+     let filename = path.basename(url);
+     return getFileExtension(filename);
+   }
+   let fileExtension = getFileExtensionFromUrl(url);
     const time = new Date().getTime()
-    if(!fs.existsSync(`${_path}/resources/YT_alltools`)){
+    if (!fs.existsSync(`${_path}/resources/YT_alltools`)){
      fs.mkdirSync(`${_path}/resources/YT_alltools`)    
     }
     const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
