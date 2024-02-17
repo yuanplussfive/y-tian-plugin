@@ -133,6 +133,7 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, pat
   } catch {
      jsonMatch = str.match(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s);
  }
+ let descriptionMatch = str.replace(/(```json dalle-prompt|```json dalle|```json|```)/g, '')
  try {
   const jsonPart = jsonMatch[0];
   const regex =  /\{\s*"prompt"\s*:"[\s\S]*?","size"\s*:"[\s\S]*?"\s*\}/;
@@ -145,7 +146,6 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, pat
   } catch {
     descriptionMatch = descriptionMatch.replace(regex, '')
  }
-  let descriptionMatch = str.replace(/(```json dalle-prompt|```json dalle|```json|```)/g, '')
  descriptionMatch = descriptionMatch.replace(/\!\[.*?\]\(https:\/\/filesystem.site\/cdn\/.*?\)\n\n/g, '')
  descriptionMatch = descriptionMatch.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '')
  descriptionMatch = descriptionMatch.replace(regex, '')
