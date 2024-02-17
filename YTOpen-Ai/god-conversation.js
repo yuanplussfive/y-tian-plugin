@@ -45,7 +45,7 @@ async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppe
         if(image_url == 1) {
             await OtherModel(e, msg, stoken, apiurl, image);
          } else {   
-            await MainModel(e, history, stoken, search, model, apiurl);
+            await MainModel(e, history, stoken, search, model, apiurl, path);
     }
      if(group == false){
     await saveUserHistory(e.user_id, history);
@@ -113,7 +113,7 @@ if (aiSettings.chatgpt.ai_tts_open) {
     }
 } catch { e.reply("与服务器通讯失败!") }}
 
-async function MainModel(e, history, stoken, search, model, apiurl) {
+async function MainModel(e, history, stoken, search, model, apiurl, path) {
  try{
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
      search = false
@@ -140,12 +140,29 @@ history.push({
     let Messages = "undefined"
     console.log(answer)
     if ((model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") && (answer.startsWith(`\`\`\`json dalle-prompt`) || answer.includes(`\`\`\`json dalle-prompt`)|| answer.includes(`{"prompt":"`))) {
-   const extractJsonAndDescription = (str) => {
-  let jsonMatch = str.match(/\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s);
-  try {
+ const extractJsonAndDescription = (str) => {
+   let jsonMatch;
+   try {
+    jsonMatch = str.match(/\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s);
+    if (!jsonMatch || jsonMatch.length === 0) {
+     jsonMatch = str.match(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s)
+    }
+  } catch {
+     jsonMatch = str.match(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s);
+ }
+ let descriptionMatch = str.replace(/(```json dalle-prompt|```json dalle|```json|```)/g, '')
+ try {
   const jsonPart = jsonMatch[0];
   const regex =  /\{\s*"prompt"\s*:"[\s\S]*?","size"\s*:"[\s\S]*?"\s*\}/;
-  let descriptionMatch = str.replace(/(```json dalle-prompt|```json dalle|```json|```)/g, '')
+  let matches
+  try {
+    matches = str.match(regex);
+    if (!matches || matches.length === 0) {
+    descriptionMatch = descriptionMatch.replace(/\{\s*"size"\s*:"[\s\S]*?","promot"\s*:"[\s\S]*?"\s*\}/)
+    }
+  } catch {
+    descriptionMatch = descriptionMatch.replace(regex, '')
+ }
  descriptionMatch = descriptionMatch.replace(/\!\[.*?\]\(https:\/\/filesystem.site\/cdn\/.*?\)\n\n/g, '')
  descriptionMatch = descriptionMatch.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '')
  descriptionMatch = descriptionMatch.replace(regex, '')
@@ -184,12 +201,41 @@ if (aiSettings.chatgpt.ai_tts_open) {
    await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
     }
     if (model == "gpt-4-all") {
-    const urls = await get_address(answer)
-   if (urls.length !== 0){
- if(!urls[0].startsWith("https://files.oaiusercontent.com/")) {
-e.reply(segment.image(urls[0])) 
-}}}
-} catch { e.reply("与服务器通讯失败!") }}
+      const urls = await get_address(answer);
+      if (urls.length !== 0) {
+     function getFileExtension(filename) {
+    let ext = path.extname(filename);
+    if (ext.startsWith(".")) {
+        return ext; 
+    }   
+    return '无法识别的文件类型';
+   }
+    function getFileExtensionFromUrl(url) {
+     let filename = path.basename(url);
+     return getFileExtension(filename);
+   }
+     let fileExtension = getFileExtensionFromUrl(urls[0]);
+     console.log(fileExtension)
+      if (fileExtension == ".webp") {
+         e.reply(segment.image(urls[0]));
+        }
+      }
+    const set = new Set(urls.filter(url => url.startsWith("https://filesystem.site/cdn/") && !url.includes("/download/")));
+    const filteredUrls = urls.filter(url => {
+    if (url.startsWith("https://filesystem.site/cdn/download/")) {
+    return !set.has(url.replace('/download', ''));
+  } else {
+    return true;
+  }
+});
+     filteredUrls.forEach(async (url) => {
+      await downloadAndSaveFile(url, path, fetch, _path, fs, e);
+     });
+   }
+ } catch(error) { 
+   e.reply("与服务器通讯失败")
+ }
+}
 
 async function saveUserHistory(userId, history) {
     fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");
@@ -370,22 +416,26 @@ console.log(links);
 return links
 }
 
-async function downloadAndSaveFile(url,path,fetch,_path,fs,e) {
+async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
   try {
     const response = await fetch(url);
     const fileBuffer = await response.buffer();
     const urlPartArray = url.split('/');
-    const filename = urlPartArray[urlPartArray.length - 1];
-    let fileExtension 
-   if(url.startsWith("https://files.oaiusercontent.com/")) {
-const regex = /filename%3D(.*?)&/;
-const match = regex.exec(url);
-if (match) {
-  fileExtension = decodeURIComponent(match[1]);
+    const filename = urlPartArray[urlPartArray.length - 1];   
+   function getFileExtension(filename) {
+    let ext = path.extname(filename);
+    if (ext.startsWith(".")) {
+        return ext; 
+    }   
+    return '无法识别的文件类型';
    }
- } else { fileExtension = ".webp" }
+    function getFileExtensionFromUrl(url) {
+     let filename = path.basename(url);
+     return getFileExtension(filename);
+   }
+   let fileExtension = getFileExtensionFromUrl(url);
     const time = new Date().getTime()
-    if(!fs.existsSync(`${_path}/resources/YT_alltools`)){
+    if (!fs.existsSync(`${_path}/resources/YT_alltools`)){
      fs.mkdirSync(`${_path}/resources/YT_alltools`)    
     }
     const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
