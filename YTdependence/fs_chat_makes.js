@@ -31,6 +31,13 @@ ensureJsonFileExists(`${dirPath}/limit.json`, {
         Bot_Name: "/chat"
     }
 });
+
+ensureJsonFileExists(`${dirPath}/proxy.json`, {
+   chatgpt: {
+       proxy: false
+    }
+});
+
 ensureJsonFileExists(`${dirPath}/workshop.json`, {
     workshop: {
         limit: false
