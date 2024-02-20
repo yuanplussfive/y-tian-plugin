@@ -233,9 +233,22 @@ if (aiSettings.chatgpt.ai_tts_open) {
      let fileExtension = getFileExtensionFromUrl(urls[0]);
      console.log(fileExtension)
       if (fileExtension == ".webp") {
-         e.reply(segment.image(urls[0]));
-        }
-      }
+       let url = urls[0];  
+       let path = _path + '/resources/dall_e_plus.png'
+       let file = fs.createWriteStream(path);
+       let request = https.get(url, function(response) {
+        response.pipe(file);
+       file.on('finish', function() {
+       file.close(() => {
+        e.reply(segment.image(path));
+       }); 
+     });
+   }).on('error', function(err) {
+    fs.unlink(path);
+    console.error(err);
+  });
+ }
+}
     const set = new Set(urls.filter(url => url.startsWith("https://filesystem.site/cdn/") && !url.includes("/download/")));
     const filteredUrls = urls.filter(url => {
     if (url.startsWith("https://filesystem.site/cdn/download/")) {
