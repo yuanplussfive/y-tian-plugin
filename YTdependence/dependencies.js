@@ -19,6 +19,7 @@ import FormData from "../node_modules/form-data/lib/form_data.js"
 import cheerio from '../node_modules/cheerio/lib/index.js'
 import axios from "../node_modules/axios/index.js"
 import { Anime_tts } from "../model/Anime_tts.js"
+import { Anime_tts_roles } from "../model/Anime_tts_roles.js"
 import { other_models } from "../YTOpen-Ai/other-models.js"
 import { god_models } from "../YTOpen-Ai/god-models.js"
 import { sess_models } from "../YTOpen-Ai/sess-models.js"
@@ -50,6 +51,7 @@ export const dependencies = {
   request: request,
   querystring: querystring,
   AnimeTTS: Anime_tts,
+  Anime_tts_roles,
   OtherModels: other_models,
   GodModels: god_models,
   SessModels: sess_models,
