@@ -181,6 +181,18 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <img src="./background/image/zs.jpg" style="zoom:50%;" />
 </details>
 
+### 如何让AI识别图片:
+
+<details> <summary>流程图</summary>
+<img src="./background/image/zs2.jpg" style="zoom:50%;" />
+</details>
+
+### 如何让AI使用预设:
+
+<details> <summary>流程图</summary>
+<img src="./background/image/zs3.jpg" style="zoom:50%;" />
+</details>
+
 ## 反馈
 
 如果你对本插件有任何意见或看法
