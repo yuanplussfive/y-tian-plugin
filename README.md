@@ -21,11 +21,18 @@
 
 ##  :laughing: 安装教程
 
-在Yunzai-Bot根目录下，运行cmd，输入以下指令
+在Yunzai-Bot根目录下，运行cmd/git，输入以下指令:
+* 使用gitee
 ```
 git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 
 ```
+* 使用github
+```
+git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot.git ./plugins/y-tian-plugin/
+
+```
+
 ##  :kissing_heart: 功能一览
 
 | 命令| 说明|
