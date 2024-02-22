@@ -173,6 +173,11 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <img src="./background/image/对话6.jpg" style="zoom:50%;" />
 </details>
 
+### 如何与AI交互对话:
+
+步骤: 阴天帮助 → AI总帮助 → 将at回复打开 → 选择你启用的方案 → 参考方案帮助
+
+
 ## 反馈
 
 如果你对本插件有任何意见或看法
@@ -189,9 +194,9 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 | 名单     | 联系方式     | 职责     |
 | -------- | ------------ | ------------ |
-| 鸢    | QQ2166683295 | 阴天工作室全栈开发工程师 |
-| 天球生物 | QQ928368902 | 阴天工作室Python，JavaScript工程师|
-| Mr.k   | QQ3302843718 | 阴天工作室UI设计师 |
+| 鸢    | QQ2166683295 | 全栈开发 |
+| 天球生物 | QQ928368902 | Py,JS开放|
+| Mr.k   | QQ3302843718 | UI设计 |
 
 ###  :sunglasses: 传送门
 
