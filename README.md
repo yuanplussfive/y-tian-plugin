@@ -177,6 +177,9 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 步骤: 阴天帮助 → AI总帮助 → 将at回复打开 → 选择你启用的方案 → 参考方案帮助
 
+<details> <summary>流程图</summary>
+<img src="./background/image/zs.jpg" style="zoom:50%;" />
+</details>
 
 ## 反馈
 
