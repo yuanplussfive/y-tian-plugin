@@ -180,8 +180,10 @@ if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))
   } catch {
     descriptionMatch = descriptionMatch.replace(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s, "")
  }
-descriptionMatch = descriptionMatch.replace(/\!\[[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/.*?\)\n\n/g, '');
+ descriptionMatch = descriptionMatch.replace(/\!\[[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/.*?\)\n\n/g, '');
 descriptionMatch = descriptionMatch.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/download\/.*?\)\n/g, '');
+ descriptionMatch = descriptionMatch.replace(/\!\[.*?\]\(https:\/\/filesystem.site\/cdn\/.*?\)\n\n/g, '')
+ descriptionMatch = descriptionMatch.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '')
 descriptionMatch = removeAllOccurrences(Dalle_Prompt, descriptionMatch);
 descriptionMatch = removeAllOccurrences(Dalle_Prompt2, descriptionMatch);
  descriptionMatch = descriptionMatch.replace(jsonPart, '')
@@ -205,9 +207,7 @@ descriptionMatch = removeAllOccurrences(Dalle_Prompt2, descriptionMatch);
    } catch {}
    }   
    if (Messages == "undefined") {
-    Messages = answer
-    Messages = Messages.replace(/\!\[[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/.*?\)\n\n/g, '');
-    Messages = Messages.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/download\/.*?\)\n/g, '');
+   Messages = answer
    }
    console.log(Messages)
    let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
@@ -246,8 +246,7 @@ if (aiSettings.chatgpt.ai_tts_open) {
        }); 
      });
    }).on('error', function(err) {
-    fs.unlink(path);
-    console.error(err);
+    e.reply(segment.image(urls[0]));
   });
  }
 }
