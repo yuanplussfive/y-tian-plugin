@@ -97,7 +97,7 @@ async function handleSearchModel(e, msg, Apikey, apiurl) {
 } catch { e.reply("与服务器通讯失败!") }}
 
 async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
-  try {
+   try {
     let answer;
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
      search = false
@@ -115,6 +115,7 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, pat
       }),
     });
     let response_json = await response.json();
+    console.log(response_json)
     answer = await response_json.choices[0].message.content;
     console.log(answer+"\n---------")
     history.push({
@@ -164,8 +165,8 @@ if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))
   } catch {
     descriptionMatch = descriptionMatch.replace(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s, "")
  }
-descriptionMatch = descriptionMatch.replace(/\!\[[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/.*?\)\n\n/g, '');
-descriptionMatch = descriptionMatch.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/download\/.*?\)\n/g, '');
+ descriptionMatch = descriptionMatch.replace(/\!\[.*?\]\(https:\/\/filesystem.site\/cdn\/.*?\)\n\n/g, '')
+ descriptionMatch = descriptionMatch.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '')
 descriptionMatch = removeAllOccurrences(Dalle_Prompt, descriptionMatch);
 descriptionMatch = removeAllOccurrences(Dalle_Prompt2, descriptionMatch);
  descriptionMatch = descriptionMatch.replace(jsonPart, '')
@@ -176,7 +177,7 @@ descriptionMatch = removeAllOccurrences(Dalle_Prompt2, descriptionMatch);
 }
 }
    const result = extractJsonAndDescription(answer);
-   Messages = await result.descriptionMatch.trim()
+   Messages = result.descriptionMatch.trim()
    console.log(result)
    try {
    if (result.hasOwnProperty('jsonPart') && JSON.parse(result.jsonPart)) {
@@ -189,9 +190,7 @@ descriptionMatch = removeAllOccurrences(Dalle_Prompt2, descriptionMatch);
    } catch {}
    }   
    if (Messages == "undefined") {
-    Messages = answer
-    Messages = Messages.replace(/\!\[[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/.*?\)\n\n/g, '');
-Messages = Messages.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/download\/.*?\)\n/g, '');
+   Messages = answer
    }
    console.log(Messages)
     let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
@@ -203,27 +202,37 @@ Messages = Messages.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn
       await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
     }
     if (model == "gpt-4-dalle") {
-    let result = await extractImageLinks2(answer)
-    console.log(result)
-     if (result.length === 0) {
+    let result = await extractImageLinks(answer)
+    let imgs = result.map(link => segment.image(link));
+     if (imgs.length === 0) {
       return false;
     }
-    result.forEach((url, index) => {
-     const path = `${_path}/resources/dall_e_plus_${index}.png`;
-     const file = fs.createWriteStream(path);
-     https.get(url, (response) => {
-      response.pipe(file);
-      file.on('finish', () => {
-         file.close(() => {
-            e.reply(segment.image(path));
-         });
+    let requests = result.map((url, index) => {
+    return new Promise((resolve, reject) => {
+        let path = _path + '/resources/dall_e_plus_' + index + '.png';
+        let file = fs.createWriteStream(path);
+        https.get(url, function(response) {
+            response.pipe(file);
+            file.on('finish', function() {
+                file.close(() => {
+                    resolve(segment.image(path));
+                }); 
+            });
+        }).on('error', function(err) {
+            fs.unlink(path);
+            console.error(err);
+            reject(err);
+          });
+       });
+    });
+    Promise.all(requests)
+     .then(images => {
+       e.reply(images);
+     })
+     .catch(err => {
+        console.error(err);
       });
-   }).on('error', (err) => {
-      fs.unlink(path);
-      console.error(err);
-     });
-   }); 
-  }
+    }
     if (model == "gpt-4-all") {
       const urls = await get_address(answer);
       if (urls.length !== 0) {
@@ -248,12 +257,11 @@ Messages = Messages.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn
         response.pipe(file);
        file.on('finish', function() {
        file.close(() => {
-        e.reply(segment.image(path));
+       e.reply(segment.image(path));
        }); 
      });
    }).on('error', function(err) {
-    fs.unlink(path);
-    console.error(err);
+    e.reply(segment.image(urls[0]));
   });
  }
 }
@@ -268,9 +276,9 @@ Messages = Messages.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn
      filteredUrls.forEach(async (url) => {
       await downloadAndSaveFile(url, path, fetch, _path, fs, e);
      });
-    }
-   } catch (error) {
-   e.reply("通讯失败了！");
+   }
+ } catch {
+    e.reply("通讯失败了！")
  }
 }
 
@@ -339,12 +347,6 @@ async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
 async function extractImageLinks(answer) {
        const imageLinkRegex = /!\[.*?\]\((https?:\/\/.*?)\)/g;
        const imageLinks = answer.matchAll(imageLinkRegex);
-  return Array.from(imageLinks, (match) => match[1]);
-}
-
-async function extractImageLinks2(answer) {
-  const imageLinkRegex = /\[下载.*?\]\((https:\/\/filesystem.site\/cdn\/download\/.*?)\)/g;
-  const imageLinks = answer.matchAll(imageLinkRegex);
   return Array.from(imageLinks, (match) => match[1]);
 }
 
