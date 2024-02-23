@@ -56,8 +56,8 @@ export const god_models = [
   },
   {
     "model": "claude-2",
-    "points": 20,
-    "token": 100000
+    "points": 1,
+    "token": 200000
   },
   {
     "model": "google-palm",
