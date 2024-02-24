@@ -133,7 +133,8 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
  let response_json = await response.json()
  //console.log(response_json)
  let answer = await response_json.choices[0].message.content
-history.push({
+ answer = answer.replace(/Content is blocked/g, "  ")
+ history.push({
         "role": "assistant",
         "content": answer
     });
