@@ -93,6 +93,7 @@ async function handleSearchModel(e, msg, Apikey, apiurl) {
     let response_json = await response.json()
  //console.log(response_json)
  let answer = await response_json.choices[0].message.content
+ answer = answer.replace(/Content is blocked/g, "  ")
  e.reply(answer);
 } catch { e.reply("与服务器通讯失败!") }}
 
