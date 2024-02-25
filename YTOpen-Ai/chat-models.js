@@ -137,6 +137,54 @@ export const chat_models = {
       "name": "qwen-72b",
       "token_count": "72000",
       "Magnification": 1
+    },
+    {
+      "id": "24",
+      "name": "claude-2",
+      "token_count": "200000",
+      "Magnification": 5.5
+    },
+    {
+      "id": "25",
+      "name": "llama-2-7b",
+      "token_count": "7000",
+      "Magnification": 1
+    },
+    {
+      "id": "26",
+      "name": "llama-2-13b",
+      "token_count": "13000",
+      "Magnification": 1
+    },
+    {
+      "id": "27",
+      "name": "llama-2-70b",
+      "token_count": "70000",
+      "Magnification": 1
+    },
+    {
+      "id": "28",
+      "name": "code-llama-7b",
+      "token_count": "7000",
+      "Magnification": 1
+    },
+    {
+      "id": "29",
+      "name": "code-llama-13b",
+      "token_count": "13000",
+      "Magnification": 1
+    },
+    {
+      "id": "30",
+      "name": "code-llama-34b",
+      "token_count": "34000",
+      "Magnification": 1
+    },
+    {
+      "id": "31",
+      "name": "mixtral-8x7b",
+      "token_count": "200000",
+      "Magnification": 1.5
     }
   ]
 }
