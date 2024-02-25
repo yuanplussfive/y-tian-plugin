@@ -8,15 +8,13 @@ async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppe
     let msg = await formatMessage(e.msg);
     let SettingsPath = _path + '/data/YTAi_Setting/data.json';
     let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
-    let { ai_moment_numbers, ai_moment_open } = Settings.chatgpt;
-    let history 
-    if(group == false){
-    history = await loadUserHistory(e.user_id);
-    } else {
-    history = await loadUserHistory(e.group_id);
-    }
-    if (ai_moment_open == true) {
-    history = await processArray(history, ai_moment_numbers)
+    let { god_moment_numbers, god_moment_open } = Settings.chatgpt;
+    let userid = (group == false)
+  ? (e.isPrivate ? e.from_id : e.user_id)
+  : (e.isPrivate ? e.from_id : e.group_id);
+    let history = await loadUserHistory(userid);
+    if (god_moment_open) {
+    history = await processArray(history, god_moment_numbers)
     }
     let image_url = 0
     let message = msg
@@ -47,11 +45,7 @@ async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppe
          } else {   
             await MainModel(e, history, stoken, search, model, apiurl, path);
     }
-     if(group == false){
-    await saveUserHistory(e.user_id, history);
-    } else {
-    await saveUserHistory(e.group_id, history);
-    }
+    await saveUserHistory(userid, history);
 
 async function formatMessage(originalMsg) {
     return originalMsg.replace(/\/chat|#chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
@@ -131,10 +125,9 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
         }),
     });
  let response_json = await response.json()
- //console.log(response_json)
  let answer = await response_json.choices[0].message.content
- answer = answer.replace(/Content is blocked/g, "  ")
- history.push({
+answer = answer.replace(/Content is blocked/g, "  ")
+history.push({
         "role": "assistant",
         "content": answer
     });
@@ -220,7 +213,7 @@ if (aiSettings.chatgpt.ai_tts_open) {
    await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
     }
     if (model == "gpt-4-all") {
-      const urls = await get_address(answer);
+      let urls = await get_address(answer);
       if (urls.length !== 0) {
      function getFileExtension(filename) {
     let ext = path.extname(filename);
@@ -233,6 +226,18 @@ if (aiSettings.chatgpt.ai_tts_open) {
      let filename = path.basename(url);
      return getFileExtension(filename);
    }
+   function removeDuplicates(array) {
+  const result = array.filter((item, index) => {
+    if (item.indexOf('/cdn/download/') == -1) {
+      return true;
+     } else {
+      const nonDownloadUrl = item.replace('/cdn/download/', '/cdn/');
+      return array.indexOf(nonDownloadUrl) == -1; 
+     }
+   });
+   return result;
+  }
+    urls = removeDuplicates(urls)
     for (let url of urls) {
     let fileExtension = getFileExtensionFromUrl(url);
     console.log(fileExtension);
@@ -248,10 +253,9 @@ if (aiSettings.chatgpt.ai_tts_open) {
             });
         }).on('error', function(err) {
             e.reply(segment.image(url));
-       });
-      }
-     }
+        });
     }
+}}
     const set = new Set(urls.filter(url => url.startsWith("https://filesystem.site/cdn/") && !url.includes("/download/")));
     const filteredUrls = urls.filter(url => {
     if (url.startsWith("https://filesystem.site/cdn/download/")) {
