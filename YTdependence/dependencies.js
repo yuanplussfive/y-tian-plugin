@@ -2,6 +2,7 @@ const _path = process.cwd()
 import fetch from "node-fetch"
 import path from "path"
 import crypto from 'crypto'
+import http from "http"
 import https from "https"
 import YAML from "yaml"
 import os from "os"
@@ -44,6 +45,7 @@ export const dependencies = {
   fs: fs,
   os: os,
   WebSocket: WebSocket,
+  http: http,
   https: https,
   cfg: cfg,
   axios: axios,
