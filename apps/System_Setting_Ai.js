@@ -1,6 +1,5 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const  { fs, fetch, _path, puppeteer } = dependencies
-import { Anime_tts_roles } from "../model/Anime_tts_roles.js"
+const  { fs, fetch, _path, puppeteer, Anime_tts_roles, FormData, https, http, common } = dependencies
 let dirpath = _path + '/data/YTAi_Setting'
 if(!fs.existsSync(dirpath)){
 fs.mkdirSync(dirpath)    
@@ -38,7 +37,7 @@ export class example extends plugin {
       name: '阴天[AI总设置]',
       dsc: '',
       event: 'message',
-      priority: 2000,
+      priority: 1,
       rule: [
         {
           reg: "^#(ai|Ai|AI)对话方式(文本|图片|引用)",
@@ -101,34 +100,117 @@ export class example extends plugin {
           permission: 'master'
         },
         {
-          reg: "^#(ai|AI|Ai)(开启|关闭)记忆限制$",
+          reg: "^#(开启|关闭)(chat|god)方案记忆限制$",
           fnc: 'moment_limit',
           permission: 'master'
         },
         {
-          reg: "^#设置记忆条数(.*?)$",
+          reg: "^#设置(chat|god)记忆条数(.*?)$",
           fnc: 'moment_numbers',
           permission: 'master'
+        },
+        {
+          reg: "^#(删除|查看)预设(.*?)$",
+          fnc: 'delete_prompts',
+          permission: 'master'
+        },
+        {
+          reg: "^#(开启|关闭)预设添加$",
+          fnc: 'add_prompts',
+          permission: 'master'
+        },
+        {
+          reg: ".*",
+          fnc: 'upload_prompts',
+          log: false
         }
       ]
     })
   }
 
-async moment_numbers(e) {
-   var nums = e.msg.match(/\d+/g).map(Number);
-   console.log(nums[0])
-   if (nums[0] >= 1) {
-   let data = readJsonFile(dataFilePath);
-    data.chatgpt.ai_moment_numbers = nums[0]
+async delete_prompts(e) {
+    const PATH = `${_path}/data/阴天预设`
+    const messages = e.msg.match(/\d+/g);
+    const dirname = await fs.promises.readdir(PATH, "utf-8");
+    if (!messages || !messages.length) { return false; }
+    const msg = Number(messages[0]) - 1;
+    if (msg < 0 || msg >= dirname.length) { return false; }
+    const filePath = `${PATH}/${dirname[msg]}`;
+    if (e.msg.includes("删除")) {
+        try {
+            await fs.promises.unlink(filePath);
+            e.reply(`预设已成功删除`);
+        } catch (err) {
+            console.error(err);
+        }
+    } else if (e.msg.includes("查看")) {
+        try {
+            const prompt = await fs.promises.readFile(filePath, "utf-8");
+            const forwardMsg = await common.makeForwardMsg(e, [prompt], '预设魔法大全');
+            await e.reply(forwardMsg);
+        } catch (err) {
+            e.reply(err);
+        }
+    }
+}
+
+async add_prompts(e) {
+    let data = readJsonFile(dataFilePath); 
+    data.chatgpt.add_prompts_open = e.msg.includes("开启");
     writeJsonFile(dataFilePath, data);
-    e.reply(`已将所有对话记忆限制为: ${nums[0]} 条,仅god/专业版方案生效`)
-}}
+    e.reply(`预设添加已${data.chatgpt.add_prompts_open ? '开启' : '关闭'}`);
+}
+
+async upload_prompts(e) { 
+ const presetsPath = `${_path}/data/阴天预设`;
+ const { name } = e?.file || {};
+ const data = readJsonFile(dataFilePath); 
+ if (name?.endsWith?.('.txt') && data.chatgpt.add_prompts_open) {
+ let fileUrl = await e[e.isGroup ? 'group' : 'friend'].getFileUrl(e.file.fid);
+ let filename = e.file.name;
+   const client = fileUrl.startsWith('https') ? https : http;
+    client.get(fileUrl, function (response) {
+        const file = fs.createWriteStream(presetsPath+"/"+filename);
+        response.pipe(file);
+        file.on('finish', function () {
+            file.close(() => {
+            e.reply('成功新增预设:\n ' + filename.replace(/.txt/, ""))
+          })
+       });
+    }).on('error', function (error) {
+        fs.unlink(filename);
+        console.error('下载预设文件失败:\n ' + error.message);
+     });
+   }
+ return false
+}
+
+async moment_numbers(e) {
+  const [...nums] = e.msg.match(/\d+/g).map(Number);
+  const data = await readJsonFile(dataFilePath);
+  if (e.msg.includes("god") && nums[0] >= 1) {
+    data.chatgpt.god_moment_numbers = nums[0];
+    await writeJsonFile(dataFilePath, data);
+    e.reply(`已将所有对话记忆限制为: ${nums[0]} 条,仅god方案生效`);
+  } 
+  if (e.msg.includes("chat") && nums[0] >= 1) {
+    data.chatgpt.chat_moment_numbers = nums[0];
+    await writeJsonFile(dataFilePath, data);
+    e.reply(`已将所有对话记忆限制为: ${nums[0]} 条,仅专业版方案生效`);
+  }
+}
 
 async moment_limit(e) {
-    let data = readJsonFile(dataFilePath);
-    data.chatgpt.ai_moment_open = e.msg.includes("开启");
+    let data = readJsonFile(dataFilePath); 
+    if (e.msg.includes("god")) {
+    data.chatgpt.god_moment_open = e.msg.includes("开启");
     writeJsonFile(dataFilePath, data);
-    e.reply(`bot记忆限制已${data.chatgpt.ai_moment_open ? '开启' : '关闭'}`);
+    e.reply(`god方案记忆限制已${data.chatgpt.ai_moment_open ? '开启' : '关闭'}`);
+    } else {
+    data.chatgpt.chat_moment_open = e.msg.includes("开启");
+    writeJsonFile(dataFilePath, data);
+    e.reply(`chat方案记忆限制已${data.chatgpt.ai_moment_open ? '开启' : '关闭'}`);
+    }
 }
 
 async toggleAi_private(e) {
@@ -264,7 +346,7 @@ if(!data.chatgpt.ai_ban_plans.includes(responseMap[foundKey])){
 }
 async toggleTtsRole(e) {
     let userInput = e.msg.replace(/#切换(tts|TTS)角色/g, "").trim()
-    let speakers = await Anime_tts_roles(userInput)
+    let speakers = Anime_tts_roles(userInput)
     let data = readJsonFile(dataFilePath);
     if(speakers == undefined){e.reply("不存在当前角色",true);return false}
     data.chatgpt.ai_tts_role = speakers
@@ -350,3 +432,21 @@ async changeStyles(e) {
     } else {
         e.reply("无效的方案名称.", true);
     }}}
+
+async function uploadFile(filePath, customFileName) {
+    const formData = new FormData();
+    formData.append('file', fs.createReadStream(filePath));
+    formData.append('filename', customFileName);
+
+    try {
+        const response = await fetch('https://y-tian-plugin.top:8080/api/chatgpt/upload', {
+            method: 'POST',
+            headers: formData.getHeaders(),
+            body: formData
+        });
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.error('Upload failed:', error);
+    }
+}
