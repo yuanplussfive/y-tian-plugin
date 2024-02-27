@@ -10,6 +10,10 @@
 ##  :satisfied: 阴天插件索引页：
 
 **点击跳转阴天[Y-Tian-Plugin](https://y-tian-plugin.top:1111/chat)对话页面**
+<details> <summary>免费sess模型</summary>
+<img src="./background/image/web2.jpg" style="zoom:50%;" />
+<img src="./background/image/web.jpg" style="zoom:50%;" />
+</details>
 
 ##  :grinning: 介绍
 
