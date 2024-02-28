@@ -38,6 +38,9 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
         case "search":
             await handleSearchModel(e, msg, Apikey, apiurl);
             break;
+        case "mj-chat":
+            await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+            break;
         default:
             await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
     }
@@ -89,9 +92,63 @@ async function handleSearchModel(e, msg, Apikey, apiurl) {
  e.reply(answer);
 } catch { e.reply("与服务器通讯失败!") }}
 
+async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
+  const filteredArray = history.filter(function(item) {
+   return item.role !== "system";
+  });
+  try {
+    let answer;
+    console.log(filteredArray)
+    const response = await fetch(apiurl, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${Apikey}`,
+      },
+      body: JSON.stringify({
+        model: model,
+        messages: filteredArray
+      }),
+    });
+    let response_json = await response.json();
+    console.log(response_json)
+    answer = await response_json.choices[0].message.content
+    console.log(answer)
+    if (answer.includes("该图像处理服务器已掉线")) {
+    e.reply("该图像处理服务器已掉线, 请结束对话后重试")
+    return false
+    }
+    let url = await extractImageLinks3(answer)
+    if (url.length == 0) {
+    e.reply("提示词违规, 请更改后重试")
+    return false
+    }
+    url = url[url.length-1]
+      let path2 = _path + '/resources/MJ.png'
+        let file = fs.createWriteStream(path2);        
+        let request = https.get(url, function(response) {
+            response.pipe(file);
+            file.on('finish', function() {
+                file.close(() => {
+                    e.reply(segment.image(path2));       
+                }); 
+            });
+        }).on('error', function(err) {
+            e.reply(segment.image(url));
+        });
+     history.push({
+      "role": "assistant",
+      "content": answer
+    });
+   } catch {
+   e.reply("通讯失败, 稍后再试")
+ }
+}
+
 async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
    try {
     let answer;
+    console.log(history)
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
      search = false
     }
@@ -350,6 +407,12 @@ async function extractImageLinks(answer) {
 
 async function extractImageLinks2(answer) {
   const imageLinkRegex = /\[下载.*?\]\((https:\/\/filesystem.site\/cdn\/download\/.*?)\)/g;
+  const imageLinks = answer.matchAll(imageLinkRegex);
+  return Array.from(imageLinks, (match) => match[1]);
+}
+
+async function extractImageLinks3(answer) {
+  const imageLinkRegex = /\[.*\]\((https:\/\/filesystem.site\/cdn\/.*?)\)/g;
   const imageLinks = answer.matchAll(imageLinkRegex);
   return Array.from(imageLinks, (match) => match[1]);
 }
