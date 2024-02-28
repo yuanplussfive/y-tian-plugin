@@ -114,11 +114,11 @@ async function handleMJModel(e, history, Apikey, search, model, apiurl, path, ht
     console.log(response_json)
     answer = await response_json.choices[0].message.content
     console.log(answer)
-    if (answer.includes("该图像处理服务器已掉线")) {
+    let url = await extractImageLinks3(answer)
+    if (answer.includes("服务器已掉线") || url == null || url == "undefined") {
     e.reply("该图像处理服务器已掉线, 请结束对话后重试")
     return false
     }
-    let url = await extractImageLinks3(answer)
     if (url.length == 0) {
     e.reply("提示词违规, 请更改后重试")
     return false
