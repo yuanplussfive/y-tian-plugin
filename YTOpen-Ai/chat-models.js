@@ -185,6 +185,12 @@ export const chat_models = {
       "name": "mixtral-8x7b",
       "token_count": "200000",
       "Magnification": 1.5
+    },
+    {
+      "id": "32",
+      "name": "mj-chat",
+      "token_count": "32768",
+      "Magnification": 30
     }
   ]
 }
