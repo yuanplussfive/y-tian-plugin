@@ -18,18 +18,6 @@ export class example extends plugin {
     })
   }
 
-async coser(e){
-let response = await fetch("https://api.lolimi.cn/API/cosplay/api.php");
-let res = await response.json()
-let array = res.data.data
-array = array.map(function(item) {
-  return segment.image(item);
-});
-array.unshift(res.data.Title);
-let forwardMsg = common.makeForwardMsg(e, array, 'coser来罗');
-e.reply(forwardMsg);
-}
-
 async chat(e) {
     let url, title
     const numRegex = /[\d]+/g; 
