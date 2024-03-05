@@ -56,17 +56,17 @@ export const god_models = [
   },
   {
     "model": "claude-2",
-    "points": 20,
+    "points": 1,
     "token": 200000
   },
   {
     "model": "claude-3-sonnet-20240229",
-    "points": 2,
+    "points": 1,
     "token": 200000
   },
   {
     "model": "claude-3-opus-20240229",
-    "points": 2,
+    "points": 1,
     "token": 200000
   },
   {
