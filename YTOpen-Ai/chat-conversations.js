@@ -14,7 +14,7 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     }
     let message = msg
     if (e.message.find(val => val.type === 'image')) {    
-      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision") {
+      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229") {
        message = await handleMsg(e, msg)
         msg = [ 
         {
