@@ -2,6 +2,7 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
     const { model, search } = chatgptConfig;
     let msg = await formatMessage(e.msg);
+    if (!msg && !e?.file) { return false }
     let SettingsPath = _path + '/data/YTAi_Setting/data.json';
     let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
     let { chat_moment_numbers, chat_moment_open } = Settings.chatgpt;
@@ -13,23 +14,44 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
     history = await processArray(history, chat_moment_numbers)
     }
     let message = msg
-    if (e.message.find(val => val.type === 'image')) {    
+    let source
+   try {
+    if (e.isGroup) {
+     const history = await e.group.getChatHistory(e.source.seq, 1)
+     source = history.pop()
+    } else {
+     const history = await e.friend.getChatHistory(e.source.time, 1)
+     source = history.pop()
+   }
+   } catch (error) {
+   source = "undefined"
+  }
+   console.log(source)
+    
+    if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message == '[图片]' || source?.raw_message == ('[动画表情][动画表情]'))) || (e?.file && e?.isPrivate)) {    
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229") {
-       message = await handleMsg(e, msg)
+       if (!e?.file || !e?.isPrivate) {
+       imgurl = await TakeImages(e, msg, source)
+       }
+       console.log(imgurl)
+       message = await handleMsg(e, msg, source)
+       const Msg = await handleMsg(e, msg, source)
+       console.log(Msg)
         msg = [ 
         {
          "type": "image_url",
-         "image_url": imgurl
+         "image_url": imgurl 
         }, 
         {
          "type": "text",
-         "text": await handleMsg(e, msg)
+         "text": Msg
         }
        ]
      } else {
-        msg = await handleImages(e, msg);
+        msg = await handleImages(e, msg, source);
      }
     }
+    console.log(msg)
     history.push({
         "role": "user",
         "content": msg
@@ -47,7 +69,12 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
      await saveUserHistory(userid, history);
     
 async function formatMessage(originalMsg) {
-    return originalMsg.replace(/\/chat|#chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
+    if (originalMsg) {
+    const msgs = originalMsg.replace(/\/chat|#chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
+    return msgs
+  } else {
+  return undefined
+ }
 }
 async function loadUserHistory(userId) {
     const historyPath = `${dirpath}/user_cache/${userId}.json`;
@@ -57,20 +84,37 @@ async function loadUserHistory(userId) {
     return [];
 }
 
-async function handleImages(e, msg) {
-    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
+async function handleImages(e, msg, source) {
+    let images = await getImage(e, msg, source)
     return images + msg;
 }
 
-async function handleMsg(e, msg) {
-    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
-    let msgs = msg.replace(new RegExp(images, "g"), "")
+async function handleMsg(e, msg, source) {
+    let images = await getImage(e, msg, source)
+    let msgs
+    if (!e?.file) {
+    msgs = msg.replace(new RegExp(images, "g"), "")
+    } else {
+    msgs = "帮我分析这个文件"
+   }
     return msgs.trim()
 }
 
-async function TakeImages(e, msg) {
-    let images = e.img.map(imgUrl => `${imgUrl} `).join('')
+async function TakeImages(e, msg, source) {
+    let images = await getImage(e, msg, source)
     return images
+}
+
+async function getImage(e, msg, source) {
+   let images
+    if (source && source?.raw_message && (source?.raw_message == '[图片]' || source?.raw_message == ('[动画表情][动画表情]'))) {
+        images = await source.message[0].url;
+    } else if (e?.file) {
+        images = ""
+    }  else {
+        images = (await Promise.all(e.img.map(imgUrl => fetch(imgUrl)))).map(response => response.url).join(' ');
+    }
+    return images;
 }
 
 async function handleSearchModel(e, msg, Apikey, apiurl) {
