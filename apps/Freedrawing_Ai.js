@@ -235,28 +235,32 @@ async models(e) {
 }
 
 async optimize(e) {
-  try {
-    const message = e.msg.replace(/\/画图/g, '').trim();
-    const imgUrls = 'https://www.vegaai.net/apis/text2image/getImage';
-    const req = await sendMessage(message, models, steps, negPrompt, lora, keylora);
-    if (!req.success) {
-      const replyMessage = req.message 
-        ? '上一个图片任务正在进行中，请稍候!' 
-        : '验证错误,  请确保填写正确的参数!';
-      await e.reply(replyMessage);
-      return;
+    const formattedMsg = e.msg.replace(/\/画图/g, '').trim();
+    await e.reply(`我在画了，请稍等哦`);
+     try {
+      const myHeaders = {
+        "Content-Type": "application/json"
+      }
+      const raw = JSON.stringify({
+         msg: formattedMsg
+      })
+      const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+       };
+      const response = await fetch("https://y-tian-plugin.top:8080/getimage", requestOptions)
+       const base64Data = await response.text()
+       const base64Image = base64Data.split(';base64,').pop();
+       fs.writeFile('image.jpg', base64Image, {encoding: 'base64'}, function(err) {
+       e.reply(segment.image('image.jpg'))
+       });
+      } catch (e) {
+        console.log(e);
+      }
     }
-    const { timeWait, dealTime, requestId } = req;
-    await e.reply(`我在画了，请稍等哦，大概需要 ${dealTime}~${timeWait}s`);
-    const result = await fetchImage(imgUrls, requestId);
-    const image = JSON.parse(result.data.image);
-    const output = await AnalysisUrl(image);
-    await e.reply(output);
-  } catch (error) {
-    await e.reply('处理图片过程中出现错误，请稍后再试！');
   }
- }
-}
 
 async function getcookie() {
   const file = _path + "/data/YTdrawing/drawing.yaml"
