@@ -29,7 +29,7 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
    console.log(source)
     
     if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message == '[图片]' || source?.raw_message == ('[动画表情][动画表情]'))) || (e?.file && e?.isPrivate)) {    
-      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229") {
+      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model.includes("gpt-4-gizmo")) {
        message = await handleMsg(e, msg, source)
        const Msg = await handleMsg(e, msg, source)
        console.log(Msg)
