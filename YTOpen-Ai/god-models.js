@@ -25,6 +25,11 @@ export const god_models = [
     "token": 32768
   },
   {
+    "model": "gpt-4-v",
+    "points": 1150,
+    "token": 32768
+  },
+  {
     "model": "gpt-4-1106-preview",
     "points": 1,
     "token": 128000
@@ -56,12 +61,17 @@ export const god_models = [
   },
   {
     "model": "claude-2",
-    "points": 1,
+    "points": 20,
+    "token": 200000
+  },
+  {
+    "model": "claude-3-haiku-20240307",
+    "points": 0.03,
     "token": 200000
   },
   {
     "model": "claude-3-sonnet-20240229",
-    "points": 1,
+    "points": 0.3,
     "token": 200000
   },
   {
@@ -106,7 +116,12 @@ export const god_models = [
   },
   {
     "model": "gemini-pro",
-    "points": 100,
+    "points": 200,
+    "token": 8000
+  },
+  {
+    "model": "gemini-pro-vision",
+    "points": 200,
     "token": 8000
   },
   {
@@ -122,6 +137,6 @@ export const god_models = [
   {
     "model": "mistral-medium",
     "points": 100,
-    "token": 100
+    "token": 32000
   }
 ]
