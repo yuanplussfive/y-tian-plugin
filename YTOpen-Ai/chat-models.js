@@ -146,60 +146,66 @@ export const chat_models = {
     },
     {
       "id": "25",
-      "name": "claude-3-sonnet-20240229",
+      "name": "claude-3-haiku-20240307",
       "token_count": "200000",
-      "Magnification": 30
+      "Magnification": 0.5
     },
     {
       "id": "26",
-      "name": "claude-3-opus-20240229",
+      "name": "claude-3-sonnet-20240229",
       "token_count": "200000",
-      "Magnification": 30
+      "Magnification": 5
     },
     {
       "id": "27",
+      "name": "claude-3-opus-20240229",
+      "token_count": "200000",
+      "Magnification": 15
+    },
+    {
+      "id": "28",
       "name": "llama-2-7b",
       "token_count": "7000",
       "Magnification": 1
     },
     {
-      "id": "28",
+      "id": "29",
       "name": "llama-2-13b",
       "token_count": "13000",
       "Magnification": 1
     },
     {
-      "id": "29",
+      "id": "30",
       "name": "llama-2-70b",
       "token_count": "70000",
       "Magnification": 1
     },
     {
-      "id": "30",
+      "id": "31",
       "name": "code-llama-7b",
       "token_count": "7000",
       "Magnification": 1
     },
     {
-      "id": "31",
+      "id": "32",
       "name": "code-llama-13b",
       "token_count": "13000",
       "Magnification": 1
     },
     {
-      "id": "32",
+      "id": "33",
       "name": "code-llama-34b",
       "token_count": "34000",
       "Magnification": 1
     },
     {
-      "id": "33",
+      "id": "34",
       "name": "mixtral-8x7b",
       "token_count": "200000",
       "Magnification": 1.5
     },
     {
-      "id": "34",
+      "id": "35",
       "name": "mj-chat",
       "token_count": "32768",
       "Magnification": 30
