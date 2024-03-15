@@ -18,9 +18,11 @@ async function Anime_tts(speakers, answer) {
       config.noise_w,
       config.length,
       "ZH",
+      true,
+      1,
+      0.2,
       null,
       "Happy",
-      "Text prompt",
       "",
       0.7
     ],
@@ -92,18 +94,3 @@ async function get_ip_address(){
 }
 
 export { Anime_tts }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
