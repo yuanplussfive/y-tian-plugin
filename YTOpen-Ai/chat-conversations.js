@@ -27,11 +27,10 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
    source = "undefined"
   }
    console.log(source)
-    
     if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate)) {    
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307") {
-       message = await handleMsg(e, msg, source)
-       const Msg = await handleMsg(e, msg, source)
+       message = await handleMsg(e, msg, imgurl)
+       const Msg = await handleMsg(e, msg, imgurl)
        console.log(Msg)
         msg = [ 
         {
@@ -44,7 +43,7 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
         }
        ]
      } else {
-        msg = await handleImages(e, msg, source);
+        msg = await handleImages(e, msg, imgurl);
      }
     }
     console.log(msg)
@@ -80,13 +79,13 @@ async function loadUserHistory(userId) {
     return [];
 }
 
-async function handleImages(e, msg, source) {
-    let images = await getImage(e, msg, source)
+async function handleImages(e, msg, imgurl) {
+    let images = imgurl
     return images + msg;
 }
 
-async function handleMsg(e, msg, source) {
-    let images = await getImage(e, msg, source)
+async function handleMsg(e, msg, imgurl) {
+    let images = imgurl
     let msgs
     if (!e?.file) {
     msgs = msg.replace(new RegExp(images, "g"), "")
@@ -94,23 +93,6 @@ async function handleMsg(e, msg, source) {
     msgs = "帮我分析这个文件"
    }
     return msgs.trim()
-}
-
-async function TakeImages(e, msg, source) {
-    let images = await getImage(e, msg, source)
-    return images
-}
-
-async function getImage(e, msg, source) {
-   let images
-    if (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) {
-        images = await source.message[0].url;
-    } else if (e?.file) {
-        images = ""
-    }  else {
-        images = (await Promise.all(e.img.map(imgUrl => fetch(imgUrl)))).map(response => response.url).join(' ');
-    }
-    return images;
 }
 
 async function handleSearchModel(e, msg, Apikey, apiurl) {
