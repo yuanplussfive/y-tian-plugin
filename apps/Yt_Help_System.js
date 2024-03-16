@@ -17,7 +17,7 @@ export class example extends plugin {
       priority: 1,
       rule: [
         {
-          reg: "^(/|#)?(阴天)?(帮助|help)$",
+          reg: "^(/|#)?阴天(帮助|help)$",
           fnc: 'help'
         },
         {
