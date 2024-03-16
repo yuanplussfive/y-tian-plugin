@@ -28,8 +28,8 @@ async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs
   }
    console.log(source)
     
-    if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message == '[图片]' || source?.raw_message == ('[动画表情][动画表情]'))) || (e?.file && e?.isPrivate)) {    
-      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
+    if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate)) {    
+      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307") {
        message = await handleMsg(e, msg, source)
        const Msg = await handleMsg(e, msg, source)
        console.log(Msg)
@@ -103,7 +103,7 @@ async function TakeImages(e, msg, source) {
 
 async function getImage(e, msg, source) {
    let images
-    if (source && source?.raw_message && (source?.raw_message == '[图片]' || source?.raw_message == ('[动画表情][动画表情]'))) {
+    if (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) {
         images = await source.message[0].url;
     } else if (e?.file) {
         images = ""
