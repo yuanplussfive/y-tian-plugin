@@ -1,339 +1,112 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI专业版</title>
-<style>
-
-@font-face {
-    font-family: "jty";
-    src: url("{{src}}");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap');
-
-body {  
-    font-family: "Roboto", sans-serif;   
-    background: linear-gradient(to right, #2c3e50, #3498db);  
-    margin: 0;  
-    padding: 20px;
-    color: #ecf0f1;
-}
-
-.title-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin: 50px;
-}
-
-.main-title {
-    font-family: "jty", sans-serif;
-    font-size: 50px;
-    background: linear-gradient(to right, #FFFF33, #99FF66);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-align: center;
-    animation: gradient 3s infinite linear;
-    position: relative;
-    z-index: 2;
-}
-
-.main-title::before,
-.main-title::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    pointer-events: none;
-}
-
-.main-title::before {
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
-    animation: rotate-border 6s linear infinite reverse;
-}
-
-.main-title::after {
-    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 10% 100%);
-    animation: rotate-border 6s linear infinite;
-}
-
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes rotate-border {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(90deg); }
-    100% { transform: scale(1) rotate(180deg); }
-}
-
-@keyframes gradient {
-    0% { background-position: 0% }
-    100% { background-position: 100% }
-}
-
-.panel {   
-    background: #FAEBD7; 
-    border-radius: 10px;    
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);    
-    margin: 20px auto;    
-    padding: 20px;    
-    width: 90%;    
-    max-width: 800px;
-    backdrop-filter: blur(10px);
-}
-
-.menu {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    background: linear-gradient(to right, #2c3e50, #3498db);
-    margin-bottom: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
-.menu li {
-    margin: 10px 20px;
-    padding: 10px 20px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.2);
-    transition: background 0.3s ease;
-}
-
-.menu li:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-.title {    
-    display: inline-block;    
-    font-size: 24px;    
-    background: linear-gradient(to right, #000000, #424c50);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;    
-    border-radius: 50px;  
-    padding: 8px 20px;   
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
- 
-.feature-item {   
-    display: flex;   
-    align-items: center;    
-    border-radius: 15px;   
-    padding: 15px 25px;    
-    margin-bottom: 15px;   
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    counter-increment: featureItemCounter;
-}
-
-.feature-item:hover {   
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-}
- 
-.feature-item:nth-child(odd) {    
-    background: linear-gradient(135deg, #2F4F4F, #008080);    
-    color: white;
-}
-
-.feature-item:nth-child(even) {    
-    background: linear-gradient(135deg, #87CEFA, #4682B4);    
-    color: black; 
-} 
-
-.feature-number {    
-    font-size: 18px;   
-    font-weight: bold;    
-    color: #2d3436;    
-    border-radius: 50%;    
-    width: 30px;    
-    height: 30px; 
-    display: flex;    
-    align-items: center;    
-    justify-content: center;
-    margin-right: 10px;    
-    background: #fff;    
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 2;
-}
-
-.feature-number::before {
-    content: counter(featureItemCounter);
-}
-
-.feature-item .title {    
-    font-weight: bold;   
-    margin: 0; 
-    font-family: "Roboto", sans-serif;
-    color: white;
-} 
-
-.feature-item p {    
-    font-size: 16px;    
-    margin-top: 5px;
-}
-
-.created-by {   
-    font-size: 20px;    
-    background: linear-gradient(to right, #000066, #0000CC);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;   
-    text-align: center; 
-    margin-top: 40px;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <title>菜单</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #091236, #1E215D);
+            color: #333;
+            padding: 20px;
+        }
+        .main-title {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 32px;
+            color: #ffffff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+        .sections {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .section:hover {
+            transform: scale(1.05);
+        }
+        .section-title {
+            font-size: 20px;
+            color: #ffffff;
+            text-align: center;
+            margin: 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .section-title:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 20px;
+            height: 20px;
+            background-color: #007bff;
+            border-radius: 50%;
+        }
+        .content {
+            margin: 15px;
+            font-size: 16px;
+            color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
-<div class="main-title">Y-Tian-Plugin 专业版chatgpt</div>
-<div class="panel">
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">填写密钥</div>
-      
-<p>#填写chatsk+爱发电获取的密钥,例如:#填写chatsksk-xxxxxxx</p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">切换模型</div>
-      
-<p>① #chat模型大全,查看所有模型② #切换chat模型+序号,切换相关模型,例如:#切换chat模型2</p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">代理模式</div>
-      
-<p>① #开启chat代理,开启chat模型代理(如果慢或连接不上)② #开启chat代理,同理</p>
-   
- </div>
- 
- </div>
 
- <div class="feature-item">
-  
-  <div>
-    
-  <div class="title">管理预设</div>
-    
-  <p>① #查看chat预设,查看所有相关预设;② #切换chat预设+序号,切换相关预设,例如: #切换chat预设2;③ #切换chat群预设+序号,切换整个群的预设</p>
-   
-</div>
-</div>
-  
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">联网搜索(alltools为内置联网)</div>
-      
-<p>① #开启chat联网,开启联网搜索② #关闭chat联网,关闭联网搜索</p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">结束对话</div>
-      
-<p>#结束chat对话,结束当前对话</p>
-   
- </div>
- 
- </div>
+    <h1 class="main-title">Y-Tian 专业版帮助</h1>
 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">对话区间</div>
-      
-<p>① #chat开启分区间,每个用户分为不同的子区间对话,不共享预设;② #chat关闭分区间,每个群的用户共用群预设</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">查询余额</div>
-      
-<p>#查询chat额度,查询剩余额度和使用次数</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">填写gpts</div>
-      
-<p>#填写gpts+id,填写相应的gpts_id,例如:#填写gptssnw330qdg</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">使用gpts</div>
-      
-<p>① #查看gpts,查看全部GPTS;② #切换gpts+序号,切换相应的gpts,例如:#切换gpts1</p>
-   
- </div>
- 
- </div>
-
-</div>
-
-
-<div class="created-by">Created by yuan</div>
+    <div class="sections">
+        <div class="section">
+            <h2 class="section-title">填写密钥</h2>
+            <p class="content">#填写chatsk+爱发电获取的密钥<br>例如:#填写chatsksk-xxxxxxx</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">查询余额</h2>
+            <p class="content">#查询chat额度<br> 查询剩余额度和使用次数</p>
+        </div>
+       <div class="section">
+            <h2 class="section-title">联网搜索</h2>
+            <p class="content">① #开启chat联网,开启联网搜索<br>(gpt-4-all系列内置深度搜索)<br>② #关闭chat联网,关闭联网搜索</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">切换模型</h2>
+            <p class="content">① #chat模型大全,查看所有模型<br>② #切换chat模型+序号,切换相关模型<br>例如:#切换chat模型2</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">代理模式</h2>
+            <p class="content">① #开启chat代理,开启chat模型代理<br>(如果慢或连接不上,请开启)<br>② #关闭chat代理,同理</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">对话区间</h2>
+            <p class="content">① #chat开启分区间,独立对话<br>每个用户分为不同的子区间对话,不共享预设<br>② #chat关闭分区间,每个群的用户共用群预设</p>
+       </div>
+        <div class="section">
+            <h2 class="section-title">填写gpts</h2>
+            <p class="content">#填写gpts+id,填写相应的gpts_id<br>例如:#填写gptssnw330qdg<br>验证id成功后方可使用</p>
+       </div>
+        <div class="section">
+            <h2 class="section-title">使用gpts</h2>
+            <p class="content">① #查看gpts,查看全部GPTS<br>② #切换gpts+序号,切换相应的gpts<br>例如:#切换gpts1</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">管理预设</h2>
+            <p class="content">① #查看chat预设,查看所有相关预设<br>② #切换chat预设+序号,切换相关预设<br>例如: #切换chat预设2<br>③ #切换chat群预设+序号,切换整个群的预设</p>
+        </div>
+       <div class="section">
+            <h2 class="section-title">结束对话</h2>
+            <p class="content">① #结束chat对话<br>结束当前用户对话,私聊算个人对话<br>②#结束全部chat对话<br>结束全部用户对话,包括群对话</p>
+        </div>
+    </div>
 
 </body>
-
 </html>
