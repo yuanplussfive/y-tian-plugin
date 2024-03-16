@@ -1,361 +1,151 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html>
 <head>
+  <title>菜单</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      margin: 0;
+      padding: 0;
+    }
 
-<meta charset="UTF-8">
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+    }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ai总功能</title>
-<style>
+    .title-container {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
 
-@font-face {
-    font-family: "jty";
-    src: url("{{src}}");
-    font-weight: normal;
-    font-style: normal;
-}
+    .title-container:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      background-color: #2c5364;
+      border-radius: 50%;
+      z-index: -1;
+    }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap');
+    .title {
+      font-size: 40px;
+      font-weight: bold;
+      color: #666666;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      position: relative;
+      z-index: 1;
+    }
 
-body {  
-    font-family: "Roboto", sans-serif;   
-    background: linear-gradient(to right, #2c3e50, #3498db);  
-    margin: 0;  
-    padding: 20px;
-    color: #ecf0f1;
-}
+    .section {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
 
-.title-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin: 50px;
-}
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #D9D9F3;
+      background-color: #2c5364;
+      padding: 10px 10px;
+      border-radius: 20px;
+      margin-right: 10px;
+      position: relative;
+    }
 
-.main-title {
-    font-family: "jty", sans-serif;
-    font-size: 50px;
-    background: linear-gradient(to right, #FFFF33, #99FF66);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-align: center;
-    animation: gradient 3s infinite linear;
-    position: relative;
-    z-index: 2;
-}
+    .section-title:before {
+      content: "•";
+      position: absolute;
+      left: -25px;
+      font-size: 18px;
+      color: #2c5364;
+    }
 
-.main-title::before,
-.main-title::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    pointer-events: none;
-}
+    .section-title:after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 2px solid #2c5364;
+      border-radius: 20px;
+      z-index: -1;
+    }
 
-.main-title::before {
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
-    animation: rotate-border 6s linear infinite reverse;
-}
-
-.main-title::after {
-    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 10% 100%);
-    animation: rotate-border 6s linear infinite;
-}
-
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes rotate-border {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(90deg); }
-    100% { transform: scale(1) rotate(180deg); }
-}
-
-@keyframes gradient {
-    0% { background-position: 0% }
-    100% { background-position: 100% }
-}
-
-.panel {   
-    background: #FAEBD7; 
-    border-radius: 10px;    
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);    
-    margin: 20px auto;    
-    padding: 20px;    
-    width: 90%;    
-    max-width: 800px;
-    backdrop-filter: blur(10px);
-}
-
-.menu {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    background: linear-gradient(to right, #2c3e50, #3498db);
-    margin-bottom: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
-.menu li {
-    margin: 10px 20px;
-    padding: 10px 20px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.2);
-    transition: background 0.3s ease;
-}
-
-.menu li:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-.title {    
-    display: inline-block;    
-    font-size: 24px;    
-    background: linear-gradient(to right, #000000, #424c50);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;    
-    border-radius: 50px;  
-    padding: 8px 20px;   
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
- 
-.feature-item {   
-    display: flex;   
-    align-items: center;    
-    border-radius: 15px;   
-    padding: 15px 25px;    
-    margin-bottom: 15px;   
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    counter-increment: featureItemCounter;
-}
-
-.feature-item:hover {   
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-}
- 
-.feature-item:nth-child(odd) {    
-    background: linear-gradient(135deg, #2F4F4F, #008080);    
-    color: white;
-}
-
-.feature-item:nth-child(even) {    
-    background: linear-gradient(135deg, #87CEFA, #4682B4);    
-    color: black; 
-} 
-
-.feature-number {    
-    font-size: 18px;   
-    font-weight: bold;    
-    color: #2d3436;    
-    border-radius: 50%;    
-    width: 30px;    
-    height: 30px; 
-    display: flex;    
-    align-items: center;    
-    justify-content: center;
-    margin-right: 10px;    
-    background: #fff;    
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 2;
-}
-
-.feature-number::before {
-    content: counter(featureItemCounter);
-}
-
-.feature-item .title {    
-    font-weight: bold;   
-    margin: 0; 
-    font-family: "Roboto", sans-serif;
-    color: white;
-} 
-
-.feature-item p {    
-    font-size: 16px;    
-    margin-top: 5px;
-}
-
-.created-by {   
-    font-size: 20px;    
-    background: linear-gradient(to right, #000066, #0000CC);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;   
-    text-align: center; 
-    margin-top: 40px;
-}
-
-</style>
+    .section-content {
+      font-size: 15px;
+      color: #ffffff;
+      background-color: #2c5364;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-<div class="main-title">Y-Tian-Plugin ai总帮助</div>
-<div class="panel">
- 
- <div class="feature-item">
-  
-  <div>
-    
-  <div class="title">查看总设置</div>
-    
-  <p>#查看AI总设置,查看当前ai配置</p>
-   
-</div>
-</div>
-  
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">对话方式</div>
-      
-<p>#AI对话方式(文本|图片|引用),更改ai回复方式,例如:#AI对话方式图片</p>
-   
- </div>
- 
- </div>
- 
- <div class="feature-item">
-  
-  <div>
-    
-  <div class="title">艾特回复</div>
-    
-  <p>#AI(开启|关闭)艾特,是否启用ai的at回复,例如:#AI开启艾特</p>
-   
-</div>
-</div>
-  
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">艾特方案</div>
-      
-<p>#艾特回复使用(god|chat|sess|附加),更改at回复的方案,例如:#艾特回复使用chat</p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">方案触发名</div>
-      
-<p>#更改(sess|chat|god|附加)触发名+名称,更改不同方案的名称触发,例如:#更改sess触发名neko,则可以直接neko+问题触发</p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">私聊回复</div>
-      
-<p>#(开启|关闭)私聊回复,是否允ai私聊,例如:#开启私聊回复<br></p>#私聊回复使用(god|chat|sess|附加),更改私聊bot的方案,例如:#私聊回复使用sess
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">TTS语音</div>
-      
-<p>#(开启|关闭)tts回复,是否tts语音回复,例如:#开启tts回复<br>#切换tts角色+角色名,例如:#切换tts角色雷电将军</p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">禁用Ai</div>
-      
-<p>#(禁用|解禁)方案(god|chat|附加|sess),禁用当前方案,例如:#禁用方案god,解禁同理<br>#AI(禁用|解禁)该群,禁用当前群ai,例如:#AI禁用该群,解禁同理<br>#(禁用|解禁)AI@xxxx,禁止艾特的群员使用ai,例如:#禁用AI@张三,解禁同理<br></p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">记忆限制</div>
-      
-<p>#(开启|关闭)(chat|god)方案记忆限制,是否限制不同方案的ai记忆条数,可以极大减少金额消耗,例如:#开启god方案记忆限制,chat方案同理</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">记忆条数</div>
-      
-<p>#设置(chat|god)记忆条数+数量,限制不同方案的ai记忆条数,例如:#设置chat记忆条数15,god同理</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">添加预设</div>
-      
-<p>#(开启|关闭)预设添加,例如:#开启预设添加,关闭同理<br>用法：直接把txt格式的文件丢给你的bot/群</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">管理预设</div>
-      
-<p>#(删除|查看)预设+序号,例如:#查看预设1,删除同理</p>
-   
- </div>
- 
- </div>
-
-</div>
-
-
-<div class="created-by">Created by yuan</div>
-
+  <div class="container">
+    <div class="title-container">
+      <h1 class="title">AI总管理</h1>
+    </div>
+    <div class="section">
+      <div class="section-title">查看设置</div>
+      <div class="section-content">#查看AI总设置,查看当前ai配置</div>
+    </div>
+    <div class="section">
+      <div class="section-title">对话方式</div>
+      <div class="section-content">#AI对话方式(文本|图片|引用),更改ai回复方式,例如:#AI对话方式图片</div>
+    </div>
+    <div class="section">
+      <div class="section-title">艾特回复</div>
+      <div class="section-content">#AI(开启|关闭)艾特,是否启用ai的at回复,例如:#AI开启艾特</div>
+    </div>
+    <div class="section">
+      <div class="section-title">艾特方案</div>
+      <div class="section-content">#艾特回复使用(god|chat|sess|附加),更改at回复的方案<br>例如:#艾特回复使用chat</div>
+    </div>
+    <div class="section">
+      <div class="section-title">方案触发</div>
+      <div class="section-content">#更改(sess|chat|god|附加)触发名+名称,更改不同方案的名称触发,例如:#更改sess触发名neko,则可以直接neko+问题触发</div>
+    </div>
+    <div class="section">
+      <div class="section-title">私聊回复</div>
+      <div class="section-content">#(开启|关闭)私聊回复,是否允ai私聊,例如:#开启私聊回复<br>#私聊回复使用(god|chat|sess|附加),更改私聊bot的方案,例如:#私聊回复使用sess</div>
+    </div>
+    <div class="section">
+      <div class="section-title">TTS语音</div>
+      <div class="section-content">#(开启|关闭)tts回复,是否tts语音回复,例如:#开启tts回复<br>#切换tts角色+角色名,例如:#切换tts角色雷电将军</div>
+    </div>
+    <div class="section">
+      <div class="section-title">禁用Ai</div>
+      <div class="section-content">#(禁用|解禁)方案(god|chat|附加|sess),禁用当前方案<br>例如:#禁用方案god,解禁同理<br>#AI(禁用|解禁)该群,禁用当前群ai,例如:#AI禁用该群,解禁同理<br>#(禁用|解禁)AI@xxxx,禁止艾特的群员使用ai,例如:#禁用AI@张三,解禁同理</div>
+    </div>
+    <div class="section">
+      <div class="section-title">添加预设</div>
+      <div class="section-content">#(开启|关闭)预设添加,例如:#开启预设添加,关闭同理<br>用法：直接把txt格式的文件私聊丢给你的bot</div>
+    </div>
+    <div class="section">
+      <div class="section-title">管理预设</div>
+      <div class="section-content">#(删除|查看)预设+序号,例如:#查看预设1,删除同理</div>
+    </div>
+    <div class="section">
+      <div class="section-title">记忆限制</div>
+      <div class="section-content">#(开启|关闭)(chat|god)方案记忆限制,是否限制方案的ai记忆,可以极大减少金额消耗<br>例如:#开启god方案记忆限制,chat方案同理</div>
+    </div>
+    <div class="section">
+      <div class="section-title">记忆条数</div>
+      <div class="section-content">#设置(chat|god)记忆条数+数量,限制不同方案的ai记忆条数<br>例如:#设置chat记忆条数15,god同理</div>
+    </div>
+  </div>
 </body>
-
 </html>
