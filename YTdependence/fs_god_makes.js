@@ -12,6 +12,9 @@ fs.mkdirSync(dirpath+"/user_cache")
 if(!fs.existsSync(dirpath+"/user_limit")){
 fs.mkdirSync(dirpath+"/user_limit")    
 }
+if (!fs.existsSync(`${_path}/resources/YT_alltools`)){
+fs.mkdirSync(`${_path}/resources/YT_alltools`)    
+}
 if (!fs.existsSync(dirpath + "/" + "data.json")){
 fs.writeFileSync(dirpath+ "/" + "data.json",JSON.stringify({
 "chatgpt":{
