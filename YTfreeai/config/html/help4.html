@@ -1,339 +1,182 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>菜单</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #2c3e50, #4ca1af, #c4e0e5);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
 
-<meta charset="UTF-8">
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI功能</title>
-<style>
+    .main-title {
+      text-align: center;
+      font-size: 3rem;
+      margin-top: 2rem;
+      color: #fff;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+      letter-spacing: 0px;
+      animation: title-fade 2s ease-in-out infinite alternate;
+    }
 
-@font-face {
-    font-family: "jty";
-    src: url("{{src}}");
-    font-weight: normal;
-    font-style: normal;
-}
+    @keyframes title-fade {
+      0% {
+        transform: translateY(-10px);
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+      }
+      100% {
+        transform: translateY(10px);
+        text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8);
+      }
+    }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap');
+    .content-menu {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 4rem;
+      padding: 3rem;
+      backdrop-filter: blur(20px);
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 40px;
+      box-shadow: 0 16px 32px 0 rgba(31, 38, 135, 0.37);
+      counter-reset: section;
+    }
 
-body {  
-    font-family: "Roboto", sans-serif;   
-    background: linear-gradient(to right, #2c3e50, #3498db);  
-    margin: 0;  
-    padding: 20px;
-    color: #ecf0f1;
-}
+    .block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem;
+      background-color: #fff;
+      border-radius: 30px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+      overflow: hidden;
+      position: relative;
+    }
 
-.title-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin: 50px;
-}
+    .block:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #2c3e50, #4ca1af);
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
 
-.main-title {
-    font-family: "jty", sans-serif;
-    font-size: 50px;
-    background: linear-gradient(to right, #FFFF33, #99FF66);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-align: center;
-    animation: gradient 3s infinite linear;
-    position: relative;
-    z-index: 2;
-}
+    .block:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
 
-.main-title::before,
-.main-title::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    pointer-events: none;
-}
+    .block:hover:before {
+      opacity: 0.1;
+    }
 
-.main-title::before {
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
-    animation: rotate-border 6s linear infinite reverse;
-}
+    .sub-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: #2c3e50;
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+    }
 
-.main-title::after {
-    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 10% 100%);
-    animation: rotate-border 6s linear infinite;
-}
+    .sub-title::before {
+      content: counter(section) ".";
+      counter-increment: section;
+      display: inline-block;
+      width: 3rem;
+      height: 3rem;
+      line-height: 3rem;
+      text-align: center;
+      background-color: #2c3e50;
+      color: #fff;
+      border-radius: 50%;
+      margin-right: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+    .content {
+      font-size: 1.6rem;
+      color: #333;
+      line-height: 1.6;
+      text-align: justify;
+      position: relative;
+      z-index: 1;
+    }
 
-@keyframes rotate-border {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(90deg); }
-    100% { transform: scale(1) rotate(180deg); }
-}
-
-@keyframes gradient {
-    0% { background-position: 0% }
-    100% { background-position: 100% }
-}
-
-.panel {   
-    background: #FAEBD7; 
-    border-radius: 10px;    
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);    
-    margin: 20px auto;    
-    padding: 20px;    
-    width: 90%;    
-    max-width: 800px;
-    backdrop-filter: blur(10px);
-}
-
-.menu {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    background: linear-gradient(to right, #2c3e50, #3498db);
-    margin-bottom: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
-.menu li {
-    margin: 10px 20px;
-    padding: 10px 20px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.2);
-    transition: background 0.3s ease;
-}
-
-.menu li:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-.title {    
-    display: inline-block;    
-    font-size: 24px;    
-    background: linear-gradient(to right, #000000, #424c50);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;    
-    border-radius: 50px;  
-    padding: 8px 20px;   
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
- 
-.feature-item {   
-    display: flex;   
-    align-items: center;    
-    border-radius: 15px;   
-    padding: 15px 25px;    
-    margin-bottom: 15px;   
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    counter-increment: featureItemCounter;
-}
-
-.feature-item:hover {   
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-}
- 
-.feature-item:nth-child(odd) {    
-    background: linear-gradient(135deg, #2F4F4F, #008080);    
-    color: white;
-}
-
-.feature-item:nth-child(even) {    
-    background: linear-gradient(135deg, #87CEFA, #4682B4);    
-    color: black; 
-} 
-
-.feature-number {    
-    font-size: 18px;   
-    font-weight: bold;    
-    color: #2d3436;    
-    border-radius: 50%;    
-    width: 30px;    
-    height: 30px; 
-    display: flex;    
-    align-items: center;    
-    justify-content: center;
-    margin-right: 10px;    
-    background: #fff;    
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 2;
-}
-
-.feature-number::before {
-    content: counter(featureItemCounter);
-}
-
-.feature-item .title {    
-    font-weight: bold;   
-    margin: 0; 
-    font-family: "Roboto", sans-serif;
-    color: white;
-} 
-
-.feature-item p {    
-    font-size: 16px;    
-    margin-top: 5px;
-}
-
-.created-by {   
-    font-size: 20px;    
-    background: linear-gradient(to right, #000066, #0000CC);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;   
-    text-align: center; 
-    margin-top: 40px;
-}
-
-</style>
+  </style>
 </head>
 <body>
-<div class="main-title">Y-Tian-Plugin免费AI(外站)</div>
-<div class="panel">
- 
- <div class="feature-item">
-  
-  <div>
-    
-  <div class="title">ChatGPT3.5</div>
-    
-  <p>① #Bot+内容,进行问答;② #结束问答,重置gpt对话</p>
-   
+  <h1 class="main-title">免费外站帮助</h1>
+  <div class="content-menu">
+    <div class="block">
+      <div class="sub-title">GPT3.5</div>
+      <div class="content">①#Bot+xx,问答<br>②#结束问答</div>
+    </div>
+    <div class="block">
+      <div class="sub-title">GPT4.0</div>
+      <div class="content">#freegpt4+xx,问答<br>例如:#freegpt4 hello</div>
+    </div>
+    <div class="block">
+      <div class="sub-title">WebGPT</div>
+      <div class="content">#web+xx<br>例如:#web 阴天插件</div>
+    </div>
+    <div class="block">
+      <div class="sub-title">WinCoPilot</div>
+      <div class="content">#wincp+xx<br>例如:#wincp 搜索xxx</div>
+    </div>
+<div class="block">
+      <div class="sub-title">Gemini</div>
+      <div class="content">①#gemini+xx<br>例如:#gemini 你是谁<br>②#结束gemini对话</div>
+    </div>
+    <div class="block">
+      <div class="sub-title">Gemma</div>
+      <div class="content">①#gemma+xx<br>例如:#gemma 你好<br>②#结束gemma对话</div>
+    </div>
+<div class="block">
+      <div class="sub-title">CoCoPilot</div>
+      <div class="content">①#copilot+xx<br>例如:#copilot hello<br>②#结束copilot对话</div>
+    </div>
+    <div class="block">
+      <div class="sub-title">Llama</div>
+      <div class="content">①#llama+xx<br>例如:#llama hello<br>②#结束llama对话</div>
 </div>
-
-</div>
-  
-<div class="feature-item">
-  
-  <div>
-    
-  <div class="title">ChatGPT4.0</div>
-    
-  <p>#freegpt4+你的问题,进行问答,例如:#freegpt4 hello</p>
-   
-</div>
-
-</div>
-  
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">Github CoPilot</div>
-      
-<p>① #copilot+你的问题,例如:#copilot 写个冒泡排序;② #结束copilot对话,结束对话</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">Windows CoPilot</div>
-      
-<p>#wincp+你的问题,例如:#wincp 搜索xxx ;</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">Gemini-Pro</div>
-      
-<p>① #gemini+你的问题,例如:#gemini 你是谁;② #结束gemini对话,结束对话</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">Google-Gemma</div>
-      
-<p>① #gemma+你的问题,例如:#gemma 你好;② #结束gemma对话,结束对话</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">GPT-Search</div>
-      
-<p>#web+你的问题,例如:#web 你好啊</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">Llama-70b</div>
-      
-<p>① #llama+你的问题,例如:#llama hello;② #结束llama对话,结束对话</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">Mixtral-8x7b</div>
-      
-<p>① #mixtral+你的问题,例如:#mixtral hello;② #结束mixtral对话,结束对话</p>
-   
- </div>
- 
- </div>
-
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">GPT35-Alltools</div>
-      
-<p>① #mixer+你的问题,例如:#mixer 搜索xxx, 支持 联网/qr/链析/天气 等功能</p>
-   
- </div>
- 
- </div>
-
-</div>
-
-<div class="created-by">Created by yuan</div>
-
+<div class="block">
+      <div class="sub-title">Mixtral</div>
+      <div class="content">①#mixtral+xx<br>例如:#mixtral hello<br>②#结束mixtral对话</div>
+    </div>
+    <div class="block">
+      <div class="sub-title">Mixer</div>
+      <div class="content">#mixer+xx<br>例如:#mixer 搜索xxx<br>支持 联网/qr/链析</div>
+    </div>
+  </div>
 </body>
-
 </html>
