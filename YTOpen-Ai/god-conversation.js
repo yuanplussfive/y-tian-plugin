@@ -1,4 +1,4 @@
-async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, appId, apiKey, apiSecret, AK, SK) {
+async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl) {
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
     const { search } = chatgptConfig;
     const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
@@ -18,8 +18,21 @@ async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppe
     }
     let image_url = 0
     let message = msg
-    if (e.message.find(val => val.type === 'image')) {
-        if (image == "gpt-4-v" || image == "gemini-pro-vision" ) {
+    let source
+    try {
+     if (e.isGroup) {
+      const history = await e.group.getChatHistory(e.source.seq, 1)
+       source = history.pop()
+      } else {
+       const history = await e.friend.getChatHistory(e.source.time, 1)
+       source = history.pop()
+      }
+     } catch (error) {
+     source = "undefined"
+   }
+ console.log(source.raw_message)
+      if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate)) {    
+      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307") {
        message = await handleMsg(e, msg)
         msg = [ 
         {
@@ -28,23 +41,20 @@ async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppe
         }, 
         {
          "type": "text",
-         "text": await handleMsg(e, msg)
+         "text": await handleMsg(e, msg, imgurl)
         }
        ]
      } else {
-        msg = await handleImages(e, msg);
+        msg = await handleImages(e, msg, imgurl);
      }
         image_url = 1
     }
+console.log(msg)
     history.push({
         "role": "user",
         "content": msg
     });
-        if(image_url == 1) {
-            await OtherModel(e, msg, stoken, apiurl, image);
-         } else {   
-            await MainModel(e, history, stoken, search, model, apiurl, path);
-    }
+    await MainModel(e, history, stoken, search, model, apiurl, path);
     await saveUserHistory(userid, history);
 
 async function formatMessage(originalMsg) {
@@ -59,20 +69,20 @@ async function loadUserHistory(userId) {
     return [];
 }
 
-async function handleMsg(e, msg) {
-    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
-    let msgs = msg.replace(new RegExp(images, "g"), "")
-    return msgs.trim()
-}
-
-async function handleImages(e, msg) {
-    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
+async function handleImages(e, msg, imgurl) {
+    let images = imgurl
     return images + msg;
 }
 
-async function TakeImages(e, msg) {
-    let images = e.img.map(imgUrl => `${imgUrl} `).join('');
-    return images
+async function handleMsg(e, msg, imgurl) {
+    let images = imgurl
+    let msgs
+    if (!e?.file) {
+    msgs = msg.replace(new RegExp(images, "g"), "")
+    } else {
+    msgs = "帮我分析这个文件"
+   }
+    return msgs.trim()
 }
 
 async function OtherModel(e, msg, stoken, apiurl, image) {
