@@ -205,11 +205,11 @@ async moment_limit(e) {
     if (e.msg.includes("god")) {
     data.chatgpt.god_moment_open = e.msg.includes("开启");
     writeJsonFile(dataFilePath, data);
-    e.reply(`god方案记忆限制已${data.chatgpt.ai_moment_open ? '开启' : '关闭'}`);
-    } else {
+    e.reply(`god方案记忆限制已${data.chatgpt.god_moment_open ? '开启' : '关闭'}`);
+    } else if (e.msg.includes("chat")) {
     data.chatgpt.chat_moment_open = e.msg.includes("开启");
     writeJsonFile(dataFilePath, data);
-    e.reply(`chat方案记忆限制已${data.chatgpt.ai_moment_open ? '开启' : '关闭'}`);
+    e.reply(`chat方案记忆限制已${data.chatgpt.chat_moment_open ? '开启' : '关闭'}`);
     }
 }
 
