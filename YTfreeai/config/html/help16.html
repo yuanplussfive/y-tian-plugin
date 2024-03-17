@@ -1,293 +1,134 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>菜单</title>
+  <style>
 
-<meta charset="UTF-8">
+    body {
+      font-family: Arial, sans-serif;
+      background-image: linear-gradient(to bottom right, #2980b9, #8e44ad);
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: #fff;
+    }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI附加版功能</title>
-<style>
+    .main-title {
+      text-align: center;
+      font-size: 3rem;
+      margin-top: 2rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      position: relative;
+      padding: 1rem 2rem;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-@font-face {
-    font-family: "jty";
-    src: url("{{src}}");
-    font-weight: normal;
-    font-style: normal;
-}
+    .main-title::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 4px solid #fff;
+      border-radius: 50px;
+      z-index: -1;
+      transform: rotate(-2deg);
+    }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap');
+    .content-area {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 3rem;
+      counter-reset: section;
+    }
 
-body {  
-    font-family: "Roboto", sans-serif;   
-    background: linear-gradient(to right, #2c3e50, #3498db);  
-    margin: 0;  
-    padding: 20px;
-    color: #ecf0f1;
-}
+    .section {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 1rem;
+      width: 30%;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
 
-.title-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin: 50px;
-}
+    .section-title {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
 
-.main-title {
-    font-family: "jty", sans-serif;
-    font-size: 50px;
-    background: linear-gradient(to right, #FFFF33, #99FF66);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-align: center;
-    animation: gradient 3s infinite linear;
-    position: relative;
-    z-index: 2;
-}
+    .section-title::before {
+      content: counter(section);
+      counter-increment: section;
+      background-color: #fff;
+      color: #2980b9;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
 
-.main-title::before,
-.main-title::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    pointer-events: none;
-}
+    .section-title span {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+    }
 
-.main-title::before {
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
-    animation: rotate-border 6s linear infinite reverse;
-}
+    .section-title::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -0.5rem;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.5);
+      z-index: -1;
+    }
 
-.main-title::after {
-    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 10% 100%);
-    animation: rotate-border 6s linear infinite;
-}
-
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes rotate-border {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(90deg); }
-    100% { transform: scale(1) rotate(180deg); }
-}
-
-@keyframes gradient {
-    0% { background-position: 0% }
-    100% { background-position: 100% }
-}
-
-.panel {   
-    background: #FAEBD7; 
-    border-radius: 10px;    
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);    
-    margin: 20px auto;    
-    padding: 20px;    
-    width: 90%;    
-    max-width: 800px;
-    backdrop-filter: blur(10px);
-}
-
-.menu {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    background: linear-gradient(to right, #2c3e50, #3498db);
-    margin-bottom: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
-.menu li {
-    margin: 10px 20px;
-    padding: 10px 20px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.2);
-    transition: background 0.3s ease;
-}
-
-.menu li:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-.title {    
-    display: inline-block;    
-    font-size: 24px;    
-    background: linear-gradient(to right, #000000, #424c50);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;    
-    border-radius: 50px;  
-    padding: 8px 20px;   
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
- 
-.feature-item {   
-    display: flex;   
-    align-items: center;    
-    border-radius: 15px;   
-    padding: 15px 25px;    
-    margin-bottom: 15px;   
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    counter-increment: featureItemCounter;
-}
-
-.feature-item:hover {   
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-}
- 
-.feature-item:nth-child(odd) {    
-    background: linear-gradient(135deg, #2F4F4F, #008080);    
-    color: white;
-}
-
-.feature-item:nth-child(even) {    
-    background: linear-gradient(135deg, #87CEFA, #4682B4);    
-    color: black; 
-} 
-
-.feature-number {    
-    font-size: 18px;   
-    font-weight: bold;    
-    color: #2d3436;    
-    border-radius: 50%;    
-    width: 30px;    
-    height: 30px; 
-    display: flex;    
-    align-items: center;    
-    justify-content: center;
-    margin-right: 10px;    
-    background: #fff;    
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 2;
-}
-
-.feature-number::before {
-    content: counter(featureItemCounter);
-}
-
-.feature-item .title {    
-    font-weight: bold;   
-    margin: 0; 
-    font-family: "Roboto", sans-serif;
-    color: white;
-} 
-
-.feature-item p {    
-    font-size: 16px;    
-    margin-top: 5px;
-}
-
-.created-by {   
-    font-size: 20px;    
-    background: linear-gradient(to right, #000066, #0000CC);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;   
-    text-align: center; 
-    margin-top: 40px;
-}
-
-</style>
+    .section-content {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      text-align: justify;
+      background-color: #42426F;
+      color: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body>
-<div class="main-title">Y-Tian-Plugin附加AI帮助</div>
-<div class="panel">
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">开始对话</div>
-      
-<p>#bot+问题,AI对话,例如:#bot hello;</p>
-   
- </div>
- 
- </div>
- 
- <div class="feature-item">
-  
-  <div>
-    
-  <div class="title">查看模型</div>
-    
-  <p>#附加模型大全,查看所有附加模型;</p>
-   
-</div>
-</div>
-  
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">切换模型</div>
-      
-<p>#切换附加模型+序号,切换当前附加模型,例如:#切换附加模型2;</p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">切换预设</div>
-      
-<p>① #查看附加预设,查看所有相关预设 ② #切换附加预设+序号,切换当前附加模型,例如:#切换附加预设2;</p>
-   
- </div>
- 
- </div>
- 
- <div class="feature-item">
-  
-  <div>
-    
-  <div class="title">结束对话</div>
-    
-  <p>#结束附加对话;</p>
-   
-</div>
-</div>
-  
-
-</div>
-
-
-<div class="created-by">Created by yuan</div>
-
+  <h1 class="main-title">Y-Tian 附加AI</h1>
+  <div class="content-area">
+    <div class="section">
+      <h2 class="section-title"><span>查看模型</span></h2>
+      <div class="section-content">#附加模型大全<br>查看所有附加模型
+      </div>
+    </div>
+     <div class="section">
+      <h2 class="section-title"><span>切换模型</span></h2>
+      <div class="section-content">#切换附加模型+序号<br>切换当前附加模型<br>例如:#切换附加模型2;</div>
+    </div>
+<div class="section">
+      <h2 class="section-title"><span>开始对话</span></h2>
+      <div class="section-content">触发名+问题<br>(初始为#bot)<br>例如:#bot hello<br>#结束附加对话<br>结束当前对话
+      </div>
+    </div>
+    <div class="section">
+      <h2 class="section-title"><span>预设管理</span></h2>
+      <div class="section-content">① #查看附加预设,查看所有相关预设<br>② #切换附加预设+序号<br>切换当前附加模型<br>例如:#切换附加预设2;</div>
+    </div>
+  </div>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
