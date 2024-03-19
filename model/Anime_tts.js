@@ -30,12 +30,11 @@ async function Anime_tts(speakers, answer) {
     "fn_index": 0,
     "session_hash": session_hash
   };
-
+  const results = speakers.split("_")[0];
   return new Promise((resolve, reject) => {
-    fetch("https://v2.genshinvoice.top/run/predict", {
+    fetch(`https://api.lolimi.cn/API/yyhc/y.php?msg=${answer}&speaker=${results}`, {
       "headers": {
-        "content-type": "application/json",
-        "Referer": "https://v2.genshinvoice.top/"
+        "content-type": "application/json"
       },
       "body": JSON.stringify(body),
       "method": "POST"
@@ -48,9 +47,7 @@ async function Anime_tts(speakers, answer) {
       }
     })
     .then(res => {
-      let record_name = res.data[1].name;
-      record_name = "https://v2.genshinvoice.top/file=" + record_name;
-      resolve(record_name);
+      resolve(res.music);
     })
     .catch(async error => {
       console.error('Error:', error);
@@ -59,14 +56,19 @@ async function Anime_tts(speakers, answer) {
         "voice_id": 111,
         "text": answer,
         "format": "mp3", 
+        "pitch_factor": 0,
         "voice_speed": "0%",
         "rate": "1.1",
+        "to_lang": "ZH",
+        "speed_factor": 1,
         "client_ip": address
       }
       let response = await fetch("https://api.ttson.cn:50602/flashsummary/tts", {
         "headers": {
           "content-type": "application/json",
-          "Referer": "https://www.ttson.cn/"
+          "Referer": "https://www.ttson.cn/",
+          "x-checkout-header": "_checkout",
+          "X-Client-Header": "aab0640aebdb2fab8ca762142a935480"
         },
         "body": JSON.stringify(body),
         "method": "POST"
