@@ -31,17 +31,17 @@ export const god_models = [
   },
   {
     "model": "gpt-4-1106-preview",
-    "points": 1,
+    "points": 1200,
     "token": 128000
   },
   {
     "model": "gpt-4-0125-preview",
-    "points": 1,
+    "points": 1200,
     "token": 128000
   },
   {
     "model": "gpt-4-turbo-preview",
-    "points": 1,
+    "points": 1200,
     "token": 128000
   },
   {
