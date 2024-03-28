@@ -1,4 +1,4 @@
-async function god_conversation(imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl) {
+async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl) {
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
     const { search } = chatgptConfig;
     const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
@@ -126,10 +126,23 @@ if (aiSettings.chatgpt.ai_tts_open) {
 } catch { e.reply("与服务器通讯失败!") }}
 
 async function MainModel(e, history, stoken, search, model, apiurl, path) {
- try{
+  try {
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
      search = false
+   }
+    function reduceConsecutiveRoles(array) {
+     const result = [];
+      let previousItem = null;
+      for (const item of array) {
+        if (previousItem && previousItem.role === item.role) {
+         result.pop();
+        }
+        result.push(item);
+        previousItem = item;
+      }
+     return result;
     }
+    const History = reduceConsecutiveRoles(history);
     const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
@@ -138,14 +151,19 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
         },
         body: JSON.stringify({
             model: model,
-            messages: history,
+            messages: History,
             search: search,
         }),
-    });
- let response_json = await response.json()
- let answer = await response_json.choices[0].message.content
-answer = answer.replace(/Content is blocked/g, "  ")
-history.push({
+     });
+     console.log(History)
+     let response_json = await response.json()
+     let answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
+     answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
+        : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
+        : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
+        : answer;
+    answer = answer.replace(/Content is blocked/g, "  ")
+     history.push({
         "role": "assistant",
         "content": answer
     });
@@ -286,8 +304,8 @@ if (aiSettings.chatgpt.ai_tts_open) {
       await downloadAndSaveFile(url, path, fetch, _path, fs, e);
      });
    }
- } catch(error) { 
-   e.reply("与服务器通讯失败")
+  } catch(error) {
+  e.reply("与服务器通讯失败，请尝试开启god代理或结束对话")
  }
 }
 
@@ -418,6 +436,57 @@ async function getBaiduToken(AK, SK, request) {
             else resolve(JSON.parse(response.body).access_token);
         });
     });
+}
+
+async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
+  let response;
+  const functionsToTry = [
+    FreeChat35_1,
+    FreeChat35_2,
+    FreeChat35_3,
+    FreeChat35_4,
+    FreeChat35_5,
+  ];
+  for (let func of functionsToTry) {
+    response = await func(messages, fetch, crypto);
+    if (response) break;
+  }
+  if (!response) {
+    return null;
+  }
+  return response;
+}
+
+async function FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, messages, fetch, crypto) {
+  let response;
+  const functionsToTry = [
+    FreeGemini_1, 
+    FreeGemini_2,
+    FreeGemini_3
+  ];
+  for (let func of functionsToTry) {
+    response = await func(messages, fetch, crypto);
+    if (response) break;
+  }
+  if (!response) {
+    return null;
+  }
+  return response;
+}
+
+async function FreeClaudeFunctions(FreeClaude_1, messages, fetch, crypto) {
+  let response;
+  const functionsToTry = [
+    FreeClaude_1
+  ];
+  for (let func of functionsToTry) {
+    response = await func(messages, fetch, crypto);
+    if (response) break;
+  }
+  if (!response) {
+    return null;
+  }
+  return response;
 }
 
 async function handleOCR(e, gettk, stoken, puppeteer, replyBasedOnStyle, fs, _path, fetch, ocrurl, common, handleTTS) {
