@@ -35,6 +35,11 @@ import { FreeChat35_2 } from '../utils/FreeChat35/chat35_2.js';
 import { FreeChat35_3 } from '../utils/FreeChat35/chat35_3.js';
 import { FreeChat35_4 } from '../utils/FreeChat35/chat35_4.js';
 import { FreeChat35_5 } from '../utils/FreeChat35/chat35_5.js';
+import { FreeGemini_1 } from '../utils/FreeGemini/Gemini_1.js';
+import { FreeGemini_2 } from '../utils/FreeGemini/Gemini_2.js';
+import { FreeGemini_3 } from '../utils/FreeGemini/Gemini_3.js';
+import { FreeClaude_1 } from '../utils/FreeClaude/Claude_1.js';
+
 
 export const dependencies = {
   fs,
@@ -62,6 +67,10 @@ export const dependencies = {
   FreeChat35_3,
   FreeChat35_4,
   FreeChat35_5,
+  FreeGemini_1,
+  FreeGemini_2,
+  FreeGemini_3,
+  FreeClaude_1,
   Anime_tts_roles,
   run_conversation,
   god_conversation,
