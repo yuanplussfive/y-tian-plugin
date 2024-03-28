@@ -1,4 +1,4 @@
-async function run_conversation(dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, Anime_tts, Apikey, imgurl, https) {
+async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, Anime_tts, Apikey, imgurl, https, crypto) {
     const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
     const { model, search } = chatgptConfig;
     let msg = await formatMessage(e.msg);
@@ -115,7 +115,9 @@ async function handleSearchModel(e, msg, Apikey, apiurl) {
  //console.log(response_json)
  let answer = await response_json.choices[0].message.content
  e.reply(answer);
-} catch { e.reply("与服务器通讯失败!") }}
+} catch { 
+e.reply("与服务器通讯失败!") 
+}}
 
 async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
   const filteredArray = history.filter(function(item) {
@@ -171,9 +173,21 @@ async function handleMJModel(e, history, Apikey, search, model, apiurl, path, ht
 }
 
 async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
-   try {
-    let answer;
-    console.log(history)
+  try {
+   let answer;
+   function reduceConsecutiveRoles(array) {
+     const result = [];
+      let previousItem = null;
+      for (const item of array) {
+        if (previousItem && previousItem.role === item.role) {
+         result.pop();
+        }
+        result.push(item);
+        previousItem = item;
+      }
+     return result;
+    }
+    const History = reduceConsecutiveRoles(history);
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
      search = false
     }
@@ -185,13 +199,17 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, pat
       },
       body: JSON.stringify({
         model: model,
-        messages: history,
+        messages: History,
         search: search,
       }),
     });
     let response_json = await response.json();
     console.log(response_json)
-    answer = await response_json.choices[0].message.content;
+    answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
+   answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
+        : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
+        : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
+        : answer;
     answer = answer.replace(/Content\s*is\s*blocked/g, "  ");
     console.log(answer+"\n---------")
     history.push({
@@ -357,8 +375,8 @@ descriptionMatch = removeAllOccurrences(Dalle_Prompt2, descriptionMatch);
       await downloadAndSaveFile(url, path, fetch, _path, fs, e);
      });
    }
- } catch {
-    e.reply("通讯失败了！")
+  } catch(error) {
+  e.reply("与服务器通讯失败，请尝试开启chat代理或结束对话")
  }
 }
 
@@ -378,6 +396,57 @@ async function handleTTS(e, speakers, answer) {
         e.reply("tts服务通讯失败,请稍候重试");
     }
   }
+}
+
+async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
+  let response;
+  const functionsToTry = [
+    FreeChat35_1,
+    FreeChat35_2,
+    FreeChat35_3,
+    FreeChat35_4,
+    FreeChat35_5,
+  ];
+  for (let func of functionsToTry) {
+    response = await func(messages, fetch, crypto);
+    if (response) break;
+  }
+  if (!response) {
+    return null;
+  }
+  return response;
+}
+
+async function FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, messages, fetch, crypto) {
+  let response;
+  const functionsToTry = [
+    FreeGemini_1, 
+    FreeGemini_2,
+    FreeGemini_3
+  ];
+  for (let func of functionsToTry) {
+    response = await func(messages, fetch, crypto);
+    if (response) break;
+  }
+  if (!response) {
+    return null;
+  }
+  return response;
+}
+
+async function FreeClaudeFunctions(FreeClaude_1, messages, fetch, crypto) {
+  let response;
+  const functionsToTry = [
+    FreeClaude_1
+  ];
+  for (let func of functionsToTry) {
+    response = await func(messages, fetch, crypto);
+    if (response) break;
+  }
+  if (!response) {
+    return null;
+  }
+  return response;
 }
 
 async function get_address(inputString){
