@@ -7,18 +7,14 @@ const transformedArray = messages.map(item => ({
     const { content, ...rest } = item;
     return rest;
 });
-const result = transformedArray.reduce((acc, curr, index, array) => {
-    if (curr.role === "user") {
-        if (acc.length > 0 && acc[acc.length - 1].role === "user") {
-            return acc;
-        } else {
-          acc.push(curr);
-        }
-    }
-    return acc;
-}, [])
+ for (let item of transformedArray) {
+  if (item.role === "assistant") {
+    item.role = "model";
+  }
+}
+console.log(transformedArray)
 const data = JSON.stringify({
-  "contents": result,
+  "contents": transformedArray,
   "generationConfig": {
     "temperature": 0.5,
     "maxOutputTokens": 4000,
@@ -72,18 +68,3 @@ const data = JSON.stringify({
 }
 
 export { FreeGemini_1 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
