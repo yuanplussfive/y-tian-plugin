@@ -23,16 +23,11 @@ async function signature(time, message) {
     const { content, ...rest } = item;
     return rest;
  });
-  const result = transformedArray.reduce((acc, curr, index, array) => {
-    if (curr.role === "user") {
-        if (acc.length > 0 && acc[acc.length - 1].role === "user") {
-            return acc;
-        } else {
-          acc.push(curr);
-        }
-      }
-      return acc;
-   }, [])
+  for (let item of transformedArray) {
+  if (item.role === "assistant") {
+    item.role = "model";
+  }
+}
     const time = new Date().getTime();
     const url = "https://gemini-ai.top/api/generate";
     const headers = {
@@ -42,7 +37,7 @@ async function signature(time, message) {
     };  
     const sign = await signature(time, messages[messages.length-1].content);
     const body = JSON.stringify({
-        "messages": result,
+        "messages": transformedArray,
         "time": time,
         "pass": null,
         "sign": sign
@@ -67,18 +62,3 @@ async function signature(time, message) {
 }
 
 export { FreeGemini_2 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
