@@ -225,9 +225,10 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 ###  :sunglasses: 传送门
 
+* 同款demo网页ai对话：[☞Gitee](https://gitee.com/yuanpluss/simple-free-ai) 
 * 喵喵版 Yunzai-Bot（V3）：[☞Github](https://github.com/yoimiya-kokomi/Miao-Yunzai)/[☞Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai) 
 * 阴天插件 Alemon-Bot版：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
-* 阴天个人 windows电脑一键部署：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
+* 个人 windows电脑一键部署：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
 * 严禁用于任何商业用途和非法行为
 
 
