@@ -32,10 +32,6 @@ export class slack extends plugin {
        {
           reg: "^(/|#)?结束slack对话$",
           fnc: 'Slack_Ends'
-       },
-       {
-          reg: "^/查看slack预设|^/切换slack预设(.*?)$",
-          fnc: 'Slack_Prompts'
        }
       ]
     })
@@ -87,6 +83,7 @@ async function claude(message, e) {
             }]
         }]
     }];
+
     const payload = {
         blocks: blocks,
         channel: channel_id,
@@ -113,7 +110,6 @@ async function claude(message, e) {
     if (slackhistory == "114514") {
         slackhistory = ts;
         time = ts;
-        console.log(slackhistory)
     }
     let count = 0;
     let typingCount = 0;
@@ -142,15 +138,31 @@ async function claude(message, e) {
 
    if (result.messages[1]) {
       const output = await isNonEmptyString(result.messages[1].text)
-        if (!hasReplied && output) {
-           let replies = result.messages[1].text;
-            replies = await decodeHtmlEntities(replies);
-            e.reply(replies.trim());
-            hasReplied = true;
-         } else {
-            typingCount++;
-        } 
+      if (!hasReplied && output) {
+      let retries = 0;
+      let lastReplies = '';
+      let currentReplies = result.messages[1].text;
+
+      const checkChanges = async () => {
+        currentReplies = await decodeHtmlEntities(currentReplies)
+        if (retries > 0 && lastReplies === currentReplies) {
+          retries++;
+        } else {
+          retries = 1; 
+        }
+        lastReplies = currentReplies;
+        if (retries === 3) {
+          e.reply(lastReplies.trim());
+          hasReplied = true;
+        } else if (!hasReplied) {
+          setTimeout(checkChanges, 2500);
+        }
+      };
+      checkChanges();
+    } else {
+      typingCount++;
     }
+  }
 
     if (typingCount === 8) {
         e.reply("slack通讯失败，请重置对话!", true);
@@ -195,7 +207,7 @@ async function writeJsonFile(filepath, data) {
 }
 
 async function getSlackPresetsSummary(_path) {
-    const fileNames = await fs.promises.readdir(`${_path}/data/阴天预设`, "utf-8");
+    const fileNames = await fs.promises.readdirSync(`${_path}/data/阴天预设`, "utf-8");
     return fileNames.map(name => {
         const cleanName = name.replace(/.txt/g, "");
         const weight = fs.readFileSync(`${_path}/data/阴天预设/${name}`, "utf-8").slice(0, 100);
