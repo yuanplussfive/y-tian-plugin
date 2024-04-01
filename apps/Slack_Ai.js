@@ -112,8 +112,11 @@ async function claude(message, e) {
         time = ts;
     }
     let count = 0;
+    let retries = 0;
     let typingCount = 0;
     let hasReplied = false;
+    let currentReplies = ""
+    let lastReplies = '';
     async function executeRequest() {
      const boundary = '------WebKitFormBoundaryTotJQ9kaNkT7dchz';
      const formData = new FormData();
@@ -135,34 +138,26 @@ async function claude(message, e) {
         await new Promise(r => setTimeout(r, 4000));
         return;
     }
-
-   if (result.messages[1]) {
-      const output = await isNonEmptyString(result.messages[1].text)
-      if (!hasReplied && output) {
-      let retries = 0;
-      let lastReplies = '';
-      let currentReplies = result.messages[1].text;
-
-      const checkChanges = async () => {
-        currentReplies = await decodeHtmlEntities(currentReplies)
-        if (retries > 0 && lastReplies === currentReplies) {
-          retries++;
-        } else {
-          retries = 1; 
-        }
-        lastReplies = currentReplies;
-        if (retries === 3) {
-          e.reply(lastReplies.trim());
-          hasReplied = true;
-        } else if (!hasReplied) {
-          setTimeout(checkChanges, 2500);
-        }
-      };
-      checkChanges();
-    } else {
-      typingCount++;
+  if (result.messages[1]) {
+  const output = await isNonEmptyString(result.messages[1].text);
+  currentReplies = result.messages[1].text;
+  console.log(currentReplies);
+  if (!hasReplied && output) {
+   console.log(888);
+   if (lastReplies === currentReplies) {
+      retries++; 
     }
+    console.log(retries);
+   lastReplies = currentReplies
+   if (retries >= 4) {
+     const finalReply = await decodeHtmlEntities(currentReplies);
+      e.reply(finalReply.trim());
+      hasReplied = true;
+    } 
+  } else {
+    typingCount++;
   }
+}
 
     if (typingCount === 8) {
         e.reply("slack通讯失败，请重置对话!", true);
@@ -177,7 +172,7 @@ async function executeWhileLoop() {
         if(shouldBreak) {
             break;
         }
-        await new Promise(r => setTimeout(r, 5000));
+        await new Promise(r => setTimeout(r, 2800));
       }
   }
  executeWhileLoop();
