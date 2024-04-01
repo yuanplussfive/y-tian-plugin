@@ -158,10 +158,12 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
      console.log(History)
      let response_json = await response.json()
      let answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
-     answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
+     if (!answer) {
+      answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
         : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
         : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
         : answer;
+    }
     answer = answer.replace(/Content is blocked/g, "  ")
      history.push({
         "role": "assistant",
