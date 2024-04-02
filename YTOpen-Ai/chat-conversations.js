@@ -403,11 +403,11 @@ async function handleTTS(e, speakers, answer) {
 async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
   let response;
   const functionsToTry = [
-    FreeChat35_1,
-    FreeChat35_2,
     FreeChat35_3,
     FreeChat35_4,
     FreeChat35_5,
+    FreeChat35_2,
+    FreeChat35_1,
   ];
   for (let func of functionsToTry) {
     response = await func(messages, fetch, crypto);
