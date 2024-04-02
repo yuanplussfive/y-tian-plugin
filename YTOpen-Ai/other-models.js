@@ -85,36 +85,6 @@ export const other_models = [
   },
   {
     "id":15,
-    "model": "meta-llama",
-    "points": "llama",
-    "token": "70000"
-  },
-  {
-    "id":16,
-    "model": "mistral",
-    "points": "Mistral",
-    "token": "8500"
-  },
-  {
-    "id":17,
-    "model": "mistral-large",
-    "points": "Mistral",
-    "token": "8500"
-  },
-  {
-    "id":18,
-    "model": "codellama",
-    "points": "Microsoft",
-    "token": "34000"
-  },
-  {
-    "id":19,
-    "model": "jondurbin",
-    "points": "airoboros",
-    "token": "70000"
-  },
-  {
-    "id":20,
     "model": "moonshot-v1-128k",
     "points": "moonshot",
     "token": "128000"
