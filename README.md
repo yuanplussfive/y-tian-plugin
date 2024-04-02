@@ -183,6 +183,16 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <img src="./background/image/对话6.jpg" style="zoom:50%;" />
 </details>
 
+#### ※ chatgpt4免费版 ※
+<details> <summary>演示1</summary>
+<img src="./background/image/freegpt4.jpg" style="zoom:50%;" />
+</details>
+
+#### ※ 月之暗面web版 ※
+<details> <summary>演示1</summary>
+<img src="./background/image/kimi.jpg" style="zoom:50%;" />
+</details>
+
 #### ※ 星火模型web版 ※
 <details> <summary>演示1</summary>
 <img src="./background/image/xinghuo.jpg" style="zoom:50%;" />
@@ -213,6 +223,23 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 </details>
 <details> <summary>演示2</summary>
 <img src="./background/image/qwen_2.jpg" style="zoom:50%;" />
+</details>
+
+#### ※ chatgpt_plus版 ※
+<details> <summary>深度搜索</summary>
+<img src="./background/image/plus_1.jpg" style="zoom:50%;" />
+</details>
+<details> <summary>dall-e-3绘图</summary>
+<img src="./background/image/plus_2.jpg" style="zoom:50%;" />
+</details>
+<details> <summary>图片分析</summary>
+<img src="./background/image/plus_3.jpg" style="zoom:50%;" />
+</details>
+<details> <summary>文件分析</summary>
+<img src="./background/image/plus_4.jpg" style="zoom:50%;" />
+</details>
+<details> <summary>多模态集成</summary>
+<img src="./background/image/plus_5.jpg" style="zoom:50%;" />
 </details>
 
 ### 如何与AI交互对话:
