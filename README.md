@@ -39,15 +39,21 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 ##  :kissing_heart: 功能一览
 
-| 命令| 说明|
+| 模型名称| 是否需要配置| 是否免费 |
 |:--------|------------|
-| #阴天更新 | 同步更新阴天插件 |
-| #阴天帮助 | 获取插件命令帮助|
-| #娱乐帮助 | 获取娱乐功能帮助|
-| #群管帮助| 获取群管功能帮助 |
-| #游戏帮助 | 获取游戏功能帮助|
-| #AI总帮助 | 获取AI功能总帮助|
-| ...... | ...... |
+| gpt-3.5/4系列 | 无需 | 免费 |
+| gpt-4-all系列 | 需配置key| 赞助优先 |
+| claude系列 | 无需| 免费 |
+| gemini系列 | 无需 | 免费 |
+| tts系列 | 无需 | 免费 |
+| dalle系列 | 无需 | 免费 |
+| sd系列 | 无需 | 免费 |
+| suno系列 | 需配置key | 赞助优先 |
+| 本地系列 | 无需 | 免费 |
+| 国产系列 | 无需 | 免费 |
+|:--------|------------|
+
+何为无需配置？ 答：开箱即用
 
 <details> <summary>阴天帮助面板</summary>
 <img decoding="async"  src="background/image/帮助.jpg" width="35%">
