@@ -159,32 +159,61 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 ## 部分AI功能展示：
 <br>
-<details> <summary>免费sess模型</summary>
+<details> <summary> :one: 免费sess模型</summary>
 <img src="./background/image/对话1.jpg" style="zoom:50%;" />
 </details>
 <br>
-<details> <summary>免费国产模型</summary>
+<details> <summary> :two: 免费国产模型</summary>
 <img src="./background/image/对话2.jpg" style="zoom:50%;" />
 </details>
 <br>
-<details> <summary>免费dalle绘图</summary>
+<details> <summary> :three: 免费dalle绘图</summary>
 <img src="./background/image/对话4.jpg" style="zoom:50%;" />
 </details>
 <br>
-<details> <summary>gpt-4多模态</summary>
+<details> <summary> :four: gpt-4多模态</summary>
 <img src="./background/image/对话3.jpg" style="zoom:50%;" />
 </details>
 <br>
-<details> <summary>文生视频等</summary>
+<details> <summary> :five: 文生视频等</summary>
 <img src="./background/image/对话5.jpg" style="zoom:50%;" />
 </details>
 <br>
-<details> <summary>TTS交互模型</summary>
+<details> <summary> :six: TTS交互模型</summary>
 <img src="./background/image/对话6.jpg" style="zoom:50%;" />
 </details>
 
 #### ※ 星火模型web版 ※
-<img src="./background/image/zs2.jpg" style="zoom:50%;" />
+<details> <summary>演示1</summary>
+<img src="./background/image/xinghuo.jpg" style="zoom:50%;" />
+</details>
+
+#### ※ 智谱清言web版 ※
+<details> <summary>演示1</summary>
+<img src="./background/image/glm4_1.jpg" style="zoom:50%;" />
+</details>
+<details> <summary>演示2</summary>
+<img src="./background/image/glm4_2.jpg" style="zoom:50%;" />
+</details>
+
+#### ※ 微软copilot ※
+<details> <summary>演示1</summary>
+<img src="./background/image/copilot_1.jpg" style="zoom:50%;" />
+</details>
+<details> <summary>演示2</summary>
+<img src="./background/image/copilot_2.jpg" style="zoom:50%;" />
+</details>
+<details> <summary>演示3</summary>
+<img src="./background/image/copilot_3.jpg" style="zoom:50%;" />
+</details>
+
+#### ※ 通义千问web版 ※
+<details> <summary>演示1</summary>
+<img src="./background/image/qwen_1.jpg" style="zoom:50%;" />
+</details>
+<details> <summary>演示2</summary>
+<img src="./background/image/qwen_2.jpg" style="zoom:50%;" />
+</details>
 
 ### 如何与AI交互对话:
 
