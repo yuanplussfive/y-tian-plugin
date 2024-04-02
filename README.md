@@ -42,7 +42,7 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 | 模型名称| 是否需要配置/是否免费 |
 |:--------|------------|
 | gpt-3.5/4系列 | 无需/免费 |
-| gpt-4-all系列 | 需配置key/优先 |
+| gpt-4-all系列 | 需配置key/赞助优先 |
 | claude系列 | 无需/免费 |
 | gemini系列 | 无需/免费 |
 | tts系列 | 无需/免费 |
@@ -182,6 +182,9 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <details> <summary>TTS交互模型</summary>
 <img src="./background/image/对话6.jpg" style="zoom:50%;" />
 </details>
+
+#### ※ 星火模型web版 ※
+<img src="./background/image/zs2.jpg" style="zoom:50%;" />
 
 ### 如何与AI交互对话:
 
