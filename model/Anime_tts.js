@@ -82,15 +82,18 @@ async function Anime_tts(speakers, answer) {
   });
 }
 
-async function get_ip_address(){
-  const interfaces = os.networkInterfaces();
-  for (let interfaceName in interfaces) {
-    const interfaceInfo = interfaces[interfaceName];
-    for (let info of interfaceInfo) {
-      if (info.family === 'IPv4' && !info.internal) {
-        return info.address;
+async function get_ip_address() {
+  try {
+    const interfaces = os.networkInterfaces();
+    for (const interfaceInfo of Object.values(interfaces)) {
+      for (const info of interfaceInfo) {
+        if (info.family === 'IPv4' && !info.internal) {
+          return info.address;
+        }
       }
     }
+  } catch (error) {
+   return "";
   }
   return "";
 }
