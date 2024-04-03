@@ -169,63 +169,11 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
         "role": "assistant",
         "content": answer
     });
-   let Messages = "undefined"
+    let Messages = answer
   const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v"];
  const keywords = ["json dalle-prompt", `"prompt":"`, `"size":"`, "json dalle"];
-if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
-   const extractJsonAndDescription = (str) => {
-   let jsonMatch = str
-   function removeAllOccurrences(array, str) {
-    if (Array.isArray(array) && array.length) {
-        array.forEach(item => {
-            if (item && str) {
-                str = str.split(item).join('');
-            }
-        });
-    }
-    return str;
-   }
-   let Dalle_Prompt = str.match(/\s*{\s*\n*\s*"size"\s*:\s*"(.*?)"\s*\n*}\s*/gs)
-   let Dalle_Prompt2 = str.match(/\s*{\s*\n*\s*"prompt"\s*:\s*"(.*?)"\s*\n*}\s*/gs)
-   try {
-   let Rules = jsonMatch.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g,""); 
-    Rules = Rules.replace(/[\u007F-\uFFFF]/g, ""); 
-    jsonMatch = Rules.match(/\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s);
-    if (!jsonMatch || jsonMatch.length === null) {
-     jsonMatch = Rules.match(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s)
-    }
-  } catch {
-     jsonMatch = jsonMatch.match(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s);
- }
- let descriptionMatch = str.replace(/(```json\sdalle-prompt|```json\sdalle|```json|```)/g, '')
- try {
-  const jsonPart = jsonMatch[0];
-  const regex = /\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s
-  let matches
-  try {
-    matches = str.match(regex);
-    if (!matches || matches.length === null) {
-    descriptionMatch = descriptionMatch.replace(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s, "")
-    } else {
-    descriptionMatch = descriptionMatch.replace(/\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s, "")
-   }
-  } catch {
-    descriptionMatch = descriptionMatch.replace(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s, "")
- }
- descriptionMatch = descriptionMatch.replace(/\!\[[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/.*?\)\n\n/g, '');
-descriptionMatch = descriptionMatch.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/download\/.*?\)\n/g, '');
- descriptionMatch = descriptionMatch.replace(/\!\[.*?\]\(https:\/\/filesystem.site\/cdn\/.*?\)\n\n/g, '')
- descriptionMatch = descriptionMatch.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '')
-descriptionMatch = removeAllOccurrences(Dalle_Prompt, descriptionMatch);
-descriptionMatch = removeAllOccurrences(Dalle_Prompt2, descriptionMatch);
- descriptionMatch = descriptionMatch.replace(jsonPart, '')
-  return { jsonPart, descriptionMatch };
-} catch (error) {
- let descriptionMatch = str.replace(/(```json\sdalle-prompt|```json\sdalle|```json|```)/g, '')
- return { descriptionMatch };
-}
-}
-   const result = extractJsonAndDescription(answer);
+ if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
+   const result = await extractDescription(answer);
    Messages = result.descriptionMatch.trim()
    console.log(result)
    try {
@@ -238,9 +186,6 @@ descriptionMatch = removeAllOccurrences(Dalle_Prompt2, descriptionMatch);
    }
    } catch {}
    }   
-   if (Messages == "undefined") {
-   Messages = answer
-   }
    console.log(Messages)
    let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
   await replyBasedOnStyle(styles, Messages, e, common, puppeteer, fs, _path, msg)
@@ -311,9 +256,40 @@ if (aiSettings.chatgpt.ai_tts_open) {
  }
 }
 
+async function extractDescription(str) {
+  const removeAllOccurrences = (array, str) =>
+    Array.isArray(array) && array.length
+      ? array.reduce((acc, item) => (item && str ? acc.split(item).join('') : acc), str)
+      : str;
+  const jsonMatch = str.match(/\s*{\s*\n*\s*"size"\s*:\s*"(.*?)"\s*\n*}\s*/gs) || str.match(/\s*{\s*\n*\s*"prompt"\s*:\s*"(.*?)"\s*\n*}\s*/gs);
+  try {
+  const rules = str.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, '').replace(/[\u007F-\uFFFF]/g, '');
+  const jsonPart = rules.match(/\s*{\s*"prompt"\s*:\s*"(.*?)"\s*}\s*/s)?.[0] || rules.match(/\s*{\s*"size"\s*:\s*"(.*?)"\s*}\s*/s)?.[0];
+  let descriptionMatch = str.replace(/(```json\sdalle-prompt|```json\sdalle|```json|```)/g, '');
+  descriptionMatch = descriptionMatch.replace(jsonPart, '');
+  descriptionMatch = removeAllOccurrences(jsonMatch, descriptionMatch);
+  descriptionMatch = await Replaces(descriptionMatch)
+  return { jsonPart, descriptionMatch };
+  } catch {
+  let descriptionMatch = str.replace(/(```json\sdalle-prompt|```json\sdalle|```json|```)/g, '');
+  descriptionMatch = await Replaces(descriptionMatch)
+  return { descriptionMatch };
+ }
+}
+
+async function Replaces(descriptionMatch) {
+  let description = descriptionMatch.replace(/\!\[[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/.*?\)\n\n/g, '');
+  description = description.replace(/\[下载[\s\S]*?\]\(https:\/\/filesystem\.site\/cdn\/download\/.*?\)\n/g, '');
+  description = description.replace(/\!\[.*?\]\(https:\/\/filesystem.site\/cdn\/.*?\)\n\n/g, '');
+  description = description.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '');
+  description = description.replace(/\{[^{}]*"prompt"[^{}]*"size"[^{}]*\}\s*/g, '');
+  return description
+}
+
 async function saveUserHistory(userId, history) {
     fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");
- }
+}
+
 async function handleTTS(e, speakers, answer) {
     try {
         let record_url = await AnimeTTS(speakers, answer);
