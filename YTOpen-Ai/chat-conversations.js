@@ -173,7 +173,7 @@ async function handleMJModel(e, history, Apikey, search, model, apiurl, path, ht
 }
 
 async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
- 
+ try {
    let answer;
    function reduceConsecutiveRoles(array) {
      const result = [];
@@ -191,6 +191,7 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, pat
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
      search = false
     }
+   try {
     const response = await fetch(apiurl, {
       method: 'POST',
       headers: {
@@ -206,9 +207,13 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, pat
     let response_json = await response.json();
     console.log(response_json)
     answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
-    if (!answer) {
-answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
+    } catch {
+    answer = null;
+   }
+   if (!answer) {
+    answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
         : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
+        : model.includes("gpt-4") ? await FreeChat40Functions(History)
         : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
         : answer;
     }
@@ -220,7 +225,7 @@ answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_
     });
     let Messages = answer
   const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v"];
- const keywords = ["json dalle-prompt", `"prompt":"`, `"size":"`, "json dalle"];
+ const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
 if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
    const result = await extractDescription(answer);
    Messages = result.descriptionMatch.trim()
@@ -322,7 +327,9 @@ if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))
       await downloadAndSaveFile(url, path, fetch, _path, fs, e);
      });
    }
-
+  } catch(error) {
+  e.reply("与服务器通讯失败，请尝试开启chat代理或结束对话")
+ }
 }
 
 async function extractDescription(str) {
@@ -371,6 +378,26 @@ async function handleTTS(e, speakers, answer) {
     } catch (error) {
         e.reply("tts服务通讯失败,请稍候重试");
     }
+  }
+}
+
+async function FreeChat40Functions(History) {
+   const url = "https://y-tian-plugin.top:8080/api/v1/freechat4/completions";
+    const body = {
+        messages: History
+     };
+     const options = {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+      },
+      "body": JSON.stringify(body)
+     };
+     try {
+       const response = await fetch(url, options);
+       return await response.text()
+    } catch {
+    return null
   }
 }
 
