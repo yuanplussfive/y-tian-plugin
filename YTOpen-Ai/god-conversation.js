@@ -143,6 +143,8 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
      return result;
     }
     const History = reduceConsecutiveRoles(history);
+   let answer
+   try {
     const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
@@ -157,10 +159,14 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
      });
      console.log(History)
      let response_json = await response.json()
-     let answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
+     answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
+    } catch {
+    answer = null;
+   }
      if (!answer) {
-      answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
+    answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
         : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
+        : model.includes("gpt-4") ? await FreeChat40Functions(History)
         : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
         : answer;
     }
@@ -170,9 +176,9 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
         "content": answer
     });
     let Messages = answer
-  const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v"];
- const keywords = ["json dalle-prompt", `"prompt":"`, `"size":"`, "json dalle"];
- if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
+ const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v"];
+ const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
+if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
    const result = await extractDescription(answer);
    Messages = result.descriptionMatch.trim()
    console.log(result)
@@ -414,6 +420,26 @@ async function getBaiduToken(AK, SK, request) {
             else resolve(JSON.parse(response.body).access_token);
         });
     });
+}
+
+async function FreeChat40Functions(History) {
+   const url = "https://y-tian-plugin.top:8080/api/v1/freechat4/completions";
+    const body = {
+        messages: History
+     };
+     const options = {
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+      },
+      "body": JSON.stringify(body)
+     };
+     try {
+       const response = await fetch(url, options);
+       return await response.text()
+    } catch {
+    return null
+  }
 }
 
 async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
