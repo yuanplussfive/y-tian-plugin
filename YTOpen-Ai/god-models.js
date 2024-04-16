@@ -138,5 +138,70 @@ export const god_models = [
     "model": "mistral-medium",
     "points": 100,
     "token": 32000
+  },
+  {
+    "model": "sonar-small-online",
+    "points": 10,
+    "token": 8000
+  },
+  {
+    "model": "sonar-medium-online",
+    "points": 10,
+    "token": 32000
+  },
+  {
+    "model": "sonar-small-chat",
+    "points": 10,
+    "token": 8000
+  },
+  {
+    "model": "sonar-medium-chat",
+    "points": 10,
+    "token": 32000
+  },
+  {
+    "model": "dbrx-instruct",
+    "points": 10,
+    "token": 32000
+  },
+  {
+    "model": "codellama-70b-instruct",
+    "points": 10,
+    "token": 70000
+  },
+  {
+    "model": "mistral-7b-instruct",
+    "points": 10,
+    "token": 7000
+  },
+  {
+    "model": "llava-v1.5-7b-wrapper",
+    "points": 10,
+    "token": 7000
+  },
+  {
+    "model": "llava-v1.6-34b",
+    "points": 10,
+    "token": 34000
+  },
+  {
+    "model": "mixtral-8x7b-instruct",
+    "points": 10,
+    "token": 7000
+  },
+  {
+    "model": "mixtral-8x22b",
+    "points": 10,
+    "token": 22000
+  },
+  {
+    "model": "gemma-2b-it",
+    "points": 10,
+    "token": 2000
+  },
+  {
+    "model": "gemma-7b-it",
+    "points": 10,
+    "token": 7000
   }
 ]
