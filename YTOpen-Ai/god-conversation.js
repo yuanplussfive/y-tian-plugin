@@ -170,7 +170,7 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
         : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
         : answer;
     }
-    answer = answer.replace(/Content is blocked/g, "  ")
+    answer = answer.replace(/Content is blocked/g, "  ").trim()
      history.push({
         "role": "assistant",
         "content": answer
