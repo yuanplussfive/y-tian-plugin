@@ -217,7 +217,7 @@ async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, pat
         : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
         : answer;
     }
-    answer = answer.replace(/Content\s*is\s*blocked/g, "  ");
+    answer = answer.replace(/Content\s*is\s*blocked/g, "  ").trim();
     console.log(answer+"\n---------")
     history.push({
       "role": "assistant",
