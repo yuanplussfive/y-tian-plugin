@@ -57,6 +57,15 @@ console.log(msg)
         "role": "user",
         "content": msg
     });
+   if (model.includes("claude")) {
+    history = history.map(obj => {
+    if (obj.role === "system") {
+        return { ...obj, role: "user" };
+    } else {
+        return obj;
+    }
+  });
+ }
     await MainModel(e, history, stoken, search, model, apiurl, path);
     await saveUserHistory(userid, history);
 
@@ -142,7 +151,10 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
       }
      return result;
     }
-    const History = reduceConsecutiveRoles(history);
+    let History = history
+   if (!model.includes("claude")) {
+     History = reduceConsecutiveRoles(history);
+}
    let answer
    try {
     const response = await fetch(apiurl, {
@@ -170,7 +182,7 @@ async function MainModel(e, history, stoken, search, model, apiurl, path) {
         : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
         : answer;
     }
-    answer = answer.replace(/Content is blocked/g, "  ").trim()
+    answer = answer.replace(/Content is blocked/g, "  ")
      history.push({
         "role": "assistant",
         "content": answer
