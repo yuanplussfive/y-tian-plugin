@@ -190,17 +190,16 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         let previousItem = null;
         for (const item of array) {
           if (previousItem && previousItem.role === item.role) {
-            result.pop();
+            previousItem.content += "\n" + item.content;
+          } else {
+            result.push(item);
           }
-          result.push(item);
           previousItem = item;
         }
         return result;
       }
-      let History = history
-      if (!model.includes("claude")) {
-        History = reduceConsecutiveRoles(history);
-      }
+      let History = reduceConsecutiveRoles(history)
+      console.log(History)
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v") {
         search = false
       }
