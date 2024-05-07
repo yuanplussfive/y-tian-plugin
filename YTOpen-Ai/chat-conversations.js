@@ -187,15 +187,30 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       let answer;
       function reduceConsecutiveRoles(array) {
         const result = [];
-        let previousItem = null;
+        let consecutiveUserItems = [];
+
         for (const item of array) {
-          if (previousItem && previousItem.role === item.role) {
-            previousItem.content += "\n" + item.content;
+          if (item.role === 'user') {
+            consecutiveUserItems.push(item.content);
           } else {
+            if (consecutiveUserItems.length > 0) {
+              result.push({
+                role: 'user',
+                content: consecutiveUserItems.join('\n')
+              });
+              consecutiveUserItems = [];
+            }
             result.push(item);
           }
-          previousItem = item;
         }
+
+        if (consecutiveUserItems.length > 0) {
+          result.push({
+            role: 'user',
+            content: consecutiveUserItems.join('\n')
+          });
+        }
+
         return result;
       }
       let History = reduceConsecutiveRoles(history)
@@ -529,13 +544,28 @@ async function extractImageLinks3(answer) {
 
 async function processArray(arr, numbers) {
   const userCount = arr.reduce((count, obj) => obj.role === "user" ? count + 1 : count, 0);
+  const systemIndex = arr.findIndex(obj => obj.role === "system");
+
   if (userCount >= numbers) {
-    const systemIndex = arr.findIndex(obj => obj.role === "system");
+    let newArr = [];
     if (systemIndex !== -1) {
-      return [arr[systemIndex]];
-    } else {
-      return [];
+      newArr.push(arr[systemIndex]);
     }
+
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const obj = arr[i];
+      if (obj.role !== "user" && obj.role !== "assistant") {
+        newArr.unshift(obj);
+      } else if (newArr.length < numbers) {
+        if (obj.role === "user" && arr[i + 1]?.role === "assistant") {
+          newArr.unshift(arr[i + 1], obj);
+          i--;
+        } else {
+          newArr.unshift(obj);
+        }
+      }
+    }
+    return newArr;
   }
   return arr;
 }
