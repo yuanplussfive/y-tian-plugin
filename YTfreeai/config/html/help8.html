@@ -6,26 +6,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI模型介绍</title>
   <style>
-@font-face {
-    font-family: "jty";
-    src: url("{{src}}");
-    font-weight: normal;
-    font-style: normal;
-  }
-    table {
-      font-family: "jty";
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th, td {
-      font-family: "jty";
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
+ @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+
+body {
+background-color: #000000;
+color: #e8ede8;
+font-family: 'Inconsolata', monospace;
+text-align: center;
+}
+
+table {
+border-collapse: collapse;
+width: 100%;
+max-width: 800px;
+margin: 0 auto;
+box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+animation: glowEffect 2s infinite;
+}
+
+th,
+td {
+padding: 12px;
+text-align: left;
+border: 1px solid #00c8ff;
+white-space: nowrap;
+}
+
+th {
+background-color: #1a1a1a;
+}
+
+@keyframes glowEffect {
+0% {
+box-shadow: 0 0 20px rgba(151, 203, 151, 0.5);
+}
+50% {
+box-shadow: 0 0 30px rgba(232, 239, 232, 0.8);
+}
+100% {
+box-shadow: 0 0 20px rgba(67, 210, 220, 0.5);
+}
+}
   </style>
 </head>
 <body>
