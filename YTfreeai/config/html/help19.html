@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>菜单</title>
   <style>
@@ -93,6 +94,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="title-container">
@@ -120,7 +122,8 @@
     </div>
     <div class="section">
       <div class="section-title">私聊回复</div>
-      <div class="section-content">#(开启|关闭)私聊回复,是否允ai私聊,例如:#开启私聊回复<br>#私聊回复使用(god|chat|sess|附加),更改私聊bot的方案,例如:#私聊回复使用sess</div>
+      <div class="section-content">
+        #(开启|关闭)私聊回复,是否允ai私聊,例如:#开启私聊回复<br>#私聊回复使用(god|chat|sess|附加),更改私聊bot的方案,例如:#私聊回复使用sess</div>
     </div>
     <div class="section">
       <div class="section-title">TTS语音</div>
@@ -128,7 +131,9 @@
     </div>
     <div class="section">
       <div class="section-title">禁用Ai</div>
-      <div class="section-content">#(禁用|解禁)方案(god|chat|附加|sess),禁用当前方案<br>例如:#禁用方案god,解禁同理<br>#AI(禁用|解禁)该群,禁用当前群ai,例如:#AI禁用该群,解禁同理<br>#(禁用|解禁)AI@xxxx,禁止艾特的群员使用ai,例如:#禁用AI@张三,解禁同理</div>
+      <div class="section-content">
+        #(禁用|解禁)方案(god|chat|附加|sess),禁用当前方案<br>例如:#禁用方案god,解禁同理<br>#AI(禁用|解禁)该群,禁用当前群ai,例如:#AI禁用该群,解禁同理<br>#(禁用|解禁)AI@xxxx,禁止艾特的群员使用ai,例如:#禁用AI@张三,解禁同理
+      </div>
     </div>
     <div class="section">
       <div class="section-title">添加预设</div>
@@ -137,6 +142,10 @@
     <div class="section">
       <div class="section-title">管理预设</div>
       <div class="section-content">#(删除|查看)预设+序号,例如:#查看预设1,删除同理</div>
+    </div>
+    <div class="section">
+      <div class="section-title">密钥管理</div>
+      <div class="section-content">#删除chatsk+序号,删除chat方案的key,例如:#删除chatsk 2,god方案同理,/删除godsk+序号</div>
     </div>
     <div class="section">
       <div class="section-title">记忆限制</div>
@@ -148,4 +157,5 @@
     </div>
   </div>
 </body>
+
 </html>
