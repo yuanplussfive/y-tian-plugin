@@ -198,7 +198,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
               : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
                 : answer;
       }
-      answer = answer.replace(/Content is blocked/g, "  ")
+      answer = answer.replace(/Content is blocked/g, "  ").trim()
       history.push({
         "role": "assistant",
         "content": answer
