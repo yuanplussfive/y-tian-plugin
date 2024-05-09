@@ -3,8 +3,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   const { search } = chatgptConfig;
   const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
   const { model } = godgptConfig
-  const imageConfig = JSON.parse(fs.readFileSync(`${dirpath}/setting.json`, "utf-8")).godgpt;
-  const { image } = imageConfig
   let msg = await formatMessage(e.msg);
   let SettingsPath = _path + '/data/YTAi_Setting/data.json';
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
@@ -16,8 +14,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   if (god_moment_open) {
     history = await processArray(history, god_moment_numbers)
   }
-  let image_url = 0
-  let message = msg
   let source
   try {
     if (e.isGroup) {
@@ -30,7 +26,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   } catch (error) {
     source = "undefined"
   }
-  console.log(source.raw_message)
+  //console.log(source.raw_message)
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
   let { ai_private_plan, ai_private_open } = aiSettings.chatgpt;
@@ -50,7 +46,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     } else {
       msg = await handleImages(e, msg, imgurl);
     }
-    image_url = 1
   }
   console.log(msg)
   history.push({
@@ -100,39 +95,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       msgs = "帮我分析这个文件"
     }
     return msgs.trim()
-  }
-
-  async function OtherModel(e, msg, stoken, apiurl, image) {
-    try {
-      if (image == "gpt-4-v" || image == "gemini-pro-vision") {
-        const response = await fetch(apiurl, {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${stoken}`,
-          },
-          body: JSON.stringify({
-            model: image,
-            messages: [{ role: "user", content: msg }],
-          }),
-        });
-        let response_json = await response.json()
-        let answer = await response_json.choices[0].message.content
-        let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
-        await replyBasedOnStyle(styles, answer, e, common, puppeteer, fs, _path, message)
-        let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
-        let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
-        let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
-        if (aiSettings.chatgpt.ai_tts_open) {
-          await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
-        }
-      } else if (image == "ocr") {
-        const gettk = await getBaiduToken(AK, SK, request)
-        await handleOCR(e, gettk, stoken, puppeteer, replyBasedOnStyle, fs, _path, fetch, ocrurl, common, handleTTS)
-      } else if (image == "xinghuo") {
-        await xinghuo_analysis(e, msg, crypto, querystring, common, appId, apiKey, apiSecret, fs, _path, https, WebSocket, replyBasedOnStyle, puppeteer, handleTTS)
-      }
-    } catch { e.reply("与服务器通讯失败!") }
   }
 
   async function MainModel(e, history, stoken, search, model, apiurl, path) {
@@ -359,117 +321,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 }
 
-async function xinghuo_analysis(e, msg, crypto, querystring, common, appId, apiKey, apiSecret, fs, _path, https, WebSocket, replyBasedOnStyle, puppeteer, handleTTS) {
-  const downloadImage = (url, path) => {
-    return new Promise((resolve, reject) => {
-      const file = fs.createWriteStream(path);
-      https.get(url, response => {
-        response.pipe(file);
-        file.on('finish', () => {
-          file.close();
-          resolve();
-        });
-      }).on('error', error => {
-        reject(error);
-      });
-    });
-  };
-  let answer = ""
-  let curTime = new Date();
-  const filePath = `${_path}/resources/xinghuo.jpg`
-  let date = curTime.toGMTString();
-  let tmp = `host: spark-api.cn-huabei-1.xf-yun.com\ndate: ${date}\nGET /v2.1/image HTTP/1.1`;
-  let tmp_sha = crypto.createHmac('sha256', apiSecret).update(tmp, 'utf-8').digest();
-  let signature = Buffer.from(tmp_sha).toString('base64');
-  const authorization_origin = `api_key="${apiKey}", algorithm="hmac-sha256", headers="host date request-line", signature="${signature}"`;
-  const authorization = Buffer.from(authorization_origin).toString('base64');
-  const v = {
-    "authorization": authorization,
-    "date": date,
-    "host": "spark-api.cn-huabei-1.xf-yun.com"
-  };
-  const url = "wss://spark-api.cn-huabei-1.xf-yun.com/v2.1/image?" + querystring.stringify(v);
-  const imageUrl = e.img[0].toString();
-  await downloadImage(imageUrl, filePath)
-  await common.sleep(1250)
-  let base64 = await fs.readFileSync(filePath, { encoding: 'base64' })
-  let body = {
-    "header": {
-      "app_id": appId,
-      "uid": "yuan"
-    },
-    "parameter": {
-      "chat": {
-        "domain": "general",
-        "temperature": 0.5,
-        "top_k": 4,
-        "max_tokens": 2028,
-        "auditing": "default"
-      }
-    },
-    "payload": {
-      "message": {
-        "text": [
-          {
-            "role": "user",
-            "content": base64,
-            "content_type": "image"
-          },
-          {
-            "role": "user",
-            "content": msg,
-            "content_type": "text"
-          }
-        ]
-      }
-    }
-  }
-  const connectWebSocket = (url, body) => {
-    return new Promise((resolve, reject) => {
-      const ws = new WebSocket(url);
-      ws.on('open', () => {
-        console.log('开始建立ws连接');
-        ws.send(JSON.stringify(body));
-      })
-      ws.on('message', (data) => {
-        //console.log('传递数据:', data);
-        let Data = JSON.parse(data.toString("utf-8"))
-        if (!Data.payload) { resolve("请求被阻止,可能图像涉政或色情(或者图片太大了)"); return }
-        answer += Data.payload.choices.text[0].content
-        console.log(answer)
-      });
-      ws.on('close', () => {
-        resolve(answer);
-      });
-      ws.on('error', (error) => {
-        reject(error);
-      });
-    });
-  };
-  await connectWebSocket(url, body);
-  let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
-  await replyBasedOnStyle(styles, answer, e, common, puppeteer, fs, _path, msg)
-  let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
-  let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
-  let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
-  if (aiSettings.chatgpt.ai_tts_open) {
-    await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
-  }
-}
-
-async function getBaiduToken(AK, SK, request) {
-  let options = {
-    'method': 'POST',
-    'url': `https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=${AK}&client_secret=${SK}`,
-  };
-  return new Promise((resolve, reject) => {
-    request(options, (error, response) => {
-      if (error) reject(error);
-      else resolve(JSON.parse(response.body).access_token);
-    });
-  });
-}
-
 async function FreeChat40Functions(History) {
   const url = "https://y-tian-plugin.top:8080/api/v1/freechat4/completions";
   const body = {
@@ -541,42 +392,6 @@ async function FreeClaudeFunctions(FreeClaude_1, messages, fetch, crypto) {
   return response;
 }
 
-async function handleOCR(e, gettk, stoken, puppeteer, replyBasedOnStyle, fs, _path, fetch, ocrurl, common, handleTTS) {
-  const varUrl = e.img[0];
-  const url = `https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=${gettk}`;
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json'
-    },
-    body: new URLSearchParams({ url: varUrl })
-  });
-  let imageData = await response.json();
-  imageData = JSON.stringify(imageData.words_result);
-  const res = await fetch(ocrurl, {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${stoken}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo-16k",
-      messages: [{ role: "user", content: imageData }],
-    }),
-  });
-  let response_json = await res.json()
-  let answer = await response_json.choices[0].message.content
-  let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style
-  await replyBasedOnStyle(styles, answer, e, common, puppeteer, fs, _path, imageData)
-  let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
-  let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
-  let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
-  if (aiSettings.chatgpt.ai_tts_open) {
-    await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
-  }
-}
-
 async function get_address(inputString) {
   const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/download|files\.oaiusercontent\.com)[^\s\)]+)\))/g;
   let match;
@@ -594,7 +409,7 @@ async function get_address(inputString) {
 async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
   try {
     const response = await fetch(url);
-    const fileBuffer = await response.buffer();
+    const fileBuffer = await response.arrayBuffer();
     const urlPartArray = url.split('/');
     const filename = urlPartArray[urlPartArray.length - 1];
     function getFileExtension(filename) {
