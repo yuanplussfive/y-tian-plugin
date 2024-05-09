@@ -518,7 +518,7 @@ async function get_address(inputString) {
 async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
   try {
     const response = await fetch(url);
-    const fileBuffer = await response.buffer();
+    const fileBuffer = await response.arrayBuffer();
     const urlPartArray = url.split('/');
     const filename = urlPartArray[urlPartArray.length - 1];
     function getFileExtension(filename) {
@@ -543,12 +543,6 @@ async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
   } catch (error) {
     console.error(`失败了: ${url}: ${error}`);
   }
-}
-
-async function extractImageLinks(answer) {
-  const imageLinkRegex = /!\[.*?\]\((https?:\/\/.*?)\)/g;
-  const imageLinks = answer.matchAll(imageLinkRegex);
-  return Array.from(imageLinks, (match) => match[1]);
 }
 
 async function extractImageLinks2(answer) {
