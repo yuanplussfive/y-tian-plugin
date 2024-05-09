@@ -144,10 +144,27 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       function reduceConsecutiveRoles(array) {
         const result = [];
         let consecutiveUserItems = [];
-
+        let lastSystemItem = null;
+        if (array.length > 0 && array[0].role === 'assistant') {
+          array = array.slice(1);
+        }
+      
         for (const item of array) {
           if (item.role === 'user') {
-            consecutiveUserItems.push(item.content);
+            if (Array.isArray(item.content)) {
+              if (consecutiveUserItems.length > 0) {
+                result.push({
+                  role: 'user',
+                  content: consecutiveUserItems.join('\n')
+                });
+                consecutiveUserItems = [];
+              }
+              result.push(item);
+            } else {
+              consecutiveUserItems.push(item.content);
+            }
+          } else if (item.role === 'system') {
+            lastSystemItem = item;
           } else {
             if (consecutiveUserItems.length > 0) {
               result.push({
@@ -159,17 +176,19 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
             result.push(item);
           }
         }
-
+      
         if (consecutiveUserItems.length > 0) {
           result.push({
             role: 'user',
             content: consecutiveUserItems.join('\n')
           });
         }
-
+        if (lastSystemItem !== null) {
+          result.unshift(lastSystemItem);
+        }
+      
         return result;
       }
-
       let History = reduceConsecutiveRoles(history);
       let answer
       try {
