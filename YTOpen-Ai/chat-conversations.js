@@ -185,6 +185,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
     try {
       let answer;
+      console.log(history)
       function reduceConsecutiveRoles(array) {
         const result = [];
         let consecutiveUserItems = [];
