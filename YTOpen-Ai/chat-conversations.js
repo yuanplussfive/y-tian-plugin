@@ -32,7 +32,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   let { ai_private_plan, ai_private_open } = aiSettings.chatgpt;
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
-      message = await handleMsg(e, msg, imgurl)
       const Msg = await handleMsg(e, msg, imgurl)
       console.log(Msg)
       msg = [
