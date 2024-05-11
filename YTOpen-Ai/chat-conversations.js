@@ -33,10 +33,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
       if (!imgurl || !imgurl.startsWith("https://filesystem.site")) {
-        let fileUrl = await TakeImages(e, source)
-          const filename = 'chat.png'
-          imgurl = await UploadFiles(fileUrl, filename);  
-          console.log(imgurl)
+
       }
       const Msg = await handleMsg(e, msg, imgurl)
       console.log(Msg)
@@ -560,45 +557,6 @@ async function extractImageLinks3(answer) {
   const imageLinkRegex = /\[.*\]\((https:\/\/filesystem.site\/cdn\/.*?)\)/g;
   const imageLinks = answer.matchAll(imageLinkRegex);
   return Array.from(imageLinks, (match) => match[1]);
-}
-
-async function UploadFiles(fileUrl, filename) {
-  const url = "https://gptgod.space/api/v1/file";
-  const formData = new FormData();
-  const response = await fetch(fileUrl);
-  const fileBuffer = await response.arrayBuffer();
-  formData.append('file', Buffer.from(fileBuffer), filename);
-  const secret = "sk-3KRqH2VJmfFRcFlztCLL1DSGqhz6jTQC3LTeuDjnWTW3BMhh";
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${secret}`
-      },
-      body: formData
-    });
-    const res = await response.json();
-    return res.data.url;
-  } catch {
-    return fileUrl;
-  }
-}
-
-async function TakeImages(e, source) {
-  let images = await getImage(e, source)
-  return images
-}
-
-async function getImage(e, source) {
-  let images
-  if (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) {
-    images = await source.message[0].url;
-  } else if (e?.file) {
-    images = ""
-  } else {
-    images = (await Promise.all(e.img.map(imgUrl => fetch(imgUrl)))).map(response => response.url).join(' ');
-  }
-  return images;
 }
 
 async function processArray(arr, numbers) {
