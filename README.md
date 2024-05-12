@@ -184,39 +184,40 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 - [✓] OpenAI-TTS
 
 </details>
+
 ## 部分AI功能展示：
 
 <details>
-<summary> :one: 免费sess模型</summary>
+<summary> 免费sess模型</summary>
 <img src="./background/image/对话1.jpg" style="zoom:50%;" />
 </details>
 
 <details>
-<summary> :two: 免费国产模型</summary>
+<summary> 免费国产模型</summary>
 <img src="./background/image/对话2.jpg" style="zoom:50%;" />
 </details>
 
 <details>
-<summary> :three: 免费dalle绘图</summary>
+<summary> 免费dalle绘图</summary>
 <img src="./background/image/对话4.jpg" style="zoom:50%;" />
 </details>
 
 <details>
-<summary> :four: gpt-4多模态</summary>
+<summary> gpt-4多模态</summary>
 <img src="./background/image/对话3.jpg" style="zoom:50%;" />
 </details>
 
 <details>
-<summary> :five: 文生视频等</summary>
+<summary> 文生视频等</summary>
 <img src="./background/image/对话5.jpg" style="zoom:50%;" />
 </details>
 
 <details>
-<summary> :six: TTS交互模型</summary>
+<summary> TTS交互模型</summary>
 <img src="./background/image/对话6.jpg" style="zoom:50%;" />
 </details>
 
-#### ※ chatgpt4免费版 ※
+#### ※ gpt4免费版 ※
 <details>
 <summary>演示1</summary>
 <img src="./background/image/freegpt4.jpg" style="zoom:50%;" />
@@ -295,28 +296,28 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 步骤: 阴天帮助 → AI总帮助 → 将at回复打开 → 选择你启用的方案 → 参考方案帮助
 
 <details>
-<summary>流程图</summary>
+<summary>流程图1</summary>
 <img src="./background/image/zs.jpg" style="zoom:50%;" />
 </details>
 
 ### 如何让AI识别图片:
 
 <details>
-<summary>流程图</summary>
+<summary>流程图2</summary>
 <img src="./background/image/zs2.jpg" style="zoom:50%;" />
 </details>
 
 ### 如何让AI使用预设:
 
 <details>
-<summary>流程图</summary>
+<summary>流程图3</summary>
 <img src="./background/image/zs3.jpg" style="zoom:50%;" />
 </details>
 
 ### 如何让AI处理文件:
 
 <details>
-<summary>流程图</summary>
+<summary>流程图4</summary>
 <img src="./background/image/zs4.jpg" style="zoom:50%;" />
 </details>
 
