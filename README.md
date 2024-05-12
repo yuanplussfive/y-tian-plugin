@@ -1,21 +1,19 @@
 <div>
+<p>
+  <a href="https://gitee.com/yuanpluss">
+    <img src="./background/image/logo.png" width="80%" height="100%" alt="y-tian-plugin" style="opacity: 0.6;">
+  </a>
+</p>
+
   <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="20">
   <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="20">
   <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="20">
   <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="20">
   <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="20">
   <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
-  <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" alt="Security Status" height="20">
-  <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
     <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="80%" alt="Security Status">
   </a>
 </div>
-
-<p>
-  <a href="https://gitee.com/yuanpluss">
-    <img src="./background/image/logo.png" width="80%" height="100%" alt="y-tian-plugin" style="opacity: 0.6;">
-  </a>
-</p>
 
 ##  😃 阴天插件索引页:
 
