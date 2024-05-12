@@ -1,4 +1,4 @@
-<div align="center">
+<div>
   <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star">
   <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork">
   <br>
@@ -13,10 +13,9 @@
 
 <p align="center">
   <a href="https://gitee.com/yuanpluss">
-    <img src="./background/image/logo.png" width="30%" height="30%" alt="y-tian-plugin">
+    <img src="./background/image/logo.png" width="80%" height="100%" alt="y-tian-plugin" style="opacity: 0.5;">
   </a>
 </p>
-
 ##  😃 阴天插件索引页:
 
 **点击跳转阴天 [Y-Tian-Plugin](https://y-tian-plugin.top:4000/chat) 对话页面**
