@@ -1,8 +1,4 @@
-<p align="center">
-  <a href="https://gitee.com/yuanpluss"><img src="./background/image/logo.png" width="100%" height="100%" alt="useless-plugin"></a>
-</p>
 
-<div align="center">
 <img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark' alt='star'></img></a></h1></div>
 <img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark' alt='fork'></img></a></h1></div>
 [![JavaScript](https://img.shields.io/badge/-JavaScript-eed718?style=flat&logo=javascript&logoColor=ffffff)](https://zh.wikipedia.org/wiki/JavaScript)
