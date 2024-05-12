@@ -7,56 +7,54 @@
 [![Security Status](https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg)](https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024)
 </div>
 
-##  :satisfied: 阴天插件索引页：
+##  😃 阴天插件索引页:
 
-**点击跳转阴天[Y-Tian-Plugin](https://y-tian-plugin.top:4000/chat)对话页面**
-<details> <summary>demo网页(先选择模型,保存设置)</summary>
-<img src="./background/image/web2.png" style="zoom:50%;" />
-<img src="./background/image/web.png" style="zoom:50%;" />
+**点击跳转阴天 [Y-Tian-Plugin](https://y-tian-plugin.top:4000/chat) 对话页面**
+
+<details>
+<summary>demo网页 (先选择模型, 保存设置)</summary>
+<img src="./background/image/web2.png" width="50%">
+<img src="./background/image/web.png" width="50%">
 </details>
 
-##  :grinning: 介绍
+##  😀 介绍
 
-### ※使用本插件前请正确配置FFmpeg※
-### ※提供免费大模型(含GPT4/claude等30余种模型)※
+### ※使用本插件前请正确配置 FFmpeg※
+### ※提供免费大模型 (含 GPT4/claude 等 30 余种模型)※
 ### ※无需过多配置直接上手※
 
-#### Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的AI，还有更多你想都不敢想的东西，真的不来看看吗？（进插件群解锁更多玩法！！！）
+#### Y-Tian 阴天插件，一个 Yunzai-Bot V3 小功能集成的插件包, 集娱乐、功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的 AI，还有更多你想都不敢想的东西，真的不来看看吗？(进插件群解锁更多玩法！！！)
 
-##  :laughing: 安装教程
+##  🤣 安装教程
 
-在Yunzai-Bot根目录下，运行cmd/git，输入以下指令:
-* 使用gitee
-```
+在 Yunzai-Bot 根目录下，运行 cmd/git，输入以下指令:
+
+*使用 Gitee*
 git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 
-```
-* 使用github
-```
+*使用 GitHub*
 git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot.git ./plugins/y-tian-plugin/
 
-```
+##  😘 功能一览
 
-##  :kissing_heart: 功能一览
-
-| 模型名称| 是否需要配置/是否免费 |
-|:--------|------------|
-| gpt-3.5/4系列 | 无需/免费 |
-| gpt-4-all系列 | 需配置key/赞助优先 |
-| claude系列 | 无需/免费 |
-| gemini系列 | 无需/免费 |
-| tts系列 | 无需/免费 |
-| dalle系列 | 无需/免费 |
-| sd系列 | 无需/免费 |
-| suno系列 | 需配置key/赞助优先 |
+| 模型名称 | 是否需要配置/是否免费 |
+|:---------|:----------------------|
+| gpt-3.5/4 系列 | 无需/免费 |
+| gpt-4-all 系列 | 需配置 key/赞助优先 |
+| claude 系列 | 无需/免费 |
+| gemini 系列 | 无需/免费 |
+| tts 系列 | 无需/免费 |
+| dalle 系列 | 无需/免费 |
+| sd 系列 | 无需/免费 |
+| suno 系列 | 需配置 key/赞助优先 |
 | 本地系列 | 无需/免费 |
 | 国产系列 | 无需/免费 |
-|:--------|------------|
 
-何为无需配置？ 答：开箱即用
+何为无需配置？答：开箱即用
 
-<details> <summary>阴天帮助面板</summary>
-<img decoding="async"  src="background/image/帮助.jpg" width="35%">
+<details>
+<summary>阴天帮助面板</summary>
+<img decoding="async" src="background/image/帮助.jpg" width="35%">
 </details>
 
 ## 支持的AI模型：
@@ -80,14 +78,18 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 - [✓] gpt-4-vision
 - [✓] gpt-4-1106-preview
 - [✓] gpt-4-0125-preview
+- [✓] gpt-4-turbo-2024-04-09
 - [✓] gpt-4-turbo-preview
 - [✓] gpt-4-all
 - [✓] gpt-4-plugins
+- [✓] gpt-4-gizmo
 - [✓] claude-1-100k
 - [✓] claude-1.3-100k
 - [✓] claude-2
 - [✓] claude-2-sillytavern
-- [✓] claude-2.1
+- [✓] claude-3-haiku
+- [✓] claude-3-sonnect
+- [✓] claude-3-opus
 - [✓] google-palm
 - [✓] google-bard
 - [✓] gemini-pro
@@ -95,30 +97,49 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 - [✓] llama-2-7b
 - [✓] llama-2-13b
 - [✓] llama-2-70b
+- [✓] llama-3-8b
+- [✓] llama-3-70b
+- [✓] llama-3-sonar-small-32k-online
+- [✓] llama-3-sonar-small-32k-chat
+- [✓] llama-3-sonar-large-32k-online
+- [✓] llama-3-sonar-large-32k-chat
 - [✓] code-llama-7b
 - [✓] code-llama-13b
 - [✓] code-llama-34b
+- [✓] code-llama-70b-instruct
 - [✓] chatglm-pro
 - [✓] chatglm-turbo
 - [✓] chatglm-130b
+- [✓] chatglm-3-turbo
 - [✓] chatglm-4
+- [✓] chatglm-4-v
 - [✓] chatglm-4-alltools
-- [✓] mistral-8x7b
+- [✓] mixtral-8x7b
+- [✓] mixtral-8x22b
 - [✓] mistral-34b
+- [✓] mistral-7b-instruct
 - [✓] 360-ai
 - [✓] 360-search
+- [✓] llava-v1.6-34b
+- [✓] llava-v1.5-7b-wrapper
 - [✓] qwen-72b
 - [✓] qwen-alltools
 - [✓] moonshot-128k
 - [✓] moonshot-alltools
 - [✓] github-copilot
+- [✓] windows-copilot
 - [✓] wenxing-3.5
 - [✓] xinghuo-v1/2/3
+- [✓] xinghuo-alltools
 - [✓] baidu-search
 - [✓] webgpt
 - [✓] yi-34b
-- [✓] tiger-bot
-- [✓] deepseek
+- [✓] mj-chat
+- [✓] deepseek-chat
+- [✓] deepseek-code
+- [✓] gemma-2b-it
+- [✓] gemma-7b-it
+- [✓] baichuan-v3-alltools
 
 </details>
 
@@ -126,12 +147,14 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 <details> <summary>绘图类</summary>
 
-- [✓] Stable-diffusion 1.5
-- [✓] Stable-diffusion-anything V5
-- [✓] Stable-diffusion XL
+- [✓] Stable-diffusion-1.5
+- [✓] Stable-diffusion-2.1
+- [✓] Stable-diffusion-anything-V5
+- [✓] Stable-diffusion-XL
 - [✓] Midjourney
-- [✓] Dall-e 3
-- [✓] Plus Dall-e 3
+- [✓] Mj-Chat
+- [✓] Dall-e-3
+- [✓] Plus-Dall-e-3
 
 </details>
 
@@ -141,8 +164,9 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 - [✓] ocr
 - [✓] gpt-4-v
-- [✓] xinghuo
-- [✓] qwen
+- [✓] gpt-4-all
+- [✓] xinghuo-alltools
+- [✓] qwen-alltools
 - [✓] chatglm-4-alltools
 - [✓] gemini-pro-vision
 
@@ -153,6 +177,7 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <details> <summary>语音类</summary>
 
 - [✓] 原神崩三等
+- [✓] Suno-v3
 - [✓] OpenAI-TTS
 
 </details>
