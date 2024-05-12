@@ -25,18 +25,6 @@
 
 #### Y-Tian 阴天插件，一个 Yunzai-Bot V3 小功能集成的插件包, 集娱乐、功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的 AI，还有更多你想都不敢想的东西，真的不来看看吗？(进插件群解锁更多玩法！！！)
 
-##  🤣 安装教程
-
-在 Yunzai-Bot 根目录下，运行 cmd/git，输入以下指令:
-
-*使用 Gitee*
-git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
-
-*使用 GitHub*
-git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot.git ./plugins/y-tian-plugin/
-
-##  😘 功能一览
-
 | 模型名称 | 是否需要配置/是否免费 |
 |:---------|:----------------------|
 | gpt-3.5/4 系列 | 无需/免费 |
@@ -51,6 +39,21 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 | 国产系列 | 无需/免费 |
 
 何为无需配置？答：开箱即用
+
+##  🤣 安装教程
+
+在 Yunzai-Bot 根目录下，运行 cmd/git，输入以下指令:
+
+*使用 Gitee*
+```
+git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
+```
+*使用 GitHub*
+```
+git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot.git ./plugins/y-tian-plugin/
+```
+
+##  😘 功能一览
 
 <details>
 <summary>阴天帮助面板</summary>
@@ -181,89 +184,109 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 - [✓] OpenAI-TTS
 
 </details>
-
 ## 部分AI功能展示：
-<br>
-<details> <summary> :one: 免费sess模型</summary>
+
+<details>
+<summary> :one: 免费sess模型</summary>
 <img src="./background/image/对话1.jpg" style="zoom:50%;" />
 </details>
-<br>
-<details> <summary> :two: 免费国产模型</summary>
+
+<details>
+<summary> :two: 免费国产模型</summary>
 <img src="./background/image/对话2.jpg" style="zoom:50%;" />
 </details>
-<br>
-<details> <summary> :three: 免费dalle绘图</summary>
+
+<details>
+<summary> :three: 免费dalle绘图</summary>
 <img src="./background/image/对话4.jpg" style="zoom:50%;" />
 </details>
-<br>
-<details> <summary> :four: gpt-4多模态</summary>
+
+<details>
+<summary> :four: gpt-4多模态</summary>
 <img src="./background/image/对话3.jpg" style="zoom:50%;" />
 </details>
-<br>
-<details> <summary> :five: 文生视频等</summary>
+
+<details>
+<summary> :five: 文生视频等</summary>
 <img src="./background/image/对话5.jpg" style="zoom:50%;" />
 </details>
-<br>
-<details> <summary> :six: TTS交互模型</summary>
+
+<details>
+<summary> :six: TTS交互模型</summary>
 <img src="./background/image/对话6.jpg" style="zoom:50%;" />
 </details>
 
 #### ※ chatgpt4免费版 ※
-<details> <summary>演示1</summary>
+<details>
+<summary>演示1</summary>
 <img src="./background/image/freegpt4.jpg" style="zoom:50%;" />
 </details>
 
 #### ※ 月之暗面web版 ※
-<details> <summary>演示1</summary>
+<details>
+<summary>演示1</summary>
 <img src="./background/image/kimi.jpg" style="zoom:50%;" />
 </details>
 
 #### ※ 星火模型web版 ※
-<details> <summary>演示1</summary>
+<details>
+<summary>演示1</summary>
 <img src="./background/image/xinghuo.jpg" style="zoom:50%;" />
 </details>
 
 #### ※ 智谱清言web版 ※
-<details> <summary>演示1</summary>
+<details>
+<summary>演示1</summary>
 <img src="./background/image/glm4_1.jpg" style="zoom:50%;" />
 </details>
-<details> <summary>演示2</summary>
+<details>
+<summary>演示2</summary>
 <img src="./background/image/glm4_2.jpg" style="zoom:50%;" />
 </details>
 
 #### ※ 微软copilot ※
-<details> <summary>演示1</summary>
+<details>
+<summary>演示1</summary>
 <img src="./background/image/copilot_1.jpg" style="zoom:50%;" />
 </details>
-<details> <summary>演示2</summary>
+<details>
+<summary>演示2</summary>
 <img src="./background/image/copilot_2.jpg" style="zoom:50%;" />
 </details>
-<details> <summary>演示3</summary>
+<details>
+<summary>演示3</summary>
 <img src="./background/image/copilot_3.jpg" style="zoom:50%;" />
 </details>
 
 #### ※ 通义千问web版 ※
-<details> <summary>演示1</summary>
+<details>
+<summary>演示1</summary>
 <img src="./background/image/qwen_1.jpg" style="zoom:50%;" />
 </details>
-<details> <summary>演示2</summary>
+<details>
+<summary>演示2</summary>
 <img src="./background/image/qwen_2.jpg" style="zoom:50%;" />
 </details>
 
 #### ※ chatgpt_plus版 ※
-<details> <summary>深度搜索</summary>
+<details>
+<summary>深度搜索</summary>
 <img src="./background/image/plus_1.jpg" style="zoom:50%;" />
 </details>
-<details> <summary>dall-e-3绘图</summary>
+<details>
+<summary>dall-e-3绘图</summary>
 <img src="./background/image/plus_2.jpg" style="zoom:50%;" />
 </details>
-<details> <summary>图片分析</summary>
+<details>
+<summary>图片分析</summary>
 <img src="./background/image/plus_3.jpg" style="zoom:50%;" />
 </details>
-<details> <summary>文件分析</summary>
+<details>
+<summary>文件分析</summary>
 <img src="./background/image/plus_4.jpg" style="zoom:50%;" />
 </details>
-<details> <summary>多模态集成</summary>
+<details>
+<summary>多模态集成</summary>
 <img src="./background/image/plus_5.jpg" style="zoom:50%;" />
 </details>
 
@@ -271,25 +294,29 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 步骤: 阴天帮助 → AI总帮助 → 将at回复打开 → 选择你启用的方案 → 参考方案帮助
 
-<details> <summary>流程图</summary>
+<details>
+<summary>流程图</summary>
 <img src="./background/image/zs.jpg" style="zoom:50%;" />
 </details>
 
 ### 如何让AI识别图片:
 
-<details> <summary>流程图</summary>
+<details>
+<summary>流程图</summary>
 <img src="./background/image/zs2.jpg" style="zoom:50%;" />
 </details>
 
 ### 如何让AI使用预设:
 
-<details> <summary>流程图</summary>
+<details>
+<summary>流程图</summary>
 <img src="./background/image/zs3.jpg" style="zoom:50%;" />
 </details>
 
 ### 如何让AI处理文件:
 
-<details> <summary>流程图</summary>
+<details>
+<summary>流程图</summary>
 <img src="./background/image/zs4.jpg" style="zoom:50%;" />
 </details>
 
@@ -319,8 +346,4 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 * 喵喵版 Yunzai-Bot（V3）：[☞Github](https://github.com/yoimiya-kokomi/Miao-Yunzai)/[☞Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai) 
 * 阴天插件 Alemon-Bot版：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
 * 个人 windows电脑一键部署：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
-* 严禁用于任何商业用途和非法行为
-
-
-
-
+* 严禁用于任何商业用途和非法行为！
