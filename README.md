@@ -7,6 +7,10 @@
 [![Security Status](https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg)](https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024)
 </div>
 
+<p align="center">
+  <a href="https://gitee.com/yuanpluss"><img src="./background/image/logo.png" width="100%" height="100%" alt="useless-plugin"></a>
+</p>
+
 ##  😃 阴天插件索引页:
 
 **点击跳转阴天 [Y-Tian-Plugin](https://y-tian-plugin.top:4000/chat) 对话页面**
