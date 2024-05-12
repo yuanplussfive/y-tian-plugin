@@ -1,8 +1,6 @@
 <div>
   <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star">
   <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork">
-  <br>
-  <br>
   <img src="https://img.shields.io/badge/-JavaScript-eed718?style=for-the-badge&logo=javascript&logoColor=ffffff" alt="JavaScript">
   <img src="https://img.shields.io/badge/-Node.js-3C873A?style=for-the-badge&logo=Node.js&logoColor=white" alt="Node.js">
   <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=for-the-badge&logo=dependabot" alt="Miao-Yunzai">
@@ -11,11 +9,12 @@
   </a>
 </div>
 
-<p align="center">
+<p>
   <a href="https://gitee.com/yuanpluss">
-    <img src="./background/image/logo.png" width="80%" height="100%" alt="y-tian-plugin" style="opacity: 0.5;">
+    <img src="./background/image/logo.png" width="80%" height="100%" alt="y-tian-plugin" style="opacity: 0.6;">
   </a>
 </p>
+
 ##  😃 阴天插件索引页:
 
 **点击跳转阴天 [Y-Tian-Plugin](https://y-tian-plugin.top:4000/chat) 对话页面**
