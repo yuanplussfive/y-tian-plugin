@@ -1,15 +1,25 @@
 
-<img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark' alt='star'></img></a></h1></div>
-<img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark' alt='fork'></img></a></h1></div>
-[![JavaScript](https://img.shields.io/badge/-JavaScript-eed718?style=flat&logo=javascript&logoColor=ffffff)](https://zh.wikipedia.org/wiki/JavaScript)
-[![Nodejs](https://img.shields.io/badge/-Node.js-3C873A?style=flat&logo=Node.js&logoColor=white)](https://nodejs.org/en/download)
-[![Miao-Yunzai](https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat&logo=dependabot)](https://gitee.com/yoimiya-kokomi/Miao-Yunzai) 
-[![Security Status](https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg)](https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024)
+<div style="text-align: center;">
+  <h1 style="margin-bottom: 0;">项目名称</h1>
+  <a href="https://gitee.com/wan13877501248/y-tian-plugin">
+    <img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark' alt='star' style="margin: 0 5px;">
+  </a>
+  <a href="https://gitee.com/wan13877501248/y-tian-plugin/fork">
+    <img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark' alt='fork' style="margin: 0 5px;">
+  </a>
+  <br>
+  <span style="color: #eed718; font-size: 14px;">JavaScript</span>
+  <span style="color: #3C873A; font-size: 14px;">•</span>
+  <span style="color: #3C873A; font-size: 14px;">Node.js</span>
+  <span style="color: red; font-size: 14px;">•</span>
+  <span style="color: red; font-size: 14px;">Yunzai V3.0.0</span>
+  <br>
+  <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
+    <img src='https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg' alt='Security Status'>
+  </a>
+  <br>
+  <img src="https://gitee.com/yuanpluss/background/image/logo.png" alt="y-tian-plugin" style="width: 300px; height: auto; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);">
 </div>
-
-<p align="center">
-  <a href="https://gitee.com/yuanpluss"><img src="./background/image/logo.png" width="100%" height="100%" alt="useless-plugin"></a>
-</p>
 
 ##  😃 阴天插件索引页:
 
