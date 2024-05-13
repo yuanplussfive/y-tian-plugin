@@ -1,29 +1,50 @@
-<div>
-<p>
-  <a href="https://gitee.com/yuanpluss">
-    <img src="./background/image/logo.png" width="80%" height="100%" alt="y-tian-plugin" style="opacity: 0.6;">
-  </a>
-</p>
+<div style="background: linear-gradient(45deg, #000000, #0f0f0f, #1a1a1a); padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);">
+  <p style="text-align: center;">
+    <a href="https://gitee.com/yuanpluss">
+      <img src="./background/image/logo.png" width="80%" height="100%" alt="y-tian-plugin" style="opacity: 0.6; transition: opacity 0.5s ease; filter: drop-shadow(0 0 10px #ffffff);">
+    </a>
+  </p>
 
-  <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="20">
-  <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="20">
-  <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="20">
-  <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="20">
-  <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="20">
-  <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
-    <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="80%" alt="Security Status">
-  </a>
+  <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="20" style="margin-right: 10px; filter: drop-shadow(0 0 5px #ffffff);">
+    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="20" style="margin-right: 10px; filter: drop-shadow(0 0 5px #ffffff);">
+    <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="20" style="margin-right: 10px; filter: drop-shadow(0 0 5px #ffffff);">
+    <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="20" style="margin-right: 10px; filter: drop-shadow(0 0 5px #ffffff);">
+    <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="20" style="margin-right: 10px; filter: drop-shadow(0 0 5px #ffffff);">
+    <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
+      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="80%" alt="Security Status" style="transition: transform 0.5s ease; filter: drop-shadow(0 0 10px #ffffff);">
+    </a>
+  </div>
+
+  <h2 style="color: #ffffff; text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff; text-align: center; animation: neon 1.5s ease-in-out infinite alternate;">😃 阴天插件索引页:</h2>
+
+  <p style="color: #ffffff; text-align: center; font-size: 18px; margin-bottom: 20px; text-shadow: 0 0 5px #ffffff;">
+    <strong>点击跳转阴天 <a href="https://y-tian-plugin.top:4000/chat" style="color: #ffffff; text-decoration: none; transition: text-shadow 0.5s ease;">Y-Tian-Plugin</a> 对话页面</strong>
+  </p>
+
+  <details style="background-color: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+    <summary style="color: #ffffff; cursor: pointer; text-shadow: 0 0 5px #ffffff;">demo网页 (先选择模型, 保存设置)</summary>
+    <div style="display: flex; justify-content: center;">
+      <img src="./background/image/web2.png" width="45%" style="margin-right: 10px; filter: drop-shadow(0 0 10px #ffffff);">
+      <img src="./background/image/web.png" width="45%" style="filter: drop-shadow(0 0 10px #ffffff);">
+    </div>
+  </details>
 </div>
 
-##  😃 阴天插件索引页:
+<style>
+  @keyframes neon {
+    from {
+      text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #ffffff;
+    }
+    to {
+      text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff, 0 0 60px #ffffff, 0 0 80px #ffffff;
+    }
+  }
 
-**点击跳转阴天 [Y-Tian-Plugin](https://y-tian-plugin.top:4000/chat) 对话页面**
-
-<details>
-<summary>demo网页 (先选择模型, 保存设置)</summary>
-<img src="./background/image/web2.png" width="50%">
-<img src="./background/image/web.png" width="50%">
-</details>
+  a:hover {
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+  }
+</style>
 
 ##  😀 介绍
 
