@@ -192,142 +192,72 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 - [✓] OpenAI-TTS
 
 </details>
+了解了,我会努力以更具科技感和时尚化的方式呈现这些AI功能展示。以下是使用Markdown重新组织的内容:
 
-## 部分AI功能展示：
+## 🤖 AI功能展示
 
-<details>
-<summary> 免费sess模型</summary>
-<img src="./background/image/对话1.jpg" style="zoom:50%;" />
-</details>
+### 🔷 免费Sess模型
+<img src="./background/image/对话1.jpg" width="400"/>
 
-<details>
-<summary> 免费国产模型</summary>
-<img src="./background/image/对话2.jpg" style="zoom:50%;" />
-</details>
+### 🔷 免费国产模型
+<img src="./background/image/对话2.jpg" width="400"/>
 
-<details>
-<summary> 免费dalle绘图</summary>
-<img src="./background/image/对话4.jpg" style="zoom:50%;" />
-</details>
+### 🔷 免费Dall-E绘图
+<img src="./background/image/对话4.jpg" width="400"/>
 
-<details>
-<summary> gpt-4多模态</summary>
-<img src="./background/image/对话3.jpg" style="zoom:50%;" />
-</details>
+### 🔷 GPT-4多模态
+<img src="./background/image/对话3.jpg" width="400"/>
 
-<details>
-<summary> 文生视频等</summary>
-<img src="./background/image/对话5.jpg" style="zoom:50%;" />
-</details>
+### 🔷 文生视频等
+<img src="./background/image/对话5.jpg" width="400"/>
 
-<details>
-<summary> TTS交互模型</summary>
-<img src="./background/image/对话6.jpg" style="zoom:50%;" />
-</details>
+### 🔷 TTS交互模型
+<img src="./background/image/对话6.jpg" width="400"/>
 
-#### ※ gpt4免费版 ※
-<details>
-<summary>演示1</summary>
-<img src="./background/image/freegpt4.jpg" style="zoom:50%;" />
-</details>
+### 💎 GPT-4免费版
+<img src="./background/image/freegpt4.jpg" width="400"/>
 
-#### ※ 月之暗面web版 ※
-<details>
-<summary>演示1</summary>
-<img src="./background/image/kimi.jpg" style="zoom:50%;" />
-</details>
+### 💎 月之暗面Web版
+<img src="./background/image/kimi.jpg" width="400"/>
 
-#### ※ 星火模型web版 ※
-<details>
-<summary>演示1</summary>
-<img src="./background/image/xinghuo.jpg" style="zoom:50%;" />
-</details>
+### 💎 星火模型Web版
+<img src="./background/image/xinghuo.jpg" width="400"/>
 
-#### ※ 智谱清言web版 ※
-<details>
-<summary>演示1</summary>
-<img src="./background/image/glm4_1.jpg" style="zoom:50%;" />
-</details>
-<details>
-<summary>演示2</summary>
-<img src="./background/image/glm4_2.jpg" style="zoom:50%;" />
-</details>
+### 💎 智谱清言Web版
+<img src="./background/image/glm4_1.jpg" width="400"/>
+<img src="./background/image/glm4_2.jpg" width="400"/>
 
-#### ※ 微软copilot ※
-<details>
-<summary>演示1</summary>
-<img src="./background/image/copilot_1.jpg" style="zoom:50%;" />
-</details>
-<details>
-<summary>演示2</summary>
-<img src="./background/image/copilot_2.jpg" style="zoom:50%;" />
-</details>
-<details>
-<summary>演示3</summary>
-<img src="./background/image/copilot_3.jpg" style="zoom:50%;" />
-</details>
+### 💎 微软Copilot
+<img src="./background/image/copilot_1.jpg" width="400"/>
+<img src="./background/image/copilot_2.jpg" width="400"/>
+<img src="./background/image/copilot_3.jpg" width="400"/>
 
-#### ※ 通义千问web版 ※
-<details>
-<summary>演示1</summary>
-<img src="./background/image/qwen_1.jpg" style="zoom:50%;" />
-</details>
-<details>
-<summary>演示2</summary>
-<img src="./background/image/qwen_2.jpg" style="zoom:50%;" />
-</details>
+### 💎 通义千问Web版
+<img src="./background/image/qwen_1.jpg" width="400"/>
+<img src="./background/image/qwen_2.jpg" width="400"/>
 
-#### ※ chatgpt_plus版 ※
-<details>
-<summary>深度搜索</summary>
-<img src="./background/image/plus_1.jpg" style="zoom:50%;" />
-</details>
-<details>
-<summary>dall-e-3绘图</summary>
-<img src="./background/image/plus_2.jpg" style="zoom:50%;" />
-</details>
-<details>
-<summary>图片分析</summary>
-<img src="./background/image/plus_3.jpg" style="zoom:50%;" />
-</details>
-<details>
-<summary>文件分析</summary>
-<img src="./background/image/plus_4.jpg" style="zoom:50%;" />
-</details>
-<details>
-<summary>多模态集成</summary>
-<img src="./background/image/plus_5.jpg" style="zoom:50%;" />
-</details>
+### 💎 ChatGPT Plus版
+<img src="./background/image/plus_1.jpg" width="400"/>
+<img src="./background/image/plus_2.jpg" width="400"/>
+<img src="./background/image/plus_3.jpg" width="400"/>
+<img src="./background/image/plus_4.jpg" width="400"/>
+<img src="./background/image/plus_5.jpg" width="400"/>
 
-### 如何与AI交互对话:
+## 🔆 与AI交互流程
 
-步骤: 阴天帮助 → AI总帮助 → 将at回复打开 → 选择你启用的方案 → 参考方案帮助
+### 💻 对话交互
+> 阴天帮助 → AI总帮助 → 打开At回复 → 选择启用方案 → 参考方案帮助
 
-<details>
-<summary>流程图1</summary>
-<img src="./background/image/zs.jpg" style="zoom:50%;" />
-</details>
+<img src="./background/image/zs.jpg" width="400"/>
 
-### 如何让AI识别图片:
+### 🖼️ 图片识别
+<img src="./background/image/zs2.jpg" width="400"/>
 
-<details>
-<summary>流程图2</summary>
-<img src="./background/image/zs2.jpg" style="zoom:50%;" />
-</details>
+### ⚙️ 使用预设
+<img src="./background/image/zs3.jpg" width="400"/>
 
-### 如何让AI使用预设:
-
-<details>
-<summary>流程图3</summary>
-<img src="./background/image/zs3.jpg" style="zoom:50%;" />
-</details>
-
-### 如何让AI处理文件:
-
-<details>
-<summary>流程图4</summary>
-<img src="./background/image/zs4.jpg" style="zoom:50%;" />
-</details>
+### 📄 文件处理
+<img src="./background/image/zs4.jpg" width="400"/>
 
 ## 反馈
 
@@ -343,12 +273,6 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 ###  :relaxed: 鸣谢
 
-| 名单     | 联系方式     | 职责     |
-| -------- | ------------ | ------------ |
-| 鸢    | QQ2166683295 | 全栈开发 |
-| 天球生物 | QQ928368902 | Py,JS开放|
-| Mr.k   | QQ3302843718 | UI设计 |
-
 ###  :sunglasses: 传送门
 
 * 同款demo网页ai对话：[☞Gitee](https://gitee.com/yuanpluss/simple-free-ai) 
@@ -356,3 +280,36 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 * 阴天插件 Alemon-Bot版：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
 * 个人 windows电脑一键部署：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
 * 严禁用于任何商业用途和非法行为！
+
+<div align="center">
+  <h1>贡献者</h1>
+  <div style="display:flex; justify-content:center; align-items:center; flex-wrap:wrap;">
+    <div style="margin:20px; text-align:center;">
+      <a href="https://gitee.com/yuanpluss">
+        <img src="https://avatars.githubusercontent.com/u/135164000?s=400&u=3354440eee4b94b123a272ed40d52c5cda148499&v=4" width="120px;" alt="yuanpluss" style="border-radius:50%;"/>
+        <br/>
+        <span style="font-weight:bold;">patience</span>
+      </a>
+      <br/>
+      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="编写主体" style="color:#0366d6;"><i class="fas fa-code"></i> 编写主体</a>
+    </div>
+    <div style="margin:20px; text-align:center;">
+      <a href="https://gitee.com/wan13877501248">
+        <img src="https://foruda.gitee.com/avatar/1672794204349735271/11876815_wan13877501248_1672794204.png!avatar200" width="120px;" alt="Saury-loser" style="border-radius:50%;"/>
+        <br/>
+        <span style="font-weight:bold;">天球生物</span>
+      </a>
+      <br/>
+      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="提供本体" style="color:#0366d6;"><i class="fas fa-code"></i> 提供本体</a>
+    </div>
+    <div style="margin:20px; text-align:center;">
+      <a href="https://gitee.com/mengtiange">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAAAXNSR0IArs4c6QAABBpJREFUeF7t2WdoE2EYB/D/ZTVtGpPWhThx4qBOFEFUhIKiiBQVBxUc9YMoTkRbqVqtigMVB27QWhUX4sD1yS+KoojFXRDFiaNNTdORdfKeJr6JAe8RRLx77ksgfa7c/fp/3nvurfJ+zBAVfOgSUBhLl5NWxFj6rRiLYMVYjEURINTymsVYBAFCKSeLsQgChFJOFmMRBAilnCzGIggQSjlZjEUQIJRyshiLIEAo5WQxFkGAUMrJYiyCAKGUk8VYBAFC6V9Plnv6HLjyJideUjgM/7FDCJwqI1zqz9ImcxYjY9S4hHNDlU/xZVHBH/0+vSf9GywAjffvoLp4sd7rjNfZ2rSHt6gU4lM+DI0V+fIJNRtXIfi4ggSWnjsaTWYvgOJ0mgcLf9iK3iXFcA7L/QXYeMkKh6GGglDSM7SbDT58gKrlc3Uny9a2A7xF62Br3RaIRqFGI1Bsdu18w2GpwSBCz5/A0TMHUBREfVXwbS5B8ME9XWAZI8fCPWselDQnIh8/ABYrrM2aGxer/uoFpI8YCcXl0tJRe/IIassP6sLyFpbCOXioVttw8wbsnbrC2rKVcbFqjx6Ac3gu7B27kFrR3rkbvMvWaDhqXQD+w3vgyptibCxxk6J1XOMmkVpRzGqZ+QXaGhV6UQn/3m3wLFphfKzIh3fwLCyCJdOtuxWzVm5E2oDBgKqi7vI51F+/FE+aYRd4kaz6axeRvW477F2662pFe7ee8C4rgbVZC6iBAGp2bULk/RtzYNWdPwV3/my4xk8FLJbfPhVdE/LhnjIDsNkQqnyCqsL5sLVpZx6stP6D4Fm4AhaPV2vFwOly+Mv2pXwqZpVsQVrfgVoLBs6dgP/QbsgLvqHbUCRLcaYja/VmOHrkfG/FxxWoXrkEakN9Apijd3+Iqd3izUa0xoearWvReO+2ubCESEIrShCyVubUmcicOE1rVxnUVMkSIL9rxYT0JQ2wpsMSYNnrd8LRq3fKVpQxk1+NTIklt5m8JiW3afL+lymx5AVcfiqKFozNYmo4hNqy/QicPR5fzkyJJe4+PhpIT0VHTr/4lB/5/BG+DcUIPXvEWPLQGWtFkbjY+2Pj3VuoXr00YaQwbbLErOVZugrWps2/D6hnyuHoM0B7HRJ7YOIVScxm8mFaLK0VYy/KAMKvX8KS1VR70Q6/fQ1faaH2HWP9EJC3YGSUhhvXtd3U5MPUyZJ3FmIwamMD/Ad2oO7KecZKFpBbUfws/OYVfKVF2icnK0kguRXFJt/X3VtS7kQYsg1T3ul/+uVf//f9f+qS8rIZi/DXZCzGIggQSjlZjEUQIJRyshiLIEAo5WQxFkGAUMrJYiyCAKGUk8VYBAFCKSeLsQgChFJOFmMRBAilnCzGIggQSjlZjEUQIJRysghY3wBOKGqzI6LiFgAAAABJRU5ErkJggg==" width="120px;" alt="Saury-loser" style="border-radius:50%;"/>
+        <br/>
+        <span style="font-weight:bold;">mr.k</span>
+      </a>
+      <br/>
+      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="美工设计" style="color:#0366d6;"><i class="fas fa-code"></i> 美工设计</a>
+    </div>
+  </div>
+</div>
