@@ -1,60 +1,36 @@
 
-
-<div style="background-color: #1c1c1e; padding: 20px; border-radius: 10px;">
+<div style="background-color: #1c1c1e; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);">
   <p style="text-align: center;">
     <a href="https://gitee.com/yuanpluss">
-      <img src="./background/image/logo.png" width="50%" height="auto" alt="y-tian-plugin" style="opacity: 0.8; border-radius: 50%; box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);">
+      <img src="./background/image/logo.png" width="50%" height="auto" alt="y-tian-plugin" style="opacity: 0.8; border-radius: 50%; box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);">
     </a>
   </p>
 
   <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="25" style="margin-right: 10px;">
-    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="25" style="margin-right: 10px;">
-    <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25" style="margin-right: 10px;">
-    <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25" style="margin-right: 10px;">
-    <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25" style="margin-right: 10px;">
+    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
+    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
+    <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
+    <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
+    <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
     <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
-      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="30%" alt="Security Status">
+      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="30%" alt="Security Status" style="box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
     </a>
   </div>
 
-  <h2 style="color: #00ff00; text-align: center; text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">😃 阴天插件索引页:</h2>
+  <h2 style="color: #00ff00; text-align: center; text-shadow: 0 0 20px rgba(0, 255, 0, 0.8);">😃 阴天插件索引页:</h2>
 
-  <p style="text-align: center; font-size: 18px; color: #cccccc;">
-    <strong>点击跳转阴天 <a href="https://y-tian-plugin.top:4000/chat" style="color: #00ff00;">Y-Tian-Plugin</a> 对话页面</strong>
+  <p style="text-align: center; font-size: 18px; color: #cccccc; text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
+    <strong>点击跳转阴天 <a href="https://y-tian-plugin.top:4000/chat" style="color: #00ff00; text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);">Y-Tian-Plugin</a> 对话页面</strong>
   </p>
 
-  <details style="background-color: #2c2c2e; border-radius: 5px; padding: 10px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);">
-    <summary style="color: #cccccc; cursor: pointer;">demo网页 (先选择模型, 保存设置)</summary>
+  <details style="background-color: #2c2c2e; border-radius: 5px; padding: 10px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);">
+    <summary style="color: #cccccc; cursor: pointer; text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">demo网页 (先选择模型, 保存设置)</summary>
     <div style="display: flex; justify-content: center; margin-top: 10px;">
-      <img src="./background/image/web2.png" width="45%" style="margin-right: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);">
-      <img src="./background/image/web.png" width="45%" style="border-radius: 5px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);">
+      <img src="./background/image/web2.png" width="45%" style="margin-right: 10px; border-radius: 5px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);">
+      <img src="./background/image/web.png" width="45%" style="border-radius: 5px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);">
     </div>
   </details>
 </div>
-
-##  😀 介绍
-
-### ※使用本插件前请正确配置 FFmpeg※
-### ※提供免费大模型 (含 GPT4/claude 等 30 余种模型)※
-### ※无需过多配置直接上手※
-
-#### Y-Tian 阴天插件，一个 Yunzai-Bot V3 小功能集成的插件包, 集娱乐、功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的 AI，还有更多你想都不敢想的东西，真的不来看看吗？(进插件群解锁更多玩法！！！)
-
-| 模型名称 | 是否需要配置/是否免费 |
-|:---------|:----------------------|
-| gpt-3.5/4 系列 | 无需/免费 |
-| gpt-4-all 系列 | 需配置 key/赞助优先 |
-| claude 系列 | 无需/免费 |
-| gemini 系列 | 无需/免费 |
-| tts 系列 | 无需/免费 |
-| dalle 系列 | 无需/免费 |
-| sd 系列 | 无需/免费 |
-| suno 系列 | 需配置 key/赞助优先 |
-| 本地系列 | 无需/免费 |
-| 国产系列 | 无需/免费 |
-
-何为无需配置？答：开箱即用
 
 ##  🤣 安装教程
 
@@ -342,20 +318,8 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 在此,我们向所有为本项目做出贡献的个人和组织表示衷心的感谢!
 
-### 🚪 传送门
-
-以下是本项目的相关链接资源:
-
-- 💻 同款 Demo 网页 AI 对话: [Gitee](https://gitee.com/yuanpluss/simple-free-ai)
-- 😺 喵喵版 Yunzai-Bot (V3): [Github](https://github.com/yoimiya-kokomi/Miao-Yunzai) / [Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai)
-- ☁️ 阴天插件 Alemon-Bot 版: [Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot)
-- 💻 个人 Windows 电脑一键部署: [Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win)
-
-> 📢 **严禁将本项目用于任何商业用途和非法行为!**
-
 ### ✨ 贡献者
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![贡献成员](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 
 <table>
@@ -367,7 +331,13 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
   </tbody>
 </table>
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+### 🚪 传送门
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+以下是本项目的相关链接资源:
+
+- 💻 同款 Demo 网页 AI 对话: [Gitee](https://gitee.com/yuanpluss/simple-free-ai)
+- 😺 喵喵版 Yunzai-Bot (V3): [Github](https://github.com/yoimiya-kokomi/Miao-Yunzai) / [Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai)
+- ☁️ 阴天插件 Alemon-Bot 版: [Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot)
+- 💻 个人 Windows 电脑一键部署: [Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win)
+
+> 📢 **严禁将本项目用于任何商业用途和非法行为!**
