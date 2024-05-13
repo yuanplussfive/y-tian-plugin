@@ -354,29 +354,29 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 > 📢 **严禁将本项目用于任何商业用途和非法行为!**
 
 
-<div align="center">
-  <h1>贡献者</h1>
-  <div style="display:flex; flex-wrap:wrap; justify-content:center;">
-    <div style="margin:20px; text-align:center; width:150px;">
-      <img src="https://avatars.githubusercontent.com/u/135164000?s=150" alt="yuanpluss" style="width:150px;"/>
-      <br/>
-      <span style="font-weight:bold;">patience</span>
-      <br/>
-      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="编写主体" style="color:#0366d6;"><i class="fas fa-code"></i> 编写主体</a>
+<div align="center" style="background-color: #1a1a1a; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+  <h1 style="color: #00ff00; text-shadow: 0 0 10px #00ff00;">贡献者</h1>
+  <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+    <div style="margin: 20px; text-align: center; width: 150px; background-color: #2a2a2a; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+      <img src="https://avatars.githubusercontent.com/u/135164000?s=150" alt="yuanpluss" style="width: 100px; border-radius: 50%;" width="100px" />
+      <br />
+      <span style="font-weight: bold; color: #00ff00;">patience</span>
+      <br />
+      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="编写主体" style="color: #0099ff;"><i class="fas fa-code"></i> 编写主体</a>
     </div>
-    <div style="margin:20px; text-align:center; width:150px;">
-      <img src="https://foruda.gitee.com/avatar/1672794204349735271/11876815_wan13877501248_1672794204.png!avatar150" alt="Saury-loser" style="width:150px;"/>
-      <br/>
-      <span style="font-weight:bold;">天球生物</span>
-      <br/>
-      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="提供本体" style="color:#0366d6;"><i class="fas fa-code"></i> 提供本体</a>
+    <div style="margin: 20px; text-align: center; width: 150px; background-color: #2a2a2a; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+      <img src="https://foruda.gitee.com/avatar/1672794204349735271/11876815_wan13877501248_1672794204.png!avatar150" alt="Saury-loser" style="width: 100px; border-radius: 50%;" width="100px" />
+      <br />
+      <span style="font-weight: bold; color: #00ff00;">天球生物</span>
+      <br />
+      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="提供本体" style="color: #0099ff;"><i class="fas fa-code"></i> 提供本体</a>
     </div>
-    <div style="margin:20px; text-align:center; width:150px;">
-      <img src="https://gitee.com/assets/no_portrait.png" alt="mr.k" style="width:150px;"/>
-      <br/>
-      <span style="font-weight:bold;">mr.k</span>
-      <br/>
-      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="美工设计" style="color:#0366d6;"><i class="fas fa-code"></i> 美工设计</a>
+    <div style="margin: 20px; text-align: center; width: 150px; background-color: #2a2a2a; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+      <img src="https://gitee.com/assets/no_portrait.png" alt="mr.k" style="width: 100px; border-radius: 50%;" />
+      <br />
+      <span style="font-weight: bold; color: #00ff00;">mr.k</span>
+      <br />
+      <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="美工设计" width="100px;" style="color: #0099ff;"><i class="fas fa-code"></i> 美工设计</a>
     </div>
   </div>
 </div>
