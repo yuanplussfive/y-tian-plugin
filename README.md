@@ -217,6 +217,7 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 <details>
 <summary> 🔷 示例1</summary>
+
 ### 🔷 免费Sess模型
 <details>
 <summary>点击查看</summary>
@@ -256,6 +257,7 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 <details>
 <summary> 💎 示例2</summary>
+
 ### 💎 GPT-4免费版
 <details>
 <summary>点击查看</summary>
