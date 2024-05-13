@@ -22,13 +22,6 @@
     <strong>点击跳转阴天 <a href="https://y-tian-plugin.top:4000/chat" style="color: #0ff;">Y-Tian-Plugin</a> 对话页面</strong>
   </p>
 
-  <details style="background-color: #222; padding: 10px; border-radius: 5px;">
-    <summary style="font-family: 'Courier New', monospace; font-weight: bold;">demo网页 (先选择模型, 保存设置)</summary>
-    <div style="display: flex; justify-content: center; margin-top: 10px;">
-      <img src="./background/image/web2.png" width="45%" style="margin-right: 10px; border-radius: 5px;">
-      <img src="./background/image/web.png" width="45%" style="border-radius: 5px;">
-    </div>
-  </details>
 </div>
 
 ## 🤖 安装教程
@@ -222,6 +215,8 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 ## 🤖 AI功能展示
 
+<details>
+<summary> 🔷 示例1</summary>
 ### 🔷 免费Sess模型
 <details>
 <summary>点击查看</summary>
@@ -257,7 +252,10 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <summary>点击查看</summary>
 <img src="./background/image/对话6.jpg" width="400"/>
 </details>
+</details>
 
+<details>
+<summary> 💎 示例2</summary>
 ### 💎 GPT-4免费版
 <details>
 <summary>点击查看</summary>
@@ -306,6 +304,7 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <img src="./background/image/plus_3.jpg" width="400"/>
 <img src="./background/image/plus_4.jpg" width="400"/>
 <img src="./background/image/plus_5.jpg" width="400"/>
+</details>
 </details>
 
 ## 🔆 与AI交互流程
