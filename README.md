@@ -52,131 +52,173 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <img decoding="async" src="background/image/帮助.jpg" width="35%">
 </details>
 
-## 支持的AI模型：
+以下是优化后的 Markdown 格式,增加了科技感:
 
-<details> <summary>对话类</summary>
+## 🤖 AI 模型功能概览
 
-- [✓] gpt-3.5-turbo
-- [✓] gpt-3.5-turbo-0613
-- [✓] gpt-3.5-turbo-instruct
-- [✓] gpt-3.5-turbo-online
-- [✓] gpt-3.5-turbo-1106
-- [✓] gpt-3.5-turbo-0125
-- [✓] gpt-3.5-turbo-16k
-- [✓] gpt-3.5-turbo-16k-0613
-- [✓] gpt-4
-- [✓] gpt-4-0314
-- [✓] gpt-4-0613
-- [✓] gpt-4-32k
-- [✓] gpt-4-32k-0613
-- [✓] gpt-4-dalle
-- [✓] gpt-4-vision
-- [✓] gpt-4-1106-preview
-- [✓] gpt-4-0125-preview
-- [✓] gpt-4-turbo-2024-04-09
-- [✓] gpt-4-turbo-preview
-- [✓] gpt-4-all
-- [✓] gpt-4-plugins
-- [✓] gpt-4-gizmo
-- [✓] claude-1-100k
-- [✓] claude-1.3-100k
-- [✓] claude-2
-- [✓] claude-2-sillytavern
-- [✓] claude-3-haiku
-- [✓] claude-3-sonnect
-- [✓] claude-3-opus
-- [✓] google-palm
-- [✓] google-bard
-- [✓] gemini-pro
-- [✓] gemini-pro-vision
-- [✓] llama-2-7b
-- [✓] llama-2-13b
-- [✓] llama-2-70b
-- [✓] llama-3-8b
-- [✓] llama-3-70b
-- [✓] llama-3-sonar-small-32k-online
-- [✓] llama-3-sonar-small-32k-chat
-- [✓] llama-3-sonar-large-32k-online
-- [✓] llama-3-sonar-large-32k-chat
-- [✓] code-llama-7b
-- [✓] code-llama-13b
-- [✓] code-llama-34b
-- [✓] code-llama-70b-instruct
-- [✓] chatglm-pro
-- [✓] chatglm-turbo
-- [✓] chatglm-130b
-- [✓] chatglm-3-turbo
-- [✓] chatglm-4
-- [✓] chatglm-4-v
-- [✓] chatglm-4-alltools
-- [✓] mixtral-8x7b
-- [✓] mixtral-8x22b
-- [✓] mistral-34b
-- [✓] mistral-7b-instruct
-- [✓] 360-ai
-- [✓] 360-search
-- [✓] llava-v1.6-34b
-- [✓] llava-v1.5-7b-wrapper
-- [✓] qwen-72b
-- [✓] qwen-alltools
-- [✓] moonshot-128k
-- [✓] moonshot-alltools
-- [✓] github-copilot
-- [✓] windows-copilot
-- [✓] wenxing-3.5
-- [✓] xinghuo-v1/2/3
-- [✓] xinghuo-alltools
-- [✓] baidu-search
-- [✓] webgpt
-- [✓] yi-34b
-- [✓] mj-chat
-- [✓] deepseek-chat
-- [✓] deepseek-code
-- [✓] gemma-2b-it
-- [✓] gemma-7b-it
-- [✓] baichuan-v3-alltools
-
-</details>
-
+<details>
+<summary>💬 对话类模型</summary>
 <br>
-
-<details> <summary>绘图类</summary>
-
-- [✓] Stable-diffusion-1.5
-- [✓] Stable-diffusion-2.1
-- [✓] Stable-diffusion-anything-V5
-- [✓] Stable-diffusion-XL
-- [✓] Midjourney
-- [✓] Mj-Chat
-- [✓] Dall-e-3
-- [✓] Plus-Dall-e-3
-
-</details>
-
+🔹 <b>OpenAI</b>
+&nbsp;&nbsp;✨ gpt-3.5-turbo
+&nbsp;&nbsp;✨ gpt-3.5-turbo-0613
+&nbsp;&nbsp;✨ gpt-3.5-turbo-instruct
+&nbsp;&nbsp;✨ gpt-3.5-turbo-online
+&nbsp;&nbsp;✨ gpt-3.5-turbo-1106
+&nbsp;&nbsp;✨ gpt-3.5-turbo-0125
+&nbsp;&nbsp;✨ gpt-3.5-turbo-16k
+&nbsp;&nbsp;✨ gpt-3.5-turbo-16k-0613
+&nbsp;&nbsp;✨ gpt-4
+&nbsp;&nbsp;✨ gpt-4-0314
+&nbsp;&nbsp;✨ gpt-4-0613
+&nbsp;&nbsp;✨ gpt-4-32k
+&nbsp;&nbsp;✨ gpt-4-32k-0613
+&nbsp;&nbsp;✨ gpt-4-dalle
+&nbsp;&nbsp;✨ gpt-4-vision
+&nbsp;&nbsp;✨ gpt-4-1106-preview
+&nbsp;&nbsp;✨ gpt-4-0125-preview
+&nbsp;&nbsp;✨ gpt-4-turbo-2024-04-09
+&nbsp;&nbsp;✨ gpt-4-turbo-preview
+&nbsp;&nbsp;✨ gpt-4-all
+&nbsp;&nbsp;✨ gpt-4-plugins
+&nbsp;&nbsp;✨ gpt-4-gizmo
 <br>
-
-<details> <summary>识图类</summary>
-
-- [✓] ocr
-- [✓] gpt-4-v
-- [✓] gpt-4-all
-- [✓] xinghuo-alltools
-- [✓] qwen-alltools
-- [✓] chatglm-4-alltools
-- [✓] gemini-pro-vision
-
-</details>
-
+🔹 <b>Anthropic</b>
+&nbsp;&nbsp;✨ claude-1-100k
+&nbsp;&nbsp;✨ claude-1.3-100k
+&nbsp;&nbsp;✨ claude-2
+&nbsp;&nbsp;✨ claude-2-sillytavern
+&nbsp;&nbsp;✨ claude-3-haiku
+&nbsp;&nbsp;✨ claude-3-sonnect
+&nbsp;&nbsp;✨ claude-3-opus
 <br>
-
-<details> <summary>语音类</summary>
-
-- [✓] 原神崩三等
-- [✓] Suno-v3
-- [✓] OpenAI-TTS
+🔹 <b>Google</b>
+&nbsp;&nbsp;✨ google-palm
+&nbsp;&nbsp;✨ google-bard
+&nbsp;&nbsp;✨ gemini-pro
+&nbsp;&nbsp;✨ gemini-pro-vision
+&nbsp;&nbsp;✨ gemma-2b-it
+&nbsp;&nbsp;✨ gemma-7b-it
+<br>
+🔹 <b>Meta</b>
+&nbsp;&nbsp;✨ llama-2-7b
+&nbsp;&nbsp;✨ llama-2-13b
+&nbsp;&nbsp;✨ llama-2-70b
+&nbsp;&nbsp;✨ llama-3-8b
+&nbsp;&nbsp;✨ llama-3-70b
+&nbsp;&nbsp;✨ llama-3-sonar-small-32k-online
+&nbsp;&nbsp;✨ llama-3-sonar-small-32k-chat
+&nbsp;&nbsp;✨ llama-3-sonar-large-32k-online
+&nbsp;&nbsp;✨ llama-3-sonar-large-32k-chat
+&nbsp;&nbsp;✨ code-llama-7b
+&nbsp;&nbsp;✨ code-llama-13b 
+&nbsp;&nbsp;✨ code-llama-34b
+&nbsp;&nbsp;✨ code-llama-70b-instruct
+<br>
+🔹 <b>ChatGLM</b>
+&nbsp;&nbsp;✨ chatglm-pro
+&nbsp;&nbsp;✨ chatglm-turbo
+&nbsp;&nbsp;✨ chatglm-130b
+&nbsp;&nbsp;✨ chatglm-3-turbo
+&nbsp;&nbsp;✨ chatglm-4
+&nbsp;&nbsp;✨ chatglm-4-v
+&nbsp;&nbsp;✨ chatglm-4-alltools
+<br>
+🔹 <b>mixtral</b>
+&nbsp;&nbsp;✨ mixtral-8x7b
+&nbsp;&nbsp;✨ mixtral-8x22b
+&nbsp;&nbsp;✨ mistral-34b
+&nbsp;&nbsp;✨ mistral-7b-instruct
+<br>
+🔹 <b>360</b>
+&nbsp;&nbsp;✨ 360-ai
+&nbsp;&nbsp;✨ 360-search
+<br>
+🔹 <b>上海云影</b>
+&nbsp;&nbsp;✨ llava-v1.6-34b
+&nbsp;&nbsp;✨ llava-v1.5-7b-wrapper
+<br>
+🔹 <b>通义千问</b>
+&nbsp;&nbsp;✨ qwen-72b
+&nbsp;&nbsp;✨ qwen-alltools
+<br>
+🔹 <b>moonshot</b>
+&nbsp;&nbsp;✨ moonshot-128k
+&nbsp;&nbsp;✨ moonshot-alltools
+<br>
+🔹 <b>微软</b>
+&nbsp;&nbsp;✨ github-copilot
+&nbsp;&nbsp;✨ windows-copilot
+<br>
+🔹 <b>百度</b>
+&nbsp;&nbsp;✨ wenxing-3.5
+&nbsp;&nbsp;✨ baidu-search
+<br>
+🔹 <b>讯飞</b>
+&nbsp;&nbsp;✨ xinghuo-v1/2/3
+&nbsp;&nbsp;✨ xinghuo-alltools
+<br>
+🔹 <b>深度求索</b>
+&nbsp;&nbsp;✨ deepseek-chat
+&nbsp;&nbsp;✨ deepseek-code
+<br>
+🔹 <b>其他</b>
+&nbsp;&nbsp;✨ webgpt
+&nbsp;&nbsp;✨ yi-34b
+&nbsp;&nbsp;✨ mj-chat
+&nbsp;&nbsp;✨ baichuan-v3-alltools
 
 </details>
 
+<details>
+<summary>🖼️ 文生图模型</summary>
+<br>
+🔹 <b>Stability AI</b>
+&nbsp;&nbsp;✨ Stable Diffusion 系列
+<br>
+🔹 <b>Midjourney</b>
+&nbsp;&nbsp;✨ Midjourney
+<br>
+🔹 <b>OpenAI</b>
+&nbsp;&nbsp;✨ DALL-E 系列
+<br>
+🔹 <b>其他</b>
+&nbsp;&nbsp;✨ ...
+
+</details>
+
+<details>
+<summary>🔍 识图模型</summary>
+<br>
+🔹 <b>OCR</b>
+&nbsp;&nbsp;✨ 文字识别
+<br>
+🔹 <b>OpenAI</b>
+&nbsp;&nbsp;✨ gpt-4-v/all 等多模态 GPT 模型
+<br>
+🔹 <b>ChatGLM</b>  
+&nbsp;&nbsp;✨ chatglm-4-alltools 等多功能模型
+<br>
+🔹 <b>MosaicML</b>
+&nbsp;&nbsp;✨ gemini-pro-vision 等专业视觉模型
+<br>
+🔹 <b>其他</b>
+&nbsp;&nbsp;✨ ...
+
+</details>
+
+<details>
+<summary>🔊 语音模型</summary>
+<br>
+🔹 <b>虚拟偶像</b>
+&nbsp;&nbsp;✨ 原神崩三等语音库
+<br>  
+🔹 <b>歌曲生成</b>
+&nbsp;&nbsp;✨ Suno-V3
+<br>  
+🔹 <b>OpenAi</b>
+&nbsp;&nbsp;✨ tts/tts-hd
+<br>  
 
 ## 🤖 AI功能展示
 
