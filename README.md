@@ -341,7 +341,7 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 如果您对本插件有任何意见或看法,欢迎通过以下渠道反馈:
 
-### 💬 加入交流群
+### 💬 一起交流
 
 **[点击加入 Y-Tian 插件交流群](https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=9-rRV1zBm0H3Es3V32FXSIJdR7v4hEjY&authKey=VvpBHKV%2FnjOxT0fPSagpTCIyJ91vNgvyc0CIt40%2BY1Q2kT%2BnUKjzLjbMtRVTh%2BqW&noverify=0&group_code=756783127)**
 
@@ -357,11 +357,7 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 [爱发电](https://afdian.net/a/yuan_20) 赞助用户将有机会提前体验本插件未公布的新功能。您的支持将成为我们持续更新的动力!
 
-### 🙏 鸣谢
-
-在此,我们向所有为本项目做出贡献的个人和组织表示衷心的感谢!
-
-### ✨ 贡献者
+### ✨ 贡献成员
 
 [![贡献成员](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 
@@ -382,5 +378,9 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 - 😺 喵喵版 Yunzai-Bot (V3): [Github](https://github.com/yoimiya-kokomi/Miao-Yunzai) / [Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai)
 - ☁️ 阴天插件 Alemon-Bot 版: [Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot)
 - 💻 个人 Windows 电脑一键部署: [Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win)
+
+### 🙏 鸣谢
+
+在此,我们向所有为本项目做出贡献的个人和组织以及爱发电赞助成员表示衷心的感谢!
 
 > 📢 **严禁将本项目用于任何商业用途和非法行为!**
