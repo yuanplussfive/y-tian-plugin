@@ -1,58 +1,57 @@
-
-<div style="background-color: #1c1c1e; padding: 20px; border-radius: 10px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);">
-  <p style="text-align: center;">
+<div style="background-color: #111; color: #fff; padding: 30px; border-radius: 10px;">
+  <div style="text-align: center; margin-bottom: 30px;">
     <a href="https://gitee.com/yuanpluss">
-      <img src="./background/image/logo.png" width="50%" height="auto" alt="y-tian-plugin" style="opacity: 0.8; border-radius: 50%; box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);">
-    </a>
-  </p>
-
-  <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
-    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
-    <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
-    <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
-    <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25" style="margin-right: 10px; box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
-    <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
-      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="30%" alt="Security Status" style="box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
+      <img src="./background/image/logo.png" width="30%" height="auto" alt="y-tian-plugin" style="border-radius: 50%;">
     </a>
   </div>
 
-  <h2 style="color: #00ff00; text-align: center; text-shadow: 0 0 20px rgba(0, 255, 0, 0.8);">😃 阴天插件索引页:</h2>
+  <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="25" style="margin-right: 10px;">
+    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="25" style="margin-right: 10px;">
+    <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25" style="margin-right: 10px;">
+    <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25" style="margin-right: 10px;">
+    <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25" style="margin-right: 10px;">
+    <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024" style="margin-right: 10px;">
+      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="30%" alt="Security Status">
+    </a>
+  </div>
 
-  <p style="text-align: center; font-size: 18px; color: #cccccc; text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">
-    <strong>点击跳转阴天 <a href="https://y-tian-plugin.top:4000/chat" style="color: #00ff00; text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);">Y-Tian-Plugin</a> 对话页面</strong>
+  <h2 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页:</h2>
+
+  <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
+    <strong>点击跳转阴天 <a href="https://y-tian-plugin.top:4000/chat" style="color: #0ff;">Y-Tian-Plugin</a> 对话页面</strong>
   </p>
 
-  <details style="background-color: #2c2c2e; border-radius: 5px; padding: 10px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);">
-    <summary style="color: #cccccc; cursor: pointer; text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);">demo网页 (先选择模型, 保存设置)</summary>
+  <details style="background-color: #222; padding: 10px; border-radius: 5px;">
+    <summary style="font-family: 'Courier New', monospace; font-weight: bold;">demo网页 (先选择模型, 保存设置)</summary>
     <div style="display: flex; justify-content: center; margin-top: 10px;">
-      <img src="./background/image/web2.png" width="45%" style="margin-right: 10px; border-radius: 5px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);">
-      <img src="./background/image/web.png" width="45%" style="border-radius: 5px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);">
+      <img src="./background/image/web2.png" width="45%" style="margin-right: 10px; border-radius: 5px;">
+      <img src="./background/image/web.png" width="45%" style="border-radius: 5px;">
     </div>
   </details>
 </div>
 
-##  🤣 安装教程
+## 🤖 安装教程
 
 在 Yunzai-Bot 根目录下，运行 cmd/git，输入以下指令:
 
 *使用 Gitee*
-```
+```shell
 git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 ```
-*使用 GitHub*
-```
+
+*使用 Gitee*
+```shell
 git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot.git ./plugins/y-tian-plugin/
 ```
 
-##  😘 功能一览
+
+## 🚀 功能一览
 
 <details>
 <summary>阴天帮助面板</summary>
-<img decoding="async" src="background/image/帮助.jpg" width="35%">
+<img decoding="async" src="./background/image/帮助.jpg" width="35%">
 </details>
-
-以下是优化后的 Markdown 格式,增加了科技感:
 
 ## 🤖 AI 模型功能概览
 
