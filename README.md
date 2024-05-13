@@ -218,7 +218,8 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <br>  
 🔹 <b>OpenAi</b>
 &nbsp;&nbsp;✨ tts/tts-hd
-<br>  
+</details>
+
 
 ## 🤖 AI功能展示
 
