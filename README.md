@@ -356,31 +356,25 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 
 <div align="center">
   <h1>贡献者</h1>
-  <div style="display:flex; justify-content:center; align-items:center; flex-wrap:wrap;">
-    <div style="margin:20px; text-align:center;">
-      <a href="https://gitee.com/yuanpluss">
-        <img src="https://avatars.githubusercontent.com/u/135164000?s=400&u=3354440eee4b94b123a272ed40d52c5cda148499&v=4" width="120px;" alt="yuanpluss" style="border-radius:50%;"/>
-        <br/>
-        <span style="font-weight:bold;">patience</span>
-      </a>
+  <div style="display:flex; flex-wrap:wrap; justify-content:center;">
+    <div style="margin:20px; text-align:center; width:150px;">
+      <img src="https://avatars.githubusercontent.com/u/135164000?s=150" alt="yuanpluss" style="width:150px;"/>
+      <br/>
+      <span style="font-weight:bold;">patience</span>
       <br/>
       <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="编写主体" style="color:#0366d6;"><i class="fas fa-code"></i> 编写主体</a>
     </div>
-    <div style="margin:20px; text-align:center;">
-      <a href="https://gitee.com/wan13877501248">
-        <img src="https://foruda.gitee.com/avatar/1672794204349735271/11876815_wan13877501248_1672794204.png!avatar200" width="120px;" alt="Saury-loser" style="border-radius:50%;"/>
-        <br/>
-        <span style="font-weight:bold;">天球生物</span>
-      </a>
+    <div style="margin:20px; text-align:center; width:150px;">
+      <img src="https://foruda.gitee.com/avatar/1672794204349735271/11876815_wan13877501248_1672794204.png!avatar150" alt="Saury-loser" style="width:150px;"/>
+      <br/>
+      <span style="font-weight:bold;">天球生物</span>
       <br/>
       <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="提供本体" style="color:#0366d6;"><i class="fas fa-code"></i> 提供本体</a>
     </div>
-    <div style="margin:20px; text-align:center;">
-      <a href="https://gitee.com/mengtiange">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAAAXNSR0IArs4c6QAABBpJREFUeF7t2WdoE2EYB/D/ZTVtGpPWhThx4qBOFEFUhIKiiBQVBxUc9YMoTkRbqVqtigMVB27QWhUX4sD1yS+KoojFXRDFiaNNTdORdfKeJr6JAe8RRLx77ksgfa7c/fp/3nvurfJ+zBAVfOgSUBhLl5NWxFj6rRiLYMVYjEURINTymsVYBAFCKSeLsQgChFJOFmMRBAilnCzGIggQSjlZjEUQIJRyshiLIEAo5WQxFkGAUMrJYiyCAKGUk8VYBAFC6V9Plnv6HLjyJideUjgM/7FDCJwqI1zqz9ImcxYjY9S4hHNDlU/xZVHBH/0+vSf9GywAjffvoLp4sd7rjNfZ2rSHt6gU4lM+DI0V+fIJNRtXIfi4ggSWnjsaTWYvgOJ0mgcLf9iK3iXFcA7L/QXYeMkKh6GGglDSM7SbDT58gKrlc3Uny9a2A7xF62Br3RaIRqFGI1Bsdu18w2GpwSBCz5/A0TMHUBREfVXwbS5B8ME9XWAZI8fCPWselDQnIh8/ABYrrM2aGxer/uoFpI8YCcXl0tJRe/IIassP6sLyFpbCOXioVttw8wbsnbrC2rKVcbFqjx6Ac3gu7B27kFrR3rkbvMvWaDhqXQD+w3vgyptibCxxk6J1XOMmkVpRzGqZ+QXaGhV6UQn/3m3wLFphfKzIh3fwLCyCJdOtuxWzVm5E2oDBgKqi7vI51F+/FE+aYRd4kaz6axeRvW477F2662pFe7ee8C4rgbVZC6iBAGp2bULk/RtzYNWdPwV3/my4xk8FLJbfPhVdE/LhnjIDsNkQqnyCqsL5sLVpZx6stP6D4Fm4AhaPV2vFwOly+Mv2pXwqZpVsQVrfgVoLBs6dgP/QbsgLvqHbUCRLcaYja/VmOHrkfG/FxxWoXrkEakN9Apijd3+Iqd3izUa0xoearWvReO+2ubCESEIrShCyVubUmcicOE1rVxnUVMkSIL9rxYT0JQ2wpsMSYNnrd8LRq3fKVpQxk1+NTIklt5m8JiW3afL+lymx5AVcfiqKFozNYmo4hNqy/QicPR5fzkyJJe4+PhpIT0VHTr/4lB/5/BG+DcUIPXvEWPLQGWtFkbjY+2Pj3VuoXr00YaQwbbLErOVZugrWps2/D6hnyuHoM0B7HRJ7YOIVScxm8mFaLK0VYy/KAMKvX8KS1VR70Q6/fQ1faaH2HWP9EJC3YGSUhhvXtd3U5MPUyZJ3FmIwamMD/Ad2oO7KecZKFpBbUfws/OYVfKVF2icnK0kguRXFJt/X3VtS7kQYsg1T3ul/+uVf//f9f+qS8rIZi/DXZCzGIggQSjlZjEUQIJRyshiLIEAo5WQxFkGAUMrJYiyCAKGUk8VYBAFCKSeLsQgChFJOFmMRBAilnCzGIggQSjlZjEUQIJRysghY3wBOKGqzI6LiFgAAAABJRU5ErkJggg==" width="120px;" alt="Saury-loser" style="border-radius:50%;"/>
-        <br/>
-        <span style="font-weight:bold;">mr.k</span>
-      </a>
+    <div style="margin:20px; text-align:center; width:150px;">
+      <img src="https://gitee.com/assets/no_portrait.png" alt="mr.k" style="width:150px;"/>
+      <br/>
+      <span style="font-weight:bold;">mr.k</span>
       <br/>
       <a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="美工设计" style="color:#0366d6;"><i class="fas fa-code"></i> 美工设计</a>
     </div>
