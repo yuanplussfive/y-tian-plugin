@@ -192,94 +192,159 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 - [✓] OpenAI-TTS
 
 </details>
-了解了,我会努力以更具科技感和时尚化的方式呈现这些AI功能展示。以下是使用Markdown重新组织的内容:
+
 
 ## 🤖 AI功能展示
 
 ### 🔷 免费Sess模型
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/对话1.jpg" width="400"/>
+</details>
 
 ### 🔷 免费国产模型
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/对话2.jpg" width="400"/>
+</details>
 
 ### 🔷 免费Dall-E绘图
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/对话4.jpg" width="400"/>
+</details>
 
 ### 🔷 GPT-4多模态
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/对话3.jpg" width="400"/>
+</details>
 
 ### 🔷 文生视频等
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/对话5.jpg" width="400"/>
+</details>
 
 ### 🔷 TTS交互模型
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/对话6.jpg" width="400"/>
+</details>
 
 ### 💎 GPT-4免费版
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/freegpt4.jpg" width="400"/>
+</details>
 
 ### 💎 月之暗面Web版
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/kimi.jpg" width="400"/>
+</details>
 
 ### 💎 星火模型Web版
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/xinghuo.jpg" width="400"/>
+</details>
 
-### 💎 智谱清言Web版
+### 💎 智谱清言Web版 
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/glm4_1.jpg" width="400"/>
 <img src="./background/image/glm4_2.jpg" width="400"/>
+</details>
 
 ### 💎 微软Copilot
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/copilot_1.jpg" width="400"/>
 <img src="./background/image/copilot_2.jpg" width="400"/>
 <img src="./background/image/copilot_3.jpg" width="400"/>
+</details>
 
 ### 💎 通义千问Web版
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/qwen_1.jpg" width="400"/>
 <img src="./background/image/qwen_2.jpg" width="400"/>
+</details>
 
 ### 💎 ChatGPT Plus版
+<details>
+<summary>点击查看</summary>
 <img src="./background/image/plus_1.jpg" width="400"/>
 <img src="./background/image/plus_2.jpg" width="400"/>
 <img src="./background/image/plus_3.jpg" width="400"/>
 <img src="./background/image/plus_4.jpg" width="400"/>
 <img src="./background/image/plus_5.jpg" width="400"/>
+</details>
 
 ## 🔆 与AI交互流程
 
 ### 💻 对话交互
 > 阴天帮助 → AI总帮助 → 打开At回复 → 选择启用方案 → 参考方案帮助
 
+<details>
+<summary>点击查看流程图</summary>
 <img src="./background/image/zs.jpg" width="400"/>
+</details>
 
 ### 🖼️ 图片识别
+<details>
+<summary>点击查看流程图</summary>
 <img src="./background/image/zs2.jpg" width="400"/>
+</details>
 
 ### ⚙️ 使用预设
+<details>
+<summary>点击查看流程图</summary>
 <img src="./background/image/zs3.jpg" width="400"/>
+</details>
 
 ### 📄 文件处理
+<details>
+<summary>点击查看流程图</summary>
 <img src="./background/image/zs4.jpg" width="400"/>
+</details>
 
-## 反馈
+## 反馈与支持
 
-如果你对本插件有任何意见或看法
+如果您对本插件有任何意见或看法,欢迎通过以下渠道反馈:
 
-可以使用QQ群组功能反馈。**点击加入[Y-Tian插件交流群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=9-rRV1zBm0H3Es3V32FXSIJdR7v4hEjY&authKey=VvpBHKV%2FnjOxT0fPSagpTCIyJ91vNgvyc0CIt40%2BY1Q2kT%2BnUKjzLjbMtRVTh%2BqW&noverify=0&group_code=756783127)**。
+### 💬 加入交流群
 
-如果你喜欢我们的插件，不妨给个star
+**[点击加入 Y-Tian 插件交流群](https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=9-rRV1zBm0H3Es3V32FXSIJdR7v4hEjY&authKey=VvpBHKV%2FnjOxT0fPSagpTCIyJ91vNgvyc0CIt40%2BY1Q2kT%2BnUKjzLjbMtRVTh%2BqW&noverify=0&group_code=756783127)**
 
-赞助方面：[爱发电(暂时请用)](https://afdian.net/a/yuan_20)
+在这里,您可以与开发者和其他用户进行交流、提出问题、分享体验等。
 
-你的支持将是我们的动力，且发电用户有机会提前体验本插件未公布的的新功能。
+### ⭐ 点赞支持
 
-###  :relaxed: 鸣谢
+如果您喜欢我们的插件,欢迎在相关仓库给予 ⭐️ star,这将是我们前进的动力!
 
-###  :sunglasses: 传送门
+### 💰 赞助渠道
 
-* 同款demo网页ai对话：[☞Gitee](https://gitee.com/yuanpluss/simple-free-ai) 
-* 喵喵版 Yunzai-Bot（V3）：[☞Github](https://github.com/yoimiya-kokomi/Miao-Yunzai)/[☞Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai) 
-* 阴天插件 Alemon-Bot版：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
-* 个人 windows电脑一键部署：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
-* 严禁用于任何商业用途和非法行为！
+您也可以通过以下渠道对我们进行赞助支持:
+
+[爱发电](https://afdian.net/a/yuan_20) 赞助用户将有机会提前体验本插件未公布的新功能。您的支持将成为我们持续更新的动力!
+
+### 🙏 鸣谢
+
+在此,我们向所有为本项目做出贡献的个人和组织表示衷心的感谢!
+
+### 🚪 传送门
+
+以下是本项目的相关链接资源:
+
+- 💻 同款 Demo 网页 AI 对话: [Gitee](https://gitee.com/yuanpluss/simple-free-ai)
+- 😺 喵喵版 Yunzai-Bot (V3): [Github](https://github.com/yoimiya-kokomi/Miao-Yunzai) / [Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai)
+- ☁️ 阴天插件 Alemon-Bot 版: [Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot)
+- 💻 个人 Windows 电脑一键部署: [Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win)
+
+> 📢 **严禁将本项目用于任何商业用途和非法行为!**
+
 
 <div align="center">
   <h1>贡献者</h1>
