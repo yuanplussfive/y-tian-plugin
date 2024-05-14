@@ -317,6 +317,12 @@ export const chat_models = {
       "name": "llama-3-70b",
       "token_count": "32000",  
       "Magnification": 2
+    },
+    {
+      "id": "54",
+      "name": "gpt-4o",
+      "token_count": "128000",  
+      "Magnification": 2.5
     }
   ]
 }
