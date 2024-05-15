@@ -1,31 +1,78 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>对话样式示例</title>
     <link rel="stylesheet" href="{{dz}}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 </head>
+
 <body>
     <div class="container">
         <div class="user2">
-            <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id1}}&spec=640&img_type=jpg" alt="User 2 Avatar">
-           
-               <div class="name"> {{name}}</div>
-           
-			<div class="message">
-                <p>{{msg}}</p>
+            <div id="title">
+                <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id1}}&spec=640&img_type=jpg" alt="User 2 Avatar">
+            </div>
+            <div class="name">{{name}}</div>
+            <div class="message">
+                <div id="renderedMarkdown">
+                    {{MSG}}
+                </div>
             </div>
         </div>
         <div class="user">
-            <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id2}}&spec=640&img_type=jpg" alt="User 1 Avatar">
+            <div id="title">
+                <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id2}}&spec=640&img_type=jpg" alt="User 1 Avatar">
+            </div>
             <div class="name">{{name1}}</div>
-		   <div class="message2">
-                <p>Content</p>
+            <div class="message2">
+                <div id="renderedMarkdown2">
+                    {{CONTENT}}
+                </div>
             </div>
         </div>
     </div>
-</body>
-</html>
 
+    <script>
+
+
+        const converter = new showdown.Converter();
+        const markdownText = document.getElementById('renderedMarkdown').textContent;
+        const maxLength = 10000; 
+        const chunks = splitMarkdown(markdownText, maxLength);
+        const renderedHtml = chunks.map(chunk => {
+            const markdownWithClass = `<div class="markdown-content">${chunk}</div>`;
+            return converter.makeHtml(markdownWithClass);
+        }).join('');
+        document.getElementById('renderedMarkdown').innerHTML = renderedHtml;
+        const markdownText2 = document.getElementById('renderedMarkdown2').textContent;
+        const chunks2 = splitMarkdown(markdownText2, maxLength);
+        const renderedHtml2 = chunks2.map(chunk => {
+            const markdownWithClass2 = `<div class="markdown-content">${chunk}</div>`;
+            return converter.makeHtml(markdownWithClass2);
+        }).join('');
+        document.getElementById('renderedMarkdown2').innerHTML = renderedHtml2;
+
+        const codeBlocks = document.querySelectorAll('.markdown-content pre code');
+        console.log(codeBlocks)
+        codeBlocks.forEach((codeBlock) => {
+            const language = codeBlock.className;
+            codeBlock.parentNode.setAttribute('data-language', language);
+        });
+        function splitMarkdown(markdownText, maxLength) {
+            const chunks = [];
+            let start = 0;
+            while (start < markdownText.length) {
+                const end = start + maxLength;
+                const chunk = markdownText.slice(start, end);
+                chunks.push(chunk);
+                start = end;
+            }
+            return chunks;
+        }
+    </script>
+</body>
+
+</html>

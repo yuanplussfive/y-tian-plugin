@@ -1,11 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-    font-family: Arial, sans-serif;
-    font-color:#A0522D;
-    margin: 0;
-    padding: 0; 
-background-image:url("水墨.jpg")
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  max-width: 100%;
+  background-image: url('水墨.jpg');
+  word-break: break-all;
 }
+
+.markdown-content {
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 24px;
+  border-radius: 10px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  color: #8d3acc;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.markdown-content h1 {
+  font-size: 28px;
+  color: #00c8ff;
+  margin-top: 30px;
+  text-shadow: 0 0 10px rgba(0, 200, 255, 0.8);
+}
+
+.markdown-content p {
+  color: #03f3df;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.markdown-content p:hover {
+  color: #00ff9c;
+}
+
+.markdown-content a {
+  color: #00c8ff;
+  text-decoration: none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+
+.markdown-content a:hover {
+  text-decoration: underline;
+  color: #00ff9c;
+  text-shadow: 0 0 10px rgba(0, 255, 156, 0.8);
+}
+
+
+.markdown-content code {
+  font-size: 17px;
+  background-color: #292626;
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #00c8ff;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.markdown-content pre {
+  box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
+  background-color: #292626;
+  color: #673ab7;
+  padding: 20px;
+  max-width: 80vw;
+  overflow: auto;
+  font-size: 24px;
+  line-height: 1.4;
+  border-radius: 10px;
+  position: relative;
+}
+
+.markdown-content pre::-webkit-scrollbar {
+  width: 8px;
+  background-color: #0c0c0c;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb {
+  background-color: #00c8ff;
+  border-radius: 5px;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb:hover {
+  background-color: #00ff9c;
+}
+
+.markdown-content pre::-webkit-scrollbar-track {
+  background-color: #0c0c0c;
+}
+
+.markdown-content pre::after {
+  content: attr(data-language);
+  color: #ffffff;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px;
+  background-color: #1a1a1a;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  font-size: 12px;
+  font-family: 'Roboto Mono', monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  animation: blink 1s infinite;
+}
+
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.markdown-content pre code.html {
+  color: #00ff9c;
+}
+
+.markdown-content pre code.python {
+  color: #ff9800;
+}
+
+.markdown-content pre code.css {
+  color: #8bc34a;
+}
+
+.markdown-content pre code.javascript {
+  color: #9e9e9e;
+}
+
+.markdown-content pre code.java {
+  color: #f44336;
+}
+
+.markdown-content pre code.php {
+  color: #673ab7;
+}
+
+.markdown-content pre code.ruby {
+  color: #e91e63;
+}
+
+.markdown-content pre code.swift {
+  color: #2196f3;
+}
+
+.markdown-content pre code.csharp {
+  color: #4caf50;
+}
+
+.markdown-content pre code.go {
+  color: #bf6da8;
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid #00c8ff;
+  padding-left: 10px;
+  margin-left: 0;
+  font-style: italic;
+  text-shadow: 1px 1px 1px #000;
+}
+
+.user #renderedMarkdown2 img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+  box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
+}
+
+.user2 #renderedMarkdown img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+  box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
+}
+
 @font-face {
   font-family: "jty";
   src: url("jty.OTF");
@@ -19,122 +209,109 @@ background-image:url("水墨.jpg")
   font-weight: normal;
   font-style: normal;
 }
+
 .container {
-	box-shadow:3px 2px 3px #aaa;
-    display: flex-start;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    margin-left: 50px;
-	margin-right: 50px;
-	font-family:"jty";
-	font-size:28px;
-	background-color:rgba(255,255,255,0.9);
-	border-radius: 30px;
+  background-image: url('水墨.jpg');
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 3px 2px 3px #aaa;
+  display: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-left: 30px;
+  margin-right: 30px;
+  font-family: "jty";
+  font-size: 40px;
+  background-color: rgba(113, 156, 241, 0.9);
+  border-radius: 30px;
 }
 
 .user {
-    background-size: 100% 100% ;
-    display: flex-start;
-    flex-direction: column;
-    align-items: center;
-    max-width: 100%;
-    line-height:35px;
-    border-bottom:2px solid #ccc;
-    padding: 50px;
-    border-radius: 10px;
-  
-	font-family:"jty";
-	font-size:24px;
-	
+  background-size: 100% 100%;
+  display: flex-start;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  width: none;
+  line-height: 25px;
+  border-bottom: 2px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: "jty";
+  font-size: 35px;
 }
-.user img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 50%;
-    
-	margin-right: 30px;
-	box-shadow:3px 2px 3px #ccc;
-}
-.user2 {
-    background-size: 100% 100% ;
-    justify-content: flex-end;
-    text-align:right;
-    flex-direction: column;
-    align-items: center;
-    max-width: 100%;
-    line-height:35px;
-  
-    padding: 10px;
-    border-radius: 10px;
-  
-}
-.name{
-	font-size:20px;
-	padding-bottom:15px;
 
-	font-family:"NZBZ";
+.user #title img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 30px;
+  box-shadow: 3px 2px 3px #ccc;
 }
-.user2 img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 50%;
-    
-box-shadow:3px 2px 3px #ccc;
+
+.user2 {
+  background-size: 100% 100%;
+  justify-content: flex-end;
+  text-align: right;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  width: none;
+  line-height: 35px;
+  padding: 20px;
+  border-radius: 10px;
+
+}
+
+.name {
+  font-size: 20px;
+  padding-bottom: 15px;
+
+  font-family: "NZBZ";
+}
+
+.user2 #title img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 3px 2px 3px #ccc;
 }
 
 .message {
-	padding-bottom:20px;
-	padding-top:20px;
-	text-indent:2em;
-    background-color:#FFCCFF;
-    padding: 15px;
-	padding-left: 30px;
-    border-radius: 15px;
-    box-shadow:3px 2px 3px #ccc;
-	
-	line-height:35px;
-
-	
+  padding-bottom: 20px;
+  padding-top: 20px;
+  text-indent: 2em;
+  background-color: #5c5a5c;
+  padding: 15px;
+  padding-left: 30px;
+  border-radius: 15px;
+  box-shadow: 3px 2px 3px #ccc;
+  line-height: 35px;
 }
 
 .message p {
-    margin: 0;
+  font-size: 24px;
+  color: #ffffff;
+  margin: 0;
 }
+
 .message2 {
-	padding-bottom:20px;
-	padding-top:20px;
-	padding-left:80px;
-	text-indent:2em;
-    background-color:#CCFFFF;
-    padding: 15px;
-	
-    border-radius: 15px;
-	border-bottom:2px solid #ccc;
-	box-shadow:3px 2px 3px #ccc;
-    line-height:35px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  padding-left: 30px;
+  text-indent: 2em;
+  background-color: #CCFFFF;
+  padding: 15px;
+  border-radius: 15px;
+  padding-left: 30px;
+  box-shadow: 3px 2px 3px #ccc;
+  line-height: 35px;
 }
 
 .message2 p {
-    margin: 0;
+  font-size: 24px;
+  color: #000000;
+  margin: 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

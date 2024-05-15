@@ -1,7 +1,7 @@
 <div style="background-color: #111; color: #fff; padding: 30px; border-radius: 10px;">
   <div style="text-align: center; margin-bottom: 30px;">
     <a href="https://gitee.com/yuanpluss">
-      <img src="./background/image/logo.png" width="100%" height="auto" alt="y-tian-plugin" style="border-radius: 50%;">
+      <img src="./background/image/新logo.png" width="100%" height="auto" alt="y-tian-plugin" style="border-radius: 50%;">
     </a>
   </div>
 
@@ -71,6 +71,9 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 &nbsp;&nbsp;✨ gpt-4-0125-preview
 &nbsp;&nbsp;✨ gpt-4-turbo-2024-04-09
 &nbsp;&nbsp;✨ gpt-4-turbo-preview
+&nbsp;&nbsp;✨ gpt-4o
+&nbsp;&nbsp;✨ gpt-4o-0513
+&nbsp;&nbsp;✨ gpt-4o-plus
 &nbsp;&nbsp;✨ gpt-4-all
 &nbsp;&nbsp;✨ gpt-4-plugins
 &nbsp;&nbsp;✨ gpt-4-gizmo
@@ -273,14 +276,20 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 ### 💎 星火模型Web版
 <details>
 <summary>点击查看</summary>
-<img src="./background/image/xinghuo.jpg" width="400"/>
+<img src="./background/image/星火.png" width="400"/>
 </details>
 
 ### 💎 智谱清言Web版 
 <details>
 <summary>点击查看</summary>
-<img src="./background/image/glm4_1.jpg" width="400"/>
-<img src="./background/image/glm4_2.jpg" width="400"/>
+<img src="./background/image/glm4.png" width="400"/>
+</details>
+
+### 💎 百川智能Web版 
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/百川.png" width="400"/>
+<img src="./background/image/百川2.png" width="400"/>
 </details>
 
 ### 💎 微软Copilot
@@ -298,14 +307,16 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <img src="./background/image/qwen_2.jpg" width="400"/>
 </details>
 
+### 💎 DeepSeekWeb版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/deepseek.png" width="400"/>
+</details>
+
 ### 💎 ChatGPT Plus版
 <details>
 <summary>点击查看</summary>
-<img src="./background/image/plus_1.jpg" width="400"/>
-<img src="./background/image/plus_2.jpg" width="400"/>
-<img src="./background/image/plus_3.jpg" width="400"/>
-<img src="./background/image/plus_4.jpg" width="400"/>
-<img src="./background/image/plus_5.jpg" width="400"/>
+<img src="./background/image/plus.png" width="400"/>
 </details>
 </details>
 
@@ -317,6 +328,16 @@ git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot
 <details>
 <summary>点击查看流程图</summary>
 <img src="./background/image/zs.jpg" width="400"/>
+</details>
+
+### 🖼️ 图片对话
+<details>
+<summary>点击查看流程图</summary>
+<img src="./background/image/图像交互1.jpg" width="400"/>
+<img src="./background/image/图像交互2.jpg" width="400"/>
+<img src="./background/image/图像交互3.jpg" width="400"/>
+<img src="./background/image/图像交互4.jpg" width="400"/>
+<img src="./background/image/图像交互5.jpg" width="400"/>
 </details>
 
 ### 🖼️ 图片识别

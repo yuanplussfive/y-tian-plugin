@@ -30,8 +30,26 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
   let { ai_private_plan, ai_private_open } = aiSettings.chatgpt;
+  const thinkingPhrases = [
+    "让我想想啊",
+    "我正在思考中...",
+    "稍等一下，我在考虑...",
+    "我需要一点时间来思考...",
+    "让我冷静一下，我会给你答案的...",
+    "我得好好想一想",
+    "我正在琢磨中...",
+    "我需要一些时间来思考这个问题...",
+    "我正在寻找答案...",
+    "我得先理清思路...",
+    "我正在考虑各种可能性...",
+    "我得先把事情梳理清楚...",
+    "我需要一些时间来思考...",
+    "我正在思考这个问题...",
+    "我得先把事情理清楚再做决定..."
+  ];
+  await e.reply(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)], true, { recallMsg: 6 });
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
-    if (model == "gpt-4-all" || model == "gpt-4-dalle"  || model == "gpt-4o" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
+    if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
       if (!imgurl || !imgurl.startsWith("https://filesystem.site")) {
 
       }
@@ -195,7 +213,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         if (array.length > 0 && array[0].role === 'assistant') {
           array = array.slice(1);
         }
-      
+
         for (const item of array) {
           if (item.role === 'user') {
             if (Array.isArray(item.content)) {
@@ -223,7 +241,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
             result.push(item);
           }
         }
-      
+
         if (consecutiveUserItems.length > 0) {
           result.push({
             role: 'user',
@@ -233,11 +251,53 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         if (lastSystemItem !== null) {
           result.unshift(lastSystemItem);
         }
-      
+
         return result;
       }
+
       let History = reduceConsecutiveRoles(history)
       console.log(History)
+      async function downloadImage(url, e, filePath) {
+        const fileExtension = path.extname(url).toLowerCase();
+        console.log(fileExtension)
+        if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
+          return;
+        }
+
+        try {
+          await new Promise((resolve, reject) => {
+            const request = https.get(url.trim(), (response) => {
+              if (response.statusCode >= 400) {
+                reject(new Error(`Failed to download ${url}: ${response.statusCode}`));
+                return;
+              }
+
+              const file = fs.createWriteStream(filePath);
+              response.pipe(file);
+
+              file.on('finish', () => {
+                file.close();
+                resolve();
+              });
+
+              file.on('error', (err) => {
+                reject(err);
+              });
+            });
+
+            request.on('error', (err) => {
+              reject(err);
+            });
+
+            request.end();
+          });
+
+          e.reply(segment.image(filePath));
+        } catch (err) {
+          e.reply(segment.image(url.trim()));
+        }
+      }
+
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gpt-4o") {
         search = false
       }
@@ -290,14 +350,33 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           }
         } catch { }
       }
-      console.log(Messages)
+      //console.log(Messages)
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
+      let urls = await get_address(answer);
+      if (styles == "picture" || urls.length !== 0) {
+        let forwardMsg = [Messages]
+        const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
+        e.reply(JsonPart)
+        let uniqueUrls = [...new Set(urls)];
+        if (uniqueUrls.length > 1) {
+          const duplicateIndex = uniqueUrls.findIndex(url => url.includes('download'));
+          uniqueUrls.splice(duplicateIndex, 1);
+        }
+        console.log(uniqueUrls)
+        if (uniqueUrls.length > 0) {
+          let imgs = ""
+          for (let i = 0; i < uniqueUrls.length; i++) {
+            imgs += `![image${i + 1}](${uniqueUrls[i]})\n`;
+          }
+          Messages = imgs + Messages;
+        }
+      }
       await replyBasedOnStyle(styles, Messages, e, common, puppeteer, fs, _path, message);
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
       if (aiSettings.chatgpt.ai_tts_open) {
-        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
+        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, Messages);
       }
       if (model == "gpt-4-dalle") {
         let result = await extractImageLinks2(answer)
@@ -307,34 +386,13 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         }
         result.forEach((url, index) => {
           const path = `${_path}/resources/dall_e_plus_${index}.png`;
-          const file = fs.createWriteStream(path);
-          https.get(url, (response) => {
-            response.pipe(file);
-            file.on('finish', () => {
-              file.close(() => {
-                e.reply(segment.image(path));
-              });
-            });
-          }).on('error', (err) => {
-            fs.unlink(path);
-            console.error(err);
-          });
-        });
+          downloadImage(url, e, path);
+        })
       }
       if (model == "gpt-4-all" || model == "gpt-4o") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
-          function getFileExtension(filename) {
-            let ext = path.extname(filename);
-            if (ext.startsWith(".")) {
-              return ext;
-            }
-            return '无法识别的文件类型';
-          }
-          function getFileExtensionFromUrl(url) {
-            let filename = path.basename(url);
-            return getFileExtension(filename);
-          }
+
           function removeDuplicates(array) {
             const result = array.filter((item, index) => {
               if (item.indexOf('/cdn/download/') == -1) {
@@ -347,23 +405,9 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
             return result;
           }
           urls = removeDuplicates(urls)
-          for (let url of urls) {
-            let fileExtension = getFileExtensionFromUrl(url);
-            console.log(fileExtension);
-            if (fileExtension == ".webp" || fileExtension == ".png" || fileExtension == ".jpg") {
-              let path = _path + '/resources/dall_e_plus.png'
-              let file = fs.createWriteStream(path);
-              let request = https.get(url, function (response) {
-                response.pipe(file);
-                file.on('finish', function () {
-                  file.close(() => {
-                    e.reply(segment.image(path));
-                  });
-                });
-              }).on('error', function (err) {
-                e.reply(segment.image(url));
-              });
-            }
+          const filePath = path.join(_path, 'resources', 'dall_e_plus.png');
+          for (const url of urls) {
+            await downloadImage(url, e, filePath);
           }
         }
         const set = new Set(urls.filter(url => url.startsWith("https://filesystem.site/cdn/") && !url.includes("/download/")));
@@ -379,7 +423,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         });
       }
     } catch (error) {
-      e.reply("与服务器通讯失败，请尝试开启chat代理或结束对话")
+      e.reply(`与服务器通讯失败了！稍后试试吧`);
     }
   }
 
@@ -519,7 +563,7 @@ async function get_address(inputString) {
 
 async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url.trim());
     const fileBuffer = await response.arrayBuffer();
     const urlPartArray = url.split('/');
     const filename = urlPartArray[urlPartArray.length - 1];
@@ -540,11 +584,12 @@ async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
       fs.mkdirSync(`${_path}/resources/YT_alltools`)
     }
     const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
-    fs.writeFileSync(filePath, fileBuffer);
+    fs.writeFileSync(filePath, Buffer.from(fileBuffer));
     e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
   } catch (error) {
     console.error(`失败了: ${url}: ${error}`);
   }
+
 }
 
 async function extractImageLinks2(answer) {
