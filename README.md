@@ -6,14 +6,14 @@
   </div>
 
   <div style="display: flex; justify-content: center; margin-bottom: 30px;">
-    <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024" style="margin-right: 10px;">
-      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="100%" alt="Security Status">
-    </a>
     <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="25" style="margin-right: 10px;">
     <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="25" style="margin-right: 10px;">
     <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25" style="margin-right: 10px;">
     <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25" style="margin-right: 10px;">
     <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25" style="margin-right: 10px;">
+        <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024" style="margin-right: 10px;">
+      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="100%" alt="Security Status">
+    </a>
   </div>
 
   <h2 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页:</h2>
@@ -24,7 +24,7 @@
 
 </div>
 
-## 🤖 安装教程
+## 📦 安装教程
 
 在 Yunzai-Bot 根目录下，运行 cmd/git，输入以下指令:
 
@@ -35,7 +35,7 @@ git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins
 
 *使用 Gitee*
 ```shell
-git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot.git ./plugins/y-tian-plugin/
+git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins/y-tian-plugin/
 ```
 
 
