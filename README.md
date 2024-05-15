@@ -33,7 +33,7 @@
 git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 ```
 
-*使用 Gitee*
+*使用 Github*
 ```shell
 git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins/y-tian-plugin/
 ```
