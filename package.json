@@ -1,6 +1,6 @@
 {
   "name": "y-tian-plugin",
-  "version": "1.0.2",
+  "version": "1.2.6",
   "description": "Yunzai-Bot附属多功能插件",
   "main": "index.js",
   "type": "module",

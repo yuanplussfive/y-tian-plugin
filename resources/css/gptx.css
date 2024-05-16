@@ -9,12 +9,12 @@ body {
   margin: 0;
   font-family: 'Orbitron', sans-serif;
   max-width: 100%;
-  background-image: url('水墨.jpg');
   word-break: break-all;
 }
 
 .markdown-content {
-  font-size: 18px;
+  font-family: 'Orbitron';
+  font-size: 22px;
   line-height: 1.6;
   padding: 24px;
   border-radius: 10px;
@@ -26,6 +26,7 @@ body {
 }
 
 .markdown-content h1 {
+  font-family: 'jty', sans-serif;
   font-size: 28px;
   color: #00c8ff;
   margin-top: 30px;
@@ -33,6 +34,7 @@ body {
 }
 
 .markdown-content p {
+  font-family: 'jty', sans-serif;
   color: #03f3df;
   font-size: 20px;
   transition: color 0.3s ease;
@@ -57,11 +59,12 @@ body {
 
 
 .markdown-content code {
+  text-indent: 0 !important;
   font-size: 17px;
   background-color: #292626;
   padding: 2px 4px;
   border-radius: 3px;
-  color: #00c8ff;
+  color: #e8fd00;
   font-family: 'Courier New', Courier, monospace;
 }
 
@@ -218,8 +221,8 @@ body {
   display: flex-start;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-left: 30px;
-  margin-right: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
   font-family: "jty";
   font-size: 40px;
   background-color: rgba(113, 156, 241, 0.9);
@@ -291,41 +294,89 @@ body {
   box-shadow: 3px 2px 3px #ccc;
 }
 
-.message {
+.user2 .message {
   padding-bottom: 20px;
   padding-top: 20px;
-  text-indent: 2em;
+  text-indent: 1em;
   background-color: #5c5a5c;
   padding: 15px;
   padding-left: 30px;
   border-radius: 15px;
   box-shadow: 3px 2px 3px #ccc;
   line-height: 35px;
-  direction: ltr; 
 }
 
-.message p {
+.user2 .message p {
   font-size: 24px;
   color: #ffffff;
   margin: 0;
+}
+
+.user2 .message #renderedMarkdown2:first-child {
+  text-align: right;
+}
+
+.user2 .message #renderedMarkdown2:not(:first-child) {
+  text-indent: 1em;
 }
 
 .message2 {
   padding-bottom: 20px;
   padding-top: 20px;
   padding-left: 30px;
-  text-indent: 2em;
+  text-indent: 1em;
   background-color: #CCFFFF;
   padding: 15px;
   border-radius: 15px;
   padding-left: 30px;
   box-shadow: 3px 2px 3px #ccc;
   line-height: 35px;
-  direction: ltr; 
+  direction: ltr;
 }
 
 .message2 p {
   font-size: 24px;
   color: #000000;
   margin: 0;
+}
+
+.header h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #1c1c1c;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.header-bar {
+  height: 6px;
+  background: linear-gradient(90deg, #00b4d8, #0077b6, #00b4d8);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
 }

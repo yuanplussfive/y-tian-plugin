@@ -1,6 +1,6 @@
 async function generateReply(dirname) {
   return dirname.map((name, index) => {
-    const weight = await readFileAndSummarize(`${_path}/data/阴天预设/${name}`);
+    const weight = readFileAndSummarize(`${_path}/data/阴天预设/${name}`);
     return `序号:${index + 1}\n名称:${name.replace(/.txt/g, "")}\n内容简述:${weight}`;
   });
 }

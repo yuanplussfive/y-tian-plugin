@@ -4,13 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>对话样式示例</title>
+    <title>gptx</title>
     <link rel="stylesheet" href="{{dz}}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 </head>
 
 <body>
     <div class="container">
+        <div class="header">
+            <div
+                style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <i class="fas fa-robot" style="font-size: 2rem; color: #007bff; margin-right: 0.5rem;"></i>
+                <h1 style="margin: 0;">当前模型：<span
+                        style="font-family: 'Courier New', Courier, monospace; background: linear-gradient(to right, #007bff, #6610f2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{model}}</span>
+                </h1>
+            </div>
+            <div class="header-bar"></div>
+        </div>
         <div class="user2">
             <div id="title">
                 <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id1}}&spec=640&img_type=jpg" alt="User 2 Avatar">
@@ -33,10 +43,9 @@
 
     <script>
 
-
         const converter = new showdown.Converter();
         const markdownText = document.getElementById('renderedMarkdown').textContent;
-        const maxLength = 10000; 
+        const maxLength = 10000;
         const chunks = splitMarkdown(markdownText, maxLength);
         const renderedHtml = chunks.map(chunk => {
             const markdownWithClass = `<div class="markdown-content">${chunk}</div>`;

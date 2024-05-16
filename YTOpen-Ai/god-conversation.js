@@ -281,7 +281,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           Messages = imgs + Messages;
         }
       }
-      await replyBasedOnStyle(styles, Messages, e, common, puppeteer, fs, _path, msg)
+      await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
