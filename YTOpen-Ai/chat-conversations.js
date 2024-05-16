@@ -97,7 +97,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
-      const msgs = originalMsg.replace(/\/chat|#chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
+      const msgs = originalMsg.replace(/(\/|#)godgpt|(#|\/)chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
       return msgs
     } else {
       return undefined
@@ -589,7 +589,6 @@ async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
   } catch (error) {
     console.error(`失败了: ${url}: ${error}`);
   }
-
 }
 
 async function extractImageLinks2(answer) {

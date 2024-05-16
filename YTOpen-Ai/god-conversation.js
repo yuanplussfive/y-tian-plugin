@@ -83,7 +83,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
-      const msgs = originalMsg.replace(/\/godgpt|#chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
+      const msgs = originalMsg.replace(/(\/|#)godgpt|(#|\/)chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
       return msgs
     } else {
       return undefined
