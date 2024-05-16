@@ -382,15 +382,11 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 
 [![贡献成员](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://gitee.com/yuanpluss"><img src="https://foruda.gitee.com/avatar/1701928725710332386/12845058_yuanpluss_1701928725.png!avatar200" width="100px;" alt="yuanpluss"/><br /><sub><b>patience</b></sub></a><br /><a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="编写主体">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://gitee.com/wan13877501248"><img src="https://foruda.gitee.com/avatar/1672794204349735271/11876815_wan13877501248_1672794204.png!avatar200" width="100px;" alt="Saury-loser"/><br /><sub><b>天球生物</b></sub></a><br /><a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="提供本体">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://gitee.com/wan13877501248/y-tian-plugin/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAAAAXNSR0IArs4c6QAABBpJREFUeF7t2WdoE2EYB/D/ZTVtGpPWhThx4qBOFEFUhIKiiBQVBxUc9YMoTkRbqVqtigMVB27QWhUX4sD1yS+KoojFXRDFiaNNTdORdfKeJr6JAe8RRLx77ksgfa7c/fp/3nvurfJ+zBAVfOgSUBhLl5NWxFj6rRiLYMVYjEURINTymsVYBAFCKSeLsQgChFJOFmMRBAilnCzGIggQSjlZjEUQIJRyshiLIEAo5WQxFkGAUMrJYiyCAKGUk8VYBAFC6V9Plnv6HLjyJideUjgM/7FDCJwqI1zqz9ImcxYjY9S4hHNDlU/xZVHBH/0+vSf9GywAjffvoLp4sd7rjNfZ2rSHt6gU4lM+DI0V+fIJNRtXIfi4ggSWnjsaTWYvgOJ0mgcLf9iK3iXFcA7L/QXYeMkKh6GGglDSM7SbDT58gKrlc3Uny9a2A7xF62Br3RaIRqFGI1Bsdu18w2GpwSBCz5/A0TMHUBREfVXwbS5B8ME9XWAZI8fCPWselDQnIh8/ABYrrM2aGxer/uoFpI8YCcXl0tJRe/IIassP6sLyFpbCOXioVttw8wbsnbrC2rKVcbFqjx6Ac3gu7B27kFrR3rkbvMvWaDhqXQD+w3vgyptibCxxk6J1XOMmkVpRzGqZ+QXaGhV6UQn/3m3wLFphfKzIh3fwLCyCJdOtuxWzVm5E2oDBgKqi7vI51F+/FE+aYRd4kaz6axeRvW477F2662pFe7ee8C4rgbVZC6iBAGp2bULk/RtzYNWdPwV3/my4xk8FLJbfPhVdE/LhnjIDsNkQqnyCqsL5sLVpZx6stP6D4Fm4AhaPV2vFwOly+Mv2pXwqZpVsQVrfgVoLBs6dgP/QbsgLvqHbUCRLcaYja/VmOHrkfG/FxxWoXrkEakN9Apijd3+Iqd3izUa0xoearWvReO+2ubCESEIrShCyVubUmcicOE1rVxnUVMkSIL9rxYT0JQ2wpsMSYNnrd8LRq3fKVpQxk1+NTIklt5m8JiW3afL+lymx5AVcfiqKFozNYmo4hNqy/QicPR5fzkyJJe4+PhpIT0VHTr/4lB/5/BG+DcUIPXvEWPLQGWtFkbjY+2Pj3VuoXr00YaQwbbLErOVZugrWps2/D6hnyuHoM0B7HRJ7YOIVScxm8mFaLK0VYy/KAMKvX8KS1VR70Q6/fQ1faaH2HWP9EJC3YGSUhhvXtd3U5MPUyZJ3FmIwamMD/Ad2oO7KecZKFpBbUfws/OYVfKVF2icnK0kguRXFJt/X3VtS7kQYsg1T3ul/+uVf//f9f+qS8rIZi/DXZCzGIggQSjlZjEUQIJRyshiLIEAo5WQxFkGAUMrJYiyCAKGUk8VYBAFCKSeLsQgChFJOFmMRBAilnCzGIggQSjlZjEUQIJRysghY3wBOKGqzI6LiFgAAAABJRU5ErkJggg==" width="100px;" alt="mr.k"/><br /><sub><b>mr.k</b></sub></a><br /><a href="https://gitee.com/wan13877501248/y-tian-plugin/" title="美工设计">🎨</a></td>
-  </tbody>
-</table>
+<a href="https://github.com/yuanplussfive/y-tian-plugin/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=yuanplussfive/y-tian-plugin" />
+</a>
 
+![Alt](https://repobeats.axiom.co/api/embed/b0e531137448010a6b4b2e307afbd67e39c00d49.svg "Repobeats analytics image")
 ### 🚪 传送门
 
 以下是本项目的相关链接资源:
