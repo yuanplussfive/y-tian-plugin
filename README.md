@@ -391,9 +391,10 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 
 以下是本项目的相关链接资源:
 
-- 💻 同款 Demo 网页 AI 对话: [Gitee](https://gitee.com/yuanpluss/simple-free-ai)
-- 😺 喵喵版 Yunzai-Bot (V3): [Github](https://github.com/yoimiya-kokomi/Miao-Yunzai) / [Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai)
+- ☁️ 阴天插件 Yunzai-Bot 版: [Github](https://github.com/yuanplussfive/y-tian-plugin) / [Gitee](https://gitee.com/wan13877501248/y-tian-plugin)
 - ☁️ 阴天插件 Alemon-Bot 版: [Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot)
+- 😺 喵喵版 Yunzai-Bot (V3): [Github](https://github.com/yoimiya-kokomi/Miao-Yunzai) / [Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai)
+- 💻 同款 Demo 网页 AI 对话: [Gitee](https://gitee.com/yuanpluss/simple-free-ai)
 - 💻 个人 Windows 电脑一键部署: [Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win)
 
 ### 🙏 鸣谢

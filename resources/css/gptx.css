@@ -253,7 +253,6 @@ body {
 .user2 {
   background-size: 100% 100%;
   justify-content: flex-end;
-  text-align: right;
   flex-direction: column;
   align-items: center;
   max-width: 100%;
@@ -261,14 +260,27 @@ body {
   line-height: 35px;
   padding: 20px;
   border-radius: 10px;
-
 }
 
-.name {
+.user2 .name {
+  display: flex;
+  justify-content: flex-end;
   font-size: 20px;
   padding-bottom: 15px;
-
   font-family: "NZBZ";
+}
+
+.user .name {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 20px;
+  padding-bottom: 15px;
+  font-family: "NZBZ";
+}
+
+.user2 #title {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .user2 #title img {
@@ -289,6 +301,7 @@ body {
   border-radius: 15px;
   box-shadow: 3px 2px 3px #ccc;
   line-height: 35px;
+  direction: ltr; 
 }
 
 .message p {
@@ -308,6 +321,7 @@ body {
   padding-left: 30px;
   box-shadow: 3px 2px 3px #ccc;
   line-height: 35px;
+  direction: ltr; 
 }
 
 .message2 p {
