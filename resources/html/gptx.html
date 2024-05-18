@@ -7,6 +7,10 @@
     <title>gptx</title>
     <link rel="stylesheet" href="{{dz}}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </head>
 
 <body>
@@ -42,16 +46,43 @@
     </div>
 
     <script>
+        hljs.highlightAll();
 
-        const converter = new showdown.Converter();
         const markdownText = document.getElementById('renderedMarkdown').textContent;
         const maxLength = 10000;
         const chunks = splitMarkdown(markdownText, maxLength);
+
+        let converter;
+        if (markdownText.includes('$$')) {
+            converter = new showdown.Converter({
+                extensions: [
+                    function () {
+                        var htmlRenderer = new showdown.Converter().getOption('renderer');
+                        htmlRenderer.code = function (code, language) {
+                            if (language === 'latex') {
+                                return `<span>$$${code}$$</span>`;
+                            } else {
+                                return htmlRenderer.code.apply(htmlRenderer, arguments);
+                            }
+                        }
+                        return htmlRenderer;
+                    }
+                ]
+            });
+
+            const script = document.createElement('script');
+            script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML";
+            document.head.appendChild(script);
+        } else {
+            converter = new showdown.Converter();
+        }
+
         const renderedHtml = chunks.map(chunk => {
             const markdownWithClass = `<div class="markdown-content">${chunk}</div>`;
             return converter.makeHtml(markdownWithClass);
         }).join('');
         document.getElementById('renderedMarkdown').innerHTML = renderedHtml;
+
         const markdownText2 = document.getElementById('renderedMarkdown2').textContent;
         const chunks2 = splitMarkdown(markdownText2, maxLength);
         const renderedHtml2 = chunks2.map(chunk => {
@@ -60,12 +91,10 @@
         }).join('');
         document.getElementById('renderedMarkdown2').innerHTML = renderedHtml2;
 
-        const codeBlocks = document.querySelectorAll('.markdown-content pre code');
-        console.log(codeBlocks)
-        codeBlocks.forEach((codeBlock) => {
-            const language = codeBlock.className;
-            codeBlock.parentNode.setAttribute('data-language', language);
-        });
+        if (markdownText.includes('$$')) {
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+
         function splitMarkdown(markdownText, maxLength) {
             const chunks = [];
             let start = 0;
