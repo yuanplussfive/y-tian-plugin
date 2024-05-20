@@ -23,7 +23,6 @@ body {
   margin: 0 auto;
   color: #8d3acc;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
-  white-space: pre-wrap;
   word-break: break-all;
   overflow-x: auto;
 }
@@ -218,7 +217,6 @@ body {
   justify-content: space-evenly;
   margin-left: 10px;
   margin-right: 10px;
-  font-family: "jty";
   font-size: 40px;
   background-color: rgba(113, 156, 241, 0.9);
   border-radius: 30px;
@@ -235,7 +233,6 @@ body {
   border-bottom: 2px solid #ccc;
   padding: 20px;
   border-radius: 10px;
-  font-family: "jty";
   font-size: 35px;
 }
 

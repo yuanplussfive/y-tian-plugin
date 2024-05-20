@@ -31,15 +31,15 @@ export const other_models = [
   },
   {
     "id":6,
-    "model": "gpt-4-bing",
-    "points": "OpenAi & Microsoft",
+    "model": "coze-gpt-4-all",
+    "points": "Microsoft",
     "token": 32768
-  },  
+  },
   {
     "id":7,
-    "model": "gpt-4-bing-turbo",
-    "points": "OpenAi & Microsoft",
-    "token": 131072
+    "model": "gpt-4-o",
+    "points": "openai",
+    "token": 8000
   },
   {
     "id":8,
@@ -73,104 +73,140 @@ export const other_models = [
   },
   {
     "id":13,
+    "model": "claude-3-opus",
+    "points": "Claude",
+    "token": 200000
+  },
+  {
+    "id":14,
     "model": "gemini-pro",
+    "points": "Google",
+    "token": 32000
+  },
+  {
+    "id":15,
+    "model": "gemini-1.5-pro-latest",
+    "points": "Google",
+    "token": 32000
+  },
+  {
+    "id":16,
+    "model": "gemini-1.5-flash-latest",
+    "points": "Google",
+    "token": 32000
+  },
+  {
+    "id":17,
+    "model": "gemma-7b-it",
     "points": "Google",
     "token": 8000
   },
   {
-    "id":14,
+    "id":18,
+    "model": "reka-flash",
+    "points": "Google",
+    "token": 12000
+  },
+  {
+    "id":19,
     "model": "chatglm-turbo",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":15,
+    "id":20,
     "model": "chatglm-pro",
     "points": "清华&智谱",
     "token": 8000
   },
   {
-    "id":16,
+    "id":21,
     "model": "chatglm-4",
     "points": "清华&智谱",
-    "token": 130000
-  },
-  {
-    "id":17,
-    "model": "moonshot-v1-128k",
-    "points": "moonshot",
     "token": 128000
   },
   {
-    "id":18,
+    "id":22,
+    "model": "qwen-72b",
+    "points": "通义千问",
+    "token": 32000
+  },
+  {
+    "id":23,
+    "model": "command-r",
+    "points": "google",
+    "token": 32000
+  },
+  {
+    "id":24,
     "model": "mistral-7b",
     "points": "mistral",
     "token": 7000
   },
   {
-    "id":19,
+    "id":25,
     "model": "mixtral-8x7b",
     "points": "mixtral",
     "token": 7000
   },
   {
-    "id":20,
+    "id":26,
     "model": "pplx-70b-online",
     "points": "pplx",
-    "token": 70000
+    "token": 32000
   },
   {
-    "id":21,
+    "id":27,
     "model": "dolphin-mixtral-8x7b",
     "points": "mixtral",
-    "token": 4096
+    "token": 8000
   },
   {
-    "id":22,
+    "id":28,
     "model": "deepseek-chat",
     "points": "deepseek",
-    "token": 4096
+    "token": 32000
   },
   {
-    "id":23,
-    "model": "deepseek-coder",
+    "id":29,
+    "model": "deepseek-code",
     "points": "deepseek",
-    "token": 4096
+    "token": 16000
   },
   {
-    "id":24,
+    "id":30,
     "model": "airoboros-70b",
     "points": "airoboros",
     "token": 70000
   },
   {
-    "id":25,
+    "id":31,
     "model": "airoboros-2-70b",
     "points": "airoboros",
-    "token": 70000
+    "token": 8000
   },
   {
-    "id":26,
+    "id":32,
     "model": "falcon-180b",
     "points": "falcon",
-    "token": 180000
+    "token": 32000
   },
   {
-    "id":27,
+    "id":33,
     "model": "llama-2-70b-chat",
     "points": "meta",
-    "token": 70000
+    "token": 32000
   },
   {
-    "id":28,
+    "id":34,
     "model": "code-llama-70b",
     "points": "meta",
-    "token": 70000
+    "token": 32000
   },
   {
-    "id":29,
+    "id":35,
     "model": "llava-13b",
     "points": "llava",
-    "token": 13000
+    "token": 8000
   }
 ]
