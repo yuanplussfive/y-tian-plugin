@@ -353,10 +353,12 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       //console.log(Messages)
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
-      if (styles == "picture" || urls.length !== 0) {
+      if (styles == "picture") {
         let forwardMsg = [Messages]
         const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
         e.reply(JsonPart)
+      }
+      if (styles == "picture" && urls.length !== 0) {
         let uniqueUrls = [...new Set(urls)];
         if (uniqueUrls.length > 1) {
           const duplicateIndex = uniqueUrls.findIndex(url => url.includes('download'));
@@ -477,9 +479,11 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 }
 
 async function FreeChat40Functions(History) {
-  const url = "https://y-tian-plugin.top:8080/api/v1/freechat4/completions";
+  let historys = await processArray(History, 3)
+  historys = await reduceConsecutiveRoles(historys)
+  const url = "https://y-tian-plugin.top:8080/v1/gpt4o/completions";
   const body = {
-    messages: History
+    messages: historys
   };
   const options = {
     "method": "POST",

@@ -387,24 +387,26 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 }
 
 async function FreeChat40Functions(History) {
-  const url = "https://y-tian-plugin.top:8080/api/v1/freechat4/completions";
-  const body = {
-    messages: History
-  };
-  const options = {
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "body": JSON.stringify(body)
-  };
-  try {
-    const response = await fetch(url, options);
-    return await response.text()
-  } catch {
-    return null
+    let historys = await processArray(History, 3)
+    historys = await reduceConsecutiveRoles(historys)
+    const url = "https://y-tian-plugin.top:8080/v1/gpt4o/completions";
+    const body = {
+      messages: historys
+    };
+    const options = {
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": JSON.stringify(body)
+    };
+    try {
+      const response = await fetch(url, options);
+      return await response.text()
+    } catch {
+      return null
+    }
   }
-}
 
 async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
   let response;
