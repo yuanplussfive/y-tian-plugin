@@ -206,56 +206,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     try {
       let answer;
       console.log(history)
-      function reduceConsecutiveRoles(array) {
-        const result = [];
-        let consecutiveUserItems = [];
-        let lastSystemItem = null;
-        if (array.length > 0 && array[0].role === 'assistant') {
-          array = array.slice(1);
-        }
-
-        for (const item of array) {
-          if (item.role === 'user') {
-            if (Array.isArray(item.content)) {
-              if (consecutiveUserItems.length > 0) {
-                result.push({
-                  role: 'user',
-                  content: consecutiveUserItems.join('\n')
-                });
-                consecutiveUserItems = [];
-              }
-              result.push(item);
-            } else {
-              consecutiveUserItems.push(item.content);
-            }
-          } else if (item.role === 'system') {
-            lastSystemItem = item;
-          } else {
-            if (consecutiveUserItems.length > 0) {
-              result.push({
-                role: 'user',
-                content: consecutiveUserItems.join('\n')
-              });
-              consecutiveUserItems = [];
-            }
-            result.push(item);
-          }
-        }
-
-        if (consecutiveUserItems.length > 0) {
-          result.push({
-            role: 'user',
-            content: consecutiveUserItems.join('\n')
-          });
-        }
-        if (lastSystemItem !== null) {
-          result.unshift(lastSystemItem);
-        }
-
-        return result;
-      }
-
-      let History = reduceConsecutiveRoles(history)
+      let History = await reduceConsecutiveRoles(history)
       console.log(History)
       async function downloadImage(url, e, filePath) {
         const fileExtension = path.extname(url).toLowerCase();
@@ -302,31 +253,47 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         search = false
       }
       try {
-        const response = await fetch(apiurl, {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${Apikey}`,
-          },
-          body: JSON.stringify({
-            model: model,
-            messages: History,
-            search: search,
+        const response = await Promise.race([
+          fetch(apiurl, {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${Apikey}`,
+            },
+            body: JSON.stringify({
+              model: model,
+              messages: History,
+              search: search,
+            }),
           }),
-        });
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Timeout')), 60000)
+          ),
+        ]);
+      
         let response_json = await response.json();
         console.log(response_json)
         answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
-      } catch {
-        answer = null;
+      } catch (error) {
+        if (error.message === 'Timeout') {
+          answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
+            : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
+              : model.includes("gpt-4") ? await FreeChat40Functions(History)
+                : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
+                  : null;
+        } else {
+          answer = null;
+        }
       }
+      
       if (!answer) {
         answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
           : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
             : model.includes("gpt-4") ? await FreeChat40Functions(History)
               : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
-                : answer;
+                : null;
       }
+      
       answer = answer.replace(/Content\s*is\s*blocked/g, "  ").trim();
       console.log(answer + "\n---------")
       history.push({
@@ -593,6 +560,56 @@ async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
   } catch (error) {
     console.error(`失败了: ${url}: ${error}`);
   }
+}
+
+async function reduceConsecutiveRoles(array) {
+  const result = [];
+  let consecutiveUserItems = [];
+  let lastSystemItem = null;
+  if (array.length > 0 && array[0].role === 'assistant') {
+    array = array.slice(1);
+  }
+
+  for (const item of array) {
+    if (item.role === 'user') {
+      if (Array.isArray(item.content)) {
+        if (consecutiveUserItems.length > 0) {
+          result.push({
+            role: 'user',
+            content: consecutiveUserItems.join('\n')
+          });
+          consecutiveUserItems = [];
+        }
+        result.push(item);
+      } else {
+        consecutiveUserItems.push(item.content);
+      }
+    } else if (item.role === 'system') {
+      lastSystemItem = item;
+    } else {
+      if (consecutiveUserItems.length > 0) {
+        result.push({
+          role: 'user',
+          content: consecutiveUserItems.join('\n')
+        });
+        consecutiveUserItems = [];
+      }
+      result.push(item);
+    }
+  }
+
+  if (consecutiveUserItems.length > 0) {
+    result.push({
+      role: 'user',
+      content: consecutiveUserItems.join('\n')
+    });
+  }
+
+  if (lastSystemItem !== null) {
+    result.unshift(lastSystemItem);
+  }
+
+  return result;
 }
 
 async function extractImageLinks2(answer) {
