@@ -479,7 +479,16 @@ export const god_models = [
     {
         "id": 54,
         "model": "gpt-4o",
-        "created": 1686935002,
+        "created": 1786435092,
+        "token": 32000,
+        "points": 500,
+        "style": "once",
+        "owned_by": "y-tian-plugin"
+    },
+    {
+        "id": 55,
+        "model": "gpt-4o-all",
+        "created": 1786435092,
         "token": 32000,
         "points": 500,
         "style": "once",

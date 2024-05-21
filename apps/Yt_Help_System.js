@@ -1,5 +1,4 @@
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
-import fetch from "node-fetch"
 const _path = process.cwd()
 import fs from 'fs'
 let src = _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
@@ -14,7 +13,7 @@ export class example extends plugin {
       name: '阴天[分类帮助]',
       dsc: '',
       event: 'message',
-      priority: 0,
+      priority: 1,
       rule: [
         {
           reg: "^(/|#)?阴天(帮助|help)$",
@@ -47,14 +46,6 @@ export class example extends plugin {
         {
           reg: "^(/|#)?(ai|AI|Ai)专业版帮助$",
           fnc: 'chatgpt'
-        },
-        {
-          reg: "^(/|#)?chat模型大全$",
-          fnc: "professor"
-        },
-        {
-          reg: "^(/|#)god模型大全$",
-          fnc: "godgpt"
         },
         {
           reg: "^(/|#)附加模型大全$",
@@ -133,11 +124,6 @@ async ChineseAI(e){
 
 async vision(e){
     const img = await screen(10, puppeteer)
-    e.reply(img)
-}
-
-async godgpt(e){
-    const img = await screen(9, puppeteer)
     e.reply(img)
 }
 

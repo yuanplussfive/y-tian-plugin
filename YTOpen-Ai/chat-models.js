@@ -321,7 +321,13 @@ export const chat_models = {
     {
       "id": "54",
       "name": "gpt-4o",
-      "token_count": "128000",  
+      "token_count": "32000",  
+      "Magnification": 2.5
+    },
+    {
+      "id": "55",
+      "name": "gpt-4o-all",
+      "token_count": "32000",  
       "Magnification": 2.5
     }
   ]

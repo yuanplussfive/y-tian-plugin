@@ -49,7 +49,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   ];
   await e.reply(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)], true, { recallMsg: 6 });
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
-    if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
+    if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
       if (!imgurl || !imgurl.startsWith("https://filesystem.site")) {
 
       }
@@ -249,7 +249,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         }
       }
 
-      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gpt-4o") {
+      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gpt-4o" || model == "gpt-4o-all") {
         search = false
       }
       try {
@@ -301,7 +301,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         "content": answer
       });
       let Messages = answer
-      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o"];
+      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
       if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
         const result = await extractDescription(answer);
@@ -358,7 +358,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           downloadImage(url, e, path);
         })
       }
-      if (model == "gpt-4-all" || model == "gpt-4o") {
+      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
 
