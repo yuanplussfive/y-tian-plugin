@@ -14,7 +14,7 @@ export class example extends plugin {
       name: '阴天[分类帮助]',
       dsc: '',
       event: 'message',
-      priority: 1,
+      priority: 0,
       rule: [
         {
           reg: "^(/|#)?阴天(帮助|help)$",
@@ -49,7 +49,7 @@ export class example extends plugin {
           fnc: 'chatgpt'
         },
         {
-          reg: "^#chat模型大全$",
+          reg: "^(/|#)?chat模型大全$",
           fnc: "professor"
         },
         {
