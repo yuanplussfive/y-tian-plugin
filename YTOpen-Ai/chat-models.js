@@ -230,25 +230,25 @@ export const chat_models = {
     },
     {
       "id": "39",
-      "name": "sonar-small-online",
+      "name": "llama-3-sonar-small-online",
       "token_count": "8000",
       "Magnification": 1
     },
     {
       "id": "40",
-      "name": "sonar-medium-online",
+      "name": "llama-3-sonar-medium-online",
       "token_count": "32000",
       "Magnification": 1
     },
     {
       "id": "41",
-      "name": "sonar-small-chat",
+      "name": "llama-3-sonar-small-chat",
       "token_count": "8000",
       "Magnification": 1
     },
     {
       "id": "42",
-      "name": "sonar-medium-chat",
+      "name": "llama-3-sonar-medium-chat",
       "token_count": "32000",
       "Magnification": 1
     },
