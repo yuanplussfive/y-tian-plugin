@@ -1,41 +1,108 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>对话样式示例</title>
+    <title>gptx</title>
     <link rel="stylesheet" href="{{dz}}">
-    <script src="https://cdn.jsdelivr.net/npm/showdown@2.1.0/dist/showdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </head>
+
 <body>
     <div class="container">
+        <div class="header">
+            <div
+                style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <i class="fas fa-robot" style="font-size: 2rem; color: #007bff; margin-right: 0.5rem;"></i>
+                <h1 style="margin: 0;">当前模型：<span
+                        style="font-family: 'Courier New', Courier, monospace; background: linear-gradient(to right, #007bff, #6610f2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{model}}</span>
+                </h1>
+            </div>
+            <div class="header-bar"></div>
+        </div>
         <div class="user2">
-            <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id1}}&spec=640&img_type=jpg" alt="User 2 Avatar">
+            <div id="title">
+                <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id1}}&spec=640&img_type=jpg" alt="User 2 Avatar">
+            </div>
             <div class="name">{{name}}</div>
             <div class="message">
-                <div id="user2-message"></div>
+                <div id="renderedMarkdown">{{MSG}}</div>
             </div>
         </div>
         <div class="user">
-            <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id2}}&spec=640&img_type=jpg" alt="User 1 Avatar">
+            <div id="title">
+                <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id2}}&spec=640&img_type=jpg" alt="User 1 Avatar">
+            </div>
             <div class="name">{{name1}}</div>
             <div class="message2">
-                <div id="user1-message"></div>
+                <div id="renderedMarkdown2">{{CONTENT}}</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Assuming you have the processedMessages variable containing the Markdown text
-        const converter = new showdown.Converter();
-        const markdownText = processedMessages;
-        const markdownWithClass = `<div class="markdown-content">${markdownText}</div>`;
-        const renderedHtml = converter.makeHtml(markdownWithClass);
+        hljs.highlightAll();
 
-        // Update the user2-message div with the rendered HTML
-        document.getElementById("user2-message").innerHTML = renderedHtml;
+        const markdownText = document.getElementById('renderedMarkdown').textContent;
+        const maxLength = 10000;
+        const chunks = splitMarkdown(markdownText, maxLength);
 
-        // Update the user1-message div with the desired content
-        document.getElementById("user1-message").innerHTML = "Content";
+        let converter;
+        converter = new showdown.Converter({
+            extensions: [
+                function () {
+                    var htmlRenderer = new showdown.Converter().getOption('renderer');
+                    htmlRenderer.code = function (code, language) {
+                        if (language === 'latex') {
+                            return `<span>$$${code}$$</span>`;
+                        } else {
+                            const latexRegex = /\$(.*?)\$/g;
+                            code = code.replace(latexRegex, (match, p1) => `<span>$$${p1}$$</span>`);
+                            return htmlRenderer.code.apply(htmlRenderer, arguments);
+                        }
+                    }
+                    return htmlRenderer;
+                }
+            ]
+        });
+
+        const script = document.createElement('script');
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML";
+        document.head.appendChild(script);
+
+        const renderedHtml = chunks.map(chunk => {
+            const markdownWithClass = `<div class="markdown-content">${chunk}</div>`;
+            return converter.makeHtml(markdownWithClass);
+        }).join('');
+        document.getElementById('renderedMarkdown').innerHTML = renderedHtml;
+
+        const markdownText2 = document.getElementById('renderedMarkdown2').textContent;
+        const chunks2 = splitMarkdown(markdownText2, maxLength);
+        const renderedHtml2 = chunks2.map(chunk => {
+            const markdownWithClass2 = `<div class="markdown-content">${chunk}</div>`;
+            return converter.makeHtml(markdownWithClass2);
+        }).join('');
+        document.getElementById('renderedMarkdown2').innerHTML = renderedHtml2;
+
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+
+        function splitMarkdown(markdownText, maxLength) {
+            const chunks = [];
+            let start = 0;
+            while (start < markdownText.length) {
+                const end = start + maxLength;
+                const chunk = markdownText.slice(start, end);
+                chunks.push(chunk);
+                start = end;
+            }
+            return chunks;
+        }
     </script>
 </body>
+
 </html>

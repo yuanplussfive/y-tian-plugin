@@ -73,6 +73,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ gpt-4-turbo-preview
 &nbsp;&nbsp;✨ gpt-4o
 &nbsp;&nbsp;✨ gpt-4o-0513
+&nbsp;&nbsp;✨ gpt-4o-all
 &nbsp;&nbsp;✨ gpt-4o-plus
 &nbsp;&nbsp;✨ gpt-4-all
 &nbsp;&nbsp;✨ gpt-4-plugins
@@ -92,6 +93,8 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ google-bard
 &nbsp;&nbsp;✨ gemini-pro
 &nbsp;&nbsp;✨ gemini-pro-vision
+&nbsp;&nbsp;✨ gemini-1.5-pro-latest
+&nbsp;&nbsp;✨ gemini-1.5-flash-latest
 &nbsp;&nbsp;✨ gemma-2b-it
 &nbsp;&nbsp;✨ gemma-7b-it
 <br>
@@ -122,10 +125,11 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 🔹 <b>mixtral</b>
 &nbsp;&nbsp;✨ mixtral-8x7b
 &nbsp;&nbsp;✨ mixtral-8x22b
+&nbsp;&nbsp;✨ mixtral-medium
 &nbsp;&nbsp;✨ mistral-34b
 &nbsp;&nbsp;✨ mistral-7b-instruct
 <br>
-🔹 <b>360</b>
+🔹 <b>360智脑</b>
 &nbsp;&nbsp;✨ 360-ai
 &nbsp;&nbsp;✨ 360-search
 <br>
@@ -137,31 +141,50 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ qwen-72b
 &nbsp;&nbsp;✨ qwen-alltools
 <br>
-🔹 <b>moonshot</b>
-&nbsp;&nbsp;✨ moonshot-128k
+🔹 <b>月之暗面</b>
+&nbsp;&nbsp;✨ moonshot-v1-128k
 &nbsp;&nbsp;✨ moonshot-alltools
 <br>
-🔹 <b>微软</b>
+🔹 <b>Microsoft</b>
 &nbsp;&nbsp;✨ github-copilot
 &nbsp;&nbsp;✨ windows-copilot
+&nbsp;&nbsp;✨ Bing-Balanced
+&nbsp;&nbsp;✨ Bing-Practice
+&nbsp;&nbsp;✨ Bing-Creative
+&nbsp;&nbsp;✨ Bing-gpt-4-turbo
 <br>
 🔹 <b>百度</b>
 &nbsp;&nbsp;✨ wenxing-3.5
 &nbsp;&nbsp;✨ baidu-search
 <br>
-🔹 <b>讯飞</b>
-&nbsp;&nbsp;✨ xinghuo-v1/2/3
-&nbsp;&nbsp;✨ xinghuo-alltools
+🔹 <b>讯飞星火</b>
+&nbsp;&nbsp;✨ spark-desk-v1.5
+&nbsp;&nbsp;✨ spark-desk-v2.0
+&nbsp;&nbsp;✨ spark-desk-v3.0
+&nbsp;&nbsp;✨ spark-desk-v3.5
+&nbsp;&nbsp;✨ spark-desk-alltools
 <br>
 🔹 <b>深度求索</b>
 &nbsp;&nbsp;✨ deepseek-chat
 &nbsp;&nbsp;✨ deepseek-code
 <br>
-🔹 <b>其他</b>
-&nbsp;&nbsp;✨ webgpt
+🔹 <b>零一万物</b>
 &nbsp;&nbsp;✨ yi-34b
-&nbsp;&nbsp;✨ mj-chat
+&nbsp;&nbsp;✨ yi-34b-chat-200k
+<br>
+🔹 <b>百川智能</b>
+&nbsp;&nbsp;✨ baichuan-v3-53b
 &nbsp;&nbsp;✨ baichuan-v3-alltools
+<br>
+🔹 <b>其他模型</b>
+&nbsp;&nbsp;✨ webgpt
+&nbsp;&nbsp;✨ mj-chat
+&nbsp;&nbsp;✨ coze-gpt-4-all
+&nbsp;&nbsp;✨ reka-flash
+&nbsp;&nbsp;✨ command-r
+&nbsp;&nbsp;✨ Atom-13B-Chat
+&nbsp;&nbsp;✨ Minimax-hailuo
+&nbsp;&nbsp;✨ step-1-200k
 
 </details>
 

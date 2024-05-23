@@ -8,16 +8,20 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 e.reply(answer);
                 break;
             case "picture":
-                let content = answer
+                let tplFile = _path + "/plugins/y-tian-plugin/resources/html/gptx.html"
+                const styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.pictureStyles
+                if (styles) {
+                    tplFile = _path + "/plugins/y-tian-plugin/resources/html/gptx2.html"
+                }
                 let data = {
-                    tplFile: _path + "/plugins/y-tian-plugin/resources/html/gptx.html",
+                    tplFile: tplFile,
                     dz: `${_path}/plugins/y-tian-plugin/resources/css/gptx.css`,
                     showdown: `${_path}/plugins/y-tian-plugin/resources/js/showdown.js`,
                     highlight: `${_path}/plugins/y-tian-plugin/resources/js/highlight.js`,
                     MathJax: `${_path}/plugins/y-tian-plugin/resources/js/MathJax.js`,
                     atom: `${_path}/plugins/y-tian-plugin/resources/css/atom.css`,
                     MSG: msg,
-                    CONTENT: content,
+                    CONTENT: answer,
                     model: model,
                     id2: Bot.uin,
                     id1: e.user_id,
