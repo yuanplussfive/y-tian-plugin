@@ -5,81 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>菜单</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom right, #2c3e50, #34495e, #7f8c8d);
-      color: #fff;
-      margin: 0;
-      padding: 0;
-    }
+   /* 引入新的字体,增加科技感 */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 
-    .content-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px;
-    }
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
+  color: #d9d9d9;
+  margin: 0;
+  padding: 0;
+}
 
-    .main-title {
-      text-align: center;
-      font-size: 36px;
-      margin-bottom: 40px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 10px 20px;
-      border-radius: 30px;
-      position: relative;
-    }
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
 
-    .main-title::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 30px;
-      background-color: rgba(255, 255, 255, 0.1);
-      z-index: -1;
-      transform: scale(1.1);
-    }
+.main-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 40px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 30px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
 
-    .section {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 40px;
-    }
+.section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  align-items: center;
+}
 
-    .section-title {
-      display: flex;
-      align-items: center;
-      font-size: 24px;
-      margin-right: 20px;
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 10px 20px;
-      border-radius: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      position: relative;
-    }
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  margin-right: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
 
-    .section-title::before {
-      content: "●";
-      font-size: 18px;
-      margin-right: 10px;
-      color: #9b59b6;
-      background-color: #fff;
-      border-radius: 50%;
-      padding: 5px;
-    }
+.section-title::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: #9b59b6;
+  border-radius: 50%;
+  margin-right: 10px;
+  box-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+}
 
-    .section-content {
-      font-size: 18px;
-      line-height: 1.5;
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-      flex: 1;
-    }
+.section-content {
+  font-size: 18px;
+  line-height: 1.5;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  flex: 1;
+}
   </style>
 </head>
 <body>
@@ -129,6 +121,11 @@
     <div class="section">
       <div class="section-title">零一万物</div>
       <div class="section-content">① #yi+问题,进行问答,例如:#yi你好<br>② #结束yi对话</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">腾讯混元</div>
+      <div class="section-content">① #混元+问题,进行问答,例如:#混元你好<br>② #结束混元对话</div>
     </div>
 
     <div class="section">

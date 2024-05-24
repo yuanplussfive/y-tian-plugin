@@ -24,6 +24,17 @@
 
 </div>
 
+## ☁️ 插件简介
+
+Y-Tian-Plugin 是一款集成多种功能的 Yunzai-Bot V3 插件包，旨在通过集成多种 AI 模型与娱乐功能，使机器人更加多功能化。它包含以下主要功能：
+
+1. **AI 模型支持**：<br>
+集成了如 ChatGPT、ChatGLM、Gemini、Stable Diffusion、Midjourney 等多种主流 AI 模型，支持文本生成、绘图、语音合成等功能。
+2. **多功能集成**：<br>
+包括AI、娱乐、游戏等多种功能，提供丰富的命令帮助，用户能够方便地调用各种功能。
+3. **免费与高级功能**：<br>
+提供多种免费 AI 模型，同时也有高级功能可供赞助用户提前体验。
+
 ## 📦 安装教程
 
 在 Yunzai-Bot 根目录下，运行 cmd/git，输入以下指令:
@@ -153,9 +164,11 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ Bing-Creative
 &nbsp;&nbsp;✨ Bing-gpt-4-turbo
 <br>
-🔹 <b>百度</b>
-&nbsp;&nbsp;✨ wenxing-3.5
+🔹 <b>百度千帆</b>
 &nbsp;&nbsp;✨ baidu-search
+&nbsp;&nbsp;✨ ERNIE-Bot-lite
+&nbsp;&nbsp;✨ ERNIE-Bot-3.5
+&nbsp;&nbsp;✨ ERNIE-Bot-4.0
 <br>
 🔹 <b>讯飞星火</b>
 &nbsp;&nbsp;✨ spark-desk-v1.5
@@ -422,6 +435,9 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 
 ### 🙏 鸣谢
 
-在此,我们向所有为本项目做出贡献的个人和组织以及爱发电赞助成员表示衷心的感谢!
+在此,我们向所有为本项目做出贡献的个人和组织以及爱发电赞助成员表示衷心的感谢!如有任何问题或反馈,欢迎通过以下方式联系我们:
+
+- 邮箱: email@yuanoop.com
+- 交流群: **[插件交流群](https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=9-rRV1zBm0H3Es3V32FXSIJdR7v4hEjY&authKey=VvpBHKV%2FnjOxT0fPSagpTCIyJ91vNgvyc0CIt40%2BY1Q2kT%2BnUKjzLjbMtRVTh%2BqW&noverify=0&group_code=756783127)**
 
 > 📢 **严禁将本项目用于任何商业用途和非法行为!**

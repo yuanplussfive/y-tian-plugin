@@ -169,8 +169,8 @@ export const other_models = [
   },
   {
     "id":29,
-    "model": "Minimax-hailuo",
-    "points": "Minimax",
+    "model": "hunyuan",
+    "points": "腾讯混元",
     "token": 32000
   },
   {
@@ -187,8 +187,8 @@ export const other_models = [
   },
   {
     "id":32,
-    "model": "step-1-200k",
-    "points": "什么星辰来着，写完忘看了",
+    "model": "ERNIE-Bot-4",
+    "points": "百度千帆",
     "token": 2000000
   },
   {
