@@ -335,6 +335,18 @@ export const chat_models = {
       "name": "llama-3-70b",
       "token_count": "32000",  
       "Magnification": 2
+    },
+    {
+      "id": "57",
+      "name": "suno-v3",
+      "token_count": "2000",  
+      "Magnification": '固定0.4$'
+    },
+    {
+      "id": "58",
+      "name": "suno-v3.5",
+      "token_count": "2000",  
+      "Magnification": '固定0.4$'
     }
   ]
 }

@@ -29,7 +29,7 @@
 Y-Tian-Plugin 是一款集成多种功能的 Yunzai-Bot V3 插件包，旨在通过集成多种 AI 模型与娱乐功能，使机器人更加多功能化。它包含以下主要功能：
 
 1. **AI 模型支持**：<br>
-集成了如 ChatGPT、ChatGLM、Gemini、Stable Diffusion、Midjourney 等多种主流 AI 模型，支持文本生成、绘图、语音合成等功能。
+集成了如 ChatGPT、Anthropic、ChatGLM、Gemini、Stable Diffusion、Midjourney、Suno、Pika 等多种主流 AI 模型，支持文本生成、绘图、语音合成、作曲等功能。
 2. **多功能集成**：<br>
 包括AI、娱乐、游戏等多种功能，提供丰富的命令帮助，用户能够方便地调用各种功能。
 3. **免费与高级功能**：<br>
