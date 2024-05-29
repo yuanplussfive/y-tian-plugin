@@ -346,5 +346,41 @@ export const other_models = [
     "model": "spark-desk-v3.5",
     "points": "讯飞星火",
     "token": 128000
+  },
+  {
+    "id":59,
+    "model": "doubao",
+    "points": "字节跳动",
+    "token": 32000
+  },
+  {
+    "id":60,
+    "model": "doubao-all",
+    "points": "字节跳动",
+    "token": 32000
+  },
+  {
+    "id":61,
+    "model": "coze-assistent-all",
+    "points": "字节跳动",
+    "token": 32000
+  },
+  {
+    "id":62,
+    "model": "wbot-2",
+    "points": "wbot",
+    "token": 12000
+  },
+  {
+    "id":63,
+    "model": "wbot-2-friend",
+    "points": "wbot",
+    "token": 12000
+  },
+  {
+    "id":64,
+    "model": "wbot-2-online",
+    "points": "wbot",
+    "token": 10000
   }
 ]
