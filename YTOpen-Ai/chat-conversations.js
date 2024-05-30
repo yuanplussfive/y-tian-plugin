@@ -1,4 +1,4 @@
-async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, Anime_tts, Apikey, imgurl, https, crypto) {
+async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { model, search } = chatgptConfig;
   let msg = await formatMessage(e.msg);
@@ -345,7 +345,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
       if (aiSettings.chatgpt.ai_tts_open) {
-        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, Messages);
+        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, Messages, WebSocket, _path, fs);
       }
       if (model == "gpt-4-dalle") {
         let result = await extractImageLinks2(answer)
@@ -428,20 +428,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 
   async function saveUserHistory(userId, history) {
     fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");
-  }
-
-  async function handleTTS(e, speakers, answer) {
-    try {
-      let record_url = await Anime_tts(speakers, answer);
-      let record_response = await fetch(record_url);
-      if (record_response.ok) {
-        e.reply(segment.record(record_url));
-      } else {
-        e.reply("tts合成失败,可能句子过长");
-      }
-    } catch (error) {
-      e.reply("tts服务通讯失败,请稍候重试");
-    }
   }
 }
 

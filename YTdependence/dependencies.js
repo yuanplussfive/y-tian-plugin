@@ -19,8 +19,9 @@ import WebSocket from "../node_modules/ws/index.js"
 import FormData from "../node_modules/form-data/lib/form_data.js"
 import cheerio from '../node_modules/cheerio/lib/index.js'
 import axios from "../node_modules/axios/index.js"
-import { Anime_tts } from "../model/Anime_tts.js"
+import { handleTTS } from "../model/Anime_tts.js"
 import { Anime_tts_roles } from "../model/Anime_tts_roles.js"
+import { tts_roles } from "../model/Anime_roles.js"
 import { other_models } from "../YTOpen-Ai/other-models.js"
 import { god_models } from "../YTOpen-Ai/god-models.js"
 import { sess_models } from "../YTOpen-Ai/sess-models.js"
@@ -40,7 +41,6 @@ import { FreeGemini_2 } from '../utils/FreeGemini/Gemini_2.js';
 import { FreeGemini_3 } from '../utils/FreeGemini/Gemini_3.js';
 import { FreeClaude_1 } from '../utils/FreeClaude/Claude_1.js';
 
-
 export const dependencies = {
   fs,
   os,
@@ -58,6 +58,7 @@ export const dependencies = {
   request,
   moment,
   common,
+  tts_roles,
   FormData,
   puppeteer,
   WebSocket,
@@ -76,7 +77,7 @@ export const dependencies = {
   god_conversation,
   isPluginCommand,
   replyBasedOnStyle,
-  AnimeTTS: Anime_tts,
+  handleTTS,
   handleSystemCommand,
   GodModels: god_models,
   SessModels: sess_models,

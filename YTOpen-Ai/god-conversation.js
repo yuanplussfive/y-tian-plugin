@@ -1,4 +1,4 @@
-async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, AnimeTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl) {
+async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { search } = chatgptConfig;
   const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
@@ -250,9 +250,8 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
-      let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
       if (aiSettings.chatgpt.ai_tts_open) {
-        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer);
+        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer, WebSocket, _path, fs);
       }
       if (model == "gpt-4-dalle") {
         let result = await extractImageLinks2(answer)
@@ -353,12 +352,10 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 }
 
 async function FreeChat40Functions(History) {
-    let historys = await processArray(History, 3)
-    historys = await reduceConsecutiveRoles(historys)
-    const url = "https://y-tian-plugin.top:8080/v1/gpt4o/completions";
-    const body = {
-      messages: historys
-    };
+  const url = "https://y-tian-plugin.top:8080/api/v1/freechat4/completions";
+  const body = {
+    messages: History
+  };
     const options = {
       "method": "POST",
       "headers": {
