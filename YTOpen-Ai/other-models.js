@@ -49,32 +49,32 @@ export const other_models = [
   },
   {
     "id":9,
-    "model": "gpt-3.5-turbo-online",
-    "points": "OpenAi",
-    "token": 16384
-  },
-  {
-    "id":10,
     "model": "gpt-4",
     "points": "OpenAi",
     "token": 8192
   },
   {
-    "id":11,
+    "id":10,
     "model": "gpt-4-32k",
     "points": "OpenAi",
     "token": 32000
   },
   {
-    "id":12,
+    "id":11,
     "model": "gpt-4-turbo",
     "points": "OpenAi",
     "token": 128000
   },  
   {
-    "id":13,
+    "id":12,
     "model": "gpt-4-1106-preview",
     "points": "OpenAi & Microsoft",
+    "token": 131072
+  },  
+  {
+    "id":13,
+    "model": "gpt-4-0125-preview",
+    "points": "OpenAi",
     "token": 131072
   },
   {
@@ -86,7 +86,7 @@ export const other_models = [
   {
     "id":15,
     "model": "coze-gpt-4-all",
-    "points": "Microsoft",
+    "points": "Microsoft && 字节跳动",
     "token": 32768
   },
   {
@@ -175,7 +175,7 @@ export const other_models = [
   },
   {
     "id":30,
-    "model": "gemma-7b-it",
+    "model": "gemma-8b-it",
     "points": "Google",
     "token": 8000
   },
@@ -382,5 +382,71 @@ export const other_models = [
     "model": "wbot-2-online",
     "points": "wbot",
     "token": 10000
+  },
+  {
+    "id":65,
+    "model": "llama-3-8b",
+    "points": "Meta",
+    "token": 32000
+  },
+  {
+    "id":66,
+    "model": "llama-3-70b",
+    "points": "Meta",
+    "token": 32000
+  },
+  {
+    "id":67,
+    "model": "llama-3-sonar-small-32k-online",
+    "points": "Meta",
+    "token": 32000
+  },
+  {
+    "id":68,
+    "model": "llama-3-sonar-small-32k-chat",
+    "points": "Meta",
+    "token": 32000
+  },
+  {
+    "id":69,
+    "model": "llama-3-sonar-large-32k-online",
+    "points": "Meta",
+    "token": 32000
+  },
+  {
+    "id":70,
+    "model": "llama-3-sonar-large-32k-chat",
+    "points": "Meta",
+    "token": 32000
+  },
+  {
+    "id":71,
+    "model": "mixtral-8x7b-instruct",
+    "points": "mixtral",
+    "token": 32000
+  },
+  {
+    "id":72,
+    "model": "mixtral-8x22b",
+    "points": "mixtral",
+    "token": 32000
+  },
+  {
+    "id":73,
+    "model": "gemma-2b-it",
+    "points": "google",
+    "token": 32000
+  },
+  {
+    "id":74,
+    "model": "gemma-7b-it",
+    "points": "google",
+    "token": 32000
+  },
+  {
+    "id":75,
+    "model": "anime-search",
+    "points": "y-tian-plugin",
+    "token": 800
   }
 ]
