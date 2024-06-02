@@ -270,7 +270,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
             setTimeout(() => reject(new Error('Timeout')), 150000)
           ),
         ]);
-      
+
         let response_json = await response.json();
         console.log(response_json)
         answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
@@ -285,13 +285,34 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           answer = null;
         }
       }
-      
+
       if (!answer) {
         answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
           : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
             : model.includes("gpt-4") ? await FreeChat40Functions(History)
               : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
                 : null;
+      }
+
+      if (!answer) {
+        try {
+          const retryResponse = await fetch(apiurl, {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${Apikey}`,
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o-all',
+              messages: History,
+              search: search,
+            }),
+          });
+          const retryResponseJson = await retryResponse.json();
+          answer = (retryResponseJson?.choices?.length > 0) ? retryResponseJson.choices[0]?.message?.content : null;
+        } catch (error) {
+          console.error('Retry with model gpt-4o-all failed: ', error);
+        }
       }
 
       answer = answer.replace(/Content\s*is\s*blocked/g, "  ").trim();

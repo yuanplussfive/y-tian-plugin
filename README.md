@@ -19,7 +19,7 @@
   <h2 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页:</h2>
 
   <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
-    <strong>点击跳转阴天 <a href="https://y-tian-plugin.top:4000/chat" style="color: #0ff;">Y-Tian-Plugin</a> 对话页面</strong>
+    <strong>点击跳转阴天 <a href="https://y-tian-plugin.cn/chat" style="color: #0ff;">Y-Tian-Plugin</a> 对话页面</strong>
   </p>
 
 </div>
@@ -34,7 +34,7 @@
 > 旨在为用户提供免费AI模型供日常生活和学习,附加/sess/专业版/国产等方案集成百余个流行大模型,免费使用80+大模型(包括 GPT-4/4o 等),,不限用量。(PS: 非法用途如 GHS 等,本插件必要时会封禁用户 IP,望周知)
 
 2. **🧠 AI模型支持** <br>
-- 集成了如 **ChatGPT**、**Anthropic**、**ChatGLM**、**Gemini**、**Stable Diffusion**、**Midjourney**、**Suno**、**Pika** 等多种主流 AI 模型
+- 集成了如 **ChatGPT**、**Anthropic**、**ChatGLM**、**Gemini**、**Stable Diffusion**、**Midjourney**、**Suno**、**Pika** 、**Bing**、**Copilot** 等多种主流 AI 模型
 - 支持**文本生成**、**绘图**、**语音合成**、**作曲**、**多模态**等功能
 
 3. **🎪 多功能集成** <br>

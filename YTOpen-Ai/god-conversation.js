@@ -204,6 +204,27 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
                 : null;
       }
 
+      if (!answer) {
+        try {
+          const retryResponse = await fetch(apiurl, {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${Apikey}`,
+            },
+            body: JSON.stringify({
+              model: 'gpt-4o-all',
+              messages: History,
+              search: search,
+            }),
+          });
+          const retryResponseJson = await retryResponse.json();
+          answer = (retryResponseJson?.choices?.length > 0) ? retryResponseJson.choices[0]?.message?.content : null;
+        } catch (error) {
+          console.error('Retry with model gpt-4o-all failed: ', error);
+        }
+      }
+      
       answer = answer.replace(/Content is blocked/g, "  ").trim()
       history.push({
         "role": "assistant",
