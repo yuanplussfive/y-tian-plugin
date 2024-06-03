@@ -19,7 +19,7 @@
   <h2 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页:</h2>
 
   <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
-    <strong>点击跳转阴天 <a href="https://y-tian-plugin.cn/chat" style="color: #0ff;">Y-Tian-Plugin</a> 对话页面</strong>
+    <strong>点击跳转插件在线对话页 <a href="https://yuanpluss.online:1111/about" style="color: #0ff;">免费AI</a></strong>
   </p>
 
 </div>

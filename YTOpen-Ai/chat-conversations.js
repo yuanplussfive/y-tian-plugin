@@ -453,8 +453,9 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 }
 
 async function FreeChat40Functions(History) {
-  const url = "https://y-tian-plugin.top:8080/api/v1/freechat4/completions";
+  const url = "https://yuanpluss.online:3000/v1/chat/completions";
   const body = {
+    model: 'gpt-4',
     messages: History
   };
   const options = {
