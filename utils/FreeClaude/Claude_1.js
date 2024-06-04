@@ -1,6 +1,6 @@
 async function FreeClaude_1(messages, fetch, crypto) {
  try {
-  const response = await fetch("https://aliyun.zaiwen.top/message_poe", {
+  const response = await fetch("https://aliyun.zaiwen.top/admin/chatbot", {
     method: "POST",
     headers: {
       "content-type": "application/json",

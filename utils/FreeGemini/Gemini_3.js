@@ -1,6 +1,6 @@
 async function FreeGemini_3(messages, fetch, crypto) {
  try {
-  const response = await fetch("https://aliyun.zaiwen.top/vision_gemini", {
+  const response = await fetch("https://aliyun.zaiwen.top/admin/chatbot", {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -9,7 +9,7 @@ async function FreeGemini_3(messages, fetch, crypto) {
     },
     body: JSON.stringify({
       "message": messages, 
-      "mode": "google_vision", 
+      "mode": "gemini_pro", 
       "key": null
      })
     });
