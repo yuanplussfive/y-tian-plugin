@@ -414,7 +414,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 
 在这里,您可以与开发者和其他用户进行交流、提出问题、分享体验等。
 
-### ⭐ 点赞支持
+### ⭐ Star支持
 
 如果您喜欢我们的插件,欢迎在相关仓库给予 ⭐️ star,这将是我们前进的动力!
 
@@ -440,7 +440,8 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 - ☁️ 阴天插件 Yunzai-Bot 版: [Github](https://github.com/yuanplussfive/y-tian-plugin) / [Gitee](https://gitee.com/wan13877501248/y-tian-plugin)
 - ☁️ 阴天插件 Alemon-Bot 版: [Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot)
 - 😺 喵喵版 Yunzai-Bot (V3): [Github](https://github.com/yoimiya-kokomi/Miao-Yunzai) / [Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai)
-- 💻 同款 Demo 网页 AI 对话: [Gitee](https://gitee.com/yuanpluss/simple-free-ai)
+- 💻 同款 Demo 网页 AI 对话1: [Gitee](https://gitee.com/yuanpluss/simple-free-ai)
+- 💻 同款 Demo 网页 AI 对话2: [Gitee](https://gitee.com/yuanpluss/demo-chatai)
 - 💻 个人 Windows 电脑一键部署: [Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win)
 
 ### 🙏 鸣谢

@@ -250,7 +250,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       console.log(Messages)
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
-      if (styles == "picture" || urls.length !== 0) {
+      if (styles == "picture" && urls.length !== 0) {
         let forwardMsg = [Messages]
         const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
         e.reply(JsonPart)
@@ -288,7 +288,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
-
           function removeDuplicates(array) {
             const result = array.filter((item, index) => {
               if (item.indexOf('/cdn/download/') == -1) {
