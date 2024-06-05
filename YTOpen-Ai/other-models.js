@@ -181,9 +181,9 @@ export const other_models = [
   },
   {
     "id":31,
-    "model": "reka-flash",
-    "points": "Google",
-    "token": 12000
+    "model": "web-gpt",
+    "points": "None",
+    "token": 2000
   },
   {
     "id":32,
@@ -448,5 +448,41 @@ export const other_models = [
     "model": "anime-search",
     "points": "y-tian-plugin",
     "token": 800
+  },
+  {
+    "id":76,
+    "model": "reka-core",
+    "points": "reka",
+    "token": 24000
+  },
+  {
+    "id":77,
+    "model": "reka-flash",
+    "points": "reka",
+    "token": 24000
+  },
+  {
+    "id":78,
+    "model": "reka-edge",
+    "points": "reka",
+    "token": 24000
+  },
+  {
+    "id":79,
+    "model": "blackbox-chat",
+    "points": "blackbox",
+    "token": 9000
+  },
+  {
+    "id":80,
+    "model": "blackbox-online",
+    "points": "blackbox",
+    "token": 9000
+  },
+  {
+    "id":81,
+    "model": "blackbox-code",
+    "points": "blackbox",
+    "token": 9000
   }
 ]

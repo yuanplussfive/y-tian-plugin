@@ -150,6 +150,11 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ mistral-34b
 &nbsp;&nbsp;✨ mistral-7b-instruct
 <br>
+🔹 <b>Reka</b>
+&nbsp;&nbsp;✨ reka-core
+&nbsp;&nbsp;✨ reka-flash
+&nbsp;&nbsp;✨ reka-edge
+<br>
 🔹 <b>360智脑</b>
 &nbsp;&nbsp;✨ 360-ai
 &nbsp;&nbsp;✨ 360-search
@@ -165,6 +170,12 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 🔹 <b>月之暗面</b>
 &nbsp;&nbsp;✨ moonshot-v1-128k
 &nbsp;&nbsp;✨ moonshot-alltools
+<br>
+🔹 <b>字节跳动</b>
+&nbsp;&nbsp;✨ doubao
+&nbsp;&nbsp;✨ doubao-all
+&nbsp;&nbsp;✨ coze-assistent-all
+&nbsp;&nbsp;✨ coze-gpt-4-all
 <br>
 🔹 <b>Microsoft</b>
 &nbsp;&nbsp;✨ github-copilot

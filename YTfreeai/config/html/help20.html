@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    body {
+      background-color: #0d0d0d;
+      color: #e8ede8;
+      font-family: 'Inconsolata', monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #00c8ff;
+    }
+
+    .legend {
+      margin: 20px 0;
+      font-size: 1em;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .legend i {
+      margin-right: 4px;
+      color: #00c8ff;
+    }
+
+    .legend div {
+      display: flex;
+      align-items: center;
+      margin: 5px 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      animation: glowEffect 2s infinite;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #00c8ff;
+      white-space: nowrap;
+    }
+
+    th {
+      background-color: #333;
+    }
+
+    td {
+      background-color: #1a1a1a;
+    }
+
+    @keyframes glowEffect {
+      0% {
+        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      }
+
+      50% {
+        box-shadow: 0 0 30px rgba(62, 172, 196, 0.8);
+      }
+
+      100% {
+        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+ 
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>来源:</th>
+      <th>最大token:</th>
+    </tr>
+    <script>
+      let model =
+      {
+        models: [
+          {
+            "id": 41,
+            "model": "mistral-7b",
+            "points": "mistral",
+            "token": 7000,
+            "features": ['conversation']
+          },
+          {
+            "id": 42,
+            "model": "mixtral-8x7b",
+            "points": "mixtral",
+            "token": 7000,
+            "features": ['conversation']
+          },
+          {
+            "id": 43,
+            "model": "pplx-70b-online",
+            "points": "pplx",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 44,
+            "model": "dolphin-mixtral-8x7b",
+            "points": "mixtral",
+            "token": 8000,
+            "features": ['conversation']
+          },
+          {
+            "id": 45,
+            "model": "deepseek-chat",
+            "points": "deepseek",
+            "token": 32000,
+            "features": ['conversation']
+          },{
+            "id": 46,
+            "model": "deepseek-code",
+            "points": "deepseek",
+            "token": 16000,
+            "features": ['code']
+          },
+          {
+            "id": 47,
+            "model": "airoboros-70b",
+            "points": "airoboros",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 48,
+            "model": "airoboros-2-70b",
+            "points": "airoboros",
+            "token": 8000,
+            "features": ['conversation']
+          },
+          {
+            "id": 49,
+            "model": "falcon-180b",
+            "points": "falcon",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 50,
+            "model": "llama-2-70b-chat",
+            "points": "meta",
+            "token": 32000,
+            "features": ['conversation']
+          },{
+            "id": 51,
+            "model": "code-llama-70b",
+            "points": "meta",
+            "token": 32000,
+            "features": ['conversation','code']
+          },
+          {
+            "id": 52,
+            "model": "llava-13b",
+            "points": "llava",
+            "token": 8000,
+            "features": ['conversation']
+          },
+          {
+            "id": 53,
+            "model": "baichuan-53b",
+            "points": "百川智能",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 54,
+            "model": "Atom-13B-Chat",
+            "points": "Atom",
+            "token": 7000,
+            "features": ['conversation']
+          },
+          {
+            "id": 55,
+            "model": "spark-desk-v1.5",
+            "points": "讯飞星火",
+            "token": 8000,
+            "features": ['conversation']
+          },
+          {
+            "id": 56,
+            "model": "spark-desk-v2",
+            "points": "讯飞星火",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 57,
+            "model": "spark-desk-v3",
+            "points": "讯飞星火",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 58,
+            "model": "spark-desk-v3.5",
+            "points": "讯飞星火",
+            "token": 128000,
+            "features": ['conversation']
+          },
+          {
+            "id": 59,
+            "model": "doubao",
+            "points": "字节跳动",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 60,
+            "model": "doubao-all",
+            "points": "字节跳动",
+            "token": 32000,
+            "features": ['conversation','internet','drawing']
+          },
+          {
+            "id": 61,
+            "model": "coze-assistent-all",
+            "points": "字节跳动",
+            "token": 32000,
+            "features": ['conversation','internet','drawing']
+          },
+          {
+            "id": 62,
+            "model": "wbot-2",
+            "points": "wbot",
+            "token": 12000,
+            "features": ['conversation']
+          },
+          {
+            "id": 63,
+            "model": "wbot-2-friend",
+            "points": "wbot",
+            "token": 12000,
+            "features": ['conversation']
+          },
+          {
+            "id": 64,
+            "model": "wbot-2-online",
+            "points": "wbot",
+            "token": 10000,
+            "features": ['conversation','internet']
+          },
+          {
+            "id": 65,
+            "model": "llama-3-8b",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 66,
+            "model": "llama-3-70b",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 67,
+            "model": "llama-3-sonar-small-32k-online",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 68,
+            "model": "llama-3-sonar-small-32k-chat",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 69,
+            "model": "llama-3-sonar-large-32k-online",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 70,
+            "model": "llama-3-sonar-large-32k-chat",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 71,
+            "model": "mixtral-8x7b-instruct",
+            "points": "mixtral",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 72,
+            "model": "mixtral-8x22b",
+            "points": "mixtral",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 73,
+            "model": "gemma-2b-it",
+            "points": "google",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 74,
+            "model": "gemma-7b-it",
+            "points": "google",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 75,
+            "model": "anime-search",
+            "points": "y-tian-plugin",
+            "token": 800,
+            "features": ['conversation']
+          },
+          {
+            "id": 76,
+            "model": "reka-core",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation','image_recognition']
+          },
+          {
+            "id": 77,
+            "model": "reka-flash",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation','image_recognition']
+          },
+          {
+            "id": 78,
+            "model": "reka-edge",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation','image_recognition']
+          },
+          {
+            "id": 79,
+            "model": "blackbox-chat",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation']
+          },
+          {
+            "id": 80,
+            "model": "blackbox-online",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation','internet']
+          },
+          {
+            "id": 81,
+            "model": "blackbox-code",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation','code']
+          }
+        ]
+      }
+      model.models.forEach(item => {
+        let features = '';
+        if (item.features.includes('internet')) {
+          features += ' <i class="fas fa-globe"></i>';
+        }
+        if (item.features.includes('drawing')) {
+          features += ' <i class="fas fa-paint-brush"></i>';
+        }
+        if (item.features.includes('code')) {
+          features += ' <i class="fas fa-code"></i>';
+        }
+        if (item.features.includes('image_recognition')) {
+          features += ' <i class="fas fa-image"></i>';
+        }
+        if (item.features.includes('conversation')) {
+          features += ' <i class="fas fa-comments"></i>';
+        }
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.model}${features}</td>
+            <td>${item.points}</td>
+            <td>${item.token}</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+
+</html>

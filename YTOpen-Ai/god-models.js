@@ -166,7 +166,7 @@ export const god_models = [
         "model": "gemini-pro",
         "created": 1686935002,
         "token": 32000,
-        "points": 100,
+        "points": 200,
         "style": "once",
         "owned_by": "y-tian-plugin"
     },
@@ -175,7 +175,7 @@ export const god_models = [
         "model": "gemini-pro-vision",
         "created": 1686935002,
         "token": 32000,
-        "points": 100,
+        "points": 200,
         "style": "once",
         "owned_by": "y-tian-plugin"
     },
@@ -481,7 +481,7 @@ export const god_models = [
         "model": "gpt-4o",
         "created": 1786435092,
         "token": 32000,
-        "points": 500,
+        "points": 600,
         "style": "once",
         "owned_by": "y-tian-plugin"
     },
@@ -490,7 +490,7 @@ export const god_models = [
         "model": "gpt-4o-all",
         "created": 1786435092,
         "token": 32000,
-        "points": 500,
+        "points": 600,
         "style": "once",
         "owned_by": "y-tian-plugin"
     }
