@@ -89,11 +89,12 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       break;
     case "mj-chat":
       await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+      await saveUserHistory(userid, history);
       break;
     default:
       await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+      await saveUserHistory(userid, history);
   }
-  await saveUserHistory(userid, history);
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
