@@ -89,11 +89,9 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       break;
     case "mj-chat":
       await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
-      await saveUserHistory(userid, history);
       break;
     default:
       await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
-      await saveUserHistory(userid, history);
   }
 
   async function formatMessage(originalMsg) {
@@ -210,6 +208,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         "role": "assistant",
         "content": answer
       });
+      await saveUserHistory(userid, history);
     } catch {
       e.reply("通讯失败, 稍后再试")
     }
@@ -334,6 +333,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         "role": "assistant",
         "content": answer
       });
+      await saveUserHistory(userid, history);
       let Messages = answer
       const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
