@@ -1,4 +1,4 @@
-async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket) {
+async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { model, search } = chatgptConfig;
   let msg = await formatMessage(e.msg);
@@ -50,11 +50,11 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   await e.reply(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)], true, { recallMsg: 6 });
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
-      if (!imgurl || !imgurl.startsWith("https://filesystem.site")) {
-
-      }
       const Msg = await handleMsg(e, msg, imgurl)
       console.log(Msg)
+      if (!imgurl || !imgurl.startsWith("https://filesystem.site")) {
+        imgurl = await getBase64Image(imgurl)
+      }
       msg = [
         {
           "type": "image_url",
@@ -103,6 +103,18 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       return undefined
     }
   }
+
+  async function getBase64Image(imageUrl) {
+    try {
+      const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+      const base64 = 'data:image/jpeg;base64,' + Buffer.from(response.data, 'binary').toString('base64');
+      return base64;
+    } catch (error) {
+      console.error('Error fetching image:', error);
+      return imageUrl;
+    }
+  };
+
   async function loadUserHistory(userId) {
     const historyPath = `${dirpath}/user_cache/${userId}.json`;
     if (fs.existsSync(historyPath)) {
@@ -453,7 +465,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 }
 
 async function FreeChat40Functions(History) {
-  const url = "https://yuanpluss.online:3000/v1/chat/completions";
+  const url = "https://y-tian-plugin.top:8080/api/v1/freechat4/completions";
   const body = {
     model: 'gpt-4',
     messages: History

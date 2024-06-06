@@ -484,5 +484,35 @@ export const other_models = [
     "model": "blackbox-code",
     "points": "blackbox",
     "token": 9000
+  },
+  {
+    "id": 82,
+    "model": "zephyr-7b-beta",
+    "points": "huggingface",
+    "token": 8000
+  },
+  {
+    "id": 83,
+    "model": "openchat-7b",
+    "points": "huggingface",
+    "token": 8000
+  },
+  {
+    "id": 84,
+    "model": "phi-3-mini-128k-instruct",
+    "points": "Microsoft",
+    "token": 128000
+  },
+  {
+    "id": 85,
+    "model": "phi-3-medium-128k-instruct",
+    "points": "Microsoft",
+    "token": 128000
+  },
+  {
+    "id": 86,
+    "model": "custom-diffusion",
+    "points": "satable-diffusion",
+    "token": 550
   }
 ]

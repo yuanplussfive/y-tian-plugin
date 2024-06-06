@@ -50,6 +50,11 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   await e.reply(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)], true, { recallMsg: 6 });
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "god" && ai_private_open === true)) {
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307") {
+      const Msg = await handleMsg(e, msg, imgurl)
+      console.log(Msg)
+      if (!imgurl || !imgurl.startsWith("https://filesystem.site")) {
+        imgurl = await getBase64Image(imgurl)
+      }
       msg = [
         {
           "type": "image_url",
@@ -57,7 +62,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         },
         {
           "type": "text",
-          "text": await handleMsg(e, msg, imgurl)
+          "text": Msg
         }
       ]
     } else {
@@ -90,6 +95,17 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
+  async function getBase64Image(imageUrl) {
+    try {
+      const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+      const base64 = 'data:image/jpeg;base64,' + Buffer.from(response.data, 'binary').toString('base64');
+      return base64;
+    } catch (error) {
+      console.error('Error fetching image:', error);
+      return imageUrl;
+    }
+  };
+
   async function loadUserHistory(userId) {
     const historyPath = `${dirpath}/user_cache/${userId}.json`;
     if (fs.existsSync(historyPath)) {
@@ -116,7 +132,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 
   async function MainModel(e, history, stoken, search, model, apiurl, path) {
     try {
-      if (model == "gpt-4-all" || model == "gpt-4-dalle"|| model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
+      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
         search = false
       }
       console.log(history)
@@ -180,7 +196,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
             setTimeout(() => reject(new Error('Timeout')), 150000)
           ),
         ]);
-      
+
         let response_json = await response.json();
         console.log(response_json)
         answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
@@ -195,7 +211,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           answer = null;
         }
       }
-      
+
       if (!answer) {
         answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
           : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
@@ -224,7 +240,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           console.error('Retry with model gpt-4o-all failed: ', error);
         }
       }
-      
+
       answer = answer.replace(/Content is blocked/g, "  ").trim()
       history.push({
         "role": "assistant",
@@ -377,20 +393,20 @@ async function FreeChat40Functions(History) {
     model: 'gpt-4',
     messages: History
   };
-    const options = {
-      "method": "POST",
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "body": JSON.stringify(body)
-    };
-    try {
-      const response = await fetch(url, options);
-      return await response.text()
-    } catch {
-      return null
-    }
+  const options = {
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": JSON.stringify(body)
+  };
+  try {
+    const response = await fetch(url, options);
+    return await response.text()
+  } catch {
+    return null
   }
+}
 
 async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
   let response;
