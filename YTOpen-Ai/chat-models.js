@@ -248,102 +248,126 @@ export const chat_models = {
     },
     {
       "id": "42",
+      "name": "glm-4-0520",
+      "token_count": "128000",
+      "Magnification": 15
+    },
+    {
+      "id": "43",
+      "name": "glm-4-air",
+      "token_count": "128000",
+      "Magnification": 1.5
+    },
+    {
+      "id": "44",
+      "name": "glm-4-airx",
+      "token_count": "128000",
+      "Magnification": 0.15
+    },
+    {
+      "id": "45",
+      "name": "glm-4-flash",
+      "token_count": "128000",
+      "Magnification": 0.01
+    },
+    {
+      "id": "46",
       "name": "llama-3-sonar-small-online",
       "token_count": "8000",
       "Magnification": 1
     },
     {
-      "id": "43",
+      "id": "47",
       "name": "llama-3-sonar-medium-online",
       "token_count": "32000",
       "Magnification": 1
     },
     {
-      "id": "44",
+      "id": "48",
       "name": "llama-3-sonar-small-chat",
       "token_count": "8000",
       "Magnification": 1
     },
     {
-      "id": "45",
+      "id": "49",
       "name": "llama-3-sonar-medium-chat",
       "token_count": "32000",
       "Magnification": 1
     },
     {
-      "id": "46",
+      "id": "50",
       "name": "dbrx-instruct",
       "token_count": "32000",
       "Magnification": 1
     },
     {
-      "id": "47",
+      "id": "51",
       "name": "codellama-70b-instruct",
       "token_count": "7000",
       "Magnification": 1
     },
     {
-      "id": "48",
+      "id": "52",
       "name": "mistral-7b-instruct",
       "token_count": "8000",
       "Magnification": 1
     },
     {
-      "id": "49",
+      "id": "53",
       "name": "llava-v1.5-7b-wrapper",
       "token_count": "7000",
       "Magnification": 1
     },
     {
-      "id": "50",
+      "id": "54",
       "name": "llava-v1.6-34b",
       "token_count": "34000",
       "Magnification": 1
     },
     {
-      "id": "51",
+      "id": "55",
       "name": "mixtral-8x7b-instruct",
       "token_count": "8000",
       "Magnification": 1
     },
     {
-      "id": "52",
+      "id": "56",
       "name": "mixtral-8x22b",
       "token_count": "8000",
       "Magnification": 1
     },
     {
-      "id": "53",
+      "id": "57",
       "name": "gemma-2b-it",
       "token_count": "4000",
       "Magnification": 1
     },
     {
-      "id": "54",
+      "id": "58",
       "name": "gemma-7b-it",
       "token_count": "7000",  
       "Magnification": 1
     },
     {
-      "id": "55",
+      "id": "59",
       "name": "llama-3-8b",
       "token_count": "8000",
       "Magnification": 2
     },
     {
-      "id": "56",
+      "id": "60",
       "name": "llama-3-70b",
       "token_count": "32000",  
       "Magnification": 2
     },
     {
-      "id": "57",
+      "id": "61",
       "name": "suno-v3",
       "token_count": "2000",  
       "Magnification": '固定0.4$'
     },
     {
-      "id": "58",
+      "id": "62",
       "name": "suno-v3.5",
       "token_count": "2000",  
       "Magnification": '固定0.4$'
