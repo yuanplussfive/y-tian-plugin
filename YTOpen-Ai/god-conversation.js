@@ -226,7 +226,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${Apikey}`,
+              "Authorization": `Bearer ${stoken}`,
             },
             body: JSON.stringify({
               model: 'gpt-4o-all',
