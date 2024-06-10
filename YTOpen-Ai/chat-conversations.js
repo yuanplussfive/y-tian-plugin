@@ -1,4 +1,4 @@
-async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios) {
+async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { model, search } = chatgptConfig;
   let msg = await formatMessage(e.msg);
@@ -290,7 +290,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         if (error.message === 'Timeout') {
           answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
             : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
-              : model.includes("gpt-4") ? await FreeChat40Functions(History)
+              : model.includes("gpt-4") ? await GPT4oResponse(msg, History, axios)
                 : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
                   : null;
         } else {
@@ -301,7 +301,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       if (!answer) {
         answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
           : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
-            : model.includes("gpt-4") ? await FreeChat40Functions(History)
+            : model.includes("gpt-4") ? await GPT4oResponse(msg, History, axios)
               : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
                 : null;
       }
@@ -388,14 +388,13 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           return false
         }
         result.forEach((url, index) => {
-          const path = `${_path}/resources/dall_e_plus_${index}.png`;
+          const path = `${_path}/resources/dall_e_plus_${index}_chat.png`;
           downloadImage(url, e, path);
         })
       }
       if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
-
           function removeDuplicates(array) {
             const result = array.filter((item, index) => {
               if (item.indexOf('/cdn/download/') == -1) {
@@ -462,27 +461,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 
   async function saveUserHistory(userId, history) {
     fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");
-  }
-}
-
-async function FreeChat40Functions(History) {
-  const url = "https://yuanpluss.online:3000/v1/chat/completions";
-  const body = {
-    model: 'gpt-4',
-    messages: History
-  };
-  const options = {
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "body": JSON.stringify(body)
-  };
-  try {
-    const response = await fetch(url, options);
-    return await response.text()
-  } catch {
-    return null
   }
 }
 

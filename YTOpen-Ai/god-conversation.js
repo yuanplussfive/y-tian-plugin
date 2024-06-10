@@ -1,4 +1,4 @@
-async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl) {
+async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, axios, GPT4oResponse) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { search } = chatgptConfig;
   const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
@@ -131,7 +131,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 
   async function MainModel(e, history, stoken, search, model, apiurl, path) {
-    try {
+    
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
         search = false
       }
@@ -204,7 +204,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         if (error.message === 'Timeout') {
           answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
             : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
-              : model.includes("gpt-4") ? await FreeChat40Functions(History)
+              : model.includes("gpt-4") ? await GPT4oResponse(msg, History, axios)
                 : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
                   : null;
         } else {
@@ -215,7 +215,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       if (!answer) {
         answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
           : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
-            : model.includes("gpt-4") ? await FreeChat40Functions(History)
+            : model.includes("gpt-4") ? await GPT4oResponse(msg, History, axios)
               : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
                 : null;
       }
@@ -297,7 +297,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           return false
         }
         result.forEach((url, index) => {
-          const path = `${_path}/resources/dall_e_plus_${index}.png`;
+          const path = `${_path}/resources/dall_e_plus_${index}_god.png`;
           downloadImage(url, e, path);
         })
       }
@@ -333,9 +333,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
         });
       }
-    } catch (error) {
-      e.reply("与服务器通讯失败，请尝试开启god代理或结束对话")
-    }
+
   }
 
   async function extractDescription(str) {
