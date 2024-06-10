@@ -83,16 +83,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
     });
   }
-  switch (model) {
-    case "search":
-      await handleSearchModel(e, msg, Apikey, apiurl);
-      break;
-    case "mj-chat":
-      await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
-      break;
-    default:
-      await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
-  }
+  await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
@@ -136,28 +127,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       msgs = "帮我分析这个文件"
     }
     return msgs.trim()
-  }
-
-  async function handleSearchModel(e, msg, Apikey, apiurl) {
-    try {
-      const response = await fetch(apiurl, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
-        },
-        body: JSON.stringify({
-          model: "search",
-          messages: [{ role: "user", content: msg }],
-        }),
-      });
-      let response_json = await response.json()
-      //console.log(response_json)
-      let answer = await response_json.choices[0].message.content
-      e.reply(answer);
-    } catch {
-      e.reply("与服务器通讯失败!")
-    }
   }
 
   async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
@@ -215,6 +184,10 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 
   async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
+    if (model == "mj-chat") {
+      await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+      return false
+    }
     try {
       let answer;
       console.log(history)
