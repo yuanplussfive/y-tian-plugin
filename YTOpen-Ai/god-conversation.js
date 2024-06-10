@@ -131,7 +131,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 
   async function MainModel(e, history, stoken, search, model, apiurl, path) {
-    
+    try {
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
         search = false
       }
@@ -145,31 +145,23 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         }
 
         try {
+          const response = await axios({
+            url: url.trim(),
+            method: 'GET',
+            responseType: 'stream'
+          });
+
+          if (response.status >= 400) {
+            throw new Error(`Failed to download ${url}: ${response.status}`);
+          }
+
+          const file = fs.createWriteStream(filePath);
+
+          response.data.pipe(file);
+
           await new Promise((resolve, reject) => {
-            const request = https.get(url.trim(), (response) => {
-              if (response.statusCode >= 400) {
-                reject(new Error(`Failed to download ${url}: ${response.statusCode}`));
-                return;
-              }
-
-              const file = fs.createWriteStream(filePath);
-              response.pipe(file);
-
-              file.on('finish', () => {
-                file.close();
-                resolve();
-              });
-
-              file.on('error', (err) => {
-                reject(err);
-              });
-            });
-
-            request.on('error', (err) => {
-              reject(err);
-            });
-
-            request.end();
+            file.on('finish', resolve);
+            file.on('error', reject);
           });
 
           e.reply(segment.image(filePath));
@@ -333,7 +325,9 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
         });
       }
-
+    } catch (error) {
+      e.reply("与服务器通讯失败，请尝试开启god代理或结束对话")
+    }
   }
 
   async function extractDescription(str) {
