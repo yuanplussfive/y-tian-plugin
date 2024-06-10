@@ -84,6 +84,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     });
   }
   await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+  await saveUserHistory(userid, history);
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
@@ -189,10 +190,11 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       return false
     }
     try {
-      let answer;
+      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
+        search = false
+      }
       console.log(history)
-      let History = await reduceConsecutiveRoles(history)
-      console.log(History)
+      let History = await reduceConsecutiveRoles(history);
       async function downloadImage(url, e, filePath) {
         const fileExtension = path.extname(url).toLowerCase();
         console.log(fileExtension)
@@ -225,10 +227,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           e.reply(segment.image(url.trim()));
         }
       }
-
-      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4-v" || model == "gpt-4o" || model == "gpt-4o-all") {
-        search = false
-      }
+      let answer
       try {
         const response = await Promise.race([
           fetch(apiurl, {
@@ -292,13 +291,11 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         }
       }
 
-      answer = answer.replace(/Content\s*is\s*blocked/g, "  ").trim();
-      console.log(answer + "\n---------")
+      answer = answer.replace(/Content is blocked/g, "  ").trim()
       history.push({
         "role": "assistant",
         "content": answer
       });
-      await saveUserHistory(userid, history);
       let Messages = answer
       const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
@@ -316,15 +313,13 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           }
         } catch { }
       }
-      //console.log(Messages)
+      console.log(Messages)
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
-      if (styles == "picture") {
+      if (styles == "picture" && urls.length !== 0) {
         let forwardMsg = [Messages]
         const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
         e.reply(JsonPart)
-      }
-      if (styles == "picture" && urls.length !== 0) {
         let uniqueUrls = [...new Set(urls)];
         if (uniqueUrls.length > 1) {
           const duplicateIndex = uniqueUrls.findIndex(url => url.includes('download'));
@@ -339,12 +334,11 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           Messages = imgs + Messages;
         }
       }
-      await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, message);
+      await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
-      let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group } = aiSettings.chatgpt;
       if (aiSettings.chatgpt.ai_tts_open) {
-        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, Messages, WebSocket, _path, fs);
+        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer, WebSocket, _path, fs);
       }
       if (model == "gpt-4-dalle") {
         let result = await extractImageLinks2(answer)
@@ -390,7 +384,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         });
       }
     } catch (error) {
-      e.reply(`与服务器通讯失败了！稍后试试吧`);
+      e.reply("与服务器通讯失败，请尝试开启chat代理或结束对话")
     }
   }
 
