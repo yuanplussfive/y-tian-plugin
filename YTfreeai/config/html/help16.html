@@ -1,134 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>菜单</title>
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菜单</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-image: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-image: linear-gradient(to bottom right, #2980b9, #8e44ad);
-      background-size: cover;
-      background-repeat: no-repeat;
-      color: #fff;
-    }
+        .main-title {
+            font-size: 3rem;
+            margin-top: 2rem;
+            position: relative;
+            padding: 1rem 2rem;
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
 
-    .main-title {
-      text-align: center;
-      font-size: 3rem;
-      margin-top: 2rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      position: relative;
-      padding: 1rem 2rem;
-      display: inline-block;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+        .content-area {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 3rem;
+            gap: 2rem;
+        }
 
-    .main-title::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border: 4px solid #fff;
-      border-radius: 50px;
-      z-index: -1;
-      transform: rotate(-2deg);
-    }
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 280px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
 
-    .content-area {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 3rem;
-      counter-reset: section;
-    }
+        .section:hover {
+            transform: translateY(-10px);
+        }
 
-    .section {
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 2rem;
-      margin: 1rem;
-      width: 30%;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    }
+        .section-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
 
-    .section-title {
-      display: flex;
-      align-items: center;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      position: relative;
-    }
+        .section-title i {
+            margin-right: 0.5rem;
+        }
 
-    .section-title::before {
-      content: counter(section);
-      counter-increment: section;
-      background-color: #fff;
-      color: #2980b9;
-      font-weight: bold;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 1rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+        .section-title span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            flex-grow: 1;
+            text-align: center;
+        }
 
-    .section-title span {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-    }
-
-    .section-title::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -0.5rem;
-      height: 2px;
-      background-color: rgba(255, 255, 255, 0.5);
-      z-index: -1;
-    }
-
-    .section-content {
-      font-size: 1.2rem;
-      line-height: 1.5;
-      text-align: justify;
-      background-color: #42426F;
-      color: #fff;
-      padding: 1rem;
-      border-radius: 10px;
-    }
-  </style>
+        .section-content {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
 </head>
 <body>
-  <h1 class="main-title">Y-Tian 附加AI</h1>
-  <div class="content-area">
-    <div class="section">
-      <h2 class="section-title"><span>查看模型</span></h2>
-      <div class="section-content">#附加模型大全<br>查看所有附加模型
-      </div>
+    <h1 class="main-title">Y-Tian 附加AI</h1>
+    <div class="content-area">
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-eye"></i><span>查看模型</span></h2>
+            <div class="section-content">#附加模型大全<br>查看所有附加模型</div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-sync-alt"></i><span>切换模型</span></h2>
+            <div class="section-content">#切换附加模型+序号<br>切换当前附加模型<br>例如:#切换附加模型2;</div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-comments"></i><span>开始对话</span></h2>
+            <div class="section-content">触发名+问题<br>(初始为#bot)<br>例如:#bot hello<br>#结束附加对话<br>结束当前对话</div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-cogs"></i><span>预设管理</span></h2>
+            <div class="section-content">① #查看附加预设,查看所有相关预设<br>② #切换附加预设+序号<br>切换当前附加模型<br>例如:#切换附加预设2;</div>
+        </div>
     </div>
-     <div class="section">
-      <h2 class="section-title"><span>切换模型</span></h2>
-      <div class="section-content">#切换附加模型+序号<br>切换当前附加模型<br>例如:#切换附加模型2;</div>
-    </div>
-<div class="section">
-      <h2 class="section-title"><span>开始对话</span></h2>
-      <div class="section-content">触发名+问题<br>(初始为#bot)<br>例如:#bot hello<br>#结束附加对话<br>结束当前对话
-      </div>
-    </div>
-    <div class="section">
-      <h2 class="section-title"><span>预设管理</span></h2>
-      <div class="section-content">① #查看附加预设,查看所有相关预设<br>② #切换附加预设+序号<br>切换当前附加模型<br>例如:#切换附加预设2;</div>
-    </div>
-  </div>
 </body>
 </html>

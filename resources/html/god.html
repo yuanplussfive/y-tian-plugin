@@ -1,233 +1,225 @@
- 
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-  <meta charset="UTF-8">
-  <title>gotgod-help</title>
-  <style>
-@font-face {
-  font-family: "jty";
-  src: url("{{src}}");
-  font-weight: normal;
-  font-style: normal;
-}
+    <meta charset="UTF-8">
+    <title>gotgod-help</title>
+    <style>
+        @font-face {
+            font-family: "jty";
+            src: url("{{src}}");
+            font-weight: normal;
+            font-style: normal;
+        }
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
 
-#container {
-  font-family: "jty", sans-serif;
-  width: 900px;
-  margin: 0 auto;
-  background-color: #fff;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  color: black;
-  font-size: 20px;
-  text-align: center;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #ffffff;
+            font-family: "jty", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-size: cover;
+            background-attachment: fixed;
+        }
 
-h1 {      
-  color: #b83a3a;
-  font-size: 40px;
-  margin: 20px;
-  background-color: #fff0;
-  font-family: "jty", sans-serif;
-  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
-}
+        #container {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: rgba(44, 44, 46, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
 
-h3 {
-  color: #c9843b;
-  margin: 10px 50px;
-  text-shadow: 1px 0px 0px #fff;
-}
+        h1 {
+            color: #ff6b6b;
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0px 0px 20px rgba(255, 255, 255, 1);
+        }
 
-.content {
-  margin-top: 20px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.1); /* Increased transparency */
-  backdrop-filter: blur(5px); /* Frosted glass effect */
-  border-radius: 15px;
-}
+        .content {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
 
-h2 {
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.7); /* Adjusted for better readability */
-  border-radius: 10px;
-  margin: 0 10px;
-  padding: 5px;
-  line-height: 40px;
-}
+        h2 {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            margin: 10px 0;
+            padding: 10px;
+            line-height: 40px;
+            text-align: center;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+        }
 
-.content-div {
-  padding: 10px;
-  margin: 7px;
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.2); /* Lighten for a softer look */
-  backdrop-filter: blur(3px); /* Frosted glass effect */
-}
+        .content-div {
+            margin: 20px 0;
+        }
 
-.content-box {
-  background-image: linear-gradient(to bottom right, #9ed900, #bce672);
-  margin: 0 10px 10px 10px;
-  border-radius: 0 0 10px 10px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  overflow: hidden;
-}
+        .content-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-around;
+        }
 
-.content-box .children-box {
-  padding: 20px 10px;
-  display: flex;
-  width: calc(33.33%);
-  flex-direction: row;
-  background-color: rgba(0, 0, 0, 0.52);
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(2px); /* Frosted glass effect */
-}
+        .children-box {
+            padding: 20px;
+            flex: 1 1 calc(33.33% - 20px);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
 
-.children-box:nth-child(2n) {
-  background-color: rgba(0, 0, 0, 0.24);
-}
+        .children-box:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.05);
+        }
 
-.left {
-  width: 40px;
-  height: 40px;
-  background-size: 500px 1500px;
-  background-repeat: no-repeat;
-}
+        .right {
+            text-align: center;
+        }
 
-.right {
-  display: flex;
-  width: 100%;
-  padding-left: 0px;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-}
+        .right span:nth-child(1) {
+            font-weight: 600;
+            color: #ffffe0;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+        }
 
-.right span:nth-child(1) {
-  font-weight: 600;
-  color: #FFFFE0;
-}
+        .right span:nth-child(2) {
+            font-family: "jty";
+            font-size: 14px;
+            color: #f0fcff;
+        }
 
-.right span:nth-child(2) {
-  font-family: "jty";
-  margin-top: 5px;
-  font-size: 14px;
-  text-align: left;
-  color: #f0fcff;
-}
+        .version {
+            background-color: rgba(220, 220, 220, 0.1);
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
 
-.version {
-  background-color: rgba(220, 220, 220, 0.8); /* Soft transparency */
-  padding: 10px 0;
-  text-align: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.1); /* Subtle separation */
-}
+        .version h3 {
+            color: #c9843b;
+            margin-bottom: 10px;
+            text-shadow: 1px 0px 0px #fff;
+        }
 
-</style>
+        .version p {
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .children-box {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="container">
+<div id="container">
     <h1>Y-Tian-GodGPT</h1>
     <div class="content">
-      <h2>god主要指令</h2>
-      <div class="content-div">
-        <div class="content-box">
-          <div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>填写god密钥</span>
-              <span>/填写godsksk-xxxxxxx<br>填写你个人的godsk</span>
+        <h2>god主要指令</h2>
+        <div class="content-div">
+            <div class="content-box">
+                <div class="children-box">
+                    <div class="right">
+                        <span>填写god密钥</span>
+                        <span>/填写godsksk-xxxxxxx<br>填写你个人的godsk</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>开启god联网</span>
+                        <span>/开启god联网,开启联网<br>/关闭god联网,同理</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>查询god积分</span>
+                        <span>/查询总积分,查询剩余积分<br>/切换god密钥+序号,切换密钥</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>结束god对话</span>
+                        <span>/结束god对话,结束当前用户对话<br>/结束全部god对话,结束全部对话</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>god模型管理</span>
+                        <span>/god模型大全,查看所有god模型<br>/切换god模型+序号,切换god模型</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>god分区间</span>
+                        <span>/god开启分区间,此时使用独立预设<br>/god关闭分区间,此时使用群预设</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>切换god预设</span>
+                        <span>/查看god预设,查看预设<br>/切换god预设+序号,切换个人预设<br>/切换god群预设+序号,切换群预设</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>开启god代理</span>
+                        <span>/god开启代理,开启代理模式<br>(如无法正常访问,请开启代理)<br>/god关闭代理,同理</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>AI生图(SD, dalle)</span>
+                        <span>/sd画图+描述内容,poe等的sdxl提供<br>/plus画图+描述内容,plus账号gpt-4提供<br>mj绘图请用chat方案</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>分配/查询积分</span>
+                        <span>@xxx/分配积分+数量<br>艾特一个群友加限制数量<br>限制某群友使用的god积分<br>@xxx/查询积分<br>艾特群友查询他的剩余积分</span>
+                    </div>
+                </div>
+                <div class="children-box">
+                    <div class="right">
+                        <span>使用god示例</span>
+                        <span>1,#艾特回复使用god<br>让你的bot在被艾特时使用god方案<br>2,#禁用方案god,独享god<br>3,#更改god触发名+名称<br>可以使用名称开头触发回复</span>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>开启god联网</span>
-              <span>/开启god联网,开启联网搜索<br>/关闭god联网,同理</span>
-            </div>
-          </div>
-          
-          <div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>查询god总积分</span>
-              <span>/查询总积分,查询剩余key积分<br>/切换god密钥+序号,切换密钥使用</span>
-            </div>
-          </div>
-          <div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>结束god对话</span>
-              <span>/结束god对话,结束当前用户对话<br>/结束全部god对话,结束全部对话</span>
-            </div>
-          </div>
-       <div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>god模型管理</span>
-              <span>/god模型大全,查看所有god模型<br>/切换god模型+序号,切换god模型</span>
-            </div>
-          </div>
-<div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>god分区间</span>
-              <span>/god开启分区间,此时使用独立预设<br>/god关闭分区间,此时使用群预设</span>
-            </div>
-          </div>
- <div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>切换god预设</span>
-              <span>/查看god预设,查看添加的所有预设<br>/切换god预设+序号,切换个人预设<br>/切换god群预设+序号,切换群预设</span>
-            </div>
-          </div>
-<div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>开启god代理</span>
-              <span>/god开启代理,开启代理模式<br>(如无法正常访问,请开启代理)<br>/god关闭代理,同理</span>
-            </div>
-          </div>
-<div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>AI生图(SD, dalle)</span>
-              <span>/sd画图+描述内容,sdxl提供<br>/plus画图+描述内容,gpt-4-plus提供<br>mj请用chat方案</span>
-            </div>
-          </div>
-<div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>分配/查询积分</span>
-              <span>@xxx/分配积分+数量<br>艾特一个群友加限制数量<br>限制某群友使用的god积分<br>@xxx/查询积分<br>艾特群友查询他的剩余积分</span>
-            </div>
-          </div>
-  <div class="children-box">
-            <div class="left"></div>
-            <div class="right">
-              <span>使用god示例</span>
-              <span>1,#艾特回复使用god<br>让你的bot在被艾特时使用god方案<br>2,#禁用方案god,独享god<br>3,#更改god触发名+名称<br>可以使用名称开头触发回复</span>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
     <div class="version">
-      <h3>版本信息</h3>
-      <p>当前版本：1.3.1</p>
+        <h3>版本信息</h3>
+        <p>当前版本：1.3.1</p>
     </div>
-  </div>
+</div>
 </body>
 </html>

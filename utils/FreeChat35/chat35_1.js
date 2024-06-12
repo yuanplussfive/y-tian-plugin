@@ -1,20 +1,17 @@
 async function FreeChat35_1(messages, fetch, crypto) {
   const data = JSON.stringify({
-    "messages": messages,
-    "model": "gpt-3.5-turbo-1106"
+    messages,
+    model: "gpt-3.5-turbo-16k"
   });
   const options = {
-    method: 'PUT',
+    method: 'post',
     headers: {
-      'User-Agent': 'Mozilla/5.0 (Linux; Android 12; HarmonyOS; NOH-AN01; HMSCore 6.13.0.302) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.88 HuaweiBrowser/13.0.3.301 Mobile Safari/537.36',
-      'Content-Type': 'application/json',
-      'origin': 'https://e8.free-chat.asia',
-      'referer': 'https://e8.free-chat.asia/'
+      'Content-Type': 'application/json'
     },
     body: data
   };
   try {
-    const response = await fetch('https://demo-railway.promplate.dev/single/chat_messages', options);
+    const response = await fetch('https://yuanpluss.online:3000/v1/free35/completions', options);
     if (!response.ok) {
       return null
     }

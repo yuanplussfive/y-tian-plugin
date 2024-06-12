@@ -5,73 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>菜单</title>
   <style>
-   /* 引入新的字体,增加科技感 */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
 
-body {
-  font-family: 'Orbitron', sans-serif;
-  background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
-  color: #d9d9d9;
-  margin: 0;
-  padding: 0;
-}
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);
+      color: #d9d9d9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-.content-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px;
-}
+    .content-container {
+      max-width: 1200px;
+      margin: 20px;
+      padding: 40px;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
 
-.main-title {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 40px;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 10px 20px;
-  border-radius: 30px;
-  position: relative;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
+    .main-title {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 30px;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      display: inline-block;
+    }
 
-.section {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 40px;
-  align-items: center;
-}
+    .section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
 
-.section-title {
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  margin-right: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 10px 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-}
+    .section-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #9b59b6;
+      text-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+    }
 
-.section-title::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background-color: #9b59b6;
-  border-radius: 50%;
-  margin-right: 10px;
-  box-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
-}
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
 
-.section-content {
-  font-size: 18px;
-  line-height: 1.5;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  flex: 1;
-}
+    .section-content {
+      font-size: 18px;
+      line-height: 1.5;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -79,59 +87,101 @@ body {
     <div class="main-title">免费国产Ai</div>
 
     <div class="section">
+      <i class="fas fa-search section-icon"></i>
       <div class="section-title">百度搜索(联网)</div>
       <div class="section-content">#百度+问题,进行问答,例如:#百度你好</div>
     </div>
 
     <div class="section">
+      <i class="fas fa-rocket section-icon"></i>
       <div class="section-title">Moonshot(联网)</div>
-      <div class="section-content">① #Kimi+问题,进行问答,例如:#Kimi你好<br>② #结束Kimi对话<br>③ #开启kimi联网,开启联网模式,关闭同理</div>
+      <div class="section-content">
+        ① #Kimi+问题,进行问答,例如:#Kimi你好<br>
+        ② #结束Kimi对话<br>
+        ③ #开启kimi联网,开启联网模式,关闭同理
+      </div>
     </div>
 
     <div class="section">
+      <i class="fas fa-brain section-icon"></i>
       <div class="section-title">ChatGLM-4.0(多模态)</div>
-      <div class="section-content">① #glm4+问题,进行问答<br>例如:#glm4 搜索阴天插件<br>② #结束glm4对话</div>
+      <div class="section-content">
+        ① #glm4+问题,进行问答<br>例如:#glm4 搜索阴天插件<br>
+        ② #结束glm4对话
+      </div>
     </div>
 
     <div class="section">
+      <i class="fas fa-question-circle section-icon"></i>
       <div class="section-title">通义千问(多模态)</div>
-      <div class="section-content">① #千问+问题,进行问答,例如:#千问你好<br>② #结束千问对话</div>
+      <div class="section-content">
+        ① #千问+问题,进行问答,例如:#千问你好<br>
+        ② #结束千问对话
+      </div>
     </div>
 
     <div class="section">
+      <i class="fas fa-fire section-icon"></i>
       <div class="section-title">星火模型(多模态)</div>
-      <div class="section-content">① #xinghuo+你的问题,星火网页版<br>② #结束xinghuo对话<br>③ #星火+你的问题,开始对话,api版<br>④ #结束星火对话<br>⑤ #星火切换(v1|v2|v3),切换星火版本<br>例如:#星火切换v3</div>
+      <div class="section-content">
+        ① #xinghuo+你的问题,星火网页版<br>
+        ② #结束xinghuo对话<br>
+        ③ #星火+你的问题,开始对话,api版<br>
+        ④ #结束星火对话<br>
+        ⑤ #星火切换(v1|v2|v3),切换星火版本<br>例如:#星火切换v3
+      </div>
     </div>
 
     <div class="section">
+      <i class="fas fa-code section-icon"></i>
       <div class="section-title">Deepseek(coder)</div>
-      <div class="section-content">① #deepseek+你的问题,例如#deepseek hello<br>② #deepcode+你的问题,例如#deepseek 用python写个冒泡排序  </div>
+      <div class="section-content">
+        ① #deepseek+你的问题,例如#deepseek hello<br>
+        ② #deepcode+你的问题,例如#deepseek 用python写个冒泡排序
+      </div>
     </div>
 
     <div class="section">
+      <i class="fas fa-cloud-sun section-icon"></i>
       <div class="section-title">百川模型(多模态)</div>
-      <div class="section-content">#百川+你的问题,开始对话,例如#百川 搜索明天上海的天气</div>
-  </div>
+      <div class="section-content">
+        #百川+你的问题,开始对话,例如#百川 搜索明天上海的天气
+      </div>
+    </div>
 
     <div class="section">
+      <i class="fas fa-leaf section-icon"></i>
       <div class="section-title">紫东太初</div>
-      <div class="section-content">#小初+问题,进行问答,例如:#小初你好</div>
+      <div class="section-content">
+        #小初+问题,进行问答,例如:#小初你好
+      </div>
     </div>
 
     <div class="section">
+      <i class="fas fa-infinity section-icon"></i>
       <div class="section-title">零一万物</div>
-      <div class="section-content">① #yi+问题,进行问答,例如:#yi你好<br>② #结束yi对话</div>
+      <div class="section-content">
+        ① #yi+问题,进行问答,例如:#yi你好<br>
+        ② #结束yi对话
+      </div>
     </div>
 
     <div class="section">
+      <i class="fas fa-dragon section-icon"></i>
       <div class="section-title">腾讯混元</div>
-      <div class="section-content">① #混元+问题,进行问答,例如:#混元你好<br>② #结束混元对话</div>
+      <div class="section-content">
+        ① #混元+问题,进行问答,例如:#混元你好<br>
+        ② #结束混元对话
+      </div>
     </div>
 
     <div class="section">
+      <i class="fas fa-robot section-icon"></i>
       <div class="section-title">文心千帆</div>
-      <div class="section-content">① #文心+你的问题,开始对话,例如#文心 hello<br>② #结束文心对话</div>
-    </div>
+      <div class="section-content">
+        ① #文心+你的问题,开始对话,例如#文心 hello<br>
+        ② #结束文心对话
+      </div>
     </div>
   </div>
 </body>
