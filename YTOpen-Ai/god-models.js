@@ -6,7 +6,8 @@ export const god_models = [
         "token": 5000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 2,
@@ -15,16 +16,18 @@ export const god_models = [
         "token": 16000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 3,
         "model": "gpt-4",
         "created": 1686935002,
         "token": 8000,
-        "points": 750,
+        "points": "750/次",
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 4,
@@ -33,7 +36,8 @@ export const god_models = [
         "token": 128000,
         "points": 1200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 5,
@@ -42,7 +46,8 @@ export const god_models = [
         "token": 128000,
         "points": 1200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 6,
@@ -51,7 +56,8 @@ export const god_models = [
         "token": 128000,
         "points": 1200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 7,
@@ -60,7 +66,8 @@ export const god_models = [
         "token": 128000,
         "points": 1200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 8,
@@ -69,7 +76,8 @@ export const god_models = [
         "token": 128000,
         "points": 1200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 9,
@@ -78,7 +86,8 @@ export const god_models = [
         "token": 128000,
         "points": 1200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 10,
@@ -87,7 +96,8 @@ export const god_models = [
         "token": 128000,
         "points": 1150,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet', 'image_recognition']
     },
     {
         "id": 11,
@@ -96,7 +106,8 @@ export const god_models = [
         "token": 128000,
         "points": 1200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'image_recognition']
     },
     {
         "id": 12,
@@ -105,7 +116,8 @@ export const god_models = [
         "token": 128000,
         "points": 1150,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet', 'drawing', 'image_recognition']
     },
     {
         "id": 13,
@@ -114,25 +126,28 @@ export const god_models = [
         "token": 128000,
         "points": 1150,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition', 'file']
     },
     {
         "id": 14,
-        "model": "glm-4",
-        "created": 1686935002,
-        "token": 128000,
-        "points": 1,
-        "style": "token",
-        "owned_by": "y-tian-plugin"
+        "model": "gpt-4o",
+        "created": 1786435092,
+        "token": 32000,
+        "points": "600/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'internet', 'image_recognition']
     },
     {
         "id": 15,
-        "model": "glm-4v",
-        "created": 1686935002,
-        "token": 2000,
-        "points": 1,
-        "style": "token",
-        "owned_by": "y-tian-plugin"
+        "model": "gpt-4o-all",
+        "created": 1786435092,
+        "token": 32000,
+        "points": "600/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'drawing', 'internet', 'file', 'image_recognition']
     },
     {
         "id": 16,
@@ -141,357 +156,457 @@ export const god_models = [
         "token": 128000,
         "points": 50,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 17,
-        "model": "deepseek-chat",
+        "model": "glm-4",
         "created": 1686935002,
-        "token": 32000,
-        "points": 0.02,
+        "token": 128000,
+        "points": 1,
         "style": "token",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
         "id": 18,
-        "model": "deepseek-coder",
+        "model": "glm-4v",
         "created": 1686935002,
-        "token": 16000,
-        "points": 0.02,
+        "token": 2000,
+        "points": 1,
         "style": "token",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'image_recognition']
     },
     {
         "id": 19,
+        "model": "glm-4-0520",
+        "created": 1686935002,
+        "token": 128000,
+        "points": 1,
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
+    },
+    {
+        "id": 20,
+        "model": "glm-4-air",
+        "created": 1686935002,
+        "token": 128000,
+        "points": 0.01,
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
+    },
+    {
+        "id": 21,
+        "model": "glm-4-airx",
+        "created": 1686935002,
+        "token": 128000,
+        "points": 0.1,
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
+    },
+    {
+        "id": 22,
+        "model": "glm-4-flash",
+        "created": 1686935002,
+        "token": 128000,
+        "points": 0.001,
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
+    },
+    {
+        "id": 23,
+        "model": "deepseek-chat",
+        "created": 1686935002,
+        "token": 32000,
+        "points": "0.02/token",
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
+    },
+    {
+        "id": 24,
+        "model": "deepseek-coder",
+        "created": 1686935002,
+        "token": 16000,
+        "points": "0.02/token",
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
+    },
+    {
+        "id": 25,
         "model": "gemini-pro",
         "created": 1686935002,
         "token": 32000,
         "points": 200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'image_recognition']
     },
     {
-        "id": 20,
+        "id": 26,
         "model": "gemini-pro-vision",
         "created": 1686935002,
         "token": 32000,
         "points": 200,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'image_recognition']
     },
     {
-        "id": 21,
+        "id": 27,
         "model": "claude-1-100k",
         "created": 1686935002,
         "token": 100000,
-        "points": 20,
+        "points": "20/次",
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 22,
+        "id": 28,
         "model": "claude-1.3",
         "created": 1686935002,
-        "token": 32000,
+        "token": 100000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 23,
+        "id": 29,
         "model": "claude-1.3-100k",
         "created": 1686935002,
-        "token": 32000,
+        "token": 100000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 24,
+        "id": 30,
         "model": "claude-2",
         "created": 1686935002,
         "token": 100000,
         "points": 1,
         "style": "token",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 25,
+        "id": 31,
         "model": "claude-3-opus-20240229",
         "created": 1686935002,
         "token": 200000,
         "points": 1,
         "style": "token",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 26,
+        "id": 32,
         "model": "claude-3-sonnet-20240229",
         "created": 1686935002,
         "token": 200000,
-        "points": 0.3,
+        "points": "0.3/token",
         "style": "token",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 27,
+        "id": 33,
         "model": "claude-3-haiku-20240307",
         "created": 1686935002,
         "token": 200000,
-        "points": 0.03,
+        "points": "0.03/token",
         "style": "token",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 28,
+        "id": 34,
         "model": "google-palm",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 29,
+        "id": 35,
         "model": "llama-2-70b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 30,
+        "id": 36,
         "model": "llama-2-13b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 31,
+        "id": 37,
         "model": "llama-2-7b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 32,
+        "id": 38,
         "model": "code-llama-34b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
     },
     {
-        "id": 33,
+        "id": 39,
         "model": "code-llama-13b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
     },
     {
-        "id": 34,
+        "id": 40,
         "model": "code-llama-7b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
     },
     {
-        "id": 35,
+        "id": 41,
         "model": "stable-diffusion",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['drawing']
     },
     {
-        "id": 36,
+        "id": 42,
         "model": "qwen-72b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 37,
+        "id": 43,
         "model": "mixtral-8x7b",
         "created": 1686935002,
         "token": 32000,
         "points": 50,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 38,
+        "id": 44,
         "model": "mistral-medium",
         "created": 1686935002,
         "token": 32000,
         "points": 100,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 39,
+        "id": 45,
         "model": "llama-3-sonar-small-32k-online",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 40,
+        "id": 46,
         "model": "llama-3-sonar-small-32k-chat",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 41,
+        "id": 47,
         "model": "llama-3-sonar-large-32k-online",
         "created": 1686935002,
         "token": 32000,
-        "points": 20,
+        "points": "20/次",
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 42,
+        "id": 48,
         "model": "llama-3-sonar-large-32k-chat",
         "created": 1686935002,
         "token": 32000,
-        "points": 20,
+        "points": "20/次",
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 43,
+        "id": 49,
         "model": "dbrx-instruct",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 44,
+        "id": 50,
         "model": "codellama-70b-instruct",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
     },
     {
-        "id": 45,
+        "id": 51,
         "model": "mistral-7b-instruct",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 46,
+        "id": 52,
         "model": "llava-v1.5-7b-wrapper",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 47,
+        "id": 53,
         "model": "llava-v1.6-34b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 48,
+        "id": 54,
         "model": "mixtral-8x7b-instruct",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 49,
+        "id": 55,
         "model": "mixtral-8x22b",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 50,
+        "id": 56,
         "model": "gemma-2b-it",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 51,
+        "id": 57,
         "model": "gemma-7b-it",
         "created": 1686935002,
         "token": 32000,
         "points": 10,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 52,
+        "id": 58,
         "model": "llama-3-8b",
         "created": 1686935002,
         "token": 32000,
         "points": 50,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 53,
+        "id": 59,
         "model": "llama-3-70b",
         "created": 1686935002,
         "token": 32000,
         "points": 50,
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation']
     },
     {
-        "id": 54,
-        "model": "gpt-4o",
-        "created": 1786435092,
-        "token": 32000,
-        "points": 600,
+        "id": 60,
+        "model": "suno-v3",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "3000/次",
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['music']
     },
     {
-        "id": 55,
-        "model": "gpt-4o-all",
-        "created": 1786435092,
-        "token": 32000,
-        "points": 600,
+        "id": 61,
+        "model": "suno-v3.5",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "3000/次",
         "style": "once",
-        "owned_by": "y-tian-plugin"
+        "owned_by": "y-tian-plugin",
+        "features": ['music']
     }
 ]

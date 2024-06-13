@@ -153,9 +153,48 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
+  async function handleSunoModel(e, Apikey, msg, model, apiurl, _path) {
+    try {
+      let answer;
+      const response = await fetch(apiurl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Apikey}`,
+        },
+        body: JSON.stringify({
+          model: model,
+          stream: true,
+          messages: [{ role: "user", content: msg }]
+        }),
+      });
+      const input = await response.text();
+      console.log(input)
+      const urlRegex = /https:\/\/filesystem\.site\/cdn\/[0-9]{8}\/[A-Za-z0-9]+(\.(mp3|mp4))/g;
+      const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
+      const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
+      answer = contentArray.join('').trim();
+      e.reply(answer);
+      console.log(answer)
+      const urls = answer.match(urlRegex)
+      console.log(urls)
+      if (urls.length !== 0) {
+        urls.filter(url => url.endsWith('.mp3')).map(url => e.reply(segment.record(url)));
+        urls.filter(url => url.endsWith('.mp4')).map(url => e.reply(segment.video(url)));
+      }
+    } catch (error) {
+      console.log(error)
+      e.reply("通讯失败, 稍后再试")
+    }
+  }
+
   async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
     if (model == "mj-chat") {
       await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+      return false
+    }
+    if (model.includes("suno")) {
+      await handleSunoModel(e, Apikey, msg, model, apiurl, _path);
       return false
     }
     try {
@@ -166,34 +205,44 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       let History = await reduceConsecutiveRoles(history);
       async function downloadImage(url, e, filePath) {
         const fileExtension = path.extname(url).toLowerCase();
-        console.log(fileExtension)
+        console.log(fileExtension);
         if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
           return;
         }
+        const downloadTimeout = 40000;
+        const downloadPromise = async () => {
+          try {
+            const response = await axios({
+              url: url.trim(),
+              method: 'GET',
+              responseType: 'stream'
+            });
+            if (response.status >= 400) {
+              throw new Error(`Failed to download ${url}: ${response.status}`);
+            }
+            const file = fs.createWriteStream(filePath);
+            response.data.pipe(file);
+            await new Promise((resolve, reject) => {
+              file.on('finish', resolve);
+              file.on('error', reject);
+            });
+            e.reply(segment.image(filePath));
+          } catch (err) {
+            e.reply(segment.image(url.trim()));
+          }
+        };
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Download timed out')), downloadTimeout)
+        );
 
         try {
-          const response = await axios({
-            url: url.trim(),
-            method: 'GET',
-            responseType: 'stream'
-          });
-
-          if (response.status >= 400) {
-            throw new Error(`Failed to download ${url}: ${response.status}`);
-          }
-
-          const file = fs.createWriteStream(filePath);
-
-          response.data.pipe(file);
-
-          await new Promise((resolve, reject) => {
-            file.on('finish', resolve);
-            file.on('error', reject);
-          });
-
-          e.reply(segment.image(filePath));
+          await Promise.race([downloadPromise(), timeoutPromise]);
         } catch (err) {
-          e.reply(segment.image(url.trim()));
+          if (err.message === 'Download timed out') {
+            e.reply(segment.image(url.trim()));
+          } else {
+            throw err;
+          }
         }
       }
       let answer
