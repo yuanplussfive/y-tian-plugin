@@ -47,26 +47,22 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     "我正在思考这个问题...",
     "我得先把事情理清楚再做决定..."
   ];
-  await e.reply(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)], true, { recallMsg: 6 });
+  await e.reply(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)], false, { recallMsg: 6 });
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
-      const Msg = await handleMsg(e, msg, imgurl)
-      console.log(Msg)
-      if (!imgurl || !imgurl.startsWith("https://filesystem.site")) {
-        imgurl = await getBase64Image(imgurl)
+      //const Msg = await handleMsg(e, msg, imgurl)
+      //console.log(Msg)
+      if (e?.file) {
+        msg = "帮我分析这个文件"
       }
       msg = [
         {
-          "type": "image_url",
-          "image_url": imgurl
-        },
-        {
           "type": "text",
-          "text": Msg
+          "text": msg
         }
       ]
-    } else {
-      msg = await handleImages(e, msg, imgurl);
+      msg.push(...imgurl);
+      console.log(msg)
     }
   }
   console.log(msg)
@@ -95,39 +91,12 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
-  async function getBase64Image(imageUrl) {
-    try {
-      const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-      const base64 = 'data:image/jpeg;base64,' + Buffer.from(response.data, 'binary').toString('base64');
-      return base64;
-    } catch (error) {
-      console.error('Error fetching image:', error);
-      return imageUrl;
-    }
-  };
-
   async function loadUserHistory(userId) {
     const historyPath = `${dirpath}/user_cache/${userId}.json`;
     if (fs.existsSync(historyPath)) {
       return JSON.parse(fs.readFileSync(historyPath, "utf-8"));
     }
     return [];
-  }
-
-  async function handleImages(e, msg, imgurl) {
-    let images = imgurl
-    return images + " " + msg;
-  }
-
-  async function handleMsg(e, msg, imgurl) {
-    let images = imgurl
-    let msgs
-    if (!e?.file) {
-      msgs = msg.replace(new RegExp(images, "g"), "")
-    } else {
-      msgs = "帮我分析这个文件"
-    }
-    return msgs.trim()
   }
 
   async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
