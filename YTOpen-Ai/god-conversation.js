@@ -384,42 +384,13 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 
   async function saveUserHistory(userId, history) {
-    fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");
-  }
-
-  async function handleTTS(e, speakers, answer) {
     try {
-      let record_url = await AnimeTTS(speakers, answer);
-      let record_response = await fetch(record_url);
-      if (record_response.ok) {
-        e.reply(segment.record(record_url));
-      } else {
-        e.reply("tts合成失败,可能句子过长");
-      }
+      const filepath = `${dirpath}/user_cache/${userId}.json`;
+      await fs.writeFileSync(filepath, JSON.stringify(history), { encoding: "utf-8" });
+      console.log(`User history saved to ${filepath}`);
     } catch (error) {
-      e.reply("tts服务通讯失败,请稍候重试");
+      console.error(`Error saving user history: ${error}`);
     }
-  }
-}
-
-async function FreeChat40Functions(History) {
-  const url = "https://yuanpluss.online:3000/v1/chat/completions";
-  const body = {
-    model: 'gpt-4',
-    messages: History
-  };
-  const options = {
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "body": JSON.stringify(body)
-  };
-  try {
-    const response = await fetch(url, options);
-    return await response.text()
-  } catch {
-    return null
   }
 }
 

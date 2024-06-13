@@ -147,7 +147,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         "role": "assistant",
         "content": answer
       });
-      await saveUserHistory(userid, history);
     } catch {
       e.reply("通讯失败, 稍后再试")
     }
@@ -437,7 +436,13 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 
   async function saveUserHistory(userId, history) {
-    fs.writeFileSync(`${dirpath}/user_cache/${userId}.json`, JSON.stringify(history), "utf-8");
+    try {
+      const filepath = `${dirpath}/user_cache/${userId}.json`;
+      await fs.writeFileSync(filepath, JSON.stringify(history), { encoding: "utf-8" });
+      console.log(`User history saved to ${filepath}`);
+    } catch (error) {
+      console.error(`Error saving user history: ${error}`);
+    }
   }
 }
 
