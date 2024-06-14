@@ -10,7 +10,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   let userid = (group == false)
     ? (e.isPrivate ? e.from_id : e.user_id)
     : (e.isPrivate ? e.from_id : e.group_id);
-  let history = await loadUserHistory(userid);
+  let history = await loadUserHistory(path, userid, dirpath);
   if (god_moment_open) {
     history = await processArray(history, god_moment_numbers)
   }
@@ -80,7 +80,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     });
   }
   await MainModel(e, history, stoken, search, model, apiurl, path);
-  await saveUserHistory(userid, history);
+  await saveUserHistory(path, userid, history);
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
@@ -91,12 +91,18 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
-  async function loadUserHistory(userId) {
-    const historyPath = `${dirpath}/user_cache/${userId}.json`;
-    if (fs.existsSync(historyPath)) {
-      return JSON.parse(fs.readFileSync(historyPath, "utf-8"));
+  async function loadUserHistory(path, userId, dirpath)   {
+    const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`); 
+    try {
+      const data = fs.readFileSync(historyPath, 'utf-8');
+      return JSON.parse(data);
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        return [];
+      } else {
+        throw error;
+      }
     }
-    return [];
   }
 
   async function handleSunoModel(e, stoken, msg, model, apiurl, _path) {
@@ -393,9 +399,9 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     return description
   }
 
-  async function saveUserHistory(userId, history) {
+  async function saveUserHistory(path, userId, history) {
     try {
-      const filepath = `${dirpath}/user_cache/${userId}.json`;
+      const filepath = path.join(dirpath, 'user_cache', `${userId}.json`);
       await fs.promises.writeFile(filepath, JSON.stringify(history), { encoding: "utf-8" });
       console.log(`User history saved to ${filepath}`);
     } catch (error) {
