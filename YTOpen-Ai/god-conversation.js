@@ -80,7 +80,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     });
   }
   await MainModel(e, history, stoken, search, model, apiurl, path);
-  await saveUserHistory(path, userid, history);
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
@@ -220,6 +219,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         "role": "assistant",
         "content": answer
       });
+      await saveUserHistory(path, userid, history);
       let Messages = answer
       const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
@@ -283,7 +283,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           } catch (error) {
             e.reply(error);
           }
-          const filePath = path.join(_path, 'resources', 'dall_e_plus.png');
+          const filePath = path.join(_path, 'resources', 'dall_e_god.png');
           for (const url of urls) {
             try {
               await downloadImage(url, e, filePath);
