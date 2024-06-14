@@ -272,21 +272,18 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
-          function removeDuplicates(array) {
-            const result = array.filter((item, index) => {
-              if (item.indexOf('/cdn/download/') == -1) {
-                return true;
-              } else {
-                const nonDownloadUrl = item.replace('/cdn/download/', '/cdn/');
-                return array.indexOf(nonDownloadUrl) == -1;
-              }
-            });
-            return result;
+          try {
+            urls = await removeDuplicates(urls);
+          } catch (error) {
+            e.reply(error);
           }
-          urls = removeDuplicates(urls)
           const filePath = path.join(_path, 'resources', 'dall_e_plus.png');
           for (const url of urls) {
-            await downloadImage(url, e, filePath);
+            try {
+              await downloadImage(url, e, filePath);
+            } catch (error) {
+              e.reply(error);
+            }
           }
         }
         const set = new Set(urls.filter(url => url.startsWith("https://filesystem.site/cdn/") && !url.includes("/download/")));
@@ -304,6 +301,18 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     } catch (error) {
       e.reply("与服务器通讯失败，请尝试开启god代理或结束对话")
     }
+  }
+
+  async function removeDuplicates(array) {
+    const result = array.filter((item, index) => {
+      if (item.indexOf('/cdn/download/') == -1) {
+        return true;
+      } else {
+        const nonDownloadUrl = item.replace('/cdn/download/', '/cdn/');
+        return array.indexOf(nonDownloadUrl) == -1;
+      }
+    });
+    return result;
   }
 
   async function downloadImage(url, e, filePath) {
@@ -353,7 +362,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
     }
   }
-  
+
   async function extractDescription(str) {
     const removeAllOccurrences = (array, str) =>
       Array.isArray(array) && array.length
