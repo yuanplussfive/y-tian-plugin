@@ -13,7 +13,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   if (chat_moment_open) {
     history = await processArray(history, chat_moment_numbers)
   }
-  let message = msg
   let source
   try {
     if (e.isGroup) {
@@ -202,48 +201,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
       console.log(history)
       let History = await reduceConsecutiveRoles(history);
-      async function downloadImage(url, e, filePath) {
-        const fileExtension = path.extname(url).toLowerCase();
-        console.log(fileExtension);
-        if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
-          return;
-        }
-        const downloadTimeout = 40000;
-        const downloadPromise = async () => {
-          try {
-            const response = await axios({
-              url: url.trim(),
-              method: 'GET',
-              responseType: 'stream'
-            });
-            if (response.status >= 400) {
-              throw new Error(`Failed to download ${url}: ${response.status}`);
-            }
-            const file = fs.createWriteStream(filePath);
-            response.data.pipe(file);
-            await new Promise((resolve, reject) => {
-              file.on('finish', resolve);
-              file.on('error', reject);
-            });
-            e.reply(segment.image(filePath));
-          } catch (err) {
-            e.reply(segment.image(url.trim()));
-          }
-        };
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Download timed out')), downloadTimeout)
-        );
-
-        try {
-          await Promise.race([downloadPromise(), timeoutPromise]);
-        } catch (err) {
-          if (err.message === 'Download timed out') {
-            e.reply(segment.image(url.trim()));
-          } else {
-            throw err;
-          }
-        }
-      }
       let answer
       try {
         const response = await Promise.race([
@@ -405,6 +362,49 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
+  async function downloadImage(url, e, filePath) {
+    const fileExtension = path.extname(url).toLowerCase();
+    console.log(fileExtension);
+    if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
+      return;
+    }
+    const downloadTimeout = 40000;
+    const downloadPromise = async () => {
+      try {
+        const response = await axios({
+          url: url.trim(),
+          method: 'GET',
+          responseType: 'stream'
+        });
+        if (response.status >= 400) {
+          throw new Error(`Failed to download ${url}: ${response.status}`);
+        }
+        const file = fs.createWriteStream(filePath);
+        response.data.pipe(file);
+        await new Promise((resolve, reject) => {
+          file.on('finish', resolve);
+          file.on('error', reject);
+        });
+        e.reply(segment.image(filePath));
+      } catch (err) {
+        e.reply(segment.image(url.trim()));
+      }
+    };
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Download timed out')), downloadTimeout)
+    );
+
+    try {
+      await Promise.race([downloadPromise(), timeoutPromise]);
+    } catch (err) {
+      if (err.message === 'Download timed out') {
+        e.reply(url.trim());
+      } else {
+        throw err;
+      }
+    }
+  }
+  
   async function extractDescription(str) {
     const removeAllOccurrences = (array, str) =>
       Array.isArray(array) && array.length
@@ -438,13 +438,12 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   async function saveUserHistory(userId, history) {
     try {
       const filepath = `${dirpath}/user_cache/${userId}.json`;
-      await fs.writeFileSync(filepath, JSON.stringify(history), { encoding: "utf-8" });
+      await fs.promises.writeFile(filepath, JSON.stringify(history), { encoding: "utf-8" });
       console.log(`User history saved to ${filepath}`);
     } catch (error) {
       console.error(`Error saving user history: ${error}`);
     }
   }
-}
 
 async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
   let response;
@@ -629,6 +628,7 @@ async function processArray(arr, numbers) {
     return newArr;
   }
   return arr;
+}
 }
 
 export { run_conversation }
