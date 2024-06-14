@@ -327,8 +327,8 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           return false
         }
         result.forEach((url, index) => {
-          const path = `${_path}/resources/dall_e_plus_${index}_chat.png`;
-          downloadImage(url, e, path);
+          const filePath = `${_path}/resources/dall_e_plus_${index}_chat.png`;
+          downloadImage(path, url, e, filePath);
         })
       }
       if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
@@ -342,7 +342,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           const filePath = path.join(_path, 'resources', 'dall_e_chat.png');
           for (const url of urls) {
             try {
-              await downloadImage(url, e, filePath);
+              await downloadImage(path, url, e, filePath);
             } catch (error) {
               e.reply(error);
             }
@@ -377,7 +377,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     return result;
   }
 
-  async function downloadImage(url, e, filePath) {
+  async function downloadImage(path, url, e, filePath) {
     const fileExtension = path.extname(url).toLowerCase();
     console.log(fileExtension);
     if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
@@ -400,9 +400,11 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           file.on('finish', resolve);
           file.on('error', reject);
         });
+        console.log(111);
         e.reply(segment.image(filePath));
       } catch (err) {
-        e.reply(segment.image(url.trim()));
+        console.log(err);
+        e.reply(url.trim());
       }
     };
     const timeoutPromise = new Promise((_, reject) =>
