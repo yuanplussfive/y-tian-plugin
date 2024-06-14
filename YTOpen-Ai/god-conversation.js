@@ -405,7 +405,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       await fs.promises.writeFile(filepath, JSON.stringify(history), { encoding: "utf-8" });
       console.log(`User history saved to ${filepath}`);
     } catch (error) {
-      console.error(`Error saving user history: ${error}`);
+      e.reply(`Error saving user history: ${error}`);
     }
   }
 
