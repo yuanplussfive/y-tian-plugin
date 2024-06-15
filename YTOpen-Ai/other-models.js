@@ -115,31 +115,31 @@ export const other_models = [
   },
   {
     "id":20,
-    "model": "claude-1.3-100k",
+    "model": "claude-1-100k",
     "points": "Claude",
     "token": 100000
   },
   {
     "id":21,
-    "model": "claude-2",
+    "model": "claude-1.3-100k",
     "points": "Claude",
     "token": 200000
   },
   {
     "id":22,
-    "model": "claude-3-haiku",
+    "model": "claude-2-200k",
     "points": "Claude",
     "token": 200000
   },
   {
     "id":23,
-    "model": "claude-3-sonnect",
+    "model": "claude-3-haiku",
     "points": "Claude",
     "token": 200000
   },
   {
     "id":24,
-    "model": "claude-3-opus",
+    "model": "claude-3-sonnet",
     "points": "Claude",
     "token": 200000
   },
@@ -514,5 +514,29 @@ export const other_models = [
     "model": "custom-diffusion",
     "points": "satable-diffusion",
     "token": 550
+  },
+  {
+    "id": 87,
+    "model": "gpt-4-dalle",
+    "points": "OpenAi",
+    "token": 32000
+  },
+  {
+    "id": 88,
+    "model": "dall-e-3",
+    "points": "OpenAi",
+    "token": 2000
+  },
+  {
+    "id": 89,
+    "model": "grok-v1.0",
+    "points": "XAi",
+    "token": 40000
+  },
+  {
+    "id": 90,
+    "model": "grok-v1.5",
+    "points": "XAi",
+    "token": 40000
   }
 ]
