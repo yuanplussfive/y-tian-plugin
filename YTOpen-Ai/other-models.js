@@ -538,5 +538,17 @@ export const other_models = [
     "model": "grok-v1.5",
     "points": "XAi",
     "token": 40000
+  },
+  {
+    "id": 91,
+    "model": "gpt-4-all",
+    "points": "OpenAi",
+    "token": 128000
+  },
+  {
+    "id": 92,
+    "model": "gpt-4o-all",
+    "points": "OpenAi",
+    "token": 128000
   }
 ]
