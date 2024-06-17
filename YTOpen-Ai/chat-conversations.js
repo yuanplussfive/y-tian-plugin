@@ -28,25 +28,11 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   console.log(source)
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
-  let { ai_private_plan, ai_private_open } = aiSettings.chatgpt;
-  const thinkingPhrases = [
-    "让我想想啊",
-    "我正在思考中...",
-    "稍等一下，我在考虑...",
-    "我需要一点时间来思考...",
-    "让我冷静一下，我会给你答案的...",
-    "我得好好想一想",
-    "我正在琢磨中...",
-    "我需要一些时间来思考这个问题...",
-    "我正在寻找答案...",
-    "我得先理清思路...",
-    "我正在考虑各种可能性...",
-    "我得先把事情梳理清楚...",
-    "我需要一些时间来思考...",
-    "我正在思考这个问题...",
-    "我得先把事情理清楚再做决定..."
-  ];
-  await e.reply(thinkingPhrases[Math.floor(Math.random() * thinkingPhrases.length)], false, { recallMsg: 6 });
+  let { prompts_answers, prompts_answer_open, ai_private_plan, ai_private_open } = aiSettings.chatgpt;
+  if (prompts_answers && prompts_answer_open) {
+    const tips = prompts_answers
+    await e.reply(tips, true, { recallMsg: 6 });
+  }
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
     if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307" || model.includes("gpt-4-gizmo")) {
       //const Msg = await handleMsg(e, msg, imgurl)
@@ -90,7 +76,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 
   async function loadUserHistory(path, userId, dirpath) {
-    const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`); 
+    const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
     try {
       const data = fs.readFileSync(historyPath, 'utf-8');
       return JSON.parse(data);
@@ -191,6 +177,40 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
+  async function handlelumaModel(e, Apikey, msg, model, apiurl, _path) {
+    try {
+      let answer;
+      const response = await fetch(apiurl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Apikey}`,
+        },
+        body: JSON.stringify({
+          model: model,
+          stream: true,
+          messages: [{ role: "user", content: msg }]
+        }),
+      });
+      const input = await response.text();
+      console.log(input)
+      const urlRegex = /https:\/\/filesystem\.site\/cdn\/[0-9]{8}\/[A-Za-z0-9]+(\.(mp3|mp4))/g;
+      const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
+      const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
+      answer = contentArray.join('').trim();
+      e.reply(answer);
+      console.log(answer)
+      const urls = answer.match(urlRegex)
+      console.log(urls)
+      if (urls.length !== 0) {
+        urls.filter(url => url.endsWith('.mp4')).map(url => e.reply(segment.video(url)));
+      }
+    } catch (error) {
+      console.log(error)
+      e.reply("通讯失败, 稍后再试")
+    }
+  }
+
   async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
     if (model == "mj-chat") {
       await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
@@ -198,6 +218,10 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
     if (model.includes("suno")) {
       await handleSunoModel(e, Apikey, msg, model, apiurl, _path);
+      return false
+    }
+    if (model.includes("luma")) {
+      await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
       return false
     }
     try {
@@ -454,120 +478,139 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 
   async function saveUserHistory(path, userId, history) {
     try {
+      const lastSystemMessage = history.filter(item => item.role === 'system').pop();
+      if (lastSystemMessage) {
+        history = history.filter(item => item.role !== 'system');
+        history.unshift(lastSystemMessage);
+      }
       const filepath = path.join(dirpath, 'user_cache', `${userId}.json`);
-      await fs.promises.writeFile(filepath, JSON.stringify(history), { encoding: "utf-8" });
+      await fs.writeFileSync(filepath, JSON.stringify(history), { encoding: 'utf-8' });
       console.log(`User history saved to ${filepath}`);
     } catch (error) {
-      e.reply(`Error saving user history: ${error}`);
+      console.error(`Error saving user history: ${error}`);
     }
   }
 
-async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
-  let response;
-  const functionsToTry = [
-    FreeChat35_1,
-    FreeChat35_2,
-    FreeChat35_3,
-    FreeChat35_4,
-    FreeChat35_5,
-  ];
-  for (let func of functionsToTry) {
-    response = await func(messages, fetch, crypto);
-    if (response) break;
-  }
-  if (!response) {
-    return null;
-  }
-  return response;
-}
-
-async function FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, messages, fetch, crypto) {
-  let response;
-  const functionsToTry = [
-    FreeGemini_1,
-    FreeGemini_2,
-    FreeGemini_3
-  ];
-  for (let func of functionsToTry) {
-    response = await func(messages, fetch, crypto);
-    if (response) break;
-  }
-  if (!response) {
-    return null;
-  }
-  return response;
-}
-
-async function FreeClaudeFunctions(FreeClaude_1, messages, fetch, crypto) {
-  let response;
-  const functionsToTry = [
-    FreeClaude_1
-  ];
-  for (let func of functionsToTry) {
-    response = await func(messages, fetch, crypto);
-    if (response) break;
-  }
-  if (!response) {
-    return null;
-  }
-  return response;
-}
-
-async function get_address(inputString) {
-  const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/)[^\s\)]+)\))/g;
-  let match;
-  let links = [];
-  while ((match = regex.exec(inputString)) !== null) {
-    const link = match[2];
-    if (!links.includes(link)) {
-      links.push(link);
+  async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
+    let response;
+    const functionsToTry = [
+      FreeChat35_1,
+      FreeChat35_2,
+      FreeChat35_3,
+      FreeChat35_4,
+      FreeChat35_5,
+    ];
+    for (let func of functionsToTry) {
+      response = await func(messages, fetch, crypto);
+      if (response) break;
     }
+    if (!response) {
+      return null;
+    }
+    return response;
   }
-  console.log(links);
-  return links
-}
 
-async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
-  try {
-    const response = await fetch(url.trim());
-    const fileBuffer = await response.arrayBuffer();
-    const urlPartArray = url.split('/');
-    const filename = urlPartArray[urlPartArray.length - 1];
-    function getFileExtension(filename) {
-      let ext = path.extname(filename);
-      if (ext.startsWith(".")) {
-        return ext;
+  async function FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, messages, fetch, crypto) {
+    let response;
+    const functionsToTry = [
+      FreeGemini_1,
+      FreeGemini_2,
+      FreeGemini_3
+    ];
+    for (let func of functionsToTry) {
+      response = await func(messages, fetch, crypto);
+      if (response) break;
+    }
+    if (!response) {
+      return null;
+    }
+    return response;
+  }
+
+  async function FreeClaudeFunctions(FreeClaude_1, messages, fetch, crypto) {
+    let response;
+    const functionsToTry = [
+      FreeClaude_1
+    ];
+    for (let func of functionsToTry) {
+      response = await func(messages, fetch, crypto);
+      if (response) break;
+    }
+    if (!response) {
+      return null;
+    }
+    return response;
+  }
+
+  async function get_address(inputString) {
+    const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/)[^\s\)]+)\))/g;
+    let match;
+    let links = [];
+    while ((match = regex.exec(inputString)) !== null) {
+      const link = match[2];
+      if (!links.includes(link)) {
+        links.push(link);
       }
-      return '无法识别的文件类型';
     }
-    function getFileExtensionFromUrl(url) {
-      let filename = path.basename(url);
-      return getFileExtension(filename);
-    }
-    let fileExtension = getFileExtensionFromUrl(url);
-    const time = new Date().getTime()
-    if (!fs.existsSync(`${_path}/resources/YT_alltools`)) {
-      fs.mkdirSync(`${_path}/resources/YT_alltools`)
-    }
-    const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
-    fs.writeFileSync(filePath, Buffer.from(fileBuffer));
-    e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
-  } catch (error) {
-    console.error(`失败了: ${url}: ${error}`);
-  }
-}
-
-async function reduceConsecutiveRoles(array) {
-  const result = [];
-  let consecutiveUserItems = [];
-  let lastSystemItem = null;
-  if (array.length > 0 && array[0].role === 'assistant') {
-    array = array.slice(1);
+    console.log(links);
+    return links
   }
 
-  for (const item of array) {
-    if (item.role === 'user') {
-      if (Array.isArray(item.content)) {
+  async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {
+    try {
+      const response = await fetch(url.trim());
+      const fileBuffer = await response.arrayBuffer();
+      const urlPartArray = url.split('/');
+      const filename = urlPartArray[urlPartArray.length - 1];
+      function getFileExtension(filename) {
+        let ext = path.extname(filename);
+        if (ext.startsWith(".")) {
+          return ext;
+        }
+        return '无法识别的文件类型';
+      }
+      function getFileExtensionFromUrl(url) {
+        let filename = path.basename(url);
+        return getFileExtension(filename);
+      }
+      let fileExtension = getFileExtensionFromUrl(url);
+      const time = new Date().getTime()
+      if (!fs.existsSync(`${_path}/resources/YT_alltools`)) {
+        fs.mkdirSync(`${_path}/resources/YT_alltools`)
+      }
+      const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
+      fs.writeFileSync(filePath, Buffer.from(fileBuffer));
+      e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
+    } catch (error) {
+      console.error(`失败了: ${url}: ${error}`);
+    }
+  }
+
+  async function reduceConsecutiveRoles(array) {
+    const result = [];
+    let consecutiveUserItems = [];
+    let lastSystemItem = null;
+    if (array.length > 0 && array[0].role === 'assistant') {
+      array = array.slice(1);
+    }
+
+    for (const item of array) {
+      if (item.role === 'user') {
+        if (Array.isArray(item.content)) {
+          if (consecutiveUserItems.length > 0) {
+            result.push({
+              role: 'user',
+              content: consecutiveUserItems.join('\n')
+            });
+            consecutiveUserItems = [];
+          }
+          result.push(item);
+        } else {
+          consecutiveUserItems.push(item.content);
+        }
+      } else if (item.role === 'system') {
+        lastSystemItem = item;
+      } else {
         if (consecutiveUserItems.length > 0) {
           result.push({
             role: 'user',
@@ -576,76 +619,62 @@ async function reduceConsecutiveRoles(array) {
           consecutiveUserItems = [];
         }
         result.push(item);
-      } else {
-        consecutiveUserItems.push(item.content);
       }
-    } else if (item.role === 'system') {
-      lastSystemItem = item;
-    } else {
-      if (consecutiveUserItems.length > 0) {
-        result.push({
-          role: 'user',
-          content: consecutiveUserItems.join('\n')
-        });
-        consecutiveUserItems = [];
-      }
-      result.push(item);
-    }
-  }
-
-  if (consecutiveUserItems.length > 0) {
-    result.push({
-      role: 'user',
-      content: consecutiveUserItems.join('\n')
-    });
-  }
-
-  if (lastSystemItem !== null) {
-    result.unshift(lastSystemItem);
-  }
-
-  return result;
-}
-
-async function extractImageLinks2(answer) {
-  const imageLinkRegex = /\[下载.*?\]\((https:\/\/filesystem.site\/cdn\/download\/.*?)\)/g;
-  const imageLinks = answer.matchAll(imageLinkRegex);
-  return Array.from(imageLinks, (match) => match[1]);
-}
-
-async function extractImageLinks3(answer) {
-  const imageLinkRegex = /\[.*\]\((https:\/\/filesystem.site\/cdn\/.*?)\)/g;
-  const imageLinks = answer.matchAll(imageLinkRegex);
-  return Array.from(imageLinks, (match) => match[1]);
-}
-
-async function processArray(arr, numbers) {
-  const userCount = arr.reduce((count, obj) => obj.role === "user" ? count + 1 : count, 0);
-  const systemIndex = arr.findIndex(obj => obj.role === "system");
-
-  if (userCount >= numbers) {
-    let newArr = [];
-    if (systemIndex !== -1) {
-      newArr.push(arr[systemIndex]);
     }
 
-    for (let i = arr.length - 1; i >= 0; i--) {
-      const obj = arr[i];
-      if (obj.role !== "user" && obj.role !== "assistant") {
-        newArr.unshift(obj);
-      } else if (newArr.length < numbers) {
-        if (obj.role === "user" && arr[i + 1]?.role === "assistant") {
-          newArr.unshift(arr[i + 1], obj);
-          i--;
-        } else {
+    if (consecutiveUserItems.length > 0) {
+      result.push({
+        role: 'user',
+        content: consecutiveUserItems.join('\n')
+      });
+    }
+
+    if (lastSystemItem !== null) {
+      result.unshift(lastSystemItem);
+    }
+
+    return result;
+  }
+
+  async function extractImageLinks2(answer) {
+    const imageLinkRegex = /\[下载.*?\]\((https:\/\/filesystem.site\/cdn\/download\/.*?)\)/g;
+    const imageLinks = answer.matchAll(imageLinkRegex);
+    return Array.from(imageLinks, (match) => match[1]);
+  }
+
+  async function extractImageLinks3(answer) {
+    const imageLinkRegex = /\[.*\]\((https:\/\/filesystem.site\/cdn\/.*?)\)/g;
+    const imageLinks = answer.matchAll(imageLinkRegex);
+    return Array.from(imageLinks, (match) => match[1]);
+  }
+
+  async function processArray(arr, numbers) {
+    const userCount = arr.reduce((count, obj) => obj.role === "user" ? count + 1 : count, 0);
+    const systemIndex = arr.findIndex(obj => obj.role === "system");
+
+    if (userCount >= numbers) {
+      let newArr = [];
+      if (systemIndex !== -1) {
+        newArr.push(arr[systemIndex]);
+      }
+
+      for (let i = arr.length - 1; i >= 0; i--) {
+        const obj = arr[i];
+        if (obj.role !== "user" && obj.role !== "assistant") {
           newArr.unshift(obj);
+        } else if (newArr.length < numbers) {
+          if (obj.role === "user" && arr[i + 1]?.role === "assistant") {
+            newArr.unshift(arr[i + 1], obj);
+            i--;
+          } else {
+            newArr.unshift(obj);
+          }
         }
       }
+      return newArr;
     }
-    return newArr;
+    return arr;
   }
-  return arr;
-}
 }
 
 export { run_conversation }

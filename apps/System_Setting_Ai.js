@@ -50,8 +50,18 @@ export class example extends plugin {
           permission: 'master'
         },
         {
+          reg: "^#(开启|关闭)提示回复",
+          fnc: 'promptAnswer',
+          permission: 'master'
+        },
+        {
           reg: "^#更改(sess|chat|god|附加)触发名(.*)",
           fnc: 'renameTrigger',
+          permission: 'master'
+        },
+        {
+          reg: "^#更改回复提示词(.*)",
+          fnc: 'prompttips',
           permission: 'master'
         },
         {
@@ -131,6 +141,20 @@ export class example extends plugin {
         }
       ]
     })
+  }
+
+  async prompttips(e) {
+    let data = readJsonFile(dataFilePath);
+    data.chatgpt.prompts_answers = e.msg.replace("#更改回复提示词", '');
+    writeJsonFile(dataFilePath, data);
+    e.reply(`提示回复词已成功切换为 ·${data.chatgpt.prompts_answers}·`);
+  }
+
+  async promptAnswer(e) {
+    let data = readJsonFile(dataFilePath);
+    data.chatgpt.prompts_answer_open = e.msg.includes("开启");
+    writeJsonFile(dataFilePath, data);
+    e.reply(`提示回复已${data.chatgpt.prompts_answer_open ? '开启' : '关闭'}`);
   }
 
   async pictureStyles(e) {
