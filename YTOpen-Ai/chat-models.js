@@ -371,6 +371,18 @@ export const chat_models = {
       "name": "suno-v3.5",
       "token_count": "2000",  
       "Magnification": '固定0.4$'
+    },
+    {
+      "id": "63",
+      "name": "luma-video",
+      "token_count": "28000",  
+      "Magnification": '固定0.1$'
+    },
+    {
+      "id": "64",
+      "name": "claude-3-5-sonnet-20240620",
+      "token_count": "200000",
+      "Magnification": '3'
     }
   ]
 }

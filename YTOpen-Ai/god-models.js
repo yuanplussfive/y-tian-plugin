@@ -608,5 +608,15 @@ export const god_models = [
         "style": "once",
         "owned_by": "y-tian-plugin",
         "features": ['music']
+    },
+    {
+        "id": 62,
+        "model": "claude-3-5-sonnet-0620",
+        "created": 1686935002,
+        "token": 200000,
+        "points": "0.6/token",
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code']
     }
 ]
