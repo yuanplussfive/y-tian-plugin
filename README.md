@@ -108,6 +108,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ claude-3-haiku
 &nbsp;&nbsp;✨ claude-3-sonnect
 &nbsp;&nbsp;✨ claude-3-opus
+&nbsp;&nbsp;✨ claude-3.5-sonnet-0620
 <br>
 🔹 <b>Google</b>
 &nbsp;&nbsp;✨ google-palm

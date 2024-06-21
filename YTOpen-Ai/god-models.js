@@ -614,7 +614,7 @@ export const god_models = [
         "model": "claude-3-5-sonnet-0620",
         "created": 1686935002,
         "token": 200000,
-        "points": "0.6/token",
+        "points": "0.3/token",
         "style": "token",
         "owned_by": "y-tian-plugin",
         "features": ['conversation', 'code']

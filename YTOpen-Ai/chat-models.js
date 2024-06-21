@@ -382,7 +382,7 @@ export const chat_models = {
       "id": "64",
       "name": "claude-3-5-sonnet-20240620",
       "token_count": "200000",
-      "Magnification": '3'
+      "Magnification": '1.5'
     }
   ]
 }
