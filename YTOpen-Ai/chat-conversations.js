@@ -67,15 +67,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     "role": "user",
     "content": msg
   });
-  if (model.includes("claude")) {
-    history = history.map(obj => {
-      if (obj.role === "system") {
-        return { ...obj, role: "user" };
-      } else {
-        return obj;
-      }
-    });
-  }
   await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
 
   async function formatMessage(originalMsg) {

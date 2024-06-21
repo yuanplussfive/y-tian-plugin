@@ -66,15 +66,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     "role": "user",
     "content": msg
   });
-  if (model.includes("claude")) {
-    history = history.map(obj => {
-      if (obj.role === "system") {
-        return { ...obj, role: "user" };
-      } else {
-        return obj;
-      }
-    });
-  }
   await MainModel(e, history, stoken, search, model, apiurl, path);
 
   async function formatMessage(originalMsg) {
