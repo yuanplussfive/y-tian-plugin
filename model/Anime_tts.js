@@ -1,37 +1,31 @@
-async function handleTTS(e, speakers, answer, WebSocket, _path, fs) {
+async function handleTTS(e, speakers, answer, WebSocket, fs, _path) {
   try {
-    let record_url = await AnimeTTS(WebSocket, speakers, answer);
-    console.log(record_url)
-    const base64Data = record_url.split(',')[1];
-    const audioBuffer = Buffer.from(base64Data, 'base64');
-    fs.writeFile(`${_path}/resources/tts.mp3`, audioBuffer, (err) => {
-      if (err) {
-        console.error('Failed to save audio file:', err);
-      } else {
-        e.reply(segment.record(`${_path}/resources/tts.mp3`));
-      }
-    });
+    let record_url = await AnimeTTS(speakers, answer);
+    e.reply(segment.record(record_url));
   } catch (error) {
     console.log(error)
-    e.reply("tts服务通讯失败,请稍候重试");
   }
 
-  async function AnimeTTS(WebSocket, speakers, answer) {
+  async function AnimeTTS(speakers, text) {
     const session_hash = Math.random().toString(36).substring(2, 12);
     const data = {
       data: [
-        answer,
-        '中文',
-        '琪亚娜',
-        0.6,
-        0.668,
-        1.2
+        text,
+        true,
+        null,
+        '',
+        0,
+        48,
+        0.7,
+        1.5,
+        0.7,
+        speakers
       ],
-      fn_index: 0,
+      fn_index: 4,
       session_hash
     };
     return new Promise((resolve, reject) => {
-      const ws = new WebSocket('wss://yuanpluss-vits.hf.space/queue/join', {
+      const ws = new WebSocket('wss://fs.firefly.matce.cn/queue/join', {
         headers: {
           'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
           'cache-control': 'no-cache',
@@ -43,8 +37,10 @@ async function handleTTS(e, speakers, answer, WebSocket, _path, fs) {
       const messages = [];
 
       ws.on('open', async () => {
-        await ws.send(JSON.stringify({ fn_index: 0, session_hash: data.session_hash }));
-        await ws.send(JSON.stringify(data));
+        ws.send(JSON.stringify({ fn_index: 4, session_hash: data.session_hash }));
+        ws.on('message', (response) => {
+          ws.send(JSON.stringify(data));
+        });
       });
 
       ws.on('message', (message) => {
@@ -59,8 +55,13 @@ async function handleTTS(e, speakers, answer, WebSocket, _path, fs) {
       ws.on('close', () => {
         const result = messages.pop();
         const outputs = JSON.parse(result);
-        resolve(outputs.output.data[1]);
-      });
+        console.log(outputs)
+        let recordurl = null
+        if (outputs.output.data[0] && outputs.output.data[0].name) {
+          recordurl = 'https://fs.firefly.matce.cn/file=' + outputs.output.data[0].name
+        }
+        resolve(recordurl);
+      })
     });
   }
 }

@@ -35,9 +35,19 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     await e.reply(tips, true, { recallMsg: 6 });
   }
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "god" && ai_private_open === true)) {
-    if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o" || model == "gemini-pro-vision" || model == "claude-3-opus-20240229" || model == "claude-3-sonnet-20240229" || model == "claude-3-haiku-20240307") {
-      //const Msg = await handleMsg(e, msg, imgurl)
-      //console.log(Msg)
+    const Models = [
+      "gpt-4-all",
+      "gpt-4-dalle",
+      "gpt-4o",
+      "gpt-4o-all",
+      "gpt-4-v",
+      "gemini-pro-vision",
+      "claude-3-opus-20240229",
+      "claude-3-sonnet-20240229",
+      "claude-3-haiku-20240307"
+  ];
+  
+  if (Models.includes(model) || model.includes("claude-3-5") || model.includes("gpt-4-gizmo")) {
       if (e?.file) {
         msg = "帮我分析这个文件"
       }
@@ -248,7 +258,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {
-        await handleTTS(e, aiSettings.chatgpt.ai_tts_role, answer, WebSocket, _path, fs);
+        await handleTTS(e, speakers, answer, WebSocket, fs, _path);
       }
       if (model == "gpt-4-dalle") {
         let result = await extractImageLinks2(answer)
