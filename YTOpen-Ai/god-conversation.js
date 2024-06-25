@@ -237,13 +237,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           uniqueUrls.splice(duplicateIndex, 1);
         }
         console.log(uniqueUrls)
-        if (uniqueUrls.length > 0) {
-          let imgs = ""
-          for (let i = 0; i < uniqueUrls.length; i++) {
-            imgs += `![image${i + 1}](${uniqueUrls[i]})\n`;
-          }
-          Messages = imgs + Messages;
-        }
       }
       await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
