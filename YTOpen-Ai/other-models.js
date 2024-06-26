@@ -550,5 +550,23 @@ export const other_models = [
     "model": "gpt-4o-all",
     "points": "OpenAi",
     "token": 128000
+  },
+  {
+    "id": 93,
+    "model": "qwen-2-turbo",
+    "points": "qwen",
+    "token": 100000
+  },
+  {
+    "id": 94,
+    "model": "glm-4-all",
+    "points": "qwen",
+    "token": 128000
+  },
+  {
+    "id": 95,
+    "model": "kimi-all",
+    "points": "moonshot",
+    "token": 200000
   }
 ]
