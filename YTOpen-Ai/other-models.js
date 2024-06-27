@@ -568,5 +568,11 @@ export const other_models = [
     "model": "kimi-all",
     "points": "moonshot",
     "token": 200000
+  },
+  {
+    "id": 96,
+    "model": "claude-3.5-sonnet",
+    "points": "claude",
+    "token": 200000
   }
 ]
