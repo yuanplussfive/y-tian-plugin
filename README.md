@@ -31,7 +31,7 @@
 > Y-Tian-Plugin 是一款集成多种功能的 Yunzai-Bot V3 插件包,旨在通过集成多种 AI 模型与娱乐功能,使机器人更加多功能化。
 
 
-> 旨在为用户提供免费AI模型供日常生活和学习,附加/sess/专业版/国产等方案集成百余个流行大模型,免费使用100+大模型(包括 GPT-4/4o 等),,不限用量。(PS: 非法用途如 GHS 等,本插件必要时会封禁用户 IP,望周知)
+> 旨在为用户提供免费AI模型供日常生活和学习,附加版/专业版/国产等方案集成百余个流行大模型,免费使用100+大模型(包括 GPT-4/4-all 等),小白可优先选择附加免费方案，集成gpt-4-all/claude-3.5-sonnet等强大模型，不限用量。(PS: 非法用途如 GHS 等,本插件必要时会封禁用户 IP,望周知)
 
 2. **🧠 AI模型支持** <br>
 - 集成了如 **ChatGPT**、**Anthropic**、**ChatGLM**、**Gemini**、**Stable Diffusion**、**Midjourney**、**Suno**、**Pika** 、**Bing**、**Copilot** 等多种主流 AI 模型
@@ -143,6 +143,9 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ chatglm-4
 &nbsp;&nbsp;✨ chatglm-4-v
 &nbsp;&nbsp;✨ chatglm-4-alltools
+&nbsp;&nbsp;✨ chatglm-4-0520
+&nbsp;&nbsp;✨ chatglm-4-flash
+&nbsp;&nbsp;✨ chatglm-4-air-0520
 <br>
 🔹 <b>mixtral</b>
 &nbsp;&nbsp;✨ mixtral-8x7b
@@ -175,6 +178,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 🔹 <b>字节跳动</b>
 &nbsp;&nbsp;✨ doubao
 &nbsp;&nbsp;✨ doubao-all
+&nbsp;&nbsp;✨ doubao-32k
 &nbsp;&nbsp;✨ coze-assistent-all
 &nbsp;&nbsp;✨ coze-gpt-4-all
 <br>
@@ -268,9 +272,10 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 <br>  
 🔹 <b>歌曲生成</b>
 &nbsp;&nbsp;✨ Suno-V3
+&nbsp;&nbsp;✨ Suno-V3.5
 <br>  
 🔹 <b>OpenAi</b>
-&nbsp;&nbsp;✨ tts/tts-hd
+&nbsp;&nbsp;✨ tts/tts-1-hd
 </details>
 
 
