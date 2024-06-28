@@ -44,9 +44,9 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       "claude-3-opus-20240229",
       "claude-3-sonnet-20240229",
       "claude-3-haiku-20240307"
-  ];
-  
-  if (Models.includes(model) || model.includes("claude-3-5") || model.includes("gpt-4-gizmo")) {
+    ];
+
+    if (Models.includes(model) || model.includes("claude-3-5") || model.includes("gpt-4-gizmo")) {
       //const Msg = await handleMsg(e, msg, imgurl)
       //console.log(Msg)
       if (e?.file) {
@@ -183,6 +183,12 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   async function handlelumaModel(e, Apikey, msg, model, apiurl, _path) {
     try {
       let answer;
+      let question = msg
+      const links = await extractUrl(imgurl);
+      console.log(links)
+      if (links && links.length !== 0) {
+        question += ' ' + links
+      }
       const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
@@ -192,7 +198,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         body: JSON.stringify({
           model: model,
           stream: true,
-          messages: [{ role: "user", content: msg }]
+          messages: [{ role: "user", content: question }]
         }),
       });
       const input = await response.text();
@@ -384,6 +390,18 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     } catch (error) {
       e.reply("与服务器通讯失败，请尝试开启chat代理或结束对话")
     }
+  }
+
+  async function extractUrl(array) {
+    for (const item of array) {
+      if (item.type === 'image_url' && item.image_url && item.image_url.url) {
+        const url = item.image_url.url;
+        if (url.startsWith('https://filesystem.site')) {
+          return url;
+        }
+      }
+    }
+    return null;
   }
 
   async function removeDuplicates(array) {

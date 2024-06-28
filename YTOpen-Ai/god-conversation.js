@@ -45,9 +45,9 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       "claude-3-opus-20240229",
       "claude-3-sonnet-20240229",
       "claude-3-haiku-20240307"
-  ];
-  
-  if (Models.includes(model) || model.includes("claude-3-5") || model.includes("gpt-4-gizmo")) {
+    ];
+
+    if (Models.includes(model) || model.includes("claude-3-5") || model.includes("gpt-4-gizmo")) {
       if (e?.file) {
         msg = "帮我分析这个文件"
       }
@@ -126,6 +126,46 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
+  async function handlelumaModel(e, Apikey, msg, model, apiurl, _path) {
+    try {
+      let answer;
+      let question = msg
+      const links = await extractUrl(imgurl);
+      console.log(links)
+      if (links && links.length !== 0) {
+        question += ' ' + links
+      }
+      const response = await fetch(apiurl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Apikey}`,
+        },
+        body: JSON.stringify({
+          model: model,
+          stream: true,
+          messages: [{ role: "user", content: question }]
+        }),
+      });
+      const input = await response.text();
+      console.log(input)
+      const urlRegex = /https:\/\/filesystem\.site\/cdn\/[0-9]{8}\/[A-Za-z0-9]+(\.(mp3|mp4))/g;
+      const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
+      const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
+      answer = contentArray.join('').trim();
+      e.reply(answer);
+      console.log(answer)
+      const urls = answer.match(urlRegex)
+      console.log(urls)
+      if (urls.length !== 0) {
+        urls.filter(url => url.endsWith('.mp4')).map(url => e.reply(segment.video(url)));
+      }
+    } catch (error) {
+      console.log(error)
+      e.reply("通讯失败, 稍后再试")
+    }
+  }
+
   async function MainModel(e, history, stoken, search, model, apiurl, path) {
     try {
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
@@ -133,6 +173,10 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
       if (model.includes("suno")) {
         await handleSunoModel(e, stoken, msg, model, apiurl, _path);
+        return false
+      }
+      if (model.includes("luma")) {
+        await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
         return false
       }
       console.log(history)
@@ -378,6 +422,18 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     description = description.replace(/\[下载\d+\]\(https:\/\/filesystem.site\/cdn\/download\/.*?\)\n/g, '');
     description = description.replace(/\{[^{}]*"prompt"[^{}]*"size"[^{}]*\}\s*/g, '');
     return description
+  }
+
+  async function extractUrl(array) {
+    for (const item of array) {
+      if (item.type === 'image_url' && item.image_url && item.image_url.url) {
+        const url = item.image_url.url;
+        if (url.startsWith('https://filesystem.site')) {
+          return url;
+        }
+      }
+    }
+    return null;
   }
 
   async function saveUserHistory(path, userId, history) {
