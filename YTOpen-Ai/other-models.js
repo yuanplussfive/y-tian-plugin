@@ -574,5 +574,11 @@ export const other_models = [
     "model": "claude-3.5-sonnet",
     "points": "claude",
     "token": 200000
+  },
+  {
+    "id": 97,
+    "model": "nijijourney",
+    "points": "nijijourney",
+    "token": 2000
   }
 ]

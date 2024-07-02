@@ -120,13 +120,13 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         return false
       }
       if (url.length == 0) {
-        e.reply("提示词违规, 请更改后重试")
+        e.reply(answer)
         return false
       }
       url = url[url.length - 1]
       let path2 = _path + '/resources/MJ.png'
       let file = fs.createWriteStream(path2);
-      let request = https.get(url, function (response) {
+      https.get(url, function (response) {
         response.pipe(file);
         file.on('finish', function () {
           file.close(() => {
@@ -140,6 +140,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         "role": "assistant",
         "content": answer
       });
+      await saveUserHistory(path, userid, history);
     } catch {
       e.reply("通讯失败, 稍后再试")
     }
