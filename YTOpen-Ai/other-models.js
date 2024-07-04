@@ -571,12 +571,18 @@ export const other_models = [
   },
   {
     "id": 96,
-    "model": "claude-3.5-sonnet",
+    "model": "claude-3-opus",
     "points": "claude",
     "token": 200000
   },
   {
     "id": 97,
+    "model": "claude-3.5-sonnet",
+    "points": "claude",
+    "token": 200000
+  },
+  {
+    "id": 98,
     "model": "nijijourney",
     "points": "nijijourney",
     "token": 2000
