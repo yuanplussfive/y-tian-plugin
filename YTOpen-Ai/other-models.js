@@ -199,13 +199,13 @@ export const other_models = [
   },
   {
     "id":34,
-    "model": "chatglm-turbo",
+    "model": "glm-turbo",
     "points": "清华&智谱",
     "token": 8000
   },
   {
     "id":35,
-    "model": "chatglm-pro",
+    "model": "glm-pro",
     "points": "清华&智谱",
     "token": 8000
   },
@@ -217,7 +217,7 @@ export const other_models = [
   },
   {
     "id":37,
-    "model": "chatglm-4",
+    "model": "glm-4",
     "points": "清华&智谱",
     "token": 128000
   },
