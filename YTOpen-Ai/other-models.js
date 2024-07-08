@@ -586,5 +586,11 @@ export const other_models = [
     "model": "nijijourney",
     "points": "nijijourney",
     "token": 2000
+  },
+  {
+    "id": 99,
+    "model": "suno-v3",
+    "points": "suno",
+    "token": 2800
   }
 ]

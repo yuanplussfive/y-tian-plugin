@@ -477,6 +477,13 @@
             "points": "nijijourney(限速)",
             "token": 2000,
             "features": ['drawing']
+          },
+          {
+            "id": 99,
+            "model": "suno-v3",
+            "points": "suno(限速)",
+            "token": 2800,
+            "features": ['music']
           }
         ]
       }
@@ -496,6 +503,12 @@
         }
         if (item.features.includes('conversation')) {
           features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
         }
         document.write(`
           <tr>
