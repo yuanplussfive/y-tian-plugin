@@ -1,4 +1,4 @@
-async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse) {
+async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse, GeminiResponse, claudeResponse) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { model, search } = chatgptConfig;
   let msg = await formatMessage(e.msg);
@@ -266,9 +266,9 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       } catch (error) {
         if (error.message === 'Timeout') {
           answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
-            : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
-              : model.includes("gpt-4") ? await GPT4oResponse(msg, History, axios)
-                : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
+            : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
+              : model.includes("gpt-4") ? await GPT4oResponse(msg, History, fetch, axios)
+                : model.includes("claude") ? await claudeResponse(History, fetch, crypto)
                   : null;
         } else {
           answer = null;
@@ -277,9 +277,9 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
 
       if (!answer) {
         answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
-          : model.includes("gemini-pro") ? await FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, History, fetch, crypto)
-            : model.includes("gpt-4") ? await GPT4oResponse(msg, History, axios)
-              : model.includes("claude") ? await FreeClaudeFunctions(FreeClaude_1, History, fetch, crypto)
+          : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
+            : model.includes("gpt-4") ? await GPT4oResponse(msg, History, fetch, axios)
+              : model.includes("claude") ? await claudeResponse(History, fetch, crypto)
                 : null;
       }
 
@@ -515,38 +515,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       FreeChat35_3,
       FreeChat35_4,
       FreeChat35_5,
-    ];
-    for (let func of functionsToTry) {
-      response = await func(messages, fetch, crypto);
-      if (response) break;
-    }
-    if (!response) {
-      return null;
-    }
-    return response;
-  }
-
-  async function FreeGeminiFunctions(FreeGemini_1, FreeGemini_2, FreeGemini_3, messages, fetch, crypto) {
-    let response;
-    const functionsToTry = [
-      FreeGemini_1,
-      FreeGemini_2,
-      FreeGemini_3
-    ];
-    for (let func of functionsToTry) {
-      response = await func(messages, fetch, crypto);
-      if (response) break;
-    }
-    if (!response) {
-      return null;
-    }
-    return response;
-  }
-
-  async function FreeClaudeFunctions(FreeClaude_1, messages, fetch, crypto) {
-    let response;
-    const functionsToTry = [
-      FreeClaude_1
     ];
     for (let func of functionsToTry) {
       response = await func(messages, fetch, crypto);
