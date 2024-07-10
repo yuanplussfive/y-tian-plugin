@@ -33,6 +33,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     const tips = prompts_answers
     await e.reply(tips, true, { recallMsg: 6 });
   }
+  let message = msg;
   if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
     const Models = [
       "gpt-4-all",
@@ -43,29 +44,45 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       "gemini-pro-vision",
       "claude-3-opus-20240229",
       "claude-3-sonnet-20240229",
-      "claude-3-haiku-20240307"
+      "claude-3-haiku-20240307",
+      'claude-3-5-sonnet-20240620'
     ];
-
-    if (Models.includes(model) || model.includes("claude-3-5") || model.includes("gpt-4-gizmo")) {
+    if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
       //const Msg = await handleMsg(e, msg, imgurl)
       //console.log(Msg)
       if (e?.file) {
-        msg = "帮我分析这个文件"
+        message = "帮我分析这个文件"
       }
-      msg = [
+      message = [
         {
           "type": "text",
           "text": msg
         }
       ]
-      msg.push(...imgurl);
-      console.log(msg)
+      if (!model.includes("claude3")) {
+        message.push(...imgurl);
+      } else {
+        const imgurls = imgurl.map(item => {
+          if (item.type === "image_url" && item.image_url && item.image_url.url) {
+            return {
+              "type": "image",
+              "source": {
+                media_type: "image/jpeg",
+                type: 'base64',
+                data: item.image_url.url.replace("data:image/jpeg;base64,", '')
+              }
+            };
+          }
+          return item;
+        });
+        message.push(...imgurls);
+      }
+      console.log(message)
     }
   }
-  console.log(msg)
   history.push({
     "role": "user",
-    "content": msg
+    "content": message
   });
   await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
 
@@ -564,6 +581,13 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
       const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
       fs.writeFileSync(filePath, Buffer.from(fileBuffer));
+      if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
+        if (e.isGroup) {
+          await e.group.sendFile(filePath);
+        } else {
+          await e.friend.sendFile(filePath);
+        }
+      }
       e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
     } catch (error) {
       console.error(`失败了: ${url}: ${error}`);
