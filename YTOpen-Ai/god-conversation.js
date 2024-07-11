@@ -290,16 +290,18 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       console.log(Messages)
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
-      if (styles == "picture" && urls.length !== 0) {
+      if (styles == "picture") {
         let forwardMsg = [Messages]
         const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
         e.reply(JsonPart)
-        let uniqueUrls = [...new Set(urls)];
-        if (uniqueUrls.length > 1) {
-          const duplicateIndex = uniqueUrls.findIndex(url => url.includes('download'));
-          uniqueUrls.splice(duplicateIndex, 1);
+        if (urls.length !== 0) {
+          let uniqueUrls = [...new Set(urls)];
+          if (uniqueUrls.length > 1) {
+            const duplicateIndex = uniqueUrls.findIndex(url => url.includes('download'));
+            uniqueUrls.splice(duplicateIndex, 1);
+          }
+          console.log(uniqueUrls)
         }
-        console.log(uniqueUrls)
       }
       await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
@@ -490,7 +492,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 
   async function get_address(inputString) {
-    const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/download|files\.oaiusercontent\.com)[^\s\)]+)\))/g;
+    const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/)[^\s\)]+)\))/g;
     let match;
     let links = [];
     while ((match = regex.exec(inputString)) !== null) {
@@ -500,6 +502,13 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
     }
     console.log(links);
+    if (links.length == 0) {
+      const regexs = /\!\[.*?\]\((.*?)\)/;
+      const matches = inputString.match(regexs);
+      if (matches) {
+        links = match[1];
+      }
+    }
     return links
   }
 
