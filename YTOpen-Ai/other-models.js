@@ -680,6 +680,20 @@ export const other_models = [
   },
   {
     "id": 98,
+    "model": "nijijourney",
+    "points": "nijijourney(限速)",
+    "token": 2000,
+    "features": ['drawing']
+  },
+  {
+    "id": 99,
+    "model": "suno-v3",
+    "points": "suno(限速)",
+    "token": 2800,
+    "features": ['music']
+  },
+  {
+    "id": 100,
     "model": "search-llm",
     "points": "y-tian-plugin",
     "token": 8000,
