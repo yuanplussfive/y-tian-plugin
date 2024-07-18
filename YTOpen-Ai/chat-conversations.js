@@ -1,31 +1,19 @@
-async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse, GeminiResponse, claudeResponse) {
+async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, axios, GPT4oResponse, GeminiResponse, claudeResponse) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
-  const { model, search } = chatgptConfig;
+  const { search } = chatgptConfig;
+  const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
+  const { model } = godgptConfig
   let msg = await formatMessage(e.msg);
-  if (!msg && !e?.file) { return false }
   let SettingsPath = _path + '/data/YTAi_Setting/data.json';
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
-  let { chat_moment_numbers, chat_moment_open } = Settings.chatgpt;
+  let { god_moment_numbers, god_moment_open } = Settings.chatgpt;
   let userid = (group == false)
     ? (e.isPrivate ? e.from_id : e.user_id)
     : (e.isPrivate ? e.from_id : e.group_id);
   let history = await loadUserHistory(path, userid, dirpath);
-  if (chat_moment_open) {
-    history = await processArray(history, chat_moment_numbers)
+  if (god_moment_open) {
+    history = await processArray(history, god_moment_numbers)
   }
-  let source
-  try {
-    if (e.isGroup) {
-      const history = await e.group.getChatHistory(e.source.seq, 1)
-      source = history.pop()
-    } else {
-      const history = await e.friend.getChatHistory(e.source.time, 1)
-      source = history.pop()
-    }
-  } catch (error) {
-    source = "undefined"
-  }
-  console.log(source)
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
   let { prompts_answers, prompts_answer_open, ai_private_plan, ai_private_open } = aiSettings.chatgpt;
@@ -34,7 +22,9 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     await e.reply(tips, true, { recallMsg: 6 });
   }
   let message = msg;
-  if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
+  let imgurls = await TakeImages(e)
+  console.log(imgurls)
+  if (imgurls && imgurls.length > 0) {
     const Models = [
       "gpt-4-all",
       "gpt-4-dalle",
@@ -84,7 +74,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     "role": "user",
     "content": message
   });
-  await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+  await MainModel(e, history, stoken, search, model, apiurl, path);
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
@@ -109,68 +99,14 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
-  async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
-    const filteredArray = history.filter(function (item) {
-      return item.role !== "system";
-    });
-    try {
-      let answer;
-      console.log(filteredArray)
-      const response = await fetch(apiurl, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
-        },
-        body: JSON.stringify({
-          model: model,
-          messages: filteredArray
-        }),
-      });
-      let response_json = await response.json();
-      console.log(response_json)
-      answer = await response_json.choices[0].message.content
-      console.log(answer)
-      let url = await extractImageLinks3(answer)
-      if (answer.includes("服务器已掉线") || url == null || url == "undefined") {
-        e.reply("该图像处理服务器已掉线, 请结束对话后重试")
-        return false
-      }
-      if (url.length == 0) {
-        e.reply(answer)
-        return false
-      }
-      url = url[url.length - 1]
-      let path2 = _path + '/resources/MJ.png'
-      let file = fs.createWriteStream(path2);
-      https.get(url, function (response) {
-        response.pipe(file);
-        file.on('finish', function () {
-          file.close(() => {
-            e.reply(segment.image(path2));
-          });
-        });
-      }).on('error', function (err) {
-        e.reply(segment.image(url));
-      });
-      history.push({
-        "role": "assistant",
-        "content": answer
-      });
-      await saveUserHistory(path, userid, history);
-    } catch {
-      e.reply("通讯失败, 稍后再试")
-    }
-  }
-
-  async function handleSunoModel(e, Apikey, msg, model, apiurl, _path) {
+  async function handleSunoModel(e, stoken, msg, model, apiurl, _path) {
     try {
       let answer;
       const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
+          "Authorization": `Bearer ${stoken}`,
         },
         body: JSON.stringify({
           model: model,
@@ -238,22 +174,18 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
-  async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
-    if (model == "mj-chat") {
-      await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
-      return false
-    }
-    if (model.includes("suno")) {
-      await handleSunoModel(e, Apikey, msg, model, apiurl, _path);
-      return false
-    }
-    if (model.includes("luma")) {
-      await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
-      return false
-    }
+  async function MainModel(e, history, stoken, search, model, apiurl, path) {
     try {
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
         search = false
+      }
+      if (model.includes("suno")) {
+        await handleSunoModel(e, stoken, msg, model, apiurl, _path);
+        return false
+      }
+      if (model.includes("luma")) {
+        await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
+        return false
       }
       console.log(history)
       let History = await reduceConsecutiveRoles(history);
@@ -264,7 +196,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${Apikey}`,
+              "Authorization": `Bearer ${stoken}`,
             },
             body: JSON.stringify({
               model: model,
@@ -306,7 +238,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${Apikey}`,
+              "Authorization": `Bearer ${stoken}`,
             },
             body: JSON.stringify({
               model: 'gpt-4o-all',
@@ -364,8 +296,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {
-        const speakers = aiSettings.chatgpt.ai_tts_role
-        await handleTTS(e, speakers, answer, WebSocket, fs, _path)
+        await handleTTS(e, speakers, answer, WebSocket, fs, _path);
       }
       if (model == "gpt-4-dalle") {
         let result = await extractImageLinks2(answer)
@@ -374,8 +305,8 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           return false
         }
         result.forEach((url, index) => {
-          const filePath = `${_path}/resources/dall_e_plus_${index}_chat.png`;
-          downloadImage(path, url, e, filePath);
+          const dirpath = `${_path}/resources/dall_e_plus_${index}_god.png`;
+          downloadImage(path, url, e, dirpath);
         })
       }
       if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
@@ -386,7 +317,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           } catch (error) {
             e.reply(error);
           }
-          const filePath = path.join(_path, 'resources', 'dall_e_chat.png');
+          const filePath = path.join(_path, 'resources', 'dall_e_god.png');
           for (const url of urls) {
             try {
               await downloadImage(path, url, e, filePath);
@@ -408,20 +339,8 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         });
       }
     } catch (error) {
-      e.reply("与服务器通讯失败，请尝试开启chat代理或结束对话")
+      e.reply("与服务器通讯失败，请尝试开启god代理或结束对话")
     }
-  }
-
-  async function extractUrl(array) {
-    for (const item of array) {
-      if (item.type === 'image_url' && item.image_url && item.image_url.url) {
-        const url = item.image_url.url;
-        if (url.startsWith('https://filesystem.site')) {
-          return url;
-        }
-      }
-    }
-    return null;
   }
 
   async function removeDuplicates(array) {
@@ -436,9 +355,31 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     return result;
   }
 
+  async function TakeImages(e) {
+    let imgurl;
+    if (e.getReply) {
+      imgurl = await e.getReply()
+    } else if (e.source) {
+      if (e.group?.getChatHistory)
+        imgurl = (await e.group.getChatHistory(e.source.seq, 1)).pop()
+      else if (e.friend?.getChatHistory)
+        imgurl = (await e.friend.getChatHistory(e.source.time, 1)).pop()
+    }
+    if (imgurl?.message) for (const i of imgurl.message)
+      if (i.type == "image" || i.type == "file") {
+        imgurl = [i.url]
+        break
+      }
+    if (e.img) {
+      imgurl = e.img
+    }
+    return imgurl
+  }
+
   async function downloadImage(path, url, e, filePath) {
     const fileExtension = path.extname(url).toLowerCase();
     console.log(fileExtension);
+
     if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
       return;
     }
@@ -450,11 +391,14 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
           method: 'GET',
           responseType: 'stream'
         });
+
         if (response.status >= 400) {
           throw new Error(`Failed to download ${url}: ${response.status}`);
         }
+
         const file = fs.createWriteStream(filePath);
         response.data.pipe(file);
+
         await new Promise((resolve, reject) => {
           file.on('finish', resolve);
           file.on('error', reject);
@@ -474,7 +418,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       await Promise.race([downloadPromise(), timeoutPromise]);
     } catch (err) {
       if (err.message === 'Download timed out') {
-        e.reply(url.trim());
+        e.reply(segment.image(url.trim()));
       } else {
         throw err;
       }
@@ -511,6 +455,18 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     return description
   }
 
+  async function extractUrl(array) {
+    for (const item of array) {
+      if (item.type === 'image_url' && item.image_url && item.image_url.url) {
+        const url = item.image_url.url;
+        if (url.startsWith('https://filesystem.site')) {
+          return url;
+        }
+      }
+    }
+    return null;
+  }
+
   async function saveUserHistory(path, userId, history) {
     try {
       const lastSystemMessage = history.filter(item => item.role === 'system').pop();
@@ -529,11 +485,11 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
     let response;
     const functionsToTry = [
-      FreeChat35_1,
-      FreeChat35_2,
       FreeChat35_3,
       FreeChat35_4,
       FreeChat35_5,
+      FreeChat35_2,
+      FreeChat35_1,
     ];
     for (let func of functionsToTry) {
       response = await func(messages, fetch, crypto);
@@ -653,18 +609,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     return result;
   }
 
-  async function extractImageLinks2(answer) {
-    const imageLinkRegex = /\[下载.*?\]\((https:\/\/filesystem.site\/cdn\/download\/.*?)\)/g;
-    const imageLinks = answer.matchAll(imageLinkRegex);
-    return Array.from(imageLinks, (match) => match[1]);
-  }
-
-  async function extractImageLinks3(answer) {
-    const imageLinkRegex = /\[.*\]\((https:\/\/filesystem.site\/cdn\/.*?)\)/g;
-    const imageLinks = answer.matchAll(imageLinkRegex);
-    return Array.from(imageLinks, (match) => match[1]);
-  }
-
   async function processArray(arr, numbers) {
     const userCount = arr.reduce((count, obj) => obj.role === "user" ? count + 1 : count, 0);
     const systemIndex = arr.findIndex(obj => obj.role === "system");
@@ -694,4 +638,4 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   }
 }
 
-export { run_conversation }
+export { god_conversation }
