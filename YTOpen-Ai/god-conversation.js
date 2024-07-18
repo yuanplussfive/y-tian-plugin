@@ -14,19 +14,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   if (god_moment_open) {
     history = await processArray(history, god_moment_numbers)
   }
-  let source
-  try {
-    if (e.isGroup) {
-      const history = await e.group.getChatHistory(e.source.seq, 1)
-      source = history.pop()
-    } else {
-      const history = await e.friend.getChatHistory(e.source.time, 1)
-      source = history.pop()
-    }
-  } catch (error) {
-    source = "undefined"
-  }
-  //console.log(source.raw_message)
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
   let { prompts_answers, prompts_answer_open, ai_private_plan, ai_private_open } = aiSettings.chatgpt;
@@ -35,7 +22,9 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     await e.reply(tips, true, { recallMsg: 6 });
   }
   let message = msg;
-  if ((e?.message.find(val => val.type === 'image') && e?.msg) || (source && source?.raw_message && (source?.raw_message?.includes('[图片]') || source?.raw_message?.includes('[动画表情]'))) || (e?.file && e?.isPrivate && ai_private_plan === "chat" && ai_private_open === true)) {
+  let imgurls = await TakeImages(e)
+  console.log(imgurls)
+  if (imgurls && imgurls.length > 0) {
     const Models = [
       "gpt-4-all",
       "gpt-4-dalle",
@@ -364,6 +353,27 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
     });
     return result;
+  }
+
+  async function TakeImages(e) {
+    let imgurl;
+    if (e.getReply) {
+      imgurl = await e.getReply()
+    } else if (e.source) {
+      if (e.group?.getChatHistory)
+        imgurl = (await e.group.getChatHistory(e.source.seq, 1)).pop()
+      else if (e.friend?.getChatHistory)
+        imgurl = (await e.friend.getChatHistory(e.source.time, 1)).pop()
+    }
+    if (imgurl?.message) for (const i of imgurl.message)
+      if (i.type == "image" || i.type == "file") {
+        imgurl = [i.url]
+        break
+      }
+    if (e.img) {
+      imgurl = e.img
+    }
+    return imgurl
   }
 
   async function downloadImage(path, url, e, filePath) {
