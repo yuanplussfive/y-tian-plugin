@@ -687,9 +687,9 @@ export const other_models = [
   },
   {
     "id": 99,
-    "model": "suno-v3",
-    "points": "suno(限速)",
-    "token": 2800,
+    "model": "suno-v3.5-vip",
+    "points": "suno",
+    "token": 240,
     "features": ['music']
   },
   {

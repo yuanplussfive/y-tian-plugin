@@ -1,5 +1,5 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const { fs, fetch, _path, puppeteer, Anime_tts_roles, FormData, https, http, common } = dependencies
+const { fs, _path, puppeteer, Anime_tts_roles, https, http, common } = dependencies
 let dirpath = _path + '/data/YTAi_Setting'
 if (!fs.existsSync(dirpath)) {
   fs.mkdirSync(dirpath)
@@ -135,12 +135,34 @@ export class example extends plugin {
           permission: 'master'
         },
         {
+          reg: "^#(新增|删除)(ai|AI|aI)违禁词(.*)$",
+          fnc: 'add_words',
+          permission: 'master'
+        },
+        {
           reg: ".*",
           fnc: 'upload_prompts',
           log: false
         }
       ]
     })
+  }
+
+  async add_words(e) {
+    let data = readJsonFile(dataFilePath);
+    const words = e.msg.replace(/#(新增|删除)(ai|AI|aI)违禁词/g, '')
+    if (!data.chatgpt.add_words) {
+      data.chatgpt.add_words = []
+    }
+    if (e.msg.includes("删除")) {
+      data.chatgpt.add_words = data.chatgpt.add_words.filter(item => item !== words);
+      writeJsonFile(dataFilePath, data);
+      e.reply('屏蔽词已成功删除');
+      return false;
+    }
+    data.chatgpt.add_words.push(words);
+    writeJsonFile(dataFilePath, data);
+    e.reply(`屏蔽词已成功添加${words}`);
   }
 
   async prompttips(e) {
@@ -269,7 +291,7 @@ export class example extends plugin {
     if (foundKey) {
       data.chatgpt.ai_private_plan = responseMap[foundKey];
       writeJsonFile(dataFilePath, data);
-      e.reply(`当前bot私聊回复使用${foundKey}方案,请参考:/${foundKey}帮助`);
+      e.reply(`当前bot私聊回复使用${foundKey}方案,请参考: ${foundKey} 方案的帮助`);
     } else {
       e.reply("无效的方案名称.", true);
     }
