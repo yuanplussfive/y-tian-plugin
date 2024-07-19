@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    body {
+      background-color: #0d0d0d;
+      color: #e8ede8;
+      font-family: 'Inconsolata', monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #00c8ff;
+    }
+
+    .legend {
+      margin: 20px 0;
+      font-size: 1em;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .legend i {
+      margin-right: 4px;
+      color: #00c8ff;
+    }
+
+    .legend div {
+      display: flex;
+      align-items: center;
+      margin: 5px 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      animation: glowEffect 2s infinite;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #00c8ff;
+      white-space: nowrap;
+    }
+
+    th {
+      background-color: #333;
+    }
+
+    td {
+      background-color: #1a1a1a;
+    }
+
+    @keyframes glowEffect {
+      0% {
+        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      }
+
+      50% {
+        box-shadow: 0 0 30px rgba(62, 172, 196, 0.8);
+      }
+
+      100% {
+        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>来源:</th>
+      <th>最大token:</th>
+    </tr>
+    <script>
+      let model =
+      {
+        models: [
+          {
+            "id": 76,
+            "model": "llama-3-sonar-small-32k-online",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 77,
+            "model": "llama-3-sonar-small-32k-chat",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 78,
+            "model": "llama-3-sonar-large-32k-online",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 79,
+            "model": "llama-3-sonar-large-32k-chat",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 80,
+            "model": "mixtral-8x7b-instruct",
+            "points": "mixtral",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 81,
+            "model": "mixtral-8x22b",
+            "points": "mixtral",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 82,
+            "model": "gemma-2b-it",
+            "points": "google",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 83,
+            "model": "gemma-7b-it",
+            "points": "google",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 84,
+            "model": "anime-search",
+            "points": "y-tian-plugin",
+            "token": 800,
+            "features": ['conversation']
+          },
+          {
+            "id": 85,
+            "model": "reka-core",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation', 'image_recognition']
+          },
+          {
+            "id": 86,
+            "model": "reka-flash",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation', 'image_recognition']
+          },
+          {
+            "id": 87,
+            "model": "reka-edge",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation', 'image_recognition']
+          },
+          {
+            "id": 88,
+            "model": "blackbox-chat",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation']
+          },
+          {
+            "id": 89,
+            "model": "blackbox-online",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation', 'internet']
+          },
+          {
+            "id": 90,
+            "model": "blackbox-code",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 91,
+            "model": "zephyr-7b-beta",
+            "points": "huggingface",
+            "token": 8000,
+            "features": ['conversation']
+          },
+          {
+            "id": 92,
+            "model": "openchat-7b",
+            "points": "huggingface",
+            "token": 8000,
+            "features": ['conversation']
+          },
+          {
+            "id": 93,
+            "model": "phi-3-mini-128k-instruct",
+            "points": "Microsoft",
+            "token": 128000,
+            "features": ['conversation']
+          },
+          {
+            "id": 94,
+            "model": "phi-3-medium-128k-instruct",
+            "points": "Microsoft",
+            "token": 128000,
+            "features": ['conversation']
+          },
+          {
+            "id": 95,
+            "model": "grok-v1.0",
+            "points": "XAi",
+            "token": 40000,
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 96,
+            "model": "grok-v1.5",
+            "points": "XAi",
+            "token": 40000,
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 97,
+            "model": "custom-diffusion",
+            "points": "satable-diffusion",
+            "token": 550,
+            "features": ['drawing']
+          },
+          {
+            "id": 98,
+            "model": "nijijourney",
+            "points": "nijijourney(限速2/20m)",
+            "token": 2000,
+            "features": ['drawing']
+          },
+          {
+            "id": 99,
+            "model": "suno-v3.5-vip",
+            "points": "suno",
+            "token": 2800,
+            "features": ['music']
+          },
+          {
+            "id": 100,
+            "model": "search-llm",
+            "points": "y-tian-plugin",
+            "token": 8000,
+            "features": ['conversation', 'internet']
+          },
+          {
+            "id": 101,
+            "model": "gpt-4o-mini",
+            "points": "OpenAi",
+            "token": 128000,
+            "features": ['conversation']
+          }
+        ]
+      }
+      model.models.forEach(item => {
+        let features = '';
+        if (item.features.includes('internet')) {
+          features += ' <i class="fas fa-globe"></i>';
+        }
+        if (item.features.includes('drawing')) {
+          features += ' <i class="fas fa-paint-brush"></i>';
+        }
+        if (item.features.includes('code')) {
+          features += ' <i class="fas fa-code"></i>';
+        }
+        if (item.features.includes('image_recognition')) {
+          features += ' <i class="fas fa-image"></i>';
+        }
+        if (item.features.includes('conversation')) {
+          features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
+        }
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.model}${features}</td>
+            <td>${item.points}</td>
+            <td>${item.token}</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+
+</html>

@@ -116,7 +116,8 @@ async otherhelp(e){
 async others(e){
     const img_1 = await screen(14, puppeteer)
     const img_2 = await screen(20, puppeteer)
-    const forwardMsg = [img_1, img_2]
+    const img_3 = await screen(21, puppeteer)
+    const forwardMsg = [img_1, img_2, img_3]
     const JsonPart = await common.makeForwardMsg(e, forwardMsg, '附加模型大全');
     e.reply(JsonPart)
 }
