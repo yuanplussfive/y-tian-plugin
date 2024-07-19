@@ -698,5 +698,12 @@ export const other_models = [
     "points": "y-tian-plugin",
     "token": 8000,
     "features": ['conversation', 'internet']
+  },
+  {
+    "id": 101,
+    "model": "gpt-4o-mini",
+    "points": "OpenAi",
+    "token": 128000,
+    "features": ['conversation']
   }
 ]
