@@ -1,8 +1,7 @@
 async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse, GeminiResponse, claudeResponse) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { model, search } = chatgptConfig;
-  let msg = await formatMessage(e.msg);
-  if (!msg && !e?.file) { return false }
+  let msg = await formatMessage(e.msg) || '分析这个文件';
   let SettingsPath = _path + '/data/YTAi_Setting/data.json';
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
   let { chat_moment_numbers, chat_moment_open } = Settings.chatgpt;
@@ -13,19 +12,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   if (chat_moment_open) {
     history = await processArray(history, chat_moment_numbers)
   }
-  let source
-  try {
-    if (e.isGroup) {
-      const history = await e.group.getChatHistory(e.source.seq, 1)
-      source = history.pop()
-    } else {
-      const history = await e.friend.getChatHistory(e.source.time, 1)
-      source = history.pop()
-    }
-  } catch (error) {
-    source = "undefined"
-  }
-  console.log(source)
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
   let { prompts_answers, prompts_answer_open, ai_private_plan, ai_private_open } = aiSettings.chatgpt;
@@ -34,9 +20,7 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     await e.reply(tips, true, { recallMsg: 6 });
   }
   let message = msg;
-  let imgurls = await TakeImages(e)
-  console.log(imgurls)
-  if (imgurls && imgurls.length > 0) {
+  if (imgurl.length > 0) {
     const Models = [
       "gpt-4-all",
       "gpt-4-dalle",
@@ -50,35 +34,13 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       'claude-3-5-sonnet-20240620'
     ];
     if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
-      //const Msg = await handleMsg(e, msg, imgurl)
-      //console.log(Msg)
-      if (e?.file) {
-        message = "帮我分析这个文件"
-      }
       message = [
         {
           "type": "text",
-          "text": msg
+          "text": message
         }
       ]
-      if (!model.includes("claude3")) {
-        message.push(...imgurl);
-      } else {
-        const imgurls = imgurl.map(item => {
-          if (item.type === "image_url" && item.image_url && item.image_url.url) {
-            return {
-              "type": "image",
-              "source": {
-                media_type: "image/jpeg",
-                type: 'base64',
-                data: item.image_url.url.replace("data:image/jpeg;base64,", '')
-              }
-            };
-          }
-          return item;
-        });
-        message.push(...imgurls);
-      }
+      message.push(...imgurl);
       console.log(message)
     }
   }
@@ -482,27 +444,6 @@ async function run_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
     }
   }
-
-  async function TakeImages(e) {
-  let imgurl;
-  if (e.getReply) {
-    imgurl = await e.getReply()
-  } else if (e.source) {
-    if (e.group?.getChatHistory)
-      imgurl = (await e.group.getChatHistory(e.source.seq, 1)).pop()
-    else if (e.friend?.getChatHistory)
-      imgurl = (await e.friend.getChatHistory(e.source.time, 1)).pop()
-  }
-  if (imgurl?.message) for (const i of imgurl.message)
-    if (i.type == "image" || i.type == "file") {
-      imgurl = [i.url]
-      break
-    }
-  if (e.img) {
-    imgurl = e.img
-  }
-  return imgurl
-}
   
   async function extractDescription(str) {
     const removeAllOccurrences = (array, str) =>

@@ -3,7 +3,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
   const { search } = chatgptConfig;
   const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
   const { model } = godgptConfig
-  let msg = await formatMessage(e.msg);
+  let msg = await formatMessage(e.msg) || '认真分析这个文件';
   let SettingsPath = _path + '/data/YTAi_Setting/data.json';
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
   let { god_moment_numbers, god_moment_open } = Settings.chatgpt;
@@ -22,9 +22,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     await e.reply(tips, true, { recallMsg: 6 });
   }
   let message = msg;
-  let imgurls = await TakeImages(e)
-  console.log(imgurls)
-  if (imgurls && imgurls.length > 0) {
+  if (imgurl.length > 0) {
     const Models = [
       "gpt-4-all",
       "gpt-4-dalle",
@@ -38,35 +36,13 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       'claude-3-5-sonnet-20240620'
     ];
     if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
-      //const Msg = await handleMsg(e, msg, imgurl)
-      //console.log(Msg)
-      if (e?.file) {
-        message = "帮我分析这个文件"
-      }
       message = [
         {
           "type": "text",
-          "text": msg
+          "text": message
         }
       ]
-      if (!model.includes("claude3")) {
-        message.push(...imgurl);
-      } else {
-        const imgurls = imgurl.map(item => {
-          if (item.type === "image_url" && item.image_url && item.image_url.url) {
-            return {
-              "type": "image",
-              "source": {
-                media_type: "image/jpeg",
-                type: 'base64',
-                data: item.image_url.url.replace("data:image/jpeg;base64,", '')
-              }
-            };
-          }
-          return item;
-        });
-        message.push(...imgurls);
-      }
+      message.push(...imgurl);
       console.log(message)
     }
   }
@@ -355,6 +331,18 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     return result;
   }
 
+  async function getFileUrl(e, type) {
+    return await e[type].getFileUrl(e.file.fid);
+  }
+  
+  async function TakeFiles(e) {
+    let files = await getFileUrl(e, e.isGroup ? 'group' : 'friend');
+    if (files) {
+      files = [files]
+    }
+    return files
+  }
+  
   async function TakeImages(e) {
     let imgurl;
     if (e.getReply) {
@@ -366,7 +354,7 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
         imgurl = (await e.friend.getChatHistory(e.source.time, 1)).pop()
     }
     if (imgurl?.message) for (const i of imgurl.message)
-      if (i.type == "image" || i.type == "file") {
+      if ((i.type == "image" || i.type == "file") && i.url) {
         imgurl = [i.url]
         break
       }
