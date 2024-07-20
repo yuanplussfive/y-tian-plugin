@@ -428,7 +428,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 
 ### 💬 一起交流
 
-**[点击加入 Y-Tian 插件交流群](https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=9-rRV1zBm0H3Es3V32FXSIJdR7v4hEjY&authKey=VvpBHKV%2FnjOxT0fPSagpTCIyJ91vNgvyc0CIt40%2BY1Q2kT%2BnUKjzLjbMtRVTh%2BqW&noverify=0&group_code=756783127)**
+**[点击加入 Y-Tian 插件交流群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=jZAmTxqiEMP_hDTQOH4yaU-VgIuezmAQ&authKey=C3gEwvelMi3MKAdU87muZmN11eg3ewtIRvbjupFAZtEZoPwKRa6Rii1fmKD85iUw&noverify=0&group_code=912701273)**
 
 在这里,您可以与开发者和其他用户进行交流、提出问题、分享体验等。
 
@@ -467,6 +467,6 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 在此,我们向所有为本项目做出贡献的个人和组织以及爱发电赞助成员表示衷心的感谢!如有任何问题或反馈,欢迎通过以下方式联系我们:
 
 - 邮箱: email@yuanoop.com
-- 交流群: **[插件交流群](https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=9-rRV1zBm0H3Es3V32FXSIJdR7v4hEjY&authKey=VvpBHKV%2FnjOxT0fPSagpTCIyJ91vNgvyc0CIt40%2BY1Q2kT%2BnUKjzLjbMtRVTh%2BqW&noverify=0&group_code=756783127)**
+- 交流群: **[插件交流群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=jZAmTxqiEMP_hDTQOH4yaU-VgIuezmAQ&authKey=C3gEwvelMi3MKAdU87muZmN11eg3ewtIRvbjupFAZtEZoPwKRa6Rii1fmKD85iUw&noverify=0&group_code=912701273)**
 
 > 📢 **严禁将本项目用于任何商业用途和非法行为!**
