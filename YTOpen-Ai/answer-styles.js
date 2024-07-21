@@ -1,11 +1,23 @@
-async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg) {
+async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
     try {
         switch (styles) {
             case "words":
-                e.reply(answer, true);
+                if (answer.length > 1000) {
+                    let forwardMsg = [Messages]
+                    const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
+                    e.reply(JsonPart)
+                } else {
+                    e.reply(answer, true);
+                }
                 break;
             case "word":
-                e.reply(answer);
+                if (answer.length > 1000) {
+                    let forwardMsg = [Messages]
+                    const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
+                    e.reply(JsonPart)
+                } else {
+                    e.reply(answer);
+                }
                 break;
             case "picture":
                 let tplFile = _path + "/plugins/y-tian-plugin/resources/html/gptx.html"
@@ -28,8 +40,10 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                     name: e.sender.nickname,
                     name1: Bot.nickname
                 };
-                let img = await puppeteer.screenshot("777", data);
-                e.reply(img);
+                if (answer.length < 1200) {
+                    let img = await puppeteer.screenshot("777", data);
+                    e.reply(img);
+                }
                 break;
             default:
                 e.reply("未知的回复风格");
