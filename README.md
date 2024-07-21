@@ -32,7 +32,7 @@
 
 
 > 旨在为用户提供免费AI模型供日常生活和学习,附加版/专业版/国产等方案集成百余个流行大模型,免费使用100+大模型(包括 GPT-4/4-all 等), 小白可优先选择附加免费方案，集成gpt-4-all/claude-3.5-sonnet等强大模型，不限用量。 <br>
-(PS: 非法用途如 黄色/暴力/涉政 等，本插件必要时会封禁用户 IP，plus号一个20$，不是大风刮来的，望周知 !!! )
+(PS: 非法用途如 黄色/暴力/涉政 等，本插件必要时会封禁用户 IP，望周知 !!! )
 
 2. **🧠 AI模型支持** <br>
 - 集成了如 **ChatGPT**、**Anthropic**、**ChatGLM**、**Gemini**、**Stable Diffusion**、**Midjourney**、**Suno**、**Pika** 、**Bing**、**Copilot** 等多种主流 AI 模型
@@ -428,7 +428,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 
 ### 💬 一起交流
 
-**[点击加入 Y-Tian 插件交流群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=jZAmTxqiEMP_hDTQOH4yaU-VgIuezmAQ&authKey=C3gEwvelMi3MKAdU87muZmN11eg3ewtIRvbjupFAZtEZoPwKRa6Rii1fmKD85iUw&noverify=0&group_code=912701273)**
+**[点击加入 Y-Tian 插件交流群(授权免费附加模型)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=jZAmTxqiEMP_hDTQOH4yaU-VgIuezmAQ&authKey=C3gEwvelMi3MKAdU87muZmN11eg3ewtIRvbjupFAZtEZoPwKRa6Rii1fmKD85iUw&noverify=0&group_code=912701273)**
 
 在这里,您可以与开发者和其他用户进行交流、提出问题、分享体验等。
 
