@@ -1,4 +1,4 @@
-async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, axios, GPT4oResponse, GeminiResponse, claudeResponse) {
+async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, axios, GPT4oResponse, GeminiResponse, claudeResponse) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { search } = chatgptConfig;
   const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
@@ -111,6 +111,74 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
     }
   }
 
+  async function handlesdModel(e, Apikey, msg, model, apiurl, _path) {
+    async function transform(msg) {
+      try {
+        let response = await fetch("https://translate-api-fykz.xiangtatech.com/translation/webs/index", {
+          "method": "POST",
+          "headers": {
+            "content-type": "application/x-www-form-urlencoded",
+          },
+          "body": `appid=105&sgid=auto&sbid=auto&egid=en&ebid=en&content=${msg}&type=2`
+        });
+        let response_json = await response.json()
+        return await response_json.by
+      } catch {
+        return msg
+      }
+    }
+    try {
+      const response = await fetch(apiurl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Apikey}`,
+        },
+        body: JSON.stringify({
+          model: model,
+          stream: false,
+          messages: [{ role: "user", content: await transform(msg) }]
+        }),
+      });
+      const input = await response.json();
+      const output = input?.choices[0]?.message?.content
+      const imageLinkRegex = /!\[.*?\]\((https?:\/\/.*?)\)/g;
+      const imageLinks = output.matchAll(imageLinkRegex);
+      if (imageLinks.length !== 0) {
+        const imgUrl = Array.from(imageLinks, (match) => match[1]);
+        if (!imgUrl) {
+          e.reply("生成失败了, 请修改提示词或稍后再试");
+          return false;
+        }
+        console.log(imgUrl)
+        const timeoutPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            resolve('timeout');
+          }, 15000);
+        });
+        try {
+          const result = await Promise.race([
+            UploadFiles(imgUrl[0], 'chat.png'),
+            timeoutPromise
+          ]);
+          if (result === 'timeout') {
+            e.reply(imgUrl[0]);
+          } else {
+            e.reply(segment.image(result));
+          }
+        } catch (error) {
+          console.error(error);
+          e.reply(imgUrl[0]);
+        }
+      } else {
+        e.reply(output);
+      }
+    } catch (error) {
+      console.log(error);
+      e.reply("生成失败了, 请修改提示词或稍后再试");
+    }
+  }
+
   async function handlelumaModel(e, Apikey, msg, model, apiurl, _path) {
     try {
       let answer;
@@ -162,6 +230,10 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
       if (model.includes("luma")) {
         await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
+        return false
+      }
+      if (model.includes("stable-diffusion") || model.includes("playground")) {
+        await handlesdModel(e, Apikey, msg, model, apiurl, _path);
         return false
       }
       console.log(history)
@@ -501,13 +573,6 @@ async function god_conversation(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeCh
       }
     }
     console.log(links);
-    if (links.length == 0) {
-      const regexs = /\!\[.*?\]\((.*?)\)/;
-      const matches = inputString.match(regexs);
-      if (matches) {
-        links = match[1];
-      }
-    }
     return links
   }
 

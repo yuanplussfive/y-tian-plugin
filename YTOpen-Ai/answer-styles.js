@@ -1,8 +1,18 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
+    async function countTextElements(text) {
+        const englishWordRegex = /[a-zA-Z]+/g;
+        const chineseCharRegex = /[\u4e00-\u9fa5]/g;
+        const englishWords = text.match(englishWordRegex) || [];
+        const chineseChars = text.match(chineseCharRegex) || [];
+        const totalCount = englishWords.length + chineseChars.length;
+        return totalCount;
+    }
     try {
+        const words = await countTextElements(answer)
+        console.log(words)
         switch (styles) {
             case "words":
-                if (answer.length > 1000) {
+                if (words > 1000) {
                     let forwardMsg = [Messages]
                     const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
                     e.reply(JsonPart)
@@ -11,7 +21,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 }
                 break;
             case "word":
-                if (answer.length > 1000) {
+                if (words > 1050) {
                     let forwardMsg = [Messages]
                     const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
                     e.reply(JsonPart)
@@ -40,7 +50,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                     name: e.sender.nickname,
                     name1: Bot.nickname
                 };
-                if (answer.length < 1200) {
+                if (words < 1200) {
                     let img = await puppeteer.screenshot("777", data);
                     e.reply(img);
                 }

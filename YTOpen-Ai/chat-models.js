@@ -454,6 +454,20 @@ export const chat_models = {
       "token_count": "28000",
       "Magnification": '固定0.1$',
       "features": ['video']
+    },
+    {
+      "id": "66",
+      "name": "stable-diffusion-3-2b",
+      "token_count": "800",
+      "Magnification": '0.007$左右',
+      "features": ['drawing']
+    },
+    {
+      "id": "67",
+      "name": "playground-v2.5",
+      "token_count": "800",
+      "Magnification": '0.007$左右',
+      "features": ['drawing']
     }
   ]
 }

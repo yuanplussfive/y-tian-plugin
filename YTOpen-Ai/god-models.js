@@ -628,5 +628,25 @@ export const god_models = [
         "style": "once",
         "owned_by": "y-tian-plugin",
         "features": ['music']
+    },
+    {
+        "id": 64,
+        "model": "stable-diffusion-3-2b",
+        "created": 1686935002,
+        "token": 800,
+        "points": "20/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['music']
+    },
+    {
+        "id": 65,
+        "model": "playground-v2.5",
+        "created": 1686935002,
+        "token": 800,
+        "points": "20/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['music']
     }
 ];
