@@ -673,34 +673,27 @@ export const other_models = [
   },
   {
     "id": 97,
-    "model": "custom-diffusion",
-    "points": "satable-diffusion",
-    "token": 550,
-    "features": ['drawing']
-  },
-  {
-    "id": 98,
     "model": "nijijourney",
     "points": "nijijourney(限速)",
     "token": 2000,
     "features": ['drawing']
   },
   {
-    "id": 99,
+    "id": 98,
     "model": "suno-v3.5-vip",
     "points": "suno",
     "token": 240,
     "features": ['music']
   },
   {
-    "id": 100,
+    "id": 99,
     "model": "search-llm",
     "points": "y-tian-plugin",
     "token": 8000,
     "features": ['conversation', 'internet']
   },
   {
-    "id": 101,
+    "id": 100,
     "model": "gpt-4o-mini",
     "points": "OpenAi",
     "token": 128000,
