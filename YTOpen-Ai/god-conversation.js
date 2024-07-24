@@ -595,7 +595,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       }
       const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
       fs.writeFileSync(filePath, Buffer.from(fileBuffer));
-      if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
+      if (!['.webp', '.png', '.jpg'].includes(fileExtension) && !fileExtension == '无法识别的文件类型') {
         if (e.isGroup) {
           await e.group.sendFile(filePath);
         } else {
