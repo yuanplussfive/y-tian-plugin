@@ -30,11 +30,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       "gpt-4o",
       "gpt-4o-all",
       "gpt-4-v",
-      "gemini-pro-vision",
-      "claude-3-opus-20240229",
-      "claude-3-sonnet-20240229",
-      "claude-3-haiku-20240307",
-      'claude-3-5-sonnet-20240620'
+      "gemini"
     ];
     if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
       message = [
@@ -249,8 +245,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             },
             body: JSON.stringify({
               model: model,
-              messages: History,
-              search: search,
+              messages: History
             }),
           }),
           new Promise((_, reject) =>

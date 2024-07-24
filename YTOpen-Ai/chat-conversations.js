@@ -28,11 +28,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       "gpt-4o",
       "gpt-4o-all",
       "gpt-4-v",
-      "gemini-pro-vision",
-      "claude-3-opus-20240229",
-      "claude-3-sonnet-20240229",
-      "claude-3-haiku-20240307",
-      'claude-3-5-sonnet-20240620'
+      "gemini"
     ];
     if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
       message = [
@@ -347,8 +343,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             },
             body: JSON.stringify({
               model: 'gpt-4o-all',
-              messages: History,
-              search: search,
+              messages: History
             }),
           });
           const retryResponseJson = await retryResponse.json();
@@ -621,7 +616,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       }
       const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
       fs.writeFileSync(filePath, Buffer.from(fileBuffer));
-      if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
+      if (!['.webp', '.png', '.jpg'].includes(fileExtension) && !fileExtension == '无法识别的文件类型') {
         if (e.isGroup) {
           await e.group.sendFile(filePath);
         } else {
