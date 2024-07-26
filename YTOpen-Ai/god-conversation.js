@@ -8,8 +8,8 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
   let { god_moment_numbers, god_moment_open } = Settings.chatgpt;
   let userid = (group == false)
-  ? (!e.group_id ? e.from_id : e.user_id)
-  : (!e.group_id ? e.from_id : e.group_id);
+    ? (!e.group_id ? e.from_id : e.user_id)
+    : (!e.group_id ? e.from_id : e.group_id);
   //console.log(userid)
   let history = await loadUserHistory(path, userid, dirpath);
   if (god_moment_open) {
@@ -402,7 +402,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   async function getFileUrl(e, type) {
     return await e[type].getFileUrl(e.file.fid);
   }
-  
+
   async function TakeFiles(e) {
     let files = await getFileUrl(e, e.isGroup ? 'group' : 'friend');
     if (files) {
@@ -410,7 +410,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     }
     return files
   }
-  
+
   async function TakeImages(e) {
     let imgurl;
     if (e.getReply) {
@@ -609,49 +609,40 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function reduceConsecutiveRoles(array) {
-    const result = [];
-    let consecutiveUserItems = [];
     let lastSystemItem = null;
+    const result = [];
+    let currentUserContent = [];
     if (array.length > 0 && array[0].role === 'assistant') {
       array = array.slice(1);
     }
-
     for (const item of array) {
-      if (item.role === 'user') {
-        if (Array.isArray(item.content)) {
-          if (consecutiveUserItems.length > 0) {
-            result.push({
-              role: 'user',
-              content: consecutiveUserItems.join('\n')
-            });
-            consecutiveUserItems = [];
+      switch (item.role) {
+        case 'user':
+          if (Array.isArray(item.content)) {
+            if (currentUserContent.length > 0) {
+              result.push({ role: 'user', content: currentUserContent.join('\n') });
+              currentUserContent = [];
+            }
+            result.push(item);
+          } else {
+            currentUserContent.push(item.content);
+          }
+          break;
+        case 'system':
+          lastSystemItem = item;
+          break;
+        default:
+          if (currentUserContent.length > 0) {
+            result.push({ role: 'user', content: currentUserContent.join('\n') });
+            currentUserContent = [];
           }
           result.push(item);
-        } else {
-          consecutiveUserItems.push(item.content);
-        }
-      } else if (item.role === 'system') {
-        lastSystemItem = item;
-      } else {
-        if (consecutiveUserItems.length > 0) {
-          result.push({
-            role: 'user',
-            content: consecutiveUserItems.join('\n')
-          });
-          consecutiveUserItems = [];
-        }
-        result.push(item);
       }
     }
-
-    if (consecutiveUserItems.length > 0) {
-      result.push({
-        role: 'user',
-        content: consecutiveUserItems.join('\n')
-      });
+    if (currentUserContent.length > 0) {
+      result.push({ role: 'user', content: currentUserContent.join('\n') });
     }
-
-    if (lastSystemItem !== null) {
+    if (lastSystemItem) {
       result.unshift(lastSystemItem);
     }
 

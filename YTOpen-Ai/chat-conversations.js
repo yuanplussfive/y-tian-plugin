@@ -288,8 +288,8 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
         search = false
       }
-      console.log(history)
       let History = await reduceConsecutiveRoles(history);
+      console.log(History);
       let answer
       try {
         const response = await Promise.race([
@@ -630,49 +630,40 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function reduceConsecutiveRoles(array) {
-    const result = [];
-    let consecutiveUserItems = [];
     let lastSystemItem = null;
+    const result = [];
+    let currentUserContent = [];
     if (array.length > 0 && array[0].role === 'assistant') {
       array = array.slice(1);
     }
-
     for (const item of array) {
-      if (item.role === 'user') {
-        if (Array.isArray(item.content)) {
-          if (consecutiveUserItems.length > 0) {
-            result.push({
-              role: 'user',
-              content: consecutiveUserItems.join('\n')
-            });
-            consecutiveUserItems = [];
+      switch (item.role) {
+        case 'user':
+          if (Array.isArray(item.content)) {
+            if (currentUserContent.length > 0) {
+              result.push({ role: 'user', content: currentUserContent.join('\n') });
+              currentUserContent = [];
+            }
+            result.push(item);
+          } else {
+            currentUserContent.push(item.content);
+          }
+          break;
+        case 'system':
+          lastSystemItem = item;
+          break;
+        default:
+          if (currentUserContent.length > 0) {
+            result.push({ role: 'user', content: currentUserContent.join('\n') });
+            currentUserContent = [];
           }
           result.push(item);
-        } else {
-          consecutiveUserItems.push(item.content);
-        }
-      } else if (item.role === 'system') {
-        lastSystemItem = item;
-      } else {
-        if (consecutiveUserItems.length > 0) {
-          result.push({
-            role: 'user',
-            content: consecutiveUserItems.join('\n')
-          });
-          consecutiveUserItems = [];
-        }
-        result.push(item);
       }
     }
-
-    if (consecutiveUserItems.length > 0) {
-      result.push({
-        role: 'user',
-        content: consecutiveUserItems.join('\n')
-      });
+    if (currentUserContent.length > 0) {
+      result.push({ role: 'user', content: currentUserContent.join('\n') });
     }
-
-    if (lastSystemItem !== null) {
+    if (lastSystemItem) {
       result.unshift(lastSystemItem);
     }
 
