@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,11 +47,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 40px;
+      margin: 20px;
       padding: 20px;
       background-color: rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      flex: 1;
+    }
+
+    .sections-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .section-icon {
@@ -82,107 +90,110 @@
     }
   </style>
 </head>
+
 <body>
   <div class="content-container">
     <div class="main-title">免费国产Ai</div>
 
-    <div class="section">
-      <i class="fas fa-search section-icon"></i>
-      <div class="section-title">百度搜索(联网)</div>
-      <div class="section-content">#百度+问题,进行问答,例如:#百度你好</div>
-    </div>
+    <div class="sections-row">
+      <div class="section">
+        <i class="fas fa-search section-icon"></i>
+        <div class="section-title">百度搜索(联网)</div>
+        <div class="section-content">#百度+问题,进行问答</div>
+      </div>
 
-    <div class="section">
-      <i class="fas fa-rocket section-icon"></i>
-      <div class="section-title">Moonshot(联网)</div>
-      <div class="section-content">
-        ① #Kimi+问题,进行问答,例如:#Kimi你好<br>
-        ② #结束Kimi对话<br>
-        ③ #开启kimi联网,开启联网模式,关闭同理
+      <div class="section">
+        <i class="fas fa-rocket section-icon"></i>
+        <div class="section-title">Moonshot(联网)</div>
+        <div class="section-content">
+          ① #Kimi+问题,进行问答<br>
+          ② #结束Kimi对话<br>
+          ③ #开启kimi联网,开启联网,关闭同理
+        </div>
       </div>
     </div>
 
-    <div class="section">
-      <i class="fas fa-brain section-icon"></i>
-      <div class="section-title">ChatGLM-4.0(多模态)</div>
-      <div class="section-content">
-        ① #glm4+问题,进行问答<br>例如:#glm4 搜索阴天插件<br>
-        ② #结束glm4对话
+    <div class="sections-row">
+      <div class="section">
+        <i class="fas fa-brain section-icon"></i>
+        <div class="section-title">ChatGLM(多模态)</div>
+        <div class="section-content">
+          ① #glm4+问题,进行问答<br>
+          ② #结束glm4对话
+        </div>
+      </div>
+
+      <div class="section">
+        <i class="fas fa-question-circle section-icon"></i>
+        <div class="section-title">通义千问(多模态)</div>
+        <div class="section-content">
+          ① #千问+问题,进行问答<br>
+          ② #结束千问对话
+        </div>
       </div>
     </div>
 
-    <div class="section">
-      <i class="fas fa-question-circle section-icon"></i>
-      <div class="section-title">通义千问(多模态)</div>
-      <div class="section-content">
-        ① #千问+问题,进行问答,例如:#千问你好<br>
-        ② #结束千问对话
+    <div class="sections-row">
+      <div class="section">
+        <i class="fas fa-fire section-icon"></i>
+        <div class="section-title">星火模型(多模态)</div>
+        <div class="section-content">
+          ① #星火+你的问题<br>
+          ② #结束星火对话
+        </div>
+      </div>
+
+      <div class="section">
+        <i class="fas fa-code section-icon"></i>
+        <div class="section-title">Deepseek(coder)</div>
+        <div class="section-content">
+          ① #deepseek+你的问题<br>
+          ② #deepcode+你的问题
+        </div>
       </div>
     </div>
 
-    <div class="section">
-      <i class="fas fa-fire section-icon"></i>
-      <div class="section-title">星火模型(多模态)</div>
-      <div class="section-content">
-        ① #xinghuo+你的问题,星火网页版<br>
-        ② #结束xinghuo对话<br>
-        ③ #星火+你的问题,开始对话,api版<br>
-        ④ #结束星火对话<br>
-        ⑤ #星火切换(v1|v2|v3),切换星火版本<br>例如:#星火切换v3
+    <div class="sections-row">
+      <div class="section">
+        <i class="fas fa-cloud-sun section-icon"></i>
+        <div class="section-title">百川模型(多模态)</div>
+        <div class="section-content">
+          ① #百川+你的问题,开始对话</br>
+          ② #结束百川对话
+        </div>
+      </div>
+
+
+      <div class="section">
+        <i class="fas fa-dragon section-icon"></i>
+        <div class="section-title">腾讯混元(多模态)</div>
+        <div class="section-content">
+          ① #混元+问题,进行问答<br>
+          ② #结束混元对话
+        </div>
       </div>
     </div>
 
-    <div class="section">
-      <i class="fas fa-code section-icon"></i>
-      <div class="section-title">Deepseek(coder)</div>
-      <div class="section-content">
-        ① #deepseek+你的问题,例如#deepseek hello<br>
-        ② #deepcode+你的问题,例如#deepseek 用python写个冒泡排序
+    <div class="sections-row">
+      <div class="section">
+        <i class="fas fa-infinity section-icon"></i>
+        <div class="section-title">零一万物</div>
+        <div class="section-content">
+          ① #yi+问题,进行问答<br>
+          ② #结束yi对话
+        </div>
       </div>
-    </div>
 
-    <div class="section">
-      <i class="fas fa-cloud-sun section-icon"></i>
-      <div class="section-title">百川模型(多模态)</div>
-      <div class="section-content">
-        #百川+你的问题,开始对话,例如#百川 搜索明天上海的天气
+      <div class="sections-row">
+        <div class="section">
+          <i class="fas fa-robot section-icon"></i>
+          <div class="section-title">文心千帆</div>
+          <div class="section-content">
+            ① #文心+你的问题,开始对话<br>
+            ② #结束文心对话
+          </div>
+        </div>
       </div>
-    </div>
-
-    <div class="section">
-      <i class="fas fa-leaf section-icon"></i>
-      <div class="section-title">紫东太初</div>
-      <div class="section-content">
-        #小初+问题,进行问答,例如:#小初你好
-      </div>
-    </div>
-
-    <div class="section">
-      <i class="fas fa-infinity section-icon"></i>
-      <div class="section-title">零一万物</div>
-      <div class="section-content">
-        ① #yi+问题,进行问答,例如:#yi你好<br>
-        ② #结束yi对话
-      </div>
-    </div>
-
-    <div class="section">
-      <i class="fas fa-dragon section-icon"></i>
-      <div class="section-title">腾讯混元</div>
-      <div class="section-content">
-        ① #混元+问题,进行问答,例如:#混元你好<br>
-        ② #结束混元对话
-      </div>
-    </div>
-
-    <div class="section">
-      <i class="fas fa-robot section-icon"></i>
-      <div class="section-title">文心千帆</div>
-      <div class="section-content">
-        ① #文心+你的问题,开始对话,例如#文心 hello<br>
-        ② #结束文心对话
-      </div>
-    </div>
-  </div>
 </body>
+
 </html>

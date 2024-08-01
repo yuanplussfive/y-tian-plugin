@@ -225,6 +225,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ Atom-13B-Chat
 &nbsp;&nbsp;✨ Minimax-hailuo
 &nbsp;&nbsp;✨ step-1-200k
+&nbsp;&nbsp;✨ hunyuan-alltools
 
 </details>
 
@@ -241,7 +242,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ DALL-E 系列
 <br>
 🔹 <b>其他</b>
-&nbsp;&nbsp;✨ ...
+&nbsp;&nbsp;✨ pixart, dream...
 
 </details>
 
