@@ -271,6 +271,36 @@ export const god_models = [
     },
     {
         "id": 28,
+        "model": "gemini-1.5-pro",
+        "created": 1686935002,
+        "token": 1000000,
+        "points": "0.3/token",
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'image_recognition']
+    },
+    {
+        "id": 29,
+        "model": "gemini-1.5-flash",
+        "created": 1686935002,
+        "token": 1000000,
+        "points": "0.1/token",
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'image_recognition']
+    },
+    {
+        "id": 30,
+        "model": "gemini-1.5-pro-exp-0801",
+        "created": 1686935002,
+        "token": 1000000,
+        "points": "0.3/token",
+        "style": "token",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'image_recognition']
+    },
+    {
+        "id": 31,
         "model": "claude-1-100k",
         "created": 1686935002,
         "token": 100000,
@@ -280,7 +310,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 29,
+        "id": 32,
         "model": "claude-1.3",
         "created": 1686935002,
         "token": 100000,
@@ -290,7 +320,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 30,
+        "id": 33,
         "model": "claude-1.3-100k",
         "created": 1686935002,
         "token": 100000,
@@ -300,7 +330,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 31,
+        "id": 34,
         "model": "claude-2",
         "created": 1686935002,
         "token": 100000,
@@ -310,7 +340,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 32,
+        "id": 35,
         "model": "claude-3-opus-20240229",
         "created": 1686935002,
         "token": 200000,
@@ -320,7 +350,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 33,
+        "id": 36,
         "model": "claude-3-sonnet-20240229",
         "created": 1686935002,
         "token": 200000,
@@ -330,7 +360,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 34,
+        "id": 37,
         "model": "claude-3-haiku-20240307",
         "created": 1686935002,
         "token": 200000,
@@ -340,7 +370,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 35,
+        "id": 38,
         "model": "claude-3-5-sonnet-20240620",
         "created": 1686935002,
         "token": 200000,
@@ -350,7 +380,7 @@ export const god_models = [
         "features": ['conversation', 'code', 'image_recognition']
     },
     {
-        "id": 36,
+        "id": 39,
         "model": "google-palm",
         "created": 1686935002,
         "token": 32000,
@@ -360,7 +390,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 37,
+        "id": 40,
         "model": "llama-2-70b",
         "created": 1686935002,
         "token": 32000,
@@ -370,7 +400,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 38,
+        "id": 41,
         "model": "llama-2-13b",
         "created": 1686935002,
         "token": 32000,
@@ -380,7 +410,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 39,
+        "id": 42,
         "model": "llama-2-7b",
         "created": 1686935002,
         "token": 32000,
@@ -390,7 +420,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 40,
+        "id": 43,
         "model": "code-llama-34b",
         "created": 1686935002,
         "token": 32000,
@@ -400,7 +430,7 @@ export const god_models = [
         "features": ['conversation', 'code']
     },
     {
-        "id": 41,
+        "id": 44,
         "model": "code-llama-13b",
         "created": 1686935002,
         "token": 32000,
@@ -410,7 +440,7 @@ export const god_models = [
         "features": ['conversation', 'code']
     },
     {
-        "id": 42,
+        "id": 45,
         "model": "code-llama-7b",
         "created": 1686935002,
         "token": 32000,
@@ -420,7 +450,7 @@ export const god_models = [
         "features": ['conversation', 'code']
     },
     {
-        "id": 43,
+        "id": 46,
         "model": "stable-diffusion",
         "created": 1686935002,
         "token": 32000,
@@ -430,7 +460,7 @@ export const god_models = [
         "features": ['drawing']
     },
     {
-        "id": 44,
+        "id": 47,
         "model": "qwen-72b",
         "created": 1686935002,
         "token": 32000,
@@ -440,7 +470,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 45,
+        "id": 48,
         "model": "mixtral-8x7b",
         "created": 1686935002,
         "token": 32000,
@@ -450,7 +480,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 46,
+        "id": 49,
         "model": "mistral-medium",
         "created": 1686935002,
         "token": 32000,
@@ -460,7 +490,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 47,
+        "id": 50,
         "model": "llama-3-sonar-small-32k-online",
         "created": 1686935002,
         "token": 32000,
@@ -470,7 +500,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 48,
+        "id": 51,
         "model": "llama-3-sonar-small-32k-chat",
         "created": 1686935002,
         "token": 32000,
@@ -480,7 +510,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 49,
+        "id": 52,
         "model": "llama-3-sonar-large-32k-online",
         "created": 1686935002,
         "token": 32000,
@@ -490,7 +520,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 50,
+        "id": 53,
         "model": "llama-3-sonar-large-32k-chat",
         "created": 1686935002,
         "token": 32000,
@@ -500,7 +530,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 51,
+        "id": 54,
         "model": "dbrx-instruct",
         "created": 1686935002,
         "token": 32000,
@@ -510,7 +540,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 52,
+        "id": 55,
         "model": "codellama-70b-instruct",
         "created": 1686935002,
         "token": 32000,
@@ -520,7 +550,7 @@ export const god_models = [
         "features": ['conversation', 'code']
     },
     {
-        "id": 53,
+        "id": 56,
         "model": "mistral-7b-instruct",
         "created": 1686935002,
         "token": 32000,
@@ -530,7 +560,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 54,
+        "id": 57,
         "model": "llava-v1.5-7b-wrapper",
         "created": 1686935002,
         "token": 32000,
@@ -540,7 +570,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 55,
+        "id": 58,
         "model": "llava-v1.6-34b",
         "created": 1686935002,
         "token": 32000,
@@ -550,7 +580,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 56,
+        "id": 59,
         "model": "mixtral-8x7b-instruct",
         "created": 1686935002,
         "token": 32000,
@@ -560,7 +590,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 57,
+        "id": 60,
         "model": "mixtral-8x22b",
         "created": 1686935002,
         "token": 32000,
@@ -570,7 +600,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 58,
+        "id": 61,
         "model": "gemma-2b-it",
         "created": 1686935002,
         "token": 32000,
@@ -580,7 +610,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 59,
+        "id": 62,
         "model": "gemma-7b-it",
         "created": 1686935002,
         "token": 32000,
@@ -590,7 +620,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 60,
+        "id": 63,
         "model": "llama-3-8b",
         "created": 1686935002,
         "token": 32000,
@@ -600,7 +630,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 61,
+        "id": 64,
         "model": "llama-3-70b",
         "created": 1686935002,
         "token": 32000,
@@ -610,7 +640,7 @@ export const god_models = [
         "features": ['conversation']
     },
     {
-        "id": 62,
+        "id": 65,
         "model": "suno-v3",
         "created": 1686935002,
         "token": 28000,
@@ -620,7 +650,7 @@ export const god_models = [
         "features": ['music']
     },
     {
-        "id": 63,
+        "id": 66,
         "model": "suno-v3.5",
         "created": 1686935002,
         "token": 28000,
@@ -630,7 +660,7 @@ export const god_models = [
         "features": ['music']
     },
     {
-        "id": 64,
+        "id": 67,
         "model": "stable-diffusion-3-2b",
         "created": 1686935002,
         "token": 800,
@@ -640,7 +670,7 @@ export const god_models = [
         "features": ['music']
     },
     {
-        "id": 65,
+        "id": 68,
         "model": "playground-v2.5",
         "created": 1686935002,
         "token": 800,
