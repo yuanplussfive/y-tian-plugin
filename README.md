@@ -95,6 +95,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ gpt-4-turbo-preview
 &nbsp;&nbsp;✨ gpt-4o
 &nbsp;&nbsp;✨ gpt-4o-0513
+&nbsp;&nbsp;✨ gpt-4o-0806
 &nbsp;&nbsp;✨ gpt-4o-all
 &nbsp;&nbsp;✨ gpt-4o-plus
 &nbsp;&nbsp;✨ gpt-4-all
@@ -232,17 +233,23 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 <details>
 <summary>🖼️ 文生图模型</summary>
 <br>
-🔹 <b>Stability AI</b>
+🔹 <b>Stability</b>
 &nbsp;&nbsp;✨ Stable Diffusion 系列
 <br>
+🔹 <b>Flux</b>
+&nbsp;&nbsp;✨ Flux 系列
+<br>
+🔹 <b>PixArt</b>
+&nbsp;&nbsp;✨ pixart 系列
+<br>
 🔹 <b>Midjourney</b>
-&nbsp;&nbsp;✨ Midjourney
+&nbsp;&nbsp;✨ Midjourney/Niji 系列
 <br>
 🔹 <b>OpenAI</b>
 &nbsp;&nbsp;✨ DALL-E 系列
 <br>
 🔹 <b>其他</b>
-&nbsp;&nbsp;✨ pixart, dream...
+&nbsp;&nbsp;✨ Stable Cascade, dream...
 
 </details>
 

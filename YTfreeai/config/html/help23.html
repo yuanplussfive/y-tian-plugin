@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+    body {
+      background-color: #0d0d0d;
+      color: #e8ede8;
+      font-family: 'Inconsolata', monospace;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #00c8ff;
+    }
+
+    .legend {
+      margin: 20px 0;
+      font-size: 1em;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .legend i {
+      margin-right: 4px;
+      color: #00c8ff;
+    }
+
+    .legend div {
+      display: flex;
+      align-items: center;
+      margin: 5px 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      animation: glowEffect 2s infinite;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #00c8ff;
+      white-space: nowrap;
+    }
+
+    th {
+      background-color: #333;
+    }
+
+    td {
+      background-color: #1a1a1a;
+    }
+
+    @keyframes glowEffect {
+      0% {
+        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      }
+
+      50% {
+        box-shadow: 0 0 30px rgba(62, 172, 196, 0.8);
+      }
+
+      100% {
+        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>消耗积分:</th>
+      <th>最大token:</th>
+    </tr>
+    <script>
+      let data = [
+          {
+            "id": 36,
+            "model": "claude-2",
+            "created": 1686935002,
+            "token": 100000,
+            "points": "1/token",
+            "style": "token",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 37,
+            "model": "claude-3-opus-20240229",
+            "created": 1686935002,
+            "token": 200000,
+            "points": "1/token",
+            "style": "token",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 38,
+            "model": "claude-3-sonnet-20240229",
+            "created": 1686935002,
+            "token": 200000,
+            "points": "0.3/token",
+            "style": "token",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 39,
+            "model": "claude-3-haiku-20240307",
+            "created": 1686935002,
+            "token": 200000,
+            "points": "0.03/token",
+            "style": "token",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 40,
+            "model": "claude-3-5-sonnet-20240620",
+            "created": 1686935002,
+            "token": 200000,
+            "points": "0.3/token",
+            "style": "token",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": 41,
+            "model": "google-palm",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 42,
+            "model": "llama-2-70b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 43,
+            "model": "llama-2-13b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 44,
+            "model": "llama-2-7b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 45,
+            "model": "code-llama-34b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 46,
+            "model": "code-llama-13b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 47,
+            "model": "code-llama-7b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 48,
+            "model": "stable-diffusion",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['drawing']
+          },
+          {
+            "id": 49,
+            "model": "qwen-72b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 50,
+            "model": "mixtral-8x7b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "50/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 51,
+            "model": "mistral-medium",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "100/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 52,
+            "model": "llama-3-sonar-small-32k-online",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 53,
+            "model": "llama-3-sonar-small-32k-chat",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 54,
+            "model": "llama-3-sonar-large-32k-online",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "20/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 55,
+            "model": "llama-3-sonar-large-32k-chat",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "20/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 56,
+            "model": "dbrx-instruct",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 57,
+            "model": "codellama-70b-instruct",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 58,
+            "model": "mistral-7b-instruct",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 59,
+            "model": "llava-v1.5-7b-wrapper",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 60,
+            "model": "llava-v1.6-34b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 61,
+            "model": "mixtral-8x7b-instruct",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 62,
+            "model": "mixtral-8x22b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 63,
+            "model": "gemma-2b-it",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 64,
+            "model": "gemma-7b-it",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "10/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 65,
+            "model": "llama-3-8b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "50/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 66,
+            "model": "llama-3-70b",
+            "created": 1686935002,
+            "token": 32000,
+            "points": "50/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['conversation']
+          },
+          {
+            "id": 67,
+            "model": "suno-v3",
+            "created": 1686935002,
+            "token": 28000,
+            "points": "3000/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['music']
+          },
+          {
+            "id": 68,
+            "model": "suno-v3.5",
+            "created": 1686935002,
+            "token": 28000,
+            "points": "3000/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['music']
+          },
+          {
+            "id": 69,
+            "model": "stable-diffusion-3-2b",
+            "created": 1686935002,
+            "token": 800,
+            "points": "20/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['music']
+          },
+          {
+            "id": 70,
+            "model": "playground-v2.5",
+            "created": 1686935002,
+            "token": 800,
+            "points": "20/次",
+            "style": "once",
+            "owned_by": "y-tian-plugin",
+            "features": ['music']
+          }
+        ]
+
+      data.forEach(item => {
+        let features = '';
+        if (item.features.includes('internet')) {
+          features += ' <i class="fas fa-globe"></i>';
+        }
+        if (item.features.includes('drawing')) {
+          features += ' <i class="fas fa-paint-brush"></i>';
+        }
+        if (item.features.includes('code')) {
+          features += ' <i class="fas fa-code"></i>';
+        }
+        if (item.features.includes('image_recognition')) {
+          features += ' <i class="fas fa-image"></i>';
+        }
+        if (item.features.includes('conversation')) {
+          features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
+        }
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.model}${features}</td>
+            <td>${item.points}</td>
+            <td>${item.token}</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+
+</html>
