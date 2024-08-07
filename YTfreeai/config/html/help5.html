@@ -7,58 +7,89 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #1a1a2e;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             color: #e7e7de;
             margin: 0;
             padding: 20px;
             font-size: 16px;
-            transition: background-color 0.5s ease;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background: #16213e;
+            background: rgba(16, 24, 40, 0.9);
             padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
             border: 1px solid #0f3460;
         }
 
         h1,
         h2 {
             color: #e94560;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
         p {
-            line-height: 1.9;
+            line-height: 1.8;
             margin-bottom: 20px;
         }
 
         .highlight {
             color: #21e6c1;
             font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .highlight:hover {
+            color: #e94560;
+            transform: scale(1.1);
         }
 
         .code {
             background: #0f3460;
-            border-left: 4px solid #21e6c1;
+            border-left: 5px solid #21e6c1;
             padding: 15px;
             font-family: 'Courier New', monospace;
-            overflow: auto;
-            white-space: nowrap;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border-radius: 6px;
+            margin-bottom: 20px;
         }
 
-        /* 添加动画效果 */
-        button:hover,
-        .highlight:hover {
-            transition: transform 0.2s ease-in-out;
-            transform: scale(1.05);
+        .feature-box {
+            background: rgba(21, 32, 50, 0.95);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #0f3460;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-box h3 {
+            color: #e94560;
+            margin-bottom: 10px;
         }
 
         @media (max-width: 600px) {
             .container {
-                padding: 10px;
+                padding: 15px;
+                font-size: 14px;
+            }
+
+            h1, h2 {
+                font-size: 20px;
+            }
+
+            .code {
                 font-size: 14px;
             }
         }
@@ -67,23 +98,63 @@
 
 <body>
     <div class="container">
+        <h1>AI免费绘图帮助</h1>
         <h2>绘图基本命令</h2>
-        <p>输入 <span class="highlight">#pro绘图 xxx</span> 综合风格+快速(特别推荐), 使用flux-pro版</p>
-        <p>输入 <span class="highlight">#flux绘图 xxx</span> 综合风格+快速(推荐), 使用flux</p>
-        <p>输入 <span class="highlight">#pix绘图 xxx</span> pixart风格</p>
-        <p>输入 <span class="highlight">#anime绘图 xxx</span> 动漫风格</p>
-        <p>输入 <span class="highlight">#real绘图 xxx</span> 现实风格</p>
-        <p>输入 <span class="highlight">#play绘图 xxx</span> playgroundV2.5风格</p>
-        <p>输入 <span class="highlight">#sdxl绘图 xxx</span> sdxl1.0风格</p>
-        <p>输入 <span class="highlight">#dalle绘图 xxx</span> dall-e-3风格</p>
-        <p>更多绘图请参考Ai综合方案</p>
+
+        <div class="feature-box">
+            <h3>flux-schnell(综合风格+最快)</h3>
+            <p>输入: <span class="highlight">#sch绘图 xxx</span> 使用 flux-schnell</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>flux-pro(综合风格+中速)</h3>
+            <p>输入: <span class="highlight">#pro绘图 xxx</span> 使用 flux-pro</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>flux-dev(综合风格+快速)</h3>
+            <p>输入: <span class="highlight">#flux绘图 xxx</span> 使用 flux-dev</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>pixart(综合风格+中速)</h3>
+            <p>输入: <span class="highlight">#pix绘图 xxx</span> 使用 pixart</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>Stable Diffusion(动漫风格+中速)</h3>
+            <p>输入: <span class="highlight">#anime绘图 xxx</span> 使用 Stable Diffusion-v1.5</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>Stable Cascade(写实风格+慢速)</h3>
+            <p>输入: <span class="highlight">#real绘图 xxx</span> 使用 Stable Cascade</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>playground(综合风格+中速)</h3>
+            <p>输入: <span class="highlight">#play绘图 xxx</span> 使用 playground-V2.5</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>Stable Diffusion XL(综合风格+中速)</h3>
+            <p>输入: <span class="highlight">#sdxl绘图 xxx</span> 使用 Stable Diffusion XL-v1.0</p>
+        </div>
+
+        <div class="feature-box">
+            <h3>dall-e-3(综合风格+中速)</h3>
+            <p>输入: <span class="highlight">#dalle绘图 xxx</span> 使用 plus dall-e-3</p>
+        </div>
+
         <h2>图像大小切换</h2>
-        <p>您可以通过以下命令切换生成图片的尺寸：</p>
         <div class="code">
             #免费绘图切换宽图 - 生成宽图<br>
             #免费绘图切换方图 - 生成方图<br>
             #免费绘图切换长图 - 生成长图
         </div>
+
+        <h2>特殊命令</h2>
+        <p>#flux(开启|关闭)(r|R)18, 例如：#flux开启r18, 移除flux绘图内置审核, 增强自由度(支持pro和sch)</p>
     </div>
 </body>
 
