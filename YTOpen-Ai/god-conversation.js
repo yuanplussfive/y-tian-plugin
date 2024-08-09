@@ -370,15 +370,8 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             }
           }
         }
-        const set = new Set(urls.filter(url => url.startsWith("https://filesystem.site/cdn/") && !url.includes("/download/")));
-        const filteredUrls = urls.filter(url => {
-          if (url.startsWith("https://filesystem.site/cdn/download/")) {
-            return !set.has(url.replace('/download', ''));
-          } else {
-            return true;
-          }
-        });
-        filteredUrls.forEach(async (url) => {
+        console.log(3,urls)
+        urls.forEach(async (url) => {
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
         });
       }
@@ -558,7 +551,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function get_address(inputString) {
-    const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/)[^\s\)]+)\))/g;
+    const regex = /\[([^\]]*?)\]\((https:\/\/filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4})\)/g;
     let match;
     let links = [];
     while ((match = regex.exec(inputString)) !== null) {
@@ -595,7 +588,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       }
       const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
       fs.writeFileSync(filePath, Buffer.from(fileBuffer));
-      if (!['.webp', '.png', '.jpg'].includes(fileExtension) && !fileExtension == '无法识别的文件类型') {
+      if (!['.webp', '.png', '.jpg'].includes(fileExtension) && fileExtension !== '无法识别的文件类型') {
         if (e.isGroup) {
           await e.group.sendFile(filePath);
         } else {

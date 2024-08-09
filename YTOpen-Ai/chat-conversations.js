@@ -15,7 +15,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
-  let { prompts_answers, prompts_answer_open, ai_private_plan, ai_private_open } = aiSettings.chatgpt;
+  let { prompts_answers, prompts_answer_open } = aiSettings.chatgpt;
   if (prompts_answers && prompts_answer_open) {
     const tips = prompts_answers
     await e.reply(tips, true, { recallMsg: 6 });
@@ -166,7 +166,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       const links = await extractUrl(imgurl);
       console.log(links)
       if (links && links.length !== 0) {
-        question += ' ' + links
+        question = `${links} ${question}`
       }
       const response = await fetch(apiurl, {
         method: 'POST',
@@ -427,15 +427,8 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             }
           }
         }
-        const set = new Set(urls.filter(url => url.startsWith("https://filesystem.site/cdn/") && !url.includes("/download/")));
-        const filteredUrls = urls.filter(url => {
-          if (url.startsWith("https://filesystem.site/cdn/download/")) {
-            return !set.has(url.replace('/download', ''));
-          } else {
-            return true;
-          }
-        });
-        filteredUrls.forEach(async (url) => {
+        console.log(3,urls)
+        urls.forEach(async (url) => {
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
         });
       }
@@ -579,7 +572,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function get_address(inputString) {
-    const regex = /(?:\[(.*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/)[^\s\)]+)\))/g;
+    const regex = /\[([^\]]*?)\]\((https:\/\/filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4})\)/g;
     let match;
     let links = [];
     while ((match = regex.exec(inputString)) !== null) {
@@ -588,7 +581,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         links.push(link);
       }
     }
-    console.log(links);
+    console.log(2,links);
     return links
   }
 
@@ -598,31 +591,32 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       const fileBuffer = await response.arrayBuffer();
       const urlPartArray = url.split('/');
       const filename = urlPartArray[urlPartArray.length - 1];
-      function getFileExtension(filename) {
+      async function getFileExtension(filename) {
         let ext = path.extname(filename);
         if (ext.startsWith(".")) {
           return ext;
         }
         return '无法识别的文件类型';
       }
-      function getFileExtensionFromUrl(url) {
+      async function getFileExtensionFromUrl(url) {
         let filename = path.basename(url);
-        return getFileExtension(filename);
+        return await getFileExtension(filename);
       }
-      let fileExtension = getFileExtensionFromUrl(url);
+      let fileExtension = await getFileExtensionFromUrl(url);
       const time = new Date().getTime()
       if (!fs.existsSync(`${_path}/resources/YT_alltools`)) {
         fs.mkdirSync(`${_path}/resources/YT_alltools`)
       }
       const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
       fs.writeFileSync(filePath, Buffer.from(fileBuffer));
-      if (!['.webp', '.png', '.jpg'].includes(fileExtension) && !fileExtension == '无法识别的文件类型') {
+      console.log(fileExtension)
+      if (!['.webp', '.png', '.jpg'].includes(fileExtension) && fileExtension !== '无法识别的文件类型') {
         if (e.isGroup) {
           await e.group.sendFile(filePath);
         } else {
           await e.friend.sendFile(filePath);
         }
-      }
+      }      
       e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
     } catch (error) {
       console.error(`失败了: ${url}: ${error}`);
