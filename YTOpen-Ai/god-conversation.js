@@ -254,7 +254,16 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         ]);
 
         let response_json = await response.json();
-        console.log(response_json)
+        const errorMessage = response_json?.msg;
+        if (errorMessage) {
+          if (errorMessage.includes('无效的api')) {
+            e.reply('无效的令牌，请填写正确的阴天密钥后使用!');
+            return false;
+          } else if (errorMessage.includes('剩余积分不足')) {
+            e.reply('该令牌额度已用尽，请更换密钥后使用!');
+            return false;
+          }
+        }
         answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
       } catch (error) {
         if (error.message === 'Timeout') {
