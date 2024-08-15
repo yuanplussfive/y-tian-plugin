@@ -96,6 +96,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 &nbsp;&nbsp;✨ gpt-4o
 &nbsp;&nbsp;✨ gpt-4o-0513
 &nbsp;&nbsp;✨ gpt-4o-0806
+&nbsp;&nbsp;✨ gpt-4o-latest
 &nbsp;&nbsp;✨ gpt-4o-all
 &nbsp;&nbsp;✨ gpt-4o-plus
 &nbsp;&nbsp;✨ gpt-4-all

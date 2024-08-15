@@ -733,5 +733,12 @@ export const other_models = [
     "points": "Google",
     "token": 32000,
     "features": ['conversation']
+  },
+  {
+    "id": 106,
+    "model": "chatgpt-4o-latest",
+    "points": "OpenAi",
+    "token": 128000,
+    "features": ['conversation']
   }
 ]
