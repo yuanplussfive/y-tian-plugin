@@ -1,6 +1,6 @@
 {
   "name": "y-tian-plugin",
-  "version": "1.2.6",
+  "version": "3.0.2",
   "description": "Yunzai-Bot附属多功能插件",
   "main": "index.js",
   "type": "module",
@@ -23,12 +23,16 @@
     "undici": "^5.22.1",
     "keyv": "^4.5.2",
     "fetch-undici": "^3.0.1",
-    "keyv-file":"^0.2.0",
-    "axios":"^1.4.0",
-    "form-data":"^4.0.0",
+    "keyv-file": "^0.2.0",
+    "axios": "^1.4.0",
+    "form-data": "^4.0.0",
     "cheerio": "^1.0.0-rc.12"
   },
-    "imports": {
+  "private": true,
+  "workspaces": [
+    "."
+  ],
+  "imports": {
     "#YTdependence": "./YTdependence/dependencies.js"
   }
 }
