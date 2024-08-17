@@ -268,26 +268,23 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
-    if (model == "mj-chat") {
-      await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
-      return false
-    }
-    if (model.includes("suno")) {
-      await handleSunoModel(e, Apikey, msg, model, apiurl, _path);
-      return false
-    }
-    if (model.includes("luma")) {
-      await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
-      return false
-    }
-    if (model.includes("stable-diffusion") || model.includes("playground")) {
-      await handlesdModel(e, Apikey, msg, model, apiurl, _path);
-      return false
+    switch (true) {
+      case model === "mj-chat":
+        await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+        return false;
+      case /suno/.test(model):
+        await handleSunoModel(e, Apikey, msg, model, apiurl, _path);
+        return false;
+      case /(luma|runway|vidu)/.test(model):
+        await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
+        return false;
+      case /(stable-diffusion|playground)/.test(model):
+        await handlesdModel(e, Apikey, msg, model, apiurl, _path);
+        return false;
     }
     try {
-      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
-        search = false
-      }
+      const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o"];
+      search = CurrentModels.includes(model) ? false : true;
       let History = await reduceConsecutiveRoles(history);
       console.log(History);
       let answer

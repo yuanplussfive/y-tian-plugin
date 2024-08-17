@@ -473,21 +473,21 @@ export const chat_models = {
       "id": "68",
       "name": "suno-v3",
       "token_count": "2000",
-      "Magnification": '固定0.4$',
+      "Magnification": '0.4$/次',
       "features": ['music']
     },
     {
       "id": "69",
       "name": "suno-v3.5",
       "token_count": "2000",
-      "Magnification": '固定0.4$',
+      "Magnification": '0.4$/次',
       "features": ['music']
     },
     {
       "id": "70",
       "name": "luma-video",
       "token_count": "28000",
-      "Magnification": '固定0.1$',
+      "Magnification": '0.1$/次',
       "features": ['video']
     },
     {
@@ -503,6 +503,20 @@ export const chat_models = {
       "token_count": "800",
       "Magnification": '0.007$左右',
       "features": ['drawing']
+    },
+    {
+      "id": "73",
+      "name": "runway-video",
+      "token_count": "800",
+      "Magnification": '0.2$/次',
+      "features": ['video']
+    },
+    {
+      "id": "74",
+      "name": "vidu-video",
+      "token_count": "800",
+      "Magnification": '0.1$/次',
+      "features": ['video']
     }
   ]
 }
