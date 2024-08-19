@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <title>AI免费绘图帮助</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle, #0d0d2b, #222255);
             color: #e7e7de;
             margin: 0;
             padding: 20px;
@@ -16,13 +18,13 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: rgba(16, 24, 40, 0.9);
+            background: rgba(12, 15, 25, 0.95);
             padding: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            border: 1px solid #0f3460;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            border: 1px solid #1c1f4a;
         }
 
         h1,
@@ -30,11 +32,85 @@
             color: #e94560;
             margin-bottom: 15px;
             text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
         }
 
-        p {
-            line-height: 1.8;
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -10px;
+            width: 50px;
+            height: 2px;
+            background: #21e6c1;
+        }
+
+        .feature-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .feature-box {
+            flex: 1 1 calc(48% - 20px);
+            background: rgba(21, 32, 50, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #1c1f4a;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .feature-box h3 {
+            color: #21e6c1;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .feature-box h3::before {
+            content: attr(data-index);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e94560;
+            color: #0d0d2b;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .feature-box p {
+            color: #e7e7de;
+        }
+
+        .code {
+            background: #16213e;
+            border-left: 5px solid #21e6c1;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border-radius: 6px;
             margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .highlight {
@@ -49,44 +125,19 @@
             transform: scale(1.1);
         }
 
-        .code {
-            background: #0f3460;
-            border-left: 5px solid #21e6c1;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
-
-        .feature-box {
-            background: rgba(21, 32, 50, 0.95);
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid #0f3460;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .feature-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .feature-box h3 {
-            color: #e94560;
-            margin-bottom: 10px;
-        }
-
         @media (max-width: 600px) {
             .container {
                 padding: 15px;
                 font-size: 14px;
             }
 
-            h1, h2 {
+            h1,
+            h2 {
                 font-size: 20px;
+            }
+
+            .feature-box {
+                flex: 1 1 100%;
             }
 
             .code {
@@ -101,59 +152,50 @@
         <h1>AI免费绘图帮助</h1>
         <h2>绘图基本命令</h2>
 
-        <div class="feature-box">
-            <h3>flux-schnell(综合风格+最快)</h3>
-            <p>输入: <span class="highlight">#sch绘图 xxx</span> 使用 flux-schnell</p>
-        </div>
+        <div class="feature-container">
+            <div class="feature-box">
+                <h3 data-index="1">flux (综合风格+中速)</h3>
+                <p>输入: <span class="highlight">#sch绘图 xxx</span> 使用 flux-schnell</p>
+                <p>输入: <span class="highlight">#flux绘图 xxx</span> 使用 flux-dev</p>
+                <p>输入: <span class="highlight">#pro绘图 xxx</span> 使用 flux-pro</p>
+                <p>输入: <span class="highlight">#realism绘图 xxx</span> 使用 flux-realism(限速)</p>
+                <p>输入: <span class="highlight">#max绘图 xxx</span> 使用 flux-max(限速)</p>
+            </div>
 
-        <div class="feature-box">
-            <h3>flux-dev(综合风格+快速)</h3>
-            <p>输入: <span class="highlight">#flux绘图 xxx</span> 使用 flux-dev</p>
-        </div>
+            <div class="feature-box">
+                <h3 data-index="2">pixart (综合风格+中速)</h3>
+                <p>输入: <span class="highlight">#pix绘图 xxx</span> 使用 pixart</p>
+            </div>
 
-        <div class="feature-box">
-            <h3>flux-pro(综合风格+中速)</h3>
-            <p>输入: <span class="highlight">#pro绘图 xxx</span> 使用 flux-pro</p>
-        </div>
+            <div class="feature-box">
+                <h3 data-index="3">Stable Diffusion (动漫风格+中速)</h3>
+                <p>输入: <span class="highlight">#anime绘图 xxx</span> 使用 Stable Diffusion-v1.5</p>
+            </div>
 
-        <div class="feature-box">
-            <h3>flux-realism(综合风格+中速)</h3>
-            <p>输入: <span class="highlight">#realism绘图 xxx</span> 使用 flux-realism(限速)</p>
-        </div>
+            <div class="feature-box">
+                <h3 data-index="4">Stable Cascade (写实风格+慢速)</h3>
+                <p>输入: <span class="highlight">#real绘图 xxx</span> 使用 Stable Cascade</p>
+            </div>
 
-        <div class="feature-box">
-            <h3>flux-max(综合风格+中速)</h3>
-            <p>输入: <span class="highlight">#max绘图 xxx</span> 使用 flux-max(限速)</p>
-        </div>
+            <div class="feature-box">
+                <h3 data-index="5">playground (综合风格+中速)</h3>
+                <p>输入: <span class="highlight">#play绘图 xxx</span> 使用 playground-V2.5</p>
+            </div>
 
-        <div class="feature-box">
-            <h3>pixart(综合风格+中速)</h3>
-            <p>输入: <span class="highlight">#pix绘图 xxx</span> 使用 pixart</p>
-        </div>
+            <div class="feature-box">
+                <h3 data-index="6">Stable Diffusion XL (综合风格+中速)</h3>
+                <p>输入: <span class="highlight">#sdxl绘图 xxx</span> 使用 Stable Diffusion XL-v1.0</p>
+            </div>
 
-        <div class="feature-box">
-            <h3>Stable Diffusion(动漫风格+中速)</h3>
-            <p>输入: <span class="highlight">#anime绘图 xxx</span> 使用 Stable Diffusion-v1.5</p>
-        </div>
+            <div class="feature-box">
+                <h3 data-index="7">dall-e-3 (综合风格+中速)</h3>
+                <p>输入: <span class="highlight">#dalle绘图 xxx</span> 使用 plus dall-e-3</p>
+            </div>
 
-        <div class="feature-box">
-            <h3>Stable Cascade(写实风格+慢速)</h3>
-            <p>输入: <span class="highlight">#real绘图 xxx</span> 使用 Stable Cascade</p>
-        </div>
-
-        <div class="feature-box">
-            <h3>playground(综合风格+中速)</h3>
-            <p>输入: <span class="highlight">#play绘图 xxx</span> 使用 playground-V2.5</p>
-        </div>
-
-        <div class="feature-box">
-            <h3>Stable Diffusion XL(综合风格+中速)</h3>
-            <p>输入: <span class="highlight">#sdxl绘图 xxx</span> 使用 Stable Diffusion XL-v1.0</p>
-        </div>
-
-        <div class="feature-box">
-            <h3>dall-e-3(综合风格+中速)</h3>
-            <p>输入: <span class="highlight">#dalle绘图 xxx</span> 使用 plus dall-e-3</p>
+            <div class="feature-box">
+                <h3 data-index="8">Clarity Upscaler (图片修复)</h3>
+                <p>输入: <span class="highlight">#高清修复(带图)</span> 图片清晰度提升</p>
+            </div>
         </div>
 
         <h2>图像大小切换</h2>
@@ -164,7 +206,7 @@
         </div>
 
         <h2>特殊命令</h2>
-        <p>#flux(开启|关闭)(r|R)18, 例如：#flux开启r18, 移除flux绘图内置审核, 增强自由度(支持pro和sch)</p>
+        <p>#flux(开启|关闭)(r|R)18, 例如：#flux开启r18, 移除flux绘图内置审核, 增强自由度</p>
     </div>
 </body>
 
