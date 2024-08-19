@@ -582,160 +582,132 @@ export const other_models = [
   },
   {
     "id": 84,
-    "model": "anime-search",
-    "points": "y-tian-plugin",
-    "token": 800,
-    "features": ['conversation']
-  },
-  {
-    "id": 85,
     "model": "reka-core",
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition']
   },
   {
-    "id": 86,
+    "id": 85,
     "model": "reka-flash",
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition']
   },
   {
-    "id": 87,
+    "id": 86,
     "model": "reka-edge",
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition']
   },
   {
-    "id": 88,
+    "id": 87,
     "model": "blackbox-chat",
     "points": "blackbox",
     "token": 9000,
     "features": ['conversation']
   },
   {
-    "id": 89,
+    "id": 88,
     "model": "blackbox-online",
     "points": "blackbox",
     "token": 9000,
     "features": ['conversation', 'internet']
   },
   {
-    "id": 90,
+    "id": 89,
     "model": "blackbox-code",
     "points": "blackbox",
     "token": 9000,
     "features": ['conversation', 'code']
   },
   {
-    "id": 91,
+    "id": 90,
     "model": "zephyr-7b-beta",
     "points": "huggingface",
     "token": 8000,
     "features": ['conversation']
   },
   {
-    "id": 92,
+    "id": 91,
     "model": "openchat-7b",
     "points": "huggingface",
     "token": 8000,
     "features": ['conversation']
   },
   {
-    "id": 93,
+    "id": 92,
     "model": "phi-3-mini-128k-instruct",
     "points": "Microsoft",
     "token": 128000,
     "features": ['conversation']
   },
   {
-    "id": 94,
+    "id": 93,
     "model": "phi-3-medium-128k-instruct",
     "points": "Microsoft",
     "token": 128000,
     "features": ['conversation']
   },
   {
-    "id": 95,
-    "model": "grok-v1.0",
-    "points": "XAi",
-    "token": 40000,
-    "features": ['conversation', 'code']
-  },
-  {
-    "id": 96,
-    "model": "grok-v1.5",
-    "points": "XAi",
-    "token": 40000,
-    "features": ['conversation', 'code']
-  },
-  {
-    "id": 97,
-    "model": "nijijourney",
-    "points": "nijijourney(限速)",
-    "token": 2000,
-    "features": ['drawing']
-  },
-  {
-    "id": 98,
+    "id": 94,
     "model": "suno-v3.5-vip",
     "points": "suno",
     "token": 240,
     "features": ['music']
   },
   {
-    "id": 99,
+    "id": 95,
     "model": "search-llm",
     "points": "y-tian-plugin",
     "token": 8000,
     "features": ['conversation', 'internet']
   },
   {
-    "id": 100,
+    "id": 96,
     "model": "gpt-4o-mini",
     "points": "OpenAi",
     "token": 128000,
     "features": ['conversation']
   },
   {
-    "id": 101,
+    "id": 97,
     "model": "meta-llama-3.1-8B",
     "points": "Meta",
     "token": 32000,
     "features": ['conversation']
   },
   {
-    "id": 102,
+    "id": 98,
     "model": "meta-llama-3.1-70B",
     "points": "Meta",
     "token": 32000,
     "features": ['conversation']
   },
   {
-    "id": 103,
+    "id": 99,
     "model": "meta-llama-3.1-405B",
     "points": "Meta",
     "token": 32000,
     "features": ['conversation']
   },
   {
-    "id": 104,
+    "id": 100,
     "model": "gemma-2-9b-it",
     "points": "Google",
     "token": 32000,
     "features": ['conversation']
   },
   {
-    "id": 105,
+    "id": 101,
     "model": "gemma-2-27b-it",
     "points": "Google",
     "token": 32000,
     "features": ['conversation']
   },
   {
-    "id": 106,
+    "id": 102,
     "model": "chatgpt-4o-latest",
     "points": "OpenAi",
     "token": 128000,
