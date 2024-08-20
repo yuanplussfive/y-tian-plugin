@@ -19,7 +19,10 @@
   <h2 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页:</h2>
 
   <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
-    <strong>点击跳转插件在线对话页(请使用pc端访问) <a href="https://yuanpluss.online:1111/about" style="color: #0ff;">免费AI</a></strong>
+    <strong>使用插件在线免费Ai页(请使用pc端访问) <a href="https://yuanpluss.online:1111/" 
+    style="color: #0ff;">免费AI</a></strong><br>
+    <strong>查看当前免费模型可用性 <a href="https://yuanpluss.online:3000/others" 
+    style="color: #0ff;">今日仪表盘</a></strong>
   </p>
 
 </div>
