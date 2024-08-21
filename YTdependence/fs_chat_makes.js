@@ -3,7 +3,7 @@ const { fs, _path } = dependencies
 
 async function fs_chat(fs, _path){
 const dirPath = `${_path}/data/YTopenai`;
-let dirpath = `${_path}/data/YTopenai`;
+const dirpath = `${_path}/data/YTAi_Setting`;
 function ensureDirectoryExists(directory) {
     if (!fs.existsSync(directory)) {
         fs.mkdirSync(directory);
@@ -16,6 +16,7 @@ function ensureJsonFileExists(filePath, defaultContent) {
 }
 ensureDirectoryExists(dirPath);
 ensureDirectoryExists(`${dirPath}/user_cache`);
+ensureDirectoryExists(`${dirpath}/user_system`);
 ensureJsonFileExists(`${dirPath}/data.json`, {
     chatgpt: {
         stoken: "",

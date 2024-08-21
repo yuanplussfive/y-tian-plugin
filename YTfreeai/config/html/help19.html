@@ -12,11 +12,14 @@
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 40px;
       border-radius: 20px;
       backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .title-container {
@@ -31,45 +34,61 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 100px;
-      height: 100px;
-      background-color: #2c5364;
+      width: 120px;
+      height: 120px;
+      background-color: rgba(44, 83, 100, 0.8);
       border-radius: 50%;
       z-index: -1;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
     }
 
     .title {
       font-size: 40px;
       font-weight: bold;
-      color: #666666;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      color: #ffffff;
+      text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
       position: relative;
       z-index: 1;
     }
 
+    .sections {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
     .section {
+      flex: 0 0 48%;
       display: flex;
       flex-direction: column;
       margin-bottom: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
     }
 
     .section-title {
       font-size: 18px;
       font-weight: bold;
       color: #D9D9F3;
-      background-color: #2c5364;
-      padding: 10px 10px;
+      background-color: rgba(44, 83, 100, 0.8);
+      padding: 10px 15px;
       border-radius: 20px;
-      margin-right: 10px;
       position: relative;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     .section-title:before {
       content: "•";
       position: absolute;
-      left: -25px;
-      font-size: 18px;
-      color: #2c5364;
+      left: -20px;
+      font-size: 24px;
+      color: #D9D9F3;
     }
 
     .section-title:after {
@@ -79,7 +98,7 @@
       left: -5px;
       right: -5px;
       bottom: -5px;
-      border: 2px solid #2c5364;
+      border: 2px solid #D9D9F3;
       border-radius: 20px;
       z-index: -1;
     }
@@ -87,10 +106,12 @@
     .section-content {
       font-size: 15px;
       color: #ffffff;
-      background-color: #2c5364;
-      padding: 10px 20px;
+      background-color: rgba(44, 83, 100, 0.7);
+      padding: 15px 20px;
       border-radius: 10px;
       margin-top: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
   </style>
 </head>
@@ -100,68 +121,82 @@
     <div class="title-container">
       <h1 class="title">AI总管理</h1>
     </div>
-    <div class="section">
-      <div class="section-title">查看设置</div>
-      <div class="section-content">#查看AI总设置,查看当前ai配置</div>
-    </div>
-    <div class="section">
-      <div class="section-title">回复提示</div>
-      <div class="section-content">#更改回复提示词+xxx,设置Ai思考回复词,#(开启|关闭)提示回复,开启或关闭ai思考回复词</div>
-    </div>
-    <div class="section">
-      <div class="section-title">设置违禁词</div>
-      <div class="section-content">#新增AI违禁词+xxx,设置Ai违禁词,例如：#新增AI违禁词原图;#删除AI违禁词+xxx,删除Ai违禁词</div>
-    </div>
-    <div class="section">
-      <div class="section-title">对话方式</div>
-      <div class="section-content">#AI对话方式(文本|图片|引用),更改ai回复方式,例如:#AI对话方式图片，PS：方式为图片时，有指令：<br>#图片渲染使用markdown(使用md渲染美观)，#图片渲染使用mathjax(渲染特殊latex公式)</div>
-    </div>
-    <div class="section">
-      <div class="section-title">艾特回复</div>
-      <div class="section-content">#AI(开启|关闭)艾特,是否启用ai的at回复,例如:#AI开启艾特</div>
-    </div>
-    <div class="section">
-      <div class="section-title">艾特方案</div>
-      <div class="section-content">#艾特回复使用(god|chat|sess|附加),更改at回复的方案<br>例如:#艾特回复使用chat</div>
-    </div>
-    <div class="section">
-      <div class="section-title">方案触发</div>
-      <div class="section-content">#更改(sess|chat|god|附加)触发名+名称,更改不同方案的名称触发,例如:#更改sess触发名neko,则可以直接neko+问题触发</div>
-    </div>
-    <div class="section">
-      <div class="section-title">私聊回复</div>
-      <div class="section-content">
-        #(开启|关闭)私聊回复,是否允ai私聊,例如:#开启私聊回复<br>#私聊回复使用(god|chat|sess|附加),更改私聊bot的方案,例如:#私聊回复使用sess</div>
-    </div>
-    <div class="section">
-      <div class="section-title">TTS语音</div>
-      <div class="section-content">#(开启|关闭)tts回复,是否tts语音回复,例如:#开启tts回复<br>#切换tts角色+角色名,例如:#切换tts角色雷电将军</div>
-    </div>
-    <div class="section">
-      <div class="section-title">禁用Ai</div>
-      <div class="section-content">
-        #(禁用|解禁)方案(god|chat|附加|sess),禁用当前方案<br>例如:#禁用方案god,解禁同理<br>#AI(禁用|解禁)该群,禁用当前群ai,例如:#AI禁用该群,解禁同理<br>#(禁用|解禁)AI@xxxx,禁止艾特的群员使用ai,例如:#禁用AI@张三,解禁同理
+    <div class="sections">
+        <div class="section">
+          <div class="section-title">管理预设</div>
+          <div class="section-content">#(删除|查看)预设+序号,例如:#查看预设1,删除同理</div>
+        </div>
+      <div class="section">
+        <div class="section-title">艾特回复</div>
+        <div class="section-content">#AI(开启|关闭)艾特,是否启用ai的at回复<br>例如:#AI开启艾特</div>
       </div>
-    </div>
-    <div class="section">
-      <div class="section-title">添加预设</div>
-      <div class="section-content">#(开启|关闭)预设添加,例如:#开启预设添加,关闭同理<br>用法：直接把txt格式的文件私聊丢给你的bot</div>
-    </div>
-    <div class="section">
-      <div class="section-title">管理预设</div>
-      <div class="section-content">#(删除|查看)预设+序号,例如:#查看预设1,删除同理</div>
-    </div>
-    <div class="section">
-      <div class="section-title">密钥管理</div>
-      <div class="section-content">#删除chatsk+序号,删除chat方案的key,例如:#删除chatsk 2,god方案同理,/删除godsk+序号</div>
-    </div>
-    <div class="section">
-      <div class="section-title">记忆限制</div>
-      <div class="section-content">#(开启|关闭)(chat|god)方案记忆限制,是否限制方案的ai记忆,可以极大减少金额消耗<br>例如:#开启god方案记忆限制,chat方案同理</div>
-    </div>
-    <div class="section">
-      <div class="section-title">记忆条数</div>
-      <div class="section-content">#设置(chat|god)记忆条数+数量,限制不同方案的ai记忆条数<br>例如:#设置chat记忆条数15,god同理</div>
+      <div class="section">
+        <div class="section-title">设置违禁词</div>
+        <div class="section-content">#新增AI违禁词+xxx,设置Ai违禁词,例如：#新增AI违禁词原图<br>#删除AI违禁词+xxx, 例如：#删除AI违禁词原图</div>
+      </div>
+      <div class="section">
+        <div class="section-title">TTS语音</div>
+        <div class="section-content">#(开启|关闭)tts回复,是否tts语音回复,例如:#开启tts回复<br>#切换tts角色+角色名,例如:#切换tts角色雷电将军</div>
+      </div>
+      <div class="section">
+        <div class="section-title">回复提示</div>
+        <div class="section-content">#更改回复提示词+xxx,设置Ai思考回复词<br>#(开启|关闭)提示回复,开启或关闭ai思考回复词</div>
+      </div>
+      <div class="section">
+        <div class="section-title">艾特方案</div>
+        <div class="section-content">#艾特回复使用(god|chat|sess|附加),更改at回复的方案<br>例如:#艾特回复使用chat</div>
+      </div>
+      <div class="section">
+        <div class="section-title">方案触发</div>
+        <div class="section-content">#更改(sess|chat|god|附加)触发名+名称,更改不同方案的名称触发<br>例如:#更改附加触发名neko,则可以直接neko+问题触发</div>
+      </div>
+      <div class="section">
+        <div class="section-title">私聊回复</div>
+        <div class="section-content">
+          #(开启|关闭)私聊回复,是否允ai私聊,例如:#开启私聊回复<br>#私聊回复使用(god|chat|sess|附加),更改私聊bot的方案,例如:#私聊回复使用sess</div>
+      </div>
+      <div class="section">
+        <div class="section-title">对话方式</div>
+        <div class="section-content">
+          #AI对话方式(文本|图片|引用),更改ai回复方式<br>例如:#AI对话方式图片<br>PS：方式为图片时，有指令：<br>#图片渲染使用markdown(使用md渲染美观)，#图片渲染使用mathjax(渲染特殊latex公式)
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">禁用Ai</div>
+        <div class="section-content">
+          #(禁用|解禁)方案(god|chat|附加|sess)<br>禁用当前Ai方案(主人不影响)<br>例如:#禁用方案god,解禁同理<br>#AI(禁用|解禁)该群,禁用当前群ai<br>例如:#AI禁用该群,解禁同理<br>#(禁用|解禁)AI@xxxx,禁止艾特的群员使用ai,例如:#禁用AI@张三,解禁同理
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">添加预设</div>
+        <div class="section-content">
+          #(开启|关闭)预设添加<br>例如:#开启预设添加,关闭同理<br>用法：直接把txt格式的文件私聊丢给你的bot(如果适配器添加失败，则手动添加txt文件到根目录data/阴天预设)</div>
+      </div>
+      <div class="section">
+        <div class="section-title">全局预设</div>
+        <div class="section-content">
+          #(开启|关闭)(群)?全局预设,开启Ai全局预设<br>即结束区间对话不会清空预设，参考各方案的区间功能<br>例如:#开启全局预设，#开启全局预设@张三，#开启群全局预设</div>
+      </div>
+      <div class="section">
+        <div class="section-title">记忆条数</div>
+        <div class="section-content">#设置(chat|god)记忆条数+数量<br>限制不同方案的ai记忆条数<br>例如:#设置chat记忆条数15,god同理</div>
+      </div>
+      <div class="section">
+        <div class="section-title">记忆限制</div>
+        <div class="section-content">#(开启|关闭)(chat|god)方案记忆限制,限制方案的ai记忆,可极大减少金额消耗<br>例如:#开启god方案记忆限制,chat方案同理</div>
+      </div>
+      <div class="section">
+        <div class="section-title">密钥管理</div>
+        <div class="section-content">#删除chatsk+序号,删除chat方案的key<br>例如:#删除chatsk 2<br>god方案同理,例如:/删除godsk+序号</div>
+      </div>
+      <div class="section">
+        <div class="section-title">群上下文</div>
+        <div class="section-content">#(开启|关闭)群记录携带,Ai携带群聊相关信息进行回复,增强关联性<br>例如:#开启群记录携带,关闭同理</div>
+      </div>
+      <div class="section">
+        <div class="section-title">查看设置</div>
+        <div class="section-content">#查看AI总设置,查看当前ai配置</div>
+      </div>
     </div>
   </div>
 </body>
