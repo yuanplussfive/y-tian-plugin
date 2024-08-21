@@ -15,6 +15,14 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   if (god_moment_open) {
     history = await processArray(history, god_moment_numbers)
   }
+  const hasSystemRole = history.some(item => item.role === "system");
+  const datas = JSON.parse(await fs.promises.readFile(`${_path}/data/YTAi_Setting/data.json`, "utf-8"));
+  const hasSystemItem = datas.chatgpt?.add_systems_open?.[userid] || false;
+  //console.log('开关', hasSystemItem)
+  if (fs.existsSync(`${_path}/data/YTAi_Setting/user_system/${userid}.json`) && !hasSystemRole && hasSystemItem) {
+    const systemObj = JSON.parse(fs.readFileSync(`${_path}/data/YTAi_Setting/user_system/${userid}.json`, "utf-8"));
+    history.unshift(...systemObj);
+  }
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
   let { prompts_answers, prompts_answer_open, ai_private_plan, ai_private_open } = aiSettings.chatgpt;
