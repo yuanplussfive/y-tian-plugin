@@ -712,5 +712,12 @@ export const other_models = [
     "points": "OpenAi",
     "token": 128000,
     "features": ['conversation']
+  },
+  {
+    "id": 103,
+    "model": "gemini-1.5-pro-exp-0801",
+    "points": "Google",
+    "token": 200000,
+    "features": ['conversation', 'image_recognition']
   }
 ]
