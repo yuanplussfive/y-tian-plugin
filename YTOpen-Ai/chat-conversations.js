@@ -79,9 +79,18 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
-    const filteredArray = history.filter(function (item) {
+    let filteredArray = history.filter(function (item) {
       return item.role !== "system";
     });
+    const links = await extractUrl(imgurl);
+    console.log(links)
+    if (links && links.length !== 0) {
+      filteredArray.forEach((item, index) => {
+        if (index === filteredArray.length - 1) {
+          item.content = links + ' ' + item.content;
+        }
+      });
+    }
     try {
       let answer;
       console.log(filteredArray)
@@ -98,34 +107,28 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       });
       let response_json = await response.json();
       console.log(response_json)
-      answer = await response_json.choices[0].message.content
-      console.log(answer)
-      let url = await extractImageLinks3(answer)
-      if (answer.includes("服务器已掉线") || url == null || url == "undefined") {
-        e.reply("该图像处理服务器已掉线, 请结束对话后重试")
-        return false
+      answer = await response_json.choices[0].message.content;
+      e.reply(answer);
+      if (answer.includes("服务器已掉线")) {
+        e.reply("该图像处理服务器已掉线, 请结束对话后重试");
+        return false;
       }
-      if (url.length == 0) {
-        e.reply(answer)
-        return false
-      }
-      url = url[url.length - 1]
-      let path2 = _path + '/resources/MJ.png'
-      let file = fs.createWriteStream(path2);
-      https.get(url, function (response) {
-        response.pipe(file);
-        file.on('finish', function () {
-          file.close(() => {
-            e.reply(segment.image(path2));
-          });
-        });
-      }).on('error', function (err) {
-        e.reply(segment.image(url));
-      });
-      history.push({
-        "role": "assistant",
-        "content": answer
-      });
+      let urls = await get_address(answer);
+        if (urls.length !== 0) {
+          try {
+            urls = await removeDuplicates(urls);
+          } catch (error) {
+            e.reply(error);
+          }
+          const filePath = path.join(_path, 'resources', 'dall_e_chat.png');
+          for (const url of urls) {
+            try {
+              await downloadImage(path, url, e, filePath);
+            } catch (error) {
+              e.reply(error);
+            }
+          }
+        }
       await saveUserHistory(path, userid, history);
     } catch {
       e.reply("通讯失败, 稍后再试")
