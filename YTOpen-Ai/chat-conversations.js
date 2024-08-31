@@ -32,6 +32,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   if (imgurl.length > 0) {
     const Models = [
       "gpt-4-all",
+      "claude-3-5-sonnet-20240620",
       "gpt-4-dalle",
       "gpt-4o",
       "gpt-4o-all",
@@ -428,7 +429,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           downloadImage(path, url, e, filePath);
         })
       }
-      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
+      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all" || model == "ideogram") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
           try {

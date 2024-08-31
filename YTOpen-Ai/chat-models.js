@@ -513,10 +513,10 @@ export const chat_models = {
     },
     {
       "id": "74",
-      "name": "vidu-video",
+      "name": "ideogram",
       "token_count": "800",
-      "Magnification": '0.1$/次',
-      "features": ['video']
+      "Magnification": '0.032$/次',
+      "features": ['drawing']
     }
   ]
 }
