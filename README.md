@@ -21,8 +21,6 @@
   <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
     <strong>使用插件在线免费Ai页(请使用pc端访问) <a href="https://yuanpluss.online:1111/" 
     style="color: #0ff;">免费AI</a></strong><br>
-    <strong>查看当前免费模型可用性 <a href="https://yuanpluss.online:3000/others" 
-    style="color: #0ff;">今日仪表盘</a></strong>
   </p>
 
 </div>
@@ -452,7 +450,7 @@ git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins
 
 您也可以通过以下渠道对我们进行赞助支持:
 
-[爱发电](https://afdian.net/a/yuan_20) 赞助用户将有机会提前体验本插件未公布的新功能。您的支持将成为我们持续更新的动力!
+[爱发电](https://afdian.com/a/yuan_20) 赞助用户将有机会提前体验本插件未公布的新功能。您的支持将成为我们持续更新的动力!
 
 ### ✨ 贡献成员
 
