@@ -6,8 +6,8 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
   let { chat_moment_numbers, chat_moment_open } = Settings.chatgpt;
   let userid = (group == false)
-  ? (!e.group_id ? (e.from_id ?? e.user_id) : e.user_id)
-  : (!e.group_id ? (e.from_id ?? e.user_id) : e.group_id);
+    ? (!e.group_id ? (e.from_id ?? e.user_id) : e.user_id)
+    : (!e.group_id ? (e.from_id ?? e.user_id) : e.group_id);
   //console.log(userid)
   let history = await loadUserHistory(path, userid, dirpath);
   if (chat_moment_open) {
@@ -114,22 +114,77 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         e.reply("该图像处理服务器已掉线, 请结束对话后重试");
         return false;
       }
-      let urls = await get_address(answer);
-        if (urls.length !== 0) {
+      let urls = [];
+      const linkRegex = /\((https?:\/\/[^\s]+)\)/;
+      const match = answer.match(linkRegex);
+      console.log(match[1]);
+      if (match && match[1]) {
+        urls = [match[1]];
+      }
+      if (urls.length !== 0) {
+        const filePath = path.join(_path, 'resources', 'dall_e_chat.png');
+        for (const url of urls) {
           try {
-            urls = await removeDuplicates(urls);
+            const downloadTimeout = 40000;
+            let urlSent = false;
+            let downloadAborted = false;
+            let url = urls[0];
+            const sendUrl = () => {
+              if (!urlSent) {
+                e.reply(url.trim());
+                urlSent = true;
+              }
+            };
+
+            const downloadPromise = async () => {
+              try {
+                const response = await axios({
+                  url: url.trim(),
+                  method: 'GET',
+                  responseType: 'stream'
+                });
+                if (response.status >= 400) {
+                  throw new Error(`Failed to download ${url}: ${response.status}`);
+                }
+                const file = fs.createWriteStream(filePath);
+                response.data.pipe(file);
+                await new Promise((resolve, reject) => {
+                  file.on('finish', resolve);
+                  file.on('error', reject);
+                });
+                if (!downloadAborted) {
+                  console.log(111);
+                  e.reply(segment.image(filePath));
+                }
+              } catch (err) {
+                console.log(err);
+                if (!downloadAborted) {
+                  sendUrl();
+                }
+              }
+            };
+
+            const timeoutPromise = new Promise((_, reject) =>
+              setTimeout(() => {
+                downloadAborted = true;
+                reject(new Error('Download timed out'));
+              }, downloadTimeout)
+            );
+
+            try {
+              await Promise.race([downloadPromise(), timeoutPromise]);
+            } catch (err) {
+              if (err.message === 'Download timed out') {
+                sendUrl();
+              } else {
+                throw err;
+              }
+            }
           } catch (error) {
             e.reply(error);
           }
-          const filePath = path.join(_path, 'resources', 'dall_e_chat.png');
-          for (const url of urls) {
-            try {
-              await downloadImage(path, url, e, filePath);
-            } catch (error) {
-              e.reply(error);
-            }
-          }
         }
+      }
       await saveUserHistory(path, userid, history);
     } catch {
       e.reply("通讯失败, 稍后再试")
@@ -330,7 +385,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             e.reply('该令牌额度已用尽，请更换密钥后使用!');
             return false;
           }
-        }        
+        }
         answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
       } catch (error) {
         if (error.message === 'Timeout') {
@@ -379,7 +434,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       });
       await saveUserHistory(path, userid, history);
       let Messages = answer
-      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all"];
+      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all", "ideogram"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
       if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
         const result = await extractDescription(answer);
@@ -390,7 +445,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             let forwardMsg = []
             forwardMsg.push(JSON.parse(result.jsonPart).prompt)
             forwardMsg.push(JSON.parse(result.jsonPart).size)
-            const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'dall-e-3绘图prompt');
+            const JsonPart = await common.makeForwardMsg(e, forwardMsg, '绘图prompt');
             e.reply(JsonPart)
           }
         } catch { }
@@ -411,7 +466,9 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           console.log(uniqueUrls)
         }
       }
-      await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
+      if (!model.includes("ideogram")) {
+        await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
+      }
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {
@@ -429,7 +486,29 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           downloadImage(path, url, e, filePath);
         })
       }
-      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all" || model == "ideogram") {
+      if (model == "ideogram") {
+        let urls = await get_address(answer);
+        if (urls.length !== 0) {
+          try {
+            urls = await removeDuplicates(urls);
+          } catch (error) {
+            e.reply(error);
+          }
+          const filePath = path.join(_path, 'resources', 'ideogram.png');
+          for (const url of urls) {
+            try {
+              await downloadImage(path, url, e, filePath);
+            } catch (error) {
+              e.reply(error);
+            }
+          }
+        }
+        console.log(3, urls)
+        urls.forEach(async (url) => {
+          await downloadAndSaveFile(url, path, fetch, _path, fs, e);
+        });
+      }
+      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
           try {
@@ -446,7 +525,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             }
           }
         }
-        console.log(3,urls)
+        console.log(3, urls)
         urls.forEach(async (url) => {
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
         });
@@ -468,7 +547,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     }
     return null;
   }
-  
+
   async function removeDuplicates(array) {
     const result = array.filter((item, index) => {
       if (item.indexOf('/cdn/download/') == -1) {
@@ -487,7 +566,18 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
       return;
     }
+
     const downloadTimeout = 40000;
+    let urlSent = false;
+    let downloadAborted = false;
+
+    const sendUrl = () => {
+      if (!urlSent) {
+        e.reply(url.trim());
+        urlSent = true;
+      }
+    };
+
     const downloadPromise = async () => {
       try {
         const response = await axios({
@@ -504,28 +594,36 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           file.on('finish', resolve);
           file.on('error', reject);
         });
-        console.log(111);
-        e.reply(segment.image(filePath));
+        if (!downloadAborted) {
+          console.log(111);
+          e.reply(segment.image(filePath));
+        }
       } catch (err) {
         console.log(err);
-        e.reply(url.trim());
+        if (!downloadAborted) {
+          sendUrl();
+        }
       }
     };
+
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Download timed out')), downloadTimeout)
+      setTimeout(() => {
+        downloadAborted = true;
+        reject(new Error('Download timed out'));
+      }, downloadTimeout)
     );
 
     try {
       await Promise.race([downloadPromise(), timeoutPromise]);
     } catch (err) {
       if (err.message === 'Download timed out') {
-        e.reply(url.trim());
+        sendUrl();
       } else {
         throw err;
       }
     }
   }
-  
+
   async function extractDescription(str) {
     const removeAllOccurrences = (array, str) =>
       Array.isArray(array) && array.length
@@ -600,7 +698,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         links.push(link);
       }
     }
-    console.log(2,links);
+    console.log(2, links);
     return links
   }
 
@@ -635,7 +733,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         } else {
           await e.friend.sendFile(filePath);
         }
-      }      
+      }
       e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
     } catch (error) {
       console.error(`失败了: ${url}: ${error}`);
@@ -685,12 +783,6 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
 
   async function extractImageLinks2(answer) {
     const imageLinkRegex = /\[下载.*?\]\((https:\/\/filesystem.site\/cdn\/download\/.*?)\)/g;
-    const imageLinks = answer.matchAll(imageLinkRegex);
-    return Array.from(imageLinks, (match) => match[1]);
-  }
-
-  async function extractImageLinks3(answer) {
-    const imageLinkRegex = /\[.*\]\((https:\/\/filesystem.site\/cdn\/.*?)\)/g;
     const imageLinks = answer.matchAll(imageLinkRegex);
     return Array.from(imageLinks, (match) => match[1]);
   }
