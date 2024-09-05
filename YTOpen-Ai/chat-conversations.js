@@ -107,9 +107,13 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         }),
       });
       let response_json = await response.json();
-      console.log(response_json)
+      //console.log(response_json)
       answer = await response_json.choices[0].message.content;
       e.reply(answer);
+      history.push({
+        "role": "assistant",
+        "content": answer
+      });
       if (answer.includes("服务器已掉线")) {
         e.reply("该图像处理服务器已掉线, 请结束对话后重试");
         return false;
