@@ -13,7 +13,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         switch (styles) {
             case "words":
                 if (words > 1000) {
-                    let forwardMsg = [Messages]
+                    let forwardMsg = [answer]
                     const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
                     e.reply(JsonPart)
                 } else {
@@ -22,7 +22,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 break;
             case "word":
                 if (words > 1050) {
-                    let forwardMsg = [Messages]
+                    let forwardMsg = [answer]
                     const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
                     e.reply(JsonPart)
                 } else {
