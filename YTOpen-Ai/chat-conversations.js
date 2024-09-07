@@ -355,7 +355,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     }
     try {
       const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o"];
-      search = CurrentModels.includes(model) ? false : true;
+      search = CurrentModels.includes(model) ? false : search;
       let History = await reduceConsecutiveRoles(history);
       console.log(History);
       let answer

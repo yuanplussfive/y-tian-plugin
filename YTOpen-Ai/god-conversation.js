@@ -225,9 +225,8 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
 
   async function MainModel(e, history, stoken, search, model, apiurl, path) {
     try {
-      if (model == "gpt-4-all" || model == "gpt-4-dalle" || model == "gpt-4o-all" || model == "gpt-4-v" || model == "gpt-4o") {
-        search = false
-      }
+      const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o"];
+      search = CurrentModels.includes(model) ? false : search;
       if (model.includes("suno")) {
         await handleSunoModel(e, stoken, msg, model, apiurl, _path);
         return false
