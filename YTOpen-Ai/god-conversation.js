@@ -158,7 +158,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         const timeoutPromise = new Promise((resolve) => {
           setTimeout(() => {
             resolve('timeout');
-          }, 15000);
+          }, 60000);
         });
         try {
           const result = await Promise.race([
@@ -233,11 +233,11 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         return false
       }
       if (model.includes("luma")) {
-        await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
+        await handlelumaModel(e, stoken, msg, model, apiurl, _path);
         return false
       }
       if (model.includes("stable-diffusion") || model.includes("playground")) {
-        await handlesdModel(e, Apikey, msg, model, apiurl, _path);
+        await handlesdModel(e, stoken, msg, model, apiurl, _path);
         return false
       }
       console.log(history)
