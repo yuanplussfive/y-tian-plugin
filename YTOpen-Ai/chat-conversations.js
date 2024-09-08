@@ -361,7 +361,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       let answer
       try {
         const timeoutSettings = {
-          'claude': 150000,
+          'claude': 15000,
           'gemini': 120000,
           'all': 210000,
           'default': 180000
