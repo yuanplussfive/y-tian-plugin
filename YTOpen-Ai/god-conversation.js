@@ -8,8 +8,8 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
   let { god_moment_numbers, god_moment_open } = Settings.chatgpt;
   let userid = (group == false)
-  ? (!e.group_id ? (e.from_id ?? e.user_id) : e.user_id)
-  : (!e.group_id ? (e.from_id ?? e.user_id) : e.group_id);
+    ? (!e.group_id ? (e.from_id ?? e.user_id) : e.user_id)
+    : (!e.group_id ? (e.from_id ?? e.user_id) : e.group_id);
   //console.log(userid)
   let history = await loadUserHistory(path, userid, dirpath);
   if (god_moment_open) {
@@ -243,20 +243,30 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       let History = await reduceConsecutiveRoles(history);
       let answer
       try {
+        const timeoutSettings = {
+          'claude': 150000,
+          'gemini': 120000,
+          'all': 210000,
+          'default': 180000
+        };
+        const timeoutDuration = Object.entries(timeoutSettings).find(([key, _]) => 
+          model.toLowerCase().includes(key)
+        )?.[1] || timeoutSettings.default;
         const response = await Promise.race([
           fetch(apiurl, {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${stoken}`,
+              "Authorization": `Bearer ${Apikey}`,
             },
             body: JSON.stringify({
               model: model,
-              messages: History
+              messages: History,
+              search: search,
             }),
           }),
           new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Timeout')), 300000)
+            setTimeout(() => reject(new Error('Timeout')), timeoutDuration)
           ),
         ]);
 
@@ -276,9 +286,9 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         if (error.message === 'Timeout') {
           answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
             : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
-              : model.includes("gpt-4") ? await GPT4oResponse(msg, History, fetch, axios)
-                : model.includes("claude") ? await claudeResponse(History, fetch, crypto)
-                  : null;
+            : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
+              : model.includes("claude") ? await claudeResponse(History, fetch)
+                : null;
         } else {
           answer = null;
         }
@@ -287,9 +297,9 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       if (!answer) {
         answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
           : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
-            : model.includes("gpt-4") ? await GPT4oResponse(msg, History, fetch, axios)
-              : model.includes("claude") ? await claudeResponse(History, fetch, crypto)
-                : null;
+          : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
+          : model.includes("claude") ? await claudeResponse(History, fetch)
+            : null;
       }
 
       if (!answer) {
@@ -386,7 +396,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             }
           }
         }
-        console.log(3,urls)
+        console.log(3, urls)
         urls.forEach(async (url) => {
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
         });
