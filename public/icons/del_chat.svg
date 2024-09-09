@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+  <defs>
+    <style>
+      .btn-bg { fill: #FFFFFF; stroke: #FF0000; stroke-width: 2; }
+      .btn-text { fill: #FF0000; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; }
+      .delete-icon { fill: #FF0000; }
+    </style>
+  </defs>
+  <circle class="btn-bg" width="24" height="24" cx="12" cy="12" r="11"/>
+  <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" class="btn-text"></text>
+  <path class="delete-icon" d="M15.707 8.293a1 1 0 0 1 1.414 1.414L13.414 12l3.707 3.293a1 1 0 0 1-1.414 1.414L12 13.414l-3.293 3.707a1 1 0 1 1-1.414-1.414L10.586 12 7.879 8.293a1 1 0 0 1 1.414-1.414L12 10.586l3.707-3.293z"/>
+</svg>

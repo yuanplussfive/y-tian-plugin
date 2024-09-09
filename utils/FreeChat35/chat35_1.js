@@ -11,7 +11,7 @@ async function FreeChat35_1(messages, fetch, crypto) {
     body: data
   };
   try {
-    const response = await fetch('https://yuanpluss.online:3000/v2/free35/completions', options);
+    const response = await fetch('https://yuanpluss.online:3000/v1/free35/completions', options);
     if (!response.ok) {
       return null
     }

@@ -1,0 +1,13 @@
+<svg width="120" height="100" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .btn-background {
+      fill: #2980b9; /* 浅蓝色背景 */
+    }
+    .arrow {
+      fill: #ffffff; /* 白色箭头 */
+    }
+  </style>
+  
+  <!-- 箭头 -->
+  <polygon class="arrow" points="10,20 30,10 30,30" />
+</svg>

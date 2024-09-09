@@ -1,0 +1,82 @@
+async function FreeGemini_2(messages, fetch, crypto) {
+async function digestMessage(message) {
+  return crypto.createHash('sha256').update(message).digest('hex');
+}
+async function generateSignature({time, message}, PUBLIC_SECRET_KEY) {
+  const dataToDigest = `${time}:${message}:${PUBLIC_SECRET_KEY}`;
+  return await digestMessage(dataToDigest); 
+}
+async function signature(time, message) {
+   const PUBLIC_SECRET_KEY = '';
+    try {
+      const signature = await generateSignature({time, message}, PUBLIC_SECRET_KEY);
+      return signature
+    } catch (error) {
+     return error
+    }
+   }
+  const transformedArray = messages.map(item => ({
+    ...item,
+    parts: [{ text: item.content }],
+    content: undefined
+})).map(item => {
+    const { ...rest } = item;
+    return rest;
+ });
+  for (let item of transformedArray) {
+   if (item.role === "assistant") {
+     item.role = "model";
+   }
+    if (item.role === "system") {
+     transformedArray.splice(transformedArray.indexOf(item), 1);
+    }
+   }
+    const time = new Date().getTime();
+    const url = "http://38.12.28.195:3003/api/generate";
+    const headers = {
+        "content-type": "text/plain;charset=UTF-8",
+        "Referer": "http://38.12.28.195:3003/",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0"
+    };  
+    const sign = await signature(time, messages[messages.length-1].content);
+    const body = JSON.stringify({
+        "messages": transformedArray,
+        "time": time,
+        "pass": null,
+        "sign": sign
+    });
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: body
+        });
+        if (!response.ok) {
+         return null
+        }
+        const data = await response.text();
+        if (data.startsWith(`{"error"`)) {
+            return null
+        }
+       return data
+    } catch (error) {
+       return null
+    }
+}
+
+module.exports = { FreeGemini_2 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

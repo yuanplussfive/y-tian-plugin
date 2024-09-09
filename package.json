@@ -1,38 +1,60 @@
 {
-  "name": "y-tian-plugin",
-  "version": "3.0.2",
-  "description": "Yunzai-Bot附属多功能插件",
-  "main": "index.js",
+  "name": "ai-chat-app",
+  "version": "0.1.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://gitee.com/wan13877501248/y-tian-plugin"
-  },
-  "keywords": [
-    "Yunzai-Bot",
-    "y-tian-plugin"
-  ],
-  "author": "Hello World && yuanpluss",
-  "license": "MIT",
   "dependencies": {
-    "request": "^2.88.2",
-    "ws": "^8.13.0",
-    "undici": "^5.22.1",
-    "keyv": "^4.5.2",
-    "fetch-undici": "^3.0.1",
-    "keyv-file": "^0.2.0",
-    "axios": "^1.4.0",
-    "form-data": "^4.0.0",
-    "cheerio": "^1.0.0-rc.12"
+    "axios": "^1.7.2",
+    "core-js": "^3.8.3",
+    "cors": "^2.8.5",
+    "highlight.js": "^11.9.0",
+    "node-fetch": "^3.3.2",
+    "prismjs": "^1.29.0",
+    "showdown": "^2.1.0",
+    "vue": "^2.6.14",
+    "vue-marked": "^0.1.1",
+    "vue-router": "^3.4.25"
   },
-  "private": true,
-  "workspaces": [
-    "."
-  ],
-  "imports": {
-    "#YTdependence": "./YTdependence/dependencies.js"
-  }
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.12.7",
+    "@types/node-fetch": "^2.6.11",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "path-browserify": "^1.0.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "vue-template-compiler": "^2.6.14",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

@@ -1,0 +1,21 @@
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .btn-background {
+      fill: #9ED9FB;
+      stroke: #3CB4E6;
+      stroke-width: 4;
+    }
+    .btn-text {
+      fill: #3CB4E6;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+    .trash-can {
+      fill: green;
+    }
+  </style>
+  <circle class="btn-background" cx="60" cy="60" r="56" />
+  <path class="trash-can" d="M40 40h40v10h20l-7 48c0 4.4-3.6 8-8 8H35c-4.4 0-8-3.6-8-8l-7-48h20V40z m20 50c0 2.2 1.8 4 4 4s4-1.8 4-4V50c0-2.2-1.8-4-4-4s-4 1.8-4 4v40zM45 50h30v-6c0-3.3-2.7-6-6-6H51c-3.3 0-6 2.7-6 6v6z"/>
+</svg>

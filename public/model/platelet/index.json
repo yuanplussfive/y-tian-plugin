@@ -1,0 +1,36 @@
+{
+    "version":"1.0.0",
+    "model":"model.moc",
+    "textures":[
+        "textures/xxb.png"
+    ],
+    "layout":{
+        "center_x":0.0,
+        "center_y":-0.05,
+        "width":2.0
+    },
+    "hit_areas_custom":{
+        "head_x":[-0.35, 0.6],
+        "head_y":[0.19, -0.2],
+        "body_x":[-0.3, -0.25],
+        "body_y":[0.3, -0.9]
+    },
+    "motions":{
+        "idle":[    
+            {"file": "motions/Idle.mtn"},
+            {"file": "motions/Dance.mtn"},
+            {"file": "motions/Anone_Synced.mtn"},
+            {"file": "motions/Nemui.mtn"}
+        ],
+        "sleepy":[
+            {"file": "motions/Nemui.mtn"}
+        ],
+        "flick_head":[
+            {"file": "motions/Anone_Synced.mtn"}
+        ],
+        "tap_body":[
+            {"file": "motions/Dance.mtn"}
+        ],
+        "":[]
+    }
+}

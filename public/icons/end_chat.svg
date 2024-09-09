@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+  <defs>
+    <style>
+      .btn-bg { fill: #9ED9FB; }
+      .btn-text { fill: #FFFFFF; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; }
+      .end-icon { fill: #FFFFFF; }
+    </style>
+  </defs>
+  <rect class="btn-bg" width="24" height="24" rx="12" ry="12"/>
+  <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" class="btn-text"></text>
+  <path class="end-icon" d="M12 4a8 8 0 0 0-8 8c0 3.686 2.526 6.755 6 7.651V17a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2.651c3.474-.896 6-3.965 6-7.651a8 8 0 0 0-8-8zm-1 10a1 1 0 0 1-1 1 1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1z"/>
+</svg>

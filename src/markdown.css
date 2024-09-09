@@ -1,0 +1,241 @@
+:root {
+    --primary-color: #00c8ff;
+    --secondary-color: #00ffdd;
+    --background-color: #0e0e0e;
+    --text-color: #e0e0e0;
+    --code-background: #1a1a1a;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Roboto Mono', monospace;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 200, 255, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(0, 255, 221, 0.1) 0%, transparent 20%);
+    background-attachment: fixed;
+}
+
+.markdown-content {
+    font-size: clamp(14px, 2vw, 18px);
+    line-height: 1.6;
+    padding: min(4vw, 40px);
+    border-radius: 10px;
+    width: 100%;
+    max-width: min(90%, 1200px);
+    box-sizing: border-box;
+    margin: 20px auto;
+    color: var(--text-color);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    background: linear-gradient(45deg, rgba(0, 200, 255, 0.05), rgba(0, 255, 221, 0.05));
+    backdrop-filter: blur(10px);
+}
+
+.markdown-content h1, .markdown-content h2, .markdown-content h3 {
+    color: var(--primary-color);
+    margin-top: 1.5em;
+    text-shadow: 0 0 10px rgba(0, 200, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+    animation: neonFlicker 1.5s infinite alternate;
+}
+
+.markdown-content h1 { font-size: clamp(24px, 4vw, 36px); }
+.markdown-content h2 { font-size: clamp(20px, 3.5vw, 30px); }
+.markdown-content h3 { font-size: clamp(18px, 3vw, 24px); }
+
+.markdown-content h1::after,
+.markdown-content h2::after,
+.markdown-content h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    animation: glitch 2s linear infinite;
+}
+
+@keyframes glitch {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.markdown-content p {
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.markdown-content p:hover {
+    color: var(--secondary-color);
+    text-shadow: 0 0 5px rgba(0, 255, 221, 0.8);
+}
+
+.markdown-content a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+    position: relative;
+}
+
+.markdown-content a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--secondary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.markdown-content a:hover {
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px rgba(0, 255, 221, 0.8);
+}
+
+.markdown-content a:hover::after {
+    transform: scaleX(1);
+}
+
+.markdown-content code {
+    background-color: var(--code-background);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    color: var(--secondary-color);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9em;
+}
+
+.markdown-content pre {
+    box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
+    background-color: var(--code-background);
+    padding: 1.5em;
+    max-width: 100%;
+    overflow-x: auto;
+    font-size: clamp(12px, 1.5vw, 16px);
+    line-height: 1.4;
+    border-radius: 10px;
+    position: relative;
+    margin: 2em 0;
+}
+
+.markdown-content pre::-webkit-scrollbar {
+    height: 8px;
+    background-color: #0e0e0e;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 5px;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary-color);
+}
+
+.markdown-content pre::after {
+    content: attr(data-language);
+    color: var(--text-color);
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--primary-color);
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.markdown-content pre code {
+    display: block;
+    color: var(--text-color);
+    padding: 0;
+    background-color: transparent;
+}
+
+.markdown-content pre code.html { color: #00ffdd; }
+.markdown-content pre code.python { color: #ffab00; }
+.markdown-content pre code.css { color: #a0d468; }
+.markdown-content pre code.javascript { color: #c0c0c0; }
+.markdown-content pre code.java { color: #f44336; }
+.markdown-content pre code.php { color: #9b59b6; }
+.markdown-content pre code.ruby { color: #e91e63; }
+.markdown-content pre code.swift { color: #4a90e2; }
+.markdown-content pre code.csharp { color: #4caf50; }
+.markdown-content pre code.go { color: #d881b8; }
+
+.markdown-content blockquote {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1em;
+    margin-left: 0;
+    font-style: italic;
+    text-shadow: 1px 1px 1px #000;
+    background: rgba(0, 200, 255, 0.1);
+    border-radius: 0 5px 5px 0;
+}
+
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2em auto;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
+    transition: transform 0.3s ease;
+}
+
+.markdown-content img:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .markdown-content {
+        padding: 5vw;
+        width: 95%;
+    }
+    
+    .markdown-content pre {
+        padding: 1em;
+    }
+}
+
+@keyframes neonFlicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 
+            0 0 5px var(--primary-color),
+            0 0 10px var(--primary-color),
+            0 0 15px var(--primary-color),
+            0 0 20px var(--primary-color);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+.terminal-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background-color: var(--primary-color);
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
