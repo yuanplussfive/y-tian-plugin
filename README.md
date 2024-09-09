@@ -26,14 +26,31 @@
 ##  :laughing: 安装教程
 
 在Yunzai-Bot根目录下，运行cmd/git，输入以下指令:
-* 使用gitee
+* 1.1 使用gitee(plugin)
 ```
 git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 
 ```
-* 使用github
+
+* 1.2 使用gitee(plugin + V2工具箱)
+```
+git clone --branch V2 --single-branch https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
+
+```
+
+```
+cd plugins/y-tian-plugin && pnpm install
+
+```
+
+* 1.3 使用github(plugin)
 ```
 git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot.git ./plugins/y-tian-plugin/
+
+```
+
+```
+cd plugins/y-tian-plugin && pnpm install
 
 ```
 
