@@ -1,252 +1,500 @@
-# Y-Tian-Plugin（阴天插件)
-<img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark' alt='star'></img></a></h1></div>
-<img src='https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark' alt='fork'></img></a></h1></div>
-[![JavaScript](https://img.shields.io/badge/-JavaScript-eed718?style=flat&logo=javascript&logoColor=ffffff)](https://zh.wikipedia.org/wiki/JavaScript)
-[![Nodejs](https://img.shields.io/badge/-Node.js-3C873A?style=flat&logo=Node.js&logoColor=white)](https://nodejs.org/en/download)
-[![Miao-Yunzai](https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat&logo=dependabot)](https://gitee.com/yoimiya-kokomi/Miao-Yunzai) 
-[![Security Status](https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg)](https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024)
+<div style="background-color: #111; color: #fff; padding: 30px; border-radius: 10px;">
+  <div style="text-align: center; margin-bottom: 30px;">
+    <a href="https://gitee.com/yuanpluss">
+      <img src="./background/image/新logo.png" width="100%" height="auto" alt="y-tian-plugin" style="border-radius: 50%;">
+    </a>
+  </div>
+
+  <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="25" style="margin-right: 10px;">
+    <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="25" style="margin-right: 10px;">
+    <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25" style="margin-right: 10px;">
+    <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25" style="margin-right: 10px;">
+    <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25" style="margin-right: 10px;">
+        <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024" style="margin-right: 10px;">
+      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" width="100%" alt="Security Status">
+    </a>
+  </div>
+
+  <h2 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页:</h2>
+
+  <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
+    <strong>使用插件在线免费Ai页(请使用pc端访问) <a href="https://yuanpluss.online:1111/"
+    style="color: #0ff;">免费AI</a></strong><br>
+  </p>
+
 </div>
 
-##  :satisfied: 阴天插件索引页：
+## ☁️ 插件简介
 
-**点击跳转阴天[Y-Tian-Plugin](https://y-tian-plugin.top:1111/chat)对话页面**
-<details> <summary>demo网页(先选择模型,保存设置)</summary>
-<img src="./background/image/web2.png" style="zoom:50%;" />
-<img src="./background/image/web.png" style="zoom:50%;" />
-</details>
+1. **🎯 插件宗旨** <br>
 
-##  :grinning: 介绍
+> Y-Tian-Plugin 是一款集成多种功能的 Yunzai-Bot V3 插件包,旨在通过集成多种 AI 模型与娱乐功能,使机器人更加多功能化。
 
-### ※使用本插件前请正确配置FFmpeg※
-### ※提供免费大模型(含GPT4等十余种模型)※
-### ※无需过多配置直接上手※
 
-#### Y-Tian阴天插件，一个Yunzai-Bot V3小功能集成的插件包,集娱乐，功能性于一体，让你的机器人变得更为全面多功能。我们拥有大量的AI，还有更多你想都不敢想的东西，真的不来看看吗？（进插件群解锁更多玩法！！！）
+> 旨在为用户提供免费AI模型供日常生活和学习,附加版/专业版/国产等方案集成百余个流行大模型,免费使用100+大模型(包括 GPT-4/4-all 等), 小白可优先选择附加免费方案，集成gpt-4-all/claude-3.5-sonnet等强大模型，不限用量。 <br>
+(PS: 非法用途如 黄色/暴力/涉政 等，本插件必要时会封禁用户 IP，望周知 !!! )
 
-##  :laughing: 安装教程
+2. **🧠 AI模型支持** <br>
+- 集成了如 **ChatGPT**、**Anthropic**、**ChatGLM**、**Gemini**、**Stable Diffusion**、**Midjourney**、**Suno**、**Pika** 、**Bing**、**Copilot** 等多种主流 AI 模型
+- 支持**文本生成**、**图像绘制**、**语音合成**、**AI作曲**、**文件处理**、**文件生成**等功能
 
-在Yunzai-Bot根目录下，运行cmd/git，输入以下指令:
-* 1.1 使用gitee(plugin)
-```
+3. **🎪 多功能集成** <br>
+- 包括 **AI集成**、**娱乐**、**游戏**、**学习**、**影视**等多种功能
+- 提供丰富的命令帮助,用户能够方便地调用各种功能
+
+4. **💎 免费与高级功能** <br>
+- 提供多种免费 AI 模型
+- 也有高级功能可供赞助用户提前体验
+
+## 📦 安装教程
+
+在 Yunzai-Bot 根目录下，运行 cmd/git，输入以下指令:
+
+### 1.(克隆仓库，任选一个即可)
+
+*使用 Gitee (plugin, 最新)*
+```shell
 git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
-
 ```
 
-* 1.2 使用gitee(plugin + V2工具箱)
-```
+*使用 Gitee (plugin + V2工具箱)*
+```shell
 git clone --branch V2 --single-branch https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
-
 ```
 
-```
-cd plugins/y-tian-plugin && pnpm install
-
-```
-
-* 1.3 使用github(plugin)
-```
-git clone --depth=1 https://github.com/yuanplusssix/Y-Tian-Plugin-for-Yunzai-Bot.git ./plugins/y-tian-plugin/
-
+*使用 Github (plugin, 可能更改不及时)*
+```shell
+git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins/y-tian-plugin/
 ```
 
+### 2.(安装依赖)
+
+*进入插件目录*
+```shell
+cd plugins/y-tian-plugin
 ```
-cd plugins/y-tian-plugin && pnpm install
 
+*安装依赖 (npm/pnpm/cnpm无所谓，国内环境推荐后两者)*
+```shell
+pnpm install
 ```
 
-##  :kissing_heart: 功能一览
+## 🚀 功能一览
 
-| 命令| 说明|
-|:--------|------------|
-| #阴天更新 | 同步更新阴天插件 |
-| #阴天帮助 | 获取插件命令帮助|
-| #娱乐帮助 | 获取娱乐功能帮助|
-| #群管帮助| 获取群管功能帮助 |
-| #游戏帮助 | 获取游戏功能帮助|
-| #AI总帮助 | 获取AI功能总帮助|
-| ...... | ...... |
-
-<details> <summary>阴天帮助面板</summary>
-<img decoding="async"  src="background/image/帮助.jpg" width="35%">
+<details>
+<summary>阴天帮助面板</summary>
+<img decoding="async" src="./background/image/帮助.jpg" width="35%">
 </details>
 
-## 支持的AI模型：
+## 🤖 AI 模型功能概览
 
-<details> <summary>对话类</summary>
-
-- [✓] gpt-3.5-turbo
-- [✓] gpt-3.5-turbo-0613
-- [✓] gpt-3.5-turbo-instruct
-- [✓] gpt-3.5-turbo-online
-- [✓] gpt-3.5-turbo-1106
-- [✓] gpt-3.5-turbo-0125
-- [✓] gpt-3.5-turbo-16k
-- [✓] gpt-3.5-turbo-16k-0613
-- [✓] gpt-4
-- [✓] gpt-4-0314
-- [✓] gpt-4-0613
-- [✓] gpt-4-32k
-- [✓] gpt-4-32k-0613
-- [✓] gpt-4-dalle
-- [✓] gpt-4-vision
-- [✓] gpt-4-1106-preview
-- [✓] gpt-4-0125-preview
-- [✓] gpt-4-turbo-preview
-- [✓] gpt-4-all
-- [✓] gpt-4-plugins
-- [✓] claude-1-100k
-- [✓] claude-1.3-100k
-- [✓] claude-2
-- [✓] claude-2-sillytavern
-- [✓] claude-2.1
-- [✓] google-palm
-- [✓] google-bard
-- [✓] gemini-pro
-- [✓] gemini-pro-vision
-- [✓] llama-2-7b
-- [✓] llama-2-13b
-- [✓] llama-2-70b
-- [✓] code-llama-7b
-- [✓] code-llama-13b
-- [✓] code-llama-34b
-- [✓] chatglm-pro
-- [✓] chatglm-turbo
-- [✓] chatglm-130b
-- [✓] chatglm-4
-- [✓] chatglm-4-alltools
-- [✓] mistral-8x7b
-- [✓] mistral-34b
-- [✓] 360-ai
-- [✓] 360-search
-- [✓] qwen-72b
-- [✓] qwen-alltools
-- [✓] moonshot-128k
-- [✓] moonshot-alltools
-- [✓] github-copilot
-- [✓] wenxing-3.5
-- [✓] xinghuo-v1/2/3
-- [✓] baidu-search
-- [✓] webgpt
-- [✓] yi-34b
-- [✓] tiger-bot
-- [✓] deepseek
-
-</details>
-
+<details>
+<summary>💬 对话类模型</summary>
 <br>
-
-<details> <summary>绘图类</summary>
-
-- [✓] Stable-diffusion 1.5
-- [✓] Stable-diffusion-anything V5
-- [✓] Stable-diffusion XL
-- [✓] Midjourney
-- [✓] Dall-e 3
-- [✓] Plus Dall-e 3
-
-</details>
-
+🔹 <b>OpenAI</b>
+&nbsp;&nbsp;✨ gpt-3.5-turbo
+&nbsp;&nbsp;✨ gpt-3.5-turbo-0613
+&nbsp;&nbsp;✨ gpt-3.5-turbo-instruct
+&nbsp;&nbsp;✨ gpt-3.5-turbo-online
+&nbsp;&nbsp;✨ gpt-3.5-turbo-1106
+&nbsp;&nbsp;✨ gpt-3.5-turbo-0125
+&nbsp;&nbsp;✨ gpt-3.5-turbo-16k
+&nbsp;&nbsp;✨ gpt-3.5-turbo-16k-0613
+&nbsp;&nbsp;✨ gpt-4
+&nbsp;&nbsp;✨ gpt-4-0314
+&nbsp;&nbsp;✨ gpt-4-0613
+&nbsp;&nbsp;✨ gpt-4-32k
+&nbsp;&nbsp;✨ gpt-4-32k-0613
+&nbsp;&nbsp;✨ gpt-4-dalle
+&nbsp;&nbsp;✨ gpt-4-vision
+&nbsp;&nbsp;✨ gpt-4-1106-preview
+&nbsp;&nbsp;✨ gpt-4-0125-preview
+&nbsp;&nbsp;✨ gpt-4-turbo-2024-04-09
+&nbsp;&nbsp;✨ gpt-4-turbo-preview
+&nbsp;&nbsp;✨ gpt-4o
+&nbsp;&nbsp;✨ gpt-4o-0513
+&nbsp;&nbsp;✨ gpt-4o-0806
+&nbsp;&nbsp;✨ gpt-4o-latest
+&nbsp;&nbsp;✨ gpt-4o-all
+&nbsp;&nbsp;✨ gpt-4o-plus
+&nbsp;&nbsp;✨ gpt-4-all
+&nbsp;&nbsp;✨ gpt-4-plugins
+&nbsp;&nbsp;✨ gpt-4-gizmo
 <br>
-
-<details> <summary>识图类</summary>
-
-- [✓] ocr
-- [✓] gpt-4-v
-- [✓] xinghuo
-- [✓] qwen
-- [✓] chatglm-4-alltools
-- [✓] gemini-pro-vision
-
-</details>
-
+🔹 <b>Anthropic</b>
+&nbsp;&nbsp;✨ claude-1-100k
+&nbsp;&nbsp;✨ claude-1.3-100k
+&nbsp;&nbsp;✨ claude-2
+&nbsp;&nbsp;✨ claude-2-sillytavern
+&nbsp;&nbsp;✨ claude-3-haiku
+&nbsp;&nbsp;✨ claude-3-sonnect
+&nbsp;&nbsp;✨ claude-3-opus
+&nbsp;&nbsp;✨ claude-3.5-sonnet-0620
 <br>
-
-<details> <summary>语音类</summary>
-
-- [✓] 原神崩三等
-- [✓] OpenAI-TTS
-
-</details>
-
-## 部分AI功能展示：
+🔹 <b>Google</b>
+&nbsp;&nbsp;✨ google-palm
+&nbsp;&nbsp;✨ google-bard
+&nbsp;&nbsp;✨ gemini-pro
+&nbsp;&nbsp;✨ gemini-pro-vision
+&nbsp;&nbsp;✨ gemini-1.5-pro-latest
+&nbsp;&nbsp;✨ gemini-1.5-flash-latest
+&nbsp;&nbsp;✨ gemma-2b-it
+&nbsp;&nbsp;✨ gemma-7b-it
 <br>
-<details> <summary>免费sess模型</summary>
-<img src="./background/image/对话1.jpg" style="zoom:50%;" />
-</details>
+🔹 <b>Meta</b>
+&nbsp;&nbsp;✨ llama-2-7b
+&nbsp;&nbsp;✨ llama-2-13b
+&nbsp;&nbsp;✨ llama-2-70b
+&nbsp;&nbsp;✨ llama-3-8b
+&nbsp;&nbsp;✨ llama-3-70b
+&nbsp;&nbsp;✨ llama-3-sonar-small-32k-online
+&nbsp;&nbsp;✨ llama-3-sonar-small-32k-chat
+&nbsp;&nbsp;✨ llama-3-sonar-large-32k-online
+&nbsp;&nbsp;✨ llama-3-sonar-large-32k-chat
+&nbsp;&nbsp;✨ code-llama-7b
+&nbsp;&nbsp;✨ code-llama-13b
+&nbsp;&nbsp;✨ code-llama-34b
+&nbsp;&nbsp;✨ code-llama-70b-instruct
 <br>
-<details> <summary>免费国产模型</summary>
-<img src="./background/image/对话2.jpg" style="zoom:50%;" />
-</details>
+🔹 <b>ChatGLM</b>
+&nbsp;&nbsp;✨ chatglm-pro
+&nbsp;&nbsp;✨ chatglm-turbo
+&nbsp;&nbsp;✨ chatglm-130b
+&nbsp;&nbsp;✨ chatglm-3-turbo
+&nbsp;&nbsp;✨ chatglm-4
+&nbsp;&nbsp;✨ chatglm-4-v
+&nbsp;&nbsp;✨ chatglm-4-alltools
+&nbsp;&nbsp;✨ chatglm-4-0520
+&nbsp;&nbsp;✨ chatglm-4-flash
+&nbsp;&nbsp;✨ chatglm-4-air-0520
 <br>
-<details> <summary>免费dalle绘图</summary>
-<img src="./background/image/对话4.jpg" style="zoom:50%;" />
-</details>
+🔹 <b>mixtral</b>
+&nbsp;&nbsp;✨ mixtral-8x7b
+&nbsp;&nbsp;✨ mixtral-8x22b
+&nbsp;&nbsp;✨ mixtral-medium
+&nbsp;&nbsp;✨ mistral-34b
+&nbsp;&nbsp;✨ mistral-7b-instruct
 <br>
-<details> <summary>gpt-4多模态</summary>
-<img src="./background/image/对话3.jpg" style="zoom:50%;" />
-</details>
+🔹 <b>Reka</b>
+&nbsp;&nbsp;✨ reka-core
+&nbsp;&nbsp;✨ reka-flash
+&nbsp;&nbsp;✨ reka-edge
 <br>
-<details> <summary>文生视频等</summary>
-<img src="./background/image/对话5.jpg" style="zoom:50%;" />
-</details>
+🔹 <b>360智脑</b>
+&nbsp;&nbsp;✨ 360-ai
+&nbsp;&nbsp;✨ 360-search
 <br>
-<details> <summary>TTS交互模型</summary>
-<img src="./background/image/对话6.jpg" style="zoom:50%;" />
+🔹 <b>上海云影</b>
+&nbsp;&nbsp;✨ llava-v1.6-34b
+&nbsp;&nbsp;✨ llava-v1.5-7b-wrapper
+<br>
+🔹 <b>通义千问</b>
+&nbsp;&nbsp;✨ qwen-72b
+&nbsp;&nbsp;✨ qwen-alltools
+<br>
+🔹 <b>月之暗面</b>
+&nbsp;&nbsp;✨ moonshot-v1-128k
+&nbsp;&nbsp;✨ moonshot-alltools
+<br>
+🔹 <b>字节跳动</b>
+&nbsp;&nbsp;✨ doubao
+&nbsp;&nbsp;✨ doubao-all
+&nbsp;&nbsp;✨ doubao-32k
+&nbsp;&nbsp;✨ coze-assistent-all
+&nbsp;&nbsp;✨ coze-gpt-4-all
+<br>
+🔹 <b>Microsoft</b>
+&nbsp;&nbsp;✨ github-copilot
+&nbsp;&nbsp;✨ windows-copilot
+&nbsp;&nbsp;✨ Bing-Balanced
+&nbsp;&nbsp;✨ Bing-Practice
+&nbsp;&nbsp;✨ Bing-Creative
+&nbsp;&nbsp;✨ Bing-gpt-4-turbo
+<br>
+🔹 <b>百度千帆</b>
+&nbsp;&nbsp;✨ baidu-search
+&nbsp;&nbsp;✨ ERNIE-Bot-lite
+&nbsp;&nbsp;✨ ERNIE-Bot-3.5
+&nbsp;&nbsp;✨ ERNIE-Bot-4.0
+<br>
+🔹 <b>讯飞星火</b>
+&nbsp;&nbsp;✨ spark-desk-v1.5
+&nbsp;&nbsp;✨ spark-desk-v2.0
+&nbsp;&nbsp;✨ spark-desk-v3.0
+&nbsp;&nbsp;✨ spark-desk-v3.5
+&nbsp;&nbsp;✨ spark-desk-alltools
+<br>
+🔹 <b>深度求索</b>
+&nbsp;&nbsp;✨ deepseek-chat
+&nbsp;&nbsp;✨ deepseek-code
+<br>
+🔹 <b>零一万物</b>
+&nbsp;&nbsp;✨ yi-34b
+&nbsp;&nbsp;✨ yi-34b-chat-200k
+<br>
+🔹 <b>百川智能</b>
+&nbsp;&nbsp;✨ baichuan-v3-53b
+&nbsp;&nbsp;✨ baichuan-v3-alltools
+<br>
+🔹 <b>其他模型</b>
+&nbsp;&nbsp;✨ webgpt
+&nbsp;&nbsp;✨ mj-chat
+&nbsp;&nbsp;✨ coze-gpt-4-all
+&nbsp;&nbsp;✨ reka-flash
+&nbsp;&nbsp;✨ command-r
+&nbsp;&nbsp;✨ Atom-13B-Chat
+&nbsp;&nbsp;✨ Minimax-hailuo
+&nbsp;&nbsp;✨ step-1-200k
+&nbsp;&nbsp;✨ hunyuan-alltools
+
 </details>
 
-### 如何与AI交互对话:
+<details>
+<summary>🖼️ 文生图模型</summary>
+<br>
+🔹 <b>Stability</b>
+&nbsp;&nbsp;✨ Stable Diffusion 系列
+<br>
+🔹 <b>Flux</b>
+&nbsp;&nbsp;✨ Flux 系列
+<br>
+🔹 <b>PixArt</b>
+&nbsp;&nbsp;✨ pixart 系列
+<br>
+🔹 <b>Midjourney</b>
+&nbsp;&nbsp;✨ Midjourney/Niji 系列
+<br>
+🔹 <b>OpenAI</b>
+&nbsp;&nbsp;✨ DALL-E 系列
+<br>
+🔹 <b>其他</b>
+&nbsp;&nbsp;✨ Stable Cascade, dream...
 
-步骤: 阴天帮助 → AI总帮助 → 将at回复打开 → 选择你启用的方案 → 参考方案帮助
-
-<details> <summary>流程图</summary>
-<img src="./background/image/zs.jpg" style="zoom:50%;" />
 </details>
 
-### 如何让AI识别图片:
+<details>
+<summary>🔍 识图模型</summary>
+<br>
+🔹 <b>OCR</b>
+&nbsp;&nbsp;✨ 文字识别
+<br>
+🔹 <b>OpenAI</b>
+&nbsp;&nbsp;✨ gpt-4-v/all 等多模态 GPT 模型
+<br>
+🔹 <b>ChatGLM</b>
+&nbsp;&nbsp;✨ chatglm-4-alltools 等多功能模型
+<br>
+🔹 <b>MosaicML</b>
+&nbsp;&nbsp;✨ gemini-pro-vision 等专业视觉模型
+<br>
+🔹 <b>其他</b>
+&nbsp;&nbsp;✨ ...
 
-<details> <summary>流程图</summary>
-<img src="./background/image/zs2.jpg" style="zoom:50%;" />
 </details>
 
-### 如何让AI使用预设:
-
-<details> <summary>流程图</summary>
-<img src="./background/image/zs3.jpg" style="zoom:50%;" />
+<details>
+<summary>🔊 语音模型</summary>
+<br>
+🔹 <b>虚拟偶像</b>
+&nbsp;&nbsp;✨ 原神崩三等语音库
+<br>
+🔹 <b>歌曲生成</b>
+&nbsp;&nbsp;✨ Suno-V3
+&nbsp;&nbsp;✨ Suno-V3.5
+<br>
+🔹 <b>OpenAi</b>
+&nbsp;&nbsp;✨ tts/tts-1-hd
 </details>
 
-### 如何让AI处理文件:
 
-<details> <summary>流程图</summary>
-<img src="./background/image/zs4.jpg" style="zoom:50%;" />
+## 🤖 AI功能展示
+
+<details>
+<summary> 🔷 示例1</summary>
+
+### 🔷 免费Sess模型
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/对话1.jpg" width="400"/>
 </details>
 
-## 反馈
+### 🔷 免费国产模型
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/对话2.jpg" width="400"/>
+</details>
 
-如果你对本插件有任何意见或看法
+### 🔷 免费Dall-E绘图
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/对话4.jpg" width="400"/>
+</details>
 
-可以使用QQ群组功能反馈。**点击加入[Y-Tian插件交流群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=9-rRV1zBm0H3Es3V32FXSIJdR7v4hEjY&authKey=VvpBHKV%2FnjOxT0fPSagpTCIyJ91vNgvyc0CIt40%2BY1Q2kT%2BnUKjzLjbMtRVTh%2BqW&noverify=0&group_code=756783127)**。
+### 🔷 GPT-4多模态
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/对话3.jpg" width="400"/>
+</details>
 
-如果你喜欢我们的插件，不妨给个star
+### 🔷 文生视频等
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/对话5.jpg" width="400"/>
+</details>
 
-赞助方面：[爱发电(暂时请用)](https://afdian.net/a/yuan_20)
+### 🔷 TTS交互模型
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/对话6.jpg" width="400"/>
+</details>
+</details>
 
-你的支持将是我们的动力，且发电用户有机会提前体验本插件未公布的的新功能。
+<details>
+<summary> 💎 示例2</summary>
 
-###  :relaxed: 鸣谢
+### 💎 GPT-4免费版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/freegpt4.jpg" width="400"/>
+</details>
 
-| 名单     | 联系方式     | 职责     |
-| -------- | ------------ | ------------ |
-| 鸢    | QQ2166683295 | 全栈开发 |
-| 天球生物 | QQ928368902 | Py,JS开放|
-| Mr.k   | QQ3302843718 | UI设计 |
+### 💎 月之暗面Web版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/kimi.jpg" width="400"/>
+</details>
 
-###  :sunglasses: 传送门
+### 💎 星火模型Web版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/星火.png" width="400"/>
+</details>
 
-* 喵喵版 Yunzai-Bot（V3）：[☞Github](https://github.com/yoimiya-kokomi/Miao-Yunzai)/[☞Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai) 
-* 阴天插件 Alemon-Bot版：[☞Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot) 
-* 阴天个人 windows电脑一键部署：[☞Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win) 
-* 严禁用于任何商业用途和非法行为
+### 💎 智谱清言Web版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/glm4.png" width="400"/>
+</details>
 
+### 💎 百川智能Web版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/百川.png" width="400"/>
+<img src="./background/image/百川2.png" width="400"/>
+</details>
 
+### 💎 微软Copilot
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/copilot_1.jpg" width="400"/>
+<img src="./background/image/copilot_2.jpg" width="400"/>
+<img src="./background/image/copilot_3.jpg" width="400"/>
+</details>
 
+### 💎 通义千问Web版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/qwen_1.jpg" width="400"/>
+<img src="./background/image/qwen_2.jpg" width="400"/>
+</details>
 
+### 💎 DeepSeekWeb版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/deepseek.png" width="400"/>
+</details>
+
+### 💎 ChatGPT Plus版
+<details>
+<summary>点击查看</summary>
+<img src="./background/image/plus.png" width="400"/>
+</details>
+</details>
+
+## 🔆 与AI交互流程
+
+### 💻 对话交互
+> 阴天帮助 → AI总帮助 → 打开At回复 → 选择启用方案 → 参考方案帮助
+
+<details>
+<summary>点击查看流程图</summary>
+<img src="./background/image/zs.jpg" width="400"/>
+</details>
+
+### 🖼️ 图片对话
+<details>
+<summary>点击查看流程图</summary>
+<img src="./background/image/图像交互1.jpg" width="400"/>
+<img src="./background/image/图像交互2.jpg" width="400"/>
+<img src="./background/image/图像交互3.jpg" width="400"/>
+<img src="./background/image/图像交互4.jpg" width="400"/>
+<img src="./background/image/图像交互5.jpg" width="400"/>
+</details>
+
+### 🖼️ 图片识别
+<details>
+<summary>点击查看流程图</summary>
+<img src="./background/image/zs2.jpg" width="400"/>
+</details>
+
+### ⚙️ 使用预设
+<details>
+<summary>点击查看流程图</summary>
+<img src="./background/image/zs3.jpg" width="400"/>
+</details>
+
+### 📄 文件处理
+<details>
+<summary>点击查看流程图</summary>
+<img src="./background/image/zs4.jpg" width="400"/>
+</details>
+
+## 反馈与支持
+
+如果您对本插件有任何意见或看法,欢迎通过以下渠道反馈:
+
+### 💬 一起交流
+
+**[点击加入 Y-Tian 插件交流群(授权免费附加模型)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=jZAmTxqiEMP_hDTQOH4yaU-VgIuezmAQ&authKey=C3gEwvelMi3MKAdU87muZmN11eg3ewtIRvbjupFAZtEZoPwKRa6Rii1fmKD85iUw&noverify=0&group_code=912701273)**
+
+在这里,您可以与开发者和其他用户进行交流、提出问题、分享体验等。
+
+### ⭐ Star支持
+
+如果您喜欢我们的插件,欢迎在相关仓库给予 ⭐️ star,这将是我们前进的动力!
+
+### 💰 赞助渠道
+
+您也可以通过以下渠道对我们进行赞助支持:
+
+[爱发电](https://afdian.com/a/yuan_20) 赞助用户将有机会提前体验本插件未公布的新功能。您的支持将成为我们持续更新的动力!
+
+### ✨ 贡献成员
+
+[![贡献成员](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+
+<a href="https://github.com/yuanplussfive/y-tian-plugin/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=yuanplussfive/y-tian-plugin" />
+</a>
+
+![Alt](https://repobeats.axiom.co/api/embed/b0e531137448010a6b4b2e307afbd67e39c00d49.svg "Repobeats analytics image")
+### 🚪 传送门
+
+以下是本项目的相关链接资源:
+
+- ☁️ 阴天插件 Yunzai-Bot 版: [Github](https://github.com/yuanplussfive/y-tian-plugin) / [Gitee](https://gitee.com/wan1387501248/y-tian-plugin)
+- ☁️ 阴天插件 Alemon-Bot 版: [Gitee](https://gitee.com/wan13877501248/y-tian-plugin-for-alemon-bot)
+- 😺 喵喵版 Yunzai-Bot (V3): [Github](https://github.com/yoimiya-kokomi/Miao-Yunzai) / [Gitee](https://gitee.com/yoimiya-kokomi/Miao-Yunzai)
+- 💻 同款 Demo 网页 AI 对话1: [Gitee](https://gitee.com/yuanpluss/simple-free-ai)
+- 💻 同款 Demo 网页 AI 对话2: [Gitee](https://gitee.com/yuanpluss/demo-chatai)
+- 💻 个人 Windows 电脑一键部署: [Gitee](https://gitee.com/wan13877501248/yin-tian-tian-script-for-win)
+
+### 🙏 鸣谢
+
+在此,我们向所有为本项目做出贡献的个人和组织以及爱发电赞助成员表示衷心的感谢!如有任何问题或反馈,欢迎通过以下方式联系我们:
+
+- 邮箱: email@yuanoop.com
+- 交流群: **[插件交流群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=jZAmTxqiEMP_hDTQOH4yaU-VgIuezmAQ&authKey=C3gEwvelMi3MKAdU87muZmN11eg3ewtIRvbjupFAZtEZoPwKRa6Rii1fmKD85iUw&noverify=0&group_code=912701273)**
+
+> 📢 **严禁将本项目用于任何商业用途和非法行为!**
