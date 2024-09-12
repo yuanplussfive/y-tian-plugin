@@ -257,7 +257,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${Apikey}`,
+              "Authorization": `Bearer ${stoken}`,
             },
             body: JSON.stringify({
               model: model,
@@ -283,6 +283,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         }
         answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
       } catch (error) {
+        console.log(error)
         if (error.message === 'Timeout') {
           answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
             : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
