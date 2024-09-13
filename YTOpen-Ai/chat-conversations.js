@@ -37,7 +37,9 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       "gpt-4o",
       "gpt-4o-all",
       "gpt-4-v",
-      "gemini"
+      "gemini",
+      "o1-preview",
+      "o1-mini"
     ];
     if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
       message = [
@@ -61,7 +63,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       const msgs = originalMsg.replace(/(\/|#)godgpt|(#|\/)chat/g, "").trim().replace(new RegExp(Bot_Name, "g"), "");
       return msgs
     } else {
-      return undefined
+      return null
     }
   }
 
@@ -354,7 +356,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         return false;
     }
     try {
-      const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o"];
+      const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o", "o1-preview", "o1-mini"];
       search = CurrentModels.includes(model) ? false : search;
       let History = await reduceConsecutiveRoles(history);
       console.log(History);
@@ -401,6 +403,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         }
         answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
       } catch (error) {
+        console.log(error)
         if (error.message === 'Timeout') {
           answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
             : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
@@ -447,7 +450,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       });
       await saveUserHistory(path, userid, history);
       let Messages = answer
-      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all", "ideogram"];
+      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all", "ideogram", "o1-preview", "o1-mini"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
       if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
         const result = await extractDescription(answer);
@@ -521,7 +524,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
         });
       }
-      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
+      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all" || model == "o1-mini" || model == "o1-preview") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
           try {
