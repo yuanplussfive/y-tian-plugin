@@ -522,14 +522,42 @@ export const chat_models = {
       "id": "75",
       "name": "o1-mini",
       "token_count": "128000",
-      "Magnification": 5 * 10,
-      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+      "Magnification": "1.5*10 or 0.2$/次",
+      "features": ['conversation', 'code', 'image_recognition']
     },
     {
       "id": "76",
+      "name": "o1-mini-20240912",
+      "token_count": "128000",
+      "Magnification": "1.5*10 or 0.2$/次",
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "77",
+      "name": "o1-mini-all",
+      "token_count": "128000",
+      "Magnification": "0.2$/次",
+      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+    },
+    {
+      "id": "78",
       "name": "o1-preview",
       "token_count": "128000",
-      "Magnification": 7.5 * 10,
+      "Magnification": "7.5*10 or 0.4$/次",
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "79",
+      "name": "o1-preview-20240912",
+      "token_count": "128000",
+      "Magnification": "7.5*10 or 0.4$/次",
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "80",
+      "name": "o1-preview-all",
+      "token_count": "128000",
+      "Magnification": "0.4$/次",
       "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
     }
   ]

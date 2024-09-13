@@ -524,7 +524,9 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
         });
       }
-      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all" || model == "o1-mini" || model == "o1-preview") {
+      const highmodels = ["gpt-4-all", "gpt-4o", "gpt-4o-all", "o1-mini", "o1-preview"];
+
+      if (highmodels.includes(model)) {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
           try {
