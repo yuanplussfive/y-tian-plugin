@@ -225,7 +225,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
 
   async function MainModel(e, history, stoken, search, model, apiurl, path) {
     try {
-      const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o"];
+      const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o", "o1-preview", "o1-mini"];
       search = CurrentModels.includes(model) ? false : search;
       if (model.includes("suno")) {
         await handleSunoModel(e, stoken, msg, model, apiurl, _path);
@@ -331,7 +331,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       });
       await saveUserHistory(path, userid, history);
       let Messages = answer
-      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all"];
+      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all", "ideogram", "o1-preview", "o1-mini"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
       if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
         const result = await extractDescription(answer);
@@ -380,7 +380,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           downloadImage(path, url, e, dirpath);
         })
       }
-      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all") {
+      if (model == "gpt-4-all" || model == "gpt-4o" || model == "gpt-4o-all" || model == "o1-mini" || model == "o1-preview") {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
           try {

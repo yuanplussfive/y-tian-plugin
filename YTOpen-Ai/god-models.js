@@ -708,5 +708,25 @@ export const god_models = [
         "style": "once",
         "owned_by": "y-tian-plugin",
         "features": ['music']
+    },
+    {
+        "id": 72,
+        "model": "o1-mini",
+        "created": 1686935002,
+        "token": 128000,
+        "points": "500/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+    },
+    {
+        "id": 73,
+        "model": "o1-preview",
+        "created": 1686935002,
+        "token": 128000,
+        "points": "1500/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
     }
 ];

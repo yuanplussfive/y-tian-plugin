@@ -517,6 +517,20 @@ export const chat_models = {
       "token_count": "800",
       "Magnification": '0.032$/次',
       "features": ['drawing']
+    },
+    {
+      "id": "75",
+      "name": "o1-mini",
+      "token_count": "128000",
+      "Magnification": 5 * 10,
+      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+    },
+    {
+      "id": "76",
+      "name": "o1-preview",
+      "token_count": "128000",
+      "Magnification": 7.5 * 10,
+      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
     }
   ]
 }
