@@ -714,17 +714,57 @@ export const god_models = [
         "model": "o1-mini",
         "created": 1686935002,
         "token": 128000,
-        "points": "500/次",
+        "points": "2000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+        "id": 73,
+        "model": "o1-mini-20240912",
+        "created": 1686935002,
+        "token": 128000,
+        "points": "2000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+        "id": 74,
+        "model": "o1-mini-all",
+        "created": 1686935002,
+        "token": 128000,
+        "points": "2000/次",
         "style": "once",
         "owned_by": "y-tian-plugin",
         "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
     },
     {
-        "id": 73,
+        "id": 75,
         "model": "o1-preview",
         "created": 1686935002,
         "token": 128000,
-        "points": "1500/次",
+        "points": "4000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+    },
+    {
+        "id": 76,
+        "model": "o1-preview-20240912",
+        "created": 1686935002,
+        "token": 128000,
+        "points": "4000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+        "id": 77,
+        "model": "o1-preview-all",
+        "created": 1686935002,
+        "token": 128000,
+        "points": "4000/次",
         "style": "once",
         "owned_by": "y-tian-plugin",
         "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
