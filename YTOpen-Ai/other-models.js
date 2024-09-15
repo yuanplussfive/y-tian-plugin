@@ -719,5 +719,33 @@ export const other_models = [
     "points": "Google",
     "token": 200000,
     "features": ['conversation', 'image_recognition']
+  },
+  {
+    "id": 104,
+    "model": "o1-preview-20240912",
+    "points": "OpenAi-Plus",
+    "token": "128000",
+    "features": ['conversation', 'code', 'image_recognition']
+  },
+  {
+    "id": 105,
+    "model": "o1-preview-all",
+    "points": "OpenAi-Plus",
+    "token": "128000",
+    "features": ['conversation', 'code', 'image_recognition']
+  },
+  {
+    "id": 106,
+    "model": "o1-mini-20240912",
+    "points": "OpenAi-Plus",
+    "token": "128000",
+    "features": ['conversation', 'code', 'image_recognition']
+  },
+  {
+    "id": 107,
+    "model": "o1-mini-all",
+    "points": "OpenAi-Plus",
+    "token": "128000",
+    "features": ['conversation', 'code', 'image_recognition']
   }
 ]
