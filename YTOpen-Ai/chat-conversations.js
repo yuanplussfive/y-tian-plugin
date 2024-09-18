@@ -192,8 +192,10 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         }
       }
       await saveUserHistory(path, userid, history);
-    } catch {
-      e.reply("通讯失败, 稍后再试")
+    } catch(error) {
+      let errorMessage = "通讯失败, 错误详情: " + error.message;
+      e.reply(errorMessage);
+      //e.reply("通讯失败, 稍后再试")
     }
   }
 
