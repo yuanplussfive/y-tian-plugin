@@ -16,7 +16,6 @@
     <script src="{{auto_render_js}}" defer></script>
 
     <script defer>
-        // 定义 preHandleLaTeX 函数
         const preHandleLaTeX = (content) => {
             const blockProcessedContent = content.replace(
                 /\\\[([\s\S]*?)\\\]/g,
@@ -29,7 +28,7 @@
             return inlineProcessedContent
         };
 
-        document.addEventListener("DOMContentLoaded", function () {
+        window.onload = function () {
             // 初始化 Highlight.js
             document.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightBlock(block);
@@ -57,14 +56,13 @@
 
             // 使用 KaTeX 自动渲染 LaTeX
             renderMathInElement(document.body, {
-                // 配置 KaTeX 的选项
                 delimiters: [
                     { left: "$$", right: "$$", display: true },
                     { left: "$", right: "$", display: false }
                 ],
                 throwOnError: false
             });
-        });
+        };
     </script>
 </head>
 
