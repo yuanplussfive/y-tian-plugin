@@ -3,7 +3,7 @@
 
 /* 确保 KaTeX 的样式不被覆盖 */
 .katex {
-  font-family: "KaTeX_Main", "KaTeX_AMS", "KaTeX_Caligraphic", 'jty' !important;
+  font-family: "KaTeX_Main", "KaTeX_AMS", "KaTeX_Caligraphic", 'jty', Arial !important;
   color: inherit !important;
   font-size: 1em !important;
 }
@@ -16,7 +16,7 @@
 }
 
 body {
-  font-family: 'jty' !important;
+  font-family: 'jty', Arial !important;
   background-size: cover;
   background-position: center;
   color: #e0e0e0;
@@ -84,7 +84,7 @@ body {
 .user2 .name {
   font-size: 20px;
   padding-bottom: 15px;
-  font-family: "NZBZ" !important;
+  font-family: "NZBZ", Arial !important;
   color: inherit;
 }
 
@@ -191,7 +191,7 @@ body {
   padding: 2px 4px;
   border-radius: 3px;
   color: #d63384;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Courier New', Courier, monospace, Arial;
 }
 
 .markdown-content pre {
