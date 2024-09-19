@@ -52,47 +52,192 @@ body {
   transition: color 0.3s, text-shadow 0.3s;
 }
 
-
 .markdown-content a:hover {
   text-decoration: underline;
   color: #00ff9c;
   text-shadow: 0 0 10px rgba(0, 255, 156, 0.8);
 }
 
-
 .markdown-content code {
   text-indent: 0 !important;
   font-size: 17px;
-  background-color: #292626;
+  background-color: #2d2d2d;
   padding: 2px 4px;
   border-radius: 3px;
-  color: #e8fd00;
+  color: #f8f8f2;
   font-family: 'Courier New', Courier, monospace;
 }
 
-.markdown-content pre, code {
+.markdown-content pre,
+code {
   white-space: pre-wrap;
 }
 
 .markdown-content pre {
-  box-shadow: 0 0 20px rgba(0, 200, 255, 0.6);
-  background-color: #292626;
-  color: #673ab7;
+  background-color: #2d2d2d;
+  color: #f8f8f2;
   padding: 20px;
   max-width: 80vw;
   overflow: auto;
-  font-size: 24px;
-  line-height: 1.4;
+  font-size: 18px;
+  line-height: 1.5;
   border-radius: 10px;
   position: relative;
+  font-family: 'Courier New', Courier, monospace;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.markdown-content pre.language-* {
-  white-space: pre-wrap;
-  word-break: break-all;
-  overflow-x: auto;
+.markdown-content pre {
+  position: relative;
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  padding: 20px;
+  padding-top: 40px;
+  /* 增加顶部内边距以容纳语言标签 */
+  max-width: 80vw;
+  overflow: auto;
+  font-size: 18px;
+  line-height: 1.5;
+  border-radius: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* 伪元素用于显示语言名称 */
+.markdown-content pre::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* 针对特定语言的类设置语言名称（备用） */
+.markdown-content pre.language-python::before {
+  content: "Python";
+}
+
+.markdown-content pre.language-javascript::before {
+  content: "JavaScript";
+}
+
+.markdown-content pre.language-css::before {
+  content: "CSS";
+}
+
+.markdown-content pre.language-html::before {
+  content: "HTML";
+}
+
+/* 基础语法元素 */
+.markdown-content .hljs-comment,
+.markdown-content .hljs-quote {
+  color: #75715e;
+  font-style: italic;
+}
+
+.markdown-content .hljs-keyword,
+.markdown-content .hljs-selector-tag,
+.markdown-content .hljs-subst {
+  color: #66d9ef;
+  font-weight: bold;
+}
+
+.markdown-content .hljs-literal,
+.markdown-content .hljs-number,
+.markdown-content .hljs-tag .hljs-attr {
+  color: #ae81ff;
+}
+
+.markdown-content .hljs-string,
+.markdown-content .hljs-doctag {
+  color: #e6db74;
+}
+
+.markdown-content .hljs-title,
+.markdown-content .hljs-section,
+.markdown-content .hljs-selector-id {
+  color: #a6e22e;
+  font-weight: bold;
+}
+
+.markdown-content .hljs-subst {
+  font-weight: normal;
+}
+
+.markdown-content .hljs-type,
+.markdown-content .hljs-class .hljs-title {
+  color: #f92672;
+}
+
+.markdown-content .hljs-tag,
+.markdown-content .hljs-name,
+.markdown-content .hljs-attribute {
+  color: #f8f8f2;
+}
+
+.markdown-content .hljs-regexp,
+.markdown-content .hljs-link {
+  color: #e6db74;
+}
+
+.markdown-content .hljs-symbol,
+.markdown-content .hljs-bullet {
+  color: #66d9ef;
+}
+
+.markdown-content .hljs-built_in,
+.markdown-content .hljs-builtin-name {
+  color: #fd971f;
+}
+
+.markdown-content .hljs-meta {
+  color: #75715e;
+  font-weight: bold;
+}
+
+.markdown-content .hljs-deletion {
+  background: #f92672;
+  color: #f8f8f2;
+  text-decoration: none;
+}
+
+.markdown-content .hljs-addition {
+  background: #a6e22e;
+  color: #f8f8f2;
+  text-decoration: none;
+}
+
+.markdown-content .hljs-emphasis {
+  font-style: italic;
+}
+
+.markdown-content .hljs-strong {
+  font-weight: bold;
+}
+
+/* 去除原有的固定语言颜色 */
+.markdown-content pre code.html,
+.markdown-content pre code.python,
+.markdown-content pre code.css,
+.markdown-content pre code.javascript,
+.markdown-content pre code.java,
+.markdown-content pre code.php,
+.markdown-content pre code.ruby,
+.markdown-content pre code.swift,
+.markdown-content pre code.csharp,
+.markdown-content pre code.go {
+  color: inherit;
+  background: none;
+}
+
+/* 滚动条样式 */
 .markdown-content pre::-webkit-scrollbar {
   width: 8px;
   background-color: #0c0c0c;
@@ -123,46 +268,6 @@ body {
   100% {
     opacity: 1;
   }
-}
-
-.markdown-content pre code.html {
-  color: #00ff9c;
-}
-
-.markdown-content pre code.python {
-  color: #ff9800;
-}
-
-.markdown-content pre code.css {
-  color: #8bc34a;
-}
-
-.markdown-content pre code.javascript {
-  color: #9e9e9e;
-}
-
-.markdown-content pre code.java {
-  color: #f44336;
-}
-
-.markdown-content pre code.php {
-  color: #673ab7;
-}
-
-.markdown-content pre code.ruby {
-  color: #e91e63;
-}
-
-.markdown-content pre code.swift {
-  color: #2196f3;
-}
-
-.markdown-content pre code.csharp {
-  color: #4caf50;
-}
-
-.markdown-content pre code.go {
-  color: #bf6da8;
 }
 
 .markdown-content blockquote {

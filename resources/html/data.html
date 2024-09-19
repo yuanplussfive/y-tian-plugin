@@ -1,98 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-    <title>设置面板</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI控制面板</title>
     <style>
-@font-face {
-  font-family: "jty";
-  src: url("{{src}}");
-  font-weight: normal;
-  font-style: normal;
-}
         body {
-            font-family: "jty";
-            background-color: #98FB98;
-            padding: 50px;
-
-        }
-        .card {
-            background: linear-gradient(to right, #FFD700, #F0E68C);
-            width: 800px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-            overflow: hidden;
-            display: flex;
-            flex-direction: row;
-            margin: 0 auto;
-        }
-        .settings, .status {
-            width: 50%;
+            font-family: 'Roboto', sans-serif;
+            background-color: #0a0a1a;
+            color: #e0e0e0;
+            margin: 0;
             padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .settings-item, .status-item {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            gap: 20px;
         }
-        .settings-item {
-            background-color:#ADD8E6; 
-            color:  black;
+        .block {
+            background: linear-gradient(145deg, #0f0f2f, #1a1a4a);
+            border-radius: 15px;
+            padding: 20px;
+            width: calc(50% - 10px);
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.1);
+            display: flex;
             transition: all 0.3s ease;
         }
-        .status-item {
-            background-color: #7B68EE; 
-            color:#fff;
-            transition: all 0.31s ease;
+        .block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.2);
         }
-        .settings-item:hover, .status-item:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            transform: translate3D(0, -1px, 0);
+        .left, .right {
+            flex: 1;
         }
-         h2 {
-            color: #DB9370;
-            border-bottom: 1px solid  #4E2F2F;
+        h3 {
+            color: #00ffff;
+            margin-top: 0;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #00ffff;
             padding-bottom: 10px;
-            margin-bottom: 20px;
         }
-     </style>
+        .item {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .item:hover {
+            background: rgba(0, 255, 255, 0.1);
+        }
+        .status {
+            display: flex;
+            justify-content: space-between;
+        }
+        .status span {
+            color: #00ffff;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .block {
+                width: 100%;
+            }
+        }
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.1), transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
-    <div class="card">
-        <div class="settings">
-            <h2>AI总设置页</h2>
-            <div class="settings-item">※ 当前at方案</div>
-            <div class="settings-item">※ 艾特回复</div>
-            <div class="settings-item">※ god触发名</div>
-            <div class="settings-item">※ chat触发名</div>
-            <div class="settings-item">※ 附加触发名</div>
-            <div class="settings-item">※ sess触发名</div>
-            <div class="settings-item">※ 当前对话方式</div>
-            <div class="settings-item">※ 私聊对话</div>  
-            <div class="settings-item">※ 私聊方案</div>
-            <div class="settings-item">※ tts回复</div>
-            <div class="settings-item">※ tts角色</div>
-            <div class="settings-item">※ 禁用方案</div>
-            <div class="settings-item">※ 禁用群聊</div>
-           <div class="settings-item">※ 禁用群员</div>
+    <div class="container">
+        <div class="block">
+            <div class="left">
+                <h3>触发设置</h3>
+                <div class="item">※ 当前at方案</div>
+                <div class="item">※ 艾特回复</div>
+                <div class="item">※ god触发名</div>
+            </div>
+            <div class="right">
+                <h3>触发状态</h3>
+                <div class="item status">※ AI聊天: <span>{{ai_chat}}</span></div>
+                <div class="item status">※ AI艾特: <span>{{ai_chat_at}}</span></div>
+                <div class="item status">※ GodGPT名: <span>{{ai_name_godgpt}}</span></div>
+            </div>
         </div>
-        <div class="status">
-            <h2>当前状态(≧▽≦)</h2>
-            <div class="status-item">※ : {{ai_chat}}</div>
-            <div class="status-item">※ : {{ai_chat_at}}</div>
-            <div class="status-item">※ : {{ai_name_godgpt}}</div>
-            <div class="status-item">※ : {{ai_name_chat}}</div>
-           <div class="status-item">※ : {{ai_name_others}}</div>
-            <div class="status-item">※ : {{ai_name_sess}}</div>
-            <div class="status-item">※ : {{ai_chat_style}}</div>
-            <div class="status-item">※ : {{ai_private_open}}</div>
-            <div class="status-item">※ : {{ai_private_plan}}</div>
-            <div class="status-item">※ : {{ai_tts}}</div>
-            <div class="status-item">※ : {{ai_tts_role}}</div>
-            <div class="status-item">※ : {{ai_ban_plans}}</div>
-            <div class="status-item">※ : {{ai_ban_group}}</div>
-          <div class="status-item">※ : {{ai_ban_number}}</div>
+        <div class="block">
+            <div class="left">
+                <h3>对话设置</h3>
+                <div class="item">※ chat触发名</div>
+                <div class="item">※ 附加触发名</div>
+                <div class="item">※ sess触发名</div>
+            </div>
+            <div class="right">
+                <h3>对话状态</h3>
+                <div class="item status">※ Chat名: <span>{{ai_name_chat}}</span></div>
+                <div class="item status">※ 其他名: <span>{{ai_name_others}}</span></div>
+                <div class="item status">※ Sess名: <span>{{ai_name_sess}}</span></div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="left">
+                <h3>对话方式</h3>
+                <div class="item">※ 当前对话方式</div>
+                <div class="item">※ 私聊对话</div>
+                <div class="item">※ 私聊方案</div>
+            </div>
+            <div class="right">
+                <h3>对话状态</h3>
+                <div class="item status">※ 对话风格: <span>{{ai_chat_style}}</span></div>
+                <div class="item status">※ 私聊开启: <span>{{ai_private_open}}</span></div>
+                <div class="item status">※ 私聊方案: <span>{{ai_private_plan}}</span></div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="left">
+                <h3>TTS设置</h3>
+                <div class="item">※ tts回复</div>
+                <div class="item">※ tts角色</div>
+            </div>
+            <div class="right">
+                <h3>TTS状态</h3>
+                <div class="item status">※ TTS回复: <span>{{ai_tts}}</span></div>
+                <div class="item status">※ TTS角色: <span>{{ai_tts_role}}</span></div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="left">
+                <h3>禁用设置</h3>
+                <div class="item">※ 禁用方案</div>
+                <div class="item">※ 禁用群聊</div>
+                <div class="item">※ 禁用群员</div>
+            </div>
+            <div class="right">
+                <h3>禁用状态</h3>
+                <div class="item status">※ 禁用方案: <span>{{ai_ban_plans}}</span></div>
+                <div class="item status">※ 禁用群聊: <span>{{ai_ban_group}}</span></div>
+                <div class="item status">※ 禁用群员: <span>{{ai_ban_number}}</span></div>
+            </div>
         </div>
     </div>
+    <div class="glow"></div>
 </body>
 </html>

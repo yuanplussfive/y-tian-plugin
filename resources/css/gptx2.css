@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  background-image: url('https://www.example.com/tech-background.jpg');
+  /* Updated to a tech-themed background */
+  background-size: cover;
+  background-position: center;
+  color: #e0e0e0;
+  overflow-x: hidden;
+}
+
+/* Container styling */
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: rgba(25, 25, 25, 0.85);
+  /* Slightly adjusted for better contrast */
+  border-radius: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  /* Enhanced shadow for depth */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* Added spacing between dialog boxes */
+}
+
+/* Common styles for both users */
+.user,
+.user2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user:hover,
+.user2:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* User 1 - Left Aligned with Coffee Shop Style */
+.user {
+  background: rgba(255, 255, 255, 0.9);
+  /* Light beige for coffee shop feel */
+  align-items: flex-start;
+  color: #4B3832;
+  /* Dark brown text for contrast */
+}
+
+/* User 2 - Right Aligned with Minimalistic Tech Style */
+.user2 {
+  background: rgb(48, 45, 72);
+  /* Dark background for tech contrast */
+  align-items: flex-end;
+  color: #ffffff;
+  /* Bright blue text for tech contrast */
+}
+
+/* Avatar Styles */
+.user #title img,
+.user2 #title img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Name Styles */
+.user .name,
+.user2 .name {
+  font-size: 20px;
+  padding-bottom: 15px;
+  font-family: "NZBZ", sans-serif;
+  color: inherit;
+  /* Inherit from parent for opposite colors */
+}
+
+/* Message Styles */
+.user .message,
+.user2 .message {
+  width: 100%;
+  padding: 15px 20px;
+  margin-top: 10px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  background-color: inherit;
+  /* Inherit from parent for opposite colors */
+}
+
+.user .message p {
+  font-size: 18px;
+  color: #4B3832;
+  /* Dark brown text */
+}
+
+.user2 .message p {
+  font-size: 18px;
+  color: #e0e0e0;
+  /* Light text for dark background */
+}
+
+/* Markdown Content Styling */
+.markdown-content {
+  font-size: 18px;
+  line-height: 1.6;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 100%;
+  margin: 0 auto;
+  color: inherit;
+  /* Inherit from parent for dynamic colors */
+  text-shadow: none;
+  /* Removed text shadow for cleaner look */
+  word-break: break-word;
+  overflow-x: auto;
+  background-color: rgba(245, 245, 220, 0.8);
+  /* Light background for user */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.user2 .markdown-content {
+  background-color: rgba(50, 50, 50, 0.9);
+  /* Dark background for user2 */
+  color: #00c8ff;
+}
+
+/* Header Styling */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(40, 40, 40, 0.9);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+.header h1 {
+  font-weight: 700;
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #00c8ff;
+  text-shadow: 1px 1px 5px rgba(0, 200, 255, 0.7);
+}
+
+.header-bar {
+  height: 6px;
+  background: linear-gradient(90deg, #00b4d8, #0077b6, #00b4d8);
+  background-size: 60% 60%;
+  animation: gradient 5s ease infinite;
+  border-radius: 1px;
+}
+
+/* Enhanced Markdown Styling */
+.markdown-content h1 {
+  font-size: 24px;
+  color: #0077b6;
+  /* Adjusted for better contrast */
+  margin-top: 20px;
+}
+
+.markdown-content p {
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.markdown-content p:hover {
+  color: #00ff9c;
+}
+
+.markdown-content a {
+  color: #0077b6;
+  text-decoration: none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.markdown-content a:hover {
+  text-decoration: underline;
+  color: #00ff9c;
+  text-shadow: 0 0 10px rgba(0, 255, 156, 0.8);
+}
+
+.markdown-content code {
+  font-size: 16px;
+  background-color: #f5f5f5;
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #d63384;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.markdown-content pre {
+  background-color: #f5f5f5;
+  color: #343a40;
+  padding: 15px;
+  max-width: 100%;
+  overflow: auto;
+  font-size: 16px;
+  line-height: 1.4;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Scrollbar Styling */
+.markdown-content pre::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f1f1f1;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb {
+  background-color: #0077b6;
+  border-radius: 5px;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb:hover {
+  background-color: #00ff9c;
+}
+
+.markdown-content blockquote {
+  border-left: 3px solid #0077b6;
+  padding-left: 10px;
+  margin-left: 0;
+  font-style: italic;
+  color: #6c757d;
+}
+
+/* Responsive Image Styling */
+.user #renderedMarkdown2 img,
+.user2 #renderedMarkdown img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  box-shadow: 0 4px 15px rgba(0, 200, 255, 0.6);
+  border-radius: 10px;
+}
+
+/* Custom Fonts */
+@font-face {
+  font-family: "jty";
+  src: url("jty.OTF") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NZBZ";
+  src: url("NZBZ.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Keyframes */
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}

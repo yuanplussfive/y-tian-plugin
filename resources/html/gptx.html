@@ -106,6 +106,19 @@
             }
             return chunks;
         }
+
+        // 新增: 为每个 pre 元素添加 data-lang 属性
+        document.querySelectorAll('.markdown-content pre').forEach(pre => {
+            const code = pre.querySelector('code');
+            if (code) {
+                const classes = Array.from(code.classList);
+                const languageClass = classes.find(cls => cls.startsWith('language-'));
+                if (languageClass) {
+                    const language = languageClass.replace('language-', '').toUpperCase();
+                    pre.setAttribute('data-lang', language);
+                }
+            }
+        });
     </script>
 </body>
 

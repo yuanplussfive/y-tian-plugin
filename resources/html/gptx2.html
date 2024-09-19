@@ -6,21 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gptx</title>
     <link rel="stylesheet" href="{{dz}}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <link rel="stylesheet" href="{{all_min_css}}">
+    <link rel="stylesheet" href="{{atom_one_dark_min_css}}">
+    <link rel="stylesheet" href="{{katex_css}}">
+    <script src="{{highlight_min_js}}" defer></script>
+    <script src="{{marked_min_js}}" defer></script>
+    <script src="{{purify_min_js}}" defer></script>
+    <script src="{{katex_js}}" defer></script>
+    <script src="{{auto_render_js}}" defer></script>
+
+    <script defer>
+        // 定义 preHandleLaTeX 函数
+        const preHandleLaTeX = (content) => {
+            const blockProcessedContent = content.replace(
+                /\\\[([\s\S]*?)\\\]/g,
+                (_, equation) => `$$${equation}$$`
+            )
+            const inlineProcessedContent = blockProcessedContent.replace(
+                /\\\(([\s\S]*?)\\\)/g,
+                (_, equation) => `$${equation}$`
+            )
+            return inlineProcessedContent
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // 初始化 Highlight.js
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+
+            // 获取需要渲染的元素
+            const markdownElements = document.querySelectorAll('#renderedMarkdown, #renderedMarkdown2');
+
+            markdownElements.forEach(element => {
+                // 获取原始 Markdown 文本
+                const markdownText = element.textContent;
+
+                // 预处理 LaTeX 符号
+                const processedContent = preHandleLaTeX(markdownText);
+
+                // 使用 Marked.js 将 Markdown 转换为 HTML
+                let htmlContent = marked.parse(processedContent);
+
+                // 使用 DOMPurify 清理生成的 HTML
+                htmlContent = DOMPurify.sanitize(htmlContent);
+
+                // 设置处理后的 HTML 内容
+                element.innerHTML = htmlContent;
+            });
+
+            // 使用 KaTeX 自动渲染 LaTeX
+            renderMathInElement(document.body, {
+                // 配置 KaTeX 的选项
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false }
+                ],
+                throwOnError: false
+            });
+        });
+    </script>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <div
-                style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-                <i class="fas fa-robot" style="font-size: 2rem; color: #007bff; margin-right: 0.5rem;"></i>
-                <h1 style="margin: 0;">当前模型：<span
-                        style="font-family: 'Courier New', Courier, monospace; background: linear-gradient(to right, #007bff, #6610f2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{model}}</span>
+            <div style="display: flex; align-items: center;">
+                <i class="fas fa-robot" style="font-size: 2rem; color: #e8ecf1; margin-right: 0.5rem;"></i>
+                <h1 style="margin: 0;">当前模型：
+                    <span
+                        style="font-family: 'Courier New', Courier, monospace; background: linear-gradient(to right, #07bde2, #c0a4eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        {{model}}
+                    </span>
                 </h1>
             </div>
             <div class="header-bar"></div>
@@ -44,65 +101,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        hljs.highlightAll();
-
-        const markdownText = document.getElementById('renderedMarkdown').textContent;
-        const maxLength = 10000;
-        const chunks = splitMarkdown(markdownText, maxLength);
-
-        let converter;
-        converter = new showdown.Converter({
-            extensions: [
-                function () {
-                    var htmlRenderer = new showdown.Converter().getOption('renderer');
-                    htmlRenderer.code = function (code, language) {
-                        if (language === 'latex') {
-                            return `<span>$$${code}$$</span>`;
-                        } else {
-                            const latexRegex = /\$(.*?)\$/g;
-                            code = code.replace(latexRegex, (match, p1) => `<span>$$${p1}$$</span>`);
-                            return htmlRenderer.code.apply(htmlRenderer, arguments);
-                        }
-                    }
-                    return htmlRenderer;
-                }
-            ]
-        });
-
-        const script = document.createElement('script');
-        script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML";
-        document.head.appendChild(script);
-
-        const renderedHtml = chunks.map(chunk => {
-            const markdownWithClass = `<div class="markdown-content">${chunk}</div>`;
-            return converter.makeHtml(markdownWithClass);
-        }).join('');
-        document.getElementById('renderedMarkdown').innerHTML = renderedHtml;
-
-        const markdownText2 = document.getElementById('renderedMarkdown2').textContent;
-        const chunks2 = splitMarkdown(markdownText2, maxLength);
-        const renderedHtml2 = chunks2.map(chunk => {
-            const markdownWithClass2 = `<div class="markdown-content">${chunk}</div>`;
-            return converter.makeHtml(markdownWithClass2);
-        }).join('');
-        document.getElementById('renderedMarkdown2').innerHTML = renderedHtml2;
-
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-
-        function splitMarkdown(markdownText, maxLength) {
-            const chunks = [];
-            let start = 0;
-            while (start < markdownText.length) {
-                const end = start + maxLength;
-                const chunk = markdownText.slice(start, end);
-                chunks.push(chunk);
-                start = end;
-            }
-            return chunks;
-        }
-    </script>
 </body>
 
 </html>
