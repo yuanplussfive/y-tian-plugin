@@ -3,7 +3,7 @@
 
 /* 确保 KaTeX 的样式不被覆盖 */
 .katex {
-  font-family: "KaTeX_Main", "KaTeX_AMS", "KaTeX_Caligraphic", 'jty', Arial !important;
+  font-family: "KaTeX_Caligraphic", "KaTeX_Main", "KaTeX_AMS", Arial !important;
   color: inherit !important;
   font-size: 1em !important;
 }
@@ -16,7 +16,7 @@
 }
 
 body {
-  font-family: 'jty', Arial !important;
+  font-family: "KaTeX_Main", "jty" !important;
   background-size: cover;
   background-position: center;
   color: #e0e0e0;
@@ -243,6 +243,27 @@ body {
 @font-face {
   font-family: "jty";
   src: url("jty.OTF") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KaTeX_Main";
+  src: url("KaTeX_Main-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KaTeX_AMS";
+  src: url("KaTeX_AMS-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KaTeX_Caligraphic";
+  src: url("KaTeX_Caligraphic-Bold.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
