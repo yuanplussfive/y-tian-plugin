@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
 
+/* 确保 KaTeX 的样式不被覆盖 */
+.katex {
+  font-family: "KaTeX_Main", "KaTeX_AMS", "KaTeX_Caligraphic", 'jty' !important;
+  color: inherit !important;
+  font-size: 1em !important;
+}
+
+/* 其他自定义 CSS 保持不变，确保不干扰 KaTeX */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,9 +16,7 @@
 }
 
 body {
-  font-family: 'Orbitron', sans-serif;
-  background-image: url('https://www.example.com/tech-background.jpg');
-  /* Updated to a tech-themed background */
+  font-family: 'jty' !important;
   background-size: cover;
   background-position: center;
   color: #e0e0e0;
@@ -23,14 +29,11 @@ body {
   margin: 20px auto;
   padding: 20px;
   background-color: rgba(25, 25, 25, 0.85);
-  /* Slightly adjusted for better contrast */
   border-radius: 30px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
-  /* Enhanced shadow for depth */
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* Added spacing between dialog boxes */
 }
 
 /* Common styles for both users */
@@ -54,19 +57,15 @@ body {
 /* User 1 - Left Aligned with Coffee Shop Style */
 .user {
   background: rgba(255, 255, 255, 0.9);
-  /* Light beige for coffee shop feel */
   align-items: flex-start;
   color: #4B3832;
-  /* Dark brown text for contrast */
 }
 
 /* User 2 - Right Aligned with Minimalistic Tech Style */
 .user2 {
   background: rgb(48, 45, 72);
-  /* Dark background for tech contrast */
   align-items: flex-end;
   color: #ffffff;
-  /* Bright blue text for tech contrast */
 }
 
 /* Avatar Styles */
@@ -85,9 +84,8 @@ body {
 .user2 .name {
   font-size: 20px;
   padding-bottom: 15px;
-  font-family: "NZBZ", sans-serif;
+  font-family: "NZBZ" !important;
   color: inherit;
-  /* Inherit from parent for opposite colors */
 }
 
 /* Message Styles */
@@ -99,19 +97,16 @@ body {
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   background-color: inherit;
-  /* Inherit from parent for opposite colors */
 }
 
 .user .message p {
   font-size: 18px;
   color: #4B3832;
-  /* Dark brown text */
 }
 
 .user2 .message p {
   font-size: 18px;
   color: #e0e0e0;
-  /* Light text for dark background */
 }
 
 /* Markdown Content Styling */
@@ -123,19 +118,15 @@ body {
   max-width: 100%;
   margin: 0 auto;
   color: inherit;
-  /* Inherit from parent for dynamic colors */
   text-shadow: none;
-  /* Removed text shadow for cleaner look */
   word-break: break-word;
   overflow-x: auto;
   background-color: rgba(245, 245, 220, 0.8);
-  /* Light background for user */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .user2 .markdown-content {
   background-color: rgba(50, 50, 50, 0.9);
-  /* Dark background for user2 */
   color: #00c8ff;
 }
 
@@ -170,7 +161,6 @@ body {
 .markdown-content h1 {
   font-size: 24px;
   color: #0077b6;
-  /* Adjusted for better contrast */
   margin-top: 20px;
 }
 
@@ -216,7 +206,6 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Scrollbar Styling */
 .markdown-content pre::-webkit-scrollbar {
   width: 8px;
   background-color: #f1f1f1;
