@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+@import url('fontawesome-free-6.6.0-web/css/all.min.css');
 
 /* 确保 KaTeX 的样式不被覆盖 */
 .katex {
