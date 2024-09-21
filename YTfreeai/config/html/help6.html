@@ -1,283 +1,92 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>slack</title>
-<style>
-
-@font-face {
-    font-family: "jty";
-    src: url("{{src}}");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500&display=swap');
-
-body {  
-    font-family: "Roboto", sans-serif;   
-    background: linear-gradient(to right, #2c3e50, #3498db);  
-    margin: 0;  
-    padding: 20px;
-    color: #ecf0f1;
-}
-
-.title-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin: 50px;
-}
-
-.main-title {
-    font-family: "jty", sans-serif;
-    font-size: 50px;
-    background: linear-gradient(to right, #FFFF33, #99FF66);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-align: center;
-    animation: gradient 3s infinite linear;
-    position: relative;
-    z-index: 2;
-}
-
-.main-title::before,
-.main-title::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    pointer-events: none;
-}
-
-.main-title::before {
-    clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
-    animation: rotate-border 6s linear infinite reverse;
-}
-
-.main-title::after {
-    clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 10% 100%);
-    animation: rotate-border 6s linear infinite;
-}
-
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes rotate-border {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.1) rotate(90deg); }
-    100% { transform: scale(1) rotate(180deg); }
-}
-
-@keyframes gradient {
-    0% { background-position: 0% }
-    100% { background-position: 100% }
-}
-
-.panel {   
-    background: #FAEBD7; 
-    border-radius: 10px;    
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);    
-    margin: 20px auto;    
-    padding: 20px;    
-    width: 90%;    
-    max-width: 800px;
-    backdrop-filter: blur(10px);
-}
-
-.menu {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    padding: 0;
-    background: linear-gradient(to right, #2c3e50, #3498db);
-    margin-bottom: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
-.menu li {
-    margin: 10px 20px;
-    padding: 10px 20px;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.2);
-    transition: background 0.3s ease;
-}
-
-.menu li:hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-.title {    
-    display: inline-block;    
-    font-size: 24px;    
-    background: linear-gradient(to right, #000000, #424c50);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;    
-    border-radius: 50px;  
-    padding: 8px 20px;   
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
- 
-.feature-item {   
-    display: flex;   
-    align-items: center;    
-    border-radius: 15px;   
-    padding: 15px 25px;    
-    margin-bottom: 15px;   
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    counter-increment: featureItemCounter;
-}
-
-.feature-item:hover {   
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-}
- 
-.feature-item:nth-child(odd) {    
-    background: linear-gradient(135deg, #2F4F4F, #008080);    
-    color: white;
-}
-
-.feature-item:nth-child(even) {    
-    background: linear-gradient(135deg, #87CEFA, #4682B4);    
-    color: black; 
-} 
-
-.feature-number {    
-    font-size: 18px;   
-    font-weight: bold;    
-    color: #2d3436;    
-    border-radius: 50%;    
-    width: 30px;    
-    height: 30px; 
-    display: flex;    
-    align-items: center;    
-    justify-content: center;
-    margin-right: 10px;    
-    background: #fff;    
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 2;
-}
-
-.feature-number::before {
-    content: counter(featureItemCounter);
-}
-
-.feature-item .title {    
-    font-weight: bold;   
-    margin: 0; 
-    font-family: "Roboto", sans-serif;
-    color: white;
-} 
-
-.feature-item p {    
-    font-size: 16px;    
-    margin-top: 5px;
-}
-
-.created-by {   
-    font-size: 20px;    
-    background: linear-gradient(to right, #000066, #0000CC);   
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;   
-    text-align: center; 
-    margin-top: 40px;
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y-Tian-Plugin Slack帮助</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .main-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #00aaff;
+        }
+        .created-by {
+            text-align: center;
+            font-size: 0.9em;
+            color: #aaa;
+            margin-top: 40px;
+        }
+        .panel {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .feature-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #00aaff;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        @media (min-width: 600px) {
+            .panel {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<div class="main-title">Y-Tian-Plugin slack帮助</div>
-
-
-<div class="created-by">(ps:一定要按教程先填写相关token,d,botid)</div>
-<div class="panel">
- 
- <div class="feature-item">
-  
-  <div>
-    
-  <div class="title">slack预设</div>
-    
-  <p>① /查看slack预设,查看所有预设;② /切换slack预设+序号,切换当前预设,例如:/切换slack预设2</p>
-   
-</div>
-</div>
- <div class="feature-item">
-  
-  <div>
-    
-  <div class="title">slack对话</div>
-    
-  <p>/slack+内容,例如:/slack hello;(ps:一定要先创建完slack频道!)</p>
-   
-</div>
-</div>
-  
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">创建slack频道</div>
-      
-<p>#创建slack频道,slack对话的前置准备工作</p>
-   
- </div>
- 
- </div>
- 
-<div class="feature-item">
-   
-<div>
-    
-<div class="title">结束slack对话</div>
-      
-<p>#结束slack对话,结束当前对话</p>
-   
- </div>
- 
- </div>
-
-</div>
-
-
-<div class="created-by">Created by yuan</div>
-
+    <div class="container">
+        <div class="main-title">Y-Tian-Plugin Slack帮助</div>
+        <div class="created-by">(ps: 一定要按教程先填写相关token, d, botid)</div>
+        <div class="panel">
+            <div class="feature-item">
+                <div class="title">Slack预设</div>
+                <p>① /查看slack预设：查看所有预设；<br>② /切换slack预设+序号：切换当前预设，例如：/切换slack预设2</p>
+            </div>
+            <div class="feature-item">
+                <div class="title">Slack对话</div>
+                <p>/slack+内容，例如：/slack hello；<br>(ps: 一定要先创建完Slack频道!)</p>
+            </div>
+            <div class="feature-item">
+                <div class="title">创建Slack频道</div>
+                <p>#创建slack频道：Slack对话的前置准备工作</p>
+            </div>
+            <div class="feature-item">
+                <div class="title">结束Slack对话</div>
+                <p>#结束slack对话：结束当前对话</p>
+            </div>
+        </div>
+        <div class="created-by">Created by Yuan</div>
+    </div>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

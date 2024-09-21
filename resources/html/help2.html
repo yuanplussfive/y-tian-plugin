@@ -1,167 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mx</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        @font-face {
-            font-family: "jty";
-            src: url("{{src}}");
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
-        body {
-            font-family: 'Orbitron', sans-serif;
-            background: #0d0d0d;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .main-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 50px;
-            background: linear-gradient(90deg, #00c6ff, #0072ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 30px;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(0, 114, 255, 0.7);
-        }
-
-        .panel {
-            background: #1e1e1e;
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-            margin: 20px auto;
-            padding: 20px;
-            width: 90%;
-            max-width: 800px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .panel:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
-        }
-
-        .title {
-            display: inline-block;
-            font-size: 24px;
-            background: linear-gradient(90deg, #2758ca, #1499ab);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border-radius: 50px;
-            padding: 8px 20px;
-            margin-bottom: 20px;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            border-radius: 15px;
-            padding: 15px 25px;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-item:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .feature-item:hover:before {
-            opacity: 1;
-        }
-
-        .feature-item:nth-child(odd) {
-            background: linear-gradient(135deg, #55efc4, #00cec9);
-        }
-
-        .feature-item:nth-child(even) {
-            background: linear-gradient(135deg, #74b9ff, #a29bfe);
-        }
-
-        .feature-number {
-            font-size: 18px;
-            font-weight: bold;
-            color: #fff;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            margin-top: 5px;
-            background: #333;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            flex-shrink: 0;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-        }
-
-        .feature-item .title {
-            font-weight: bold;
-            margin: 0;
-            color: #fff;
-        }
-
-        .feature-item p {
-            font-size: 16px;
-            margin-top: 5px;
-        }
-
-        .feature-item:nth-child(odd) p {
-            color: #000;
-        }
-
-        .feature-item:nth-child(even) p {
-            color: #fff;
-        }
-
-        .created-by {
-            font-size: 20px;
-            background: linear-gradient(90deg, #ff6a00, #ee0979);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-align: center;
-            margin-top: 40px;
-            padding: 10px 0;
-        }
-
-        .fa-icon {
-            margin-right: 10px;
-            font-size: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{all_min_css}}">
+    <link rel="stylesheet" href="{{help_css}}">
 </head>
+
 <body>
     <div class="main-title"><i class="fas fa-cloud"></i> Y-Tian Plugin Help <i class="fas fa-cloud"></i></div>
     <div class="panel">
@@ -284,4 +131,5 @@
     </div>
     <div class="created-by"><i class="fas fa-code"></i> Created by Y-Tian-Plugin && Yunzai-Bot</div>
 </body>
+
 </html>

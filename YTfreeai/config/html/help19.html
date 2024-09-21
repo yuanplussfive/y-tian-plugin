@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>菜单</title>
+  <link rel="stylesheet" href="{{all_min_css}}">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
       margin: 0;
       padding: 0;
+      color: #ffffff;
     }
 
     .container {
       max-width: 1000px;
-      margin: 0 auto;
+      margin: 40px auto;
       padding: 40px;
       border-radius: 20px;
       backdrop-filter: blur(10px);
@@ -83,24 +87,13 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    .section-title:before {
-      content: "•";
-      position: absolute;
-      left: -20px;
-      font-size: 24px;
-      color: #D9D9F3;
+    .section-title i {
+      margin-right: 10px;
+      color: #00d9ff;
     }
 
-    .section-title:after {
-      content: "";
-      position: absolute;
-      top: -5px;
-      left: -5px;
-      right: -5px;
-      bottom: -5px;
-      border: 2px solid #D9D9F3;
-      border-radius: 20px;
-      z-index: -1;
+    .section-title:before {
+      content: none;
     }
 
     .section-content {
@@ -122,79 +115,79 @@
       <h1 class="title">AI总管理</h1>
     </div>
     <div class="sections">
-        <div class="section">
-          <div class="section-title">管理预设</div>
-          <div class="section-content">#(删除|查看)预设+序号,例如:#查看预设1,删除同理</div>
-        </div>
       <div class="section">
-        <div class="section-title">艾特回复</div>
+        <div class="section-title"><i class="fas fa-cog"></i>管理预设</div>
+        <div class="section-content">#(删除|查看)预设+序号,例如:#查看预设1,删除同理</div>
+      </div>
+      <div class="section">
+        <div class="section-title"><i class="fas fa-at"></i>艾特回复</div>
         <div class="section-content">#AI(开启|关闭)艾特,是否启用ai的at回复<br>例如:#AI开启艾特</div>
       </div>
       <div class="section">
-        <div class="section-title">设置违禁词</div>
+        <div class="section-title"><i class="fas fa-ban"></i>设置违禁词</div>
         <div class="section-content">#新增AI违禁词+xxx,设置Ai违禁词,例如：#新增AI违禁词原图<br>#删除AI违禁词+xxx, 例如：#删除AI违禁词原图</div>
       </div>
       <div class="section">
-        <div class="section-title">TTS语音</div>
+        <div class="section-title"><i class="fas fa-volume-up"></i>TTS语音</div>
         <div class="section-content">#(开启|关闭)tts回复,是否tts语音回复,例如:#开启tts回复<br>#切换tts角色+角色名,例如:#切换tts角色雷电将军</div>
       </div>
       <div class="section">
-        <div class="section-title">回复提示</div>
+        <div class="section-title"><i class="fas fa-comment-dots"></i>回复提示</div>
         <div class="section-content">#更改回复提示词+xxx,设置Ai思考回复词<br>#(开启|关闭)提示回复,开启或关闭ai思考回复词</div>
       </div>
       <div class="section">
-        <div class="section-title">艾特方案</div>
+        <div class="section-title"><i class="fas fa-lightbulb"></i>艾特方案</div>
         <div class="section-content">#艾特回复使用(god|chat|sess|附加),更改at回复的方案<br>例如:#艾特回复使用chat</div>
       </div>
       <div class="section">
-        <div class="section-title">方案触发</div>
+        <div class="section-title"><i class="fas fa-bolt"></i>方案触发</div>
         <div class="section-content">#更改(sess|chat|god|附加)触发名+名称,更改不同方案的名称触发<br>例如:#更改附加触发名neko,则可以直接neko+问题触发</div>
       </div>
       <div class="section">
-        <div class="section-title">私聊回复</div>
+        <div class="section-title"><i class="fas fa-comments"></i>私聊回复</div>
         <div class="section-content">
           #(开启|关闭)私聊回复,是否允ai私聊,例如:#开启私聊回复<br>#私聊回复使用(god|chat|sess|附加),更改私聊bot的方案,例如:#私聊回复使用sess</div>
       </div>
       <div class="section">
-        <div class="section-title">对话方式</div>
+        <div class="section-title"><i class="fas fa-exchange-alt"></i>对话方式</div>
         <div class="section-content">
-          #AI对话方式(文本|图片|引用),更改ai回复方式<br>例如:#AI对话方式图片<br>PS：方式为图片时，有指令：<br>#图片渲染使用markdown(使用md渲染美观)，#图片渲染使用mathjax(渲染特殊latex公式)
+          #AI对话方式(文本|图片|引用),更改ai回复方式<br>例如:#AI对话方式图片<br>PS：方式为图片时，有指令：#图片渲染使用markdown(使用md渲染美观)，#图片渲染使用mathjax(渲染特殊latex公式)
         </div>
       </div>
       <div class="section">
-        <div class="section-title">禁用Ai</div>
+        <div class="section-title"><i class="fas fa-user-slash"></i>禁用Ai</div>
         <div class="section-content">
           #(禁用|解禁)方案(god|chat|附加|sess)<br>禁用当前Ai方案(主人不影响)<br>例如:#禁用方案god,解禁同理<br>#AI(禁用|解禁)该群,禁用当前群ai<br>例如:#AI禁用该群,解禁同理<br>#(禁用|解禁)AI@xxxx,禁止艾特的群员使用ai,例如:#禁用AI@张三,解禁同理
         </div>
       </div>
       <div class="section">
-        <div class="section-title">添加预设</div>
+        <div class="section-title"><i class="fas fa-plus-circle"></i>添加预设</div>
         <div class="section-content">
           #(开启|关闭)预设添加<br>例如:#开启预设添加,关闭同理<br>用法：直接把txt格式的文件私聊丢给你的bot(如果适配器添加失败，则手动添加txt文件到根目录data/阴天预设)</div>
       </div>
       <div class="section">
-        <div class="section-title">全局预设</div>
+        <div class="section-title"><i class="fas fa-globe"></i>全局预设</div>
         <div class="section-content">
           #(开启|关闭)(群)?全局预设,开启Ai全局预设<br>即结束区间对话不会清空预设，参考各方案的区间功能<br>例如:#开启全局预设，#开启全局预设@张三，#开启群全局预设</div>
       </div>
       <div class="section">
-        <div class="section-title">记忆条数</div>
+        <div class="section-title"><i class="fas fa-memory"></i>记忆条数</div>
         <div class="section-content">#设置(chat|god)记忆条数+数量<br>限制不同方案的ai记忆条数<br>例如:#设置chat记忆条数15,god同理</div>
       </div>
       <div class="section">
-        <div class="section-title">记忆限制</div>
+        <div class="section-title"><i class="fas fa-brain"></i>记忆限制</div>
         <div class="section-content">#(开启|关闭)(chat|god)方案记忆限制,限制方案的ai记忆,可极大减少金额消耗<br>例如:#开启god方案记忆限制,chat方案同理</div>
       </div>
       <div class="section">
-        <div class="section-title">密钥管理</div>
+        <div class="section-title"><i class="fas fa-key"></i>密钥管理</div>
         <div class="section-content">#删除chatsk+序号,删除chat方案的key<br>例如:#删除chatsk 2<br>god方案同理,例如:/删除godsk+序号</div>
       </div>
       <div class="section">
-        <div class="section-title">群上下文</div>
+        <div class="section-title"><i class="fas fa-book"></i>群上下文</div>
         <div class="section-content">#(开启|关闭)群记录携带,Ai携带群聊相关信息进行回复,增强关联性<br>例如:#开启群记录携带,关闭同理</div>
       </div>
       <div class="section">
-        <div class="section-title">查看设置</div>
+        <div class="section-title"><i class="fas fa-sliders-h"></i>查看设置</div>
         <div class="section-content">#查看AI总设置,查看当前ai配置</div>
       </div>
     </div>

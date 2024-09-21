@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>免费外站帮助</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{all_min_css}}">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,6 +17,7 @@
             flex-direction: column;
             align-items: center;
         }
+
         .main-title {
             padding: 20px;
             font-size: 2.5em;
@@ -26,19 +28,7 @@
             margin-bottom: 20px;
             letter-spacing: 2px;
         }
-        .legend {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            font-size: 1.2em;
-        }
-        .legend div {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #8b949e;
-        }
+
         .content-menu {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -47,6 +37,7 @@
             width: 100%;
             padding: 20px;
         }
+
         .block {
             background-color: #21262d;
             border-radius: 10px;
@@ -58,10 +49,12 @@
             align-items: flex-start;
             text-align: left;
         }
+
         .block:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
+
         .sub-title {
             display: flex;
             align-items: center;
@@ -70,45 +63,34 @@
             color: #58a6ff;
             font-weight: bold;
         }
+
         .sub-title i {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-right: 10px;
+            color: #58a6ff;
+            /* Ensure icons are uniform in color */
         }
+
         .content {
             font-size: 1.2em;
             line-height: 1.6;
             color: #8b949e;
         }
-        .features {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-left: 10px;
-        }
-        .features i {
-            font-size: 1.2em;
-            color: #39d353;
-        }
+
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             z-index: -1;
             pointer-events: none;
             backdrop-filter: blur(10px);
         }
-        .model-wrapper {
-            border: 1px solid #30363d;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 10px;
-            background: rgba(33, 38, 45, 0.8);
-        }
     </style>
 </head>
+
 <body>
     <div class="overlay"></div>
     <h1 class="main-title">免费外站帮助</h1>
@@ -117,137 +99,52 @@
         <div class="block">
             <div class="sub-title">
                 <i class="fas fa-robot"></i> GPT-mini
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                    <i class="fas fa-search"></i>
-                </div>
             </div>
-            <div class="model-wrapper">
-                <div class="content">① #mini+xx, 问答<br>② #结束mini对话</div>
-            </div>
+            <div class="content">① #mini+xx, 问答<br>② #结束mini对话</div>
         </div>
         <div class="block">
             <div class="sub-title">
                 <i class="fas fa-robot"></i> GPT-4.0
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                    <i class="fas fa-search"></i>
-                </div>
             </div>
-            <div class="model-wrapper">
-                <div class="content">① #g4f+xx, 问答<br>② #结束g4f对话</div>
-            </div>
+            <div class="content">① #g4f+xx, 问答<br>② #结束g4f对话</div>
         </div>
         <div class="block">
             <div class="sub-title">
                 <i class="fas fa-globe"></i> WebGPT
-                <div class="features">
-                    <i class="fas fa-search"></i>
-                </div>
             </div>
-            <div class="model-wrapper">
-                <div class="content">① #web+xx<br>例如: #web 搜索阴天插件</div>
-            </div>
+            <div class="content">① #web+xx<br>例如: #web 搜索阴天插件</div>
         </div>
         <div class="block">
             <div class="sub-title">
-                <i class="fas fa-desktop"></i> BingAi
-                <div class="features">
-                    <i class="fas fa-search"></i>
-                </div>
+                <i class="fas fa-search"></i> BingAi
             </div>
-            <div class="model-wrapper">
-                <div class="content">① #Bing+xx<br>例如: #Bing 搜索明天上海天气情况</div>
-            </div>
+            <div class="content">① #Bing+xx<br>例如: #Bing 搜索明天上海天气情况</div>
         </div>
         <div class="block">
             <div class="sub-title">
-                <i class="fas fa-feather-alt"></i> Claude
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                </div>
+                <i class="fas fa-comments"></i> Claude
             </div>
-            <div class="model-wrapper">
-                <div class="content">① #claude+xx<br>例如: #claude 你是谁<br>② #结束claude对话</div>
-            </div>
+            <div class="content">① #claude+xx<br>例如: #claude 你是谁<br>② #结束claude对话</div>
         </div>
         <div class="block">
             <div class="sub-title">
-                <i class="fas fa-comments"></i> Hermes
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                </div>
+                <i class="fas fa-comments"></i> Gemini
             </div>
-            <div class="model-wrapper">
-                <div class="content">① #hermes+xx<br>例如: #hermes 你好<br>② #结束hermes对话</div>
-            </div>
+            <div class="content">① #gemini+xx<br>例如: #gemini 你是谁<br>② #结束gemini对话</div>
         </div>
         <div class="block">
             <div class="sub-title">
-                <i class="fas fa-gem"></i> Gemini
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                </div>
+                <i class="fas fa-comments"></i> Llama
             </div>
-            <div class="model-wrapper">
-                <div class="content">① #gemini+xx<br>例如: #gemini 你是谁<br>② #结束gemini对话</div>
-            </div>
+            <div class="content">① #llama+xx<br>例如: #llama hello<br>② #结束llama对话</div>
         </div>
         <div class="block">
             <div class="sub-title">
-                <i class="fas fa-gem"></i> Gemma
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                </div>
+                <i class="fas fa-comments"></i> Commandr
             </div>
-            <div class="model-wrapper">
-                <div class="content">① #gemma+xx<br>例如: #gemma 你好<br>② #结束gemma对话</div>
-            </div>
-        </div>
-        <div class="block">
-            <div class="sub-title">
-                <i class="fas fa-plane"></i> Reka
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                </div>
-            </div>
-            <div class="model-wrapper">
-                <div class="content">① #reka+xx<br>例如: #reka hello<br>② #结束reka对话</div>
-            </div>
-        </div>
-        <div class="block">
-            <div class="sub-title">
-                <i class="fas fa-hippo"></i> Llama
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                </div>
-            </div>
-            <div class="model-wrapper">
-                <div class="content">① #llama+xx<br>例如: #llama hello<br>② #结束llama对话</div>
-            </div>
-        </div>
-        <div class="block">
-          <div class="sub-title">
-              <i class="fas fa-hippo"></i> Commandr
-              <div class="features">
-                  <i class="fas fa-comments"></i>
-              </div>
-          </div>
-          <div class="model-wrapper">
-              <div class="content">① #commandr+xx<br>例如: #commandr hello<br>② #结束commandr对话</div>
-          </div>
-      </div>
-        <div class="block">
-            <div class="sub-title">
-                <i class="fas fa-stream"></i> Mixtral
-                <div class="features">
-                    <i class="fas fa-comments"></i>
-                </div>
-            </div>
-            <div class="model-wrapper">
-                <div class="content">① #mixtral+xx<br>例如: #mixtral hello<br>② #结束mixtral对话</div>
-            </div>
+            <div class="content">① #commandr+xx<br>例如: #commandr hello<br>② #结束commandr对话</div>
         </div>
     </div>
 </body>
+
 </html>

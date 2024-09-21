@@ -3,61 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>菜单</title>
+    <link rel="stylesheet" href="{{all_min_css}}">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #091236, #1E215D);
-            color: #333;
+            color: #f8f9fa;
             padding: 20px;
         }
         .main-title {
             margin-top: 20px;
             text-align: center;
-            font-size: 32px;
+            font-size: 36px;
             color: #ffffff;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
         }
         .sections {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         .section {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            transition: transform 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
         .section:hover {
             transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
         }
         .section-title {
-            font-size: 20px;
+            font-size: 18px;
             color: #ffffff;
             text-align: center;
             margin: 0;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            position: relative;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .section-title:before {
-            content: '';
-            position: absolute;
-            left: -10px;
-            top: 50%;
-            transform: translateY(-50%) rotate(45deg);
-            width: 20px;
-            height: 20px;
-            background-color: #007bff;
-            border-radius: 50%;
+        .section-title i {
+            margin-right: 10px;
         }
         .content {
             margin: 15px;
             font-size: 16px;
-            color: #f8f9fa;
+            line-height: 1.6;
+            color: #f1f1f1;
         }
     </style>
 </head>
@@ -67,43 +63,43 @@
 
     <div class="sections">
         <div class="section">
-            <h2 class="section-title">填写密钥</h2>
+            <h2 class="section-title"><i class="fas fa-key"></i>填写密钥</h2>
             <p class="content">#填写chatsk+爱发电获取的密钥<br>例如:#填写chatsksk-xxxxxxx</p>
         </div>
         <div class="section">
-            <h2 class="section-title">查询余额</h2>
+            <h2 class="section-title"><i class="fas fa-balance-scale"></i>查询余额</h2>
             <p class="content">#查询chat额度,查询剩余额度和使用次数<br>#切换chat密钥+序号,切换使用密钥</p>
         </div>
-       <div class="section">
-            <h2 class="section-title">联网搜索</h2>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-search"></i>联网搜索</h2>
             <p class="content">① #开启chat联网,开启联网搜索<br>(gpt-4-all系列内置深度搜索)<br>② #关闭chat联网,关闭联网搜索</p>
         </div>
         <div class="section">
-            <h2 class="section-title">切换模型</h2>
+            <h2 class="section-title"><i class="fas fa-exchange-alt"></i>切换模型</h2>
             <p class="content">① #chat模型大全,查看所有模型<br>② #切换chat模型+序号,切换相关模型<br>例如:#切换chat模型2</p>
         </div>
         <div class="section">
-            <h2 class="section-title">代理模式</h2>
+            <h2 class="section-title"><i class="fas fa-shield-alt"></i>代理模式</h2>
             <p class="content">① #开启chat代理,开启chat模型代理<br>(如果慢或连接不上,请开启)<br>② #关闭chat代理,同理</p>
         </div>
         <div class="section">
-            <h2 class="section-title">对话区间</h2>
+            <h2 class="section-title"><i class="fas fa-window-restore"></i>对话区间</h2>
             <p class="content">① #chat开启分区间,独立对话<br>每个用户分为不同的子区间对话,不共享预设<br>② #chat关闭分区间,每个群的用户共用群预设</p>
        </div>
         <div class="section">
-            <h2 class="section-title">填写gpts</h2>
+            <h2 class="section-title"><i class="fas fa-id-card"></i>填写gpts</h2>
             <p class="content">#填写gpts+id,填写相应的gpts_id<br>例如:#填写gptssnw330qdg<br>验证id成功后方可使用</p>
        </div>
         <div class="section">
-            <h2 class="section-title">使用gpts</h2>
+            <h2 class="section-title"><i class="fas fa-brain"></i>使用gpts</h2>
             <p class="content">① #查看gpts,查看全部GPTS<br>② #切换gpts+序号,切换相应的gpts<br>例如:#切换gpts1</p>
         </div>
         <div class="section">
-            <h2 class="section-title">管理预设</h2>
+            <h2 class="section-title"><i class="fas fa-sliders-h"></i>管理预设</h2>
             <p class="content">① #查看chat预设,查看所有相关预设<br>② #切换chat预设+序号,切换相关预设<br>例如: #切换chat预设2<br>③ #切换chat群预设+序号,切换整个群的预设</p>
         </div>
        <div class="section">
-            <h2 class="section-title">结束对话</h2>
+            <h2 class="section-title"><i class="fas fa-times-circle"></i>结束对话</h2>
             <p class="content">① #结束chat对话<br>结束当前用户对话,支持at方式<br>②#结束全部chat对话<br>结束全部用户对话,包括群对话</p>
         </div>
     </div>

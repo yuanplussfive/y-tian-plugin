@@ -4,8 +4,8 @@ const _path = process.cwd()
 import fs from 'fs'
 let src = _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
 let dirpath = _path + '/data/阴天预设'
-if(!fs.existsSync(dirpath)){
-fs.mkdirSync(dirpath)    
+if (!fs.existsSync(dirpath)) {
+  fs.mkdirSync(dirpath)
 }
 
 export class example extends plugin {
@@ -63,28 +63,30 @@ export class example extends plugin {
         {
           reg: "^(/|#)(AI|Ai|ai)免费国产帮助$",
           fnc: "ChineseAI"
-       },
-       {
+        },
+        {
           reg: "^(/|#)(AI|Ai|ai)交互帮助$",
           fnc: "workai"
-       },
-       {
+        },
+        {
           reg: "^/sess帮助$",
           fnc: "sessai"
-       },
-       {
+        },
+        {
           reg: "^(/|#)(AI|Ai|ai)总帮助$",
           fnc: "totalai"
-       }
+        }
       ]
     })
   }
 
-async help(e) {
+  async help(e) {
     const src2 = _path + "/plugins/y-tian-plugin/resources/css/NZBZ.ttf"
     const data2 = {
       tplFile: _path + "/plugins/y-tian-plugin/resources/html/help2.html",
       src2: src2,
+      help_css: _path + "/plugins/y-tian-plugin/resources/css/help.css",
+      all_min_css: _path + "/plugins/y-tian-plugin/resources/css/fontawesome-free-6.6.0-web/css/all.min.css",
       src: src
     };
     const img = await puppeteer.screenshot("777", {
@@ -93,93 +95,94 @@ async help(e) {
     e.reply(img);
   }
 
-async totalai(e){
+  async totalai(e) {
     const img = await screen(19, puppeteer)
     e.reply(img)
-}
+  }
 
-async sessai(e){
+  async sessai(e) {
     const img = await screen(18, puppeteer)
     e.reply(img)
-}
+  }
 
-async workai(e){
+  async workai(e) {
     const img = await screen(17, puppeteer)
     e.reply(img)
-}
+  }
 
-async otherhelp(e){
+  async otherhelp(e) {
     const img = await screen(16, puppeteer)
     e.reply(img)
-}
+  }
 
-async others(e){
+  async others(e) {
     const img_1 = await screen(14, puppeteer)
     const img_2 = await screen(20, puppeteer)
     const img_3 = await screen(21, puppeteer)
     const forwardMsg = [img_1, img_2, img_3]
     const JsonPart = await common.makeForwardMsg(e, forwardMsg, '附加模型大全');
     e.reply(JsonPart)
-}
+  }
 
-async ChineseAI(e){
+  async ChineseAI(e) {
     const img = await screen(11, puppeteer)
     e.reply(img)
-}
+  }
 
-async vision(e){
+  async vision(e) {
     const img = await screen(10, puppeteer)
     e.reply(img)
-}
+  }
 
-async professor(e){
+  async professor(e) {
     const img = await screen(8, puppeteer)
     e.reply(img)
-}
+  }
 
-async chatgpt(e) {
+  async chatgpt(e) {
     const img = await screen(7, puppeteer)
     e.reply(img)
   }
 
-async slack(e) {
+  async slack(e) {
     const img = await screen(6, puppeteer)
     e.reply(img)
   }
 
-async drawing(e) {
-   const img = await screen(5, puppeteer)
+  async drawing(e) {
+    const img = await screen(5, puppeteer)
     e.reply(img)
   }
 
-async freeai(e) {
+  async freeai(e) {
     const img = await screen(4, puppeteer)
     e.reply(img)
   }
 
-async group(e) {
-   const img = await screen(3, puppeteer)
+  async group(e) {
+    const img = await screen(3, puppeteer)
     e.reply(img)
   }
 
-async joy(e) {
+  async joy(e) {
     const img = await screen(1, puppeteer)
     e.reply(img)
   }
 
-async game(e) {
+  async game(e) {
     const img = await screen(2, puppeteer)
     e.reply(img)
   }
 }
 
-async function screen(num, puppeteer){
+async function screen(num, puppeteer) {
   const data = {
-       tplFile: _path + `/plugins/y-tian-plugin/YTfreeai/config/html/help${num}.html`,
-       src:src
-      }
-      const img = await puppeteer.screenshot('777', {
-       ...data,
-     })
+    tplFile: _path + `/plugins/y-tian-plugin/YTfreeai/config/html/help${num}.html`,
+    all_min_css: _path + "/plugins/y-tian-plugin/resources/css/fontawesome-free-6.6.0-web/css/all.min.css",
+    src: src
+  }
+  const img = await puppeteer.screenshot('777', {
+    ...data,
+  })
   return img
 }
