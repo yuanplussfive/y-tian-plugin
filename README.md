@@ -115,12 +115,19 @@ pnpm install
 &nbsp;&nbsp;✨ gpt-4o
 &nbsp;&nbsp;✨ gpt-4o-0513
 &nbsp;&nbsp;✨ gpt-4o-0806
+&nbsp;&nbsp;✨ gpt-4o-0903
 &nbsp;&nbsp;✨ gpt-4o-latest
 &nbsp;&nbsp;✨ gpt-4o-all
 &nbsp;&nbsp;✨ gpt-4o-plus
 &nbsp;&nbsp;✨ gpt-4-all
 &nbsp;&nbsp;✨ gpt-4-plugins
 &nbsp;&nbsp;✨ gpt-4-gizmo
+&nbsp;&nbsp;✨ o1-mini
+&nbsp;&nbsp;✨ o1-mini-20240912
+&nbsp;&nbsp;✨ o1-mini-all
+&nbsp;&nbsp;✨ o1-preview
+&nbsp;&nbsp;✨ o1-preview-20240912
+&nbsp;&nbsp;✨ o1-preview-all
 <br>
 🔹 <b>Anthropic</b>
 &nbsp;&nbsp;✨ claude-1-100k
@@ -141,6 +148,8 @@ pnpm install
 &nbsp;&nbsp;✨ gemini-1.5-flash-latest
 &nbsp;&nbsp;✨ gemma-2b-it
 &nbsp;&nbsp;✨ gemma-7b-it
+&nbsp;&nbsp;✨ gemma-2-7b-it
+&nbsp;&nbsp;✨ gemma-2-27b-it
 <br>
 🔹 <b>Meta</b>
 &nbsp;&nbsp;✨ llama-2-7b
@@ -156,18 +165,22 @@ pnpm install
 &nbsp;&nbsp;✨ code-llama-13b
 &nbsp;&nbsp;✨ code-llama-34b
 &nbsp;&nbsp;✨ code-llama-70b-instruct
+&nbsp;&nbsp;✨ llama-3-7b
+&nbsp;&nbsp;✨ llama-3-70b
+&nbsp;&nbsp;✨ llama-3-405b
 <br>
 🔹 <b>ChatGLM</b>
-&nbsp;&nbsp;✨ chatglm-pro
-&nbsp;&nbsp;✨ chatglm-turbo
-&nbsp;&nbsp;✨ chatglm-130b
-&nbsp;&nbsp;✨ chatglm-3-turbo
-&nbsp;&nbsp;✨ chatglm-4
-&nbsp;&nbsp;✨ chatglm-4-v
-&nbsp;&nbsp;✨ chatglm-4-alltools
-&nbsp;&nbsp;✨ chatglm-4-0520
-&nbsp;&nbsp;✨ chatglm-4-flash
-&nbsp;&nbsp;✨ chatglm-4-air-0520
+&nbsp;&nbsp;✨ glm-pro
+&nbsp;&nbsp;✨ glm-turbo
+&nbsp;&nbsp;✨ glm-130b
+&nbsp;&nbsp;✨ glm-3-turbo
+&nbsp;&nbsp;✨ glm-4
+&nbsp;&nbsp;✨ glm-4-v
+&nbsp;&nbsp;✨ glm-4-alltools
+&nbsp;&nbsp;✨ glm-4-0520
+&nbsp;&nbsp;✨ glm-4-flash
+&nbsp;&nbsp;✨ glm-4-air-0520
+&nbsp;&nbsp;✨ glm-4-plus
 <br>
 🔹 <b>mixtral</b>
 &nbsp;&nbsp;✨ mixtral-8x7b
@@ -223,11 +236,14 @@ pnpm install
 &nbsp;&nbsp;✨ spark-desk-v2.0
 &nbsp;&nbsp;✨ spark-desk-v3.0
 &nbsp;&nbsp;✨ spark-desk-v3.5
+&nbsp;&nbsp;✨ spark-desk-v4.0
 &nbsp;&nbsp;✨ spark-desk-alltools
 <br>
 🔹 <b>深度求索</b>
 &nbsp;&nbsp;✨ deepseek-chat
 &nbsp;&nbsp;✨ deepseek-code
+&nbsp;&nbsp;✨ deepseek-2-chat
+&nbsp;&nbsp;✨ deepseek-2-code
 <br>
 🔹 <b>零一万物</b>
 &nbsp;&nbsp;✨ yi-34b
@@ -242,7 +258,7 @@ pnpm install
 &nbsp;&nbsp;✨ mj-chat
 &nbsp;&nbsp;✨ coze-gpt-4-all
 &nbsp;&nbsp;✨ reka-flash
-&nbsp;&nbsp;✨ command-r
+&nbsp;&nbsp;✨ command-r-plus
 &nbsp;&nbsp;✨ Atom-13B-Chat
 &nbsp;&nbsp;✨ Minimax-hailuo
 &nbsp;&nbsp;✨ step-1-200k
@@ -280,13 +296,13 @@ pnpm install
 &nbsp;&nbsp;✨ 文字识别
 <br>
 🔹 <b>OpenAI</b>
-&nbsp;&nbsp;✨ gpt-4-v/all 等多模态 GPT 模型
+&nbsp;&nbsp;✨ gpt-4-v/all 系列多模态 GPT 模型
 <br>
 🔹 <b>ChatGLM</b>
-&nbsp;&nbsp;✨ chatglm-4-alltools 等多功能模型
+&nbsp;&nbsp;✨ glm-4-alltools 系列多功能模型
 <br>
-🔹 <b>MosaicML</b>
-&nbsp;&nbsp;✨ gemini-pro-vision 等专业视觉模型
+🔹 <b>Google</b>
+&nbsp;&nbsp;✨ gemini-pro-vision 系列专业视觉模型
 <br>
 🔹 <b>其他</b>
 &nbsp;&nbsp;✨ ...
@@ -297,7 +313,7 @@ pnpm install
 <summary>🔊 语音模型</summary>
 <br>
 🔹 <b>虚拟偶像</b>
-&nbsp;&nbsp;✨ 原神崩三等语音库
+&nbsp;&nbsp;✨ 原神崩三等语音库(暂寄)
 <br>
 🔹 <b>歌曲生成</b>
 &nbsp;&nbsp;✨ Suno-V3
@@ -415,7 +431,7 @@ pnpm install
 ## 🔆 与AI交互流程
 
 ### 💻 对话交互
-> 阴天帮助 → AI总帮助 → 打开At回复 → 选择启用方案 → 参考方案帮助
+> 阴天帮助 → AI总帮助 → 打开At回复 → 选择启用方案 → 参考方案帮助(小白授权后可免费使用附加模型，推荐使用此方案)
 
 <details>
 <summary>点击查看流程图</summary>

@@ -1,10 +1,13 @@
 @import url('fontawesome-free-6.6.0-web/css/all.min.css');
 
-/* 确保 KaTeX 的样式不被覆盖 */
 .katex {
   font-family: "KaTeX_Caligraphic", "KaTeX_Main", "KaTeX_AMS", Arial !important;
-  color: inherit !important;
   font-size: 1em !important;
+  white-space: normal;
+  display: inline-block !important;
+  max-width: 100%;
+  min-width: 0;
+  /* 防止公式设置固定宽度 */
 }
 
 /* 其他自定义 CSS 保持不变，确保不干扰 KaTeX */
@@ -22,9 +25,8 @@ body {
   overflow-x: hidden;
 }
 
-/* Container styling */
 .container {
-  max-width: 1000px;
+  max-width: 2000px;
   margin: 20px auto;
   padding: 20px;
   background-color: rgba(25, 25, 25, 0.85);
@@ -35,7 +37,6 @@ body {
   gap: 20px;
 }
 
-/* Common styles for both users */
 .user,
 .user2 {
   display: flex;
@@ -53,21 +54,18 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
 }
 
-/* User 1 - Left Aligned with Coffee Shop Style */
 .user {
   background: rgba(255, 255, 255, 0.9);
   align-items: flex-start;
   color: #4B3832;
 }
 
-/* User 2 - Right Aligned with Minimalistic Tech Style */
 .user2 {
   background: rgb(48, 45, 72);
   align-items: flex-end;
   color: #ffffff;
 }
 
-/* Avatar Styles */
 .user #title img,
 .user2 #title img {
   width: 70px;
@@ -78,39 +76,65 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Name Styles */
 .user .name,
 .user2 .name {
-  font-size: 20px;
+  font-size: 28px;
   padding-bottom: 15px;
   font-family: "NZBZ", Arial !important;
   color: inherit;
 }
 
-/* Message Styles */
 .user .message,
 .user2 .message {
-  width: 100%;
+  font-size: 24px;
+  width: auto;
+  /* 根据内容自动调整宽度 */
+  max-width: 100%;
+  /* 限制子容器最大宽度不能超过父容器 */
+  min-width: 20%;
+  /* 最小宽度，避免过小 */
   padding: 15px 20px;
   margin-top: 10px;
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   background-color: inherit;
+  word-wrap: break-word;
+  /* 允许长单词换行 */
+  overflow-wrap: break-word;
+  /* 强制内容换行 */
 }
 
-.user .message p {
-  font-size: 18px;
+.user .message2 {
+  font-size: 24px;
+  width: auto;
+  /* 根据内容自动调整宽度 */
+  max-width: 100%;
+  /* 限制子容器最大宽度不能超过父容器 */
+  min-width: 20%;
+  /* 最小宽度，避免过小 */
+  padding: 15px 20px;
+  margin-top: 10px;
+  background-color: inherit;
+  word-wrap: break-word;
+  /* 允许长单词换行 */
+  overflow-wrap: break-word;
+  /* 强制内容换行 */
+}
+
+.user .message2 p {
+  padding: 15px 20px;
+  font-size: 24px;
   color: #4B3832;
 }
 
 .user2 .message p {
-  font-size: 18px;
+  padding: 15px 20px;
+  font-size: 24px;
   color: #e0e0e0;
 }
 
-/* Markdown Content Styling */
 .markdown-content {
-  font-size: 18px;
+  font-size: 26px;
   line-height: 1.6;
   padding: 20px;
   border-radius: 8px;
@@ -119,17 +143,10 @@ body {
   color: inherit;
   text-shadow: none;
   word-break: break-word;
-  overflow-x: auto;
   background-color: rgba(245, 245, 220, 0.8);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-.user2 .markdown-content {
-  background-color: rgba(50, 50, 50, 0.9);
-  color: #00c8ff;
-}
-
-/* Header Styling */
 .header {
   text-align: center;
   margin-bottom: 20px;
@@ -139,7 +156,9 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
 }
 
-.header h1 {
+.header h1,
+.header h2,
+.header h3 {
   font-weight: 700;
   font-size: 28px;
   text-transform: uppercase;
@@ -156,15 +175,17 @@ body {
   border-radius: 1px;
 }
 
-/* Enhanced Markdown Styling */
-.markdown-content h1 {
-  font-size: 24px;
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  font-size: 28px;
   color: #0077b6;
   margin-top: 20px;
 }
 
 .markdown-content p {
-  font-size: 16px;
+  color: #f5f5f5;
+  font-size: 24px;
   transition: color 0.3s ease;
 }
 
@@ -185,7 +206,8 @@ body {
 }
 
 .markdown-content code {
-  font-size: 16px;
+  white-space: pre-wrap;
+  font-size: 24px;
   background-color: #f5f5f5;
   padding: 2px 4px;
   border-radius: 3px;
@@ -194,12 +216,13 @@ body {
 }
 
 .markdown-content pre {
+  white-space: pre-wrap;
   background-color: #f5f5f5;
   color: #343a40;
   padding: 15px;
   max-width: 100%;
   overflow: auto;
-  font-size: 16px;
+  font-size: 24px;
   line-height: 1.4;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -227,7 +250,6 @@ body {
   color: #6c757d;
 }
 
-/* Responsive Image Styling */
 .user #renderedMarkdown2 img,
 .user2 #renderedMarkdown img {
   max-width: 100%;
@@ -238,7 +260,6 @@ body {
   border-radius: 10px;
 }
 
-/* Custom Fonts */
 @font-face {
   font-family: "jty";
   src: url("jty.OTF") format("opentype");
@@ -274,7 +295,6 @@ body {
   font-style: normal;
 }
 
-/* Keyframes */
 @keyframes blink {
 
   0%,
