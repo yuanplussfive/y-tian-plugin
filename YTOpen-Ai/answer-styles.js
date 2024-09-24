@@ -1,43 +1,37 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
-    async function countTextElements(text) {
-        const englishWordRegex = /[a-zA-Z]+/g;
-        const chineseCharRegex = /[\u4e00-\u9fa5]/g;
-        const englishWords = text.match(englishWordRegex) || [];
-        const chineseChars = text.match(chineseCharRegex) || [];
-        const totalCount = englishWords.length + chineseChars.length;
-        return totalCount;
-    }
+    const countTextElements = (text) => {
+        const englishWords = (text.match(/[a-zA-Z]+/g) || []).length;
+        const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
+        return englishWords + chineseChars;
+    };
+
     try {
-        const words = await countTextElements(answer)
-        console.log(words)
+        const words = countTextElements(answer);
+        console.log(words);
+
+        const sendAsForwardMsg = async () => {
+            const forwardMsg = await common.makeForwardMsg(e, [answer], 'text');
+            e.reply(forwardMsg);
+        };
+
         switch (styles) {
             case "words":
-                if (words > 1000) {
-                    let forwardMsg = [answer]
-                    const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
-                    e.reply(JsonPart)
-                } else {
-                    e.reply(answer, true);
-                }
+                words > 1000 ? await sendAsForwardMsg() : e.reply(answer, true);
                 break;
             case "word":
-                if (words > 1050) {
-                    let forwardMsg = [answer]
-                    const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
-                    e.reply(JsonPart)
-                } else {
-                    e.reply(answer);
-                }
+                words > 1050 ? await sendAsForwardMsg() : e.reply(answer);
                 break;
             case "picture":
-                let tplFile = _path + "/plugins/y-tian-plugin/resources/html/gptx.html"
-                let dz = `${_path}/plugins/y-tian-plugin/resources/css/gptx.css`
-                const styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.pictureStyles
-                if (styles) {
-                    tplFile = _path + "/plugins/y-tian-plugin/resources/html/gptx2.html"
-                    dz = `${_path}/plugins/y-tian-plugin/resources/css/gptx2.css`
+                let tplFile = `${_path}/plugins/y-tian-plugin/resources/html/gptx.html`;
+                let dz = `${_path}/plugins/y-tian-plugin/resources/css/gptx.css`;
+
+                const pictureStyles = JSON.parse(fs.readFileSync(`${_path}/data/YTAi_Setting/data.json`)).chatgpt.pictureStyles;
+                if (pictureStyles) {
+                    tplFile = `${_path}/plugins/y-tian-plugin/resources/html/gptx2.html`;
+                    dz = `${_path}/plugins/y-tian-plugin/resources/css/gptx2.css`;
                 }
-                let data = {
+
+                const data = {
                     dz,
                     tplFile,
                     atom_one_dark_min_css: `${_path}/plugins/y-tian-plugin/resources/css/atom-one-dark.min.css`,
@@ -54,15 +48,16 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                     highlight_min_js: `${_path}/plugins/y-tian-plugin/resources/js/highlight.min.js`,
                     MSG: msg,
                     CONTENT: answer,
-                    model: model,
+                    model,
                     id2: Bot.uin,
                     id1: e.user_id,
                     name: e.sender.nickname,
                     name1: Bot.nickname
                 };
-                console.log(data);
+
+                //console.log(data);
                 if (words < 1200) {
-                    let img = await puppeteer.screenshot("777", data);
+                    const img = await puppeteer.screenshot("753", data);
                     e.reply(img);
                 }
                 break;
@@ -75,4 +70,4 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
     }
 }
 
-export { replyBasedOnStyle }
+export { replyBasedOnStyle };

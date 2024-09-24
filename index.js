@@ -21,8 +21,7 @@ logger.info(chalk.rgb(50, 240, 108).bold(`
    `));
 logger.info(chalk.rgb(50, 240, 108).bold('Y-Tian-plugin加载完毕'));
 logger.info(chalk.rgb(50, 240, 108).bold('作者-鸢 & 天球生物'));
-logger.info(chalk.rgb(50, 240, 108).bold(`---------------------`));
-logger.info(chalk.rgb(50, 240, 108).bold(`💬 推荐加入我们的群聊：📱 QQ 群号: 912701273`));
+logger.info(chalk.rgb(50, 240, 108).bold(`-----------💬 推荐加入我们的群聊：📱 QQ 群号: 912701273----------`));
  
 files.forEach((file) => {
   ret.push(import(`./apps/${file}`))

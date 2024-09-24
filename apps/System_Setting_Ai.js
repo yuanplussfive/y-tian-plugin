@@ -1,5 +1,5 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const { fs, _path, puppeteer, Anime_tts_roles, https, http, common } = dependencies
+const { fs, _path, puppeteer, Anime_tts_roles, https, http, common, cfg } = dependencies
 let dirpath = _path + '/data/YTAi_Setting'
 if (!fs.existsSync(dirpath)) {
   fs.mkdirSync(dirpath)
@@ -263,7 +263,7 @@ export class example extends plugin {
     const { name } = e?.file || {};
     const data = readJsonFile(dataFilePath);
     if (name?.endsWith?.('.txt') && data.chatgpt.add_prompts_open) {
-      let fileUrl = await e[e.isGroup ? 'group' : 'friend'].getFileUrl(e.file.fid);
+      let fileUrl = await e[e.group_id ? 'group' : 'friend'].getFileUrl(e.file.fid);
       let filename = e.file.name;
       const client = fileUrl.startsWith('https') ? https : http;
       client.get(fileUrl, function (response) {
@@ -339,20 +339,45 @@ export class example extends plugin {
   async ai_settings(e) {
     let response = readJsonFile(dataFilePath);
     const chatgptArray = Object.values(response.chatgpt);
+    //console.log(response)
+    let others_group = JSON.parse(await fs.promises.readFile(_path + "/data/YTotherai/workshop.json", "utf-8")).workshop.limit;
+    let god_group = JSON.parse(await fs.promises.readFile(_path + "/data/YTgptgod/workshop.json", "utf-8")).workshop.limit;
+    let chat_group = JSON.parse(await fs.promises.readFile(_path + "/data/YTopenai/workshop.json", "utf-8")).workshop.limit;
+    const god_proxy = JSON.parse(fs.readFileSync(_path + "/data/YTgptgod/proxy.json", "utf-8"))
+    const chat_proxy = JSON.parse(fs.readFileSync(_path + "/data/YTopenai/proxy.json", "utf-8"))
+    const yunzaiNameMap = {
+      'miao-yunzai': 'Miao-Yunzai',
+      'yunzai': 'Yunzai-Bot',
+      'trss-yunzai': 'TRSS-Yunzai',
+    };
+    let yunzaiName = yunzaiNameMap[cfg.package.name] || '未知';
     let data = {
+      all_min_css: _path + "/plugins/y-tian-plugin/resources/css/fontawesome-free-6.6.0-web/css/all.min.css",
+      yunzaiName: yunzaiName,
+      god_proxy: god_proxy ? '已关闭' : '已开启',
+      chat_proxy: chat_proxy ? '已关闭' : '已开启',
+      others_group: others_group ? '共享区间' : '独立区间',
+      god_group: god_group ? '共享区间' : '独立区间',
+      chat_group: chat_group ? '共享区间' : '独立区间',
       tplFile: _path + '/plugins/y-tian-plugin/resources/html/data.html',
       src: src,
-      ai_chat: chatgptArray[0],
-      ai_chat_at: chatgptArray[1],
-      ai_chat_style: chatgptArray[2],
-      ai_name_sess: chatgptArray[3],
-      ai_name_godgpt: chatgptArray[4],
-      ai_name_chat: chatgptArray[5],
-      ai_name_others: chatgptArray[6],
-      ai_private_open: chatgptArray[12],
-      ai_private_plan: chatgptArray[13],
-      ai_tts: chatgptArray[7],
-      ai_tts_role: chatgptArray[8],
+      css_src: _path + '/plugins/y-tian-plugin/resources/css/data.css',
+      BotImage_src: Bot.uin,
+      Bot_Nickname: Bot.nickname,
+      pictureStyles: response.chatgpt['pictureStyles'] ? 'Mathjax' : 'Markdown',
+      ai_chat: response.chatgpt['ai_chat'] == 'godgpt' ? 'god方案' : response.chatgpt['ai_chat'] == 'chat' ? '专业版方案' : response.chatgpt['ai_chat'] == 'sess' ? 'sess方案' : response.chatgpt['ai_chat'] == 'others' ? '附加方案' : '未知',
+      ai_chat_at: response.chatgpt['ai_chat_at'] ? '已开启' : '已关闭',
+      ai_chat_style: response.chatgpt['ai_chat_style'] == 'picture' ? '图片模式' : response.chatgpt['ai_chat_style'] == 'words' ? '引用文本' : response.chatgpt['ai_chat_style'] == 'word' ? '文本模式' : '未知',
+      ai_name_sess: response.chatgpt['ai_name_sess'],
+      ai_name_godgpt: response.chatgpt['ai_name_godgpt'],
+      ai_name_chat: response.chatgpt['ai_name_chat'],
+      ai_name_others: response.chatgpt['ai_name_others'],
+      ai_private_open: response.chatgpt['ai_private_open'] ? '已开启' : '已关闭',
+      ai_private_plan: response.chatgpt['ai_private_plan'] == 'godgpt' ? 'god方案' : response.chatgpt['ai_private_plan'] == 'chat' ? '专业版方案' : response.chatgpt['ai_private_plan'] == 'sess' ? 'sess方案' : response.chatgpt['ai_private_plan'] == 'others' ? '附加方案' : '未知',
+      ai_moment_open: response.chatgpt['ai_moment_open'] ? '已开启' : '已关闭',
+      ai_moment_numbers: response.chatgpt['ai_moment_numbers'],
+      ai_tts: response.chatgpt['ai_tts_open'] ? '已开启' : '已关闭',
+      ai_tts_role: response.chatgpt['ai_tts_role'],
       ai_ban_plans: chatgptArray[9],
       ai_ban_number: chatgptArray[10],
       ai_ban_group: chatgptArray[11],

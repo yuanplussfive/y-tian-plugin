@@ -20,6 +20,7 @@
   "dependencies": {
     "request": "^2.88.2",
     "ws": "^8.13.0",
+    "chalk": "latest",
     "undici": "^5.22.1",
     "keyv": "^4.5.2",
     "fetch-undici": "^3.0.1",

@@ -1,159 +1,137 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI控制面板</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #0a0a1a;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 1200px;
-            gap: 20px;
-        }
-        .block {
-            background: linear-gradient(145deg, #0f0f2f, #1a1a4a);
-            border-radius: 15px;
-            padding: 20px;
-            width: calc(50% - 10px);
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.1);
-            display: flex;
-            transition: all 0.3s ease;
-        }
-        .block:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.2);
-        }
-        .left, .right {
-            flex: 1;
-        }
-        h3 {
-            color: #00ffff;
-            margin-top: 0;
-            font-size: 1.2em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #00ffff;
-            padding-bottom: 10px;
-        }
-        .item {
-            margin: 10px 0;
-            padding: 10px;
-            background: rgba(0, 255, 255, 0.05);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .item:hover {
-            background: rgba(0, 255, 255, 0.1);
-        }
-        .status {
-            display: flex;
-            justify-content: space-between;
-        }
-        .status span {
-            color: #00ffff;
-            font-weight: bold;
-        }
-        @media (max-width: 768px) {
-            .block {
-                width: 100%;
-            }
-        }
-        .glow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.1), transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI控制面板</title>
+  <link rel="stylesheet" href="{{all_min_css}}">
+  <link rel="stylesheet" href="{{css_src}}">
 </head>
 <body>
-    <div class="container">
-        <div class="block">
-            <div class="left">
-                <h3>触发设置</h3>
-                <div class="item">※ 当前at方案</div>
-                <div class="item">※ 艾特回复</div>
-                <div class="item">※ god触发名</div>
-            </div>
-            <div class="right">
-                <h3>触发状态</h3>
-                <div class="item status">※ AI聊天: <span>{{ai_chat}}</span></div>
-                <div class="item status">※ AI艾特: <span>{{ai_chat_at}}</span></div>
-                <div class="item status">※ GodGPT名: <span>{{ai_name_godgpt}}</span></div>
-            </div>
-        </div>
-        <div class="block">
-            <div class="left">
-                <h3>对话设置</h3>
-                <div class="item">※ chat触发名</div>
-                <div class="item">※ 附加触发名</div>
-                <div class="item">※ sess触发名</div>
-            </div>
-            <div class="right">
-                <h3>对话状态</h3>
-                <div class="item status">※ Chat名: <span>{{ai_name_chat}}</span></div>
-                <div class="item status">※ 其他名: <span>{{ai_name_others}}</span></div>
-                <div class="item status">※ Sess名: <span>{{ai_name_sess}}</span></div>
-            </div>
-        </div>
-        <div class="block">
-            <div class="left">
-                <h3>对话方式</h3>
-                <div class="item">※ 当前对话方式</div>
-                <div class="item">※ 私聊对话</div>
-                <div class="item">※ 私聊方案</div>
-            </div>
-            <div class="right">
-                <h3>对话状态</h3>
-                <div class="item status">※ 对话风格: <span>{{ai_chat_style}}</span></div>
-                <div class="item status">※ 私聊开启: <span>{{ai_private_open}}</span></div>
-                <div class="item status">※ 私聊方案: <span>{{ai_private_plan}}</span></div>
-            </div>
-        </div>
-        <div class="block">
-            <div class="left">
-                <h3>TTS设置</h3>
-                <div class="item">※ tts回复</div>
-                <div class="item">※ tts角色</div>
-            </div>
-            <div class="right">
-                <h3>TTS状态</h3>
-                <div class="item status">※ TTS回复: <span>{{ai_tts}}</span></div>
-                <div class="item status">※ TTS角色: <span>{{ai_tts_role}}</span></div>
-            </div>
-        </div>
-        <div class="block">
-            <div class="left">
-                <h3>禁用设置</h3>
-                <div class="item">※ 禁用方案</div>
-                <div class="item">※ 禁用群聊</div>
-                <div class="item">※ 禁用群员</div>
-            </div>
-            <div class="right">
-                <h3>禁用状态</h3>
-                <div class="item status">※ 禁用方案: <span>{{ai_ban_plans}}</span></div>
-                <div class="item status">※ 禁用群聊: <span>{{ai_ban_group}}</span></div>
-                <div class="item status">※ 禁用群员: <span>{{ai_ban_number}}</span></div>
-            </div>
-        </div>
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="avatar">
+        <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{BotImage_src}}&spec=640&img_type=jpg" alt="AI Avatar">
+      </div>
+      <div class="intro">
+        <h1 class="name">{{Bot_Nickname}}</h1>
+        <p class="role">{{yunzaiName}}</p>
+        <p class="status"><i class="fas fa-circle"></i> 在线</p>
+      </div>
+      <div class="clock" id="clock">
+        <span id="time">--:--:--</span>
+      </div>
     </div>
-    <div class="glow"></div>
+
+    <div class="profile-body">
+      <div class="section settings-section">
+        <h2><i class="fas fa-cogs"></i> 总设置</h2>
+        <ul>
+          <li>
+            <div class="setting-item"><span class="label">当前艾特方案:</span></div>
+            <div class="setting-item"><span class="value">{{ai_chat}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">艾特回复状态:</span></div>
+            <div class="setting-item"><span class="value">{{ai_chat_at}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">当前对话方式:</span></div>
+            <div class="setting-item"><span class="value">{{ai_chat_style}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">图片渲染方式:</span></div>
+            <div class="setting-item"><span class="value">{{pictureStyles}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">私聊回复状态:</span></div>
+            <div class="setting-item"><span class="value">{{ai_private_open}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">当前私聊方案:</span></div>
+            <div class="setting-item"><span class="value">{{ai_private_plan}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">当前tts回复:</span></div>
+            <div class="setting-item"><span class="value">{{ai_tts}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">当前tts角色:</span></div>
+            <div class="setting-item"><span class="value">{{ai_tts_role}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">记忆限制(专业):</span></div>
+            <div class="setting-item"><span class="value">{{ai_moment_open}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">记忆限制条数:</span></div>
+            <div class="setting-item"><span class="value">{{ai_moment_numbers}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">附加方案区间:</span></div>
+            <div class="setting-item"><span class="value">{{others_group}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">God方案区间:</span></div>
+            <div class="setting-item"><span class="value">{{god_group}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">Chat方案区间:</span></div>
+            <div class="setting-item"><span class="value">{{chat_group}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">God方案代理:</span></div>
+            <div class="setting-item"><span class="value">{{god_proxy}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">Chat方案代理:</span></div>
+            <div class="setting-item"><span class="value">{{chat_proxy}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">God触发名:</span></div>
+            <div class="setting-item"><span class="value">{{ai_name_godgpt}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">Chat触发名:</span></div>
+            <div class="setting-item"><span class="value">{{ai_name_chat}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">附加触发名:</span></div>
+            <div class="setting-item"><span class="value">{{ai_name_others}}</span></div>
+          </li>
+          <li>
+            <div class="setting-item"><span class="label">Sess触发名:</span></div>
+            <div class="setting-item"><span class="value">{{ai_name_sess}}</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="profile-footer">
+      <button class="btn"><i class="fas fa-edit"></i> 参考：#Ai总帮助</button>
+      <button class="btn secondary"><i class="fas fa-history"></i> 参考：#Aixx版帮助</button>
+    </div>
+    
+    <div class="taiji-wave"></div>
+    <div class="irregular-shapes">
+      <div class="shape shape1"></div>
+      <div class="shape shape2"></div>
+      <div class="shape shape3"></div>
+      <div class="shape shape4"></div>
+    </div>
+  </div>
+
+  <script>
+    function updateTime() {
+      const clock = document.getElementById('time');
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      clock.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
 </body>
 </html>
