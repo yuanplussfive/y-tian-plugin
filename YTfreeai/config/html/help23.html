@@ -6,91 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI模型介绍</title>
   <link rel="stylesheet" href="{{all_min_css}}">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
-
-    body {
-      background-color: #0d0d0d;
-      color: #e8ede8;
-      font-family: 'Inconsolata', monospace;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      color: #00c8ff;
-    }
-
-    .legend {
-      margin: 20px 0;
-      font-size: 1em;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .legend i {
-      margin-right: 4px;
-      color: #00c8ff;
-    }
-
-    .legend div {
-      display: flex;
-      align-items: center;
-      margin: 5px 10px;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 90%;
-      max-width: 1000px;
-      margin: 20px auto;
-      box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      animation: glowEffect 2s infinite;
-      background-color: #1a1a1a;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    th,
-    td {
-      padding: 12px;
-      text-align: left;
-      border: 1px solid #00c8ff;
-      white-space: nowrap;
-    }
-
-    th {
-      background-color: #333;
-    }
-
-    td {
-      background-color: #1a1a1a;
-    }
-
-    @keyframes glowEffect {
-      0% {
-        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      }
-
-      50% {
-        box-shadow: 0 0 30px rgba(62, 172, 196, 0.8);
-      }
-
-      100% {
-        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="{{all_css_src}}">
 </head>
 
 <body>
@@ -106,6 +22,106 @@
       let data = [
         {
           "id": 36,
+          "model": "gemini-pro-vision",
+          "created": 1686935002,
+          "token": 32000,
+          "points": "200/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'image_recognition']
+        },
+        {
+          "id": 37,
+          "model": "gemini-1.5-pro",
+          "created": 1686935002,
+          "token": 1000000,
+          "points": "0.3/token",
+          "style": "token",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'image_recognition']
+        },
+        {
+          "id": 38,
+          "model": "gemini-1.5-flash",
+          "created": 1686935002,
+          "token": 1000000,
+          "points": "0.1/token",
+          "style": "token",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'image_recognition']
+        },
+        {
+          "id": 39,
+          "model": "gemini-1.5-pro-exp-0801",
+          "created": 1686935002,
+          "token": 1000000,
+          "points": "0.3/token",
+          "style": "token",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'image_recognition']
+        },
+        {
+          "id": 40,
+          "model": "gemini-1.5-pro-exp-0827",
+          "created": 1686935002,
+          "token": 1000000,
+          "points": "0.1/token",
+          "style": "token",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'image_recognition']
+        },
+        {
+          "id": 41,
+          "model": "gemini-1.5-pro-001",
+          "created": 1686935002,
+          "token": 1000000,
+          "points": "0.02/token",
+          "style": "token",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'image_recognition']
+        },
+        {
+          "id": 42,
+          "model": "gemini-1.5-pro-002",
+          "created": 1686935002,
+          "token": 1000000,
+          "points": "0.02/token",
+          "style": "token",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'image_recognition']
+        },
+        {
+          "id": 43,
+          "model": "gemini-1.5-flash-exp-0827",
+          "created": 1686935002,
+          "token": 1000000,
+          "points": "0.01/token",
+          "style": "token",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'image_recognition']
+        },
+        {
+          "id": 44,
+          "model": "claude-1-100k",
+          "created": 1686935002,
+          "token": 100000,
+          "points": "20/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation']
+        },
+        {
+          "id": 45,
+          "model": "claude-1.3",
+          "created": 1686935002,
+          "token": 100000,
+          "points": "10/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation']
+        },
+        {
+          "id": 46,
           "model": "claude-1.3-100k",
           "created": 1686935002,
           "token": 100000,
@@ -115,7 +131,7 @@
           "features": ['conversation']
         },
         {
-          "id": 37,
+          "id": 47,
           "model": "claude-2",
           "created": 1686935002,
           "token": 100000,
@@ -125,7 +141,7 @@
           "features": ['conversation']
         },
         {
-          "id": 38,
+          "id": 48,
           "model": "claude-3-opus-20240229",
           "created": 1686935002,
           "token": 200000,
@@ -135,7 +151,7 @@
           "features": ['conversation']
         },
         {
-          "id": 39,
+          "id": 49,
           "model": "claude-3-sonnet-20240229",
           "created": 1686935002,
           "token": 200000,
@@ -145,7 +161,7 @@
           "features": ['conversation']
         },
         {
-          "id": 40,
+          "id": 50,
           "model": "claude-3-haiku-20240307",
           "created": 1686935002,
           "token": 200000,
@@ -155,7 +171,7 @@
           "features": ['conversation']
         },
         {
-          "id": 41,
+          "id": 51,
           "model": "claude-3-5-sonnet-20240620",
           "created": 1686935002,
           "token": 200000,
@@ -165,7 +181,7 @@
           "features": ['conversation', 'code', 'image_recognition']
         },
         {
-          "id": 42,
+          "id": 52,
           "model": "google-palm",
           "created": 1686935002,
           "token": 32000,
@@ -175,7 +191,7 @@
           "features": ['conversation']
         },
         {
-          "id": 43,
+          "id": 53,
           "model": "llama-2-70b",
           "created": 1686935002,
           "token": 32000,
@@ -185,7 +201,7 @@
           "features": ['conversation']
         },
         {
-          "id": 44,
+          "id": 54,
           "model": "llama-2-13b",
           "created": 1686935002,
           "token": 32000,
@@ -195,7 +211,7 @@
           "features": ['conversation']
         },
         {
-          "id": 45,
+          "id": 55,
           "model": "llama-2-7b",
           "created": 1686935002,
           "token": 32000,
@@ -205,7 +221,7 @@
           "features": ['conversation']
         },
         {
-          "id": 46,
+          "id": 56,
           "model": "code-llama-34b",
           "created": 1686935002,
           "token": 32000,
@@ -215,7 +231,7 @@
           "features": ['conversation', 'code']
         },
         {
-          "id": 47,
+          "id": 57,
           "model": "code-llama-13b",
           "created": 1686935002,
           "token": 32000,
@@ -225,7 +241,7 @@
           "features": ['conversation', 'code']
         },
         {
-          "id": 48,
+          "id": 58,
           "model": "code-llama-7b",
           "created": 1686935002,
           "token": 32000,
@@ -235,7 +251,7 @@
           "features": ['conversation', 'code']
         },
         {
-          "id": 49,
+          "id": 59,
           "model": "stable-diffusion",
           "created": 1686935002,
           "token": 32000,
@@ -245,7 +261,7 @@
           "features": ['drawing']
         },
         {
-          "id": 50,
+          "id": 60,
           "model": "qwen-72b",
           "created": 1686935002,
           "token": 32000,
@@ -255,7 +271,7 @@
           "features": ['conversation']
         },
         {
-          "id": 51,
+          "id": 61,
           "model": "mixtral-8x7b",
           "created": 1686935002,
           "token": 32000,
@@ -265,7 +281,7 @@
           "features": ['conversation']
         },
         {
-          "id": 52,
+          "id": 62,
           "model": "mistral-medium",
           "created": 1686935002,
           "token": 32000,
@@ -275,7 +291,7 @@
           "features": ['conversation']
         },
         {
-          "id": 53,
+          "id": 63,
           "model": "llama-3-sonar-small-32k-online",
           "created": 1686935002,
           "token": 32000,
@@ -285,7 +301,7 @@
           "features": ['conversation']
         },
         {
-          "id": 54,
+          "id": 64,
           "model": "llama-3-sonar-small-32k-chat",
           "created": 1686935002,
           "token": 32000,
@@ -295,7 +311,7 @@
           "features": ['conversation']
         },
         {
-          "id": 55,
+          "id": 65,
           "model": "llama-3-sonar-large-32k-online",
           "created": 1686935002,
           "token": 32000,
@@ -305,7 +321,7 @@
           "features": ['conversation']
         },
         {
-          "id": 56,
+          "id": 66,
           "model": "llama-3-sonar-large-32k-chat",
           "created": 1686935002,
           "token": 32000,
@@ -315,7 +331,7 @@
           "features": ['conversation']
         },
         {
-          "id": 57,
+          "id": 67,
           "model": "dbrx-instruct",
           "created": 1686935002,
           "token": 32000,
@@ -325,7 +341,7 @@
           "features": ['conversation']
         },
         {
-          "id": 58,
+          "id": 68,
           "model": "codellama-70b-instruct",
           "created": 1686935002,
           "token": 32000,
@@ -335,7 +351,7 @@
           "features": ['conversation', 'code']
         },
         {
-          "id": 59,
+          "id": 69,
           "model": "mistral-7b-instruct",
           "created": 1686935002,
           "token": 32000,
@@ -345,7 +361,7 @@
           "features": ['conversation']
         },
         {
-          "id": 60,
+          "id": 70,
           "model": "llava-v1.5-7b-wrapper",
           "created": 1686935002,
           "token": 32000,
@@ -355,7 +371,7 @@
           "features": ['conversation']
         },
         {
-          "id": 61,
+          "id": 71,
           "model": "llava-v1.6-34b",
           "created": 1686935002,
           "token": 32000,
@@ -365,7 +381,7 @@
           "features": ['conversation']
         },
         {
-          "id": 62,
+          "id": 72,
           "model": "mixtral-8x7b-instruct",
           "created": 1686935002,
           "token": 32000,
@@ -375,7 +391,7 @@
           "features": ['conversation']
         },
         {
-          "id": 63,
+          "id": 73,
           "model": "mixtral-8x22b",
           "created": 1686935002,
           "token": 32000,
@@ -385,7 +401,7 @@
           "features": ['conversation']
         },
         {
-          "id": 64,
+          "id": 74,
           "model": "gemma-2b-it",
           "created": 1686935002,
           "token": 32000,
@@ -395,7 +411,7 @@
           "features": ['conversation']
         },
         {
-          "id": 65,
+          "id": 75,
           "model": "gemma-7b-it",
           "created": 1686935002,
           "token": 32000,
@@ -405,7 +421,7 @@
           "features": ['conversation']
         },
         {
-          "id": 66,
+          "id": 76,
           "model": "llama-3-8b",
           "created": 1686935002,
           "token": 32000,
@@ -415,7 +431,7 @@
           "features": ['conversation']
         },
         {
-          "id": 67,
+          "id": 77,
           "model": "llama-3-70b",
           "created": 1686935002,
           "token": 32000,
@@ -425,7 +441,7 @@
           "features": ['conversation']
         },
         {
-          "id": 68,
+          "id": 78,
           "model": "suno-v3",
           "created": 1686935002,
           "token": 28000,
@@ -435,7 +451,7 @@
           "features": ['music']
         },
         {
-          "id": 69,
+          "id": 79,
           "model": "suno-v3.5",
           "created": 1686935002,
           "token": 28000,
@@ -445,7 +461,7 @@
           "features": ['music']
         },
         {
-          "id": 70,
+          "id": 80,
           "model": "stable-diffusion-3-2b",
           "created": 1686935002,
           "token": 800,
@@ -455,7 +471,7 @@
           "features": ['music']
         },
         {
-          "id": 71,
+          "id": 81,
           "model": "playground-v2.5",
           "created": 1686935002,
           "token": 800,
@@ -463,66 +479,6 @@
           "style": "once",
           "owned_by": "y-tian-plugin",
           "features": ['music']
-        },
-        {
-          "id": 72,
-          "model": "o1-mini",
-          "created": 1686935002,
-          "token": 128000,
-          "points": "1500/次",
-          "style": "once",
-          "owned_by": "y-tian-plugin",
-          "features": ['conversation', 'code', 'image_recognition']
-        },
-        {
-          "id": 73,
-          "model": "o1-mini-20240912",
-          "created": 1686935002,
-          "token": 128000,
-          "points": "1500/次",
-          "style": "once",
-          "owned_by": "y-tian-plugin",
-          "features": ['conversation', 'code', 'image_recognition']
-        },
-        {
-          "id": 74,
-          "model": "o1-mini-all",
-          "created": 1686935002,
-          "token": 128000,
-          "points": "1500/次",
-          "style": "once",
-          "owned_by": "y-tian-plugin",
-          "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
-        },
-        {
-          "id": 75,
-          "model": "o1-preview",
-          "created": 1686935002,
-          "token": 128000,
-          "points": "3000/次",
-          "style": "once",
-          "owned_by": "y-tian-plugin",
-          "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
-        },
-        {
-          "id": 76,
-          "model": "o1-preview-20240912",
-          "created": 1686935002,
-          "token": 128000,
-          "points": "3000/次",
-          "style": "once",
-          "owned_by": "y-tian-plugin",
-          "features": ['conversation', 'code', 'image_recognition']
-        },
-        {
-          "id": 77,
-          "model": "o1-preview-all",
-          "created": 1686935002,
-          "token": 128000,
-          "points": "3000/次",
-          "style": "once",
-          "owned_by": "y-tian-plugin",
-          "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
         }
       ]
 

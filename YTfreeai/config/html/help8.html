@@ -6,91 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI模型介绍</title>
   <link rel="stylesheet" href="{{all_min_css}}">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
-
-    body {
-      background-color: #0d0d0d;
-      color: #e8ede8;
-      font-family: 'Inconsolata', monospace;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      color: #00c8ff;
-    }
-
-    .legend {
-      margin: 20px 0;
-      font-size: 1em;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .legend i {
-      margin-right: 4px;
-      color: #00c8ff;
-    }
-
-    .legend div {
-      display: flex;
-      align-items: center;
-      margin: 5px 10px;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 90%;
-      max-width: 1000px;
-      margin: 20px auto;
-      box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      animation: glowEffect 2s infinite;
-      background-color: #1a1a1a;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    th,
-    td {
-      padding: 12px;
-      text-align: left;
-      border: 1px solid #00c8ff;
-      white-space: nowrap;
-    }
-
-    th {
-      background-color: #333;
-    }
-
-    td {
-      background-color: #1a1a1a;
-    }
-
-    @keyframes glowEffect {
-      0% {
-        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      }
-
-      50% {
-        box-shadow: 0 0 30px rgba(62, 172, 196, 0.8);
-      }
-
-      100% {
-        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="{{all_css_src}}">
 </head>
 
 <body>
@@ -304,66 +220,66 @@
           },
           {
             "id": "27",
+            "name": "o1-mini",
+            "token_count": "128000",
+            "Magnification": "1.5*10 or 0.15$/次",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": "28",
+            "name": "o1-mini-20240912",
+            "token_count": "128000",
+            "Magnification": "1.5*10 or 0.15$/次",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": "29",
+            "name": "o1-mini-all",
+            "token_count": "128000",
+            "Magnification": "0.15$/次",
+            "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+          },
+          {
+            "id": "30",
+            "name": "o1-preview",
+            "token_count": "128000",
+            "Magnification": "7.5*10 or 0.3$/次",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": "31",
+            "name": "o1-preview-20240912",
+            "token_count": "128000",
+            "Magnification": "7.5*10 or 0.3$/次",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": "32",
+            "name": "o1-preview-all",
+            "token_count": "128000",
+            "Magnification": "0.3$/次",
+            "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+          },
+          {
+            "id": "33",
             "name": "gemini-pro",
             "token_count": "32000",
             "Magnification": 1,
             "features": ['conversation', 'image_recognition']
           },
           {
-            "id": "28",
+            "id": "34",
             "name": "gemini-pro-vision",
             "token_count": "32000",
             "Magnification": 2,
             "features": ['conversation', 'image_recognition']
           },
           {
-            "id": "29",
+            "id": "35",
             "name": "gemini-1.5-pro",
             "token_count": "1000000",
             "Magnification": 3.5,
             "features": ['conversation', 'image_recognition']
-          },
-          {
-            "id": "30",
-            "name": "gemini-1.5-flash",
-            "token_count": "1000000",
-            "Magnification": 0.35,
-            "features": ['conversation', 'image_recognition']
-          },
-          {
-            "id": "31",
-            "name": "gemini-1.5-pro-exp-0801",
-            "token_count": "1000000",
-            "Magnification": 0.20,
-            "features": ['conversation']
-          },
-          {
-            "id": "32",
-            "name": "llama-2-7b",
-            "token_count": "7000",
-            "Magnification": 1,
-            "features": ['conversation']
-          },
-          {
-            "id": "33",
-            "name": "llama-2-13b",
-            "token_count": "13000",
-            "Magnification": 1,
-            "features": ['conversation']
-          },
-          {
-            "id": "34",
-            "name": "llama-2-70b",
-            "token_count": "70000",
-            "Magnification": 1,
-            "features": ['conversation']
-          },
-          {
-            "id": "35",
-            "name": "code-llama-7b",
-            "token_count": "7000",
-            "Magnification": 1,
-            "features": ['conversation', 'code']
           }
         ]
       }

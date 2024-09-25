@@ -6,91 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI模型介绍</title>
   <link rel="stylesheet" href="{{all_min_css}}">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
-
-    body {
-      background-color: #0d0d0d;
-      color: #e8ede8;
-      font-family: 'Inconsolata', monospace;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      color: #00c8ff;
-    }
-
-    .legend {
-      margin: 20px 0;
-      font-size: 1em;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .legend i {
-      margin-right: 4px;
-      color: #00c8ff;
-    }
-
-    .legend div {
-      display: flex;
-      align-items: center;
-      margin: 5px 10px;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 90%;
-      max-width: 1000px;
-      margin: 20px auto;
-      box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      animation: glowEffect 2s infinite;
-      background-color: #1a1a1a;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    th,
-    td {
-      padding: 12px;
-      text-align: left;
-      border: 1px solid #00c8ff;
-      white-space: nowrap;
-    }
-
-    th {
-      background-color: #333;
-    }
-
-    td {
-      background-color: #1a1a1a;
-    }
-
-    @keyframes glowEffect {
-      0% {
-        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      }
-
-      50% {
-        box-shadow: 0 0 30px rgba(62, 172, 196, 0.8);
-      }
-
-      100% {
-        box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="{{all_css_src}}">
 </head>
 
 <body>
@@ -345,6 +261,48 @@
             "points": "Xai",
             "token": "128000",
             "features": ['conversation', 'code']
+          },
+          {
+            "id": 110,
+            "model": "nijidjourney-create",
+            "points": "nijidjourney",
+            "token": "800",
+            "features": ['drawing']
+          },
+          {
+            "id": 111,
+            "model": "moonshot-v1-8k",
+            "points": "moonshot",
+            "token": "8000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 112,
+            "model": "moonshot-v1-32k",
+            "points": "moonshot",
+            "token": "32000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 113,
+            "model": "moonshot-v1-128k",
+            "points": "moonshot",
+            "token": "128000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 114,
+            "model": "gemini-1.5-pro-001",
+            "points": "Google",
+            "token": "1000000",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": 115,
+            "model": "gemini-1.5-pro-002",
+            "points": "Google",
+            "token": "1000000",
+            "features": ['conversation', 'code', 'image_recognition']
           }
         ]
       }

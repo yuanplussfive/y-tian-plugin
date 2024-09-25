@@ -33,12 +33,24 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   let message = msg;
   if (imgurl.length > 0) {
     const Models = [
-      "gpt-4-all",
-      "gpt-4-dalle",
       "gpt-4o",
-      "gpt-4o-all",
+      "glm-4v",
       "gpt-4-v",
-      "gemini"
+      "gpt-4-all",
+      "gpt-4o-all",
+      "gpt-4-dalle",
+      "o1-mini-all",
+      "o1-preview-all",
+      "gemini-pro",
+      "gemini-pro-vision",
+      "gemini-1.5-pro",
+      "gemini-1.5-pro-001",
+      "gemini-1.5-pro-002",
+      "gemini-1.5-flash",
+      "gemini-1.5-pro-exp-0827",
+      "gemini-1.5-pro-exp-0801",
+      "claude-3-opus-20240229",
+      "claude-3-5-sonnet-20240620",
     ];
     if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
       message = [
@@ -249,7 +261,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           'all': 210000,
           'default': 180000
         };
-        const timeoutDuration = Object.entries(timeoutSettings).find(([key, _]) => 
+        const timeoutDuration = Object.entries(timeoutSettings).find(([key, _]) =>
           model.toLowerCase().includes(key)
         )?.[1] || timeoutSettings.default;
         const response = await Promise.race([
@@ -287,9 +299,9 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         if (error.message === 'Timeout') {
           answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
             : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
-            : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
-              : model.includes("claude") ? await claudeResponse(History, fetch)
-                : null;
+              : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
+                : model.includes("claude") ? await claudeResponse(History, fetch)
+                  : null;
         } else {
           answer = null;
         }
@@ -298,9 +310,9 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       if (!answer) {
         answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
           : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
-          : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
-          : model.includes("claude") ? await claudeResponse(History, fetch)
-            : null;
+            : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
+              : model.includes("claude") ? await claudeResponse(History, fetch)
+                : null;
       }
 
       if (!answer) {

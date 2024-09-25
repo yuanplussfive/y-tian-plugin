@@ -9,7 +9,6 @@
     <script src="{{showdown}}"></script>
     <link rel="stylesheet" href="{{atom_one_dark_min_css}}">
     <script src="{{highlight_min_js}}"></script>
-    <script src="{{MathJax}}"></script>
 </head>
 
 <body>
@@ -47,53 +46,9 @@
     <script>
         hljs.highlightAll();
 
-        const markdownText = document.getElementById('renderedMarkdown').textContent;
         const maxLength = 10000;
-        const chunks = splitMarkdown(markdownText, maxLength);
 
-        let converter;
-        if (markdownText.includes('$$')) {
-            converter = new showdown.Converter({
-                extensions: [
-                    function () {
-                        var htmlRenderer = new showdown.Converter().getOption('renderer');
-                        htmlRenderer.code = function (code, language) {
-                            if (language === 'latex') {
-                                return `<span>$$${code}$$</span>`;
-                            } else {
-                                return htmlRenderer.code.apply(htmlRenderer, arguments);
-                            }
-                        }
-                        return htmlRenderer;
-                    }
-                ]
-            });
-
-            const script = document.createElement('script');
-            script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML";
-            document.head.appendChild(script);
-        } else {
-            converter = new showdown.Converter();
-        }
-
-        const renderedHtml = chunks.map(chunk => {
-            const markdownWithClass = `<div class="markdown-content">${chunk}</div>`;
-            return converter.makeHtml(markdownWithClass);
-        }).join('');
-        document.getElementById('renderedMarkdown').innerHTML = renderedHtml;
-
-        const markdownText2 = document.getElementById('renderedMarkdown2').textContent;
-        const chunks2 = splitMarkdown(markdownText2, maxLength);
-        const renderedHtml2 = chunks2.map(chunk => {
-            const markdownWithClass2 = `<div class="markdown-content">${chunk}</div>`;
-            return converter.makeHtml(markdownWithClass2);
-        }).join('');
-        document.getElementById('renderedMarkdown2').innerHTML = renderedHtml2;
-
-        if (markdownText.includes('$$')) {
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-        }
-
+        // 分割 Markdown 文本为多个块
         function splitMarkdown(markdownText, maxLength) {
             const chunks = [];
             let start = 0;
@@ -106,7 +61,28 @@
             return chunks;
         }
 
-        // 新增: 为每个 pre 元素添加 data-lang 属性
+        // 初始化 Showdown 转换器
+        const converter = new showdown.Converter();
+
+        // 处理第一个 Markdown 内容
+        const markdownText = document.getElementById('renderedMarkdown').textContent;
+        const chunks = splitMarkdown(markdownText, maxLength);
+        const renderedHtml = chunks.map(chunk => {
+            const markdownWithClass = `<div class="markdown-content">${chunk}</div>`;
+            return converter.makeHtml(markdownWithClass);
+        }).join('');
+        document.getElementById('renderedMarkdown').innerHTML = renderedHtml;
+
+        // 处理第二个 Markdown 内容
+        const markdownText2 = document.getElementById('renderedMarkdown2').textContent;
+        const chunks2 = splitMarkdown(markdownText2, maxLength);
+        const renderedHtml2 = chunks2.map(chunk => {
+            const markdownWithClass2 = `<div class="markdown-content">${chunk}</div>`;
+            return converter.makeHtml(markdownWithClass2);
+        }).join('');
+        document.getElementById('renderedMarkdown2').innerHTML = renderedHtml2;
+
+        // 为每个 pre 元素添加 data-lang 属性
         document.querySelectorAll('.markdown-content pre').forEach(pre => {
             const code = pre.querySelector('code');
             if (code) {

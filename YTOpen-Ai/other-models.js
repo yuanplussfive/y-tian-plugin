@@ -232,16 +232,16 @@ export const other_models = [
   },
   {
     "id": 34,
-    "model": "moonshot-v1-128k",
+    "model": "kimi-search",
     "points": "moonshot",
-    "token": 128000,
-    "features": ['conversation']
+    "token": 8000,
+    "features": ['conversation', 'internet']
   },
   {
     "id": 35,
     "model": "kimi-all",
     "points": "moonshot",
-    "token": 200000,
+    "token": 128000,
     "features": ['conversation', 'internet']
   },
   {
@@ -761,5 +761,47 @@ export const other_models = [
     "points": "Xai",
     "token": "128000",
     "features": ['conversation', 'code']
+  },
+  {
+    "id": 110,
+    "model": "nijidjourney-create",
+    "points": "nijidjourney",
+    "token": "800",
+    "features": ['drawing']
+  },
+  {
+    "id": 111,
+    "model": "moonshot-v1-8k",
+    "points": "moonshot",
+    "token": "8000",
+    "features": ['conversation', 'code']
+  },
+  {
+    "id": 112,
+    "model": "moonshot-v1-32k",
+    "points": "moonshot",
+    "token": "32000",
+    "features": ['conversation', 'code']
+  },
+  {
+    "id": 113,
+    "model": "moonshot-v1-128k",
+    "points": "moonshot",
+    "token": "128000",
+    "features": ['conversation', 'code']
+  },
+  {
+    "id": 114,
+    "model": "gemini-1.5-pro-001",
+    "points": "Google",
+    "token": "1000000",
+    "features": ['conversation', 'code', 'image_recognition']
+  },
+  {
+    "id": 115,
+    "model": "gemini-1.5-pro-002",
+    "points": "Google",
+    "token": "1000000",
+    "features": ['conversation', 'code', 'image_recognition']
   }
 ]
