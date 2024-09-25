@@ -28,10 +28,6 @@
     "axios": "^1.4.0",
     "form-data": "^4.0.0"
   },
-  "private": true,
-  "workspaces": [
-    "."
-  ],
   "imports": {
     "#YTdependence": "./YTdependence/dependencies.js"
   }
