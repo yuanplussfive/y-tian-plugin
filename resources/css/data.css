@@ -1,37 +1,51 @@
+/* 引入字体和图标 */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 @import url('fontawesome-free-6.6.0-web/css/all.min.css');
 
+/* 自定义字体 */
 @font-face {
   font-family: "NZBZ";
-  src: url("NZBZ.ttf");
+  src: url("NZBZ.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "jty";
-  src: url("jty.OTF");
+  src: url("jty.OTF") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
+/* CSS变量定义 */
 :root {
   --primary-color: #00bfff;
   --secondary-color: #1e90ff;
   --accent-color: #ffd700;
-  --background-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  --tech-purple: #8a2be2;
+  --tech-cyan: #00ffff;
+  --background-gradient: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(48, 43, 99, 0.95), rgba(36, 36, 62, 0.95));
   --card-bg: rgba(255, 255, 255, 0.05);
-  --section-bg: rgba(255, 255, 255, 0.1);
+  --section-bg: rgba(255, 255, 255, 0.07);
   --text-color: #ffffff;
   --label-color: #00ffff;
   --value-color: #ff69b4;
+  --description-color: #add8e6;
   --shadow-color: rgba(0, 0, 0, 0.7);
-  --border-color: #00bfff;
-  --jagged-edge: repeating-linear-gradient(45deg, #00bfff 0%, #00bfff 5%, transparent 5%, transparent 10%);
+  --border-color-primary: #00bfff;
+  --border-color-secondary: #1e90ff;
+  --border-color-accent: #ffd700;
+}
+
+/* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  font-family: 'NZBZ', monospace;
+  font-family: 'NZBZ', 'Roboto Mono', monospace;
   background: var(--background-gradient);
   display: flex;
   justify-content: center;
@@ -40,36 +54,68 @@ body {
   color: var(--text-color);
   padding: 20px;
   overflow: hidden;
+  position: relative;
 }
 
+/* 幕布效果 */
+.curtain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: 2;
+  animation: curtainFade 15s infinite alternate;
+}
+
+@keyframes curtainFade {
+  0% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* 卡片样式 */
 .profile-card {
   background: var(--card-bg);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-  width: 900px;
-  max-width: 100%;
-  padding: 30px;
+  backdrop-filter: blur(25px);
+  border-radius: 30px;
+  box-shadow: 0 40px 120px var(--shadow-color);
+  width: 100%;
+  max-width: 1800px;
+  /* 增加最大宽度 */
+  padding: 60px;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .profile-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9);
+  transform: translateY(-20px);
+  box-shadow: 0 50px 150px rgba(0, 0, 0, 0.9);
 }
 
+/* 动态背景元素 */
 .taiji-wave {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 150px;
-  background: radial-gradient(circle at bottom left, rgba(0, 191, 255, 0.2) 25%, transparent 25%),
-    radial-gradient(circle at bottom right, rgba(0, 191, 255, 0.2) 25%, transparent 25%);
-  background-size: 200px 200px;
-  opacity: 0.2;
+  height: 200px;
+  background: radial-gradient(circle at bottom left, rgba(0, 191, 255, 0.5) 25%, transparent 25%),
+    radial-gradient(circle at bottom right, rgba(0, 191, 255, 0.5) 25%, transparent 25%);
+  background-size: 250px 250px;
+  opacity: 0.6;
   pointer-events: none;
 }
 
@@ -85,51 +131,52 @@ body {
 
 .shape {
   position: absolute;
-  background: rgba(0, 191, 255, 0.1);
-  border: 2px solid rgba(0, 191, 255, 0.2);
+  background: rgba(0, 191, 255, 0.3);
+  border: 2px solid rgba(0, 191, 255, 0.5);
   border-radius: 50%;
-  animation: float 6s ease-in-out infinite;
+  animation: float 15s ease-in-out infinite;
 }
 
 .shape1 {
-  width: 150px;
-  height: 150px;
-  top: -50px;
-  left: -50px;
+  width: 250px;
+  height: 250px;
+  top: -100px;
+  left: -100px;
 }
 
 .shape2 {
-  width: 200px;
-  height: 200px;
-  bottom: -80px;
-  right: -80px;
+  width: 350px;
+  height: 350px;
+  bottom: -150px;
+  right: -150px;
 }
 
 .shape3 {
-  width: 100px;
-  height: 100px;
-  top: 50%;
+  width: 200px;
+  height: 200px;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.2;
+  opacity: 0.4;
 }
 
 .shape4 {
-  width: 120px;
-  height: 120px;
+  width: 220px;
+  height: 220px;
   top: 20%;
-  left: 80%;
+  left: 75%;
   transform: translate(-50%, -50%);
-  opacity: 0.15;
+  opacity: 0.35;
 }
 
+/* 动画效果 */
 @keyframes float {
   0% {
     transform: translateY(0) rotate(0deg);
   }
 
   50% {
-    transform: translateY(-20px) rotate(180deg);
+    transform: translateY(-40px) rotate(180deg);
   }
 
   100% {
@@ -137,22 +184,50 @@ body {
   }
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
+  }
+
+  to {
+    box-shadow: 0 0 30px rgba(0, 191, 255, 0.2);
+  }
+}
+
+/* 头部样式 */
 .profile-header {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
   position: relative;
   z-index: 1;
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   overflow: hidden;
-  border: 4px solid var(--primary-color);
+  border: 5px solid var(--primary-color);
   flex-shrink: 0;
-  margin-right: 25px;
+  margin-right: 60px;
   position: relative;
   z-index: 2;
   transition: border 0.3s ease;
@@ -173,187 +248,236 @@ body {
   flex-direction: column;
 }
 
-.intro .name {
-  font-size: 2rem;
+.name {
+  font-size: 4rem;
   color: var(--primary-color);
   background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 10px;
-  max-width: 220px;
+  margin-bottom: 30px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.intro .role {
-  font-size: 1.5rem;
+.role {
+  font-size: 3rem;
   color: #7fffd4;
-  margin-bottom: 5px;
+  margin-bottom: 25px;
+  white-space: nowrap;
 }
 
-.intro .status {
-  font-size: 1.15rem;
+.status {
+  font-size: 2rem;
   color: #32cd32;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 
-.intro .status i {
-  margin-right: 5px;
+.status i {
+  margin-right: 15px;
   color: #32cd32;
   animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(1.3);
-    opacity: 0.7;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
+/* 时钟样式 */
 .clock {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: var(--primary-color);
-  padding: 10px 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
-  animation: glow 1.5s infinite alternate;
+  top: 40px;
+  right: 40px;
+  background: rgba(0, 191, 255, 0.5);
+  padding: 25px 50px;
+  border-radius: 40px;
+  box-shadow: 0 15px 40px rgba(0, 191, 255, 0.6);
+  animation: glow 3s infinite alternate;
+  white-space: nowrap;
 }
 
 .clock #time {
-  font-size: 1.3rem;
+  font-size: 3rem;
   color: #ffffff;
   font-weight: bold;
   font-family: 'Roboto Mono', monospace;
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
 }
 
-@keyframes glow {
+/* 主体内容样式 */
+.profile-body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  opacity: 0.98;
+  z-index: 1;
+}
+
+/* 通用模块样式 */
+.section {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 20px 50px 20px 50px;
+  /* 非对称圆角 */
+  padding: 30px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: visible;
+  /* 允许内容溢出以适应非矩形形状 */
+  border: 4px solid transparent;
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+  /* 创建斜切效果 */
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: -1;
+  filter: blur(50px);
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
   from {
-    box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+    transform: rotate(0deg);
   }
 
   to {
-    box-shadow: 0 0 20px rgba(0, 191, 255, 0.1);
+    transform: rotate(360deg);
   }
 }
 
-.profile-body {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  opacity: 50%;
-}
-
-.section {
-  margin: auto;
-  background: var(--section-bg);
-  backdrop-filter: blur(8px);
-  border-radius: 15px;
-  padding: 20px;
-  flex: 1 1 45%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);
-  border: 2px solid transparent;
-  background-image: var(--jagged-edge);
-}
-
 .section:hover {
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-  transform: translateY(-5px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+  transform: translateY(-15px);
 }
 
+/* 各板块独特样式 */
+.settings-section {
+  border-top: 6px solid var(--primary-color);
+}
+
+.memory-section {
+  border-top: 6px solid var(--secondary-color);
+}
+
+.proxy-section {
+  border-top: 6px solid var(--accent-color);
+}
+
+/* 标题样式 */
 .section h2 {
-  font-size: 1.6rem;
-  color: var(--accent-color);
-  margin-bottom: 15px;
-  border-bottom: 2px solid var(--accent-color);
-  padding-bottom: 5px;
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin-bottom: 35px;
   display: flex;
-  /* 使用 Flexbox */
   align-items: center;
-  /* 垂直居中对齐 */
-  justify-content: center;
-  /* 水平居中对齐 */
+  white-space: nowrap;
 }
 
 .section h2 i {
-  margin-right: 10px;
-  font-size: 1em;
+  margin-right: 25px;
+  font-size: 2.5em;
+  animation: glow 2s infinite alternate;
 }
 
-.section ul {
-  list-style: none;
+/* 防止文字换行但不截断 */
+.section h2,
+.function-item,
+.function-left,
+.function-right {
+  white-space: nowrap;
 }
 
-.section li {
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+/* 功能项样式 */
+.function-item {
   display: flex;
-  /* 开启 flexbox 布局 */
+  justify-content: space-between;
   align-items: center;
-  /* 垂直居中对齐 */
+  margin-bottom: 25px;
 }
 
-.section li:last-child {
-  border-bottom: none;
+.function-left {
+  display: flex;
+  align-items: center;
+  flex: 3;
+  /* 增加左侧内容的宽度 */
 }
 
-.label {
+.function-left .icon {
+  font-size: 2.5rem;
+  color: #79dbd8;
+  margin-right: 20px;
+}
+
+.function-left .label {
   margin-right: 20px;
   color: #ffffff;
-  flex: 1;
-  font-family: 'jty';
-  font-size: x-large;
+  flex: 3;
+  /* 增加左侧内容的宽度 */
+  font-family: 'jty', sans-serif;
+  font-size: 1.8rem;
   font-weight: bold;
-  letter-spacing: 1px;
-  line-height: 1.5;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  /* 增加内边距 */
-  border-radius: 10px;
-  /* 设置边角圆润 */
-  background: rgba(255, 255, 255, 0.1);
-  /* 设置背景 */
+  letter-spacing: 1.5px;
+  line-height: 2;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: background 0.3s ease;
 }
 
-.value {
-  flex: 1;
+.function-left .label:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.function-left .value {
+  flex: 4;
+  /* 增加右侧内容的宽度 */
   color: #000000;
-  font-size: x-large;
+  font-size: 1.8rem;
   font-weight: 500;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-shadow: 1px 1px 2px rgb(255, 255, 255);
-  padding: 10px;
-  /* 增加内边距 */
-  border-radius: 10px;
-  /* 设置边角圆润 */
-  background: rgba(255, 255, 255, 0.1);
-  /* 设置背景 */
+  padding: 15px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: background 0.3s ease;
 }
 
+.function-left .value:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.function-right {
+  flex: 1;
+  /* 保持右侧内容宽度一致 */
+  margin-left: 30px;
+}
+
+.function-right .description {
+  font-size: 1.5rem;
+  color: var(--description-color);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: background 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+}
+
+.function-right .description:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px);
+}
+
+/* 页脚按钮样式 */
 .profile-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
-  margin-top: 30px;
+  gap: 40px;
+  margin-top: 70px;
   position: relative;
   z-index: 1;
 }
@@ -362,20 +486,21 @@ body {
   background-color: var(--primary-color);
   color: #ffffff;
   border: none;
-  padding: 10px 20px;
-  border-radius: 25px;
+  padding: 20px 50px;
+  border-radius: 50px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  font-size: 1rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 20px;
+  white-space: nowrap;
 }
 
 .btn:hover {
   background-color: var(--secondary-color);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 191, 255, 0.6);
 }
 
 .btn.secondary {
@@ -384,47 +509,257 @@ body {
 }
 
 .btn.secondary:hover {
-  background-color: #ffa500;
-  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+  background-color: #645e52;
+  box-shadow: 0 15px 40px rgba(8, 171, 152, 0.6);
+}
+
+/* 响应式设计 */
+@media (max-width: 1400px) {
+  .profile-card {
+    max-width: 1600px;
+    /* 调整最大宽度 */
+    padding: 50px;
+  }
+
+  .avatar {
+    width: 180px;
+    height: 180px;
+    margin-right: 50px;
+  }
+
+  .name {
+    font-size: 3.5rem;
+  }
+
+  .role {
+    font-size: 2.8rem;
+  }
+
+  .status {
+    font-size: 1.8rem;
+  }
+
+  .clock {
+    padding: 22px 45px;
+  }
+
+  .clock #time {
+    font-size: 2.8rem;
+  }
+
+  .section {
+    padding: 35px;
+  }
+
+  .section h2 {
+    font-size: 2.2rem;
+  }
+
+  .function-item {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .function-left {
+    flex: 3;
+    /* 增加左侧宽度 */
+  }
+
+  .function-right {
+    flex: 1;
+    /* 保持右侧宽度 */
+    margin-left: 40px;
+  }
+
+  .function-right .description {
+    font-size: 1.4rem;
+  }
+
+  .btn {
+    padding: 18px 45px;
+    font-size: 1.3rem;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .profile-card {
+    max-width: 1400px;
+    /* 调整最大宽度 */
+    padding: 40px;
+  }
+
+  .profile-header {
+    margin-bottom: 50px;
+  }
+
+  .avatar {
+    width: 160px;
+    height: 160px;
+    margin-right: 40px;
+  }
+
+  .name {
+    font-size: 3rem;
+  }
+
+  .role {
+    font-size: 2.5rem;
+  }
+
+  .status {
+    font-size: 1.6rem;
+  }
+
+  .clock {
+    padding: 20px 40px;
+  }
+
+  .clock #time {
+    font-size: 2.5rem;
+  }
+
+  .section {
+    padding: 30px;
+  }
+
+  .section h2 {
+    font-size: 1.8rem;
+  }
+
+  .function-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .function-left {
+    flex: 4;
+    /* 增加左侧宽度 */
+  }
+
+  .function-right {
+    flex: 2;
+    /* 增加右侧宽度 */
+    margin-left: 0;
+    margin-top: 15px;
+  }
+
+  .function-right .description {
+    width: 100%;
+  }
+
+  .label,
+  .value {
+    font-size: 1.6rem;
+    padding: 18px;
+  }
+
+  .btn {
+    padding: 16px 35px;
+    font-size: 1.2rem;
+    gap: 12px;
+  }
 }
 
 @media (max-width: 768px) {
   .profile-card {
-    width: 100%;
-    padding: 20px;
+    max-width: 100%;
+    padding: 30px;
   }
 
   .profile-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin-bottom: 40px;
   }
 
   .avatar {
     margin-right: 0;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    width: 150px;
+    height: 150px;
+  }
+
+  .intro {
+    align-items: center;
+  }
+
+  .name {
+    max-width: 100%;
+    font-size: 2.5rem;
+  }
+
+  .role {
+    font-size: 2rem;
+  }
+
+  .status {
+    font-size: 1.4rem;
   }
 
   .clock {
     position: static;
-    margin-top: 10px;
+    margin-top: 20px;
+    padding: 15px 30px;
+  }
+
+  .clock #time {
+    font-size: 2rem;
   }
 
   .profile-body {
     flex-direction: column;
+    gap: 25px;
   }
 
   .section {
     flex: 1 1 100%;
   }
 
-  .profile-footer {
+  .section h2 {
+    justify-content: center;
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .function-item {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
+  }
+
+  .function-left {
+    flex: 4;
+    /* 增加左侧宽度 */
+  }
+
+  .function-right {
+    flex: 3;
+    /* 增加右侧宽度 */
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .function-right .description {
+    width: 100%;
+  }
+
+  .label,
+  .value {
+    font-size: 1.4rem;
+    padding: 16px;
   }
 
   .btn {
     width: 100%;
     justify-content: center;
+    padding: 14px 30px;
+    font-size: 1rem;
+    gap: 10px;
+  }
+
+  .section h2 {
+    justify-content: center;
+    text-align: center;
   }
 }
