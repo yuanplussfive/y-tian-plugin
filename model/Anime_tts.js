@@ -1,4 +1,4 @@
-async function handleTTS(e, speakers, answer, WebSocket, fs, _path) {
+async function handleTTS(e, speakers, answer, fetch, _path) {
   try {
     let record_url = await AnimeTTS(speakers, answer);
     if (record_url) {
@@ -9,14 +9,32 @@ async function handleTTS(e, speakers, answer, WebSocket, fs, _path) {
   }
 
   async function AnimeTTS(speakers, text) {
-    const url = `https://api.yujn.cn/api/yuyin.php?type=json&from=胡桃&msg=${text}`;
+    const countTextElements = (text) => {
+      const englishWords = (text.match(/[a-zA-Z]+/g) || []).length;
+      const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
+      return englishWords + chineseChars;
+    };
+    const words = countTextElements(text);
+    if (words > 200) {
+      return null;
+    }
+    const url = `https://yuanpluss.online:3000/v1/tts/create`;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          text,
+          referenceId: speakers
+        })
+      });
       if (!response.ok) {
         return null;
       }
-      const data = await response.json();
-      return data?.url;
+      const data = await response.text();
+      return data.trim();
     } catch (error) {
       console.error('Error:', error);
       return null;

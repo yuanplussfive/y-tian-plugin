@@ -1,5 +1,5 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const { fs, _path, puppeteer, Anime_tts_roles, https, http, common, cfg } = dependencies
+const { fs, _path, puppeteer, Anime_tts_roles, tts_roles, https, http, common, cfg } = dependencies
 let dirpath = _path + '/data/YTAi_Setting'
 if (!fs.existsSync(dirpath)) {
     fs.mkdirSync(dirpath)
@@ -38,7 +38,7 @@ export class example extends plugin {
             name: '阴天[AI总设置]',
             dsc: '',
             event: 'message',
-            priority: -7771,
+            priority: 1,
             rule: [
                 {
                     reg: "^#(ai|Ai|AI)对话方式(文本|图片|引用)",
@@ -94,6 +94,10 @@ export class example extends plugin {
                     reg: "^#切换(tts|TTS)角色(.*?)$",
                     fnc: 'toggleTtsRole',
                     permission: 'master'
+                },
+                {
+                    reg: "^#(tts|TTS)角色大全$",
+                    fnc: 'totalTtsRole'
                 },
                 {
                     reg: "^#(禁用|解禁)方案(god|chat|附加|sess)$",
@@ -162,6 +166,18 @@ export class example extends plugin {
             ]
         })
     }
+
+    async totalTtsRole(e) {
+        const groupSize = 20;
+        const values = Object.values(tts_roles);
+        const result = Array.from({ length: Math.ceil(values.length / groupSize) }, (_, i) =>
+            values.slice(i * groupSize, (i + 1) * groupSize).join('，')
+        );
+
+        const forwardMsg = await common.makeForwardMsg(e, result, 'tts角色大全');
+        await e.reply(forwardMsg);
+    }
+
 
     async search_prompts(e) {
         if (e.msg.includes('#下载云预设')) {
@@ -531,10 +547,10 @@ export class example extends plugin {
         let userInput = e.msg.replace(/#切换(tts|TTS)角色/g, "").trim()
         let speakers = Anime_tts_roles(userInput)
         let data = readJsonFile(dataFilePath);
-        if (speakers == undefined) { e.reply("不存在当前角色", true); return false }
-        data.chatgpt.ai_tts_role = speakers
+        if (!speakers) { e.reply("不存在当前角色", true); return false }
+        data.chatgpt.ai_tts_role = userInput
         writeJsonFile(dataFilePath, data);
-        e.reply(`当前tts角色已切换为${speakers}\n若想进行微调,请打开文件:${_path}/data/YTtts_Setting/Setting.yaml`)
+        e.reply(`当前tts角色已切换为【${userInput}】`)
     }
 
     async toggleAiTts(e) {

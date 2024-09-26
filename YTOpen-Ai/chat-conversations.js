@@ -1,4 +1,4 @@
-async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse, GeminiResponse, claudeResponse) {
+async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse, GeminiResponse, claudeResponse, Anime_tts_roles) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { model, search } = chatgptConfig;
   let msg = await formatMessage(e.msg) || '分析这个文件';
@@ -499,8 +499,12 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {
-        const speakers = aiSettings.chatgpt.ai_tts_role
-        await handleTTS(e, speakers, answer, WebSocket, fs, _path)
+        const speakers = aiSettings.chatgpt.ai_tts_role;
+        console.log(aiSettings.chatgpt.ai_tts_role);
+        const roles = Anime_tts_roles(speakers);
+        if (roles) {
+          await handleTTS(e, roles, Messages, fetch, _path);
+        }
       }
       if (model == "gpt-4-dalle") {
         let result = await extractImageLinks2(answer)
