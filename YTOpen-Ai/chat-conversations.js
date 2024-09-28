@@ -416,22 +416,24 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       } catch (error) {
         console.log(error)
         if (error.message === 'Timeout') {
-          answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
-            : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
+          answer = model.includes("gpt-3.5-turbo") ? await GPT4oResponse(History, fetch)
+            : model.includes("gemini") ? await GeminiResponse(History, fetch)
               : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
                 : model.includes("claude") ? await claudeResponse(History, fetch)
-                  : null;
+                  : model.includes("llama") ? await llamaResponse(History, fetch)
+                    : null;
         } else {
           answer = null;
         }
       }
 
       if (!answer) {
-        answer = model.includes("gpt-3.5-turbo") ? await FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, History, fetch, crypto)
-          : model.includes("gemini") ? await GeminiResponse(History, null, fetch)
+        answer = model.includes("gpt-3.5-turbo") ? await GPT4oResponse(History, fetch)
+          : model.includes("gemini") ? await GeminiResponse(History, fetch)
             : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
               : model.includes("claude") ? await claudeResponse(History, fetch)
-                : null;
+                : model.includes("llama") ? await llamaResponse(History, fetch)
+                  : null;
       }
 
       if (!answer) {
@@ -722,7 +724,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function get_address(inputString) {
-    const regex = /\[([^\]]*?)\]\((https:\/\/filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4})\)/g;
+    const regex = /!?\[([^\]]*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4}|yuanpluss\.online:\d+\/files\/[a-zA-Z0-9_\/]+?\.[a-z]{2,4}))\)/g;
     let match;
     let links = [];
     while ((match = regex.exec(inputString)) !== null) {
@@ -731,7 +733,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         links.push(link);
       }
     }
-    console.log(2, links);
+    console.log(links);
     return links
   }
 

@@ -210,7 +210,7 @@ export class example extends plugin {
             }
             systempromise = matchingFiles;
             let startIndex = 0;
-            const batchSize = 50;
+            const batchSize = 80;
             while (startIndex < matchingFiles.length) {
                 const batchFiles = matchingFiles.slice(startIndex, startIndex + batchSize);
                 const fileDetails = batchFiles.map((item, index) => {
@@ -219,6 +219,7 @@ export class example extends plugin {
                     return `*序号*: ${startIndex + index + 1}\n*名称*: ${cleanName}\n*内容简述*:\n【${weight}】`;
                 });
                 const forwardMsg = await common.makeForwardMsg(e, fileDetails, '云预设魔法大全');
+                await common.sleep(1500);
                 await e.reply(forwardMsg);
                 startIndex += batchSize;
             }
