@@ -39,6 +39,7 @@ import { FreeGemini_1 } from '../utils/FreeGemini/Gemini_1.js';
 import { FreeGemini_2 } from '../utils/FreeGemini/Gemini_2.js';
 import { FreeGemini_3 } from '../utils/FreeGemini/Gemini_3.js';
 import { FreeClaude_1 } from '../utils/FreeClaude/Claude_1.js';
+import { processArray, countTextInString } from '../YTOpen-Ai/tools/messageGenerator.js';
 
 export const dependencies = {
   fs,
@@ -61,6 +62,8 @@ export const dependencies = {
   puppeteer,
   WebSocket,
   querystring,
+  processArray,
+  countTextInString,
   FreeChat35_1,
   FreeChat35_2,
   FreeChat35_3,

@@ -1,12 +1,20 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
-    const countTextElements = (text) => {
-        const englishWords = (text.match(/[a-zA-Z]+/g) || []).length;
-        const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
-        return englishWords + chineseChars;
-    };
+    async function countTextInString(text) {
+        if (Array.isArray(text)) {
+            text = text
+                .filter(item => item.type === 'text')
+                .map(item => item.text)
+                .join(' ');
+        }
+        const englishWordRegex = /[a-zA-Z]+/g;
+        const chineseCharRegex = /[\u4e00-\u9fa5]/g;
+        const englishWords = text.match(englishWordRegex) || [];
+        const chineseChars = text.match(chineseCharRegex) || [];
+        return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
+    }
 
     try {
-        const words = countTextElements(answer);
+        const words = await countTextInString(answer);
         console.log(words);
 
         const sendAsForwardMsg = async () => {
