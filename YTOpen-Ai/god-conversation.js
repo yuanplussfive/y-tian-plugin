@@ -691,23 +691,42 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function processArray(arr, numbers) {
-    const userCount = arr.reduce((count, obj) => obj.role === "user" ? count + 1 : count, 0);
+    const userCount = arr.reduce((count, obj) => {
+      if (obj.role === "user") {
+        if (Array.isArray(obj.content)) {
+          return count + obj.content.reduce((acc, item) => item.type === "text" ? acc + 1 : acc, 0);
+        }
+        return count + 1;
+      }
+      return count;
+    }, 0);
     const systemIndex = arr.findIndex(obj => obj.role === "system");
-
     if (userCount >= numbers) {
       let newArr = [];
       if (systemIndex !== -1) {
         newArr.push(arr[systemIndex]);
       }
-
       for (let i = arr.length - 1; i >= 0; i--) {
         const obj = arr[i];
         if (obj.role !== "user" && obj.role !== "assistant") {
           newArr.unshift(obj);
         } else if (newArr.length < numbers) {
-          if (obj.role === "user" && arr[i + 1]?.role === "assistant") {
-            newArr.unshift(arr[i + 1], obj);
-            i--;
+          if (obj.role === "user") {
+            if (Array.isArray(obj.content)) {
+              let validContent = obj.content.filter(item => item.type === "text");
+              if (validContent.length > 0) {
+                newArr.unshift({
+                  ...obj,
+                  content: validContent
+                });
+              }
+            } else {
+              newArr.unshift(obj);
+            }
+            if (arr[i + 1]?.role === "assistant") {
+              newArr.unshift(arr[i + 1]);
+              i--;
+            }
           } else {
             newArr.unshift(obj);
           }

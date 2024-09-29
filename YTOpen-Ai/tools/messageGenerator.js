@@ -10,53 +10,61 @@ async function* messageGenerator(messages) {
 class MessageProcessor extends Transform {
   constructor(options) {
     super({ objectMode: true });
-    this.numbers = options.numbers;
-    this.newArr = [];
-    this.totalContentLength = 0;
-    this.userCount = 0;
-    this.systemObj = null;
-    this.contentLengthLimit = options.contentLengthLimit || 10000; // 自定义内容长度限制
+    this.numbers = options.numbers; // 最大的 user 消息数
+    this.newArr = []; // 存储保留的消息
+    this.totalContentLength = 0; // 总内容长度
+    this.userCount = 0; // 当前 user 消息计数
+    this.systemObj = null; // system 消息
+    this.contentLengthLimit = options.contentLengthLimit || 10000; // 内容长度限制
   }
 
   async _transform(message, encoding, callback) {
+    // 处理 system 消息
     if (message.role === 'system' && !this.systemObj) {
       this.systemObj = message;
-    } else if (message.role === 'user') {
+      this.newArr.push(this.systemObj);
+      callback();
+      return;
+    }
+
+    // 处理 user 消息
+    if (message.role === 'user') {
       this.userCount++;
     }
 
-    if (this.userCount < this.numbers) {
-      this.push(await this._processMessage(message));
-    } else {
-      if (this.systemObj && this.newArr.length === 0) {
-        this.newArr.push(this.systemObj);
-      }
+    // 将消息添加到 newArr
+    this.newArr.push(message);
 
-      if (['user', 'assistant'].includes(message.role) && this.newArr.length < this.numbers * 2) {
-        if (message.role === 'user' && this.newArr[this.newArr.length - 1]?.role === 'assistant') {
-          this.newArr.push(await this._processMessage(message));
+    // 计算消息的内容长度
+    let messageContentLength = 0;
+    if (!Array.isArray(message.content)) {
+      messageContentLength = await countTextInString(message.content);
+    }
+    this.totalContentLength += messageContentLength;
+
+    // 如果是 user 消息，检查是否超过数量限制
+    if (message.role === 'user') {
+      while (this.userCount > this.numbers) {
+        const removedObj = this._removeOldestUserMessage();
+        if (removedObj) {
+          this.totalContentLength -= removedObj.contentLength;
+          this.userCount--;
         } else {
-          this.newArr.push(await this._processMessage(message));
-        }
-      } else if (!['user', 'assistant'].includes(message.role)) {
-        this.newArr.push(message);
-      }
-
-      if (!Array.isArray(message.content)) {
-        const contentLength = await countTextInString(message.content);
-        this.totalContentLength += contentLength;
-
-        // 使用自定义内容长度限制
-        while (this.totalContentLength > this.contentLengthLimit && this.newArr.length > 0) {
-          const removedObj = this.newArr.shift();
-          if (removedObj && removedObj.content) {
-            this.totalContentLength -= await countTextInString(removedObj.content);
-          }
+          break; // 没有更多 user 消息可以移除
         }
       }
+    }
 
-      while (this.newArr.length > this.numbers * 2) {
-        this.push(this.newArr.shift());
+    // 检查内容长度是否超过限制
+    while (this.totalContentLength > this.contentLengthLimit) {
+      const removedObj = this._removeOldestMessage();
+      if (removedObj) {
+        this.totalContentLength -= removedObj.contentLength;
+        if (removedObj.role === 'user') {
+          this.userCount--;
+        }
+      } else {
+        break; // 没有更多消息可以移除
       }
     }
 
@@ -70,18 +78,126 @@ class MessageProcessor extends Transform {
     callback();
   }
 
-  async _processMessage(message, isLastUserMessage) {
-    if (Array.isArray(message.content)) {
-      const processedContent = message.content
+  /**
+   * 移除最旧的 user 消息及其紧随的 assistant 消息
+   * @returns {Object|null} 被移除的 user 消息对象
+   */
+  _removeOldestUserMessage() {
+    for (let i = 0; i < this.newArr.length; i++) {
+      if (this.newArr[i].role === 'user') {
+        const removedUser = this.newArr.splice(i, 1)[0];
+        let removedAssistant = null;
+        // 检查下一个消息是否是 assistant，如果是，则一并移除
+        if (i < this.newArr.length && this.newArr[i].role === 'assistant') {
+          removedAssistant = this.newArr.splice(i, 1)[0];
+        }
+        // 返回被移除的 user 消息和可能的 assistant 消息的总长度
+        return {
+          role: 'user',
+          contentLength: removedUser.content
+            ? countTextInStringSync(removedUser.content)
+            : 0,
+          assistantContentLength: removedAssistant && removedAssistant.content
+            ? countTextInStringSync(removedAssistant.content)
+            : 0
+        };
+      }
+    }
+    return null;
+  }
+
+  /**
+   * 移除最旧的消息，如果是 user 消息，则尝试移除其紧随的 assistant 消息
+   * @returns {Object|null} 被移除的消息对象
+   */
+  _removeOldestMessage() {
+    if (this.newArr.length === 0) return null;
+    const removedObj = this.newArr.shift();
+    let removedAssistant = null;
+
+    if (removedObj.role === 'user') {
+      // 如果移除的是 user 消息，检查下一个是否是 assistant 并移除
+      if (this.newArr.length > 0 && this.newArr[0].role === 'assistant') {
+        removedAssistant = this.newArr.shift();
+      }
+    }
+
+    return {
+      role: removedObj.role,
+      contentLength: removedObj.content
+        ? countTextInStringSync(removedObj.content)
+        : 0,
+      assistantContentLength: removedAssistant && removedAssistant.content
+        ? countTextInStringSync(removedAssistant.content)
+        : 0
+    };
+  }
+
+  /**
+   * 同步计算文本长度，用于移除操作
+   * @param {string|Array} text
+   * @returns {number}
+   */
+  countTextInStringSync(text) {
+    if (Array.isArray(text)) {
+      text = text
         .filter(item => item.type === 'text')
         .map(item => item.text)
         .join(' ');
-      if (!isLastUserMessage) {
-        message.content = processedContent;
-      }
     }
-    return message;
-  }  
+    if (typeof text !== 'string' || !text.trim()) {
+      return 0;
+    }
+    const englishWordRegex = /[a-zA-Z]+/g;
+    const chineseCharRegex = /[\u4e00-\u9fa5]/g;
+    const englishWords = text.match(englishWordRegex) || [];
+    const chineseChars = text.match(chineseCharRegex) || [];
+    return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
+  }
+}
+
+/**
+ * 异步计算文本长度，用于添加消息时的长度统计
+ * @param {string|Array} text
+ * @returns {Promise<number>}
+ */
+async function countTextInString(text) {
+  if (Array.isArray(text)) {
+    text = text
+      .filter(item => item.type === 'text')
+      .map(item => item.text)
+      .join(' ');
+  }
+  if (typeof text !== 'string' || !text.trim()) {
+    return 0;
+  }
+  const englishWordRegex = /[a-zA-Z]+/g;
+  const chineseCharRegex = /[\u4e00-\u9fa5]/g;
+  const englishWords = text.match(englishWordRegex) || [];
+  const chineseChars = text.match(chineseCharRegex) || [];
+  return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
+}
+
+/**
+ * 同步版本的 countTextInString，用于移除消息时的长度计算
+ * @param {string|Array} text
+ * @returns {number}
+ */
+function countTextInStringSync(text) {
+  if (Array.isArray(text)) {
+    text = text
+      .filter(item => item.type === 'text')
+      .map(item => item.text)
+      .join(' ');
+  }
+  if (typeof text !== 'string' || !text.trim()) {
+    return 0;
+  }
+  const englishWordRegex = /[a-zA-Z]+/g;
+  const chineseCharRegex = /[\u4e00-\u9fa5]/g;
+  const englishWords = text.match(englishWordRegex) || [];
+  const chineseChars = text.match(chineseCharRegex) || [];
+  return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
 }
 
 async function processArray(messages, numbers, contentLengthLimit = 10000) {
@@ -101,20 +217,6 @@ async function processArray(messages, numbers, contentLengthLimit = 10000) {
   );
 
   return result;
-}
-
-async function countTextInString(text) {
-  if (Array.isArray(text)) {
-      text = text
-          .filter(item => item.type === 'text')
-          .map(item => item.text)
-          .join(' ');
-  }
-  const englishWordRegex = /[a-zA-Z]+/g;
-  const chineseCharRegex = /[\u4e00-\u9fa5]/g;
-  const englishWords = text.match(englishWordRegex) || [];
-  const chineseChars = text.match(chineseCharRegex) || [];
-  return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
 }
 
 export { processArray, countTextInString };

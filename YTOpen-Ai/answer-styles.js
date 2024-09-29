@@ -6,6 +6,9 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 .map(item => item.text)
                 .join(' ');
         }
+        if (typeof text !== 'string' || !text.trim()) {
+            return 0;
+        }
         const englishWordRegex = /[a-zA-Z]+/g;
         const chineseCharRegex = /[\u4e00-\u9fa5]/g;
         const englishWords = text.match(englishWordRegex) || [];
