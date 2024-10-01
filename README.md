@@ -339,8 +339,6 @@ pnpm install
 **<summary>#切换xx预设xx</summary>**
 </details>
 
-</details>
-
 <details>
 <summary> 💎 图片对话渲染方式：</summary>
 
