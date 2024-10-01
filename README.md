@@ -29,14 +29,14 @@
 
 1. **🎯 插件宗旨** <br>
 
-> Y-Tian-Plugin 是一款集成多种功能的 Yunzai-Bot V3 插件包,旨在通过集成多种 AI 模型与娱乐功能,使机器人更加多功能化。
+> Y-Tian-Plugin 是一款集成多种功能的 Yunzai-Bot V3 插件包。<br>通过集成多种 AI 模型与娱乐功能,使机器人更加多功能化。
 
 
-> 旨在为用户提供免费AI模型供日常生活和学习,附加版/专业版/国产等方案集成百余个流行大模型,免费使用100+大模型(包括 GPT-4/4-all 等), 小白可优先选择附加免费方案，集成gpt-4-all/claude-3.5-sonnet等强大模型，不限用量。 <br>
+> 旨在为用户提供免费AI模型供日常生活和学习,附加版/专业版/国产等方案集成百余个流行大模型,免费使用100+大模型(包括 GPT-4/4-all 等)。<br>小白可优先选择附加免费方案，集成gpt-4-all/claude-3.5-sonnet等强大模型，不限用量。 <br>
 (PS: 非法用途如 黄色/暴力/涉政 等，本插件必要时会封禁用户 IP，望周知 !!! )
 
 2. **🧠 AI模型支持** <br>
-- 集成了如 **ChatGPT**、**Anthropic**、**ChatGLM**、**Gemini**、**Stable Diffusion**、**Midjourney**、**Suno**、**Pika** 、**Bing**、**Copilot** 等多种主流 AI 模型
+- 集成了如 **ChatGPT**、**Anthropic**、**ChatGLM**、**Gemini**、**Stable Diffusion**、**Midjourney**、**Suno**、**Pika** 、**Bing**、**Copilot**、**Cohere** 等多种主流 AI 模型
 - 支持**文本生成**、**图像绘制**、**语音合成**、**AI作曲**、**文件处理**、**文件生成**等功能
 
 3. **🎪 多功能集成** <br>
@@ -58,12 +58,12 @@
 git clone --depth=1 https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 ```
 
-*使用 Gitee (plugin + V2工具箱)*
+*使用 Gitee (plugin + V2工具箱, 测试中)*
 ```shell
 git clone --branch V2 --single-branch https://gitee.com/wan13877501248/y-tian-plugin.git ./plugins/y-tian-plugin/
 ```
 
-*使用 Github (plugin, 可能更改不及时)*
+*使用 Github (plugin, 最新)*
 ```shell
 git clone --depth=1 https://github.com/yuanplussfive/y-tian-plugin.git ./plugins/y-tian-plugin/
 ```
@@ -83,8 +83,8 @@ pnpm install
 ## 🚀 功能一览
 
 <details>
-<summary>阴天帮助面板</summary>
-<img decoding="async" src="./background/image/帮助.jpg" width="35%">
+<summary>阴天帮助一览</summary>
+<img decoding="async" src="./background/image/阴天帮助.jpg" width="35%">
 </details>
 
 ## 🤖 AI 模型功能概览
@@ -198,20 +198,18 @@ pnpm install
 &nbsp;&nbsp;✨ 360-ai
 &nbsp;&nbsp;✨ 360-search
 <br>
-🔹 <b>上海云影</b>
-&nbsp;&nbsp;✨ llava-v1.6-34b
-&nbsp;&nbsp;✨ llava-v1.5-7b-wrapper
-<br>
 🔹 <b>通义千问</b>
 &nbsp;&nbsp;✨ qwen-72b
 &nbsp;&nbsp;✨ qwen-alltools
 <br>
 🔹 <b>月之暗面</b>
+&nbsp;&nbsp;✨ moonshot-v1-8k
+&nbsp;&nbsp;✨ moonshot-v1-32k
 &nbsp;&nbsp;✨ moonshot-v1-128k
 &nbsp;&nbsp;✨ moonshot-alltools
 <br>
 🔹 <b>字节跳动</b>
-&nbsp;&nbsp;✨ doubao
+&nbsp;&nbsp;✨ doubao-lite
 &nbsp;&nbsp;✨ doubao-all
 &nbsp;&nbsp;✨ doubao-32k
 &nbsp;&nbsp;✨ coze-assistent-all
@@ -242,16 +240,19 @@ pnpm install
 🔹 <b>深度求索</b>
 &nbsp;&nbsp;✨ deepseek-chat
 &nbsp;&nbsp;✨ deepseek-code
-&nbsp;&nbsp;✨ deepseek-2-chat
-&nbsp;&nbsp;✨ deepseek-2-code
+&nbsp;&nbsp;✨ deepseek-V2-chat
+&nbsp;&nbsp;✨ deepseek-V2-code
 <br>
 🔹 <b>零一万物</b>
 &nbsp;&nbsp;✨ yi-34b
 &nbsp;&nbsp;✨ yi-34b-chat-200k
+&nbsp;&nbsp;✨ yi-V1-32k
+&nbsp;&nbsp;✨ yi-V2-128k
 <br>
 🔹 <b>百川智能</b>
 &nbsp;&nbsp;✨ baichuan-v3-53b
 &nbsp;&nbsp;✨ baichuan-v3-alltools
+&nbsp;&nbsp;✨ baichuan-v4-plus
 <br>
 🔹 <b>其他模型</b>
 &nbsp;&nbsp;✨ webgpt
@@ -263,7 +264,7 @@ pnpm install
 &nbsp;&nbsp;✨ Minimax-hailuo
 &nbsp;&nbsp;✨ step-1-200k
 &nbsp;&nbsp;✨ hunyuan-alltools
-
+&nbsp;&nbsp;✨ ......
 </details>
 
 <details>
@@ -313,67 +314,135 @@ pnpm install
 <summary>🔊 语音模型</summary>
 <br>
 🔹 <b>虚拟偶像</b>
-&nbsp;&nbsp;✨ 原神崩三等语音库(暂寄)
+&nbsp;&nbsp;✨ 原神崩三等语音
+&nbsp;&nbsp;✨ Fish-vits语音
 <br>
 🔹 <b>歌曲生成</b>
 &nbsp;&nbsp;✨ Suno-V3
 &nbsp;&nbsp;✨ Suno-V3.5
 <br>
 🔹 <b>OpenAi</b>
-&nbsp;&nbsp;✨ tts/tts-1-hd
+&nbsp;&nbsp;✨ tts/tts-1-hd...
 </details>
 
+## 🤖 常用的基本设置
+
+<details>
+<summary> 💎 方案区间设置：</summary>
+
+#### 🔷 开启分区间(个人独立对话)
+**<summary>#xx开启分区间</summary>**
+**<summary>#切换xx预设xx</summary>**
+
+#### 🔷 关闭分区间(群聊共享对话)
+**<summary>#xx关闭分区间</summary>**
+**<summary>#切换xx预设xx</summary>**
+</details>
+
+</details>
+
+<details>
+<summary> 💎 图片对话渲染方式：</summary>
+
+### 🔷 使用mathjax(擅长渲染数学公式，精准)
+<details>
+<summary>示例1</summary>
+<img src="./background/image/math_1.jpg" width="400"/>
+</details>
+<details>
+<summary>示例2</summary>
+<img src="./background/image/math_2.jpg" width="400"/>
+</details>
+
+### 🔷 使用markdown(擅长渲染代码块，高亮)
+<details>
+<summary>示例1</summary>
+<img src="./background/image/markdown_1.jpg" width="400"/>
+</details>
+<details>
+<summary>示例2</summary>
+<img src="./background/image/markdown_2.jpg" width="400"/>
+</details>
+<details>
+<summary>示例3</summary>
+<img src="./background/image/markdown_3.jpg" width="400"/>
+</details>
+<details>
+<summary>示例4</summary>
+<img src="./background/image/markdown_4.jpg" width="400"/>
+</details>
+</details>
+
+<details>
+<summary> 💎 tts语音回复：</summary>
+
+### 🔷 先开启tts回复
+<details>
+<summary>示例</summary>
+<img src="./background/image/tts_1.png" width="400"/>
+</details>
+
+### 🔷 查看tts音色
+<details>
+<summary>示例</summary>
+<img src="./background/image/tts_2.png" width="400"/>
+</details>
+
+### 🔷 选择tts音色
+<details>
+<summary>示例</summary>
+<img src="./background/image/tts_3.png" width="400"/>
+</details>
+</details>
 
 ## 🤖 AI功能展示
 
 <details>
-<summary> 🔷 示例1</summary>
+<summary> 💎 多模态部分模型功能展示：</summary>
 
-### 🔷 免费Sess模型
+### 🔷 文件处理和生成
 <details>
-<summary>点击查看</summary>
-<img src="./background/image/对话1.jpg" width="400"/>
+<summary>文件生成</summary>
+<img src="./background/image/all_1.jpg" width="400"/>
+</details>
+<details>
+<summary>文件处理</summary>
+<img src="./background/image/all_3.jpg" width="400"/>
 </details>
 
-### 🔷 免费国产模型
+### 🔷 Plus dalle绘图
 <details>
-<summary>点击查看</summary>
-<img src="./background/image/对话2.jpg" width="400"/>
+<summary>dalle文生图</summary>
+<img src="./background/image/all_2.jpg" width="400"/>
+</details>
+<details>
+<summary>dalle图生图</summary>
+<img src="./background/image/all_4.jpg" width="400"/>
 </details>
 
-### 🔷 免费Dall-E绘图
+### 🔷 深度联网搜索
 <details>
-<summary>点击查看</summary>
-<img src="./background/image/对话4.jpg" width="400"/>
+<summary>信息检索</summary>
+<img src="./background/image/all_5.jpg" width="400"/>
+</details>
+<details>
+<summary>检索生成</summary>
+<img src="./background/image/all_6.jpg" width="400"/>
 </details>
 
-### 🔷 GPT-4多模态
+### 🔷 图像检索识别
 <details>
-<summary>点击查看</summary>
-<img src="./background/image/对话3.jpg" width="400"/>
+<summary>图片检索</summary>
+<img src="./background/image/all_7.jpg" width="400"/>
 </details>
-
-### 🔷 文生视频等
 <details>
-<summary>点击查看</summary>
-<img src="./background/image/对话5.jpg" width="400"/>
-</details>
-
-### 🔷 TTS交互模型
-<details>
-<summary>点击查看</summary>
-<img src="./background/image/对话6.jpg" width="400"/>
+<summary>图片分析</summary>
+<img src="./background/image/all_8.jpg" width="400"/>
 </details>
 </details>
 
 <details>
-<summary> 💎 示例2</summary>
-
-### 💎 GPT-4免费版
-<details>
-<summary>点击查看</summary>
-<img src="./background/image/freegpt4.jpg" width="400"/>
-</details>
+<summary> 💎 国产部分模型功能展示</summary>
 
 ### 💎 月之暗面Web版
 <details>
@@ -420,12 +489,6 @@ pnpm install
 <summary>点击查看</summary>
 <img src="./background/image/deepseek.png" width="400"/>
 </details>
-
-### 💎 ChatGPT Plus版
-<details>
-<summary>点击查看</summary>
-<img src="./background/image/plus.png" width="400"/>
-</details>
 </details>
 
 ## 🔆 与AI交互流程
@@ -436,34 +499,6 @@ pnpm install
 <details>
 <summary>点击查看流程图</summary>
 <img src="./background/image/zs.jpg" width="400"/>
-</details>
-
-### 🖼️ 图片对话
-<details>
-<summary>点击查看流程图</summary>
-<img src="./background/image/图像交互1.jpg" width="400"/>
-<img src="./background/image/图像交互2.jpg" width="400"/>
-<img src="./background/image/图像交互3.jpg" width="400"/>
-<img src="./background/image/图像交互4.jpg" width="400"/>
-<img src="./background/image/图像交互5.jpg" width="400"/>
-</details>
-
-### 🖼️ 图片识别
-<details>
-<summary>点击查看流程图</summary>
-<img src="./background/image/zs2.jpg" width="400"/>
-</details>
-
-### ⚙️ 使用预设
-<details>
-<summary>点击查看流程图</summary>
-<img src="./background/image/zs3.jpg" width="400"/>
-</details>
-
-### 📄 文件处理
-<details>
-<summary>点击查看流程图</summary>
-<img src="./background/image/zs4.jpg" width="400"/>
 </details>
 
 ## 反馈与支持
