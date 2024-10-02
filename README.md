@@ -16,9 +16,9 @@
     <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25">
     <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25">
     <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25">
-    <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
-      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" alt="Security Status" height="25">
-    </a>
+ <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024" style="display: block; width: 100%;">
+  <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" alt="Security Status" style="width: 100%; height: auto; max-width: 300px;">
+</a>
   </div>
 
   <h1 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页</h1>
@@ -490,7 +490,7 @@
   <img src="https://contrib.rocks/image?repo=yuanplussfive/y-tian-plugin" />
 </a>
 
-![Repobeats analytics image]( "Repobeats analytics image")
+![Alt](https://repobeats.axiom.co/api/embed/b0e531137448010a6b4b2e307afbd67e39c00d49.svg "Repobeats analytics image")
 
 ### 🚪 传送门
 
