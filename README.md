@@ -1,43 +1,129 @@
-<div style="background-color: #1e1e1e; color: #ffffff; padding: 30px; border-radius: 12px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+<style>
+  .logo-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+    margin-right: 10px;
+  }
   
-  <div style="text-align: center; margin-bottom: 30px;">
+  .badge-img {
+    height: 25px;
+  }
+  
+  .section {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .title {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+  }
+  
+  .logo-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+  
+  details summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  table, th, td {
+    border: 1px solid #555555;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #333333;
+  }
+  
+  a {
+    color: #00ffff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+
+<div class="section">
+  
+  <div class="center" style="margin-bottom: 30px;">
     <a href="https://gitee.com/yuanpluss">
-      <img src="./background/image/新logo.png" alt="y-tian-plugin" style="width: 150px; height: 150px; border-radius: 50%;"/>
+      <img src="./background/image/新logo.png" alt="y-tian-plugin" class="logo-img"/>
     </a>
   </div>
 
-  <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px;">
+  <div class="flex-center">
     <a href="https://gitee.com/wan13877501248/y-tian-plugin">
-      <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" height="25">
+      <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/star.svg?theme=dark" alt="Star" class="badge-img">
     </a>
     <a href="https://gitee.com/wan13877501248/y-tian-plugin">
-      <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" height="25">
+      <img src="https://gitee.com/wan13877501248/y-tian-plugin/badge/fork.svg?theme=dark" alt="Fork" class="badge-img">
     </a>
-    <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25">
-    <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25">
-    <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25">
- <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024" style="display: block; width: 100%;">
-  <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" alt="Security Status" style="width: 100%; height: auto; max-width: 300px;">
-</a>
+    <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" class="badge-img">
+    <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" class="badge-img">
+    <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" class="badge-img">
+    <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
+      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" alt="Security Status" class="badge-img">
+    </a>
   </div>
 
-  <h1 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页</h1>
+  <h1 class="center title">😃 阴天插件索引页</h1>
 
-  <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
+  <p class="center" style="font-size: 18px;">
     <strong>使用插件在线免费AI页面 (请使用PC端访问) 
-      <a href="https://yuanpluss.online:1111/" style="color: #00ffff;">免费AI</a>
+      <a href="https://yuanpluss.online:1111/">免费AI</a>
     </strong>
   </p>
 
 </div>
 
+---
+
 ## ☁️ 插件简介
 
 ### 🎯 插件宗旨
 
-> **Y-Tian-Plugin** 是一款集成多种功能的 **Yunzai-Bot V3** 插件包。通过整合多种 AI 模型与娱乐功能，提升机器人多功能性。  
-> 致力于为用户提供免费AI模型，支持日常生活和学习，提供附加版、专业版及国产方案，集成百余个流行大模型，免费使用100+大模型（包括 GPT-4/4-all 等）。  
-> **注意：** 非法用途（如色情、暴力、涉政等）将导致用户IP封禁，敬请理解！
+**Y-Tian-Plugin** 是一款集成多种功能的 **Yunzai-Bot V3** 插件包。通过整合多种 AI 模型与娱乐功能，提升机器人多功能性。  
+致力于为用户提供免费AI模型，支持日常生活和学习，提供附加版、专业版及国产方案，集成百余个流行大模型，免费使用100+大模型（包括 GPT-4/4-all 等）。  
+**注意：** 非法用途（如色情、暴力、涉政等）将导致用户IP封禁，敬请理解！
 
 ### 🧠 AI模型支持
 
@@ -53,6 +139,8 @@
 
 - 提供多种免费 AI 模型
 - 高级功能供赞助用户提前体验
+
+---
 
 ## 📦 安装教程
 
@@ -87,88 +175,101 @@
   pnpm install
   ```
 
+---
+
 ## 🚀 功能一览
 
 <details>
   <summary>🔍 阴天帮助一览</summary>
-  <img src="./background/image/阴天帮助.jpg" alt="阴天帮助" width="35%">
+  <img src="./background/image/阴天帮助.jpg" alt="阴天帮助" width="100%">
 </details>
+
+---
 
 ## 🤖 AI 模型功能概览
 
 ### 💬 对话类模型
 
-#### 🌐 **OpenAI**
+#### <img src="./background/image/gpt.png" alt="OpenAI Logo" class="logo-circle"> **OpenAI**
 
-| 模型名称 | 功能描述 |
-|----------|------|
-| gpt-3.5-turbo | 基础对话模型 |
-| gpt-4o-mini | 轻量版GPT4，优化响应速度 |
-| gpt-4 | 高级对话模型，支持更复杂任务 |
-| gpt-4-32k | 扩展上下文长度，适合长文档处理 |
-| gpt-4-vision | 支持图像输入的对话模型 |
-| gpt-4-dalle | 结合了GPT4和DALL-E的模型，能够理解和生成创意图像。 |
-| gpt-4-all | 多功能版GPT4模型，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
-| gpt-4o-all | 多功能版GPT4模型，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
-| gpt-4-gizmo | GPT4的一种变体，专注于特定应用场景，可以使用所有gpts的插件，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
-| o1-mini-all | 官网 plus 版本，有思考过程显示，o1-mini 是一个快速、高性价比的推理模型，专为编码、数学和科学用例而设计。该模型具有 128K 的上下文和最新的数据库. |
-| o1-preview-all | 官网 plus 版本，有思考过程显示，o1-preview 是OpenAI针对复杂任务的新推理模型，常用于处理复杂任务。该模型具有 128K 上下文和最新的数据库. |
-| ... | ... |
+| 模型名称          | 功能描述                                 |
+|-------------------|------------------------------------------|
+| gpt-3.5-turbo     | 基础对话模型                             |
+| gpt-4o-mini       | 轻量版GPT4，优化响应速度                 |
+| gpt-4             | 高级对话模型，支持更复杂任务             |
+| gpt-4-32k         | 扩展上下文长度，适合长文档处理           |
+| gpt-4-vision      | 支持图像输入的对话模型                   |
+| gpt-4-dalle       | 结合了GPT4和DALL-E的模型，能够理解和生成创意图像。 |
+| gpt-4-all         | 多功能版GPT4模型，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
+| gpt-4o-all        | 多功能版GPT4模型，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
+| gpt-4-gizmo       | GPT4的一种变体，专注于特定应用场景，可以使用所有gpts的插件，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
+| o1-mini-all       | 官网 plus 版本，有思考过程显示，o1-mini 是一个快速、高性价比的推理模型，专为编码、数学和科学用例而设计。该模型具有 128K 的上下文和最新的数据库. |
+| o1-preview-all    | 官网 plus 版本，有思考过程显示，o1-preview 是OpenAI针对复杂任务的新推理模型，常用于处理复杂任务。该模型具有 128K 上下文和最新的数据库. |
+| ...               | ...                                      |
 
-#### 🧠 **Anthropic**
+#### <img src="./background/image/Anthropic.png" alt="Anthropic Logo" class="logo-circle"> **Claude**
 
-| 模型名称 | 功能描述 |
-|----------|------|
-| claude-3-haiku-20240307 | Claude模型V3系列的轻量版本，具有最快的响应速度 |
-| claude-3-opus-20240229 | Claude模型的最新版本，具有最先进的语言处理技术 |
-| claude-3-5-sonnet-20240620 | Claude模型的最新版本,比opus还强，更廉价，具有最先进的语言处理技术 |
-| ... | ... |
+| 模型名称                  | 功能描述                                       |
+|---------------------------|------------------------------------------------|
+| claude-3-haiku-20240307    | Claude模型V3系列的轻量版本，具有最快的响应速度   |
+| claude-3-opus-20240229     | Claude模型的最新版本，具有最先进的语言处理技术   |
+| claude-3-5-sonnet-20240620  | Claude模型的最新版本,比opus还强，更廉价，具有最先进的语言处理技术 |
+| ...                       | ...                                            |
 
-#### 🔍 **Google**
+#### <img src="./background/image/Gemini.jpg" alt="Gemini Logo" class="logo-circle"> **Gemini**
 
-| 模型名称 | 描述 |
-|----------|------|
-| gemini-pro | Google高级人工智能模型，提供更复杂的语言理解和生成能力 |
-| gemini-pro-vision | Google高级人工智能模型，支持图像识别 |
-| gemini-1.5-pro | Google高级人工智能模型，复杂的推理任务，例如代码和文本生成、文本编辑、问题解决、数据提取和生成，支持图像识别 |
-| gemini-1.5-flash | Google高级人工智能模型，轻量版本，支持图像识别 |
-| ... | ... |
+| 模型名称          | 描述                                           |
+|-------------------|------------------------------------------------|
+| gemini-pro        | Google高级人工智能模型，提供更复杂的语言理解和生成能力 |
+| gemini-pro-vision | Google高级人工智能模型，支持图像识别                 |
+| gemini-1.5-pro    | Google高级人工智能模型，复杂的推理任务，例如代码和文本生成、文本编辑、问题解决、数据提取和生成，支持图像识别 |
+| gemini-1.5-flash  | Google高级人工智能模型，轻量版本，支持图像识别         |
+| ...               | ...                                            |
 
-#### 🦾 **Meta**
+#### <img src="./background/image/Bing.jpg" alt="Meta Logo" class="logo-circle"> **Meta**
 
-| 模型名称 | 描述 |
-|----------|------|
-| llama-2-7b | 轻量级语言模型 |
-| llama-3-sonar-large-32k-chat | 大型聊天模型，支持长上下文 |
-| code-llama-70b-instruct | 专注于代码生成与理解 |
-| ... | ... |
+| 模型名称                     | 描述                                           |
+|------------------------------|------------------------------------------------|
+| llama-2-7b                   | 轻量级语言模型                                 |
+| llama-3-sonar-large-32k-chat  | 大型聊天模型，支持长上下文                       |
+| code-llama-70b-instruct      | 专注于代码生成与理解                           |
+| ...                          | ...                                            |
 
-#### 🤖 **ChatGLM**
+#### <img src="./background/image/ChatGLM.jpg" alt="ChatGLM Logo" class="logo-circle"> **ChatGLM**
 
-| 模型名称 | 描述 |
-|----------|------|
-| glm-4 | 智谱AI通用大模型，提供了更强大的问答和文本生成能力。适合于复杂的对话交互和深度内容创作设计的场景。 |
-| glm-4v | 智谱AI通用大模型，实现了视觉语言特征的深度融合，支持视觉问答、图像字幕、视觉定位、复杂目标检测等各类图像理解任务。 |
-| glm-4-alltools | 集成多种工具的ChatGLM |
-| glm-4-plus | 能力强化的ChatGLM |
-| ... | ... |
+| 模型名称            | 描述                                                                 |
+|---------------------|----------------------------------------------------------------------|
+| glm-4               | 智谱AI通用大模型，提供了更强大的问答和文本生成能力。适合于复杂的对话交互和深度内容创作设计的场景。 |
+| glm-4v              | 智谱AI通用大模型，实现了视觉语言特征的深度融合，支持视觉问答、图像字幕、视觉定位、复杂目标检测等各类图像理解任务。 |
+| glm-4-alltools     | 集成多种工具的ChatGLM                                               |
+| glm-4-plus          | 能力强化的ChatGLM                                                   |
+| ...                 | ...                                                                  |
 
-#### 🌟 **Mixtral**
+#### <img src="./background/image/Bing.jpg" alt="Bing Logo" class="logo-circle"> **Bing**
 
-| 模型名称 | 描述 |
-|----------|------|
-| mixtral-8x7b | 中型Mixtral模型 |
-| mistral-34b | 大型Mixtral模型，适合复杂任务 |
-| ... | ... |
+| 模型名称           | 描述                                   |
+|--------------------|----------------------------------------|
+| Bing-Creative      | 必应创造模式，擅长发散                   |
+| Bing-Practice      | 必应严谨模式，严谨思考                   |
+| Bing-Balanced      | 必应平衡模式，均衡作答                   |
+| ...                | ...                                    |
 
-#### ⚙️ **其他模型**
+#### <img src="./background/image/Bing.jpg" alt="Bing Logo" class="logo-circle"> **Bing**
 
-| 模型名称 | 描述 |
-|----------|------|
-| webgpt | 适用于网页内容处理生成 |
-| mj-chat | Midjourney结合gpt4的对话生图模型 |
-| deepseek-chat | 中文综合能力（AlignBench）开源模型中最强与 GPT-4-Turbo，文心 4.0 等闭源模型在评测中处于同一梯队 Chat专用 |
-| ... | ... |
+| 模型名称          | 描述                                   |
+|-------------------|----------------------------------------|
+| mixtral-8x7b      | 中型Mixtral模型                        |
+| mistral-34b       | 大型Mixtral模型，适合复杂任务           |
+| ...               | ...                                    |
+
+#### <img src="./background/image/Bing.jpg" alt="Bing Logo" class="logo-circle"> **Bing**
+
+| 模型名称           | 描述                                      |
+|--------------------|-------------------------------------------|
+| webgpt             | 适用于网页内容处理生成                      |
+| mj-chat            | Midjourney结合gpt4的对话生图模型           |
+| deepseek-chat      | 中文综合能力（AlignBench）开源模型中最强与 GPT-4-Turbo，文心 4.0 等闭源模型在评测中处于同一梯队 Chat专用 |
+| ...                | ...                                       |
 
 ### 🖼️ 文生图模型
 
@@ -264,6 +365,8 @@
 
 - **tts/tts-1-hd...**
 
+---
+
 ## 🤖 常用的基本设置
 
 ### 💎 方案区间设置
@@ -290,34 +393,34 @@
 
 <details>
   <summary>示例1</summary>
-  <img src="./background/image/math_1.jpg" alt="MathJax 示例1" width="400"/>
+  <img src="./background/image/math_1.jpg" alt="MathJax 示例1" width="100%"/>
 </details>
 
 <details>
   <summary>示例2</summary>
-  <img src="./background/image/math_2.jpg" alt="MathJax 示例2" width="400"/>
+  <img src="./background/image/math_2.jpg" alt="MathJax 示例2" width="100%"/>
 </details>
 
 #### 🔷 使用 Markdown (擅长渲染代码块，高亮)
 
 <details>
   <summary>示例1</summary>
-  <img src="./background/image/markdown_1.jpg" alt="Markdown 示例1" width="400"/>
+  <img src="./background/image/markdown_1.jpg" alt="Markdown 示例1" width="100%"/>
 </details>
 
 <details>
   <summary>示例2</summary>
-  <img src="./background/image/markdown_2.jpg" alt="Markdown 示例2" width="400"/>
+  <img src="./background/image/markdown_2.jpg" alt="Markdown 示例2" width="100%"/>
 </details>
 
 <details>
   <summary>示例3</summary>
-  <img src="./background/image/markdown_3.jpg" alt="Markdown 示例3" width="400"/>
+  <img src="./background/image/markdown_3.jpg" alt="Markdown 示例3" width="100%"/>
 </details>
 
 <details>
   <summary>示例4</summary>
-  <img src="./background/image/markdown_4.jpg" alt="Markdown 示例4" width="400"/>
+  <img src="./background/image/markdown_4.jpg" alt="Markdown 示例4" width="100%"/>
 </details>
 
 ### 💎 TTS语音回复
@@ -326,22 +429,24 @@
 
 <details>
   <summary>示例</summary>
-  <img src="./background/image/tts_1.png" alt="开启 TTS 回复" width="400"/>
+  <img src="./background/image/tts_1.png" alt="开启 TTS 回复" width="100%"/>
 </details>
 
 #### 🔷 查看 TTS 音色
 
 <details>
   <summary>示例</summary>
-  <img src="./background/image/tts_2.png" alt="查看 TTS 音色" width="400"/>
+  <img src="./background/image/tts_2.png" alt="查看 TTS 音色" width="100%"/>
 </details>
 
 #### 🔷 选择 TTS 音色
 
 <details>
   <summary>示例</summary>
-  <img src="./background/image/tts_3.png" alt="选择 TTS 音色" width="400"/>
+  <img src="./background/image/tts_3.png" alt="选择 TTS 音色" width="100%"/>
 </details>
+
+---
 
 ## 🤖 AI功能展示
 
@@ -351,48 +456,48 @@
 
 <details>
   <summary>📄 文件生成</summary>
-  <img src="./background/image/all_1.jpg" alt="文件生成" width="400"/>
+  <img src="./background/image/all_1.jpg" alt="文件生成" width="100%"/>
 </details>
 
 <details>
   <summary>📄 文件处理</summary>
-  <img src="./background/image/all_3.jpg" alt="文件处理" width="400"/>
+  <img src="./background/image/all_3.jpg" alt="文件处理" width="100%"/>
 </details>
 
 #### 🎨 Plus DALL-E 绘图
 
 <details>
   <summary>🎨 DALL-E 文生图</summary>
-  <img src="./background/image/all_2.jpg" alt="DALL-E 文生图" width="400"/>
+  <img src="./background/image/all_2.jpg" alt="DALL-E 文生图" width="100%"/>
 </details>
 
 <details>
   <summary>🎨 DALL-E 图生图</summary>
-  <img src="./background/image/all_4.jpg" alt="DALL-E 图生图" width="400"/>
+  <img src="./background/image/all_4.jpg" alt="DALL-E 图生图" width="100%"/>
 </details>
 
 #### 🔍 深度联网搜索
 
 <details>
   <summary>🔍 信息检索</summary>
-  <img src="./background/image/all_5.jpg" alt="信息检索" width="400"/>
+  <img src="./background/image/all_5.jpg" alt="信息检索" width="100%"/>
 </details>
 
 <details>
   <summary>🔍 检索生成</summary>
-  <img src="./background/image/all_6.jpg" alt="检索生成" width="400"/>
+  <img src="./background/image/all_6.jpg" alt="检索生成" width="100%"/>
 </details>
 
 #### 🖼️ 图像检索识别
 
 <details>
   <summary>🖼️ 图片检索</summary>
-  <img src="./background/image/all_7.jpg" alt="图片检索" width="400"/>
+  <img src="./background/image/all_7.jpg" alt="图片检索" width="100%"/>
 </details>
 
 <details>
   <summary>🖼️ 图片分析</summary>
-  <img src="./background/image/all_8.jpg" alt="图片分析" width="400"/>
+  <img src="./background/image/all_8.jpg" alt="图片分析" width="100%"/>
 </details>
 
 ### 💎 国产部分模型功能展示
@@ -401,54 +506,56 @@
 
 <details>
   <summary>🌙 点击查看</summary>
-  <img src="./background/image/kimi.jpg" alt="月之暗面 Web版" width="400"/>
+  <img src="./background/image/kimi.jpg" alt="月之暗面 Web版" width="100%"/>
 </details>
 
 #### 🌟 星火模型 Web版
 
 <details>
   <summary>🌟 点击查看</summary>
-  <img src="./background/image/星火.png" alt="星火模型 Web版" width="400"/>
+  <img src="./background/image/星火.png" alt="星火模型 Web版" width="100%"/>
 </details>
 
 #### 🧠 智谱清言 Web版
 
 <details>
   <summary>🧠 点击查看</summary>
-  <img src="./background/image/glm4.png" alt="智谱清言 Web版" width="400"/>
+  <img src="./background/image/glm4.png" alt="智谱清言 Web版" width="100%"/>
 </details>
 
 #### 🐉 百川智能 Web版
 
 <details>
   <summary>🐉 点击查看</summary>
-  <img src="./background/image/百川.png" alt="百川智能 Web版" width="400"/>
-  <img src="./background/image/百川2.png" alt="百川智能 Web版 2" width="400"/>
+  <img src="./background/image/百川.png" alt="百川智能 Web版" width="100%"/>
+  <img src="./background/image/百川2.png" alt="百川智能 Web版 2" width="100%"/>
 </details>
 
 #### 🖥️ 微软 Copilot
 
 <details>
   <summary>🖥️ 点击查看</summary>
-  <img src="./background/image/copilot_1.jpg" alt="微软 Copilot 1" width="400"/>
-  <img src="./background/image/copilot_2.jpg" alt="微软 Copilot 2" width="400"/>
-  <img src="./background/image/copilot_3.jpg" alt="微软 Copilot 3" width="400"/>
+  <img src="./background/image/copilot_1.jpg" alt="微软 Copilot 1" width="100%"/>
+  <img src="./background/image/copilot_2.jpg" alt="微软 Copilot 2" width="100%"/>
+  <img src="./background/image/copilot_3.jpg" alt="微软 Copilot 3" width="100%"/>
 </details>
 
 #### 🤖 通义千问 Web版
 
 <details>
   <summary>🤖 点击查看</summary>
-  <img src="./background/image/qwen_1.jpg" alt="通义千问 Web版 1" width="400"/>
-  <img src="./background/image/qwen_2.jpg" alt="通义千问 Web版 2" width="400"/>
+  <img src="./background/image/qwen_1.jpg" alt="通义千问 Web版 1" width="100%"/>
+  <img src="./background/image/qwen_2.jpg" alt="通义千问 Web版 2" width="100%"/>
 </details>
 
 #### 🔍 DeepSeek Web版
 
 <details>
   <summary>🔍 点击查看</summary>
-  <img src="./background/image/deepseek.png" alt="DeepSeek Web版" width="400"/>
+  <img src="./background/image/deepseek.png" alt="DeepSeek Web版" width="100%"/>
 </details>
+
+---
 
 ## 🔆 与AI交互流程
 
@@ -458,8 +565,10 @@
 
 <details>
   <summary>📈 点击查看流程图</summary>
-  <img src="./background/image/zs.jpg" alt="交互流程图" width="400"/>
+  <img src="./background/image/zs.jpg" alt="交互流程图" width="100%"/>
 </details>
+
+---
 
 ## 反馈与支持
 
@@ -487,10 +596,10 @@
 ![贡献成员](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)
 
 <a href="https://github.com/yuanplussfive/y-tian-plugin/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=yuanplussfive/y-tian-plugin" />
+  <img src="https://contrib.rocks/image?repo=yuanplussfive/y-tian-plugin" alt="Contributors"/>
 </a>
 
-![Alt](https://repobeats.axiom.co/api/embed/b0e531137448010a6b4b2e307afbd67e39c00d49.svg "Repobeats analytics image")
+![Repobeats analytics image]( "Repobeats analytics image")
 
 ### 🚪 传送门
 
