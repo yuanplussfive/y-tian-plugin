@@ -15,7 +15,7 @@ async function handleTTS(e, speakers, answer, fetch, _path) {
       return englishWords + chineseChars;
     };
     const words = countTextElements(text);
-    if (words > 200) {
+    if (words > 300) {
       return null;
     }
     const url = `https://yuanpluss.online:3000/v1/tts/create`;

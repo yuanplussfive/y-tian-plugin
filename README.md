@@ -98,293 +98,171 @@
 
 ### 💬 对话类模型
 
-<details>
-  <summary>🔹 OpenAI</summary>
-  - gpt-3.5-turbo
-  - gpt-3.5-turbo-0613
-  - gpt-3.5-turbo-instruct
-  - gpt-3.5-turbo-online
-  - gpt-3.5-turbo-1106
-  - gpt-3.5-turbo-0125
-  - gpt-3.5-turbo-16k
-  - gpt-3.5-turbo-16k-0613
-  - gpt-4
-  - gpt-4-0314
-  - gpt-4-0613
-  - gpt-4-32k
-  - gpt-4-32k-0613
-  - gpt-4-dalle
-  - gpt-4-vision
-  - gpt-4-1106-preview
-  - gpt-4-0125-preview
-  - gpt-4-turbo-2024-04-09
-  - gpt-4-turbo-preview
-  - gpt-4o
-  - gpt-4o-0513
-  - gpt-4o-0806
-  - gpt-4o-0903
-  - gpt-4o-latest
-  - gpt-4o-all
-  - gpt-4o-plus
-  - gpt-4-all
-  - gpt-4-plugins
-  - gpt-4-gizmo
-  - o1-mini
-  - o1-mini-20240912
-  - o1-mini-all
-  - o1-preview
-  - o1-preview-20240912
-  - o1-preview-all
-</details>
+#### 🌐 **OpenAI**
 
-<details>
-  <summary>🔹 Anthropic</summary>
-  - claude-1-100k
-  - claude-1.3-100k
-  - claude-2
-  - claude-2-sillytavern
-  - claude-3-haiku
-  - claude-3-sonnect
-  - claude-3-opus
-  - claude-3.5-sonnet-0620
-</details>
+| 模型名称 | 功能描述 |
+|----------|------|
+| gpt-3.5-turbo | 基础对话模型 |
+| gpt-4o-mini | 轻量版GPT4，优化响应速度 |
+| gpt-4 | 高级对话模型，支持更复杂任务 |
+| gpt-4-32k | 扩展上下文长度，适合长文档处理 |
+| gpt-4-vision | 支持图像输入的对话模型 |
+| gpt-4-dalle | 结合了GPT4和DALL-E的模型，能够理解和生成创意图像。 |
+| gpt-4-all | 多功能版GPT4模型，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
+| gpt-4o-all | 多功能版GPT4模型，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
+| gpt-4-gizmo | GPT4的一种变体，专注于特定应用场景，可以使用所有gpts的插件，集成了多种处理能力：**联网**、**识图**、**绘图**、**文件分析**、**代码解释器** |
+| o1-mini-all | 官网 plus 版本，有思考过程显示，o1-mini 是一个快速、高性价比的推理模型，专为编码、数学和科学用例而设计。该模型具有 128K 的上下文和最新的数据库. |
+| o1-preview-all | 官网 plus 版本，有思考过程显示，o1-preview 是OpenAI针对复杂任务的新推理模型，常用于处理复杂任务。该模型具有 128K 上下文和最新的数据库. |
+| ... | ... |
 
-<details>
-  <summary>🔹 Google</summary>
-  - google-palm
-  - google-bard
-  - gemini-pro
-  - gemini-pro-vision
-  - gemini-1.5-pro-latest
-  - gemini-1.5-flash-latest
-  - gemma-2b-it
-  - gemma-7b-it
-  - gemma-2-7b-it
-  - gemma-2-27b-it
-</details>
+#### 🧠 **Anthropic**
 
-<details>
-  <summary>🔹 Meta</summary>
-  - llama-2-7b
-  - llama-2-13b
-  - llama-2-70b
-  - llama-3-8b
-  - llama-3-70b
-  - llama-3-sonar-small-32k-online
-  - llama-3-sonar-small-32k-chat
-  - llama-3-sonar-large-32k-online
-  - llama-3-sonar-large-32k-chat
-  - code-llama-7b
-  - code-llama-13b
-  - code-llama-34b
-  - code-llama-70b-instruct
-  - llama-3-7b
-  - llama-3-70b
-  - llama-3-405b
-</details>
+| 模型名称 | 功能描述 |
+|----------|------|
+| claude-3-haiku-20240307 | Claude模型V3系列的轻量版本，具有最快的响应速度 |
+| claude-3-opus-20240229 | Claude模型的最新版本，具有最先进的语言处理技术 |
+| claude-3-5-sonnet-20240620 | Claude模型的最新版本,比opus还强，更廉价，具有最先进的语言处理技术 |
+| ... | ... |
 
-<details>
-  <summary>🔹 ChatGLM</summary>
-  - glm-pro
-  - glm-turbo
-  - glm-130b
-  - glm-3-turbo
-  - glm-4
-  - glm-4-v
-  - glm-4-alltools
-  - glm-4-0520
-  - glm-4-flash
-  - glm-4-air-0520
-  - glm-4-plus
-</details>
+#### 🔍 **Google**
 
-<details>
-  <summary>🔹 Mixtral</summary>
-  - mixtral-8x7b
-  - mixtral-8x22b
-  - mixtral-medium
-  - mistral-34b
-  - mistral-7b-instruct
-</details>
+| 模型名称 | 描述 |
+|----------|------|
+| gemini-pro | Google高级人工智能模型，提供更复杂的语言理解和生成能力 |
+| gemini-pro-vision | Google高级人工智能模型，支持图像识别 |
+| gemini-1.5-pro | Google高级人工智能模型，复杂的推理任务，例如代码和文本生成、文本编辑、问题解决、数据提取和生成，支持图像识别 |
+| gemini-1.5-flash | Google高级人工智能模型，轻量版本，支持图像识别 |
+| ... | ... |
 
-<details>
-  <summary>🔹 Reka</summary>
-  - reka-core
-  - reka-flash
-  - reka-edge
-</details>
+#### 🦾 **Meta**
 
-<details>
-  <summary>🔹 360智脑</summary>
-  - 360-ai
-  - 360-search
-</details>
+| 模型名称 | 描述 |
+|----------|------|
+| llama-2-7b | 轻量级语言模型 |
+| llama-3-sonar-large-32k-chat | 大型聊天模型，支持长上下文 |
+| code-llama-70b-instruct | 专注于代码生成与理解 |
+| ... | ... |
 
-<details>
-  <summary>🔹 通义千问</summary>
-  - qwen-72b
-  - qwen-alltools
-</details>
+#### 🤖 **ChatGLM**
 
-<details>
-  <summary>🔹 月之暗面</summary>
-  - moonshot-v1-8k
-  - moonshot-v1-32k
-  - moonshot-v1-128k
-  - moonshot-alltools
-</details>
+| 模型名称 | 描述 |
+|----------|------|
+| glm-4 | 智谱AI通用大模型，提供了更强大的问答和文本生成能力。适合于复杂的对话交互和深度内容创作设计的场景。 |
+| glm-4v | 智谱AI通用大模型，实现了视觉语言特征的深度融合，支持视觉问答、图像字幕、视觉定位、复杂目标检测等各类图像理解任务。 |
+| glm-4-alltools | 集成多种工具的ChatGLM |
+| glm-4-plus | 能力强化的ChatGLM |
+| ... | ... |
 
-<details>
-  <summary>🔹 字节跳动</summary>
-  - doubao-lite
-  - doubao-all
-  - doubao-32k
-  - coze-assistent-all
-  - coze-gpt-4-all
-</details>
+#### 🌟 **Mixtral**
 
-<details>
-  <summary>🔹 Microsoft</summary>
-  - github-copilot
-  - windows-copilot
-  - Bing-Balanced
-  - Bing-Practice
-  - Bing-Creative
-  - Bing-gpt-4-turbo
-</details>
+| 模型名称 | 描述 |
+|----------|------|
+| mixtral-8x7b | 中型Mixtral模型 |
+| mistral-34b | 大型Mixtral模型，适合复杂任务 |
+| ... | ... |
 
-<details>
-  <summary>🔹 百度千帆</summary>
-  - baidu-search
-  - ERNIE-Bot-lite
-  - ERNIE-Bot-3.5
-  - ERNIE-Bot-4.0
-</details>
+#### ⚙️ **其他模型**
 
-<details>
-  <summary>🔹 讯飞星火</summary>
-  - spark-desk-v1.5
-  - spark-desk-v2.0
-  - spark-desk-v3.0
-  - spark-desk-v3.5
-  - spark-desk-v4.0
-  - spark-desk-alltools
-</details>
-
-<details>
-  <summary>🔹 深度求索</summary>
-  - deepseek-chat
-  - deepseek-code
-  - deepseek-V2-chat
-  - deepseek-V2-code
-</details>
-
-<details>
-  <summary>🔹 零一万物</summary>
-  - yi-34b
-  - yi-34b-chat-200k
-  - yi-V1-32k
-  - yi-V2-128k
-</details>
-
-<details>
-  <summary>🔹 百川智能</summary>
-  - baichuan-v3-53b
-  - baichuan-v3-alltools
-  - baichuan-v4-plus
-</details>
-
-<details>
-  <summary>🔹 其他模型</summary>
-  - webgpt
-  - mj-chat
-  - coze-gpt-4-all
-  - reka-flash
-  - command-r-plus
-  - Atom-13B-Chat
-  - Minimax-hailuo
-  - step-1-200k
-  - hunyuan-alltools
-  - ......
-</details>
+| 模型名称 | 描述 |
+|----------|------|
+| webgpt | 适用于网页内容处理生成 |
+| mj-chat | Midjourney结合gpt4的对话生图模型 |
+| deepseek-chat | 中文综合能力（AlignBench）开源模型中最强与 GPT-4-Turbo，文心 4.0 等闭源模型在评测中处于同一梯队 Chat专用 |
+| ... | ... |
 
 ### 🖼️ 文生图模型
 
-<details>
-  <summary>🔹 Stability</summary>
-  - Stable Diffusion 系列
-</details>
+#### 🎨 **Stability**
 
-<details>
-  <summary>🔹 Flux</summary>
-  - Flux 系列
-</details>
+- **Stable Diffusion 系列**
+  - 高质量图像生成
+  - 多种风格支持
 
-<details>
-  <summary>🔹 PixArt</summary>
-  - pixart 系列
-</details>
+#### 🌈 **Flux**
 
-<details>
-  <summary>🔹 Midjourney</summary>
-  - Midjourney/Niji 系列
-</details>
+- **Flux 系列**
+  - 快速图像生成
+  - 灵活的风格调整
 
-<details>
-  <summary>🔹 OpenAI</summary>
-  - DALL-E 系列
-</details>
+#### 🎨 **playground**
 
-<details>
-  <summary>🔹 其他</summary>
-  - Stable Cascade, dream...
-</details>
+- **playground-v2/3 系列**
+  - 高质量图像生成
+  - 多种风格支持
+
+#### 🖌️ **PixArt**
+
+- **PixArt 系列**
+  - 艺术风格图像生成
+  - 支持多种艺术流派
+
+#### 🌌 **Midjourney**
+
+- **Midjourney/Niji 系列**
+  - 高度详细的图像生成
+  - 多种风格支持
+
+#### 🖍️ **OpenAI**
+
+- **DALL-E 系列**
+  - 创意图像生成
+  - 支持图生图
+
+#### 🌈 **ideogram**
+
+- **ideogram-V2 系列**
+  - 快速图像生成
+  - 擅长艺术风格
+
+#### 🖼️ **其他**
+
+- **Stable Cascade**, **dream...** 等
 
 ### 🔍 识图模型
 
-<details>
-  <summary>🔹 OCR</summary>
-  - 文字识别
-</details>
+#### 📝 **OCR**
 
-<details>
-  <summary>🔹 OpenAI</summary>
-  - gpt-4-v/all 系列多模态 GPT 模型
-</details>
+- **文字识别**
+  - 高精度文字提取
+  - 支持多语言
 
-<details>
-  <summary>🔹 ChatGLM</summary>
-  - glm-4-alltools 系列多功能模型
-</details>
+#### 🌐 **OpenAI**
 
-<details>
-  <summary>🔹 Google</summary>
-  - gemini-pro-vision 系列专业视觉模型
-</details>
+- **gpt-4-v/all 系列多模态 GPT 模型**
+  - 支持图像与文本混合输入
+  - 强大的理解与生成能力
 
-<details>
-  <summary>🔹 其他</summary>
-  - ...
-</details>
+#### 🤖 **ChatGLM**
+
+- **glm-4-alltools 系列多功能模型**
+  - 集成多种工具
+  - 支持图像分析
+
+#### 🔍 **Google**
+
+- **gemini-pro-vision 系列专业视觉模型**
+  - 高级图像识别
+  - 专业应用支持
+
+#### 🖼️ **其他**
+
+- ...
 
 ### 🔊 语音模型
 
-<details>
-  <summary>🔹 虚拟偶像</summary>
-  - 原神崩三等语音
-  - Fish-vits语音
-</details>
+#### 🎤 **虚拟偶像**
 
-<details>
-  <summary>🔹 歌曲生成</summary>
-  - Suno-V3
-  - Suno-V3.5
-</details>
+- **原神崩三等语音**
+- **Fish-vits语音**
 
-<details>
-  <summary>🔹 OpenAI</summary>
-  - tts/tts-1-hd...
-</details>
+#### 🎵 **歌曲生成**
+
+- **Suno-V3**
+- **Suno-V3.5**
+
+#### 🗣️ **OpenAI**
+
+- **tts/tts-1-hd...**
 
 ## 🤖 常用的基本设置
 
@@ -392,16 +270,18 @@
 
 <details>
   <summary>🔷 开启分区间 (个人独立对话)</summary>
-  - **命令示例：**
-    - `#xx开启分区间`
-    - `#切换xx预设xx`
+  
+  **命令示例：**
+  - `#xx开启分区间`
+  - `#切换xx预设xx`
 </details>
 
 <details>
   <summary>🔷 关闭分区间 (群聊共享对话)</summary>
-  - **命令示例：**
-    - `#xx关闭分区间`
-    - `#切换xx预设xx`
+  
+  **命令示例：**
+  - `#xx关闭分区间`
+  - `#切换xx预设xx`
 </details>
 
 ### 💎 图片对话渲染方式
@@ -467,106 +347,106 @@
 
 ### 💎 多模态部分模型功能展示
 
-#### 🔷 文件处理和生成
+#### 📄 文件处理和生成
 
 <details>
-  <summary>文件生成</summary>
+  <summary>📄 文件生成</summary>
   <img src="./background/image/all_1.jpg" alt="文件生成" width="400"/>
 </details>
 
 <details>
-  <summary>文件处理</summary>
+  <summary>📄 文件处理</summary>
   <img src="./background/image/all_3.jpg" alt="文件处理" width="400"/>
 </details>
 
-#### 🔷 Plus DALL-E 绘图
+#### 🎨 Plus DALL-E 绘图
 
 <details>
-  <summary>DALL-E 文生图</summary>
+  <summary>🎨 DALL-E 文生图</summary>
   <img src="./background/image/all_2.jpg" alt="DALL-E 文生图" width="400"/>
 </details>
 
 <details>
-  <summary>DALL-E 图生图</summary>
+  <summary>🎨 DALL-E 图生图</summary>
   <img src="./background/image/all_4.jpg" alt="DALL-E 图生图" width="400"/>
 </details>
 
-#### 🔷 深度联网搜索
+#### 🔍 深度联网搜索
 
 <details>
-  <summary>信息检索</summary>
+  <summary>🔍 信息检索</summary>
   <img src="./background/image/all_5.jpg" alt="信息检索" width="400"/>
 </details>
 
 <details>
-  <summary>检索生成</summary>
+  <summary>🔍 检索生成</summary>
   <img src="./background/image/all_6.jpg" alt="检索生成" width="400"/>
 </details>
 
-#### 🔷 图像检索识别
+#### 🖼️ 图像检索识别
 
 <details>
-  <summary>图片检索</summary>
+  <summary>🖼️ 图片检索</summary>
   <img src="./background/image/all_7.jpg" alt="图片检索" width="400"/>
 </details>
 
 <details>
-  <summary>图片分析</summary>
+  <summary>🖼️ 图片分析</summary>
   <img src="./background/image/all_8.jpg" alt="图片分析" width="400"/>
 </details>
 
 ### 💎 国产部分模型功能展示
 
-#### 月之暗面 Web版
+#### 🌙 月之暗面 Web版
 
 <details>
-  <summary>点击查看</summary>
+  <summary>🌙 点击查看</summary>
   <img src="./background/image/kimi.jpg" alt="月之暗面 Web版" width="400"/>
 </details>
 
-#### 星火模型 Web版
+#### 🌟 星火模型 Web版
 
 <details>
-  <summary>点击查看</summary>
+  <summary>🌟 点击查看</summary>
   <img src="./background/image/星火.png" alt="星火模型 Web版" width="400"/>
 </details>
 
-#### 智谱清言 Web版
+#### 🧠 智谱清言 Web版
 
 <details>
-  <summary>点击查看</summary>
+  <summary>🧠 点击查看</summary>
   <img src="./background/image/glm4.png" alt="智谱清言 Web版" width="400"/>
 </details>
 
-#### 百川智能 Web版
+#### 🐉 百川智能 Web版
 
 <details>
-  <summary>点击查看</summary>
+  <summary>🐉 点击查看</summary>
   <img src="./background/image/百川.png" alt="百川智能 Web版" width="400"/>
   <img src="./background/image/百川2.png" alt="百川智能 Web版 2" width="400"/>
 </details>
 
-#### 微软 Copilot
+#### 🖥️ 微软 Copilot
 
 <details>
-  <summary>点击查看</summary>
+  <summary>🖥️ 点击查看</summary>
   <img src="./background/image/copilot_1.jpg" alt="微软 Copilot 1" width="400"/>
   <img src="./background/image/copilot_2.jpg" alt="微软 Copilot 2" width="400"/>
   <img src="./background/image/copilot_3.jpg" alt="微软 Copilot 3" width="400"/>
 </details>
 
-#### 通义千问 Web版
+#### 🤖 通义千问 Web版
 
 <details>
-  <summary>点击查看</summary>
+  <summary>🤖 点击查看</summary>
   <img src="./background/image/qwen_1.jpg" alt="通义千问 Web版 1" width="400"/>
   <img src="./background/image/qwen_2.jpg" alt="通义千问 Web版 2" width="400"/>
 </details>
 
-#### DeepSeek Web版
+#### 🔍 DeepSeek Web版
 
 <details>
-  <summary>点击查看</summary>
+  <summary>🔍 点击查看</summary>
   <img src="./background/image/deepseek.png" alt="DeepSeek Web版" width="400"/>
 </details>
 
@@ -577,7 +457,7 @@
 > 阴天帮助 → AI总帮助 → 打开At回复 → 选择启用方案 → 参考方案帮助（小白授权后可免费使用附加模型，推荐使用此方案）
 
 <details>
-  <summary>点击查看流程图</summary>
+  <summary>📈 点击查看流程图</summary>
   <img src="./background/image/zs.jpg" alt="交互流程图" width="400"/>
 </details>
 
@@ -604,13 +484,13 @@
 
 ### ✨ 贡献成员
 
-[![贡献成员](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+![贡献成员](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)
 
 <a href="https://github.com/yuanplussfive/y-tian-plugin/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=yuanplussfive/y-tian-plugin" />
 </a>
 
-![Alt](https://repobeats.axiom.co/api/embed/b0e531137448010a6b4b2e307afbd67e39c00d49.svg "Repobeats analytics image")
+![Repobeats analytics image]( "Repobeats analytics image")
 
 ### 🚪 传送门
 
