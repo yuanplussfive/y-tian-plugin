@@ -16,9 +16,9 @@
     <img src="https://img.shields.io/badge/-JavaScript-eed718?style=flat-square&logo=javascript&logoColor=ffffff" alt="JavaScript" height="25">
     <img src="https://img.shields.io/badge/-Node.js-3C873A?style=flat-square&logo=Node.js&logoColor=white" alt="Node.js" height="25">
     <img src="https://img.shields.io/badge/Yunzai-V3.0.0-red?style=flat-square&logo=dependabot" alt="Miao-Yunzai" height="25">
-    <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024">
-      <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" alt="Security Status" height="25">
-    </a>
+    <a href="https://www.murphysec.com/console/report/1718228587458985984/1718228588025217024" style="display: block; width: 100%;">
+    <img src="https://www.murphysec.com/platform3/v31/badge/1718228588025217024.svg" alt="Security Status" style="width: 100%; height: auto; max-width: 300px;">
+   </a>
   </div>
 
   <h1 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页</h1>
@@ -38,6 +38,8 @@
 > **Y-Tian-Plugin** 是一款集成多种功能的 **Yunzai-Bot V3** 插件包。通过整合多种 AI 模型与娱乐功能，提升机器人多功能性。  
 > 致力于为用户提供免费AI模型，支持日常生活和学习，提供附加版、专业版及国产方案，集成百余个流行大模型，免费使用100+大模型（包括 GPT-4/4-all 等）。  
 > **注意：** 非法用途（如色情、暴力、涉政等）将导致用户IP封禁，敬请理解！
+
+> 📢 **本项目Ai大多数均为免费公益，切勿被骗！**
 
 ### 🧠 AI模型支持
 
@@ -126,7 +128,7 @@
 
 #### 🔍 **Google**
 
-| 模型名称 | 描述 |
+| 模型名称 | 功能描述 |
 |----------|------|
 | gemini-pro | Google高级人工智能模型，提供更复杂的语言理解和生成能力 |
 | gemini-pro-vision | Google高级人工智能模型，支持图像识别 |
@@ -136,7 +138,7 @@
 
 #### 🔍 **Bing**
 
-| 模型名称 | 描述 |
+| 模型名称 | 功能描述 |
 |----------|------|
 | Bing-Creative | 必应创造模式，擅长发散 |
 | Bing-Practice | 必应严谨模式，严谨思考 |
@@ -145,7 +147,7 @@
 
 #### 🦾 **Meta**
 
-| 模型名称 | 描述 |
+| 模型名称 | 功能描述 |
 |----------|------|
 | llama-2-7b | 轻量级语言模型 |
 | llama-3-sonar-large-32k-chat | 大型聊天模型，支持长上下文 |
@@ -154,7 +156,7 @@
 
 #### 🤖 **ChatGLM**
 
-| 模型名称 | 描述 |
+| 模型名称 | 功能描述 |
 |----------|------|
 | glm-4 | 智谱AI通用大模型，提供了更强大的问答和文本生成能力。适合于复杂的对话交互和深度内容创作设计的场景。 |
 | glm-4v | 智谱AI通用大模型，实现了视觉语言特征的深度融合，支持视觉问答、图像字幕、视觉定位、复杂目标检测等各类图像理解任务。 |
@@ -164,7 +166,7 @@
 
 #### 🌟 **Mixtral**
 
-| 模型名称 | 描述 |
+| 模型名称 | 功能描述 |
 |----------|------|
 | mixtral-8x7b | 中型Mixtral模型 |
 | mistral-34b | 大型Mixtral模型，适合复杂任务 |
@@ -172,7 +174,7 @@
 
 #### ⚙️ **其他模型**
 
-| 模型名称 | 描述 |
+| 模型名称 | 功能描述 |
 |----------|------|
 | webgpt | 适用于网页内容处理生成 |
 | mj-chat | Midjourney结合gpt4的对话生图模型 |
@@ -272,6 +274,12 @@
 #### 🗣️ **OpenAI**
 
 - **tts/tts-1-hd...**
+
+### 🎥 视频模型
+
+#### 📹 **Runway**
+#### 🎬 **Vidu**
+#### 📺 **Luma**
 
 ## 🤖 常用的基本设置
 
