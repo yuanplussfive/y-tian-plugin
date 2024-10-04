@@ -8,19 +8,19 @@
 
 body {
   margin: 0;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Chinese', sans-serif;
   background-color: #f5f5f5;
   /* 浅灰色背景增强对比 */
   color: #000000;
   /* 全局文字颜色 */
   line-height: 1.6;
-  font-size: 18px;
+  font-size: 22px;
   /* 调整字体大小 */
 }
 
 /* Markdown内容样式 */
 .mardown-content {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 18px;
   /* 调整字体大小 */
   padding: 20px;
@@ -519,6 +519,13 @@ body {
 @font-face {
   font-family: "NZBZ";
   src: url("NZBZ.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Chinese";
+  src: url("ZCOOLQingKeHuangYou-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }

@@ -414,19 +414,30 @@ export class example extends plugin {
         let others_group = JSON.parse(await fs.promises.readFile(_path + "/data/YTotherai/workshop.json", "utf-8")).workshop.limit;
         let god_group = JSON.parse(await fs.promises.readFile(_path + "/data/YTgptgod/workshop.json", "utf-8")).workshop.limit;
         let chat_group = JSON.parse(await fs.promises.readFile(_path + "/data/YTopenai/workshop.json", "utf-8")).workshop.limit;
-        const god_proxy = JSON.parse(fs.readFileSync(_path + "/data/YTgptgod/proxy.json", "utf-8"))
-        const chat_proxy = JSON.parse(fs.readFileSync(_path + "/data/YTopenai/proxy.json", "utf-8"))
         const yunzaiNameMap = {
             'miao-yunzai': 'Miao-Yunzai',
             'yunzai': 'Yunzai-Bot',
             'trss-yunzai': 'TRSS-Yunzai',
         };
         let yunzaiName = yunzaiNameMap[cfg.package.name] || '未知';
+        const proxyIds = {
+            default: '国内线路1',
+            1: '国内线路1',
+            2: '国内线路2',
+            3: '日本节点',
+            4: '硅谷机房'
+        };
+        const chat_proxy = JSON.parse(fs.readFileSync(_path + "/data/YTopenai/proxy.json", "utf-8"));
+        const chat_proxyId = chat_proxy.chatgpt.proxy_id;
+        const chat_proxyIds = proxyIds[chat_proxyId] || proxyIds.default;
+        const god_proxy = JSON.parse(fs.readFileSync(_path + "/data/YTopenai/proxy.json", "utf-8"));
+        const god_proxyId = god_proxy.chatgpt.proxy_id;
+        const god_proxyIds = proxyIds[god_proxyId] || proxyIds.default;
         let data = {
             all_min_css: _path + "/plugins/y-tian-plugin/resources/css/fontawesome-free-6.6.0-web/css/all.min.css",
             yunzaiName: yunzaiName,
-            god_proxy: god_proxy ? '已关闭' : '已开启',
-            chat_proxy: chat_proxy ? '已关闭' : '已开启',
+            god_proxy: god_proxyIds,
+            chat_proxy: chat_proxyIds,
             others_group: others_group ? '共享区间' : '独立区间',
             god_group: god_group ? '共享区间' : '独立区间',
             chat_group: chat_group ? '共享区间' : '独立区间',

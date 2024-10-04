@@ -1,9 +1,24 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
-    <title>gotgod-help</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GotGod Help</title>
     <style>
+        /* CSS变量定义 */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            --background-overlay: rgba(44, 44, 46, 0.85);
+            --card-background: rgba(0, 0, 0, 0.6);
+            --accent-color: #ff6b6b;
+            --text-color: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --transition-speed: 0.3s;
+            --font-primary: "jty", sans-serif;
+            --font-secondary: sans-serif;
+        }
+
         @font-face {
             font-family: "jty";
             src: url("{{src}}");
@@ -11,215 +26,241 @@
             font-style: normal;
         }
 
-        * {
-            padding: 0;
-            margin: 0;
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            color: #ffffff;
-            font-family: "jty", sans-serif;
+            font-family: var(--font-primary);
+            background: var(--primary-gradient);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             background-size: cover;
             background-attachment: fixed;
+            overflow-x: hidden;
         }
 
         #container {
             width: 90%;
             max-width: 900px;
-            margin: 20px auto;
-            background: rgba(44, 44, 46, 0.8);
+            background: var(--background-overlay);
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            padding: 20px;
+            box-shadow: 0 0 20px var(--shadow-color);
+            padding: 2rem;
             backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
-        h1 {
-            color: #ff6b6b;
-            font-size: 48px;
-            margin-bottom: 20px;
+        header {
             text-align: center;
-            text-shadow: 0px 0px 20px rgba(255, 255, 255, 1);
+        }
+
+        header h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
         }
 
         .content {
-            margin-top: 20px;
-            padding: 20px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
+            padding: 1.5rem;
         }
 
-        h2 {
-            color: #fff;
+        .content h2 {
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
-            margin: 10px 0;
-            padding: 10px;
-            line-height: 40px;
+            padding: 0.75rem;
             text-align: center;
-            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
-        }
-
-        .content-div {
-            margin: 20px 0;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
         }
 
         .content-box {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: space-around;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
         }
 
         .children-box {
-            padding: 20px;
-            flex: 1 1 calc(33.33% - 20px);
-            background: rgba(0, 0, 0, 0.5);
+            background: var(--card-background);
             border-radius: 10px;
+            padding: 1rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
             backdrop-filter: blur(5px);
-            transition: background 0.3s ease, transform 0.3s ease;
+            transition: background var(--transition-speed), transform var(--transition-speed);
+            cursor: pointer;
         }
 
         .children-box:hover {
-            background: rgba(0, 0, 0, 0.7);
-            transform: scale(1.05);
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateY(-5px);
         }
 
-        .right {
-            text-align: center;
-        }
-
-        .right span:nth-child(1) {
+        .children-box .title {
             font-weight: 600;
             color: #ffffe0;
-            display: block;
-            margin-bottom: 10px;
-            font-size: 18px;
-            text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
-        .right span:nth-child(2) {
-            font-family: "jty";
-            font-size: 14px;
+        .children-box .description {
+            font-size: 0.875rem;
             color: #f0fcff;
+            text-align: center;
+            line-height: 1.4;
         }
 
         .version {
             background-color: rgba(220, 220, 220, 0.1);
-            padding: 10px 0;
+            padding: 1rem 0;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 20px;
+            margin-top: 1.5rem;
         }
 
         .version h3 {
             color: #c9843b;
-            margin-bottom: 10px;
-            text-shadow: 1px 0px 0px #fff;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 0 #fff;
         }
 
         .version p {
-            color: #ffffff;
+            color: var(--text-color);
+            font-size: 1rem;
         }
 
         @media (max-width: 768px) {
-            .children-box {
-                flex: 1 1 100%;
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .content h2 {
+                font-size: 1.25rem;
+            }
+
+            .children-box .title {
+                font-size: 1rem;
+            }
+
+            .children-box .description {
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
+
 <body>
-<div id="container">
-    <h1>Y-Tian-GodGPT</h1>
-    <div class="content">
-        <h2>god主要指令</h2>
-        <div class="content-div">
+    <div id="container">
+        <header>
+            <h1>Y-Tian-GodGPT</h1>
+        </header>
+        <section class="content">
+            <h2>God 主要指令</h2>
             <div class="content-box">
                 <div class="children-box">
-                    <div class="right">
-                        <span>填写god密钥</span>
-                        <span>/填写godsksk-xxxxxxx<br>填写你个人的godsk</span>
+                    <div class="title">填写God密钥</div>
+                    <div class="description">
+                        /填写godsksk-xxxxxxx<br>
+                        填写你个人的godsk
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>开启god联网</span>
-                        <span>/开启god联网,开启联网<br>/关闭god联网,同理</span>
+                    <div class="title">开启God联网</div>
+                    <div class="description">
+                        /开启god联网, 开启联网<br>
+                        /关闭god联网, 同理
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>查询god积分</span>
-                        <span>/查询总积分,查询剩余积分<br>/切换god密钥+序号,切换密钥</span>
+                    <div class="title">查询God积分</div>
+                    <div class="description">
+                        /查询总积分, 查询剩余积分<br>
+                        /切换god密钥+序号, 切换密钥
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>结束god对话</span>
-                        <span>/结束god对话,结束当前用户对话,支持at方式<br>/结束(全部)god(群)对话,结束全部</span>
+                    <div class="title">结束God对话</div>
+                    <div class="description">
+                        /结束god对话, 结束用户对话, 支持at<br>
+                        /结束(全部)god(群)对话, 结束全部
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>god模型管理</span>
-                        <span>/god模型大全,查看所有god模型<br>/切换god模型+序号,切换god模型</span>
+                    <div class="title">God模型管理</div>
+                    <div class="description">
+                        /god模型大全, 查看所有god模型<br>
+                        /切换god模型+序号, 切换god模型
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>god分区间</span>
-                        <span>/god开启分区间,此时使用独立预设<br>/god关闭分区间,此时使用群预设</span>
+                    <div class="title">God分区间</div>
+                    <div class="description">
+                        /god开启分区间, 此时使用独立预设<br>
+                        /god关闭分区间, 此时使用群预设
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>切换god预设</span>
-                        <span>/查看god预设,查看预设<br>/切换god预设+序号,切换个人预设<br>/切换god群预设+序号,切换群预设</span>
+                    <div class="title">切换God预设</div>
+                    <div class="description">
+                        /查看god预设, 查看预设<br>
+                        /切换god预设+序号, 切换个人预设<br>
+                        /切换god群预设+序号, 切换群预设
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>开启god代理</span>
-                        <span>/god开启代理,开启代理模式<br>(如无法正常访问,请开启代理)<br>/god关闭代理,同理</span>
+                    <div class="title">开启God代理</div>
+                    <div class="description">
+                        /god更改代理+序号(1-4), 选择代理地址<br>
+                        1. 国内线路(带CF),
+                        2. 国内线路(高速)<br>
+                        3. 日本节点,
+                        4. 硅谷机房
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>AI生图(SD, dalle)</span>
-                        <span>/sd画图+描述内容,poe等的sdxl提供<br>/plus画图+描述内容,plus账号gpt-4提供<br>mj绘图请用chat方案</span>
+                    <div class="title">分配/查询积分</div>
+                    <div class="description">
+                        @xxx/分配积分+数量<br>
+                        艾特一个群友加限制数量<br>
+                        限制某群友使用的god积分<br>
+                        @xxx/查询积分<br>
+                        艾特群友查询他的剩余积分
                     </div>
                 </div>
                 <div class="children-box">
-                    <div class="right">
-                        <span>分配/查询积分</span>
-                        <span>@xxx/分配积分+数量<br>艾特一个群友加限制数量<br>限制某群友使用的god积分<br>@xxx/查询积分<br>艾特群友查询他的剩余积分</span>
-                    </div>
-                </div>
-                <div class="children-box">
-                    <div class="right">
-                        <span>使用god示例</span>
-                        <span>1,#艾特回复使用god<br>让你的bot在被艾特时使用god方案<br>2,#禁用方案god,独享god<br>3,#更改god触发名+名称<br>可以使用名称开头触发回复</span>
+                    <div class="title">使用God示例</div>
+                    <div class="description">
+                        1. #艾特回复使用God<br>
+                        让你的Bot在被艾特时使用God方案<br>
+                        2. #禁用方案God, 独享God<br>
+                        3. #更改God触发名+名称<br>
+                        可以使用名称开头触发回复
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+        <footer class="version">
+            <h3>版本信息</h3>
+            <p>当前版本：1.3.1</p>
+        </footer>
     </div>
-    <div class="version">
-        <h3>版本信息</h3>
-        <p>当前版本：1.3.1</p>
-    </div>
-</div>
 </body>
+
 </html>
