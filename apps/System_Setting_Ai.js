@@ -145,11 +145,6 @@ export class example extends plugin {
                     permission: 'master'
                 },
                 {
-                    reg: "^#(开启|关闭)(群)?全局预设$",
-                    fnc: 'add_systems',
-                    permission: 'master'
-                },
-                {
                     reg: "^#(新增|删除)(ai|AI|aI)违禁词(.*)$",
                     fnc: 'add_words',
                     permission: 'master'
@@ -234,28 +229,6 @@ export class example extends plugin {
         data.chatgpt.group_history_open = e.msg.includes("开启");
         writeJsonFile(dataFilePath, data);
         e.reply(`群聊上下文已${data.chatgpt.group_history_open ? '开启' : '关闭'}携带`);
-    }
-
-    async add_systems(e) {
-        let data = readJsonFile(dataFilePath);
-        data.chatgpt.add_systems_open ||= {};
-        let QQ_at = e.message
-            .filter(item => item.type === 'at')
-            .map(item => item.qq) || [e.user_id || e.from_id];
-        if (QQ_at.length === 0) QQ_at = [e.user_id || e.from_id];
-        if (e.msg.includes("群")) QQ_at = [e.group_id];
-        if (e.isMaster || (QQ_at.includes(e.user_id) && QQ_at.length === 1)) {
-            for (let qq of QQ_at) {
-                data.chatgpt.add_systems_open[qq] = e.msg.includes("开启");
-                writeJsonFile(dataFilePath, data);
-                e.reply(`用户 ${qq} 全局预设已${data.chatgpt.add_systems_open[qq] ? '开启' : '关闭'}`);
-            }
-        } else {
-            let id = e.user_id || e.from_id;
-            data.chatgpt.add_systems_open[id] = e.msg.includes("开启");
-            writeJsonFile(dataFilePath, data);
-            e.reply(`用户 ${id} 全局预设已${data.chatgpt.add_systems_open[id] ? '开启' : '关闭'}`);
-        }
     }
 
     async add_words(e) {
