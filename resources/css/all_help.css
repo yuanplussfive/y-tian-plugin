@@ -12,6 +12,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      font-family: 'Chinese', sans-serif;
       min-height: 100vh;
   }
 
@@ -81,4 +82,11 @@
       100% {
           box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
       }
+  }
+
+  @font-face {
+    font-family: "Chinese";
+    src: url("ZCOOLQingKeHuangYou-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
   }

@@ -803,5 +803,12 @@ export const other_models = [
     "points": "Google",
     "token": "1000000",
     "features": ['conversation', 'code', 'image_recognition']
+  },
+  {
+    "id": 116,
+    "model": "spark-desk-v4",
+    "points": "科大讯飞",
+    "token": "128000",
+    "features": ['conversation', 'code']
   }
 ]

@@ -1,0 +1,135 @@
+  @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+  @import url('fontawesome-free-6.6.0-web/css/all.min.css');
+
+  @font-face {
+      font-family: "Chinese";
+      src: url("ZCOOLQingKeHuangYou-Regular.ttf");
+      font-weight: normal;
+      font-style: normal;
+  }
+
+  * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+  }
+
+  body {
+      font-family: "Chinese";
+      background: #0f2027;
+      /* 深色背景 */
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+  }
+
+  /* 主标题样式 */
+  .main-title {
+      font-size: 3rem;
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, background 0.3s;
+  }
+
+  .main-title:hover {
+      transform: scale(1.05);
+      background: rgba(0, 0, 0, 0.7);
+  }
+
+  /* 内容区域样式 */
+  .content-area {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin-top: 3rem;
+  }
+
+  /* 单个模块样式 */
+  .section {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+      backdrop-filter: blur(10px);
+  }
+
+  .section:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 模块标题样式 */
+  .section-title {
+      display: flex;
+      align-items: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+  }
+
+  .section-title i {
+      margin-right: 0.5rem;
+      color: #00d1b2;
+      /* 科技蓝色图标 */
+      transition: color 0.3s;
+  }
+
+  .section:hover .section-title i {
+      color: #ffdd57;
+      /* 悬停时图标颜色变化 */
+  }
+
+  .section-title span {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      flex-grow: 1;
+      text-align: center;
+      font-weight: 500;
+  }
+
+  /* 模块内容样式 */
+  .section-content {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      color: #ecf0f1;
+      background: rgba(44, 62, 80, 0.8);
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+      transition: background 0.3s;
+  }
+
+  .section:hover .section-content {
+      background: rgba(44, 62, 80, 1);
+  }
+
+  /* 响应式调整 */
+  @media (max-width: 600px) {
+      .main-title {
+          font-size: 2.5rem;
+          padding: 0.8rem 1.5rem;
+      }
+
+      .section-title {
+          font-size: 1.3rem;
+      }
+
+      .section-content {
+          font-size: 0.95rem;
+      }
+  }

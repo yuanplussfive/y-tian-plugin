@@ -29,32 +29,18 @@
         };
 
         window.onload = function () {
-            // 初始化 Highlight.js
             document.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightBlock(block);
             });
-
-            // 获取需要渲染的元素
             const markdownElements = document.querySelectorAll('#renderedMarkdown, #renderedMarkdown2');
-
             markdownElements.forEach(element => {
-                // 获取原始 Markdown 文本
                 const markdownText = element.textContent;
-
-                // 预处理 LaTeX 符号
                 const processedContent = preHandleLaTeX(markdownText);
-
-                // 使用 Marked.js 将 Markdown 转换为 HTML
                 let htmlContent = marked.parse(processedContent);
-
-                // 使用 DOMPurify 清理生成的 HTML
                 htmlContent = DOMPurify.sanitize(htmlContent);
-
-                // 设置处理后的 HTML 内容
                 element.innerHTML = htmlContent;
             });
 
-            // 使用 KaTeX 自动渲染 LaTeX
             renderMathInElement(document.body, {
                 delimiters: [
                     { left: "$$", right: "$$", display: true },

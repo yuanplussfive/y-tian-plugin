@@ -1,118 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>菜单</title>
-   <link rel="stylesheet" href="{{all_min_css}}">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-image: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .main-title {
-            font-size: 3rem;
-            margin-top: 2rem;
-            position: relative;
-            padding: 1rem 2rem;
-            text-align: center;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .content-area {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 3rem;
-            gap: 2rem;
-        }
-
-        .section {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
-            width: 280px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s;
-        }
-
-        .section:hover {
-            transform: translateY(-10px);
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .section-title i {
-            margin-right: 0.5rem;
-        }
-
-        .section-title span {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        .section-content {
-            font-size: 1.2rem;
-            line-height: 1.5;
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-    </style>
+    <link rel="stylesheet" href="{{other_css_src}}">
 </head>
+
 <body>
     <h1 class="main-title">Y-Tian 附加AI</h1>
     <div class="content-area">
         <div class="section">
             <h2 class="section-title"><i class="fas fa-eye"></i><span>查看模型</span></h2>
-            <div class="section-content">#附加模型大全<br>查看所有附加模型</div>
+            <div class="section-content">
+                #附加模型大全<br>
+                查看所有附加模型
+            </div>
         </div>
         <div class="section">
             <h2 class="section-title"><i class="fas fa-comments"></i><span>开始对话</span></h2>
-            <div class="section-content">触发名+问题<br>(初始为#bot)<br>例如:#bot hello</div>
+            <div class="section-content">
+                触发名 + 问题<br>
+                (初始为 #bot)<br>
+                例如: #bot hello
+            </div>
         </div>
         <div class="section">
             <h2 class="section-title"><i class="fas fa-sync-alt"></i><span>切换模型</span></h2>
-            <div class="section-content">#切换附加模型+序号<br>切换当前附加模型<br>例如:#切换附加模型2;</div>
+            <div class="section-content">
+                #切换附加模型 + 序号<br>
+                切换当前附加模型<br>
+                例如: #切换附加模型2;
+            </div>
         </div>
         <div class="section">
-            <h2 class="section-title"><i class="fas fa-eye"></i><span>区间管理</span></h2>
-            <div class="section-content">#附加关闭分区间<br>对话模式改为群聊共享<br>#附加开启分区间<br>对话模式改为个人独立</div>
+            <h2 class="section-title"><i class="fas fa-layer-group"></i><span>区间管理</span></h2>
+            <div class="section-content">
+                #附加关闭分区间<br>
+                对话模式改为群聊共享<br>
+                #附加开启分区间<br>
+                对话模式改为个人独立
+            </div>
         </div>
         <div class="section">
-            <h2 class="section-title"><i class="fas fa-comments"></i><span>结束对话</span></h2>
-            <div class="section-content">#结束附加对话<br>结束个人对话,支持at方式<br>#结束附加群对话<br>结束群聊的对话</div>
+            <h2 class="section-title"><i class="fas fa-times-circle"></i><span>结束对话</span></h2>
+            <div class="section-content">
+                #结束附加对话<br>
+                结束个人对话, 支持 @ 方式<br>
+                #结束附加群对话<br>
+                结束群聊的对话
+            </div>
         </div>
         <div class="section">
             <h2 class="section-title"><i class="fas fa-cogs"></i><span>预设管理</span></h2>
-            <div class="section-content">#查看附加预设,查看所有相关预设<br>#切换附加(群)预设+序号<br>切换当前附加个人或群预设<br>例如:#切换附加群预设2;</div>
+            <div class="section-content">
+                #查看附加预设<br>
+                查看所有相关预设<br>
+                #切换附加 (群) 预设 + 序号<br>
+                切换当前附加个人或群预设<br>
+                例如: #切换附加群预设2;
+            </div>
         </div>
         <div class="section">
-            <h2 class="section-title"><i class="fas fa-cogs"></i><span>清空预设</span></h2>
-            <div class="section-content">#清空(全部)?附加(群|全局)?预设<br>结束当前用户/群聊预设,支持at方式<br>例如：#清空全部附加预设<br>#清空附加(群|全局)预设</div>
+            <h2 class="section-title"><i class="fas fa-eraser"></i><span>清空预设</span></h2>
+            <div class="section-content">
+                #清空 (全部)?附加 (群|全局)?预设<br>
+                结束当前用户/群聊预设, 支持 @ 方式<br>
+                例如：#清空全部附加预设<br>
+                #清空附加 (群|全局) 预设
+            </div>
         </div>
     </div>
 </body>
+
 </html>

@@ -1,0 +1,116 @@
+  @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+  @import url('fontawesome-free-6.6.0-web/css/all.min.css');
+  
+  @font-face {
+    font-family: "Chinese";
+    src: url("ZCOOLQingKeHuangYou-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  :root {
+    --background-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --card-hover-bg: rgba(255, 255, 255, 0.2);
+    --text-color: #f8f9fa;
+    --title-color: #ffffff;
+    --section-title-bg: rgba(0, 0, 0, 0.6);
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --box-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.3);
+    --transition-speed: 0.3s;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Chinese";
+    background: var(--background-gradient);
+    color: var(--text-color);
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.main-title {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 2.4rem;
+    color: var(--title-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+.sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+    padding: 0 10px;
+}
+
+.section {
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: var(--box-shadow);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, background var(--transition-speed) ease;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.section:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--box-shadow-hover);
+    background: var(--card-hover-bg);
+}
+
+.section-title {
+    font-size: 2rem;
+    color: var(--title-color);
+    text-align: center;
+    padding: 15px 20px;
+    background: var(--section-title-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-speed) ease;
+}
+
+.section-title i {
+    margin-right: 8px;
+    font-size: 1.7rem;
+    transition: transform var(--transition-speed) ease;
+}
+
+.section:hover .section-title i {
+    transform: rotate(20deg);
+}
+
+.content {
+    margin: 20px;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    flex-grow: 1;
+}
+
+/* 响应式调整 */
+@media (max-width: 600px) {
+    .main-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1rem;
+    }
+
+    .content {
+        font-size: 0.9rem;
+    }
+}

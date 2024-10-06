@@ -13,13 +13,13 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   if (chat_moment_open) {
     history = await processArray(history, chat_moment_numbers)
   }
-  const hasSystemRole = history.some(item => item.role === "system");
-  const datas = JSON.parse(await fs.promises.readFile(`${_path}/data/YTAi_Setting/data.json`, "utf-8"));
-  const hasSystemItem = datas.chatgpt?.add_systems_open?.[userid] || false;
-  //console.log('开关', hasSystemItem)
-  if (fs.existsSync(`${_path}/data/YTAi_Setting/user_system/${userid}.json`) && !hasSystemRole && hasSystemItem) {
-    const systemObj = JSON.parse(fs.readFileSync(`${_path}/data/YTAi_Setting/user_system/${userid}.json`, "utf-8"));
-    history.unshift(...systemObj);
+  let all_system = fs.existsSync(`${dirpath}/user_cache/all.json`)
+    ? JSON.parse(await fs.promises.readFile(`${dirpath}/user_cache/all.json`, "utf-8"))
+    : [];
+  const hasSystemRole = all_system.some(item => item.role === "system");
+  if (hasSystemRole) {
+    history = history.filter(item => item.role !== "system");
+    history.unshift(...all_system);
   }
   let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
   let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));

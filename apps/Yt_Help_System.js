@@ -180,6 +180,9 @@ async function screen(num, puppeteer) {
     tplFile: _path + `/plugins/y-tian-plugin/YTfreeai/config/html/help${num}.html`,
     all_min_css: _path + "/plugins/y-tian-plugin/resources/css/fontawesome-free-6.6.0-web/css/all.min.css",
     all_css_src: _path + "/plugins/y-tian-plugin/resources/css/all_help.css",
+    chat_css_src: _path + "/plugins/y-tian-plugin/resources/css/chat_help.css",
+    other_css_src: _path + "/plugins/y-tian-plugin/resources/css/other_help.css",
+    god_css_src: _path + "/plugins/y-tian-plugin/resources/css/god_help.css",
     src: _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
   }
   const img = await puppeteer.screenshot('777', {
