@@ -16,7 +16,7 @@ body {
 
 .mardown-content {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 18px;
+  font-size: 22px;
   padding: 20px;
   border-radius: 8px;
   max-width: 800px;
@@ -50,29 +50,29 @@ body {
 }
 
 .markdown-content h3 {
-  font-size: 24px;
+  font-size: 25px;
 }
 
 .markdown-content h4 {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .markdown-content h5 {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .markdown-content h6 {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .markdown-content p {
-  font-family: 'jty', sans-serif;
-  color: #2e2e2e;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  font-family: "AaGuXiLaZhangGuanKeAiDeShen-2", "Chinese";
+  color: #000000;
   font-size: 20px;
   text-indent: 2em;
   margin-bottom: 16px;
   transition: color 0.3s ease;
+  font-weight: 500;
 }
 
 .markdown-content p:hover {
@@ -92,7 +92,6 @@ body {
   text-shadow: 0 0 5px rgba(26, 188, 156, 0.6);
 }
 
-/* 有序列表样式 */
 .markdown-content ol {
   padding-left: 40px;
   margin-bottom: 16px;
@@ -102,7 +101,6 @@ body {
   margin-bottom: 8px;
 }
 
-/* 无序列表样式 */
 .markdown-content ul {
   padding-left: 40px;
   margin-bottom: 16px;
@@ -112,44 +110,34 @@ body {
   margin-bottom: 8px;
 }
 
-/* 代码行样式 */
 .markdown-content code {
-  font-size: 18px;
+  font-size: 20px;
   background-color: #ecf0f1;
   padding: 2px 4px;
   border-radius: 4px;
   color: #e74c3c;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Inconsolata", 'Chinese';
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-/* 代码块样式 */
 .markdown-content pre {
   position: relative;
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  padding: 16px;
-  padding-top: 40px;
-  /* 为语言标签留出空间 */
-  max-width: 100%;
-  font-size: 18px;
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 20px 20px 20px 60px;
   border-radius: 8px;
-  font-family: 'Courier New', Courier, monospace;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  font-size: 18px;
+  font-family: "Inconsolata", 'Chinese';
   white-space: pre-wrap;
-  /* 允许换行 */
   word-break: break-word;
-  /* 自动换行 */
   overflow-wrap: break-word;
-  /* 防止超出 */
   text-indent: 0;
-  /* 取消文本缩进 */
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  /* 添加阴影 */
+  text-shadow: none;
 }
 
-/* 语言标签 */
 .markdown-content pre::before {
   content: attr(data-lang);
   position: absolute;
@@ -159,107 +147,99 @@ body {
   color: #ecf0f1;
   padding: 4px 8px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: 16px;
   text-transform: uppercase;
   pointer-events: none;
 }
 
-/* 仅在data-lang存在且不为空时显示 */
 .markdown-content pre[data-lang]:not([data-lang=""])::before {
   display: block;
 }
 
-/* 语法高亮样式 */
 .markdown-content .hljs {
-  background-color: #34495e;
-  /* 深色背景 */
-  color: #ecf0f1;
-  padding: 10px;
-  border-radius: 5px;
+  background-color: transparent;
+  color: #d4d4d4;
+  padding: 0;
+  border-radius: 0;
   font-size: 20px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Inconsolata", 'Chinese';
   white-space: pre-wrap;
-  /* 允许换行 */
   word-break: break-word;
-  /* 自动换行 */
   overflow-wrap: break-word;
-  /* 防止超出 */
   text-indent: 0;
-  /* 取消文本缩进 */
 }
 
-/* 语法高亮子类 */
 .markdown-content .hljs-comment,
 .markdown-content .hljs-quote {
-  color: #95a5a6;
+  color: #6a9955;
   font-style: italic;
 }
 
 .markdown-content .hljs-keyword,
 .markdown-content .hljs-selector-tag,
 .markdown-content .hljs-subst {
-  color: #3498db;
+  color: #569cd6;
   font-weight: bold;
 }
 
 .markdown-content .hljs-literal,
 .markdown-content .hljs-number,
 .markdown-content .hljs-tag .hljs-attr {
-  color: #9b59b6;
+  color: #b5cea8;
 }
 
 .markdown-content .hljs-string,
 .markdown-content .hljs-doctag {
-  color: #2ecc71;
+  color: #ce9178;
 }
 
 .markdown-content .hljs-title,
 .markdown-content .hljs-section,
 .markdown-content .hljs-selector-id {
-  color: #e67e22;
+  color: #dcdcaa;
   font-weight: bold;
 }
 
 .markdown-content .hljs-type,
 .markdown-content .hljs-class .hljs-title {
-  color: #e74c3c;
+  color: #4ec9b0;
 }
 
 .markdown-content .hljs-tag,
 .markdown-content .hljs-name,
 .markdown-content .hljs-attribute {
-  color: #ecf0f1;
+  color: #9cdcfe;
 }
 
 .markdown-content .hljs-regexp,
 .markdown-content .hljs-link {
-  color: #f1c40f;
+  color: #d16969;
 }
 
 .markdown-content .hljs-symbol,
 .markdown-content .hljs-bullet {
-  color: #3498db;
+  color: #d7ba7d;
 }
 
 .markdown-content .hljs-built_in,
 .markdown-content .hljs-builtin-name {
-  color: #1abc9c;
+  color: #569cd6;
 }
 
 .markdown-content .hljs-meta {
-  color: #95a5a6;
+  color: #c586c0;
   font-weight: bold;
 }
 
 .markdown-content .hljs-deletion {
-  background: #e74c3c;
-  color: #ecf0f1;
+  background: #f44747;
+  color: #ffffff;
   text-decoration: none;
 }
 
 .markdown-content .hljs-addition {
-  background: #2ecc71;
-  color: #ecf0f1;
+  background: #4ec9b0;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -271,7 +251,6 @@ body {
   font-weight: bold;
 }
 
-/* 移除针对特定语言的覆盖规则，包括Vue */
 .markdown-content pre code.html,
 .markdown-content pre code.python,
 .markdown-content pre code.css,
@@ -287,26 +266,24 @@ body {
   background: none;
 }
 
-/* 滚动条样式 */
 .markdown-content pre::-webkit-scrollbar {
   width: 8px;
-  background-color: #2c3e50;
+  background-color: #1e1e1e;
 }
 
 .markdown-content pre::-webkit-scrollbar-thumb {
-  background-color: #1abc9c;
+  background-color: #3c3c3c;
   border-radius: 4px;
 }
 
 .markdown-content pre::-webkit-scrollbar-thumb:hover {
-  background-color: #16a085;
+  background-color: #555555;
 }
 
 .markdown-content pre::-webkit-scrollbar-track {
-  background-color: #2c3e50;
+  background-color: #1e1e1e;
 }
 
-/* 引用块样式 */
 .markdown-content blockquote {
   border-left: 4px solid #2980b9;
   padding-left: 12px;
@@ -317,26 +294,21 @@ body {
   border-radius: 4px;
 }
 
-/* 图片样式 */
 .user img,
 .user2 img {
   max-width: 100%;
   height: auto;
   display: block;
-  /* 块级元素，避免对齐问题 */
   margin: 20px auto;
-  /* 中央对齐并减少上下间距 */
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  /* 圆角 */
 }
 
-/* 容器样式 */
 .container {
-  background-image: url('水墨.jpg');
+  background-image: url('樱花.png');
+  background-size: contain;
   max-width: 1000px;
   margin: 20px auto;
-  /* 增加上下间距 */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -344,70 +316,157 @@ body {
   justify-content: space-evenly;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.9);
-  /* 半透明白色背景 */
   border-radius: 20px;
 }
 
-/* 用户消息样式 */
 .user,
 .user2 {
-  background-color: #ffffff;
-  /* 白色背景 */
+  background-color: rgba(255, 255, 255, 0.75);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* 默认左对齐 */
   width: 100%;
-  padding: 15px;
-  /* 减少内边距以简化布局 */
-  border-radius: 8px;
-  /* 圆角 */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-  /* 增加底部间距以 accommodate larger waves */
-  position: relative;
-  overflow: hidden;
-}
-
-/* 将 .user2 的头像和名称右对齐 */
-.user2 {
-  align-items: flex-end;
-  /* 右对齐 */
-  background-color: #f0f8ff;
-  /* 淡蓝色背景区分 */
-}
-
-.user,
-.user2 {
+  padding: 20px;
   border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+  margin-bottom: 40px;
+  position: relative;
+  overflow: visible;
   border: 1px solid #e0e0e0;
 }
 
-.user,
 .user2 {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+  align-items: flex-end;
+  background-color: rgba(240, 248, 255, 0.5);
+  border: 1px solid #b0c4de;
+  background-image: linear-gradient(135deg, #f0f8ff 25%, #e6f2ff 25%, #e6f2ff 50%, #f0f8ff 50%, #f0f8ff 75%, #e6f2ff 75%, #e6f2ff);
+  background-size: 20px 20px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
-.user #title img,
+.user2:hover {
+  border: 1px solid #87cefa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-family: "Inconsolata", 'Chinese';
+  font-size: 18px;
+  color: #333;
+}
+
+.user:before,
+.user2:before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background-image: linear-gradient(45deg, transparent 25%, #ffffff 25%, #ffffff 50%, transparent 50%, transparent 75%, #ffffff 75%, #ffffff);
+  background-size: 40px 40px;
+  background-position: 0 -10px;
+}
+
+.user:after,
+.user2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background-image: linear-gradient(45deg, transparent 25%, #ffffff 25%, #ffffff 50%, transparent 50%, transparent 75%, #ffffff 75%, #ffffff);
+  background-size: 40px 40px;
+}
+
+.user2:before,
+.user2:after {
+  background-image: linear-gradient(45deg, transparent 25%, #f0f8ff 25%, #f0f8ff 50%, transparent 50%, transparent 75%, #f0f8ff 75%, #f0f8ff);
+}
+
+.user2::before {
+  background: linear-gradient(45deg, transparent 25%, #f0f8ff 25%, #f0f8ff 50%, transparent 50%, transparent 75%, #f0f8ff 75%, #f0f8ff),
+    linear-gradient(-45deg, transparent 25%, #f0f8ff 25%, #f0f8ff 50%, transparent 50%, transparent 75%, #f0f8ff 75%, #f0f8ff 75%);
+  background-size: 20px 20px, 20px 20px;
+}
+
+.user2::after {
+  background: linear-gradient(45deg, transparent 25%, #f0f8ff 25%, #f0f8ff 50%, transparent 50%, transparent 75%, #f0f8ff 75%, #f0f8ff),
+    linear-gradient(-45deg, transparent 25%, #f0f8ff 25%, #f0f8ff 50%, transparent 50%, transparent 75%, #f0f8ff 75%, #f0f8ff 75%);
+  background-size: 20px 20px, 20px 20px;
+}
+
+.user2::before,
+.user2::after {
+  background-image:
+    linear-gradient(45deg, transparent 25%, #f0f8ff 25%, #f0f8ff 50%, transparent 50%, transparent 75%, #f0f8ff 75%, #f0f8ff),
+    radial-gradient(circle at 10px 10px, rgba(255, 255, 255, 0.3) 0%, transparent 80%);
+  background-size: 40px 40px;
+}
+
+@media (max-width: 768px) {
+
+  .user,
+  .user2 {
+    padding: 15px;
+    margin-bottom: 30px;
+  }
+
+  .content {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .user,
+  .user2 {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .content {
+    font-size: 13px;
+  }
+}
+
 .user2 #title img {
-  width: 60px;
-  height: 60px;
+  width: 75px;
+  height: 75px;
   object-fit: cover;
   border-radius: 50%;
   margin-right: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgb(89, 124, 124);
 }
 
-.user .name,
-.user2 .name {
-  font-size: 18px;
+.user #title img {
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 15px;
+  box-shadow: 0 2px 8px rgb(87, 85, 85);
+}
+
+.user .name {
+  font-size: 22px;
   padding-bottom: 10px;
   font-family: "NZBZ", sans-serif;
-  color: #2c3e50;
+  color: #ff8fae;
 }
 
 .user2 .name {
+  font-size: 22px;
+  padding-bottom: 10px;
+  font-family: "NZBZ", sans-serif;
   text-align: right;
+  color: #60fcf4;
 }
 
 .user .message {
@@ -426,7 +485,7 @@ body {
   position: relative;
   padding: 12px 15px;
   border-radius: 12px;
-  background-color: #ffd1de;
+  background-color: #fedde6;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   line-height: 1.6;
   margin-top: 10px;
@@ -452,41 +511,76 @@ body {
 .user2 .message::after {
   right: -18px;
   top: 10px;
-  border-left-color: #ffd1de;
+  border-left-color: #fedde6;
 }
 
 .user .message p,
 .user2 .message p {
-  font-size: 18px;
+  font-size: 24px;
   margin: 0;
 }
 
-/* 头部样式 */
+/* Header Styles */
 .header {
+  font-family: "NZBZ", sans-serif;
   text-align: center;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #ffffff;
+  margin: 15px auto;
+  padding: 15px;
+  width: 90%;
+  max-width: 800px;
+  position: relative;
+  background: #f0f8ff;
+  border: 3px solid #daeeff;
+  border-radius: 50% 20% 50% 20% / 20% 50% 20% 50%;
+}
+
+.header::before,
+.header::after {
+  content: "";
+  position: absolute;
+  background: #f0f8ff;
+  border: 3px solid #dbefff;
+  border-radius: 50%;
+}
+
+.header::before {
+  top: -15px;
+  left: 20%;
+  width: 100px;
+  height: 50px;
+}
+
+.header::after {
+  bottom: -15px;
+  right: 20%;
+  width: 80px;
+  height: 40px;
 }
 
 .header h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700;
-  font-size: 32px;
+  font-family: 'Chinese', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   color: #2c3e50;
-  text-shadow: none;
+  margin: 0;
+  text-shadow: 2px 2px 0 rgba(194, 228, 255, 0.758);
+  position: relative;
+  z-index: 1;
+  transform: translateX(25px);
 }
 
 .header-bar {
-  height: 4px;
-  background: linear-gradient(90deg, #2980b9, #1abc9c, #2980b9);
-  background-size: 300% 300%;
-  animation: gradient 12s ease infinite;
-  border-radius: 2px;
+  height: 6px;
+  background: linear-gradient(135deg, #4682b4, #87ceeb, #4682b4);
+  background-size: 200% 200%;
+  animation: gradient 8s ease infinite;
+  border-radius: 3px;
+  margin: 15px auto;
+  width: 70%;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes gradient {
@@ -503,9 +597,24 @@ body {
   }
 }
 
+.pixel-corners {
+  clip-path:
+    polygon(0 10px, 10px 10px, 10px 0,
+      calc(100% - 10px) 0, calc(100% - 10px) 10px, 100% 10px,
+      100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+      10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px));
+}
+
 @font-face {
   font-family: "jty";
   src: url("jty.OTF");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("Inconsolata-VariableFont_wdth,wght.ttf");
   font-weight: normal;
   font-style: normal;
 }
@@ -522,4 +631,73 @@ body {
   src: url("ZCOOLQingKeHuangYou-Regular.ttf");
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+  src: url("AaGuXiLaZhangGuanKeAiDeShen-2.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.markdown-content pre code {
+  counter-reset: line-number;
+}
+
+.markdown-content pre code div {
+  position: relative;
+  padding-left: 40px;
+}
+
+.markdown-content pre code div::before {
+  counter-increment: line-number;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  text-align: right;
+  color: #858585;
+  background-color: #1e1e1e;
+  border-right: 1px solid #333333;
+  padding-right: 10px;
+  line-height: 1.5;
+  user-select: none;
+}
+
+.markdown-content pre::after {
+  content: "|";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  color: #61afef;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.markdown-content pre[data-lang]:not([data-lang=""])::before {
+  display: block;
+}
+
+.markdown-content .hljs {
+  background-color: transparent;
+  color: #d4d4d4;
+  padding: 0;
+  border-radius: 0;
+  font-size: 16px;
+  font-family: "Inconsolata";
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-indent: 0;
 }

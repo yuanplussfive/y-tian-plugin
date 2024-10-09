@@ -1,24 +1,42 @@
-  @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
-  @import url('fontawesome-free-6.6.0-web/css/all.min.css');
-  
-  @font-face {
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+@import url('fontawesome-free-6.6.0-web/css/all.min.css');
+
+/* 字体定义 */
+@font-face {
     font-family: "Chinese";
     src: url("ZCOOLQingKeHuangYou-Regular.ttf");
     font-weight: normal;
     font-style: normal;
-  }
+}
 
-  :root {
-    --background-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    --card-bg: rgba(255, 255, 255, 0.1);
-    --card-hover-bg: rgba(255, 255, 255, 0.2);
-    --text-color: #f8f9fa;
-    --title-color: #ffffff;
-    --section-title-bg: rgba(0, 0, 0, 0.6);
-    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    --box-shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.3);
+/* 自定义字体 */
+@font-face {
+    font-family: "NZBZ";
+    src: url("NZBZ.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+    src: url("AaGuXiLaZhangGuanKeAiDeShen-2.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --background-gradient: linear-gradient(135deg, #1e3c72, #2a5298);
+    --card-bg: rgba(0, 0, 0, 0.8);
+    --card-hover-bg: rgba(255, 255, 255, 0.1);
+    --text-color: #f0f0f0;
+    --title-color: #ffcc00;
+    --section-title-bg: rgba(0, 0, 0, 0.8);
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --box-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.7);
     --transition-speed: 0.3s;
-    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-family: 'MedievalSharp', cursive;
+    --jagged-size: 10px;
 }
 
 * {
@@ -28,30 +46,224 @@
 }
 
 body {
-    font-family: "Chinese";
+    font-family: "Chinese", var(--font-family), sans-serif;
     background: var(--background-gradient);
     color: var(--text-color);
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+        url('背景1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     padding: 20px;
     min-height: 100vh;
 }
 
+/* 主标题样式 */
 .main-title {
-    margin-top: 20px;
+    font-family: "NZBZ";
+    margin: 20px auto;
+    /* 上下边距20px,左右自动 */
     text-align: center;
-    font-size: 2.4rem;
+    font-size: 3rem;
     color: var(--title-color);
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    letter-spacing: 1px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
+    position: relative;
+    display: block;
+    /* 改为块级元素 */
+    padding: 10px 40px;
+    width: fit-content;
+    /* 宽度适应内容 */
+    max-width: 90%;
+    /* 最大宽度为容器的90% */
 }
 
+.main-title::before,
+.main-title::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    background: currentColor;
+    mask: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cGF0aCBkPSJNMTIgMTIgTDI0IDEyIEwzMiA4IEMzMiA4IDM0IDQgMzYgOCAgTTMyIDEyIEw0OCAxMiBMNTYgMTIgTDY0IDI0IEw1NiAzMiBMNTIgNDggTDQ4IDU2IEwzNiA2NCAyNCA1NiBMMTggNDggTDEyIDM2IEwxMiAyNCAiIHN0cm9rZT0iZmZjYzAwIiBzdHJva2Utd2lkdGg9IjQiLz4KPC9zdmc+') no-repeat center / contain;
+}
+
+.main-title::before {
+    left: -40px;
+    transform: translateY(-50%);
+}
+
+.main-title::after {
+    right: -40px;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* 功能组框架 */
+.function-group {
+    position: relative;
+    padding: 30px;
+    margin-bottom: 40px;
+    background: rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.function-group::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(45deg, transparent 15px, #ffcc00 0) bottom left,
+        linear-gradient(-45deg, transparent 15px, #ffcc00 0) bottom right,
+        linear-gradient(135deg, transparent 15px, #ffcc00 0) top left,
+        linear-gradient(-135deg, transparent 15px, #ffcc00 0) top right;
+    background-size: 51% 51%;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.function-group::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+    clip-path: polygon(15px 0%, calc(50% - 15px) 0%, 50% 15px, calc(50% + 15px) 0%, calc(100% - 15px) 0%,
+            100% 15px, 100% calc(50% - 15px), calc(100% - 15px) 50%, 100% calc(50% + 15px),
+            100% calc(100% - 15px), calc(100% - 15px) 100%, calc(50% + 15px) 100%, 50% calc(100% - 15px),
+            calc(50% - 15px) 100%, 15px 100%, 0% calc(100% - 15px), 0% calc(50% + 15px),
+            15px 50%, 0% calc(50% - 15px), 0% 15px);
+}
+
+.function-group:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* 装饰性元素 */
+.function-group .decoration {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 204, 0, 0.5);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.function-group .decoration:nth-child(1) {
+    top: -20px;
+    left: -20px;
+}
+
+.function-group .decoration:nth-child(2) {
+    top: -20px;
+    right: -20px;
+}
+
+.function-group .decoration:nth-child(3) {
+    bottom: -20px;
+    left: -20px;
+}
+
+.function-group .decoration:nth-child(4) {
+    bottom: -20px;
+    right: -20px;
+}
+
+.function-group.style1::before,
+.function-group.style1::after {
+    width: 150%;
+    height: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border-radius: 5px;
+}
+
+.function-group.style1::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* 十字架骨架装饰 */
+.function-group.style2::before,
+.function-group.style2::after {
+    content: "";
+    position: absolute;
+    background: rgba(255, 204, 0, 0.2);
+    z-index: 0;
+}
+
+.function-group.style2::before {
+    width: 100%;
+    height: 100%;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    border-radius: 10px;
+}
+
+.function-group.style2::after {
+    width: 100%;
+    height: 100%;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-45deg);
+    border-radius: 10px;
+}
+
+.function-group.style3::before,
+.function-group.style3::after {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, transparent 45%, rgba(255, 204, 0, 0.2) 45%, rgba(255, 204, 0, 0.2) 55%, transparent 55%);
+    background-size: 20px 20px;
+}
+
+.function-group.style3::after {
+    transform: rotate(90deg);
+}
+
+/* 分组标题样式 */
+.group-title {
+    font-size: 2rem;
+    font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+    color: var(--title-color);
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.group-title::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--title-color);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Sections Grid */
 .sections {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    margin-top: 40px;
-    padding: 0 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    position: relative;
+    z-index: 1;
 }
 
+/* 单个功能卡片 */
 .section {
     background: var(--card-bg);
     border-radius: 15px;
@@ -62,6 +274,31 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative;
+    padding-bottom: 10px;
+    clip-path: polygon(0% 10%, 5% 0%, 15% 5%, 25% 0%,
+            35% 5%, 45% 0%, 55% 5%, 65% 0%,
+            75% 5%, 85% 0%, 95% 5%, 100% 10%,
+            100% 90%, 95% 100%, 85% 95%, 75% 100%,
+            65% 95%, 55% 100%, 45% 95%, 35% 100%,
+            25% 95%, 15% 100%, 5% 95%, 0% 90%);
+}
+
+.section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 204, 0, 0.1);
+    clip-path: polygon(0% 10%, 5% 0%, 15% 5%, 25% 0%,
+            35% 5%, 45% 0%, 55% 5%, 65% 0%,
+            75% 5%, 85% 0%, 95% 5%, 100% 10%,
+            100% 90%, 95% 100%, 85% 95%, 75% 100%,
+            65% 95%, 55% 100%, 45% 95%, 35% 100%,
+            25% 95%, 15% 100%, 5% 95%, 0% 90%);
+    z-index: 0;
 }
 
 .section:hover {
@@ -71,7 +308,7 @@ body {
 }
 
 .section-title {
-    font-size: 2rem;
+    font-size: 1.6rem;
     color: var(--title-color);
     text-align: center;
     padding: 15px 20px;
@@ -80,11 +317,33 @@ body {
     align-items: center;
     justify-content: center;
     transition: background var(--transition-speed) ease;
+    position: relative;
+    z-index: 1;
+}
+
+.section-title::before,
+.section-title::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 204, 0, 0.3);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.section-title::before {
+    top: -10px;
+    left: -10px;
+}
+
+.section-title::after {
+    bottom: -10px;
+    right: -10px;
 }
 
 .section-title i {
     margin-right: 8px;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     transition: transform var(--transition-speed) ease;
 }
 
@@ -94,23 +353,100 @@ body {
 
 .content {
     margin: 20px;
-    font-size: 1.6rem;
-    line-height: 1.6;
+    font-family: 'Chinese';
+    font-size: 1rem;
+    line-height: 1.5;
     color: #e0e0e0;
-    flex-grow: 1;
+    background-color: #2b2b2b;
+    padding: 20px 20px 20px 50px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    position: relative;
+}
+
+.content::before {
+    font-family: 'Consolas', 'Monaco', monospace;
+    content: "1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9\A 10";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    padding: 20px 5px;
+    text-align: right;
+    color: #6a737d;
+    background-color: #202020;
+    border-right: 1px solid #3a3a3a;
+    white-space: pre;
+    line-height: 1.5;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.content::after {
+    content: "|";
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: #61afef;
+    animation: blink 1s infinite;
+}
+
+.keyword {
+    color: #c678dd;
+}
+
+.function {
+    color: #61afef;
+}
+
+.string {
+    color: #98c379;
+}
+
+.comment {
+    color: #5c6370;
+    font-style: italic;
 }
 
 /* 响应式调整 */
 @media (max-width: 600px) {
     .main-title {
-        font-size: 2rem;
+        font-size: 2.5rem;
+        padding: 10px 20px;
+    }
+
+    .group-title {
+        font-size: 1.6rem;
     }
 
     .section-title {
-        font-size: 1rem;
+        font-size: 1.4rem;
+        padding: 10px 15px;
     }
 
     .content {
-        font-size: 0.9rem;
+        font-size: 1rem;
+        margin: 15px;
+    }
+
+    .section {
+        clip-path: polygon(0% 5%, 5% 0%, 15% 5%, 25% 0%,
+                35% 5%, 45% 0%, 55% 5%, 65% 0%,
+                75% 5%, 85% 0%, 95% 5%, 100% 10%,
+                100% 90%, 95% 100%, 85% 95%, 75% 100%,
+                65% 95%, 55% 100%, 45% 95%, 35% 100%,
+                25% 95%, 15% 100%, 5% 95%, 0% 90%);
     }
 }

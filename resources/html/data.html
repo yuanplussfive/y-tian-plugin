@@ -9,216 +9,309 @@
 </head>
 
 <body>
+  <div class="dynamic-background"></div>
+  <!-- 幕布效果 -->
+  <div class="curtain-overlay"></div>
+  <!-- 全屏卡片 -->
   <div class="profile-card">
-    <div class="profile-header">
+    <!-- 头像容器 -->
+    <div class="avatar-container">
       <div class="avatar">
         <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{BotImage_src}}&spec=640&img_type=jpg" alt="AI头像">
       </div>
-      <div class="intro">
-        <h1 class="name">{{Bot_Nickname}}</h1>
-        <p class="role">{{yunzaiName}}</p>
-        <p class="status"><i class="fas fa-circle"></i> 在线</p>
-      </div>
-    </div>
-
-    <div class="profile-body">
-      <div class="section settings-section">
-        <h2><i class="fas fa-cogs"></i> 总设置</h2>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-bullseye icon"></i>
-            <span class="label">当前艾特方案:</span>
-            <span class="value">{{ai_chat}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置AI在被艾特时采用的Ai方案。</p>
-          </div>
+      <!-- 魔方集群 -->
+      <div class="complex-cube">
+        <div class="cube">
+          <div class="face front"></div>
+          <div class="face back"></div>
+          <div class="face right"></div>
+          <div class="face left"></div>
+          <div class="face top"></div>
+          <div class="face bottom"></div>
         </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-sync-alt icon"></i>
-            <span class="label">艾特回复状态:</span>
-            <span class="value">{{ai_chat_at}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">设置AI在被艾特时的回复状态。</p>
-          </div>
+        <div class="cube">
+          <div class="face front"></div>
+          <div class="face back"></div>
+          <div class="face right"></div>
+          <div class="face left"></div>
+          <div class="face top"></div>
+          <div class="face bottom"></div>
         </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-comments icon"></i>
-            <span class="label">当前对话方式:</span>
-            <span class="value">{{ai_chat_style}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">选择AI的对话模式，可使用 图片/文本/引用 模式。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-image icon"></i>
-            <span class="label">图片渲染方式:</span>
-            <span class="value">{{pictureStyles}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置AI使用图片模式时的渲染风格。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-music icon"></i>
-            <span class="label">tts语音交互:</span>
-            <span class="value">{{ai_tts}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置AI是否开启语音交互。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-robot icon"></i>
-            <span class="label">tts语音角色:</span>
-            <span class="value">{{ai_tts_role}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置AI开启语音交互时使用的音色。</p>
-          </div>
+        <div class="cube">
+          <div class="face front"></div>
+          <div class="face back"></div>
+          <div class="face right"></div>
+          <div class="face left"></div>
+          <div class="face top"></div>
+          <div class="face bottom"></div>
         </div>
       </div>
+    </div> <!-- 头像容器 -->
 
-      <div class="section memory-section">
-        <h2><i class="fas fa-memory"></i> 细节设置</h2>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-brain icon"></i>
-            <span class="label">记忆限制(专业):</span>
-            <span class="value">{{ai_moment_open}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置AI的记忆功能是否开启(仅使用付费方案时处理)。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-list-alt icon"></i>
-            <span class="label">记忆限制条数:</span>
-            <span class="value">{{ai_moment_numbers}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">设置AI可以记忆的最大条数。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-plus-circle icon"></i>
-            <span class="label">附加方案区间:</span>
-            <span class="value">{{others_group}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置AI的附加方案区间，分区间个人，并区间共享对话。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-gem icon"></i>
-            <span class="label">God方案区间:</span>
-            <span class="value">{{god_group}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置AI的God方案区间，分区间个人，并区间共享对话。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-comments icon"></i>
-            <span class="label">Chat方案区间:</span>
-            <span class="value">{{chat_group}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置AI的Chat方案区间，分区间个人，并区间共享对话。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-server icon"></i>
-            <span class="label">God方案代理:</span>
-            <span class="value">{{god_proxy}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置God方案的代理服务器地址。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-network-wired icon"></i>
-            <span class="label">Chat方案代理:</span>
-            <span class="value">{{chat_proxy}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">配置Chat方案的代理服务器地址。</p>
-          </div>
+    <!-- 配置区域 -->
+    <div class="configurations">
+      <!-- 头部样式 -->
+      <div class="profile-header">
+        <div class="intro">
+          <h1 class="name">{{Bot_Nickname}}</h1>
+          <p class="role">{{yunzaiName}}</p>
+          <p class="status"><i class="fas fa-circle"></i> 在线</p>
         </div>
       </div>
+      <!-- 主体内容 -->
+      <div class="profile-body">
+        <!-- 左侧板块 -->
+        <div class="left-section">
+          <!-- 总设置板块 -->
+          <div class="section settings-section">
+            <h2><i class="fas fa-cogs"></i> 总设置</h2>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-bullseye icon"></i>
+                  <p>当前艾特方案:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_chat}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置AI在被艾特时采用的Ai方案。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-sync-alt icon"></i>
+                  <p>艾特回复状态:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_chat_at}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">设置AI在被艾特时的回复状态。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-comments icon"></i>
+                  <p>当前对话方式:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_chat_style}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">选择AI的对话模式，可使用 图片/文本/引用 模式。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-image icon"></i>
+                  <p>图片渲染方式:</p>
+                </span>
+                <span class="value">
+                  <p>{{pictureStyles}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置AI使用图片模式时的渲染风格。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-music icon"></i>
+                  <p>tts语音交互:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_tts}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置AI是否开启语音交互。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-robot icon"></i>
+                  <p>tts语音角色:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_tts_role}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置AI开启语音交互时使用的音色。</p>
+              </div>
+            </div>
+          </div> <!-- 总设置板块 -->
 
-      <div class="section proxy-section">
-        <h2><i class="fas fa-network-wired"></i> 触发名称</h2>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-magic icon"></i>
-            <span class="label">God触发名:</span>
-            <span class="value">{{ai_name_godgpt}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">设置触发God方案的关键词。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-comment-dots icon"></i>
-            <span class="label">Chat触发名:</span>
-            <span class="value">{{ai_name_chat}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">设置触发Chat方案的关键词。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-plus icon"></i>
-            <span class="label">附加触发名:</span>
-            <span class="value">{{ai_name_others}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">设置触发附加方案的关键词。</p>
-          </div>
-        </div>
-        <div class="function-item">
-          <div class="function-left">
-            <i class="fas fa-user-secret icon"></i>
-            <span class="label">Sess触发名:</span>
-            <span class="value">{{ai_name_sess}}</span>
-          </div>
-          <div class="function-right">
-            <p class="description">设置触发Sess方案的关键词。</p>
-          </div>
-        </div>
-      </div>
-    </div>
+          <!-- 细节设置板块 -->
+          <div class="section memory-section">
+            <h2><i class="fas fa-memory"></i> 细节设置</h2>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-brain icon"></i>
+                  <p>记忆限制(专业):</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_moment_open}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置AI的记忆功能是否开启(仅使用付费方案时处理)。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-list-alt icon"></i>
+                  <p>记忆限制条数:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_moment_numbers}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">设置AI可以记忆的最大条数。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-plus-circle icon"></i>
+                  <p>附加方案区间:</p>
+                </span>
+                <span class="value">
+                  <p>{{others_group}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置AI的附加方案区间，分区间个人，并区间共享对话。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-gem icon"></i>
+                  <p>God方案区间:</p>
+                </span>
+                <span class="value">
+                  <p>{{god_group}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置AI的God方案区间，分区间个人，并区间共享对话。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-comments icon"></i>
+                  <p>Chat方案区间:</p>
+                </span>
+                <span class="value">
+                  <p>{{chat_group}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置AI的Chat方案区间，分区间个人，并区间共享对话。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-server icon"></i>
+                  <p>God方案代理:</p>
+                </span>
+                <span class="value">
+                  <p>{{god_proxy}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置God方案的代理服务器地址。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-network-wired icon"></i>
+                  <p>Chat方案代理:</p>
+                </span>
+                <span class="value">
+                  <p>{{chat_proxy}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">配置Chat方案的代理服务器地址。</p>
+              </div>
+            </div>
+          </div> <!-- 细节设置板块 -->
 
-    <div class="profile-footer">
-      <button class="btn"><i class="fas fa-edit"></i> 参考：#Ai总帮助</button>
-      <button class="btn secondary"><i class="fas fa-history"></i> 参考：#Aixx版帮助</button>
-    </div>
+          <!-- 触发名称板块 -->
+          <div class="section proxy-section">
+            <h2><i class="fas fa-network-wired"></i> 触发名称</h2>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-magic icon"></i>
+                  <p>God触发名:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_name_godgpt}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">设置触发God方案的关键词。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-comment-dots icon"></i>
+                  <p>Chat触发名:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_name_chat}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">设置触发Chat方案的关键词。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-plus icon"></i>
+                  <p>附加触发名:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_name_others}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">设置触发附加方案的关键词。</p>
+              </div>
+            </div>
+            <div class="function-item">
+              <div class="function-left">
+                <span class="label"><i class="fas fa-user-secret icon"></i>
+                  <p>Sess触发名:</p>
+                </span>
+                <span class="value">
+                  <p>{{ai_name_sess}}</p>
+                </span>
+              </div>
+              <div class="function-right">
+                <p class="description">设置触发Sess方案的关键词。</p>
+              </div>
+            </div>
+          </div> <!-- 触发名称板块 -->
+        </div> <!-- 左侧板块 -->
 
-    <div class="taiji-wave"></div>
-    <div class="irregular-shapes">
-      <div class="shape shape1"></div>
-      <div class="shape shape2"></div>
-      <div class="shape shape3"></div>
-      <div class="shape shape4"></div>
-    </div>
-  </div>
+        <!-- 右侧板块 -->
+        <div class="right-section">
+          <div class="profile-footer">
+            <button class="btn"><i class="fas fa-edit"></i> 参考：#Ai总帮助</button>
+            <button class="btn secondary"><i class="fas fa-history"></i> 参考：#Aixx版帮助</button>
+          </div>
+        </div> <!-- 右侧板块 -->
 
+        <!-- 幕布后的动态波浪 -->
+        <div class="taiji-wave"></div>
+      </div> <!-- 主体内容 -->
+    </div> <!-- 配置区域 -->
+  </div> <!-- 全屏卡片 -->
 </body>
 
 </html>

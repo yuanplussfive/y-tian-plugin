@@ -24,17 +24,22 @@
   --accent-color: #ffd700;
   --tech-purple: #8a2be2;
   --tech-cyan: #00ffff;
-  --background-gradient: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(48, 43, 99, 0.95), rgba(36, 36, 62, 0.95));
-  --card-bg: rgba(255, 255, 255, 0.05);
-  --section-bg: rgba(255, 255, 255, 0.07);
-  --text-color: #ffffff;
+  --background-image: url('background.jpg'); /* 本地背景图片路径 */
+  --background-overlay: rgba(0, 0, 0, 0.6);
+  --card-bg: rgba(15, 15, 15, 0.95);
+  --section-bg: rgba(30, 30, 30, 0.85);
+  --text-color: #e0e0e0;
   --label-color: #00ffff;
   --value-color: #ff69b4;
   --description-color: #add8e6;
-  --shadow-color: rgba(0, 0, 0, 0.7);
+  --shadow-color: rgba(0, 0, 0, 0.9);
   --border-color-primary: #00bfff;
   --border-color-secondary: #1e90ff;
   --border-color-accent: #ffd700;
+  --parallelogram-angle: 10deg;
+  --card-width: 100%;
+  --avatar-size: 200px;
+  --cube-size: 60px;
 }
 
 /* 全局样式 */
@@ -45,8 +50,10 @@
 }
 
 body {
+  font-size: 2rem;
   font-family: 'NZBZ', 'Roboto Mono', monospace;
-  background: var(--background-gradient);
+  background: var(--background-image) no-repeat center center fixed;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,44 +72,43 @@ body {
   width: 100%;
   height: 100%;
   backdrop-filter: blur(10px);
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--background-overlay);
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
   animation: curtainFade 15s infinite alternate;
 }
 
 @keyframes curtainFade {
   0% {
-    opacity: 0.3;
-  }
-
-  100% {
     opacity: 0.6;
+  }
+  100% {
+    opacity: 0.8;
   }
 }
 
 /* 卡片样式 */
 .profile-card {
   background: var(--card-bg);
-  backdrop-filter: blur(25px);
-  border-radius: 30px;
-  box-shadow: 0 40px 120px var(--shadow-color);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 40px 80px var(--shadow-color);
   width: 100%;
-  max-width: 1800px;
-  /* 增加最大宽度 */
-  padding: 60px;
+  max-width: var(--card-width);
+  padding: 40px;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  z-index: 3;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  color: var(--text-color);
 }
 
+/* 卡片悬停效果 */
 .profile-card:hover {
-  transform: translateY(-20px);
-  box-shadow: 0 50px 150px rgba(0, 0, 0, 0.9);
+  transform: translateY(-10px);
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.95);
 }
 
 /* 动态背景元素 */
@@ -119,118 +125,37 @@ body {
   pointer-events: none;
 }
 
-.irregular-shapes {
+.dynamic-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
-  z-index: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+  opacity: 0.05;
+  z-index: -3;
 }
 
-.shape {
+/* 头像容器 */
+.avatar-container {
   position: absolute;
-  background: rgba(0, 191, 255, 0.3);
-  border: 2px solid rgba(0, 191, 255, 0.5);
-  border-radius: 50%;
-  animation: float 15s ease-in-out infinite;
-}
-
-.shape1 {
-  width: 250px;
-  height: 250px;
-  top: -100px;
-  left: -100px;
-}
-
-.shape2 {
-  width: 350px;
-  height: 350px;
-  bottom: -150px;
-  right: -150px;
-}
-
-.shape3 {
-  width: 200px;
-  height: 200px;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.4;
-}
-
-.shape4 {
-  width: 220px;
-  height: 220px;
-  top: 20%;
-  left: 75%;
-  transform: translate(-50%, -50%);
-  opacity: 0.35;
-}
-
-/* 动画效果 */
-@keyframes float {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-40px) rotate(180deg);
-  }
-
-  100% {
-    transform: translateY(0) rotate(360deg);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(1.5);
-    opacity: 0.6;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes glow {
-  from {
-    box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
-  }
-
-  to {
-    box-shadow: 0 0 30px rgba(0, 191, 255, 0.2);
-  }
-}
-
-/* 头部样式 */
-.profile-header {
+  top: 20px;
+  left: 20px;
+  z-index: 3;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 60px;
-  position: relative;
-  z-index: 1;
 }
 
+/* 头像样式 */
 .avatar {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 15px;
   overflow: hidden;
   border: 5px solid var(--primary-color);
-  flex-shrink: 0;
-  margin-right: 60px;
-  position: relative;
-  z-index: 2;
-  transition: border 0.3s ease;
+  transition: border 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 .avatar img {
@@ -241,6 +166,82 @@ body {
 
 .avatar:hover {
   border-color: var(--secondary-color);
+  transform: scale(1.05);
+}
+
+/* 复杂魔方集群样式 */
+.complex-cube {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  perspective: 800px;
+}
+
+.complex-cube .cube {
+  width: var(--cube-size);
+  height: var(--cube-size);
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateCube 5s infinite linear;
+}
+
+.complex-cube .cube .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 204, 255, 0.6);
+  border: 2px solid var(--tech-cyan);
+  backface-visibility: hidden;
+}
+
+.complex-cube .cube .front {
+  transform: rotateY(0deg) translateZ(calc(var(--cube-size) / 2));
+}
+
+.complex-cube .cube .back {
+  transform: rotateY(180deg) translateZ(calc(var(--cube-size) / 2));
+}
+
+.complex-cube .cube .right {
+  transform: rotateY(90deg) translateZ(calc(var(--cube-size) / 2));
+}
+
+.complex-cube .cube .left {
+  transform: rotateY(-90deg) translateZ(calc(var(--cube-size) / 2));
+}
+
+.complex-cube .cube .top {
+  transform: rotateX(90deg) translateZ(calc(var(--cube-size) / 2));
+}
+
+.complex-cube .cube .bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--cube-size) / 2));
+}
+
+@keyframes rotateCube {
+  from {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+/* 配置区域 */
+.configurations {
+  margin-left: 240px; /* 留出头像的空间 */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* 头部样式 */
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .intro {
@@ -249,137 +250,176 @@ body {
 }
 
 .name {
-  font-size: 4rem;
+  font-size: 3rem;
   color: var(--primary-color);
   background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 30px;
-  white-space: nowrap;
+  margin-bottom: 10px;
+  font-family: 'jty', sans-serif;
 }
 
 .role {
-  font-size: 3rem;
+  font-size: 1.8rem;
   color: #7fffd4;
-  margin-bottom: 25px;
-  white-space: nowrap;
+  margin-bottom: 5px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 .status {
-  font-size: 2rem;
+  font-size: 1.4rem;
   color: #32cd32;
   display: flex;
   align-items: center;
-  white-space: nowrap;
 }
 
 .status i {
-  margin-right: 15px;
+  margin-right: 8px;
   color: #32cd32;
-  animation: pulse 2s infinite;
-}
-
-/* 时钟样式 */
-.clock {
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  background: rgba(0, 191, 255, 0.5);
-  padding: 25px 50px;
-  border-radius: 40px;
-  box-shadow: 0 15px 40px rgba(0, 191, 255, 0.6);
-  animation: glow 3s infinite alternate;
-  white-space: nowrap;
-}
-
-.clock #time {
-  font-size: 3rem;
-  color: #ffffff;
-  font-weight: bold;
-  font-family: 'Roboto Mono', monospace;
-  letter-spacing: 3px;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
 }
 
 /* 主体内容样式 */
 .profile-body {
   display: flex;
-  flex-direction: column;
-  gap: 40px;
+  flex-direction: row;
+  gap: 30px;
   opacity: 0.98;
-  z-index: 1;
+  z-index: 3;
+  flex: 1;
+}
+
+/* 左侧板块样式 */
+.left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 3;
+}
+
+/* 右侧板块样式 */
+.right-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
 }
 
 /* 通用模块样式 */
 .section {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border-radius: 20px 50px 20px 50px;
-  /* 非对称圆角 */
-  padding: 30px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  background: var(--section-bg);
+  backdrop-filter: blur(15px);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  overflow: visible;
-  /* 允许内容溢出以适应非矩形形状 */
-  border: 4px solid transparent;
-  clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
-  /* 创建斜切效果 */
+  overflow: hidden;
+  border: 3px solid transparent;
+  clip-path: polygon(0 0, 100% 0, 100% 95%, 100% 100%, 0 100%, 0 95%);
 }
 
-.section::before {
+/* 不同板块不同风格 */
+.settings-section {
+  border-top: 5px solid var(--primary-color);
+}
+
+.settings-section::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 191, 255, 0.1), rgba(30, 144, 255, 0.1));
   z-index: -1;
-  filter: blur(50px);
-  animation: rotate 10s linear infinite;
 }
 
+.memory-section {
+  border-top: 5px solid var(--secondary-color);
+}
+
+.memory-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(30, 144, 255, 0.1), rgba(0, 191, 255, 0.1));
+  z-index: -1;
+}
+
+.proxy-section {
+  border-top: 5px solid var(--accent-color);
+}
+
+.proxy-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+  z-index: -1;
+}
+
+/* 动画效果 */
 @keyframes rotate {
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
+  }
+  to {
+    box-shadow: 0 0 30px rgba(0, 191, 255, 0.2);
+  }
+}
+
+@keyframes rotateCube {
+  from { transform: rotateX(0deg) rotateY(0deg); }
+  to { transform: rotateX(360deg) rotateY(360deg); }
+}
+
 .section:hover {
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
-  transform: translateY(-15px);
-}
-
-/* 各板块独特样式 */
-.settings-section {
-  border-top: 6px solid var(--primary-color);
-}
-
-.memory-section {
-  border-top: 6px solid var(--secondary-color);
-}
-
-.proxy-section {
-  border-top: 6px solid var(--accent-color);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+  transform: translateY(-5px);
 }
 
 /* 标题样式 */
 .section h2 {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: #ffffff;
-  margin-bottom: 35px;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
-  white-space: nowrap;
 }
 
 .section h2 i {
-  margin-right: 25px;
-  font-size: 2.5em;
+  margin-right: 10px;
+  font-size: 1.6em;
   animation: glow 2s infinite alternate;
 }
 
@@ -396,111 +436,110 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 
 .function-left {
   display: flex;
   align-items: center;
   flex: 3;
-  /* 增加左侧内容的宽度 */
-}
-
-.function-left .icon {
-  font-size: 2.5rem;
-  color: #79dbd8;
-  margin-right: 20px;
 }
 
 .function-left .label {
-  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: #ffffff;
-  flex: 3;
-  /* 增加左侧内容的宽度 */
+  flex: 2;
   font-family: 'jty', sans-serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
-  letter-spacing: 1.5px;
-  line-height: 2;
-  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
-  padding: 15px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
   transition: background 0.3s ease;
+  transform: skew(-var(--parallelogram-angle));
 }
 
 .function-left .label:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+p {
+  font-size: 20px; /* 根据需要调整字体大小 */
 }
 
 .function-left .value {
-  flex: 4;
-  /* 增加右侧内容的宽度 */
-  color: #000000;
-  font-size: 1.8rem;
+  flex: 3;
+  color: var(--value-color);
+  font-size: 1.2rem;
   font-weight: 500;
   white-space: nowrap;
-  padding: 15px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
   transition: background 0.3s ease;
+  transform: skew(-var(--parallelogram-angle));
 }
 
 .function-left .value:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .function-right {
-  flex: 1;
-  /* 保持右侧内容宽度一致 */
-  margin-left: 30px;
+  flex: 2;
+  margin-left: 15px;
 }
 
 .function-right .description {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: var(--description-color);
-  background: rgba(0, 0, 0, 0.4);
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
   transition: background 0.3s ease, transform 0.3s ease;
   white-space: nowrap;
+  transform: skew(-var(--parallelogram-angle));
 }
 
 .function-right .description:hover {
-  background: rgba(0, 0, 0, 0.5);
-  transform: translateY(-5px);
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-3px) skew(-var(--parallelogram-angle));
 }
 
 /* 页脚按钮样式 */
 .profile-footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 40px;
-  margin-top: 70px;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-top: 20px;
   position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 
 .btn {
   background-color: var(--primary-color);
   color: #ffffff;
   border: none;
-  padding: 20px 50px;
-  border-radius: 50px;
+  padding: 12px 30px;
+  border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  font-size: 1.5rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
   white-space: nowrap;
 }
 
 .btn:hover {
   background-color: var(--secondary-color);
-  transform: translateY(-8px);
-  box-shadow: 0 15px 40px rgba(0, 191, 255, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 191, 255, 0.6);
 }
 
 .btn.secondary {
@@ -509,50 +548,118 @@ body {
 }
 
 .btn.secondary:hover {
-  background-color: #645e52;
-  box-shadow: 0 15px 40px rgba(8, 171, 152, 0.6);
+  background-color: #ffb300;
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
 }
 
 /* 响应式设计 */
 @media (max-width: 1400px) {
-  .profile-card {
-    max-width: 1600px;
-    /* 调整最大宽度 */
-    padding: 50px;
+  :root {
+    --card-width: 1000px;
+    --avatar-size: 180px;
+    --cube-size: 50px;
   }
 
-  .avatar {
-    width: 180px;
-    height: 180px;
-    margin-right: 50px;
+  .configurations {
+    margin-left: 200px;
   }
 
   .name {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
   }
 
   .role {
-    font-size: 2.8rem;
+    font-size: 1.6rem;
   }
 
   .status {
-    font-size: 1.8rem;
-  }
-
-  .clock {
-    padding: 22px 45px;
-  }
-
-  .clock #time {
-    font-size: 2.8rem;
+    font-size: 1.2rem;
   }
 
   .section {
-    padding: 35px;
+    padding: 18px;
   }
 
   .section h2 {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
+  }
+
+  .function-left .label,
+  .function-left .value {
+    font-size: 1rem;
+    padding: 6px 10px;
+  }
+
+  .function-right .description {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+    gap: 6px;
+  }
+
+  .complex-cube {
+    margin-top: 15px;
+    gap: 8px;
+  }
+
+  .complex-cube .cube {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --card-width: 800px;
+    --avatar-size: 160px;
+    --cube-size: 45px;
+  }
+
+  .profile-card {
+    padding: 30px;
+  }
+
+  .avatar-container {
+    top: 10px;
+    left: 10px;
+  }
+
+  .configurations {
+    margin-left: 180px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+  }
+
+  .name {
+    font-size: 2rem;
+  }
+
+  .role {
+    font-size: 1.4rem;
+  }
+
+  .status {
+    font-size: 1rem;
+  }
+
+  .profile-body {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .section {
+    padding: 15px;
+  }
+
+  .section h2 {
+    font-size: 1.4rem;
   }
 
   .function-item {
@@ -560,167 +667,81 @@ body {
     align-items: center;
   }
 
-  .function-left {
-    flex: 3;
-    /* 增加左侧宽度 */
-  }
-
   .function-right {
-    flex: 1;
-    /* 保持右侧宽度 */
-    margin-left: 40px;
+    margin-left: 10px;
   }
 
-  .function-right .description {
-    font-size: 1.4rem;
+  .complex-cube {
+    margin-top: 10px;
+    gap: 6px;
   }
 
-  .btn {
-    padding: 18px 45px;
-    font-size: 1.3rem;
-    gap: 15px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .profile-card {
-    max-width: 1400px;
-    /* 调整最大宽度 */
-    padding: 40px;
-  }
-
-  .profile-header {
-    margin-bottom: 50px;
-  }
-
-  .avatar {
-    width: 160px;
-    height: 160px;
-    margin-right: 40px;
-  }
-
-  .name {
-    font-size: 3rem;
-  }
-
-  .role {
-    font-size: 2.5rem;
-  }
-
-  .status {
-    font-size: 1.6rem;
-  }
-
-  .clock {
-    padding: 20px 40px;
-  }
-
-  .clock #time {
-    font-size: 2.5rem;
-  }
-
-  .section {
-    padding: 30px;
-  }
-
-  .section h2 {
-    font-size: 1.8rem;
-  }
-
-  .function-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .function-left {
-    flex: 4;
-    /* 增加左侧宽度 */
-  }
-
-  .function-right {
-    flex: 2;
-    /* 增加右侧宽度 */
-    margin-left: 0;
-    margin-top: 15px;
-  }
-
-  .function-right .description {
-    width: 100%;
-  }
-
-  .label,
-  .value {
-    font-size: 1.6rem;
-    padding: 18px;
-  }
-
-  .btn {
-    padding: 16px 35px;
-    font-size: 1.2rem;
-    gap: 12px;
+  .complex-cube .cube {
+    width: 45px;
+    height: 45px;
   }
 }
 
 @media (max-width: 768px) {
+  :root {
+    --card-width: 100%;
+    --avatar-size: 140px;
+    --cube-size: 40px;
+  }
+
   .profile-card {
-    max-width: 100%;
-    padding: 30px;
+    padding: 20px;
+  }
+
+  .avatar-container {
+    top: 10px;
+    left: 10px;
+  }
+
+  .configurations {
+    margin-left: 160px;
   }
 
   .profile-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
   }
 
   .avatar {
+    width: var(--avatar-size);
+    height: var(--avatar-size);
     margin-right: 0;
-    margin-bottom: 25px;
-    width: 150px;
-    height: 150px;
-  }
-
-  .intro {
-    align-items: center;
+    margin-bottom: 10px;
   }
 
   .name {
-    max-width: 100%;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
   }
 
   .role {
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
 
   .status {
-    font-size: 1.4rem;
-  }
-
-  .clock {
-    position: static;
-    margin-top: 20px;
-    padding: 15px 30px;
-  }
-
-  .clock #time {
-    font-size: 2rem;
+    font-size: 0.9rem;
   }
 
   .profile-body {
     flex-direction: column;
-    gap: 25px;
+    gap: 10px;
   }
 
   .section {
     flex: 1 1 100%;
+    width: 100%;
   }
 
   .section h2 {
     justify-content: center;
     text-align: center;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
   }
 
   .function-item {
@@ -729,37 +750,40 @@ body {
   }
 
   .function-left {
-    flex: 4;
-    /* 增加左侧宽度 */
+    flex: 5;
   }
 
   .function-right {
-    flex: 3;
-    /* 增加右侧宽度 */
+    flex: 4;
     margin-left: 0;
-    margin-top: 10px;
+    margin-top: 5px;
   }
 
   .function-right .description {
     width: 100%;
   }
 
-  .label,
-  .value {
-    font-size: 1.4rem;
-    padding: 16px;
+  .function-left .label,
+  .function-left .value {
+    font-size: 1rem;
+    padding: 6px 10px;
   }
 
   .btn {
     width: 100%;
     justify-content: center;
-    padding: 14px 30px;
-    font-size: 1rem;
-    gap: 10px;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    gap: 5px;
   }
 
-  .section h2 {
-    justify-content: center;
-    text-align: center;
+  .complex-cube {
+    margin-top: 8px;
+    gap: 4px;
+  }
+
+  .complex-cube .cube {
+    width: 40px;
+    height: 40px;
   }
 }
