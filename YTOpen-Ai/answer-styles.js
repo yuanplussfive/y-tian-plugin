@@ -60,6 +60,8 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 const data = {
                     dz,
                     tplFile,
+                    quality: 100,
+                    imgType: 'jpeg',
                     atom_one_dark_min_css: `${cssPath}/atom-one-dark.min.css`,
                     all_min_css: `${cssPath}/all.min.css`,
                     marked_min_js: `${jsPath}/marked.min.js`,
@@ -81,10 +83,10 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                     name1: Bot.nickname
                 };
 
-                if (words < 3200) {
+                if (words < 4800) {
                     try {
                         const img = await Promise.race([
-                            puppeteer.screenshot("753", data),
+                            puppeteer.screenshot("759", data),
                             new Promise((_, reject) => setTimeout(() => reject(new Error('截图超时')), 35000))
                         ]);
                         e.reply(img);

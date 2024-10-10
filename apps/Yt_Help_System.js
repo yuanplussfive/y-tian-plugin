@@ -177,6 +177,8 @@ export class example extends plugin {
 
 async function screen(num, puppeteer) {
   const data = {
+    quality: 100,
+    imgType: 'jpeg',
     tplFile: _path + `/plugins/y-tian-plugin/YTfreeai/config/html/help${num}.html`,
     all_min_css: _path + "/plugins/y-tian-plugin/resources/css/fontawesome-free-6.6.0-web/css/all.min.css",
     all_css_src: _path + "/plugins/y-tian-plugin/resources/css/all_help.css",

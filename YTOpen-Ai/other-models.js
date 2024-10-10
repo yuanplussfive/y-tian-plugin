@@ -810,5 +810,12 @@ export const other_models = [
     "points": "科大讯飞",
     "token": "128000",
     "features": ['conversation', 'code']
+  },
+  {
+    "id": 117,
+    "model": "dall-e-3-hd",
+    "points": "OpenAi",
+    "token": "2000",
+    "features": ['drawing']
   }
 ]

@@ -407,6 +407,8 @@ export class example extends plugin {
         const god_proxyId = god_proxy.chatgpt.proxy_id;
         const god_proxyIds = proxyIds[god_proxyId] || proxyIds.default;
         let data = {
+            quality: 100,
+            imgType: 'jpeg',
             all_min_css: _path + "/plugins/y-tian-plugin/resources/css/fontawesome-free-6.6.0-web/css/all.min.css",
             yunzaiName: yunzaiName,
             god_proxy: god_proxyIds,
