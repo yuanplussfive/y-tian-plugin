@@ -797,7 +797,7 @@ export const god_models = [
         "points": "20/次",
         "style": "once",
         "owned_by": "y-tian-plugin",
-        "features": ['music']
+        "features": ['drawing']
     },
     {
         "id": 81,
@@ -807,6 +807,16 @@ export const god_models = [
         "points": "20/次",
         "style": "once",
         "owned_by": "y-tian-plugin",
-        "features": ['music']
+        "features": ['drawing']
+    },
+    {
+        "id": 82,
+        "model": "ideogram",
+        "created": 1686935002,
+        "token": 800,
+        "points": "300/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['drawing']
     }
 ];

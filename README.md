@@ -92,8 +92,18 @@
 ## 🚀 功能一览
 
 <details>
-  <summary>🔍 阴天帮助一览</summary>
+  <summary>🔍 阴天帮助</summary>
   <img src="./background/image/阴天帮助.jpg" alt="阴天帮助" width="35%">
+</details>
+
+
+
+<details>
+  <summary>🔍 常用帮助</summary>
+  <img src="./background/image/阴天帮助.jpg" alt="阴天帮助" width="35%">
+  <img src="./background/image/god帮助.jpg" alt="god帮助" width="39%">
+  <img src="./background/image/chat帮助.jpg" alt="chat帮助" width="35%">
+  <img src="./background/image/附加帮助.jpg" alt="附加帮助" width="48%">
 </details>
 
 ## 🤖 AI 模型功能概览
@@ -325,16 +335,6 @@
 <details>
   <summary>示例2</summary>
   <img src="./background/image/markdown_2.jpg" alt="Markdown 示例2" width="400"/>
-</details>
-
-<details>
-  <summary>示例3</summary>
-  <img src="./background/image/markdown_3.jpg" alt="Markdown 示例3" width="400"/>
-</details>
-
-<details>
-  <summary>示例4</summary>
-  <img src="./background/image/markdown_4.jpg" alt="Markdown 示例4" width="400"/>
 </details>
 
 ### 💎 TTS语音回复

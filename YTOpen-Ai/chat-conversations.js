@@ -283,6 +283,49 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     }
   }
 
+  async function handleideoModel(e, Apikey, msg, model, apiurl, _path) {
+    try {
+      const extractAndProcessUrls = (inputString) => {
+        const regex = /https:\/\/(?:filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4}|yuanpluss\.online:\d+\/files\/[a-zA-Z0-9_\/]+?\.[a-z]{2,4})/g;
+        const matches = inputString.match(regex) || [];
+        const uniqueUrls = [...new Set(matches)];
+        const urls = uniqueUrls.map(url => ({ url }));
+        return urls;
+      };
+      const response = await fetch(apiurl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Apikey}`,
+        },
+        body: JSON.stringify({
+          "model": "ideogram",
+          "stream": true,
+          "messages": [
+            {
+              "role": "user",
+              "content": msg
+            }
+          ]
+       }),
+      });
+      const input = await response.text();
+      const inputString = await extractContent(input);
+      const urls = extractAndProcessUrls(inputString);
+      console.log(urls);
+      if (urls.length !== 0) {
+        let images = [];
+        urls.forEach(urlObj => {
+        images.push(segment.image(urlObj.url));
+        });
+        e.reply(images);
+      }
+    } catch (error) {
+      console.log(error)
+      e.reply("通讯失败, 稍后再试")
+    }
+  }
+
   async function handlesdModel(e, Apikey, msg, model, apiurl, _path) {
     async function transform(msg) {
       try {
@@ -351,6 +394,24 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     }
   }
 
+  async function extractContent(dataString) {
+    const lines = dataString.split('\n');
+    let result = '';
+    lines.forEach(line => {
+      try {
+        const jsonString = line.replace('data: ', '');
+        const jsonData = JSON.parse(jsonString);
+        if (jsonData && jsonData.choices && jsonData.choices[0] && jsonData.choices[0].delta && jsonData.choices[0].delta.content) {
+          const content = jsonData.choices[0].delta.content;
+          result += content;
+        }
+      } catch (error) {
+        //console.log(error);
+      }
+    });
+    return result;
+  }
+
   async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
     switch (true) {
       case model === "mj-chat":
@@ -361,6 +422,9 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         return false;
       case /(luma|runway|vidu)/.test(model):
         await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
+        return false;
+      case /(ideogram)/.test(model):
+        await handleideoModel(e, Apikey, msg, model, apiurl, _path);
         return false;
       case /(stable-diffusion|playground)/.test(model):
         await handlesdModel(e, Apikey, msg, model, apiurl, _path);
@@ -463,7 +527,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       });
       await saveUserHistory(path, userid, history);
       let Messages = answer
-      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all", "ideogram", "o1-preview", "o1-mini"];
+      const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all", "o1-preview", "o1-mini"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
       if (models.includes(model) && keywords.some(keyword => answer.includes(keyword))) {
         const result = await extractDescription(answer);
@@ -477,6 +541,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             const JsonPart = await common.makeForwardMsg(e, forwardMsg, '绘图prompt');
             e.reply(JsonPart)
           }
+          
         } catch { }
       }
       console.log(Messages)
@@ -485,6 +550,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       if (styles == "picture") {
         let forwardMsg = [Messages]
         const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
+        //e.reply(Messages)
         e.reply(JsonPart)
         if (urls.length !== 0) {
           let uniqueUrls = [...new Set(urls)];
@@ -495,9 +561,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           console.log(uniqueUrls)
         }
       }
-      if (!model.includes("ideogram")) {
-        await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
-      }
+      await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {
@@ -519,30 +583,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
           downloadImage(path, url, e, filePath);
         })
       }
-      if (model == "ideogram") {
-        let urls = await get_address(answer);
-        if (urls.length !== 0) {
-          try {
-            urls = await removeDuplicates(urls);
-          } catch (error) {
-            e.reply(error);
-          }
-          const filePath = path.join(_path, 'resources', 'ideogram.png');
-          for (const url of urls) {
-            try {
-              await downloadImage(path, url, e, filePath);
-            } catch (error) {
-              e.reply(error);
-            }
-          }
-        }
-        console.log(3, urls)
-        urls.forEach(async (url) => {
-          await downloadAndSaveFile(url, path, fetch, _path, fs, e);
-        });
-      }
       const highmodels = ["gpt-4-all", "gpt-4o", "gpt-4o-all", "o1-mini", "o1-preview"];
-
       if (highmodels.includes(model)) {
         let urls = await get_address(answer);
         if (urls.length !== 0) {

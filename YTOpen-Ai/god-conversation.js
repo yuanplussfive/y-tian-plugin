@@ -235,6 +235,49 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     }
   }
 
+  async function handleideoModel(e, stoken, msg, model, apiurl, _path) {
+    try {
+      const extractAndProcessUrls = (inputString) => {
+        const regex = /https:\/\/(?:filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4}|yuanpluss\.online:\d+\/files\/[a-zA-Z0-9_\/]+?\.[a-z]{2,4})/g;
+        const matches = inputString.match(regex) || [];
+        const uniqueUrls = [...new Set(matches)];
+        const urls = uniqueUrls.map(url => ({ url }));
+        return urls;
+      };
+      const response = await fetch(apiurl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${stoken}`,
+        },
+        body: JSON.stringify({
+          "model": "ideogram",
+          "stream": true,
+          "messages": [
+            {
+              "role": "user",
+              "content": msg
+            }
+          ]
+       }),
+      });
+      const input = await response.text();
+      const inputString = await extractContent(input);
+      const urls = extractAndProcessUrls(inputString);
+      console.log(urls);
+      if (urls.length !== 0) {
+        let images = [];
+        urls.forEach(urlObj => {
+        images.push(segment.image(urlObj.url));
+        });
+        e.reply(images);
+      }
+    } catch (error) {
+      console.log(error)
+      e.reply("通讯失败, 稍后再试")
+    }
+  }
+
   async function MainModel(e, history, stoken, search, model, apiurl, path) {
     try {
       const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o", "o1-preview", "o1-mini"];
@@ -245,6 +288,10 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       }
       if (model.includes("luma")) {
         await handlelumaModel(e, stoken, msg, model, apiurl, _path);
+        return false
+      }
+      if (model.includes("ideogram")) {
+        await handleideoModel(e, stoken, msg, model, apiurl, _path);
         return false
       }
       if (model.includes("stable-diffusion") || model.includes("playground")) {
