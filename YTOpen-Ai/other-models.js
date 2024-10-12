@@ -771,48 +771,55 @@ export const other_models = [
   },
   {
     "id": 111,
+    "model": "midjourney-create",
+    "points": "midjourney",
+    "token": "800",
+    "features": ['drawing']
+  },
+  {
+    "id": 112,
     "model": "moonshot-v1-8k",
     "points": "moonshot",
     "token": "8000",
     "features": ['conversation', 'code']
   },
   {
-    "id": 112,
+    "id": 113,
     "model": "moonshot-v1-32k",
     "points": "moonshot",
     "token": "32000",
     "features": ['conversation', 'code']
   },
   {
-    "id": 113,
+    "id": 114,
     "model": "moonshot-v1-128k",
     "points": "moonshot",
     "token": "128000",
     "features": ['conversation', 'code']
   },
   {
-    "id": 114,
+    "id": 115,
     "model": "gemini-1.5-pro-001",
     "points": "Google",
     "token": "1000000",
     "features": ['conversation', 'code', 'image_recognition']
   },
   {
-    "id": 115,
+    "id": 116,
     "model": "gemini-1.5-pro-002",
     "points": "Google",
     "token": "1000000",
     "features": ['conversation', 'code', 'image_recognition']
   },
   {
-    "id": 116,
+    "id": 117,
     "model": "spark-desk-v4",
     "points": "科大讯飞",
     "token": "128000",
     "features": ['conversation', 'code']
   },
   {
-    "id": 117,
+    "id": 118,
     "model": "dall-e-3-hd",
     "points": "OpenAi",
     "token": "2000",
