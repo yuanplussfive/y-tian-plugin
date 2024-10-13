@@ -824,5 +824,19 @@ export const other_models = [
     "points": "OpenAi",
     "token": "2000",
     "features": ['drawing']
+  },
+  {
+    "id": 119,
+    "model": "spark-desk-max",
+    "points": "科大讯飞",
+    "token": "128000",
+    "features": ['conversation', 'code']
+  },
+  {
+    "id": 120,
+    "model": "deepseek-v2.5",
+    "points": "深度求索",
+    "token": "100000",
+    "features": ['conversation', 'code']
   }
 ]
