@@ -50,21 +50,21 @@ class MessageProcessor extends Transform {
           this.totalContentLength -= removedObj.contentLength;
           this.userCount--;
         } else {
-          break; // 没有更多 user 消息可以移除
+          break; 
         }
       }
     }
 
     // 检查内容长度是否超过限制
-    while (this.totalContentLength > this.contentLengthLimit) {
-      const removedObj = this._removeOldestMessage();
+    while (this.totalContentLength > this.contentLengthLimit && this.newArr.length > 2) {
+      const removedObj = this._removeOldestMessage(2);
       if (removedObj) {
-        this.totalContentLength -= removedObj.contentLength;
+        this.totalContentLength -= removedObj.contentLength + removedObj.assistantContentLength;
         if (removedObj.role === 'user') {
           this.userCount--;
         }
       } else {
-        break; // 没有更多消息可以移除
+        break;
       }
     }
 
@@ -110,14 +110,13 @@ class MessageProcessor extends Transform {
    * 移除最旧的消息，如果是 user 消息，则尝试移除其紧随的 assistant 消息
    * @returns {Object|null} 被移除的消息对象
    */
-  _removeOldestMessage() {
-    if (this.newArr.length === 0) return null;
+  _removeOldestMessage(minRetainCount = 2) {
+    if (this.newArr.length <= minRetainCount) return null;
     const removedObj = this.newArr.shift();
     let removedAssistant = null;
 
     if (removedObj.role === 'user') {
-      // 如果移除的是 user 消息，检查下一个是否是 assistant 并移除
-      if (this.newArr.length > 0 && this.newArr[0].role === 'assistant') {
+      if (this.newArr.length > minRetainCount && this.newArr[0].role === 'assistant') {
         removedAssistant = this.newArr.shift();
       }
     }
@@ -125,10 +124,10 @@ class MessageProcessor extends Transform {
     return {
       role: removedObj.role,
       contentLength: removedObj.content
-        ? countTextInStringSync(removedObj.content)
+        ? this.countTextInStringSync(removedObj.content)
         : 0,
       assistantContentLength: removedAssistant && removedAssistant.content
-        ? countTextInStringSync(removedAssistant.content)
+        ? this.countTextInStringSync(removedAssistant.content)
         : 0
     };
   }
@@ -175,7 +174,7 @@ async function countTextInString(text) {
   const chineseCharRegex = /[\u4e00-\u9fa5]/g;
   const englishWords = text.match(englishWordRegex) || [];
   const chineseChars = text.match(chineseCharRegex) || [];
-  return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
+  return Math.floor(englishWords.length * 1.5 + chineseChars.length * 1.4);
 }
 
 /**
