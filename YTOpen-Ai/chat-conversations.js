@@ -360,7 +360,11 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       match = inputStr.match(/\[.*?\]\((.*?)\)/);
       if (match && match[1]) {
         console.log('提取的URL:', match[1]);
-        e.reply('请按照打开的浏览器进行操作');
+        let forwardMsg = []
+        forwardMsg.push('复制到浏览器打开：不要中途打开！！！');
+        forwardMsg.push(match[1]);
+        const JsonPart = await common.makeForwardMsg(e, forwardMsg, '神秘链接');
+        e.reply(JsonPart);
         url = match[1];
         browser = await puppeteers.launch({ headless: false });
         page = await browser.newPage();
