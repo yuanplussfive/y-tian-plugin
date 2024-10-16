@@ -838,5 +838,12 @@ export const other_models = [
     "points": "深度求索",
     "token": "100000",
     "features": ['conversation', 'code']
+  },
+  {
+    "id": 121,
+    "model": "midjourney-all",
+    "points": "midjourney",
+    "token": "800",
+    "features": ['drawing']
   }
 ]

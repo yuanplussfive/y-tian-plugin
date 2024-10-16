@@ -371,7 +371,393 @@
             <td>${item.points}</td>
             <td>${item.token}</td>
           </tr>
+        `);<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <link rel="stylesheet" href="{{all_min_css}}">
+  <link rel="stylesheet" href="{{all_css_src}}">
+</head>
+
+<body>
+
+
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>来源:</th>
+      <th>最大token:</th>
+    </tr>
+    <script>
+      let model =
+      {
+        models: [
+          {
+            "id": 76,
+            "model": "llama-3-sonar-small-32k-online",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 77,
+            "model": "llama-3-sonar-small-32k-chat",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 78,
+            "model": "llama-3-sonar-large-32k-online",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 79,
+            "model": "llama-3-sonar-large-32k-chat",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 80,
+            "model": "mixtral-8x7b-instruct",
+            "points": "mixtral",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 81,
+            "model": "mixtral-8x22b",
+            "points": "mixtral",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 82,
+            "model": "gemma-2b-it",
+            "points": "google",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 83,
+            "model": "gemma-7b-it",
+            "points": "google",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 84,
+            "model": "reka-core",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation', 'image_recognition']
+          },
+          {
+            "id": 85,
+            "model": "reka-flash",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation', 'image_recognition']
+          },
+          {
+            "id": 86,
+            "model": "reka-edge",
+            "points": "reka",
+            "token": 24000,
+            "features": ['conversation', 'image_recognition']
+          },
+          {
+            "id": 87,
+            "model": "blackbox-chat",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation']
+          },
+          {
+            "id": 88,
+            "model": "blackbox-online",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation', 'internet']
+          },
+          {
+            "id": 89,
+            "model": "blackbox-code",
+            "points": "blackbox",
+            "token": 9000,
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 90,
+            "model": "zephyr-7b-beta",
+            "points": "huggingface",
+            "token": 8000,
+            "features": ['conversation']
+          },
+          {
+            "id": 91,
+            "model": "openchat-7b",
+            "points": "huggingface",
+            "token": 8000,
+            "features": ['conversation']
+          },
+          {
+            "id": 92,
+            "model": "phi-3-mini-128k-instruct",
+            "points": "Microsoft",
+            "token": 128000,
+            "features": ['conversation']
+          },
+          {
+            "id": 93,
+            "model": "phi-3-medium-128k-instruct",
+            "points": "Microsoft",
+            "token": 128000,
+            "features": ['conversation']
+          },
+          {
+            "id": 94,
+            "model": "suno-v3.5-vip",
+            "points": "suno",
+            "token": 240,
+            "features": ['music']
+          },
+          {
+            "id": 95,
+            "model": "search-llm",
+            "points": "y-tian-plugin",
+            "token": 8000,
+            "features": ['conversation', 'internet']
+          },
+          {
+            "id": 96,
+            "model": "gpt-4o-mini",
+            "points": "OpenAi",
+            "token": 128000,
+            "features": ['conversation']
+          },
+          {
+            "id": 97,
+            "model": "meta-llama-3.1-8B",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 98,
+            "model": "meta-llama-3.1-70B",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 99,
+            "model": "meta-llama-3.1-405B",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 100,
+            "model": "gemma-2-9b-it",
+            "points": "Google",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 101,
+            "model": "gemma-2-27b-it",
+            "points": "Google",
+            "token": 32000,
+            "features": ['conversation']
+          },
+          {
+            "id": 102,
+            "model": "chatgpt-4o-latest",
+            "points": "OpenAi",
+            "token": 128000,
+            "features": ['conversation']
+          },
+          {
+            "id": 103,
+            "model": "gemini-1.5-pro-exp-0801",
+            "points": "Google",
+            "token": 200000,
+            "features": ['conversation', 'image_recognition']
+          },
+          {
+            "id": 104,
+            "model": "o1-preview-20240912",
+            "points": "OpenAi-Plus",
+            "token": "128000",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": 105,
+            "model": "o1-preview-all",
+            "points": "OpenAi-Plus",
+            "token": "128000",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": 106,
+            "model": "o1-mini-20240912",
+            "points": "OpenAi-Plus",
+            "token": "128000",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": 107,
+            "model": "o1-mini-all",
+            "points": "OpenAi-Plus",
+            "token": "128000",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": 108,
+            "model": "grok-v2.0",
+            "points": "Xai",
+            "token": "128000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 109,
+            "model": "grok-v2.0-mini",
+            "points": "Xai",
+            "token": "128000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 110,
+            "model": "nijidjourney-create",
+            "points": "nijidjourney",
+            "token": "800",
+            "features": ['drawing']
+          },
+          {
+            "id": 111,
+            "model": "midjourney-create",
+            "points": "midjourney",
+            "token": "800",
+            "features": ['drawing']
+          },
+          {
+            "id": 112,
+            "model": "moonshot-v1-8k",
+            "points": "moonshot",
+            "token": "8000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 113,
+            "model": "moonshot-v1-32k",
+            "points": "moonshot",
+            "token": "32000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 114,
+            "model": "moonshot-v1-128k",
+            "points": "moonshot",
+            "token": "128000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 115,
+            "model": "gemini-1.5-pro-001",
+            "points": "Google",
+            "token": "1000000",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": 116,
+            "model": "gemini-1.5-pro-002",
+            "points": "Google",
+            "token": "1000000",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": 117,
+            "model": "spark-desk-v4",
+            "points": "科大讯飞",
+            "token": "128000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 118,
+            "model": "dall-e-3-hd",
+            "points": "OpenAi",
+            "token": "2000",
+            "features": ['drawing']
+          },
+          {
+            "id": 119,
+            "model": "spark-desk-max",
+            "points": "科大讯飞",
+            "token": "128000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 120,
+            "model": "deepseek-v2.5",
+            "points": "深度求索",
+            "token": "100000",
+            "features": ['conversation', 'code']
+          },
+          {
+            "id": 121,
+            "model": "midjourney-all",
+            "points": "midjourney",
+            "token": "800",
+            "features": ['drawing']
+          }
+        ]
+      }
+      model.models.forEach(item => {
+        let features = '';
+        if (item.features.includes('internet')) {
+          features += ' <i class="fas fa-globe"></i>';
+        }
+        if (item.features.includes('drawing')) {
+          features += ' <i class="fas fa-paint-brush"></i>';
+        }
+        if (item.features.includes('code')) {
+          features += ' <i class="fas fa-code"></i>';
+        }
+        if (item.features.includes('image_recognition')) {
+          features += ' <i class="fas fa-image"></i>';
+        }
+        if (item.features.includes('conversation')) {
+          features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
+        }
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.model}${features}</td>
+            <td>${item.points}</td>
+            <td>${item.token}</td>
+          </tr>
         `);
+      });
+    </script>
+  </table>
+</body>
+
+</html>
       });
     </script>
   </table>
