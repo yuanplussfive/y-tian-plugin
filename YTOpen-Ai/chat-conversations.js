@@ -365,10 +365,10 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
         forwardMsg.push(match[1]);
         const JsonPart = await common.makeForwardMsg(e, forwardMsg, '神秘链接');
         e.reply(JsonPart);
-        url = match[1];
-        browser = await puppeteers.launch({ headless: false });
-        page = await browser.newPage();
-        await page.goto(url, { waitUntil: 'networkidle2' });
+        //url = match[1];
+        //browser = await puppeteers.launch({ headless: false });
+        //page = await browser.newPage();
+        //await page.goto(url, { waitUntil: 'networkidle2' });
       }
     } catch (error) {
       e.reply(error.message);
