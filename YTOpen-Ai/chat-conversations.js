@@ -1,3 +1,5 @@
+import puppeteers from 'puppeteer'
+
 async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse, GeminiResponse, claudeResponse, Anime_tts_roles) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { model, search } = chatgptConfig;
@@ -307,7 +309,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
               "content": msg
             }
           ]
-       }),
+        }),
       });
       const input = await response.text();
       const inputString = await extractContent(input);
@@ -316,13 +318,56 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       if (urls.length !== 0) {
         let images = [];
         urls.forEach(urlObj => {
-        images.push(segment.image(urlObj.url));
+          images.push(segment.image(urlObj.url));
         });
         e.reply(images);
       }
     } catch (error) {
       console.log(error)
       e.reply("通讯失败, 稍后再试")
+    }
+  }
+
+  async function handlevoiceModel(e, apiKey, msg, model, apiUrl, _path) {
+    let response, input, inputStr, forwardMsg, jsonPart, match, url, browser, page;
+    try {
+      response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: model,
+          stream: false,
+          messages: [{ role: "user", content: msg }]
+        })
+      });
+
+      if (!response.ok) {
+        e.reply(`HTTP error! status: ${response.status}`);
+      }
+
+      input = await response.json();
+      inputStr = input?.choices[0]?.message?.content;
+      if (!inputStr) {
+        e.reply('No content received from API');
+      }
+
+      forwardMsg = [inputStr];
+      jsonPart = await common.makeForwardMsg(e, forwardMsg, '实时通讯链接');
+
+      match = inputStr.match(/\[.*?\]\((.*?)\)/);
+      if (match && match[1]) {
+        console.log('提取的URL:', match[1]);
+        e.reply('请按照打开的浏览器进行操作');
+        url = match[1];
+        browser = await puppeteers.launch({ headless: false });
+        page = await browser.newPage();
+        await page.goto(url, { waitUntil: 'networkidle2' });
+      }
+    } catch (error) {
+      e.reply(error.message);
     }
   }
 
@@ -429,6 +474,9 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       case /(stable-diffusion|playground)/.test(model):
         await handlesdModel(e, Apikey, msg, model, apiurl, _path);
         return false;
+      case /(advanced-voice)/.test(model):
+        await handlevoiceModel(e, Apikey, msg, model, apiurl, _path);
+        return false;
     }
     try {
       const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o", "o1-preview", "o1-mini"];
@@ -521,6 +569,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       }
 
       answer = answer.replace(/Content is blocked/g, "  ").trim()
+      //e.reply(answer);
       history.push({
         "role": "assistant",
         "content": answer
@@ -541,7 +590,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
             const JsonPart = await common.makeForwardMsg(e, forwardMsg, '绘图prompt');
             e.reply(JsonPart)
           }
-          
+
         } catch { }
       }
       console.log(Messages)
