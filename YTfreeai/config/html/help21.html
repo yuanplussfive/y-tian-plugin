@@ -19,6 +19,7 @@
       <th>模型名称:</th>
       <th>来源:</th>
       <th>最大token:</th>
+      <th>模型倍率:</th>
     </tr>
     <script>
       let model =
@@ -29,322 +30,384 @@
             "model": "llama-3-sonar-small-32k-online",
             "points": "Meta",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 77,
             "model": "llama-3-sonar-small-32k-chat",
             "points": "Meta",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 78,
             "model": "llama-3-sonar-large-32k-online",
             "points": "Meta",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 79,
             "model": "llama-3-sonar-large-32k-chat",
             "points": "Meta",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 80,
             "model": "mixtral-8x7b-instruct",
             "points": "mixtral",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 81,
             "model": "mixtral-8x22b",
             "points": "mixtral",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 82,
             "model": "gemma-2b-it",
             "points": "google",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 83,
             "model": "gemma-7b-it",
             "points": "google",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 84,
             "model": "reka-core",
             "points": "reka",
             "token": 24000,
-            "features": ['conversation', 'image_recognition']
+            "features": ['conversation', 'image_recognition'],
+            "quota": 1
           },
           {
             "id": 85,
             "model": "reka-flash",
             "points": "reka",
             "token": 24000,
-            "features": ['conversation', 'image_recognition']
+            "features": ['conversation', 'image_recognition'],
+            "quota": 1
           },
           {
             "id": 86,
             "model": "reka-edge",
             "points": "reka",
             "token": 24000,
-            "features": ['conversation', 'image_recognition']
+            "features": ['conversation', 'image_recognition'],
+            "quota": 1
           },
           {
             "id": 87,
             "model": "blackbox-chat",
             "points": "blackbox",
             "token": 9000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 88,
             "model": "blackbox-online",
             "points": "blackbox",
             "token": 9000,
-            "features": ['conversation', 'internet']
+            "features": ['conversation', 'internet'],
+            "quota": 1
           },
           {
             "id": 89,
             "model": "blackbox-code",
             "points": "blackbox",
             "token": 9000,
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 1
           },
           {
             "id": 90,
             "model": "zephyr-7b-beta",
             "points": "huggingface",
             "token": 8000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 91,
             "model": "openchat-7b",
             "points": "huggingface",
             "token": 8000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 92,
             "model": "phi-3-mini-128k-instruct",
             "points": "Microsoft",
             "token": 128000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 93,
             "model": "phi-3-medium-128k-instruct",
             "points": "Microsoft",
             "token": 128000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 94,
             "model": "suno-v3.5-vip",
             "points": "suno",
             "token": 240,
-            "features": ['music']
+            "features": ['music'],
+            "quota": 0
           },
           {
             "id": 95,
             "model": "search-llm",
             "points": "y-tian-plugin",
             "token": 8000,
-            "features": ['conversation', 'internet']
+            "features": ['conversation', 'internet'],
+            "quota": 1
           },
           {
             "id": 96,
             "model": "gpt-4o-mini",
             "points": "OpenAi",
             "token": 128000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 0.07
           },
           {
             "id": 97,
             "model": "meta-llama-3.1-8B",
             "points": "Meta",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 98,
             "model": "meta-llama-3.1-70B",
             "points": "Meta",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 99,
             "model": "meta-llama-3.1-405B",
             "points": "Meta",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 100,
             "model": "gemma-2-9b-it",
             "points": "Google",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 101,
             "model": "gemma-2-27b-it",
             "points": "Google",
             "token": 32000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 1
           },
           {
             "id": 102,
             "model": "chatgpt-4o-latest",
             "points": "OpenAi",
             "token": 128000,
-            "features": ['conversation']
+            "features": ['conversation'],
+            "quota": 2.5
           },
           {
             "id": 103,
             "model": "gemini-1.5-pro-exp-0801",
             "points": "Google",
             "token": 200000,
-            "features": ['conversation', 'image_recognition']
+            "features": ['conversation', 'image_recognition'],
+            "quota": 3
           },
           {
             "id": 104,
             "model": "o1-preview-20240912",
             "points": "OpenAi-Plus",
             "token": "128000",
-            "features": ['conversation', 'code', 'image_recognition']
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 30
           },
           {
             "id": 105,
             "model": "o1-preview-all",
             "points": "OpenAi-Plus",
             "token": "128000",
-            "features": ['conversation', 'code', 'image_recognition']
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 30
           },
           {
             "id": 106,
             "model": "o1-mini-20240912",
             "points": "OpenAi-Plus",
             "token": "128000",
-            "features": ['conversation', 'code', 'image_recognition']
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 10
           },
           {
             "id": 107,
             "model": "o1-mini-all",
             "points": "OpenAi-Plus",
             "token": "128000",
-            "features": ['conversation', 'code', 'image_recognition']
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 10
           },
           {
             "id": 108,
             "model": "grok-v2.0",
             "points": "Xai",
             "token": "128000",
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 10
           },
           {
             "id": 109,
             "model": "grok-v2.0-mini",
             "points": "Xai",
             "token": "128000",
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 5
           },
           {
             "id": 110,
             "model": "nijidjourney-create",
             "points": "nijidjourney",
             "token": "800",
-            "features": ['drawing']
+            "features": ['drawing'],
+            "quota": 50
           },
           {
             "id": 111,
             "model": "midjourney-create",
             "points": "midjourney",
             "token": "800",
-            "features": ['drawing']
+            "features": ['drawing'],
+            "quota": 50
           },
           {
             "id": 112,
             "model": "moonshot-v1-8k",
             "points": "moonshot",
             "token": "8000",
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 5
           },
           {
             "id": 113,
             "model": "moonshot-v1-32k",
             "points": "moonshot",
             "token": "32000",
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 10
           },
           {
             "id": 114,
             "model": "moonshot-v1-128k",
             "points": "moonshot",
             "token": "128000",
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 15
           },
           {
             "id": 115,
             "model": "gemini-1.5-pro-001",
             "points": "Google",
             "token": "1000000",
-            "features": ['conversation', 'code', 'image_recognition']
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 5
           },
           {
             "id": 116,
             "model": "gemini-1.5-pro-002",
             "points": "Google",
             "token": "1000000",
-            "features": ['conversation', 'code', 'image_recognition']
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 5
           },
           {
             "id": 117,
             "model": "spark-desk-v4",
             "points": "科大讯飞",
             "token": "128000",
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 15
           },
           {
             "id": 118,
             "model": "dall-e-3-hd",
             "points": "OpenAi",
             "token": "2000",
-            "features": ['drawing']
+            "features": ['drawing'],
+            "quota": 0
           },
           {
             "id": 119,
             "model": "spark-desk-max",
             "points": "科大讯飞",
             "token": "128000",
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 30
           },
           {
             "id": 120,
             "model": "deepseek-v2.5",
             "points": "深度求索",
             "token": "100000",
-            "features": ['conversation', 'code']
+            "features": ['conversation', 'code'],
+            "quota": 1
           },
           {
             "id": 121,
             "model": "midjourney-all",
             "points": "midjourney",
             "token": "800",
-            "features": ['drawing']
+            "features": ['drawing'],
+            "quota": 50
+          },
+          {
+            "id": 122,
+            "model": "yi-lightning",
+            "points": "零一万物",
+            "token": "100000",
+            "features": ['conversation', 'code'],
+            "quota": 10
+          },
+          {
+            "id": 123,
+            "model": "gpt-4.5o-ultra",
+            "points": "OpenAi",
+            "token": "128000",
+            "features": ['conversation', 'code'],
+            "quota": 30
           }
         ]
       }
@@ -377,6 +440,7 @@
             <td>${item.model}${features}</td>
             <td>${item.points}</td>
             <td>${item.token}</td>
+            <td>${item.quota}</td>
           </tr>
         `);
       });
