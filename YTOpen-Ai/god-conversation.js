@@ -7,9 +7,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   let SettingsPath = _path + '/data/YTAi_Setting/data.json';
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
   let { god_moment_numbers, god_moment_open } = Settings.chatgpt;
-  let userid = (group == false)
-    ? (!e.group_id ? (e.from_id ?? e.user_id) : e.user_id)
-    : (!e.group_id ? (e.from_id ?? e.user_id) : e.group_id);
+  let userid = group ? (e.group_id ?? e.user_id) : e.user_id;
   //console.log(userid)
   let history = await loadUserHistory(path, userid, dirpath);
   if (god_moment_open) {
