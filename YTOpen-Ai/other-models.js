@@ -982,5 +982,21 @@ export const other_models = [
     "token": "128000",
     "features": ['conversation', 'code'],
     "quota": 30
+  },
+  {
+    "id": 124,
+    "model": "llama-3.2-1B-Instruct",
+    "points": "Meta",
+    "token": "32000",
+    "features": ['conversation', 'code'],
+    "quota": 30
+  },
+  {
+    "id": 125,
+    "model": "llama-3.2-3B-Instruct",
+    "points": "Meta",
+    "token": "32000",
+    "features": ['conversation', 'code'],
+    "quota": 30
   }
 ]
