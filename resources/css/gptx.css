@@ -631,6 +631,15 @@ body {
       10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px));
 }
 
+.katex {
+  font-family: "KaTeX_Caligraphic", "KaTeX_Main", "KaTeX_AMS", Arial !important;
+  font-size: 1em !important;
+  white-space: normal;
+  display: inline-block !important;
+  max-width: 100%;
+  min-width: 0;
+}
+
 /* 字体引入 */
 @font-face {
   font-family: "jty";
@@ -670,6 +679,20 @@ body {
 @font-face {
   font-family: "SourceCodePro-Italic-VariableFont_wght";
   src: url("SourceCodePro-Italic-VariableFont_wght.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KaTeX_Main";
+  src: url("KaTeX_Main-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KaTeX_Caligraphic";
+  src: url("KaTeX_Caligraphic-Bold.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
