@@ -175,7 +175,7 @@
             "points": "OpenAi",
             "token": 2000,
             "features": ['drawing'],
-            "quota": 0
+            "quota": "0.16/次"
           },
           {
             "id": 19,
@@ -223,7 +223,7 @@
             "points": "Claude",
             "token": 100000,
             "features": ['conversation', 'image_recognition'],
-            "quota": 1
+            "quota": "0.01/次"
           },
           {
             "id": 25,
@@ -231,7 +231,7 @@
             "points": "Claude",
             "token": 100000,
             "features": ['conversation', 'image_recognition'],
-            "quota": 1
+            "quota": "0.01/次"
           },
           {
             "id": 26,
@@ -239,7 +239,7 @@
             "points": "Claude",
             "token": 200000,
             "features": ['conversation', 'image_recognition'],
-            "quota": 10
+            "quota": "0.01/次"
           },
           {
             "id": 27,
@@ -255,7 +255,7 @@
             "points": "Claude",
             "token": 200000,
             "features": ['conversation', 'image_recognition'],
-            "quota": 2
+            "quota": "0.01/次"
           },
           {
             "id": 29,
@@ -338,7 +338,7 @@
             <td>${item.model}${features}</td>
             <td>${item.points}</td>
             <td>${item.token}</td>
-                        <td>${item.quota}</td>
+            <td>${item.quota}</td>
           </tr>
         `);
       });

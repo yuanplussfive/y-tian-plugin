@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gptx</title>
     <link rel="stylesheet" href="{{dz}}">
-    <script src="{{showdown}}"></script>
     <link rel="stylesheet" href="{{atom_one_dark_min_css}}">
-    <script src="{{highlight_min_js}}"></script>
+    <link rel="stylesheet" href="{{katex_css}}">
+    <script src="{{marked_min_js}}" defer></script>
+    <script src="{{highlight_min_js}}" defer></script>
+    <script src="{{katex_js}}" defer></script>
+    <script src="{{purify_min_js}}" defer></script>
+    <script src="{{auto_render_js}}" defer></script>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <div
-                style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            <div style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
                 <i class="fas fa-robot" style="font-size: 2rem; color: #007bff; margin-right: 0.6rem;"></i>
-                <h1>当前模型：<span>{{model}}</span>
-                </h1>
+                <h1>当前模型：<span>{{model}}</span></h1>
             </div>
             <div class="header-bar"></div>
         </div>
@@ -28,7 +30,8 @@
             </div>
             <div class="name">{{name}}</div>
             <div class="message">
-                <div id="renderedMarkdown">{{MSG}}</div>
+                <!-- 第一个Markdown内容区域 -->
+                <div id="renderedMarkdown" class="markdown-content">{{MSG}}</div>
             </div>
         </div>
         <div class="user">
@@ -37,62 +40,83 @@
             </div>
             <div class="name">{{name1}}</div>
             <div class="message">
-                <div id="renderedMarkdown2">{{CONTENT}}</div>
+                <!-- 第二个Markdown内容区域 -->
+                <div id="renderedMarkdown2" class="markdown-content">{{CONTENT}}</div>
             </div>
         </div>
     </div>
 
-    <script>
-        hljs.highlightAll();
+    <script defer>
+        /**
+         * 预处理LaTeX公式，将自定义的公式标记转换为MathJax可以识别的格式
+         * @param {string} content - 原始Markdown内容
+         * @returns {string} - 处理后的内容
+         */
+        const preHandleLaTeX = (content) => {
+            let processedContent = content.replace(
+                /\\\[(.*?)\\\]/g,
+                (_, equation) => `$$${equation}$$`
+            );
+            processedContent = processedContent.replace(
+                /\\\((.*?)\\\)/g,
+                (_, equation) => `$${equation}$`
+            );
+            return processedContent;
+        };
 
-        const maxLength = 10000;
-
-        // 分割 Markdown 文本为多个块
-        function splitMarkdown(markdownText, maxLength) {
-            const chunks = [];
-            let start = 0;
-            while (start < markdownText.length) {
-                const end = start + maxLength;
-                const chunk = markdownText.slice(start, end);
-                chunks.push(chunk);
-                start = end;
-            }
-            return chunks;
-        }
-
-        // 初始化 Showdown 转换器
-        const converter = new showdown.Converter();
-
-        // 处理第一个 Markdown 内容
-        const markdownText = document.getElementById('renderedMarkdown').textContent;
-        const chunks = splitMarkdown(markdownText, maxLength);
-        const renderedHtml = chunks.map(chunk => {
-            const markdownWithClass = `<div class="markdown-content">${chunk}</div>`;
-            return converter.makeHtml(markdownWithClass);
-        }).join('');
-        document.getElementById('renderedMarkdown').innerHTML = renderedHtml;
-
-        // 处理第二个 Markdown 内容
-        const markdownText2 = document.getElementById('renderedMarkdown2').textContent;
-        const chunks2 = splitMarkdown(markdownText2, maxLength);
-        const renderedHtml2 = chunks2.map(chunk => {
-            const markdownWithClass2 = `<div class="markdown-content">${chunk}</div>`;
-            return converter.makeHtml(markdownWithClass2);
-        }).join('');
-        document.getElementById('renderedMarkdown2').innerHTML = renderedHtml2;
-
-        // 为每个 pre 元素添加 data-lang 属性
-        document.querySelectorAll('.markdown-content pre').forEach(pre => {
-            const code = pre.querySelector('code');
-            if (code) {
-                const classes = Array.from(code.classList);
-                const languageClass = classes.find(cls => cls.startsWith('language-'));
-                if (languageClass) {
-                    const language = languageClass.replace('language-', '').toUpperCase();
-                    pre.setAttribute('data-lang', language);
+        /**
+         * 为每个代码块添加 data-lang 属性，用于指示代码的语言类型
+         */
+        const addDataLangAttributes = () => {
+            document.querySelectorAll('.markdown-content pre').forEach(pre => {
+                const code = pre.querySelector('code');
+                if (code) {
+                    const classes = Array.from(code.classList);
+                    const languageClass = classes.find(cls => cls.startsWith('language-'));
+                    if (languageClass) {
+                        const language = languageClass.replace('language-', '').toUpperCase();
+                        pre.setAttribute('data-lang', language);
+                    }
                 }
-            }
-        });
+            });
+        };
+
+        /**
+         * 处理并渲染Markdown内容，包括高亮代码和数学公式
+         */
+        const renderMarkdownContent = () => {
+            const markdownElements = document.querySelectorAll('.markdown-content');
+            markdownElements.forEach(element => {
+                const markdownText = element.textContent;
+                const processedContent = preHandleLaTeX(markdownText);
+                let htmlContent = marked.parse(processedContent);
+                htmlContent = DOMPurify.sanitize(htmlContent);
+                element.innerHTML = `<div class="markdown-content-inner">${htmlContent}</div>`;
+            });
+        };
+
+        /**
+         * 初始化所有功能，包括渲染Markdown、添加data-lang属性、代码高亮和数学公式渲染
+         */
+        const initialize = () => {
+            renderMarkdownContent();
+            addDataLangAttributes();
+
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "$", right: "$", display: false }
+                ],
+                throwOnError: false
+            });
+        };
+
+        // 确保所有资源加载完毕后初始化
+        window.addEventListener('DOMContentLoaded', initialize);
     </script>
 </body>
 

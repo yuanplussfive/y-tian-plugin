@@ -141,7 +141,7 @@ export const other_models = [
     "points": "OpenAi",
     "token": 2000,
     "features": ['drawing'],
-    "quota": 0
+    "quota": "0.16/次"
   },
   {
     "id": 19,
@@ -189,7 +189,7 @@ export const other_models = [
     "points": "Claude",
     "token": 100000,
     "features": ['conversation', 'image_recognition'],
-    "quota": 1
+    "quota": "0.01/次"
   },
   {
     "id": 25,
@@ -197,7 +197,7 @@ export const other_models = [
     "points": "Claude",
     "token": 100000,
     "features": ['conversation', 'image_recognition'],
-    "quota": 1
+    "quota": "0.01/次"
   },
   {
     "id": 26,
@@ -205,7 +205,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": 10
+    "quota": "0.01/次"
   },
   {
     "id": 27,
@@ -221,7 +221,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": 2
+    "quota": "0.01/次"
   },
   {
     "id": 29,
@@ -749,7 +749,7 @@ export const other_models = [
     "points": "suno",
     "token": 240,
     "features": ['music'],
-    "quota": 0
+    "quota": "0.24/次"
   },
   {
     "id": 95,
@@ -765,7 +765,7 @@ export const other_models = [
     "points": "OpenAi",
     "token": 128000,
     "features": ['conversation'],
-    "quota": 0.07
+    "quota": "0.01/次"
   },
   {
     "id": 97,
@@ -941,7 +941,7 @@ export const other_models = [
     "points": "OpenAi",
     "token": "2000",
     "features": ['drawing'],
-    "quota": 0
+    "quota": "0.16/次"
   },
   {
     "id": 119,

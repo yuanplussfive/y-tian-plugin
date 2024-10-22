@@ -18,7 +18,7 @@ body {
 
 /* Markdown内容容器 */
 .markdown-content {
-  font-family: "AaTaoTaoWuLongNaiLaoSu", sans-serif;
+  font-family: "RuanMengKeAiShouXieZi", sans-serif;
   font-weight: bold;
   font-size: 22px;
   padding: 5px;
@@ -481,9 +481,9 @@ body {
 /* 用户名样式 */
 .user .name,
 .user2 .name {
-  font-size: 22px;
+  font-size: 26px;
   padding-bottom: 10px;
-  font-family: "NZBZ", sans-serif;
+  font-family: "RuanMengKeAiShouXieZi", sans-serif;
 }
 
 .user .name {
@@ -647,13 +647,6 @@ body {
 }
 
 @font-face {
-  font-family: "AaTaoTaoWuLongNaiLaoSu";
-  src: url("AaTaoTaoWuLongNaiLaoSu-2.ttf");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "NZBZ";
   src: url("NZBZ.ttf");
   font-weight: normal;
@@ -662,7 +655,7 @@ body {
 
 @font-face {
   font-family: "RuanMengKeAiShouXieZi";
-  src: url("AlimamaFangYuanTiVF-Thin-2.ttf");
+  src: url("AaRiFuYiRiKeAiYuan-2.ttf");
   font-weight: normal;
   font-style: normal;
 }
@@ -675,24 +668,15 @@ body {
 }
 
 @font-face {
-  font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
-  src: url("AaGuXiLaZhangGuanKeAiDeShen-2.ttf");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "SourceCodePro-Italic-VariableFont_wght";
   src: url("SourceCodePro-Italic-VariableFont_wght.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
-/* 自定义滚动条样式 */
 .markdown-content pre::-webkit-scrollbar {
   width: 8px;
   background-color: #2d2d2d;
-  /* 滚动条背景色与终端背景一致 */
 }
 
 .markdown-content pre::-webkit-scrollbar-thumb {
