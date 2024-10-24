@@ -49,6 +49,9 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       "gemini-1.5-pro-exp-0801",
       "claude-3-opus-20240229",
       "claude-3-5-sonnet-20240620",
+      "claude-3-5-sonnet-20241022",
+      "llama-3.2-11b-vision-instruct",
+      "llama-3.2-90b-vision-instruct"
     ];
     if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
       message = [

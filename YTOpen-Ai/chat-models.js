@@ -1,5 +1,6 @@
 export const chat_models = {
   "models": [
+    // OpenAI GPT Models
     {
       "id": "1",
       "name": "gpt-3.5-turbo",
@@ -51,79 +52,79 @@ export const chat_models = {
     },
     {
       "id": "8",
-      "name": "gpt-4o-mini",
-      "token_count": "128000",
-      "Magnification": 0.07,
-      "features": ['conversation']
-    },
-    {
-      "id": "9",
       "name": "gpt-4",
       "token_count": "8192",
       "Magnification": 15,
       "features": ['conversation']
     },
     {
-      "id": "10",
+      "id": "9",
       "name": "gpt-4-0314",
       "token_count": "8192",
       "Magnification": 15,
       "features": ['conversation']
     },
     {
-      "id": "11",
+      "id": "10",
       "name": "gpt-4-0613",
       "token_count": "8192",
       "Magnification": 15,
       "features": ['conversation']
     },
     {
-      "id": "12",
+      "id": "11",
       "name": "gpt-4-32k",
       "token_count": "32768",
       "Magnification": 30,
       "features": ['conversation']
     },
     {
-      "id": "13",
+      "id": "12",
       "name": "gpt-4-32k-0314",
       "token_count": "32768",
       "Magnification": 30,
       "features": ['conversation']
     },
     {
-      "id": "14",
+      "id": "13",
       "name": "gpt-4-32k-0613",
       "token_count": "32768",
       "Magnification": 30,
       "features": ['conversation']
     },
     {
-      "id": "15",
+      "id": "14",
       "name": "gpt-4-1106-preview",
       "token_count": "131072",
       "Magnification": 5,
       "features": ['conversation']
     },
     {
-      "id": "16",
+      "id": "15",
       "name": "gpt-4-0125-preview",
       "token_count": "131072",
       "Magnification": 5,
       "features": ['conversation']
     },
     {
-      "id": "17",
+      "id": "16",
       "name": "gpt-4-turbo-preview",
       "token_count": "131072",
       "Magnification": 5,
       "features": ['conversation']
     },
     {
-      "id": "18",
+      "id": "17",
       "name": "gpt-4-turbo-2024-04-09",
       "token_count": "131072",
       "Magnification": 5,
+      "features": ['conversation']
+    },
+    {
+      "id": "18",
+      "name": "gpt-4o-mini",
+      "token_count": "128000",
+      "Magnification": 0.07,
       "features": ['conversation']
     },
     {
@@ -182,328 +183,337 @@ export const chat_models = {
       "Magnification": 15,
       "features": ['conversation', 'code', 'drawing', 'internet', 'file', 'image_recognition']
     },
+    // Anthropic Claude Models
     {
       "id": "27",
-      "name": "o1-mini",
-      "token_count": "128000",
-      "Magnification": "1.5*10 or 0.15$/次",
-      "features": ['conversation', 'code', 'image_recognition']
-    },
-    {
-      "id": "28",
-      "name": "o1-mini-20240912",
-      "token_count": "128000",
-      "Magnification": "1.5*10 or 0.15$/次",
-      "features": ['conversation', 'code', 'image_recognition']
-    },
-    {
-      "id": "29",
-      "name": "o1-mini-all",
-      "token_count": "128000",
-      "Magnification": "0.15$/次",
-      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
-    },
-    {
-      "id": "30",
-      "name": "o1-preview",
-      "token_count": "128000",
-      "Magnification": "7.5*10 or 0.3$/次",
-      "features": ['conversation', 'code', 'image_recognition']
-    },
-    {
-      "id": "31",
-      "name": "o1-preview-20240912",
-      "token_count": "128000",
-      "Magnification": "7.5*10 or 0.3$/次",
-      "features": ['conversation', 'code', 'image_recognition']
-    },
-    {
-      "id": "32",
-      "name": "o1-preview-all",
-      "token_count": "128000",
-      "Magnification": "0.3$/次",
-      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
-    },
-    {
-      "id": "33",
-      "name": "gemini-pro",
-      "token_count": "32000",
-      "Magnification": 1,
-      "features": ['conversation', 'image_recognition']
-    },
-    {
-      "id": "34",
-      "name": "gemini-pro-vision",
-      "token_count": "32000",
-      "Magnification": 2,
-      "features": ['conversation', 'image_recognition']
-    },
-    {
-      "id": "35",
-      "name": "gemini-1.5-pro",
-      "token_count": "1000000",
-      "Magnification": 3.5,
-      "features": ['conversation', 'image_recognition']
-    },
-    {
-      "id": "36",
-      "name": "gemini-1.5-flash",
-      "token_count": "1000000",
-      "Magnification": 0.35,
-      "features": ['conversation', 'image_recognition']
-    },
-    {
-      "id": "37",
-      "name": "gemini-1.5-pro-exp-0801",
-      "token_count": "1000000",
-      "Magnification": 1.75,
-      "features": ['conversation', 'image_recognition']
-    },
-    {
-      "id": "38",
-      "name": "gemini-1.5-pro-exp-0827",
-      "token_count": "1000000",
-      "Magnification": 1.75,
-      "features": ['conversation', 'image_recognition']
-    },
-    {
-      "id": "39",
-      "name": "gemini-1.5-pro-001",
-      "token_count": "1000000",
-      "Magnification": 2,
-      "features": ['conversation', 'image_recognition']
-    },
-    {
-      "id": "40",
-      "name": "gemini-1.5-pro-002",
-      "token_count": "1000000",
-      "Magnification": 2,
-      "features": ['conversation', 'image_recognition']
-    },
-    {
-      "id": "41",
-      "name": "llama-2-7b",
-      "token_count": "7000",
-      "Magnification": 1,
-      "features": ['conversation']
-    },
-    {
-      "id": "42",
-      "name": "llama-2-13b",
-      "token_count": "13000",
-      "Magnification": 1,
-      "features": ['conversation']
-    },
-    {
-      "id": "43",
-      "name": "llama-2-70b",
-      "token_count": "70000",
-      "Magnification": 1,
-      "features": ['conversation']
-    },
-    {
-      "id": "44",
-      "name": "code-llama-7b",
-      "token_count": "7000",
-      "Magnification": 1,
-      "features": ['conversation', 'code']
-    },
-    {
-      "id": "45",
-      "name": "code-llama-13b",
-      "token_count": "13000",
-      "Magnification": 1,
-      "features": ['conversation', 'code']
-    },
-    {
-      "id": "46",
-      "name": "code-llama-34b",
-      "token_count": "34000",
-      "Magnification": 1,
-      "features": ['conversation', 'code']
-    },
-    {
-      "id": "47",
-      "name": "mixtral-8x7b",
-      "token_count": "200000",
-      "Magnification": 1.5,
-      "features": ['conversation']
-    },
-    {
-      "id": "48",
-      "name": "mj-chat",
-      "token_count": "32768",
-      "Magnification": "0.5$/次",
-      "features": ['drawing']
-    },
-    {
-      "id": "49",
       "name": "claude-1-100k",
       "token_count": "100000",
       "Magnification": 1,
       "features": ['conversation']
     },
     {
-      "id": "50",
+      "id": "28",
       "name": "claude-2",
       "token_count": "200000",
       "Magnification": 5,
       "features": ['conversation']
     },
     {
-      "id": "51",
+      "id": "29",
       "name": "claude-3-haiku-20240307",
       "token_count": "200000",
       "Magnification": 0.5,
       "features": ['conversation']
     },
     {
-      "id": "52",
+      "id": "30",
       "name": "claude-3-sonnet-20240229",
       "token_count": "200000",
       "Magnification": 1.5,
       "features": ['conversation']
     },
     {
-      "id": "53",
+      "id": "31",
       "name": "claude-3-opus-20240229",
       "token_count": "200000",
       "Magnification": 7.5,
       "features": ['conversation', 'code', 'image_recognition']
     },
     {
-      "id": "54",
+      "id": "32",
       "name": "claude-3-5-sonnet-20240620",
       "token_count": "200000",
       "Magnification": 2.5,
       "features": ['conversation', 'code', 'image_recognition']
     },
     {
-      "id": "55",
-      "name": "glm-3-turbo",
-      "token_count": "128000",
-      "Magnification": 0.75,
+      "id": "33",
+      "name": "claude-3-5-sonnet-20241022",
+      "token_count": "200000",
+      "Magnification": 12,
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    // Meta LLaMA Models
+    {
+      "id": "34",
+      "name": "llama-2-7b",
+      "token_count": "7000",
+      "Magnification": 1,
       "features": ['conversation']
     },
     {
-      "id": "56",
-      "name": "glm-4",
-      "token_count": "128000",
-      "Magnification": 15,
+      "id": "35",
+      "name": "llama-2-13b",
+      "token_count": "13000",
+      "Magnification": 1,
       "features": ['conversation']
     },
     {
-      "id": "57",
-      "name": "glm-4v",
-      "token_count": "2000",
-      "Magnification": 7.1,
-      "features": ['conversation', 'image_recognition']
+      "id": "36",
+      "name": "llama-2-70b",
+      "token_count": "70000",
+      "Magnification": 1,
+      "features": ['conversation']
     },
     {
-      "id": "58",
-      "name": "glm-4-0520",
-      "token_count": "128000",
-      "Magnification": 15,
-      "features": ['conversation', 'code']
-    },
-    {
-      "id": "59",
-      "name": "glm-4-air",
-      "token_count": "128000",
-      "Magnification": 1.5,
-      "features": ['conversation', 'code']
-    },
-    {
-      "id": "60",
-      "name": "glm-4-airx",
-      "token_count": "128000",
-      "Magnification": 0.15,
-      "features": ['conversation', 'code']
-    },
-    {
-      "id": "61",
-      "name": "glm-4-flash",
-      "token_count": "128000",
-      "Magnification": 0.01,
-      "features": ['conversation', 'code']
-    },
-    {
-      "id": "62",
+      "id": "37",
       "name": "llama-3-sonar-small-online",
       "token_count": "8000",
       "Magnification": 1,
       "features": ['conversation']
     },
     {
-      "id": "63",
+      "id": "38",
       "name": "llama-3-sonar-medium-online",
       "token_count": "32000",
       "Magnification": 1,
       "features": ['conversation']
     },
     {
-      "id": "64",
+      "id": "39",
       "name": "llama-3-sonar-small-chat",
       "token_count": "8000",
       "Magnification": 1,
       "features": ['conversation']
     },
     {
-      "id": "65",
+      "id": "40",
       "name": "llama-3-sonar-medium-chat",
       "token_count": "32000",
       "Magnification": 1,
       "features": ['conversation']
     },
     {
-      "id": "66",
-      "name": "dbrx-instruct",
-      "token_count": "32000",
-      "Magnification": 1,
+      "id": "41",
+      "name": "llama-3-8b",
+      "token_count": "8000",
+      "Magnification": 2,
       "features": ['conversation']
     },
     {
-      "id": "67",
-      "name": "codellama-70b-instruct",
+      "id": "42",
+      "name": "llama-3-70b",
+      "token_count": "32000",
+      "Magnification": 2,
+      "features": ['conversation']
+    },
+    {
+      "id": "43",
+      "name": "llama-3.2-1b-instruct",
+      "token_count": "32000",
+      "Magnification": 0.25,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "44",
+      "name": "llama-3.2-3b-instruct",
+      "token_count": "32000",
+      "Magnification": 0.5,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "45",
+      "name": "llama-3.2-11b-vision-instruct",
+      "token_count": "32000",
+      "Magnification": 1,
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "46",
+      "name": "llama-3.2-90b-vision-instruct",
+      "token_count": "32000",
+      "Magnification": 1,
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    // Code LLaMA Models
+    {
+      "id": "47",
+      "name": "code-llama-7b",
       "token_count": "7000",
       "Magnification": 1,
       "features": ['conversation', 'code']
     },
     {
-      "id": "68",
-      "name": "mistral-7b-instruct",
-      "token_count": "8000",
+      "id": "48",
+      "name": "code-llama-13b",
+      "token_count": "13000",
       "Magnification": 1,
-      "features": ['conversation']
+      "features": ['conversation', 'code']
     },
     {
-      "id": "69",
-      "name": "llava-v1.5-7b-wrapper",
-      "token_count": "7000",
-      "Magnification": 1,
-      "features": ['conversation']
-    },
-    {
-      "id": "70",
-      "name": "llava-v1.6-34b",
+      "id": "49",
+      "name": "code-llama-34b",
       "token_count": "34000",
       "Magnification": 1,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "50",
+      "name": "codellama-70b-instruct",
+      "token_count": "7000",
+      "Magnification": 1,
+      "features": ['conversation', 'code']
+    },
+    // Mixtral Models
+    {
+      "id": "51",
+      "name": "mixtral-8x7b",
+      "token_count": "200000",
+      "Magnification": 1.5,
       "features": ['conversation']
     },
     {
-      "id": "71",
+      "id": "52",
       "name": "mixtral-8x7b-instruct",
       "token_count": "8000",
       "Magnification": 1,
       "features": ['conversation']
     },
     {
-      "id": "72",
+      "id": "53",
       "name": "mixtral-8x22b",
       "token_count": "8000",
       "Magnification": 1,
       "features": ['conversation']
     },
+    // Gemini Models
+    {
+      "id": "54",
+      "name": "gemini-pro",
+      "token_count": "32000",
+      "Magnification": 1,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "55",
+      "name": "gemini-pro-vision",
+      "token_count": "32000",
+      "Magnification": 2,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "56",
+      "name": "gemini-1.5-pro",
+      "token_count": "1000000",
+      "Magnification": 3.5,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "57",
+      "name": "gemini-1.5-flash",
+      "token_count": "1000000",
+      "Magnification": 0.35,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "58",
+      "name": "gemini-1.5-pro-exp-0801",
+      "token_count": "1000000",
+      "Magnification": 1.75,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "59",
+      "name": "gemini-1.5-pro-exp-0827",
+      "token_count": "1000000",
+      "Magnification": 1.75,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "60",
+      "name": "gemini-1.5-pro-001",
+      "token_count": "1000000",
+      "Magnification": 2,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "61",
+      "name": "gemini-1.5-pro-002",
+      "token_count": "1000000",
+      "Magnification": 2,
+      "features": ['conversation', 'image_recognition']
+    },
+    // GLM Models
+    {
+      "id": "62",
+      "name": "glm-3-turbo",
+      "token_count": "128000",
+      "Magnification": 0.75,
+      "features": ['conversation']
+    },
+    {
+      "id": "63",
+      "name": "glm-4",
+      "token_count": "128000",
+      "Magnification": 15,
+      "features": ['conversation']
+    },
+    {
+      "id": "64",
+      "name": "glm-4v",
+      "token_count": "2000",
+      "Magnification": 7.1,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "65",
+      "name": "glm-4-0520",
+      "token_count": "128000",
+      "Magnification": 15,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "66",
+      "name": "glm-4-air",
+      "token_count": "128000",
+      "Magnification": 1.5,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "67",
+      "name": "glm-4-airx",
+      "token_count": "128000",
+      "Magnification": 0.15,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "68",
+      "name": "glm-4-flash",
+      "token_count": "128000",
+      "Magnification": 0.01,
+      "features": ['conversation', 'code']
+    },
+    // Suno Models
+    {
+      "id": "69",
+      "name": "suno-v3",
+      "token_count": "2000",
+      "Magnification": '0.15$/次',
+      "features": ['music']
+    },
+    {
+      "id": "70",
+      "name": "suno-v3.5",
+      "token_count": "2000",
+      "Magnification": '0.15$/次',
+      "features": ['music']
+    },
+    // LLaVA Models
+    {
+      "id": "71",
+      "name": "llava-v1.5-7b-wrapper",
+      "token_count": "7000",
+      "Magnification": 1,
+      "features": ['conversation']
+    },
+    {
+      "id": "72",
+      "name": "llava-v1.6-34b",
+      "token_count": "34000",
+      "Magnification": 1,
+      "features": ['conversation']
+    },
+    // Gemini All Models
     {
       "id": "73",
       "name": "gemma-2b-it",
@@ -518,75 +528,111 @@ export const chat_models = {
       "Magnification": 1,
       "features": ['conversation']
     },
+    // Other Models
     {
       "id": "75",
-      "name": "llama-3-8b",
-      "token_count": "8000",
-      "Magnification": 2,
-      "features": ['conversation']
+      "name": "o1-mini",
+      "token_count": "128000",
+      "Magnification": "1.5*10 or 0.15$/次",
+      "features": ['conversation', 'code', 'image_recognition']
     },
     {
       "id": "76",
-      "name": "llama-3-70b",
-      "token_count": "32000",
-      "Magnification": 2,
-      "features": ['conversation']
+      "name": "o1-mini-20240912",
+      "token_count": "128000",
+      "Magnification": "1.5*10 or 0.15$/次",
+      "features": ['conversation', 'code', 'image_recognition']
     },
     {
       "id": "77",
-      "name": "suno-v3",
-      "token_count": "2000",
-      "Magnification": '0.15$/次',
-      "features": ['music']
+      "name": "o1-mini-all",
+      "token_count": "128000",
+      "Magnification": "0.15$/次",
+      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
     },
     {
       "id": "78",
-      "name": "suno-v3.5",
-      "token_count": "2000",
-      "Magnification": '0.15$/次',
-      "features": ['music']
+      "name": "o1-preview",
+      "token_count": "128000",
+      "Magnification": "7.5*10 or 0.3$/次",
+      "features": ['conversation', 'code', 'image_recognition']
     },
     {
       "id": "79",
+      "name": "o1-preview-20240912",
+      "token_count": "128000",
+      "Magnification": "7.5*10 or 0.3$/次",
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "80",
+      "name": "o1-preview-all",
+      "token_count": "128000",
+      "Magnification": "0.3$/次",
+      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+    },
+    {
+      "id": "81",
+      "name": "mj-chat",
+      "token_count": "32768",
+      "Magnification": "0.5$/次",
+      "features": ['drawing']
+    },
+    {
+      "id": "82",
       "name": "luma-video",
       "token_count": "28000",
       "Magnification": '0.1$/次',
       "features": ['video']
     },
     {
-      "id": "80",
+      "id": "83",
       "name": "stable-diffusion-3-2b",
       "token_count": "800",
       "Magnification": '0.007$/次',
       "features": ['drawing']
     },
     {
-      "id": "81",
+      "id": "84",
       "name": "playground-v2.5",
       "token_count": "800",
       "Magnification": '0.007$/次',
       "features": ['drawing']
     },
     {
-      "id": "82",
+      "id": "85",
       "name": "runway-video",
       "token_count": "800",
       "Magnification": '0.2$/次',
       "features": ['video']
     },
     {
-      "id": "83",
+      "id": "86",
       "name": "ideogram",
       "token_count": "800",
       "Magnification": '0.03$/次',
       "features": ['drawing']
     },
     {
-      "id": "84",
+      "id": "87",
       "name": "advanced-voice",
       "token_count": "1500",
       "Magnification": '2.0$/次',
       "features": []
+    },
+    {
+      "id": "88",
+      "name": "gemini-pro",
+      "token_count": "32000",
+      "Magnification": 1,
+      "features": ['conversation', 'image_recognition']
+    },
+    {
+      "id": "89",
+      "name": "gemini-pro-vision",
+      "token_count": "32000",
+      "Magnification": 2,
+      "features": ['conversation', 'image_recognition']
     }
   ]
 }

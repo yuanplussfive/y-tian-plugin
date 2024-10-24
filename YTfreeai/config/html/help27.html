@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <link rel="stylesheet" href="{{all_min_css}}">
+  <link rel="stylesheet" href="{{all_css_src}}">
+</head>
+
+<body>
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>消耗积分:</th>
+      <th>最大token:</th>
+    </tr>
+    <script>
+      let data = [
+        {
+          "id": 76,
+          "model": "llava-v1.6-34b",
+          "created": 1686935002,
+          "token": 32000,
+          "points": "10/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation']
+        },
+
+        // Group 14: Suno Models
+        {
+          "id": 77,
+          "model": "suno-v3",
+          "created": 1686935002,
+          "token": 28000,
+          "points": "3000/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['music']
+        },
+        {
+          "id": 78,
+          "model": "suno-v3.5",
+          "created": 1686935002,
+          "token": 28000,
+          "points": "3000/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['music']
+        },
+
+        // Group 15: O1 and Others
+        {
+          "id": 79,
+          "model": "o1-mini",
+          "created": 1686935002,
+          "token": 128000,
+          "points": "1500/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'code', 'image_recognition']
+        },
+        {
+          "id": 80,
+          "model": "o1-mini-20240912",
+          "created": 1686935002,
+          "token": 128000,
+          "points": "1500/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'code', 'image_recognition']
+        },
+        {
+          "id": 81,
+          "model": "o1-mini-all",
+          "created": 1686935002,
+          "token": 128000,
+          "points": "1500/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'code', 'image_recognition']
+        },
+        {
+          "id": 82,
+          "model": "o1-preview",
+          "created": 1686935002,
+          "token": 128000,
+          "points": "3000/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+        },
+        {
+          "id": 83,
+          "model": "o1-preview-20240912",
+          "created": 1686935002,
+          "token": 128000,
+          "points": "3000/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'code', 'image_recognition']
+        },
+        {
+          "id": 84,
+          "model": "o1-preview-all",
+          "created": 1686935002,
+          "token": 128000,
+          "points": "3000/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+        },
+        {
+          "id": 85,
+          "model": "dbrx-instruct",
+          "created": 1686935002,
+          "token": 32000,
+          "points": "10/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation']
+        },
+        {
+          "id": 86,
+          "model": "gemma-2b-it",
+          "created": 1686935002,
+          "token": 32000,
+          "points": "10/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation']
+        },
+        {
+          "id": 87,
+          "model": "gemma-7b-it",
+          "created": 1686935002,
+          "token": 32000,
+          "points": "10/次",
+          "style": "once",
+          "owned_by": "y-tian-plugin",
+          "features": ['conversation']
+        }
+      ]
+
+      data.forEach(item => {
+        let features = '';
+        if (item.features.includes('internet')) {
+          features += ' <i class="fas fa-globe"></i>';
+        }
+        if (item.features.includes('drawing')) {
+          features += ' <i class="fas fa-paint-brush"></i>';
+        }
+        if (item.features.includes('code')) {
+          features += ' <i class="fas fa-code"></i>';
+        }
+        if (item.features.includes('image_recognition')) {
+          features += ' <i class="fas fa-image"></i>';
+        }
+        if (item.features.includes('conversation')) {
+          features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
+        }
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.model}${features}</td>
+            <td>${item.points}</td>
+            <td>${item.token}</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+
+</html>

@@ -222,68 +222,10 @@
                     "owned_by": "y-tian-plugin",
                     "features": ['conversation', 'code', 'drawing', 'internet', 'file', 'image_recognition']
                 },
+
+                // Group 2: GLM Models
                 {
                     "id": 20,
-                    "model": "o1-mini",
-                    "created": 1686935002,
-                    "token": 128000,
-                    "points": "1500/次",
-                    "style": "once",
-                    "owned_by": "y-tian-plugin",
-                    "features": ['conversation', 'code', 'image_recognition']
-                },
-                {
-                    "id": 21,
-                    "model": "o1-mini-20240912",
-                    "created": 1686935002,
-                    "token": 128000,
-                    "points": "1500/次",
-                    "style": "once",
-                    "owned_by": "y-tian-plugin",
-                    "features": ['conversation', 'code', 'image_recognition']
-                },
-                {
-                    "id": 22,
-                    "model": "o1-mini-all",
-                    "created": 1686935002,
-                    "token": 128000,
-                    "points": "1500/次",
-                    "style": "once",
-                    "owned_by": "y-tian-plugin",
-                    "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
-                },
-                {
-                    "id": 23,
-                    "model": "o1-preview",
-                    "created": 1686935002,
-                    "token": 128000,
-                    "points": "3000/次",
-                    "style": "once",
-                    "owned_by": "y-tian-plugin",
-                    "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
-                },
-                {
-                    "id": 24,
-                    "model": "o1-preview-20240912",
-                    "created": 1686935002,
-                    "token": 128000,
-                    "points": "3000/次",
-                    "style": "once",
-                    "owned_by": "y-tian-plugin",
-                    "features": ['conversation', 'code', 'image_recognition']
-                },
-                {
-                    "id": 25,
-                    "model": "o1-preview-all",
-                    "created": 1686935002,
-                    "token": 128000,
-                    "points": "3000/次",
-                    "style": "once",
-                    "owned_by": "y-tian-plugin",
-                    "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
-                },
-                {
-                    "id": 26,
                     "model": "glm-3-turbo",
                     "created": 1686935002,
                     "token": 128000,
@@ -293,7 +235,7 @@
                     "features": ['conversation']
                 },
                 {
-                    "id": 27,
+                    "id": 21,
                     "model": "glm-4",
                     "created": 1686935002,
                     "token": 128000,
@@ -303,7 +245,7 @@
                     "features": ['conversation']
                 },
                 {
-                    "id": 28,
+                    "id": 22,
                     "model": "glm-4v",
                     "created": 1686935002,
                     "token": 2000,
@@ -313,7 +255,7 @@
                     "features": ['conversation', 'image_recognition']
                 },
                 {
-                    "id": 29,
+                    "id": 23,
                     "model": "glm-4-0520",
                     "created": 1686935002,
                     "token": 128000,
@@ -323,7 +265,7 @@
                     "features": ['conversation', 'code']
                 },
                 {
-                    "id": 30,
+                    "id": 24,
                     "model": "glm-4-air",
                     "created": 1686935002,
                     "token": 128000,
@@ -333,7 +275,7 @@
                     "features": ['conversation', 'code']
                 },
                 {
-                    "id": 31,
+                    "id": 25,
                     "model": "glm-4-airx",
                     "created": 1686935002,
                     "token": 128000,
@@ -343,7 +285,7 @@
                     "features": ['conversation', 'code']
                 },
                 {
-                    "id": 32,
+                    "id": 26,
                     "model": "glm-4-flash",
                     "created": 1686935002,
                     "token": 128000,
@@ -352,8 +294,10 @@
                     "owned_by": "y-tian-plugin",
                     "features": ['conversation', 'code']
                 },
+
+                // Group 3: DeepSeek Models
                 {
-                    "id": 33,
+                    "id": 27,
                     "model": "deepseek-chat",
                     "created": 1686935002,
                     "token": 32000,
@@ -363,7 +307,7 @@
                     "features": ['conversation']
                 },
                 {
-                    "id": 34,
+                    "id": 28,
                     "model": "deepseek-coder",
                     "created": 1686935002,
                     "token": 16000,
@@ -372,13 +316,75 @@
                     "owned_by": "y-tian-plugin",
                     "features": ['conversation', 'code']
                 },
+
+                // Group 4: Gemini Models
                 {
-                    "id": 35,
+                    "id": 29,
                     "model": "gemini-pro",
                     "created": 1686935002,
                     "token": 32000,
                     "points": "200/次",
                     "style": "once",
+                    "owned_by": "y-tian-plugin",
+                    "features": ['conversation', 'image_recognition']
+                },
+                {
+                    "id": 30,
+                    "model": "gemini-pro-vision",
+                    "created": 1686935002,
+                    "token": 32000,
+                    "points": "200/次",
+                    "style": "once",
+                    "owned_by": "y-tian-plugin",
+                    "features": ['conversation', 'image_recognition']
+                },
+                {
+                    "id": 31,
+                    "model": "gemini-1.5-pro",
+                    "created": 1686935002,
+                    "token": 1000000,
+                    "points": "0.3/token",
+                    "style": "token",
+                    "owned_by": "y-tian-plugin",
+                    "features": ['conversation', 'image_recognition']
+                },
+                {
+                    "id": 32,
+                    "model": "gemini-1.5-flash",
+                    "created": 1686935002,
+                    "token": 1000000,
+                    "points": "0.1/token",
+                    "style": "token",
+                    "owned_by": "y-tian-plugin",
+                    "features": ['conversation', 'image_recognition']
+                },
+                {
+                    "id": 33,
+                    "model": "gemini-1.5-pro-exp-0801",
+                    "created": 1686935002,
+                    "token": 1000000,
+                    "points": "0.3/token",
+                    "style": "token",
+                    "owned_by": "y-tian-plugin",
+                    "features": ['conversation', 'image_recognition']
+                },
+                {
+                    "id": 34,
+                    "model": "gemini-1.5-pro-exp-0827",
+                    "created": 1686935002,
+                    "token": 1000000,
+                    "points": "0.1/token",
+                    "style": "token",
+                    "owned_by": "y-tian-plugin",
+                    "features": ['conversation', 'image_recognition']
+                },
+                {
+                    "id": 35,
+                    "model": "gemini-1.5-pro-001",
+                    "created": 1686935002,
+                    "token": 1000000,
+                    "points": "0.02/token",
+                    "style": "token",
                     "owned_by": "y-tian-plugin",
                     "features": ['conversation', 'image_recognition']
                 }

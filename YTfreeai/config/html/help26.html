@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <link rel="stylesheet" href="{{all_min_css}}">
+  <link rel="stylesheet" href="{{all_css_src}}">
+</head>
+
+<body>
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>消耗倍率:</th>
+      <th>最大token:</th>
+      <th>支持的key:</th>
+    </tr>
+    <script>
+      let model =
+      {
+        "models": [
+          {
+            "id": "76",
+            "name": "o1-mini-20240912",
+            "token_count": "128000",
+            "Magnification": "1.5*10 or 0.15$/次",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": "77",
+            "name": "o1-mini-all",
+            "token_count": "128000",
+            "Magnification": "0.15$/次",
+            "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+          },
+          {
+            "id": "78",
+            "name": "o1-preview",
+            "token_count": "128000",
+            "Magnification": "7.5*10 or 0.3$/次",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": "79",
+            "name": "o1-preview-20240912",
+            "token_count": "128000",
+            "Magnification": "7.5*10 or 0.3$/次",
+            "features": ['conversation', 'code', 'image_recognition']
+          },
+          {
+            "id": "80",
+            "name": "o1-preview-all",
+            "token_count": "128000",
+            "Magnification": "0.3$/次",
+            "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+          },
+          {
+            "id": "81",
+            "name": "mj-chat",
+            "token_count": "32768",
+            "Magnification": "0.5$/次",
+            "features": ['drawing']
+          },
+          {
+            "id": "82",
+            "name": "luma-video",
+            "token_count": "28000",
+            "Magnification": '0.1$/次',
+            "features": ['video']
+          },
+          {
+            "id": "83",
+            "name": "stable-diffusion-3-2b",
+            "token_count": "800",
+            "Magnification": '0.007$/次',
+            "features": ['drawing']
+          },
+          {
+            "id": "84",
+            "name": "playground-v2.5",
+            "token_count": "800",
+            "Magnification": '0.007$/次',
+            "features": ['drawing']
+          },
+          {
+            "id": "85",
+            "name": "runway-video",
+            "token_count": "800",
+            "Magnification": '0.2$/次',
+            "features": ['video']
+          },
+          {
+            "id": "86",
+            "name": "ideogram",
+            "token_count": "800",
+            "Magnification": '0.03$/次',
+            "features": ['drawing']
+          },
+          {
+            "id": "87",
+            "name": "advanced-voice",
+            "token_count": "1500",
+            "Magnification": '2.0$/次',
+            "features": []
+          },
+          {
+            "id": "88",
+            "name": "gemini-pro",
+            "token_count": "32000",
+            "Magnification": 1,
+            "features": ['conversation', 'image_recognition']
+          },
+          {
+            "id": "89",
+            "name": "gemini-pro-vision",
+            "token_count": "32000",
+            "Magnification": 2,
+            "features": ['conversation', 'image_recognition']
+          }
+        ]
+      }
+      model.models.forEach(item => {
+        let features = '';
+        if (item.features.includes('internet')) {
+          features += ' <i class="fas fa-globe"></i>';
+        }
+        if (item.features.includes('drawing')) {
+          features += ' <i class="fas fa-paint-brush"></i>';
+        }
+        if (item.features.includes('code')) {
+          features += ' <i class="fas fa-code"></i>';
+        }
+        if (item.features.includes('image_recognition')) {
+          features += ' <i class="fas fa-image"></i>';
+        }
+        if (item.features.includes('conversation')) {
+          features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
+        }
+        if (item.features.includes('video')) {
+          features += ' <i class="fas fa-video"></i>';
+        }
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.name}${features}</td>
+            <td>${item.Magnification}</td>
+            <td>${item.token_count}</td>
+            <td>均支持</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+
+</html>

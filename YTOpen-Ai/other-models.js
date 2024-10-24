@@ -998,5 +998,45 @@ export const other_models = [
     "token": "32000",
     "features": ['conversation', 'code'],
     "quota": 30
+  },
+  {
+    "id": 126,
+    "model": "kling-v1-5s",
+    "points": "快手科技",
+    "token": "1200",
+    "features": ['video'],
+    "quota": "4/次"
+  },
+  {
+    "id": 127,
+    "model": "kling-v1-pro-5s",
+    "points": "快手科技",
+    "token": "1200",
+    "features": ['video'],
+    "quota": "12/次"
+  },
+  {
+    "id": 128,
+    "model": "kling-v1-10s",
+    "points": "快手科技",
+    "token": "1200",
+    "features": ['video'],
+    "quota": "6/次"
+  },
+  {
+    "id": 129,
+    "model": "kling-v1-pro-10s",
+    "points": "快手科技",
+    "token": "1200",
+    "features": ['video'],
+    "quota": "18/次"
+  },
+  {
+    "id": 130,
+    "model": "claude-3-5-sonnet-20241022",
+    "points": "Claude",
+    "token": "200000",
+    "features": ['conversation', 'code'],
+    "quota": 36
   }
 ]
