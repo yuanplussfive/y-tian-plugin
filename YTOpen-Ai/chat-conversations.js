@@ -17,7 +17,8 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     ? JSON.parse(await fs.promises.readFile(`${dirpath}/user_cache/all.json`, "utf-8"))
     : [];
   const hasSystemRole = all_system.some(item => item.role === "system");
-  if (hasSystemRole) {
+  const HistoryhasSystemRole = history.some(item => item.role === "system");
+  if (hasSystemRole && !HistoryhasSystemRole) {
     history = history.filter(item => item.role !== "system");
     history.unshift(...all_system);
   }

@@ -17,7 +17,8 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
     ? JSON.parse(await fs.promises.readFile(`${dirpath}/user_cache/all.json`, "utf-8"))
     : [];
   const hasSystemRole = all_system.some(item => item.role === "system");
-  if (hasSystemRole) {
+  const HistoryhasSystemRole = history.some(item => item.role === "system");
+  if (hasSystemRole && !HistoryhasSystemRole) {
     history = history.filter(item => item.role !== "system");
     history.unshift(...all_system);
   }
@@ -260,7 +261,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
               "content": msg
             }
           ]
-       }),
+        }),
       });
       const input = await response.text();
       const inputString = await extractContent(input);
@@ -269,7 +270,7 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       if (urls.length !== 0) {
         let images = [];
         urls.forEach(urlObj => {
-        images.push(segment.image(urlObj.url));
+          images.push(segment.image(urlObj.url));
         });
         e.reply(images);
       }
