@@ -281,6 +281,26 @@ body {
   font-weight: bold;
 }
 
+/* 为所有 code 块提供基本样式 */
+.markdown-content pre code {
+  display: block;
+  padding: 20px;
+  background-color: #202020;
+  color: #d4d4d4;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
+  font-size: 20px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* 如果没有特定的语言类，应用默认样式 */
+.markdown-content pre:not([data-lang]) {
+  background-color: #2d2d2d;
+  color: #d4d4d4;
+}
+
 /* 特定语言的代码块样式 */
 .markdown-content pre code.html,
 .markdown-content pre code.python,
