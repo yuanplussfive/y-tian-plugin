@@ -24,8 +24,8 @@
   <h1 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页</h1>
 
   <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
-    <strong>使用插件在线免费AI页面 (请使用PC端访问) 
-      <a href="https://yuanpluss.online:1111/" style="color: #00ffff;">免费AI</a>
+    <strong>在线免费使用
+      <a href="https://yuanpluss.online:1111/" style="color: #00ffff;">AI</a>
     </strong>
   </p>
 
@@ -40,6 +40,7 @@
 > **注意：** 非法用途（如色情、暴力、涉政等）将导致用户IP封禁，敬请理解！
 
 > 📢 **本项目Ai大多数均为免费公益，切勿被骗！**
+> 📢 **阴天提供的综合免费方案为，附加方案！**
 
 ### 🧠 AI模型支持
 
@@ -88,6 +89,65 @@
   ```shell
   pnpm install
   ```
+
+### 能不能在其它场景调用插件免费api？--可以
+
+ API 端点:
+
+```
+ https://yuanpluss.online:3000/api/v1/chat/completions
+```
+
+请求参数需要通过 `JSON` 格式的请求体传递。主要参数如下:
+
+- `model`: 要使用的模型ID，例如 `gpt-4`。
+- `messages`: 包含对话消息的数组，每个消息是一个对象,包含 `role` 和 `content` 属性。
+- `temperature`: 采样温度,介于 0 和 2 之间,值越高生成内容越随机。
+- `top_p`: 替代温度采样的方法,仅考虑构成前 `top_p` 概率质量的标记。
+- `n`: 为每个输入消息生成的补全数量。
+- `stream`: 是否以增量方式返回结果。
+- `stop`: 最多4个序列,API将停止进一步生成标记。
+- `max_tokens`: 生成的最大标记数。
+- `presence_penalty`: 根据到目前为止是否出现在文本中来惩罚新标记。
+- `frequency_penalty`: 根据文本目前的存在频率惩罚新标记。
+- `logit_bias`: 修改指定标记出现在补全中的可能性。
+- `user`: 代表最终用户的唯一标识符。
+
+#### 示例代码
+
+以下是使用 JavaScript 发送请求的示例代码:(密钥授权后免费获取)
+
+```javascript
+var myHeaders = new Headers();
+myHeaders.append("Accept", "application/json");
+myHeaders.append("Authorization", "Bearer {{YOUR_API_KEY}}");
+myHeaders.append("User-Agent", "Apifox/1.0.0 (https://apifox.com)");
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify([
+   {
+      "role": "user",
+      "text": "你好"
+   }
+]);
+
+var requestOptions = {
+   method: 'POST',
+   headers: myHeaders,
+   body: raw,
+   redirect: 'follow'
+};
+
+fetch("https://yuanpluss.online:3000/api/v1/chat/completions", requestOptions)
+   .then(response => response.text())
+   .then(result => console.log(result))
+   .catch(error => console.log('error', error));
+```
+
+<details>
+  <summary>🤖 Postman调试</summary>
+  <img src="./background/image/Postman.png" alt="调试" width="100%">
+</details>
 
 ## 🚀 功能一览
 
