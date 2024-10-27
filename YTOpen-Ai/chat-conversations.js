@@ -51,6 +51,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       "claude-3-opus-20240229",
       "claude-3-5-sonnet-20240620",
       "claude-3-5-sonnet-20241022",
+      "claude-3-5-sonnet-all",
       "llama-3.2-11b-vision-instruct",
       "llama-3.2-90b-vision-instruct"
     ];
