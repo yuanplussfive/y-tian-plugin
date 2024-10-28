@@ -41,7 +41,7 @@ export class example extends plugin {
             priority: 1,
             rule: [
                 {
-                    reg: "^#(ai|Ai|AI)对话方式(文本|图片|引用)",
+                    reg: "^#(ai|Ai|AI)对话方式(文本|图片|图片2|引用|转发|语音|拟人)$",
                     fnc: 'changeStyles',
                     permission: 'master'
                 },
@@ -424,7 +424,7 @@ export class example extends plugin {
             pictureStyles: response.chatgpt['pictureStyles'] ? 'Mathjax' : 'Markdown',
             ai_chat: response.chatgpt['ai_chat'] == 'godgpt' ? 'god方案' : response.chatgpt['ai_chat'] == 'chat' ? '专业版方案' : response.chatgpt['ai_chat'] == 'sess' ? 'sess方案' : response.chatgpt['ai_chat'] == 'others' ? '附加方案' : '未知',
             ai_chat_at: response.chatgpt['ai_chat_at'] ? '已开启' : '已关闭',
-            ai_chat_style: response.chatgpt['ai_chat_style'] == 'picture' ? '图片模式' : response.chatgpt['ai_chat_style'] == 'words' ? '引用文本' : response.chatgpt['ai_chat_style'] == 'word' ? '文本模式' : '未知',
+            ai_chat_style: response.chatgpt['ai_chat_style'] == 'picture' ? '图片模式' : response.chatgpt['ai_chat_style'] == 'similar' ? '拟人模式' : response.chatgpt['ai_chat_style'] == 'tts' ? '语音模式' : response.chatgpt['ai_chat_style'] == 'forward' ? '转发文本' : response.chatgpt['ai_chat_style'] == 'pictures' ? '图片模式2' : response.chatgpt['ai_chat_style'] == 'words' ? '引用文本' : response.chatgpt['ai_chat_style'] == 'word' ? '文本模式' : '未知',
             ai_name_sess: response.chatgpt['ai_name_sess'],
             ai_name_godgpt: response.chatgpt['ai_name_godgpt'],
             ai_name_chat: response.chatgpt['ai_name_chat'],
@@ -607,7 +607,11 @@ export class example extends plugin {
         const styleMap = {
             "文本": "word",
             "引用": "words",
-            "图片": "picture"
+            "转发": "forward",
+            "图片2": "pictures",
+            "图片": "picture",
+            "语音": "tts",
+            "拟人": "similar"
         };
 
         const foundKey = Object.keys(styleMap).find(key => e.msg.includes(key));

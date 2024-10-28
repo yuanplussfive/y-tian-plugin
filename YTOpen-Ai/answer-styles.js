@@ -1,4 +1,61 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
+    async function splitTextAndReply(text) {
+        const terminators = ['。', '！', '；', '!', ';', '？', '?', '.'];
+        let segmentCount = 1;
+        if (text.length > 800) {
+            segmentCount = text.length > 1200 ? 3 : 2;
+        } else if (text.length > 500) {
+            segmentCount = 2;
+        }
+        if (segmentCount === 1) {
+            e.reply(text);
+            return;
+        }
+        const idealLength = Math.ceil(text.length / segmentCount);
+        const segments = [];
+        let startIndex = 0;
+        while (startIndex < text.length) {
+            let searchEnd = Math.min(startIndex + idealLength + (idealLength * 0.3), text.length);
+            let endIndex = -1;
+            for (let i = searchEnd; i > startIndex + (idealLength * 0.7); i--) {
+                if (terminators.includes(text[i])) {
+                    endIndex = i + 1;
+                    break;
+                }
+            }
+            if (endIndex === -1) {
+                for (let i = searchEnd; i > startIndex + (idealLength * 0.7); i--) {
+                    if (text[i] === '；' || text[i] === '。' || text[i] === '!' || text[i] === '！' || text[i] === '？' || text[i] === '?' || text[i] === ';' || text[i] === '.') {
+                        endIndex = i + 1;
+                        break;
+                    }
+                }
+                if (endIndex === -1) {
+                    for (let i = searchEnd; i > startIndex + (idealLength * 0.7); i--) {
+                        if (text[i] === ' ') {
+                            endIndex = i + 1;
+                            break;
+                        }
+                    }
+                }
+                if (endIndex === -1) {
+                    endIndex = Math.min(startIndex + idealLength, text.length);
+                }
+            }
+            segments.push(text.substring(startIndex, endIndex));
+            startIndex = endIndex;
+            if (text.length - startIndex < idealLength * 0.5) {
+                segments.push(text.substring(startIndex));
+                break;
+            }
+        }
+        segments.forEach((segment, index) => {
+            setTimeout(() => {
+                e.reply(segment.trim());
+            }, index * 2500);
+        });
+    }
+
     const countTextInString = async (text) => {
         if (Array.isArray(text)) {
             text = text
@@ -42,7 +99,19 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 }
                 break;
 
+            case "forward":
+                await sendAsForwardMsg();
+                break;
+
+            case "tts":
+                break;
+
+            case "similar":
+                await splitTextAndReply(answer);
+                break;
+
             case "picture":
+            case "pictures":
                 const resourcesPath = `${_path}/plugins/y-tian-plugin/resources`;
                 const htmlPath = `${resourcesPath}/html`;
                 const cssPath = `${resourcesPath}/css`;

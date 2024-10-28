@@ -82,18 +82,14 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
   }
 
   async function loadUserHistory(path, userId, dirpath) {
-    const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
     try {
+      const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
       const data = fs.readFileSync(historyPath, 'utf-8');
       return JSON.parse(data);
-    } catch (error) {
-      if (error.code === 'ENOENT') {
-        return [];
-      } else {
-        throw error;
-      }
+    } catch {
+      return [];
     }
-  }
+  } 
 
   async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
     let filteredArray = history.filter(function (item) {
