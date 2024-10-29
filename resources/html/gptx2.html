@@ -10,15 +10,16 @@
     <link rel="stylesheet" href="{{katex_css}}">
     <script src="{{marked_min_js}}" defer></script>
     <script src="{{highlight_min_js}}" defer></script>
-    <script src="{{katex_js}}"></script>
-    <script src="{{purify_min_js}}"></script>
-    <script src="{{auto_render_js}}"></script>
+    <script src="{{katex_js}}" defer></script>
+    <script src="{{auto_render_js}}" defer></script>
+    <script src="{{purify_min_js}}" defer></script>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <div style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            <div
+                style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
                 <i class="fas fa-robot" style="font-size: 2rem; color: #007bff; margin-right: 0.6rem;"></i>
                 <h1>当前模型：<span>{{model}}</span></h1>
             </div>
@@ -48,22 +49,70 @@
 
     <script defer>
         /**
-         * 预处理LaTeX公式，将自定义的公式标记转换为MathJax可以识别的格式
-         * @param {string} content - 原始Markdown内容
-         * @returns {string} - 处理后的内容
-         */
+        * 预处理LaTeX公式，将自定义的公式标记转换为MathJax可以识别的格式
+        * @param {string} content - 原始Markdown内容
+        * @returns {string} - 处理后的内容
+        */
         const preHandleLaTeX = (content) => {
+            if (!content || typeof content !== 'string') {
+                return content;
+            }
+
+            // 处理多行显示数学公式 \[ ... \]
             let processedContent = content.replace(
                 /\\\[([\s\S]*?)\\\]/g,
-                (_, equation) => `$$${equation}$$`
+                (match, equation) => {
+                    // 移除首尾多余空格和换行
+                    equation = equation.trim();
+                    // 确保公式前后有换行
+                    return `\n$$${equation}$$\n`;
+                }
             );
+
+            // 处理行内数学公式 \( ... \)
             processedContent = processedContent.replace(
                 /\\\(([\s\S]*?)\\\)/g,
-                (_, equation) => `$${equation}$`
+                (match, equation) => {
+                    // 移除首尾多余空格，保留中间空格
+                    equation = equation.trim();
+                    // 确保公式前后没有多余空格
+                    return `$${equation}$`;
+                }
             );
+
+            // 处理 $$ ... $$ 格式的多行公式
+            processedContent = processedContent.replace(
+                /\$\$([\s\S]*?)\$\$/g,
+                (match, equation) => {
+                    equation = equation.trim();
+                    return `\n$$${equation}$$\n`;
+                }
+            );
+
+            // 处理连续多个 $ 符号的情况
+            processedContent = processedContent.replace(/\${3,}/g, '$$');
+
+            // 处理转义的美元符号
+            processedContent = processedContent.replace(/\\\$/g, '&#36;');
+
+            // 处理公式中的特殊字符
+            processedContent = processedContent.replace(
+                /(\$|\$\$)([\s\S]*?)(\$|\$\$)/g,
+                (match, open, content, close) => {
+                    // 保护公式中的特殊字符
+                    content = content
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                    return `${open}${content}${close}`;
+                }
+            );
+
+            // 移除多余的连续换行
+            processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
+
             return processedContent;
         };
-
         /**
          * 为每个代码块添加 data-lang 属性，用于指示代码的语言类型
          */
