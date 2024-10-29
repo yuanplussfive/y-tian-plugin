@@ -1037,6 +1037,14 @@ export const other_models = [
     "points": "Claude",
     "token": "200000",
     "features": ['conversation', 'code'],
-    "quota": 36
+    "quota": 30
+  },
+  {
+    "id": 131,
+    "model": "claude-3-5-sonnet-all",
+    "points": "Claude",
+    "token": "200000",
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 60
   }
 ]

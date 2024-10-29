@@ -8,7 +8,7 @@
 
 body {
   margin: 0;
-  font-family: "TengXiangJiaLiZhongYuanJian", sans-serif;
+  font-family: "RuanMengKeAiShouXieZi", sans-serif;
   font-weight: 700;
   background-color: #f5f5f5;
   color: #000000;
@@ -18,8 +18,8 @@ body {
 
 /* Markdown内容容器 */
 .markdown-content {
-  font-family: "TengXiangJiaLiZhongYuanJian", sans-serif;
-  font-weight: bold;
+  font-family: "RuanMengKeAiShouXieZi", sans-serif;
+  font-weight: 400;
   font-size: 22px;
   padding: 5px;
   border-radius: 8px;
@@ -68,7 +68,7 @@ body {
 
 /* 段落样式 */
 .markdown-content p {
-  font-family: "TengXiangJiaLiZhongYuanJian", sans-serif;
+  font-family: "RuanMengKeAiShouXieZi", sans-serif;
   color: #000000;
   font-size: 20px;
   text-indent: 2em;
@@ -684,14 +684,14 @@ body {
 
 @font-face {
   font-family: "RuanMengKeAiShouXieZi";
-  src: url("AaRiFuYiRiKeAiYuan-2.ttf");
+  src: url("JingNanMaiYuanTi-2.otf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "TengXiangJiaLiZhongYuanJian";
-  src: url("AlimamaFangYuanTiVF-Thin-2.ttf");
+  src: url("SanJiYuanTiJian-Zhong-2.ttf");
   font-weight: normal;
   font-style: normal;
 }

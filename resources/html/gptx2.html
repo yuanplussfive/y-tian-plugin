@@ -6,39 +6,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gptx</title>
     <link rel="stylesheet" href="{{dz}}">
-    <link rel="stylesheet" href="{{all_min_css}}">
     <link rel="stylesheet" href="{{atom_one_dark_min_css}}">
     <link rel="stylesheet" href="{{katex_css}}">
-    <script src="{{highlight_min_js}}" defer></script>
     <script src="{{marked_min_js}}" defer></script>
-    <script src="{{purify_min_js}}" defer></script>
-    <script src="{{katex_js}}" defer></script>
-    <script src="{{auto_render_js}}" defer></script>
+    <script src="{{highlight_min_js}}" defer></script>
+    <script src="{{katex_js}}"></script>
+    <script src="{{purify_min_js}}"></script>
+    <script src="{{auto_render_js}}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <i class="fas fa-robot" style="font-size: 2rem; color: #007bff; margin-right: 0.6rem;"></i>
+                <h1>当前模型：<span>{{model}}</span></h1>
+            </div>
+            <div class="header-bar"></div>
+        </div>
+        <div class="user2">
+            <div id="title">
+                <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id1}}&spec=640&img_type=jpg" alt="User 2 Avatar">
+            </div>
+            <div class="name">{{name}}</div>
+            <div class="message">
+                <!-- 第一个Markdown内容区域 -->
+                <div id="renderedMarkdown" class="markdown-content">{{MSG}}</div>
+            </div>
+        </div>
+        <div class="user">
+            <div id="title">
+                <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id2}}&spec=640&img_type=jpg" alt="User 1 Avatar">
+            </div>
+            <div class="name">{{name1}}</div>
+            <div class="message">
+                <!-- 第二个Markdown内容区域 -->
+                <div id="renderedMarkdown2" class="markdown-content">{{CONTENT}}</div>
+            </div>
+        </div>
+    </div>
 
     <script defer>
+        /**
+         * 预处理LaTeX公式，将自定义的公式标记转换为MathJax可以识别的格式
+         * @param {string} content - 原始Markdown内容
+         * @returns {string} - 处理后的内容
+         */
         const preHandleLaTeX = (content) => {
-            const blockProcessedContent = content.replace(
+            let processedContent = content.replace(
                 /\\\[([\s\S]*?)\\\]/g,
                 (_, equation) => `$$${equation}$$`
-            )
-            const inlineProcessedContent = blockProcessedContent.replace(
+            );
+            processedContent = processedContent.replace(
                 /\\\(([\s\S]*?)\\\)/g,
                 (_, equation) => `$${equation}$`
-            )
-            return inlineProcessedContent
+            );
+            return processedContent;
         };
 
-        window.onload = function () {
-            document.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightBlock(block);
+        /**
+         * 为每个代码块添加 data-lang 属性，用于指示代码的语言类型
+         */
+        const addDataLangAttributes = () => {
+            document.querySelectorAll('.markdown-content pre').forEach(pre => {
+                const code = pre.querySelector('code');
+                if (code) {
+                    const classes = Array.from(code.classList);
+                    const languageClass = classes.find(cls => cls.startsWith('language-'));
+                    if (languageClass) {
+                        const language = languageClass.replace('language-', '').toUpperCase();
+                        pre.setAttribute('data-lang', language);
+                    }
+                }
             });
-            const markdownElements = document.querySelectorAll('#renderedMarkdown, #renderedMarkdown2');
+        };
+
+        /**
+         * 处理并渲染Markdown内容，包括高亮代码和数学公式
+         */
+        const renderMarkdownContent = () => {
+            const markdownElements = document.querySelectorAll('.markdown-content');
             markdownElements.forEach(element => {
                 const markdownText = element.textContent;
                 const processedContent = preHandleLaTeX(markdownText);
                 let htmlContent = marked.parse(processedContent);
                 htmlContent = DOMPurify.sanitize(htmlContent);
-                element.innerHTML = htmlContent;
+                element.innerHTML = `<div class="markdown-content-inner">${htmlContent}</div>`;
+            });
+        };
+
+        /**
+         * 初始化所有功能，包括渲染Markdown、添加data-lang属性、代码高亮和数学公式渲染
+         */
+        const initialize = () => {
+            renderMarkdownContent();
+            addDataLangAttributes();
+
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
             });
 
             renderMathInElement(document.body, {
@@ -49,42 +114,10 @@
                 throwOnError: false
             });
         };
-    </script>
-</head>
 
-<body>
-    <div class="container">
-        <div class="header">
-            <div style="display: flex; align-items: center;">
-                <i class="fas fa-robot" style="font-size: 2rem; color: #e8ecf1; margin-right: 0.5rem;"></i>
-                <h1 style="margin: 0;">当前模型：
-                    <span
-                        style="font-family: 'Courier New', Courier, monospace; background: linear-gradient(to right, #07bde2, #c0a4eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                        {{model}}
-                    </span>
-                </h1>
-            </div>
-            <div class="header-bar"></div>
-        </div>
-        <div class="user2">
-            <div id="title">
-                <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id1}}&spec=640&img_type=jpg" alt="User 2 Avatar">
-            </div>
-            <div class="name">{{name}}</div>
-            <div class="message">
-                <div id="renderedMarkdown">{{MSG}}</div>
-            </div>
-        </div>
-        <div class="user">
-            <div id="title">
-                <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id2}}&spec=640&img_type=jpg" alt="User 1 Avatar">
-            </div>
-            <div class="name">{{name1}}</div>
-            <div class="message2">
-                <div id="renderedMarkdown2">{{CONTENT}}</div>
-            </div>
-        </div>
-    </div>
+        // 确保所有资源加载完毕后初始化
+        window.addEventListener('DOMContentLoaded', initialize);
+    </script>
 </body>
 
 </html>
