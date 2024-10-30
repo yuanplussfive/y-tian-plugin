@@ -37,6 +37,7 @@ async function run_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       "gpt-4-v",
       "gpt-4-all",
       "gpt-4o-all",
+      "gpt-4o-mini",
       "gpt-4-dalle",
       "o1-mini-all",
       "o1-preview-all",
