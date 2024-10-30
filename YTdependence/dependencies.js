@@ -40,6 +40,7 @@ import { FreeGemini_2 } from '../utils/FreeGemini/Gemini_2.js';
 import { FreeGemini_3 } from '../utils/FreeGemini/Gemini_3.js';
 import { FreeClaude_1 } from '../utils/FreeClaude/Claude_1.js';
 import { processArray, countTextInString } from '../YTOpen-Ai/tools/messageGenerator.js';
+import { extractAndRender, extractCodeBlocks } from '../YTOpen-Ai/tools/preview.js';
 
 export const dependencies = {
   fs,
@@ -80,6 +81,8 @@ export const dependencies = {
   replyBasedOnStyle,
   handleTTS,
   handleSystemCommand,
+  extractAndRender, 
+  extractCodeBlocks,
   GodModels: god_models,
   SessModels: sess_models,
   ChatModels: chat_models,

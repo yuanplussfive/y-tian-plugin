@@ -1,4 +1,4 @@
-async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, axios, GPT4oResponse, GeminiResponse, claudeResponse, Anime_tts_roles) {
+async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, axios, GPT4oResponse, GeminiResponse, claudeResponse, Anime_tts_roles) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { search } = chatgptConfig;
   const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
@@ -412,9 +412,20 @@ async function god_conversation(UploadFiles, FreeChat35_1, FreeChat35_2, FreeCha
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
       if (styles == "picture") {
-        let forwardMsg = [Messages]
-        const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'text');
-        e.reply(JsonPart)
+        let forwardMsg = [];
+        try {
+          const results = await extractAndRender(Messages, {
+            outputDir: './resources'
+          });
+            forwardMsg.push("预览效果");
+            results.forEach(result => {
+              forwardMsg.push(segment.image(result.outputPath));
+            });
+        } catch { }
+        forwardMsg.push(Messages);
+        const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
+        //e.reply(Messages)
+        e.reply(JsonPart);
         if (urls.length !== 0) {
           let uniqueUrls = [...new Set(urls)];
           if (uniqueUrls.length > 1) {
