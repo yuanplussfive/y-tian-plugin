@@ -10,7 +10,7 @@ async function extractAndRender(text, options = {}) {
   const {
     outputDir = './output',
     viewport = { width: 1200, height: 800, deviceScaleFactor: 2 },
-    timeout = 30000,
+    timeout = 70000,
     additionalScripts = [],
     additionalStyles = []
   } = options;
@@ -108,29 +108,41 @@ async function renderCodeBlock(browser, block, options) {
 
   try {
     const fullHTML = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          ${additionalStyles.map(style => `<link rel="stylesheet" href="${style}">`).join('\n')}
-          ${additionalScripts.map(script => `<script src="${script}"></script>`).join('\n')}
-          <style>
-            body {
-              margin: 0;
-              padding: 20px;
-              background: white;
-            }
-            canvas, svg {
-              max-width: 100%;
-              height: auto;
-            }
-          </style>
-        </head>
-        <body>
-          ${content}
-        </body>
-      </html>
+     <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    ${additionalStyles.map(style => `<link rel="stylesheet" href="${style}">`).join('\n')}
+    ${additionalScripts.map(script => `<script src="${script}"></script>`).join('\n')}
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      
+      body {
+        background: white;
+      }
+      
+      canvas, svg {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    ${content}
+  </body>
+</html>
     `;
 
     await page.setContent(fullHTML, {
