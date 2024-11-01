@@ -1046,5 +1046,13 @@ export const other_models = [
     "token": "200000",
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 60
+  },
+  {
+    "id": 132,
+    "model": "gpt-4-omni",
+    "points": "OpenAI",
+    "token": "128000",
+    "features": ['conversation', 'code', 'image_recognition', 'internet', 'drawing'],
+    "quota": 60
   }
 ]
