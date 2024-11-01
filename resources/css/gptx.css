@@ -84,7 +84,7 @@ body {
 /* 链接样式 */
 .markdown-content a {
   color: #31b3ff;
-  font-family: "NZBZ";
+  font-family: "Inconsolata";
   text-decoration: none;
   transition: color 0.3s, text-shadow 0.3s;
 }
