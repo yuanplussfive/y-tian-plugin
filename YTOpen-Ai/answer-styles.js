@@ -1,4 +1,8 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
+    async function processSourceText(text) {
+        return text.replace(/(\*[^*]*来源[^*]*\*)(?![\r\n])/g, '$1\n');
+    }
+
     async function splitTextAndReply(text) {
         const terminators = ['。', '！', '；', '!', ';', '？', '?', '.'];
         let segmentCount = 1;
@@ -73,19 +77,20 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
     };
 
-    const sendAsForwardMsg = async () => {
-        const forwardMsg = await common.makeForwardMsg(e, [answer], 'text');
+    const sendAsForwardMsg = async (text) => {
+        const forwardMsg = await common.makeForwardMsg(e, [text], 'text');
         e.reply(forwardMsg);
     };
 
     try {
         const words = await countTextInString(answer);
         console.log(`token: ${words}`);
-
+        answer = await processSourceText(answer);
+        console.log(answer)
         switch (styles) {
             case "words":
                 if (words > 1000) {
-                    await sendAsForwardMsg();
+                    await sendAsForwardMsg(answer);
                 } else {
                     e.reply(answer, true);
                 }
@@ -93,14 +98,14 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
 
             case "word":
                 if (words > 1050) {
-                    await sendAsForwardMsg();
+                    await sendAsForwardMsg(answer);
                 } else {
                     e.reply(answer);
                 }
                 break;
 
             case "forward":
-                await sendAsForwardMsg();
+                await sendAsForwardMsg(answer);
                 break;
 
             case "tts":
@@ -156,7 +161,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                     try {
                         const img = await Promise.race([
                             puppeteer.screenshot("759", data),
-                            new Promise((_, reject) => setTimeout(() => reject(new Error('截图超时')), 35000))
+                            new Promise((_, reject) => setTimeout(() => reject(new Error('截图超时')), 60000))
                         ]);
                         e.reply(img);
                     } catch (screenshotError) {

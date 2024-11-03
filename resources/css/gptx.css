@@ -74,6 +74,7 @@ body {
   text-indent: 2em;
   margin-bottom: 16px;
   transition: color 0.3s ease;
+  white-space: pre-wrap;
   font-weight: 500;
 }
 
@@ -346,6 +347,14 @@ body {
   color: #7f8c8d;
   background-color: #ecf0f1;
   border-radius: 4px;
+}
+
+/* 图片样式 */
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
 }
 
 /* 用户头像样式 */
