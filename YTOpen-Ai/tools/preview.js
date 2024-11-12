@@ -3,13 +3,15 @@ import fs from 'fs';
 import path from 'path';
 import { exec, spawn } from 'child_process';
 import util from 'util';
+import http from 'http';
+import https from 'https';
 
 // 将 exec 转换为返回 Promise 的函数，方便使用 async/await
 const execAsync = util.promisify(exec);
 
 /**
- * 提取并渲染各类代码块
- * @param {string} text - 包含代码块的文本
+ * 提取并渲染各类代码块和图片链接
+ * @param {string} text - 包含代码块和图片链接的文本
  * @param {Object} options - 渲染配置选项
  * @returns {Promise<Array>} - 返回渲染结果数组
  */
@@ -17,6 +19,7 @@ async function extractAndRender(text, options = {}) {
   const {
     outputDir = './output', // 输出目录
     timeout = 70000, // Puppeteer 操作超时时间
+    imageTimeout = 20000, // 图片下载超时时间
     additionalScripts = [], // 额外的脚本链接
     additionalStyles = [], // 额外的样式链接
     backendLanguages = ['python', 'java', 'c++', 'c', 'ruby', 'go', 'javascript', 'typescript'], // 添加 'javascript' 和 'typescript' 到后端语言
@@ -27,10 +30,14 @@ async function extractAndRender(text, options = {}) {
     throw new Error('输入必须是字符串');
   }
 
+  // 提取所有图片链接
+  const imageLinks = extractImageLinks(text);
+  
   // 提取所有代码块
   const codeBlocks = extractCodeBlocks(text);
-  if (!codeBlocks.length) {
-    console.warn('不存在代码块');
+
+  if (!imageLinks.length && !codeBlocks.length) {
+    console.warn('不存在图片链接和代码块');
     return [];
   }
 
@@ -49,6 +56,30 @@ async function extractAndRender(text, options = {}) {
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
 
+    // 处理图片链接
+    for (const [index, link] of imageLinks.entries()) {
+      try {
+        const imageExt = path.extname(new URL(link).pathname).split('?')[0] || '.png'; // 获取图片扩展名，默认.png
+        const imageName = `image_${Date.now()}_${index}${imageExt}`;
+        const imagePath = path.join(outputDir, imageName);
+
+        await downloadImageWithTimeout(link, imagePath, imageTimeout);
+
+        results.push({
+          index: `image_${index}`,
+          type: 'image',
+          url: link,
+          outputPath: imagePath,
+          metadata: {}
+        });
+      } catch (error) {
+        console.warn(`下载图片失败或超时: ${link}，错误: ${error.message}`);
+        // 超时或下载失败时不添加到结果中
+        continue;
+      }
+    }
+
+    // 处理代码块
     for (const [index, block] of codeBlocks.entries()) {
       const { language } = block;
 
@@ -65,6 +96,7 @@ async function extractAndRender(text, options = {}) {
         if (result) {
           results.push({
             index,
+            type: 'code',
             language: block.language,
             outputPath: result.outputPath,
             metadata: result.metadata
@@ -94,6 +126,7 @@ async function extractAndRender(text, options = {}) {
           if (renderResult) {
             results.push({
               index,
+              type: 'code',
               language: block.language,
               outputPath: renderResult.outputPath,
               metadata: renderResult.metadata
@@ -118,6 +151,64 @@ async function extractAndRender(text, options = {}) {
       await browser.close().catch(console.error);
     }
   }
+}
+
+/**
+ * 提取 Markdown 中的图片链接，格式如 ![数字](链接)
+ * @param {string} text - 源文本
+ * @returns {Array<string>} - 图片链接数组
+ */
+function extractImageLinks(text) {
+  const regex = /!\[\d+\]\((https?:\/\/[^\s)]+)\)/g; // 匹配 ![数字](链接)
+  const matches = Array.from(text.matchAll(regex));
+  return matches.map(match => match[1]).filter(url => url.length > 0);
+}
+
+/**
+ * 下载图片并保存到指定路径，设置超时时间
+ * @param {string} url - 图片URL
+ * @param {string} dest - 本地保存路径
+ * @param {number} timeout - 超时时间（毫秒）
+ * @returns {Promise<void>}
+ */
+function downloadImageWithTimeout(url, dest, timeout) {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(dest);
+    const protocol = url.startsWith('https') ? https : http;
+
+    const request = protocol.get(url, (response) => {
+      if (response.statusCode !== 200) {
+        fs.unlink(dest, () => {}); // 删除无效的文件
+        return reject(new Error(`下载失败，状态码: ${response.statusCode}`));
+      }
+
+      response.pipe(file);
+    });
+
+    // 设置超时
+    const timer = setTimeout(() => {
+      request.abort();
+      fs.unlink(dest, () => {}); // 删除未完成的文件
+      reject(new Error('下载超时'));
+    }, timeout);
+
+    file.on('finish', () => {
+      clearTimeout(timer);
+      file.close(resolve);
+    });
+
+    request.on('error', (err) => {
+      clearTimeout(timer);
+      fs.unlink(dest, () => {}); // 删除有错误的文件
+      reject(err);
+    });
+
+    file.on('error', (err) => {
+      clearTimeout(timer);
+      fs.unlink(dest, () => {}); // 删除有错误的文件
+      reject(err);
+    });
+  });
 }
 
 /**

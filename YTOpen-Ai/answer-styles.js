@@ -1,8 +1,16 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
+    //console.log(answer);
     async function processSourceText(text) {
         return text.replace(/(\*[^*]*来源[^*]*\*)(?![\r\n])/g, '$1\n');
     }
-
+    async function decodeSearchContent(str) {
+        return str.replace(/search\((["'])\s*(.*?)\s*\1\)/g, (match, quote, content) => {
+            const decoded = content.trim().replace(/\\u[\dA-Fa-f]{4}/g, uMatch =>
+                String.fromCharCode(parseInt(uMatch.replace('\\u', ''), 16))
+            );
+            return `search(${quote}${decoded}${quote})`;
+        });
+    }
     async function splitTextAndReply(text) {
         const terminators = ['。', '！', '；', '!', ';', '？', '?', '.'];
         let segmentCount = 1;
@@ -86,7 +94,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         const words = await countTextInString(answer);
         console.log(`token: ${words}`);
         answer = await processSourceText(answer);
-        console.log(answer)
+        answer = await decodeSearchContent(answer);
         switch (styles) {
             case "words":
                 if (words > 1000) {
