@@ -49,81 +49,87 @@
 
     <script defer>
         /**
-         * 预处理LaTeX公式，将自定义的公式标记转换为MathJax可以识别的格式
+         * 预处理LaTeX公式，仅处理非代码块内容
          * @param {string} content - 原始Markdown内容
          * @returns {string} - 处理后的内容
          */
-        const preHandleLaTeX = (content) => {
-            if (!content || typeof content !== 'string') {
-                return content;
+         const preHandleLaTeX = (content) => {
+    if (!content || typeof content !== 'string') {
+        return content;
+    }
+
+    // 使用更严格的正则匹配代码块
+    const codeBlockRegex = /```(?:\w+)?\n[\s\S]*?\n```/g;
+    const codeBlocks = [];
+    const placeholderPrefix = '__CODE_BLOCK_PLACEHOLDER_';
+    let processedContent = content.replace(codeBlockRegex, (match) => {
+        codeBlocks.push(match);
+        return `\n${placeholderPrefix}${codeBlocks.length - 1}__\n`;
+    });
+
+    // 处理 LaTeX，仅针对非代码块部分
+    processedContent = processedContent.replace(
+        /(^|\n)\s*\$\$([\s\S]*?)\$\$\s*($|\n)/g,
+        (match, start, equation, end) => {
+            return `${start}§§${equation}§§${end}`;
+        }
+    );
+
+    processedContent = processedContent.replace(
+        /\\\[([\s\S]*?)\\\]/g,
+        (match, equation) => {
+            equation = equation.trim();
+            return '\n$$' + equation + '$$\n';
+        }
+    );
+
+    processedContent = processedContent.replace(
+        /\\\(([\s\S]*?)\\\)/g,
+        (match, equation) => {
+            equation = equation.trim();
+            return '$' + equation + '$';
+        }
+    );
+
+    processedContent = processedContent.replace(
+        /\$\$([\s\S]*?)\$\$/g,
+        (match, equation) => {
+            if (!match.includes('§§')) {
+                equation = equation.trim();
+                return '\n$$' + equation + '$$\n';
             }
+            return match;
+        }
+    );
 
-            // 标记已经格式正确的 $$ ... $$ 公式，避免重复处理
-            let processedContent = content.replace(
-                /(^|\n)\s*\$\$([\s\S]*?)\$\$\s*($|\n)/g,
-                (match, start, equation, end) => {
-                    return `${start}§§${equation}§§${end}`;
-                }
-            );
+    processedContent = processedContent.replace(
+        /§§([\s\S]*?)§§/g,
+        (match, equation) => {
+            return '$$' + equation + '$$';
+        }
+    );
 
-            // 处理多行显示数学公式 \[ ... \]
-            processedContent = processedContent.replace(
-                /\\\[([\s\S]*?)\\\]/g,
-                (match, equation) => {
-                    equation = equation.trim();
-                    return '\n$$' + equation + '$$\n';
-                }
-            );
+    processedContent = processedContent.replace(
+        /(\$|\$\$)([\s\S]*?)(\$|\$\$)/g,
+        (match, open, content, close) => {
+            content = content
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\n/g, ' '); // 将公式内的换行替换为空格
+            return `${open}${content}${close}`;
+        }
+    );
 
-            // 处理行内数学公式 \( ... \)
-            processedContent = processedContent.replace(
-                /\\\(([\s\S]*?)\\\)/g,
-                (match, equation) => {
-                    equation = equation.trim();
-                    return '$' + equation + '$';
-                }
-            );
+    processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
 
-            // 处理需要规范化的 $$ ... $$ 公式（不在行首行尾的情况）
-            processedContent = processedContent.replace(
-                /\$\$([\s\S]*?)\$\$/g,
-                (match, equation) => {
-                    // 如果不是被标记的公式才处理
-                    if (!match.includes('§§')) {
-                        equation = equation.trim();
-                        return '\n$$' + equation + '$$\n';
-                    }
-                    return match;
-                }
-            );
+    // 恢复代码块
+    const finalContent = processedContent.replace(new RegExp(`${placeholderPrefix}(\\d+)__`, 'g'), (match, index) => {
+        return codeBlocks[index];
+    });
 
-            // 还原之前标记的正确格式公式
-            processedContent = processedContent.replace(
-                /§§([\s\S]*?)§§/g,
-                (match, equation) => {
-                    return '$$' + equation + '$$';
-                }
-            );
-
-            // 处理公式中的特殊字符，但保留换行
-            processedContent = processedContent.replace(
-                /(\$|\$\$)([\s\S]*?)(\$|\$\$)/g,
-                (match, open, content, close) => {
-                    // 保护公式中的特殊字符，但保留换行
-                    content = content
-                        .replace(/&/g, '&amp;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;')
-                        .replace(/\n/g, ' '); // 将公式内的换行替换为空格
-                    return `${open}${content}${close}`;
-                }
-            );
-
-            // 移除多余的连续换行，但保留两个换行
-            processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
-
-            return processedContent;
-        };
+    return finalContent;
+};
 
         /**
          * 为每个代码块添加 data-lang 属性，用于指示代码的语言类型
@@ -148,11 +154,43 @@
         const renderMarkdownContent = () => {
             const markdownElements = document.querySelectorAll('.markdown-content');
             markdownElements.forEach(element => {
-                const markdownText = element.textContent;
-                const processedContent = preHandleLaTeX(markdownText);
+                let markdownText = element.textContent;
+                let processedContent = preHandleLaTeX(markdownText);
+
+                // 将处理后的内容传递给marked解析器
                 let htmlContent = marked.parse(processedContent);
-                //htmlContent = DOMPurify.sanitize(htmlContent);
-                element.innerHTML = `<div class="markdown-content-inner">${htmlContent}</div>`;
+
+                // 创建一个临时容器来操作HTML
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+                
+                // 双星号 **text** -> <span class="double-star">text</span>
+                tempDiv.querySelectorAll('strong').forEach(elem => {
+                    const span = document.createElement('span');
+                    span.className = 'double-star';
+                    span.innerHTML = elem.innerHTML;
+                    elem.parentNode.replaceChild(span, elem);
+                });
+
+                // 单下划线 _text_ -> <span class="single-underline">text</span>
+                tempDiv.querySelectorAll('em').forEach(elem => {
+                    const span = document.createElement('span');
+                    span.className = 'single-underline';
+                    span.innerHTML = elem.innerHTML;
+                    elem.parentNode.replaceChild(span, elem);
+                });
+
+                // 尖括号 <<text>> -> <span class="angle-bracket">text</span>
+                tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;(.*?)&gt;&gt;/g, '<span class="angle-bracket">$1</span>');
+
+                // 高亮文本 ==text== -> <span class="highlight">text</span>
+                tempDiv.innerHTML = tempDiv.innerHTML.replace(/==(.+?)==/g, '<span class="highlight">$1</span>');
+
+                // 图片描述 <<ImageDisplayed>>text<< -> <span class="image-text">text</span>
+                tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;ImageDisplayed&gt;&gt;(.*?)&lt;&lt;/g, '<span class="image-text">$1</span>');
+
+                // 将处理后的HTML插入元素
+                element.innerHTML = `<div class="markdown-content-inner">${tempDiv.innerHTML}</div>`;
             });
         };
 

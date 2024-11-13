@@ -82,18 +82,57 @@ body {
   color: #2c3e50;
 }
 
-/* 链接样式 */
 .markdown-content a {
-  color: #31b3ff;
-  font-family: "Inconsolata";
+  color: #00c3ff;
+  font-family: "JetBrains Mono", "Fira Code", "Inconsolata", monospace;
   text-decoration: none;
-  transition: color 0.3s, text-shadow 0.3s;
+  position: relative;
+  padding: 2px 4px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, rgba(0, 195, 255, 0.1) 0%, rgba(0, 195, 255, 0) 100%);
+  border-radius: 3px;
+}
+
+.markdown-content a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, #00c3ff 0%, #00ffd5 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
 }
 
 .markdown-content a:hover {
-  text-decoration: underline;
-  color: #1abc9c;
-  text-shadow: 0 0 5px rgba(26, 188, 156, 0.6);
+  color: #00ffd5;
+  text-shadow: 0 0 8px rgba(0, 195, 255, 0.4);
+  background: linear-gradient(90deg, rgba(0, 195, 255, 0.15) 0%, rgba(0, 255, 213, 0.05) 100%);
+}
+
+.markdown-content a:hover::before {
+  transform: scaleX(1);
+}
+
+.markdown-content a:active {
+  transform: translateY(1px);
+}
+
+/* 添加小图标 */
+.markdown-content a::after {
+  content: '↗';
+  font-size: 0.85em;
+  margin-left: 3px;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.2s ease;
+}
+
+.markdown-content a:hover::after {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* 列表样式 */
@@ -749,4 +788,122 @@ body {
 
 .markdown-content pre::-webkit-scrollbar-track {
   background-color: #2d2d2d;
+}
+
+/* 新增部分 */
+
+/* 对话形式的文本，使用 <q> 标签，应用古朴咖啡色风格 */
+.markdown-content q {
+  font-family: "RuanMengKeAiShouXieZi", sans-serif;
+  font-size: 20px;
+  color: #6f4e37; /* 古朴咖啡色 */
+  background-color: #fdf6e3;
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid #e0c68a;
+  position: relative;
+  /* 添加引号样式 */
+}
+
+.markdown-content q::before {
+  content: '“';
+  font-size: 24px;
+  color: #6f4e37;
+  position: absolute;
+  left: -10px;
+  top: -5px;
+}
+
+.markdown-content q::after {
+  content: '”';
+  font-size: 24px;
+  color: #6f4e37;
+  position: absolute;
+  right: -10px;
+  bottom: -5px;
+}
+
+/* 引用块样式增强，适用于对话框等特殊引用 */
+.markdown-content blockquote {
+  border-left: 4px solid #8b4513; /* 棕色边框 */
+  background-color: #f5f5dc; /* 米色背景 */
+  color: #333333;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-style: normal;
+  position: relative;
+}
+
+/* 引用块顶部添加装饰性图标 */
+.markdown-content blockquote::before {
+  font-size: 24px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+/* 强调文本样式，适用于特殊标注 */
+.markdown-content .highlight {
+  background-color: #fffacd; /* 柠檬绸色背景 */
+  color: #ff4500; /* 橙红色文字 */
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* 特定符号包裹的文本样式 */
+/* 使用自定义的 span 标签包裹不同符号的文本 */
+/* 例如，使用双星号 **text** 表示重点文本 */
+.markdown-content .double-star {
+  color: #8b4513; /* 棕色 */
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* 使用单下划线 _text_ 表示强调文本 */
+.markdown-content .single-underline {
+  text-decoration: underline;
+  color: #2e8b57; /* 海洋绿色 */
+}
+
+/* 使用尖括号 <text> 表示提示文本 */
+.markdown-content .angle-bracket {
+  background-color: #e6e6fa; /* 薰衣草色 */
+  color: #4b0082; /* 靛青色 */
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+/* 图片文本样式 */
+.markdown-content .image-text {
+  text-align: center;
+  font-style: italic;
+  color: #696969;
+  margin-top: 10px;
+}
+
+/* 表格样式优化 */
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.markdown-content th,
+.markdown-content td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.markdown-content th {
+  background-color: #f2f2f2;
+}
+
+/* 响应式图片 */
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em auto;
 }

@@ -46,12 +46,12 @@ export class example extends plugin {
                     permission: 'master'
                 },
                 {
-                    reg: "^#图片渲染使用(markdown|mathjax)",
+                    reg: "^#图片渲染使用(markdown|mathjax)$",
                     fnc: 'pictureStyles',
                     permission: 'master'
                 },
                 {
-                    reg: "^#(开启|关闭)提示回复",
+                    reg: "^#(开启|关闭)提示回复$",
                     fnc: 'promptAnswer',
                     permission: 'master'
                 },
@@ -574,11 +574,22 @@ export class example extends plugin {
     }
 
     async renameTrigger(e) {
-        let name = e.msg.replace(/#更改(sess|chat|god|附加)触发名/g, "").trim();
+        const regex = /#更改(sess|chat|god|附加)触发名(.+)/;
+        const match = e.msg.match(regex);
+
+        if (!match) {
+            e.reply("指令格式错误!", true);
+            return;
+        }
+
+        const modelType = match[1];
+        const name = match[2].trim();
+
         if (/[&?@+$!%^=|…]/.test(name)) {
             e.reply("触发名不能有特殊字符!");
             return;
         }
+
         if (name === "") {
             e.reply("触发名不能为空!");
             return;
@@ -592,11 +603,10 @@ export class example extends plugin {
             "sess": "ai_name_sess"
         };
 
-        const foundKey = Object.keys(modelMap).find(key => e.msg.includes(key));
-        if (foundKey) {
-            data.chatgpt[modelMap[foundKey]] = name;
+        if (modelMap[modelType]) {
+            data.chatgpt[modelMap[modelType]] = name;
             writeJsonFile(dataFilePath, data);
-            e.reply(`${foundKey}模型现在触发名称已修改为:${name}`);
+            e.reply(`${modelType}模型现在触发名称已修改为:${name}`);
         } else {
             e.reply("无效的模型名称.", true);
         }

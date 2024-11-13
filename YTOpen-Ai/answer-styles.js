@@ -1,13 +1,33 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
     //console.log(answer);
+    async function formatCodeBlocks(text) {
+        // 匹配代码块的正则表达式
+        const codeBlockRegex = /(^|\n)?(`{3}[a-zA-Z]*\n[\s\S]*?\n`{3})(\n|$)?/g;
+
+        return text.replace(codeBlockRegex, (match, beforeNewline, codeBlock, afterNewline) => {
+            // 确保代码块前后都有换行
+            const prefix = beforeNewline || '\n';
+            const suffix = afterNewline || '\n';
+
+            return `${prefix}${codeBlock}${suffix}`;
+        });
+    }
     async function processSourceText(text) {
-        return text.replace(/(\*[^*]*来源[^*]*\*)(?![\r\n])/g, '$1\n');
+        return text.replace(/(\*[^*]*来源[^*]*\*)(?![\r\n]{2})/g, '$1\n\n');
     }
     async function decodeSearchContent(str) {
         return str.replace(/search\((["'])\s*(.*?)\s*\1\)/g, (match, quote, content) => {
-            const decoded = content.trim().replace(/\\u[\dA-Fa-f]{4}/g, uMatch =>
+            let decoded = content.trim().replace(/\\u[\dA-Fa-f]{4}/g, uMatch =>
                 String.fromCharCode(parseInt(uMatch.replace('\\u', ''), 16))
             );
+            decoded = decoded.replace(/\\n/g, '\n')
+                .replace(/\\r/g, '\r')
+                .replace(/\\t/g, '\t')
+                .replace(/\\b/g, '\b')
+                .replace(/\\f/g, '\f')
+                .replace(/\\\\/g, '\\')
+                .replace(/\\'/g, "'")
+                .replace(/\\"/g, '"');
             return `search(${quote}${decoded}${quote})`;
         });
     }
@@ -95,6 +115,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         console.log(`token: ${words}`);
         answer = await processSourceText(answer);
         answer = await decodeSearchContent(answer);
+        answer = await formatCodeBlocks(answer)
         switch (styles) {
             case "words":
                 if (words > 1000) {
