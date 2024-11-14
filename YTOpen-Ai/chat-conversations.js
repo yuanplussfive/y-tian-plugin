@@ -80,15 +80,54 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
+  /**
+   * 加载用户历史记录
+   * 优先从 Redis 获取，如果失败则从本地 JSON 文件读取
+   * @param {string} userId - 用户 ID
+   * @param {string} dirpath - 本地存储目录路径
+   * @returns {Array} 用户历史记录数组
+   */
   async function loadUserHistory(path, userId, dirpath) {
+    const redisKey = `YTUSER_CHAT:${userId}`;
+    const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
     try {
-      const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
-      const data = fs.readFileSync(historyPath, 'utf-8');
-      return JSON.parse(data);
-    } catch {
-      return [];
+      const data = await global.redis.get(redisKey);
+      if (data) {
+        console.log(`从 Redis 加载用户历史成功: ${userId}`);
+        return JSON.parse(data);
+      } else {
+        console.warn(`Redis 中没有数据，尝试从本地文件加载: ${historyPath}`);
+        if (fs.existsSync(historyPath)) {
+          const fileData = fs.readFileSync(historyPath, 'utf-8');
+          const parsedData = JSON.parse(fileData);
+          try {
+            await global.redis.set(redisKey, JSON.stringify(parsedData));
+            console.log(`将本地数据缓存到 Redis 成功: ${userId}`);
+          } catch (err) {
+            console.error(`将本地数据缓存到 Redis 失败: ${err}`);
+          }
+          return parsedData;
+        } else {
+          console.warn(`本地文件不存在: ${historyPath}`);
+          return [];
+        }
+      }
+    } catch (err) {
+      console.error(`从 Redis 加载用户历史失败: ${err}，尝试从本地文件加载`);
+      try {
+        if (fs.existsSync(historyPath)) {
+          const fileData = fs.readFileSync(historyPath, 'utf-8');
+          return JSON.parse(fileData);
+        } else {
+          console.warn(`本地文件不存在: ${historyPath}`);
+          return [];
+        }
+      } catch (fileErr) {
+        console.error(`从本地文件加载用户历史失败: ${fileErr}`);
+        return [];
+      }
     }
-  } 
+  }
 
   async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
     let filteredArray = history.filter(function (item) {
@@ -200,7 +239,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
           }
         }
       }
-      await saveUserHistory(path, userid, history);
+      await saveUserHistory(path, userid, dirpath, history);
     } catch (error) {
       let errorMessage = "通讯失败, 错误详情: " + error.message;
       e.reply(errorMessage);
@@ -576,7 +615,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         "role": "assistant",
         "content": answer
       });
-      await saveUserHistory(path, userid, history);
+      await saveUserHistory(path, userid, dirpath, history);
       let Messages = answer
       const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all", "o1-preview", "o1-mini"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
@@ -597,17 +636,17 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       }
       console.log(Messages)
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
-      let urls = await get_address(answer);    
+      let urls = await get_address(answer);
       if (styles == "picture") {
         let forwardMsg = [];
         try {
           const results = await extractAndRender(Messages, {
             outputDir: './resources'
           });
-            forwardMsg.push("预览效果");
-            results.forEach(result => {
-              forwardMsg.push(segment.image(result.outputPath));
-            });
+          forwardMsg.push("预览效果");
+          results.forEach(result => {
+            forwardMsg.push(segment.image(result.outputPath));
+          });
         } catch { }
         forwardMsg.push(Messages);
         const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
@@ -791,38 +830,40 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     return description
   }
 
-  async function saveUserHistory(path, userId, history) {
+  /**
+   * 保存用户历史记录
+   * 优先保存到 Redis，然后同步保存到本地 JSON 文件
+   * 即使 Redis 保存成功，也会同步保存到本地
+   * 如果 Redis 保存失败，仍然会保存到本地文件
+   * @param {string} userId - 用户 ID
+   * @param {string} dirpath - 本地存储目录路径
+   * @param {Array} history - 用户历史记录数组
+   */
+  async function saveUserHistory(path, userId, dirpath, history) {
+    const redisKey = `YTUSER_CHAT:${userId}`;
+    const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
     try {
       const lastSystemMessage = history.filter(item => item.role === 'system').pop();
       if (lastSystemMessage) {
         history = history.filter(item => item.role !== 'system');
         history.unshift(lastSystemMessage);
       }
-      const filepath = path.join(dirpath, 'user_cache', `${userId}.json`);
-      await fs.writeFileSync(filepath, JSON.stringify(history), { encoding: 'utf-8' });
-      console.log(`User history saved to ${filepath}`);
-    } catch (error) {
-      console.error(`Error saving user history: ${error}`);
+      const historyJson = JSON.stringify(history, null, 2);
+      try {
+        await global.redis.set(redisKey, historyJson);
+        console.log(`用户历史已保存到 Redis: ${userId}`);
+      } catch (redisErr) {
+        console.error(`保存用户历史到 Redis 失败: ${redisErr}`);
+      }
+      const dir = path.dirname(historyPath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(historyPath, historyJson, { encoding: 'utf-8' });
+      console.log(`用户历史已保存到本地文件: ${historyPath}`);
+    } catch (err) {
+      console.error(`保存用户历史失败: ${err}`);
     }
-  }
-
-  async function FreeChat35Functions(FreeChat35_1, FreeChat35_2, FreeChat35_3, FreeChat35_4, FreeChat35_5, messages, fetch, crypto) {
-    let response;
-    const functionsToTry = [
-      FreeChat35_1,
-      FreeChat35_2,
-      FreeChat35_3,
-      FreeChat35_4,
-      FreeChat35_5,
-    ];
-    for (let func of functionsToTry) {
-      response = await func(messages, fetch, crypto);
-      if (response) break;
-    }
-    if (!response) {
-      return null;
-    }
-    return response;
   }
 
   async function get_address(inputString) {
@@ -971,7 +1012,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     return arr;
   }
 
-  
+
 }
 
 export { run_conversation }

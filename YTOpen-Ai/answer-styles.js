@@ -1,15 +1,11 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
     //console.log(answer);
     async function formatCodeBlocks(text) {
-        // 匹配代码块的正则表达式
-        const codeBlockRegex = /(^|\n)?(`{3}[a-zA-Z]*\n[\s\S]*?\n`{3})(\n|$)?/g;
-
-        return text.replace(codeBlockRegex, (match, beforeNewline, codeBlock, afterNewline) => {
-            // 确保代码块前后都有换行
+        const codeBlockRegex = /(^|\n)?(`{3})\s*\n*([a-zA-Z]*)\n([\s\S]*?)\n`{3}(\n|$)?/g;
+        return text.replace(codeBlockRegex, (match, beforeNewline, backticks, lang, code, afterNewline) => {
             const prefix = beforeNewline || '\n';
             const suffix = afterNewline || '\n';
-
-            return `${prefix}${codeBlock}${suffix}`;
+            return `${prefix}${backticks}${lang}\n${code}\n\`\`\`${suffix}`;
         });
     }
     async function processSourceText(text) {
@@ -110,12 +106,18 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         e.reply(forwardMsg);
     };
 
+    const processSource = async (answer) => {
+        answer = await processSourceText(answer);
+        answer = await decodeSearchContent(answer);
+        answer = await formatCodeBlocks(answer);
+        return answer;
+    }
+
     try {
         const words = await countTextInString(answer);
         console.log(`token: ${words}`);
-        answer = await processSourceText(answer);
-        answer = await decodeSearchContent(answer);
-        answer = await formatCodeBlocks(answer)
+        answer = await processSource(answer);
+        msg = await processSource(msg);
         switch (styles) {
             case "words":
                 if (words > 1000) {

@@ -161,6 +161,7 @@ body {
 
 /* 代码块样式 */
 .markdown-content pre {
+  padding-left: 40px; /* 调整以适应行号宽度 */
   position: relative;
   /* 相对定位以便伪元素定位 */
   background-color: #202020;
@@ -772,31 +773,14 @@ body {
   font-style: normal;
 }
 
-.markdown-content pre::-webkit-scrollbar {
-  width: 8px;
-  background-color: #2d2d2d;
-}
-
-.markdown-content pre::-webkit-scrollbar-thumb {
-  background-color: #3c3c3c;
-  border-radius: 4px;
-}
-
-.markdown-content pre::-webkit-scrollbar-thumb:hover {
-  background-color: #555555;
-}
-
-.markdown-content pre::-webkit-scrollbar-track {
-  background-color: #2d2d2d;
-}
-
 /* 新增部分 */
 
 /* 对话形式的文本，使用 <q> 标签，应用古朴咖啡色风格 */
 .markdown-content q {
   font-family: "RuanMengKeAiShouXieZi", sans-serif;
   font-size: 20px;
-  color: #6f4e37; /* 古朴咖啡色 */
+  color: #6f4e37;
+  /* 古朴咖啡色 */
   background-color: #fdf6e3;
   padding: 2px 4px;
   border-radius: 4px;
@@ -825,8 +809,10 @@ body {
 
 /* 引用块样式增强，适用于对话框等特殊引用 */
 .markdown-content blockquote {
-  border-left: 4px solid #8b4513; /* 棕色边框 */
-  background-color: #f5f5dc; /* 米色背景 */
+  border-left: 4px solid #8b4513;
+  /* 棕色边框 */
+  background-color: #f5f5dc;
+  /* 米色背景 */
   color: #333333;
   padding: 10px 20px;
   border-radius: 8px;
@@ -840,12 +826,15 @@ body {
   position: absolute;
   top: 10px;
   left: 10px;
+  /* 这里可以添加装饰性内容，如图标 */
 }
 
 /* 强调文本样式，适用于特殊标注 */
 .markdown-content .highlight {
-  background-color: #fffacd; /* 柠檬绸色背景 */
-  color: #ff4500; /* 橙红色文字 */
+  background-color: #fffacd;
+  /* 柠檬绸色背景 */
+  color: #ff4500;
+  /* 橙红色文字 */
   padding: 2px 4px;
   border-radius: 4px;
 }
@@ -854,7 +843,8 @@ body {
 /* 使用自定义的 span 标签包裹不同符号的文本 */
 /* 例如，使用双星号 **text** 表示重点文本 */
 .markdown-content .double-star {
-  color: #8b4513; /* 棕色 */
+  color: #8b4513;
+  /* 棕色 */
   padding: 2px 4px;
   border-radius: 4px;
   font-weight: bold;
@@ -863,13 +853,16 @@ body {
 /* 使用单下划线 _text_ 表示强调文本 */
 .markdown-content .single-underline {
   text-decoration: underline;
-  color: #2e8b57; /* 海洋绿色 */
+  color: #2e8b57;
+  /* 海洋绿色 */
 }
 
 /* 使用尖括号 <text> 表示提示文本 */
 .markdown-content .angle-bracket {
-  background-color: #e6e6fa; /* 薰衣草色 */
-  color: #4b0082; /* 靛青色 */
+  background-color: #e6e6fa;
+  /* 薰衣草色 */
+  color: #4b0082;
+  /* 靛青色 */
   padding: 2px 4px;
   border-radius: 4px;
 }

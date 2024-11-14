@@ -31,7 +31,6 @@
             </div>
             <div class="name">{{name}}</div>
             <div class="message">
-                <!-- 第一个Markdown内容区域 -->
                 <div id="renderedMarkdown" class="markdown-content">{{MSG}}</div>
             </div>
         </div>
@@ -41,7 +40,6 @@
             </div>
             <div class="name">{{name1}}</div>
             <div class="message">
-                <!-- 第二个Markdown内容区域 -->
                 <div id="renderedMarkdown2" class="markdown-content">{{CONTENT}}</div>
             </div>
         </div>
@@ -53,95 +51,95 @@
          * @param {string} content - 原始Markdown内容
          * @returns {string} - 处理后的内容
          */
-         const preHandleLaTeX = (content) => {
-    if (!content || typeof content !== 'string') {
-        return content;
-    }
-
-    // 使用更严格的正则匹配代码块
-    const codeBlockRegex = /```(?:\w+)?\n[\s\S]*?\n```/g;
-    const codeBlocks = [];
-    const placeholderPrefix = '__CODE_BLOCK_PLACEHOLDER_';
-    let processedContent = content.replace(codeBlockRegex, (match) => {
-        codeBlocks.push(match);
-        return `\n${placeholderPrefix}${codeBlocks.length - 1}__\n`;
-    });
-
-    // 处理 LaTeX，仅针对非代码块部分
-    processedContent = processedContent.replace(
-        /(^|\n)\s*\$\$([\s\S]*?)\$\$\s*($|\n)/g,
-        (match, start, equation, end) => {
-            return `${start}§§${equation}§§${end}`;
-        }
-    );
-
-    processedContent = processedContent.replace(
-        /\\\[([\s\S]*?)\\\]/g,
-        (match, equation) => {
-            equation = equation.trim();
-            return '\n$$' + equation + '$$\n';
-        }
-    );
-
-    processedContent = processedContent.replace(
-        /\\\(([\s\S]*?)\\\)/g,
-        (match, equation) => {
-            equation = equation.trim();
-            return '$' + equation + '$';
-        }
-    );
-
-    processedContent = processedContent.replace(
-        /\$\$([\s\S]*?)\$\$/g,
-        (match, equation) => {
-            if (!match.includes('§§')) {
-                equation = equation.trim();
-                return '\n$$' + equation + '$$\n';
+        const preHandleLaTeX = (content) => {
+            if (!content || typeof content !== 'string') {
+                return content;
             }
-            return match;
-        }
-    );
 
-    processedContent = processedContent.replace(
-        /§§([\s\S]*?)§§/g,
-        (match, equation) => {
-            return '$$' + equation + '$$';
-        }
-    );
+            // 使用更严格的正则匹配代码块
+            const codeBlockRegex = /```(?:\w+)?\n[\s\S]*?\n```/g;
+            const codeBlocks = [];
+            const placeholderPrefix = '__CODE_BLOCK_PLACEHOLDER_';
+            let processedContent = content.replace(codeBlockRegex, (match) => {
+                codeBlocks.push(match);
+                return `\n${placeholderPrefix}${codeBlocks.length - 1}__\n`;
+            });
 
-    processedContent = processedContent.replace(
-        /(\$|\$\$)([\s\S]*?)(\$|\$\$)/g,
-        (match, open, content, close) => {
-            content = content
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/\n/g, ' '); // 将公式内的换行替换为空格
-            return `${open}${content}${close}`;
-        }
-    );
+            // 处理 LaTeX，仅针对非代码块部分
+            processedContent = processedContent.replace(
+                /(^|\n)\s*\$\$([\s\S]*?)\$\$\s*($|\n)/g,
+                (match, start, equation, end) => {
+                    return `${start}§§${equation}§§${end}`;
+                }
+            );
 
-    processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
+            processedContent = processedContent.replace(
+                /\\\[([\s\S]*?)\\\]/g,
+                (match, equation) => {
+                    equation = equation.trim();
+                    return '\n$$' + equation + '$$\n';
+                }
+            );
 
-    // 恢复代码块
-    const finalContent = processedContent.replace(new RegExp(`${placeholderPrefix}(\\d+)__`, 'g'), (match, index) => {
-        return codeBlocks[index];
-    });
+            processedContent = processedContent.replace(
+                /\\\(([\s\S]*?)\\\)/g,
+                (match, equation) => {
+                    equation = equation.trim();
+                    return '$' + equation + '$';
+                }
+            );
 
-    return finalContent;
-};
+            processedContent = processedContent.replace(
+                /\$\$([\s\S]*?)\$\$/g,
+                (match, equation) => {
+                    if (!match.includes('§§')) {
+                        equation = equation.trim();
+                        return '\n$$' + equation + '$$\n';
+                    }
+                    return match;
+                }
+            );
+
+            processedContent = processedContent.replace(
+                /§§([\s\S]*?)§§/g,
+                (match, equation) => {
+                    return '$$' + equation + '$$';
+                }
+            );
+
+            processedContent = processedContent.replace(
+                /(\$|\$\$)([\s\S]*?)(\$|\$\$)/g,
+                (match, open, content, close) => {
+                    content = content
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/\n/g, ' '); // 将公式内的换行替换为空格
+                    return `${open}${content}${close}`;
+                }
+            );
+
+            processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
+
+            // 恢复代码块
+            const finalContent = processedContent.replace(new RegExp(`${placeholderPrefix}(\\d+)__`, 'g'), (match, index) => {
+                return codeBlocks[index];
+            });
+
+            return finalContent;
+        };
 
         /**
          * 为每个代码块添加 data-lang 属性，用于指示代码的语言类型
          */
         const addDataLangAttributes = () => {
-            document.querySelectorAll('.markdown-content pre').forEach(pre => {
-                const code = pre.querySelector('code');
-                if (code) {
-                    const classes = Array.from(code.classList);
-                    const languageClass = classes.find(cls => cls.startsWith('language-'));
-                    if (languageClass) {
-                        const language = languageClass.replace('language-', '').toUpperCase();
+            document.querySelectorAll('.markdown-content pre code').forEach(code => {
+                const classes = Array.from(code.classList);
+                const languageClass = classes.find(cls => cls.startsWith('language-'));
+                if (languageClass) {
+                    const language = languageClass.replace('language-', '').toUpperCase();
+                    const pre = code.parentElement;
+                    if (pre) {
                         pre.setAttribute('data-lang', language);
                     }
                 }
@@ -154,7 +152,9 @@
         const renderMarkdownContent = () => {
             const markdownElements = document.querySelectorAll('.markdown-content');
             markdownElements.forEach(element => {
+                // 获取原始Markdown文本
                 let markdownText = element.textContent;
+                // 预处理LaTeX公式
                 let processedContent = preHandleLaTeX(markdownText);
 
                 // 将处理后的内容传递给marked解析器
@@ -163,8 +163,9 @@
                 // 创建一个临时容器来操作HTML
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = htmlContent;
-                
-                // 双星号 **text** -> <span class="double-star">text</span>
+
+                // 仅对非代码块内的元素进行替换，避免影响代码块
+                // 替换双星号 **text** -> <span class="double-star">text</span>
                 tempDiv.querySelectorAll('strong').forEach(elem => {
                     const span = document.createElement('span');
                     span.className = 'double-star';
@@ -172,7 +173,7 @@
                     elem.parentNode.replaceChild(span, elem);
                 });
 
-                // 单下划线 _text_ -> <span class="single-underline">text</span>
+                // 替换单下划线 _text_ -> <span class="single-underline">text</span>
                 tempDiv.querySelectorAll('em').forEach(elem => {
                     const span = document.createElement('span');
                     span.className = 'single-underline';
@@ -180,14 +181,20 @@
                     elem.parentNode.replaceChild(span, elem);
                 });
 
-                // 尖括号 <<text>> -> <span class="angle-bracket">text</span>
-                tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;(.*?)&gt;&gt;/g, '<span class="angle-bracket">$1</span>');
+                // 替换尖括号 <<text>> -> <span class="angle-bracket">text</span>
+                tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;(.*?)&gt;&gt;/g, (match, p1) => {
+                    return `<span class="angle-bracket">${p1}</span>`;
+                });
 
-                // 高亮文本 ==text== -> <span class="highlight">text</span>
-                tempDiv.innerHTML = tempDiv.innerHTML.replace(/==(.+?)==/g, '<span class="highlight">$1</span>');
+                // 替换高亮文本 ==text== -> <span class="highlight">text</span>
+                tempDiv.innerHTML = tempDiv.innerHTML.replace(/==(.+?)==/g, (match, p1) => {
+                    return `<span class="highlight">${p1}</span>`;
+                });
 
-                // 图片描述 <<ImageDisplayed>>text<< -> <span class="image-text">text</span>
-                tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;ImageDisplayed&gt;&gt;(.*?)&lt;&lt;/g, '<span class="image-text">$1</span>');
+                // 替换图片描述 <<ImageDisplayed>>text<< -> <span class="image-text">text</span>
+                tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;ImageDisplayed&gt;&gt;(.*?)&lt;&lt;/g, (match, p1) => {
+                    return `<span class="image-text">${p1}</span>`;
+                });
 
                 // 将处理后的HTML插入元素
                 element.innerHTML = `<div class="markdown-content-inner">${tempDiv.innerHTML}</div>`;
@@ -201,10 +208,12 @@
             renderMarkdownContent();
             addDataLangAttributes();
 
-            document.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightBlock(block);
+            // 使用 Highlight.js 高亮代码块
+            document.querySelectorAll('.markdown-content pre code').forEach((block) => {
+                hljs.highlightElement(block);
             });
 
+            // 使用 KaTeX 渲染数学公式
             renderMathInElement(document.body, {
                 delimiters: [
                     { left: "$$", right: "$$", display: true },
