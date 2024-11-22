@@ -1074,7 +1074,7 @@ export const other_models = [
   },
   {
     "id": 132,
-    "model": "y-lightning",
+    "model": "yi-lightning",
     "points": "零一万物",
     "token": 100000,
     "features": ['conversation', 'code'],
@@ -1103,5 +1103,21 @@ export const other_models = [
     "token": 800,
     "features": ['drawing'],
     "quota": 50
+  },
+  {
+    "id": 136,
+    "model": "glm-4-flash-new",
+    "points": "质谱清言",
+    "token": 8000,
+    "features": ['conversation', 'code'],
+    "quota": 1
+  },
+  {
+    "id": 137,
+    "model": "deepseek-v2.5-new",
+    "points": "深度求索",
+    "token": 32000,
+    "features": ['conversation', 'code'],
+    "quota": 1
   }
 ]
