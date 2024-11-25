@@ -1119,5 +1119,13 @@ export const other_models = [
     "token": 32000,
     "features": ['conversation', 'code'],
     "quota": 1
+  },
+  {
+    "id": 138,
+    "model": "deepseek-r1-preview",
+    "points": "深度求索",
+    "token": 32000,
+    "features": ['conversation', 'code'],
+    "quota": "0.2/次"
   }
 ]

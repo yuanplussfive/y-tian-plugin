@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="{{dz}}">
     <link rel="stylesheet" href="{{atom_one_dark_min_css}}">
     <link rel="stylesheet" href="{{katex_css}}">
-    <script src="{{marked_min_js}}" defer></script>
-    <script src="{{highlight_min_js}}" defer></script>
-    <script src="{{katex_js}}" defer></script>
-    <script src="{{auto_render_js}}" defer></script>
-    <script src="{{purify_min_js}}" defer></script>
 </head>
 
 <body>
@@ -45,6 +40,13 @@
         </div>
     </div>
 
+    <!-- 引入必要的脚本库 -->
+    <script src="{{marked_min_js}}" defer></script>
+    <script src="{{highlight_min_js}}" defer></script>
+    <script src="{{katex_js}}" defer></script>
+    <script src="{{auto_render_js}}" defer></script>
+    <script src="{{purify_min_js}}" defer></script>
+
     <script defer>
         /**
          * 预处理LaTeX公式，仅处理非代码块内容
@@ -73,6 +75,7 @@
                 }
             );
 
+            // 处理不同的LaTeX语法
             processedContent = processedContent.replace(
                 /\\\[([\s\S]*?)\\\]/g,
                 (match, equation) => {
@@ -89,6 +92,7 @@
                 }
             );
 
+            // 恢复 $$...$$ 的内容
             processedContent = processedContent.replace(
                 /\$\$([\s\S]*?)\$\$/g,
                 (match, equation) => {
@@ -100,6 +104,7 @@
                 }
             );
 
+            // 替换 §§...§§ 为 $$...$$
             processedContent = processedContent.replace(
                 /§§([\s\S]*?)§§/g,
                 (match, equation) => {
@@ -107,6 +112,7 @@
                 }
             );
 
+            // 转义公式内的特殊字符
             processedContent = processedContent.replace(
                 /(\$|\$\$)([\s\S]*?)(\$|\$\$)/g,
                 (match, open, content, close) => {
@@ -119,6 +125,7 @@
                 }
             );
 
+            // 合并多个换行符
             processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
 
             // 恢复代码块
@@ -152,52 +159,59 @@
         const renderMarkdownContent = () => {
             const markdownElements = document.querySelectorAll('.markdown-content');
             markdownElements.forEach(element => {
-                // 获取原始Markdown文本
-                let markdownText = element.textContent;
-                // 预处理LaTeX公式
-                let processedContent = preHandleLaTeX(markdownText);
+                try {
+                    // 获取原始Markdown文本
+                    let markdownText = element.textContent;
+                    // 预处理LaTeX公式
+                    let processedContent = preHandleLaTeX(markdownText);
 
-                // 将处理后的内容传递给marked解析器
-                let htmlContent = marked.parse(processedContent);
+                    // 将处理后的内容传递给marked解析器
+                    let htmlContent = marked.parse(processedContent);
 
-                // 创建一个临时容器来操作HTML
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = htmlContent;
+                    // 使用DOMPurify清理HTML，防止XSS攻击
+                    htmlContent = DOMPurify.sanitize(htmlContent);
 
-                // 仅对非代码块内的元素进行替换，避免影响代码块
-                // 替换双星号 **text** -> <span class="double-star">text</span>
-                tempDiv.querySelectorAll('strong').forEach(elem => {
-                    const span = document.createElement('span');
-                    span.className = 'double-star';
-                    span.innerHTML = elem.innerHTML;
-                    elem.parentNode.replaceChild(span, elem);
-                });
+                    // 创建一个临时容器来操作HTML
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = htmlContent;
 
-                // 替换单下划线 _text_ -> <span class="single-underline">text</span>
-                tempDiv.querySelectorAll('em').forEach(elem => {
-                    const span = document.createElement('span');
-                    span.className = 'single-underline';
-                    span.innerHTML = elem.innerHTML;
-                    elem.parentNode.replaceChild(span, elem);
-                });
+                    // 仅对非代码块内的元素进行替换，避免影响代码块
+                    // 替换双星号 **text** -> <span class="double-star">text</span>
+                    tempDiv.querySelectorAll('strong').forEach(elem => {
+                        const span = document.createElement('span');
+                        span.className = 'double-star';
+                        span.innerHTML = elem.innerHTML;
+                        elem.parentNode.replaceChild(span, elem);
+                    });
 
-                // 替换尖括号 <<text>> -> <span class="angle-bracket">text</span>
-                tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;(.*?)&gt;&gt;/g, (match, p1) => {
-                    return `<span class="angle-bracket">${p1}</span>`;
-                });
+                    // 替换单下划线 _text_ -> <span class="single-underline">text</span>
+                    tempDiv.querySelectorAll('em').forEach(elem => {
+                        const span = document.createElement('span');
+                        span.className = 'single-underline';
+                        span.innerHTML = elem.innerHTML;
+                        elem.parentNode.replaceChild(span, elem);
+                    });
 
-                // 替换高亮文本 ==text== -> <span class="highlight">text</span>
-                tempDiv.innerHTML = tempDiv.innerHTML.replace(/==(.+?)==/g, (match, p1) => {
-                    return `<span class="highlight">${p1}</span>`;
-                });
+                    // 替换尖括号 <<text>> -> <span class="angle-bracket">text</span>
+                    tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;(.*?)&gt;&gt;/g, (match, p1) => {
+                        return `<span class="angle-bracket">${p1}</span>`;
+                    });
 
-                // 替换图片描述 <<ImageDisplayed>>text<< -> <span class="image-text">text</span>
-                tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;ImageDisplayed&gt;&gt;(.*?)&lt;&lt;/g, (match, p1) => {
-                    return `<span class="image-text">${p1}</span>`;
-                });
+                    // 替换高亮文本 ==text== -> <span class="highlight">text</span>
+                    tempDiv.innerHTML = tempDiv.innerHTML.replace(/==(.+?)==/g, (match, p1) => {
+                        return `<span class="highlight">${p1}</span>`;
+                    });
 
-                // 将处理后的HTML插入元素
-                element.innerHTML = `<div class="markdown-content-inner">${tempDiv.innerHTML}</div>`;
+                    // 替换图片描述 <<ImageDisplayed>>text<< -> <span class="image-text">text</span>
+                    tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;ImageDisplayed&gt;&gt;(.*?)&lt;&lt;/g, (match, p1) => {
+                        return `<span class="image-text">${p1}</span>`;
+                    });
+
+                    // 将处理后的HTML插入元素
+                    element.innerHTML = `<div class="markdown-content-inner">${tempDiv.innerHTML}</div>`;
+                } catch (error) {
+                    console.error('Markdown渲染错误:', error);
+                }
             });
         };
 
@@ -210,32 +224,64 @@
 
             // 使用 Highlight.js 高亮代码块
             document.querySelectorAll('.markdown-content pre code').forEach((block) => {
-                hljs.highlightElement(block);
+                try {
+                    hljs.highlightElement(block);
+                } catch (error) {
+                    console.error('代码高亮错误:', error);
+                }
             });
 
             // 使用 KaTeX 渲染数学公式
-            renderMathInElement(document.body, {
-                delimiters: [
-                    { left: "$$", right: "$$", display: true },
-                    { left: "$", right: "$", display: false }
-                ],
-                throwOnError: false,
-                strict: false,
-                trust: true,
-                macros: {
-                    "\\eqref": "\\href{#1}{}",   // 处理 \eqref 命令
-                    "\\label": "\\href{#1}{}"    // 处理 \label 命令
-                },
-                displayMode: true,
-                output: 'html',
-                maxSize: 500,
-                maxExpand: 1000,
-                fleqn: false
-            });
+            try {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false }
+                    ],
+                    throwOnError: false,
+                    strict: false,
+                    trust: true,
+                    macros: {
+                        "\\eqref": "\\href{#1}{}",   // 处理 \eqref 命令
+                        "\\label": "\\href{#1}{}"    // 处理 \label 命令
+                    },
+                    displayMode: true,
+                    output: 'html',
+                    maxSize: 500,
+                    maxExpand: 1000,
+                    fleqn: false
+                });
+            } catch (error) {
+                console.error('数学公式渲染错误:', error);
+            }
         };
 
         // 确保所有资源加载完毕后初始化
-        window.addEventListener('DOMContentLoaded', initialize);
+        window.addEventListener('DOMContentLoaded', () => {
+            // 检查所有必要的库是否已加载
+            if (typeof marked === 'undefined') {
+                console.error('marked库未加载');
+                return;
+            }
+            if (typeof hljs === 'undefined') {
+                console.error('highlight.js库未加载');
+                return;
+            }
+            if (typeof katex === 'undefined') {
+                console.error('KaTeX库未加载');
+                return;
+            }
+            if (typeof renderMathInElement === 'undefined') {
+                console.error('auto_render库未加载');
+                return;
+            }
+            if (typeof DOMPurify === 'undefined') {
+                console.error('DOMPurify库未加载');
+                return;
+            }
+
+            initialize();
+        });
     </script>
 </body>
 
