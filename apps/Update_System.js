@@ -1,5 +1,5 @@
 import { update } from "../../other/update.js"
-export class update extends plugin {
+export class YTupdate extends plugin {
   constructor() {
     super({
       name: "阴天更新",
@@ -13,7 +13,7 @@ export class update extends plugin {
       ]
     })
   }
-  
+
   async update(e = this.e) {
     e.msg = `#${e.msg.includes("强制")?"强制":""}更新y-tian-plugin`
     const updates = new update(e)
