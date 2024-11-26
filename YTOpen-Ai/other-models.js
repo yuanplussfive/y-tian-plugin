@@ -1127,5 +1127,13 @@ export const other_models = [
     "token": 32000,
     "features": ['conversation', 'code'],
     "quota": "0.2/次"
+  },
+  {
+    "id": 139,
+    "model": "code-claude-3.5-sonnet",
+    "points": "Claude",
+    "token": 40000,
+    "features": ['code'],
+    "quota": 12
   }
 ]
