@@ -109,7 +109,7 @@ export const other_models = [
     "model": "gpt-4-o",
     "points": "OpenAI",
     "token": 8000,
-    "features": ['conversation', 'internet', 'image_recognition'],
+    "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
     "quota": 2.5
   },
   {
@@ -1045,7 +1045,7 @@ export const other_models = [
     "model": "grok-v2.0",
     "points": "Xai",
     "token": 128000,
-    "features": ['conversation', 'code'],
+    "features": ['conversation', 'code', , 'image_recognition'],
     "quota": 10
   },
   {
@@ -1053,7 +1053,7 @@ export const other_models = [
     "model": "grok-v2.0-mini",
     "points": "Xai",
     "token": 128000,
-    "features": ['conversation', 'code'],
+    "features": ['conversation', 'code', 'image_recognition'],
     "quota": 5
   },
   {
@@ -1061,7 +1061,7 @@ export const other_models = [
     "model": "grok-beta",
     "points": "Xai",
     "token": 128000,
-    "features": ['conversation', 'code'],
+    "features": ['conversation', 'code', 'image_recognition'],
     "quota": 2
   },
   {
