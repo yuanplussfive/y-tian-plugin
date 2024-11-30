@@ -166,7 +166,7 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
-  async function handlesdModel(e, Apikey, msg, model, apiurl, _path) {
+  async function handlesdModel(e, stoken, msg, model, apiurl, _path) {
     async function transform(msg) {
       try {
         let response = await fetch("https://translate-api-fykz.xiangtatech.com/translation/webs/index", {
@@ -187,7 +187,7 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
+          "Authorization": `Bearer ${stoken}`,
         },
         body: JSON.stringify({
           model: model,
@@ -201,32 +201,43 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       const imageLinks = output.matchAll(imageLinkRegex);
       if (imageLinks.length !== 0) {
         const imgUrl = Array.from(imageLinks, (match) => match[1]);
-        if (!imgUrl) {
+        if (!imgUrl || imgUrl.length == 0) {
           e.reply("生成失败了, 请修改提示词或稍后再试");
           return false;
         }
-        console.log(imgUrl)
-        const timeoutPromise = new Promise((resolve) => {
-          setTimeout(() => {
-            resolve('timeout');
-          }, 60000);
-        });
-        try {
-          const result = await Promise.race([
-            UploadFiles(imgUrl[0], 'chat.png'),
-            timeoutPromise
-          ]);
-          if (result === 'timeout') {
-            e.reply(imgUrl[0]);
-          } else {
-            e.reply(segment.image(result));
+        console.log(imgUrl);
+        let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
+        await replyBasedOnStyle(styles, output, e, model, puppeteer, fs, _path, msg, common)
+        const downloadAndSendImages = async (imgUrls, basePath) => {
+          try {
+            for (const [index, url] of imgUrls.entries()) {
+              if (!url?.trim()) {
+                continue;
+              }
+              const filePath = `${basePath}/resources/other_drawing_${index}_chat.png`;
+              try {
+                const response = await fetch(url.trim());
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const buffer = Buffer.from(await response.arrayBuffer());
+                fs.writeFileSync(filePath, buffer, {
+                  encoding: null,
+                  flag: 'w',
+                  mode: 0o666
+                });
+                await e.reply(segment.image(filePath));
+              } catch (downloadError) {
+                console.error(`下载图片失败 [${url}]:`, downloadError);
+                await e.reply(`第${index + 1}张图片下载失败: ${downloadError.message}`);
+              }
+            }
+          } catch (error) {
+            console.error('处理图片时发生错误:', error);
+            await e.reply('处理图片时发生错误: ' + error.message);
           }
-        } catch (error) {
-          console.error(error);
-          e.reply(imgUrl[0]);
-        }
-      } else {
-        e.reply(output);
+        };
+        await downloadAndSendImages(imgUrl, _path);
       }
     } catch (error) {
       console.log(error);
@@ -333,7 +344,7 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         await handleideoModel(e, stoken, msg, model, apiurl, _path);
         return false
       }
-      if (model.includes("stable-diffusion") || model.includes("playground")) {
+      if (model.includes("stable-diffusion") || model.includes("playground") || model.includes("ssd") || model.includes("sd3.5") || model.includes("flux")) {
         await handlesdModel(e, stoken, msg, model, apiurl, _path);
         return false
       }

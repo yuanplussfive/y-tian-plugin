@@ -919,5 +919,195 @@ export const god_models = [
         "style": "once",
         "owned_by": "y-tian-plugin",
         "features": ['conversation']
+    },
+    {
+        "id": 90,
+        "model": "yi-large",
+        "created": 1686935002,
+        "token": 32768,
+        "points": "100/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet']
+    },
+    {
+        "id": 91,
+        "model": "qwen2.5-72b-instruct",
+        "created": 1686935002,
+        "token": 32768,
+        "points": "100/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet']
+    },
+    {
+        "id": 92,
+        "model": "mixtral-moe-8x7b-instruct",
+        "created": 1686935002,
+        "token": 32768,
+        "points": "30/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet']
+    },
+    {
+        "id": 93,
+        "model": "mixtral-moe-8x7b-instruct-hf",
+        "created": 1686935002,
+        "token": 32768,
+        "points": "30/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet']
+    },
+    {
+        "id": 94,
+        "model": "mixtral-moe-8x22b-instruct",
+        "created": 1686935002,
+        "token": 32768,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet']
+    },
+    {
+        "id": 95,
+        "model": "flux-1-dev-fp8",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing']
+    },
+    {
+        "id": 96,
+        "model": "flux-1-schnell-fp8",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing']
+    },
+    {
+        "id": 97,
+        "model": "flux-1-schnell",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing']
+    },
+    {
+        "id": 98,
+        "model": "flux-1-dev",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing']
+    },
+    {
+        "id": 99,
+        "model": "sd3.5-medium",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing']
+    },
+    {
+        "id": 100,
+        "model": "sd3.5-large",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "100/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing']
+    },
+    {
+        "id": 101,
+        "model": "sd3.5-large-turbo",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "100/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing']
+    },
+    {
+        "id": 102,
+        "model": "ssd-1b",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing', 'image_recognition']
+    },
+    {
+        "id": 103,
+        "model": "stable-diffusion-xl-1024-v1-0",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing', 'image_recognition']
+    },
+    {
+        "id": 104,
+        "model": "playground-v2-1024px-aesthetic",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing', 'image_recognition']
+    },
+    {
+        "id": 105,
+        "model": "playground-v2-5-1024px-aesthetic",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing', 'image_recognition']
+    },
+    {
+        "id": 106,
+        "model": "japanese-stable-diffusion-xl",
+        "created": 1686935002,
+        "token": 28000,
+        "points": "50/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'drawing', 'image_recognition']
+    },
+    {
+        "id": 107,
+        "model": "grok-beta",
+        "created": 1686935002,
+        "token": 128000,
+        "points": "300/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'internet']
+    },
+    {
+        "id": 108,
+        "model": "claude-3-5-sonnet-coder",
+        "created": 1686935002,
+        "token": 100000,
+        "points": "1000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['code']
     }
 ];
