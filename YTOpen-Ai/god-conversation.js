@@ -553,7 +553,7 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
   }
 
   async function TakeFiles(e) {
-    let files = await getFileUrl(e, e.isGroup ? 'group' : 'friend');
+    let files = await getFileUrl(e, e.group_id ? 'group' : 'friend');
     if (files) {
       files = [files]
     }
@@ -747,7 +747,7 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       const filePath = `${_path}/resources/YT_alltools/${time}${fileExtension}`
       fs.writeFileSync(filePath, Buffer.from(fileBuffer));
       if (!['.webp', '.png', '.jpg'].includes(fileExtension) && fileExtension !== '无法识别的文件类型') {
-        if (e.isGroup) {
+        if (e.group_id) {
           await e.group.sendFile(filePath);
         } else {
           await e.friend.sendFile(filePath);

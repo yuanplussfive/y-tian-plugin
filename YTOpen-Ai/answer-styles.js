@@ -1,5 +1,12 @@
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
-    //console.log(answer);
+
+    const processSource = async (answer) => {
+        answer = await processSourceText(answer);
+        answer = await decodeSearchContent(answer);
+        answer = await formatCodeBlocks(answer);
+        return answer;
+    }
+
     async function formatCodeBlocks(text) {
         const codeBlockRegex = /(^|\n)?(`{3})\s*\n*([a-zA-Z]*)\n([\s\S]*?)\n`{3}(\n|$)?/g;
         return text.replace(codeBlockRegex, (match, beforeNewline, backticks, lang, code, afterNewline) => {
@@ -8,9 +15,20 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
             return `${prefix}${backticks}${lang}\n${code}\n\`\`\`${suffix}`;
         });
     }
+
     async function processSourceText(text) {
-        return text.replace(/(\*[^*]*来源[^*]*\*)(?![\r\n]{2})/g, '$1\n\n');
+        // 修改后的正则表达式，更精确地处理来源标记
+        return text.replace(/(\*[^*\n]+来源[^*\n]+\*)(?!\n{2})/g, '$1\n\n')
+            // 添加保护机制，防止错误分割Markdown语法
+            .replace(/([^*])\*\*([^*]+)\*\*([^*])/g, '$1**$2**$3')
+            // 修复可能被错误分割的列表项
+            .replace(/^(\s*[-*+]\s+)/gm, '\n$1')
+            // 移除多余的换行
+            .replace(/\n{3,}/g, '\n\n')
+            // 确保列表项之间的间距正确
+            .replace(/^(\s*[-*+]\s+.*)\n{2,}(\s*[-*+]\s+)/gm, '$1\n$2');
     }
+
     async function decodeSearchContent(str) {
         return str.replace(/search\((["'])\s*(.*?)\s*\1\)/g, (match, quote, content) => {
             let decoded = content.trim().replace(/\\u[\dA-Fa-f]{4}/g, uMatch =>
@@ -106,18 +124,13 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         e.reply(forwardMsg);
     };
 
-    const processSource = async (answer) => {
-        answer = await processSourceText(answer);
-        answer = await decodeSearchContent(answer);
-        answer = await formatCodeBlocks(answer);
-        return answer;
-    }
-
     try {
         const words = await countTextInString(answer);
         console.log(`token: ${words}`);
+        //console.log(answer);
         answer = await processSource(answer);
         msg = await processSource(msg);
+        //console.log("\n\n",answer);
         switch (styles) {
             case "words":
                 if (words > 1000) {

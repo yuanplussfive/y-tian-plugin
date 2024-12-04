@@ -112,19 +112,6 @@
                 }
             );
 
-            // 转义公式内的特殊字符
-            processedContent = processedContent.replace(
-                /(\$|\$\$)([\s\S]*?)(\$|\$\$)/g,
-                (match, open, content, close) => {
-                    content = content
-                        .replace(/&/g, '&amp;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;')
-                        .replace(/\n/g, ' '); // 将公式内的换行替换为空格
-                    return `${open}${content}${close}`;
-                }
-            );
-
             // 合并多个换行符
             processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
 

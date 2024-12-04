@@ -773,6 +773,20 @@ export const chat_models = {
       "token_count": 28000,
       "Magnification": "0.01/次",
       "features": ['conversation', 'drawing', 'image_recognition']
+    },
+    {
+      "id": "110",
+      "name": "udio32-v1.5",
+      "token_count": 28000,
+      "Magnification": "0.1/次",
+      "features": ['music']
+    },
+    {
+      "id": "111",
+      "name": "udio130-v1.5",
+      "token_count": 28000,
+      "Magnification": "0.2/次",
+      "features": ['music']
     }
   ]
 }
