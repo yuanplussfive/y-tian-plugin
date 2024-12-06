@@ -4,7 +4,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         answer = await processSourceText(answer);
         answer = await decodeSearchContent(answer);
         answer = await formatCodeBlocks(answer);
-        return answer;
+        return answer.trim();
     }
 
     async function formatCodeBlocks(text) {
@@ -17,15 +17,28 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
     }
 
     async function processSourceText(text) {
-        // 修改后的正则表达式，更精确地处理来源标记
-        return text.replace(/(\*[^*\n]+来源[^*\n]+\*)(?!\n{2})/g, '$1\n\n')
-            // 添加保护机制，防止错误分割Markdown语法
+        return text
+            // 处理引用块中的来源标记
+            .replace(/(^|\n)>((?:[^\n]*\n?)*?来源:[^\n]*)/g, (match, pre, content) => {
+                return `${pre}>${content}\n\n`;
+            })
+            // 处理同一行中的来源标记和其他星号内容
+            .replace(/(\*[^*\n]+来源[^*\n]+\*)([^*\n]*)\*([^*\n]+)\*/g, (match, source, middle, other) => {
+                return `${source}\n\n*${other}*`;
+            })
+            // 处理同一行中的来源标记和粗体文本
+            .replace(/(\*[^*\n]+来源[^*\n]+\*)\s*(\*\*[^*\n]+\*\*)/g, (match, source, bold) => {
+                return `${source}\n\n${bold}`;
+            })
+            // 处理普通的来源标记
+            .replace(/(\*[^*\n]+来源[^*\n]+\*:\s*)/g, '$1\n\n')
+            // 保护Markdown语法
             .replace(/([^*])\*\*([^*]+)\*\*([^*])/g, '$1**$2**$3')
-            // 修复可能被错误分割的列表项
+            // 修复列表格式
             .replace(/^(\s*[-*+]\s+)/gm, '\n$1')
-            // 移除多余的换行
+            // 移除多余换行
             .replace(/\n{3,}/g, '\n\n')
-            // 确保列表项之间的间距正确
+            // 确保列表项间距
             .replace(/^(\s*[-*+]\s+.*)\n{2,}(\s*[-*+]\s+)/gm, '$1\n$2');
     }
 

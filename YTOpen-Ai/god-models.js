@@ -1109,5 +1109,45 @@ export const god_models = [
         "style": "once",
         "owned_by": "y-tian-plugin",
         "features": ['code']
+    },
+    {
+        "id": 109,
+        "model": "o1",
+        "created": 1686935002,
+        "token": 200000,
+        "points": "3000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+        "id": 110,
+        "model": "o1-all",
+        "created": 1686935002,
+        "token": 200000,
+        "points": "3000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+        "id": 111,
+        "model": "o1-pro",
+        "created": 1686935002,
+        "token": 200000,
+        "points": "6000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+        "id": 112,
+        "model": "o1-pro-all",
+        "created": 1686935002,
+        "token": 200000,
+        "points": "6000/次",
+        "style": "once",
+        "owned_by": "y-tian-plugin",
+        "features": ['conversation', 'code', 'image_recognition']
     }
 ];

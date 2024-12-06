@@ -776,17 +776,31 @@ export const chat_models = {
     },
     {
       "id": "110",
-      "name": "udio32-v1.5",
-      "token_count": 28000,
-      "Magnification": "0.1/次",
-      "features": ['music']
+      "name": "o1",
+      "token_count": 200000,
+      "Magnification": "0.3/次",
+      "features": ['conversation', 'code', 'image_recognition']
     },
     {
       "id": "111",
-      "name": "udio130-v1.5",
-      "token_count": 28000,
-      "Magnification": "0.2/次",
-      "features": ['music']
+      "name": "o1-all",
+      "token_count": 200000,
+      "Magnification": "0.3/次",
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "112",
+      "name": "o1-pro",
+      "token_count": 200000,
+      "Magnification": "0.6/次",
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "113",
+      "name": "o1-pro-all",
+      "token_count": 200000,
+      "Magnification": "0.6/次",
+      "features": ['conversation', 'code', 'image_recognition']
     }
   ]
 }
