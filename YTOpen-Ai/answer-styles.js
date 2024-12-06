@@ -18,28 +18,13 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
 
     async function processSourceText(text) {
         return text
-            // 处理引用块中的来源标记
-            .replace(/(^|\n)>((?:[^\n]*\n?)*?来源:[^\n]*)/g, (match, pre, content) => {
-                return `${pre}>${content}\n\n`;
-            })
-            // 处理同一行中的来源标记和其他星号内容
-            .replace(/(\*[^*\n]+来源[^*\n]+\*)([^*\n]*)\*([^*\n]+)\*/g, (match, source, middle, other) => {
-                return `${source}\n\n*${other}*`;
-            })
-            // 处理同一行中的来源标记和粗体文本
-            .replace(/(\*[^*\n]+来源[^*\n]+\*)\s*(\*\*[^*\n]+\*\*)/g, (match, source, bold) => {
-                return `${source}\n\n${bold}`;
-            })
-            // 处理普通的来源标记
-            .replace(/(\*[^*\n]+来源[^*\n]+\*:\s*)/g, '$1\n\n')
-            // 保护Markdown语法
-            .replace(/([^*])\*\*([^*]+)\*\*([^*])/g, '$1**$2**$3')
-            // 修复列表格式
-            .replace(/^(\s*[-*+]\s+)/gm, '\n$1')
-            // 移除多余换行
+            .replace(/(^>.*\*来源：[^*\n]+\*)(?!\n{2})/gm, '$1\n\n')
+            .replace(/(\*来源：[^*\n]+\*)(\s*\*\*[^*\n]+\*\*)/g, '$1\n\n$2')
+            .replace(/([^\n])\*来源：([^*\n]+)\*([^\n])/g, '$1\n*来源：$2*\n\n$3')
+            .replace(/(\*来源：[^*\n]+\*)\n(?!\n)/g, '$1\n\n')
+            .replace(/(^\*来源：[^*\n]+\*)(?!\n{2})/gm, '$1\n\n')
             .replace(/\n{3,}/g, '\n\n')
-            // 确保列表项间距
-            .replace(/^(\s*[-*+]\s+.*)\n{2,}(\s*[-*+]\s+)/gm, '$1\n$2');
+            .replace(/([^*])\*\*([^*]+)\*\*([^*])/g, '$1**$2**$3');
     }
 
     async function decodeSearchContent(str) {
