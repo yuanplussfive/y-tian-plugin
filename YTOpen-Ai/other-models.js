@@ -1143,5 +1143,21 @@ export const other_models = [
     "token": 32000,
     "features": ['conversation', 'code'],
     "quota": "0.05/次"
+  },
+  {
+    "id": 141,
+    "model": "o1",
+    "points": "OpenAi",
+    "token": 200000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 90
+  },
+  {
+    "id": 142,
+    "model": "o1-all",
+    "points": "OpenAi",
+    "token": 200000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 90
   }
 ]
