@@ -1175,5 +1175,29 @@ export const other_models = [
     "token": 200000,
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 150
+  },
+  {
+    "id": 145,
+    "model": "flux-pro",
+    "points": "BlackForestLabs",
+    "token": 1200,
+    "features": ['drawing'],
+    "quota": "0.08/次"
+  },
+  {
+    "id": 146,
+    "model": "flux-pro-max",
+    "points": "BlackForestLabs",
+    "token": 1200,
+    "features": ['drawing'],
+    "quota": "0.1/次"
+  },
+  {
+    "id": 147,
+    "model": "flux-1.1-pro",
+    "points": "BlackForestLabs",
+    "token": 1200,
+    "features": ['drawing'],
+    "quota": "0.15/次"
   }
 ]
