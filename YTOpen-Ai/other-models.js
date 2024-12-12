@@ -1199,5 +1199,13 @@ export const other_models = [
     "token": 1200,
     "features": ['drawing'],
     "quota": "0.15/次"
+  },
+  {
+    "id": 148,
+    "model": "generate-pptx",
+    "points": "y-tian-plugin",
+    "token": 20000,
+    "features": [],
+    "quota": "5.0/次"
   }
 ]
