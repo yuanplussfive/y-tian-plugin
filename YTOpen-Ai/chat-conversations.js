@@ -372,6 +372,50 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
+  async function handlelumaModel(e, Apikey, msg, model, apiurl, _path) {
+    try {
+      let answer;
+      let question = msg;
+      //console.log(imgurl);
+      const links = await extractUrl(imgurl);
+      //console.log(links)
+      if (links && links.length !== 0) {
+        question = `${links}\n${question}`
+      }
+      console.log(question);
+      const response = await fetch(apiurl, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Apikey}`,
+        },
+        body: JSON.stringify({
+          model: model,
+          stream: true,
+          messages: [{ role: "user", content: question }]
+        }),
+      });
+      const input = await response.text();
+      console.log(input)
+      const urlRegex = /https:\/\/filesystem\.site\/cdn\/[0-9]{8}\/[A-Za-z0-9]+(\.(mp3|mp4))/g;
+      const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
+      const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
+      answer = contentArray.join('').trim();
+      let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
+      await replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, question, common)
+      //e.reply(answer);
+      console.log(answer);
+      const urls = answer.match(urlRegex);
+      console.log(urls);
+      if (urls && urls.length !== 0) {
+        urls.filter(url => url.endsWith('.mp4')).map(url => e.reply(segment.video(url)));
+      }
+    } catch (error) {
+      console.log(error)
+      e.reply("通讯失败, 稍后再试")
+    }
+  }
+
   async function handlevoiceModel(e, apiKey, msg, model, apiUrl, _path) {
     let response, input, inputStr, forwardMsg, jsonPart, match, url, browser, page;
     try {
