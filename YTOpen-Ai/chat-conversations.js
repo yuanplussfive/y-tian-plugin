@@ -314,11 +314,13 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
       const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
       answer = contentArray.join('').trim();
-      e.reply(answer);
-      console.log(answer)
-      const urls = answer.match(urlRegex)
-      console.log(urls)
-      if (urls.length !== 0) {
+      let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
+      await replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, question, common)
+      //e.reply(answer);
+      console.log(answer);
+      const urls = answer.match(urlRegex);
+      console.log(urls);
+      if (urls && urls.length !== 0) {
         urls.filter(url => url.endsWith('.mp4')).map(url => e.reply(segment.video(url)));
       }
     } catch (error) {
@@ -522,7 +524,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       case /(suno|udio)/.test(model):
         await handleSunoModel(e, Apikey, msg, model, apiurl, _path);
         return false;
-      case /(luma|runway|vidu)/.test(model):
+      case /(luma|runway|vidu|sora)/.test(model):
         await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
         return false;
       case /(ideogram)/.test(model):
@@ -543,9 +545,9 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       let answer
       try {
         const timeoutSettings = {
-          'claude': 100000,
+          'claude': 120000,
           'gemini': 120000,
-          'all': 210000,
+          'all': 300000,
           'default': 180000
         };
         const timeoutDuration = Object.entries(timeoutSettings).find(([key, _]) =>

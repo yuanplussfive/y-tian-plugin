@@ -1207,5 +1207,13 @@ export const other_models = [
     "token": 20000,
     "features": [],
     "quota": "5.0/次"
+  },
+  {
+    "id": 149,
+    "model": "gemini-2.0-flash-exp",
+    "points": "Google",
+    "token": 2000000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 0.5
   }
 ]
