@@ -249,20 +249,20 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
-  async function handlelumaModel(e, Apikey, msg, model, apiurl, _path) {
+  async function handlelumaModel(e, stoken, msg, model, apiurl, _path) {
     try {
       let answer;
       let question = msg
       const links = await extractUrl(imgurl);
       console.log(links)
       if (links && links.length !== 0) {
-        question += ' ' + links
+        question = `${links} ${question}`
       }
       const response = await fetch(apiurl, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
+          "Authorization": `Bearer ${stoken}`,
         },
         body: JSON.stringify({
           model: model,
@@ -276,11 +276,13 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
       const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
       answer = contentArray.join('').trim();
-      e.reply(answer);
-      console.log(answer)
-      const urls = answer.match(urlRegex)
-      console.log(urls)
-      if (urls.length !== 0) {
+      let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
+      await replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, question, common)
+      //e.reply(answer);
+      console.log(answer);
+      const urls = answer.match(urlRegex);
+      console.log(urls);
+      if (urls && urls.length !== 0) {
         urls.filter(url => url.endsWith('.mp4')).map(url => e.reply(segment.video(url)));
       }
     } catch (error) {
@@ -336,21 +338,30 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     try {
       const CurrentModels = ["gpt-4-all", "gpt-4-dalle", "gpt-4o-all", "gpt-4-v", "gpt-4o", "o1-preview", "o1-mini"];
       search = CurrentModels.includes(model) ? false : search;
-      if (model.includes("suno")) {
-        await handleSunoModel(e, stoken, msg, model, apiurl, _path);
-        return false
-      }
-      if (model.includes("luma")) {
-        await handlelumaModel(e, stoken, msg, model, apiurl, _path);
-        return false
-      }
-      if (model.includes("ideogram")) {
-        await handleideoModel(e, stoken, msg, model, apiurl, _path);
-        return false
-      }
-      if (model.includes("stable-diffusion") || model.includes("playground") || model.includes("ssd") || model.includes("sd3.5") || model.includes("flux")) {
-        await handlesdModel(e, stoken, msg, model, apiurl, _path);
-        return false
+      const modelType = {
+        suno: model.includes("suno"),
+        luma: model.includes("luma") ||
+          model.includes("sora"),
+        ideogram: model.includes("ideogram"),
+        sd: model.includes("stable-diffusion") ||
+          model.includes("playground") ||
+          model.includes("ssd") ||
+          model.includes("sd3.5") ||
+          model.includes("flux")
+      };
+      switch (true) {
+        case modelType.suno:
+          await handleSunoModel(e, stoken, msg, model, apiurl, _path);
+          return false;
+        case modelType.luma:
+          await handlelumaModel(e, stoken, msg, model, apiurl, _path);
+          return false;
+        case modelType.ideogram:
+          await handleideoModel(e, stoken, msg, model, apiurl, _path);
+          return false;
+        case modelType.sd:
+          await handlesdModel(e, stoken, msg, model, apiurl, _path);
+          return false;
       }
       console.log(history)
       let History = await reduceConsecutiveRoles(history);

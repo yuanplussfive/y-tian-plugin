@@ -239,7 +239,13 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
               }
             }
           } catch (error) {
-            e.reply(error);
+            const errorMessage = error.message || '';
+            if (errorMessage.toLowerCase().includes('request to') ||
+              errorMessage.toLowerCase().includes('failed to fetch')) {
+              e.reply('与服务器连接失败，请检查网络连接或尝试更改方案代理！');
+            } else {
+              e.reply('与服务器连接失败，未知错误！')
+            }
           }
         }
       }
