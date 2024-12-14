@@ -25,12 +25,12 @@ logger.info(greenColor.bold('Y-Tian-plugin加载完毕'))
 logger.info(greenColor.bold('作者-鸢 & 天球生物'))
 logger.info(greenColor.bold('-----------💬 推荐加入我们的群聊：📱 QQ 群号: 912701273----------'))
 
+const apps = {}
 try {
   ret = await Promise.allSettled(
     files.map(file => import(`./apps/${file}`))
   )
 
-  const apps = {}
   for (let i in files) {
     const name = files[i].replace('.js', '')
 
@@ -41,8 +41,9 @@ try {
     }
     apps[name] = ret[i].value[Object.keys(ret[i].value)[0]]
   }
-  
-  export { apps }
+
 } catch (error) {
   logger.error('加载插件时发生错误:', error)
 }
+
+export { apps }
