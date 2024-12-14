@@ -18,9 +18,10 @@
   "author": "Hello World && yuanpluss",
   "license": "MIT",
   "dependencies": {
+    "mime-types": "^2.1.35",
     "request": "^2.88.2",
     "ws": "^8.13.0",
-    "chalk": "latest",
+    "chalk": "1.0.0",
     "undici": "^5.22.1",
     "keyv": "^4.5.2",
     "fetch-undici": "^3.0.1",

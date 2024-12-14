@@ -18,6 +18,7 @@ import request from "request"
 import WebSocket from "ws"
 import FormData from "form-data"
 import axios from "axios"
+import mimeTypes from "mime-types"
 import { handleTTS } from "../model/Anime_tts.js"
 import { Anime_tts_roles } from "../model/Anime_tts_roles.js"
 import { tts_roles } from "../model/Anime_roles.js"
@@ -62,6 +63,7 @@ export const dependencies = {
   FormData,
   puppeteer,
   WebSocket,
+  mimeTypes,
   querystring,
   processArray,
   countTextInString,
