@@ -1215,5 +1215,13 @@ export const other_models = [
     "token": 2000000,
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 0.5
+  },
+  {
+    "id": 150,
+    "model": "gpt-4-gizmo",
+    "points": "OpenAi",
+    "token": 128000,
+    "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
+    "quota": "0.5/次"
   }
 ]
