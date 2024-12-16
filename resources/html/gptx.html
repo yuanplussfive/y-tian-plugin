@@ -112,6 +112,13 @@
                 }
             );
 
+            // 仅处理 \,，其他 \ 保持不变
+            processedContent = processedContent.replace(
+                /\\,/g,
+                '\\,'
+            );
+
+
             // 合并多个换行符
             processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
 

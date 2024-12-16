@@ -133,7 +133,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
-  async function handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
+  async function handleMJModel(e, history, Apikey, msg, model, apiurl, path, https, _path) {
     let filteredArray = history.filter(function (item) {
       return item.role !== "system";
     });
@@ -163,7 +163,10 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       let response_json = await response.json();
       //console.log(response_json)
       answer = await response_json.choices[0].message.content;
-      e.reply(answer);
+      const markdownText = answer?.replace(/!\[[\s\S]*?\]\(.*?\)[\s\n]*/m, '');
+      let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
+      await replyBasedOnStyle(styles, markdownText, e, model, puppeteer, fs, _path, msg, common)
+
       history.push({
         "role": "assistant",
         "content": answer
@@ -186,7 +189,6 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
             const downloadTimeout = 40000;
             let urlSent = false;
             let downloadAborted = false;
-            let url = urls[0];
             const sendUrl = () => {
               if (!urlSent) {
                 e.reply(url.trim());
@@ -569,7 +571,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
   async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
     switch (true) {
       case model === "mj-chat":
-        await handleMJModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+        await handleMJModel(e, history, Apikey, msg, model, apiurl, path, https, _path);
         return false;
       case /(suno|udio)/.test(model):
         await handleSunoModel(e, Apikey, msg, model, apiurl, _path);
