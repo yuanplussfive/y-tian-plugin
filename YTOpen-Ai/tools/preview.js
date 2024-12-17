@@ -22,8 +22,9 @@ async function extractAndRender(text, options = {}) {
     imageTimeout = 20000, // 图片下载超时时间
     additionalScripts = [], // 额外的脚本链接
     additionalStyles = [], // 额外的样式链接
-    backendLanguages = ['python', 'java', 'c++', 'c', 'ruby', 'go', 'javascript', 'typescript'], // 添加 'javascript' 和 'typescript' 到后端语言
-    frontendLanguages = ['html', 'css', 'svg', 'canvas', 'mermaid'] // 移除 'javascript' 和 'typescript' 从前端语言
+    backendLanguages = ['python', 'java', 'c++', 'c', 'ruby', 'go', 'javascript', 'typescript'], // 后端语言列表
+    frontendLanguages = ['html', 'css', 'svg', 'canvas', 'mermaid'], // 前端语言列表
+    puppeteerUserDataDir = path.join(process.cwd(), 'puppeteer_user_data') // 指定 Puppeteer 的用户数据目录
   } = options;
 
   if (typeof text !== 'string') {
@@ -32,7 +33,7 @@ async function extractAndRender(text, options = {}) {
 
   // 提取所有图片链接
   const imageLinks = extractImageLinks(text);
-  
+
   // 提取所有代码块
   const codeBlocks = extractCodeBlocks(text);
 
@@ -46,15 +47,17 @@ async function extractAndRender(text, options = {}) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
+  // 确保 Puppeteer 的用户数据目录存在
+  if (!fs.existsSync(puppeteerUserDataDir)) {
+    fs.mkdirSync(puppeteerUserDataDir, { recursive: true });
+  }
+
   const results = [];
   let browser = null;
 
   try {
-    // 启动 Puppeteer 浏览器实例
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-    });
+    // 启动 Puppeteer 浏览器实例，指定 userDataDir 以避免权限问题
+    browser = await launchPuppeteer(puppeteerUserDataDir);
 
     // 处理图片链接
     for (const [index, link] of imageLinks.entries()) {
@@ -147,8 +150,57 @@ async function extractAndRender(text, options = {}) {
     console.error('渲染过程中出错:', error);
     throw error;
   } finally {
+    // 确保浏览器实例被正确关闭，避免资源泄漏
     if (browser) {
-      await browser.close().catch(console.error);
+      try {
+        // 关闭所有打开的页面
+        const pages = await browser.pages();
+        await Promise.all(pages.map(page => page.close().catch(err => {
+          console.error('关闭页面时出错:', err);
+        })));
+
+        // 关闭浏览器
+        await browser.close();
+      } catch (closeError) {
+        // 如果关闭浏览器时遇到权限错误，记录警告但不抛出异常
+        if (closeError.code === 'EPERM' || closeError.code === 'EACCES') {
+          console.warn('关闭浏览器时遇到权限错误，可能无法删除部分临时文件。');
+        } else {
+          console.error('关闭浏览器时出错:', closeError);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * 启动 Puppeteer 浏览器实例，指定 userDataDir 以避免权限问题
+ * 优先使用 "new" 模式，如果不支持则回退到 true 模式
+ * @param {string} userDataDir - Puppeteer 用户数据目录
+ * @returns {Promise<Browser>} - Puppeteer 浏览器实例
+ */
+async function launchPuppeteer(userDataDir) {
+  try {
+    // 尝试使用 "new" headless 模式
+    const browser = await puppeteer.launch({
+      headless: 'new',
+      userDataDir, // 指定用户数据目录
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    });
+    return browser;
+  } catch (error) {
+    console.warn(`无法使用 "new" headless 模式，原因: ${error.message}，将回退到传统 headless 模式`);
+    // 回退到传统 headless 模式
+    try {
+      const browser = await puppeteer.launch({
+        headless: true,
+        userDataDir, // 指定用户数据目录
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+      return browser;
+    } catch (fallbackError) {
+      console.error('无法启动 Puppeteer 浏览器实例:', fallbackError);
+      throw fallbackError;
     }
   }
 }
@@ -159,7 +211,7 @@ async function extractAndRender(text, options = {}) {
  * @returns {Array<string>} - 图片链接数组
  */
 function extractImageLinks(text) {
-  const regex = /!\[\d+\]\((https?:\/\/[^\s)]+)\)/g; // 匹配 ![数字](链接)
+  const regex = /!$$\d+$$$(https?:\/\/[^\s)]+)$/g; // 匹配 ![数字](链接)
   const matches = Array.from(text.matchAll(regex));
   return matches.map(match => match[1]).filter(url => url.length > 0);
 }
@@ -178,7 +230,7 @@ function downloadImageWithTimeout(url, dest, timeout) {
 
     const request = protocol.get(url, (response) => {
       if (response.statusCode !== 200) {
-        fs.unlink(dest, () => {}); // 删除无效的文件
+        fs.unlink(dest, () => { }); // 删除无效的文件
         return reject(new Error(`下载失败，状态码: ${response.statusCode}`));
       }
 
@@ -188,7 +240,7 @@ function downloadImageWithTimeout(url, dest, timeout) {
     // 设置超时
     const timer = setTimeout(() => {
       request.abort();
-      fs.unlink(dest, () => {}); // 删除未完成的文件
+      fs.unlink(dest, () => { }); // 删除未完成的文件
       reject(new Error('下载超时'));
     }, timeout);
 
@@ -199,13 +251,13 @@ function downloadImageWithTimeout(url, dest, timeout) {
 
     request.on('error', (err) => {
       clearTimeout(timer);
-      fs.unlink(dest, () => {}); // 删除有错误的文件
+      fs.unlink(dest, () => { }); // 删除有错误的文件
       reject(err);
     });
 
     file.on('error', (err) => {
       clearTimeout(timer);
-      fs.unlink(dest, () => {}); // 删除有错误的文件
+      fs.unlink(dest, () => { }); // 删除有错误的文件
       reject(err);
     });
   });
@@ -384,7 +436,12 @@ async function renderFrontendCodeBlock(browser, block, options) {
     console.error(`渲染 ${language} 代码块时出错:`, error);
     return null;
   } finally {
-    await page.close().catch(console.error);
+    // 关闭页面，确保资源被释放
+    try {
+      await page.close();
+    } catch (closeError) {
+      console.error('关闭页面时出错:', closeError);
+    }
   }
 }
 
@@ -558,7 +615,12 @@ async function renderHtmlContent(browser, htmlContent, options) {
     console.error(`渲染自定义HTML内容时出错:`, error);
     return null;
   } finally {
-    await page.close().catch(console.error);
+    // 关闭页面，确保资源被释放
+    try {
+      await page.close();
+    } catch (closeError) {
+      console.error('关闭页面时出错:', closeError);
+    }
   }
 }
 
@@ -743,27 +805,31 @@ async function executeBackendCode(language, code) {
     };
   } finally {
     // 清理临时文件
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
-    // 清理编译生成的文件
-    if (compileCommand) {
-      if (language.toLowerCase() === 'java') {
-        const classFile = path.join(tempDir, `${fileName.replace('.java', '')}.class`);
-        if (fs.existsSync(classFile)) {
-          fs.unlinkSync(classFile);
-        }
-      } else if (language.toLowerCase() === 'c' || language.toLowerCase() === 'c++') {
-        const execPath = path.join(tempDir, 'temp_executable');
-        if (fs.existsSync(execPath)) {
-          fs.unlinkSync(execPath);
-        }
-      } else if (language.toLowerCase() === 'typescript') {
-        const jsFile = path.join(tempDir, fileName.replace('.ts', '.js'));
-        if (fs.existsSync(jsFile)) {
-          fs.unlinkSync(jsFile);
+    try {
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+      // 清理编译生成的文件
+      if (compileCommand) {
+        if (language.toLowerCase() === 'java') {
+          const classFile = path.join(tempDir, `${fileName.replace('.java', '')}.class`);
+          if (fs.existsSync(classFile)) {
+            fs.unlinkSync(classFile);
+          }
+        } else if (language.toLowerCase() === 'c' || language.toLowerCase() === 'c++') {
+          const execPath = path.join(tempDir, 'temp_executable');
+          if (fs.existsSync(execPath)) {
+            fs.unlinkSync(execPath);
+          }
+        } else if (language.toLowerCase() === 'typescript') {
+          const jsFile = path.join(tempDir, fileName.replace('.ts', '.js'));
+          if (fs.existsSync(jsFile)) {
+            fs.unlinkSync(jsFile);
+          }
         }
       }
+    } catch (cleanupError) {
+      console.error('清理临时文件时出错:', cleanupError);
     }
   }
 }
