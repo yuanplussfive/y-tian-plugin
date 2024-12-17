@@ -397,57 +397,51 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         let response_json = await response.json();
         const errorMessage = response_json?.msg;
         if (errorMessage) {
-          if (errorMessage.includes('无效的api')) {
-            e.reply('无效的令牌，请填写正确的阴天密钥后使用!');
-            return false;
-          } else if (errorMessage.includes('剩余积分不足')) {
-            e.reply('该令牌额度已用尽，请更换密钥后使用!');
-            return false;
+          switch (true) {
+            case errorMessage.includes('无效的api'):
+              e.reply('无效的令牌，请填写正确的阴天密钥后使用!');
+              return false;
+            case errorMessage.includes('剩余积分不足'):
+              e.reply('该令牌额度已用尽，请更换密钥后使用!');
+              return false;
+            case errorMessage.includes('上游负载已饱和'):
+              answer = null;
+              break;
+            default:
+              e.reply(`请求出错: ${errorMessage}`);
+              return false;
           }
         }
         answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
       } catch (error) {
-        console.log(error)
-        if (error.message === 'Timeout') {
-          answer = model.includes("gpt-3.5-turbo") ? await GPT4oResponse(History, fetch)
-            : model.includes("gemini") ? await GeminiResponse(History, fetch)
-              : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
-                : model.includes("claude") ? await claudeResponse(History, fetch)
-                  : model.includes("llama") ? await llamaResponse(History, fetch)
-                    : null;
-        } else {
-          answer = null;
+        console.log(error);
+        const networkErrors = ['Failed to fetch', 'request to', 'network'];
+        if (networkErrors.some(msg => error.message?.toLowerCase().includes(msg))) {
+          e.reply('与服务器通讯失败，请稍后再试');
+          return false;
         }
+
+        const modelResponders = {
+          'gpt-3.5-turbo': GPT4oResponse,
+          'gpt-4': GPT4oResponse,
+          'gemini': GeminiResponse,
+          'claude': claudeResponse,
+          'llama': llamaResponse
+        };
+
+        const getResponder = (model) => {
+          return Object.entries(modelResponders)
+            .find(([key]) => model.includes(key))?.[1];
+        };
+
+        answer = error.message === 'Timeout' || !answer ?
+          await getResponder(model)?.(History, fetch) :
+          null;
       }
 
       if (!answer) {
-        answer = model.includes("gpt-3.5-turbo") ? await GPT4oResponse(History, fetch)
-          : model.includes("gemini") ? await GeminiResponse(History, fetch)
-            : model.includes("gpt-4") ? await GPT4oResponse(History, fetch)
-              : model.includes("claude") ? await claudeResponse(History, fetch)
-                : model.includes("llama") ? await llamaResponse(History, fetch)
-                  : null;
-      }
-
-      if (!answer) {
-        try {
-          const retryResponse = await fetch(apiurl, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${stoken}`,
-            },
-            body: JSON.stringify({
-              model: 'gpt-4o-all',
-              messages: History,
-              search: search,
-            }),
-          });
-          const retryResponseJson = await retryResponse.json();
-          answer = (retryResponseJson?.choices?.length > 0) ? retryResponseJson.choices[0]?.message?.content : null;
-        } catch (error) {
-          console.error('Retry with model gpt-4o-all failed: ', error);
-        }
+        e.reply('无有效回复，请稍后再试');
+        return false;
       }
 
       answer = answer.replace(/Content is blocked/g, "  ").trim()
@@ -547,7 +541,13 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         });
       }
     } catch (error) {
-      e.reply("与服务器通讯失败，请尝试开启god代理或结束对话")
+      console.log(error);
+      const networkErrors = ['Failed to fetch', 'request to', 'network'];
+      if (networkErrors.some(msg => error.message?.toLowerCase().includes(msg))) {
+        e.reply('与服务器通讯失败，请稍后再试');
+      } else {
+        e.reply("通讯失败: " + error.message);
+      }
     }
   }
 
