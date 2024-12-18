@@ -1223,5 +1223,61 @@ export const other_models = [
     "token": 128000,
     "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
     "quota": "0.5/次"
+  },
+  {
+    "id": 151,
+    "model": "jimeng-2.1",
+    "points": "字节跳动",
+    "token": 2000,
+    "features": ['drawing'],
+    "quota": "0.25/次"
+  },
+  {
+    "id": 152,
+    "model": "kimi",
+    "points": "月之暗面",
+    "token": 200000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 0.8
+  },
+  {
+    "id": 153,
+    "model": "kimi-search",
+    "points": "月之暗面",
+    "token": 200000,
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "quota": 0.8
+  },
+  {
+    "id": 154,
+    "model": "kimi-research",
+    "points": "月之暗面",
+    "token": 200000,
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "quota": 0.8
+  },
+  {
+    "id": 155,
+    "model": "kimi-k1",
+    "points": "月之暗面",
+    "token": 200000,
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "quota": 0.8
+  },
+  {
+    "id": 156,
+    "model": "kimi-math",
+    "points": "月之暗面",
+    "token": 200000,
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "quota": 0.8
+  },
+  {
+    "id": 157,
+    "model": "kimi-silent",
+    "points": "月之暗面",
+    "token": 200000,
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "quota": 0.8
   }
 ]
