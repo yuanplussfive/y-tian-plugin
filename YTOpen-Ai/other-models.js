@@ -274,7 +274,7 @@ export const other_models = [
     "points": "Claude",
     "token": 100000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.01/次"
+    "quota": "0.05/次"
   },
   {
     "id": 35,
@@ -282,7 +282,7 @@ export const other_models = [
     "points": "Claude",
     "token": 100000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.01/次"
+    "quota": "0.05/次"
   },
   {
     "id": 36,
@@ -290,7 +290,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.01/次"
+    "quota": "0.05/次"
   },
   {
     "id": 37,
@@ -298,7 +298,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": 0.5
+    "quota": "0.05/次"
   },
   {
     "id": 38,
@@ -306,7 +306,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.01/次"
+    "quota": "0.05/次"
   },
   {
     "id": 39,
@@ -440,7 +440,7 @@ export const other_models = [
     "points": "Google",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
 
   // Meta Models
@@ -474,14 +474,14 @@ export const other_models = [
     "points": "百川智能",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 59,
     "model": "glm-turbo",
     "points": "清华&智谱",
     "token": 8000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -489,7 +489,7 @@ export const other_models = [
     "model": "glm-pro",
     "points": "清华&智谱",
     "token": 8000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -497,7 +497,7 @@ export const other_models = [
     "model": "glm-3-turbo",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -505,7 +505,7 @@ export const other_models = [
     "model": "glm-4",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -513,7 +513,7 @@ export const other_models = [
     "model": "glm-4-flash",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -521,7 +521,7 @@ export const other_models = [
     "model": "glm-4-all",
     "points": "智谱清言",
     "token": 128000,
-    "features": ['conversation', 'internet', 'drawing'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -529,7 +529,7 @@ export const other_models = [
     "model": "glm-turbo",
     "points": "清华&智谱",
     "token": 8000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -537,7 +537,7 @@ export const other_models = [
     "model": "glm-pro",
     "points": "清华&智谱",
     "token": 8000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -545,7 +545,7 @@ export const other_models = [
     "model": "glm-3-turbo",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -553,7 +553,7 @@ export const other_models = [
     "model": "glm-4",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -561,7 +561,7 @@ export const other_models = [
     "model": "glm-4-flash",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -569,7 +569,7 @@ export const other_models = [
     "model": "glm-4-all",
     "points": "智谱清言",
     "token": 128000,
-    "features": ['conversation', 'internet', 'drawing'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
 
@@ -587,7 +587,7 @@ export const other_models = [
     "model": "kimi-all",
     "points": "moonshot",
     "token": 128000,
-    "features": ['conversation', 'internet'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 10
   },
   {
@@ -622,7 +622,7 @@ export const other_models = [
     "points": "腾讯混元",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
 
   // Meta Models
@@ -722,7 +722,7 @@ export const other_models = [
     "points": "百度千帆",
     "token": 8000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 89,
@@ -730,7 +730,7 @@ export const other_models = [
     "points": "零一万物",
     "token": 2000000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 90,
@@ -738,7 +738,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 91,
@@ -746,7 +746,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 92,
@@ -754,7 +754,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 93,
@@ -762,7 +762,7 @@ export const other_models = [
     "points": "deepseek",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 94,
@@ -770,7 +770,7 @@ export const other_models = [
     "points": "deepseek",
     "token": 16000,
     "features": ['code'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 95,
@@ -778,7 +778,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 100000,
     "features": ['conversation', 'code'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 96,
@@ -990,7 +990,7 @@ export const other_models = [
     "points": "Atom",
     "token": 7000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 122,
@@ -998,7 +998,7 @@ export const other_models = [
     "points": "讯飞星火",
     "token": 8000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 123,
@@ -1006,7 +1006,7 @@ export const other_models = [
     "points": "讯飞星火",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 124,
@@ -1014,7 +1014,7 @@ export const other_models = [
     "points": "讯飞星火",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 125,
@@ -1022,7 +1022,7 @@ export const other_models = [
     "points": "讯飞星火",
     "token": 128000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 126,
@@ -1030,7 +1030,7 @@ export const other_models = [
     "points": "科大讯飞",
     "token": 128000,
     "features": ['conversation', 'code'],
-    "quota": 15
+    "quota": "0.05/次"
   },
   {
     "id": 127,
@@ -1038,7 +1038,7 @@ export const other_models = [
     "points": "科大讯飞",
     "token": 128000,
     "features": ['conversation', 'code'],
-    "quota": 30
+    "quota": "0.05/次"
   },
   {
     "id": 128,
@@ -1078,7 +1078,7 @@ export const other_models = [
     "points": "零一万物",
     "token": 100000,
     "features": ['conversation', 'code'],
-    "quota": 10
+    "quota": "0.05/次"
   },
   {
     "id": 133,
@@ -1086,7 +1086,7 @@ export const other_models = [
     "points": "nijidjourney",
     "token": 800,
     "features": ['drawing'],
-    "quota": 50
+    "quota": "0.1/次"
   },
   {
     "id": 134,
@@ -1094,7 +1094,7 @@ export const other_models = [
     "points": "midjourney",
     "token": 800,
     "features": ['drawing'],
-    "quota": 50
+    "quota": "0.1/次"
   },
   {
     "id": 135,
@@ -1102,14 +1102,14 @@ export const other_models = [
     "points": "midjourney",
     "token": 800,
     "features": ['drawing'],
-    "quota": 50
+    "quota": "0.25/次"
   },
   {
     "id": 136,
     "model": "glm-4-flash-new",
     "points": "质谱清言",
     "token": 8000,
-    "features": ['conversation', 'code'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 1
   },
   {
@@ -1118,7 +1118,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": 1
+    "quota": "0.05/次"
   },
   {
     "id": 138,
@@ -1126,7 +1126,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": "0.2/次"
+    "quota": "0.05/次"
   },
   {
     "id": 139,
@@ -1237,7 +1237,7 @@ export const other_models = [
     "model": "kimi",
     "points": "月之暗面",
     "token": 200000,
-    "features": ['conversation', 'code', 'image_recognition'],
+    "features": ['conversation', 'code', 'image_recognition', 'file'],
     "quota": 0.8
   },
   {
@@ -1245,7 +1245,7 @@ export const other_models = [
     "model": "kimi-search",
     "points": "月之暗面",
     "token": 200000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 0.8
   },
   {
@@ -1253,7 +1253,7 @@ export const other_models = [
     "model": "kimi-research",
     "points": "月之暗面",
     "token": 200000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 0.8
   },
   {
@@ -1261,7 +1261,7 @@ export const other_models = [
     "model": "kimi-k1",
     "points": "月之暗面",
     "token": 200000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 0.8
   },
   {
@@ -1269,7 +1269,7 @@ export const other_models = [
     "model": "kimi-math",
     "points": "月之暗面",
     "token": 200000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 0.8
   },
   {
@@ -1277,7 +1277,15 @@ export const other_models = [
     "model": "kimi-silent",
     "points": "月之暗面",
     "token": 200000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
     "quota": 0.8
+  },
+  {
+    "id": 158,
+    "model": "cogvideox",
+    "points": "质谱清言",
+    "token": 2000,
+    "features": ['video', 'image_recognition'],
+    "quota": "1.5/次"
   }
 ]

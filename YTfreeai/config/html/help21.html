@@ -31,7 +31,7 @@
             "points": "腾讯混元",
             "token": 32000,
             "features": ['conversation'],
-            "quota": 1
+            "quota": "0.05/次"
           },
 
           // Meta Models
@@ -131,7 +131,7 @@
             "points": "百度千帆",
             "token": 8000,
             "features": ['conversation'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 89,
@@ -139,7 +139,7 @@
             "points": "零一万物",
             "token": 2000000,
             "features": ['conversation'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 90,
@@ -147,7 +147,7 @@
             "points": "reka",
             "token": 24000,
             "features": ['conversation', 'image_recognition'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 91,
@@ -155,7 +155,7 @@
             "points": "reka",
             "token": 24000,
             "features": ['conversation', 'image_recognition'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 92,
@@ -163,7 +163,7 @@
             "points": "reka",
             "token": 24000,
             "features": ['conversation', 'image_recognition'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 93,
@@ -171,7 +171,7 @@
             "points": "deepseek",
             "token": 32000,
             "features": ['conversation'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 94,
@@ -179,7 +179,7 @@
             "points": "deepseek",
             "token": 16000,
             "features": ['code'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 95,
@@ -187,7 +187,7 @@
             "points": "深度求索",
             "token": 100000,
             "features": ['conversation', 'code'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 96,
@@ -377,6 +377,9 @@
         }
         if (item.features.includes('music')) {
           features += ' <i class="fas fa-music"></i>';
+        }
+        if (item.features.includes('video')) {
+          features += ' <i class="fas fa-video"></i>';
         }
         document.write(`
           <tr>

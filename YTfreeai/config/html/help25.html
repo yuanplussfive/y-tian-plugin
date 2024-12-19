@@ -79,7 +79,7 @@
             "points": "讯飞星火",
             "token": 8000,
             "features": ['conversation'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 123,
@@ -87,7 +87,7 @@
             "points": "讯飞星火",
             "token": 32000,
             "features": ['conversation'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 124,
@@ -95,7 +95,7 @@
             "points": "讯飞星火",
             "token": 32000,
             "features": ['conversation'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 125,
@@ -103,7 +103,7 @@
             "points": "讯飞星火",
             "token": 128000,
             "features": ['conversation'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 126,
@@ -111,7 +111,7 @@
             "points": "科大讯飞",
             "token": 128000,
             "features": ['conversation', 'code'],
-            "quota": 15
+            "quota": "0.05/次"
           },
           {
             "id": 127,
@@ -119,14 +119,14 @@
             "points": "科大讯飞",
             "token": 128000,
             "features": ['conversation', 'code'],
-            "quota": 30
+            "quota": "0.05/次"
           },
           {
             "id": 128,
             "model": "grok-v2.0",
             "points": "Xai",
             "token": 128000,
-            "features": ['conversation', 'code', 'image_recognition'],
+            "features": ['conversation', 'code', , 'image_recognition'],
             "quota": 10
           },
           {
@@ -155,11 +155,11 @@
           },
           {
             "id": 132,
-            "model": "y-lightning",
+            "model": "yi-lightning",
             "points": "零一万物",
             "token": 100000,
             "features": ['conversation', 'code'],
-            "quota": 10
+            "quota": "0.05/次"
           },
           {
             "id": 133,
@@ -167,7 +167,7 @@
             "points": "nijidjourney",
             "token": 800,
             "features": ['drawing'],
-            "quota": 50
+            "quota": "0.1/次"
           },
           {
             "id": 134,
@@ -175,7 +175,7 @@
             "points": "midjourney",
             "token": 800,
             "features": ['drawing'],
-            "quota": 50
+            "quota": "0.1/次"
           },
           {
             "id": 135,
@@ -183,14 +183,14 @@
             "points": "midjourney",
             "token": 800,
             "features": ['drawing'],
-            "quota": 50
+            "quota": "0.25/次"
           },
           {
             "id": 136,
             "model": "glm-4-flash-new",
             "points": "质谱清言",
             "token": 8000,
-            "features": ['conversation', 'code'],
+            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
             "quota": 1
           },
           {
@@ -199,7 +199,7 @@
             "points": "深度求索",
             "token": 32000,
             "features": ['conversation', 'code'],
-            "quota": 1
+            "quota": "0.05/次"
           },
           {
             "id": 138,
@@ -207,7 +207,7 @@
             "points": "深度求索",
             "token": 32000,
             "features": ['conversation', 'code'],
-            "quota": "0.2/次"
+            "quota": "0.05/次"
           },
           {
             "id": 139,
@@ -222,7 +222,7 @@
             "model": "qwq-32b-preview",
             "points": "通义千问",
             "token": 32000,
-            "features": ['code'],
+            "features": ['conversation', 'code'],
             "quota": "0.05/次"
           },
           {
@@ -318,7 +318,7 @@
             "model": "kimi",
             "points": "月之暗面",
             "token": 200000,
-            "features": ['conversation', 'code', 'image_recognition'],
+            "features": ['conversation', 'code', 'image_recognition', 'file'],
             "quota": 0.8
           },
           {
@@ -326,7 +326,7 @@
             "model": "kimi-search",
             "points": "月之暗面",
             "token": 200000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
+            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
             "quota": 0.8
           },
           {
@@ -334,7 +334,7 @@
             "model": "kimi-research",
             "points": "月之暗面",
             "token": 200000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
+            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
             "quota": 0.8
           },
           {
@@ -342,7 +342,7 @@
             "model": "kimi-k1",
             "points": "月之暗面",
             "token": 200000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
+            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
             "quota": 0.8
           },
           {
@@ -350,7 +350,7 @@
             "model": "kimi-math",
             "points": "月之暗面",
             "token": 200000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
+            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
             "quota": 0.8
           },
           {
@@ -358,8 +358,16 @@
             "model": "kimi-silent",
             "points": "月之暗面",
             "token": 200000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
+            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
             "quota": 0.8
+          },
+          {
+            "id": 158,
+            "model": "cogvideox",
+            "points": "质谱清言",
+            "token": 2000,
+            "features": ['video', 'image_recognition'],
+            "quota": "1.5/次"
           }
         ]
       }

@@ -19,6 +19,9 @@
     <div><i class="fas fa-code"></i> 代码</div>
     <div><i class="fas fa-image"></i> 识图</div>
     <div><i class="fas fa-comments"></i> 对话</div>
+    <div><i class="fas fa-file-alt"></i> 文件</div>
+    <div><i class="fas fa-music"></i> 作曲</div>
+    <div><i class="fas fa-video"></i> 视频</div>
   </div>
 
   <table>
@@ -307,7 +310,7 @@
             "points": "Claude",
             "token": 100000,
             "features": ['conversation', 'image_recognition'],
-            "quota": "0.01/次"
+            "quota": "0.05/次"
           },
           {
             "id": 35,
@@ -315,7 +318,7 @@
             "points": "Claude",
             "token": 100000,
             "features": ['conversation', 'image_recognition'],
-            "quota": "0.01/次"
+            "quota": "0.05/次"
           }
         ]
       }
@@ -335,6 +338,15 @@
         }
         if (item.features.includes('conversation')) {
           features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
+        }
+        if (item.features.includes('video')) {
+          features += ' <i class="fas fa-video"></i>';
         }
         document.write(`
           <tr>
