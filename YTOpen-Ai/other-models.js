@@ -437,10 +437,10 @@ export const other_models = [
   {
     "id": 54,
     "model": "command-r",
-    "points": "Google",
+    "points": "Cohere",
     "token": 32000,
     "features": ['conversation'],
-    "quota": "0.05/次"
+    "quota": 2.5
   },
 
   // Meta Models
@@ -762,7 +762,7 @@ export const other_models = [
     "points": "deepseek",
     "token": 32000,
     "features": ['conversation'],
-    "quota": "0.05/次"
+    "quota": 0.5
   },
   {
     "id": 94,
@@ -770,7 +770,7 @@ export const other_models = [
     "points": "deepseek",
     "token": 16000,
     "features": ['code'],
-    "quota": "0.05/次"
+    "quota": 0.5
   },
   {
     "id": 95,
@@ -778,7 +778,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 100000,
     "features": ['conversation', 'code'],
-    "quota": "0.05/次"
+    "quota": 1
   },
   {
     "id": 96,
@@ -997,48 +997,48 @@ export const other_models = [
     "model": "spark-desk-v1.5",
     "points": "讯飞星火",
     "token": 8000,
-    "features": ['conversation'],
-    "quota": "0.05/次"
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "quota": 1
   },
   {
     "id": 123,
     "model": "spark-desk-v2",
     "points": "讯飞星火",
     "token": 32000,
-    "features": ['conversation'],
-    "quota": "0.05/次"
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "quota": 1
   },
   {
     "id": 124,
     "model": "spark-desk-v3",
     "points": "讯飞星火",
     "token": 32000,
-    "features": ['conversation'],
-    "quota": "0.05/次"
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "quota": 1
   },
   {
     "id": 125,
     "model": "spark-desk-v3.5",
     "points": "讯飞星火",
     "token": 128000,
-    "features": ['conversation'],
-    "quota": "0.05/次"
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "quota": 1
   },
   {
     "id": 126,
     "model": "spark-desk-v4",
     "points": "科大讯飞",
     "token": 128000,
-    "features": ['conversation', 'code'],
-    "quota": "0.05/次"
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "quota": 1
   },
   {
     "id": 127,
     "model": "spark-desk-max",
     "points": "科大讯飞",
     "token": 128000,
-    "features": ['conversation', 'code'],
-    "quota": "0.05/次"
+    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "quota": 1
   },
   {
     "id": 128,
@@ -1118,7 +1118,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": "0.05/次"
+    "quota": 1
   },
   {
     "id": 138,
@@ -1126,7 +1126,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": "0.05/次"
+    "quota": 1
   },
   {
     "id": 139,
@@ -1287,5 +1287,37 @@ export const other_models = [
     "token": 2000,
     "features": ['video', 'image_recognition'],
     "quota": "1.5/次"
+  },
+  {
+    "id": 159,
+    "model": "deepseek-search",
+    "points": "深度求索",
+    "token": 32000,
+    "features": ['conversation', 'code', 'internet'],
+    "quota": 1
+  },
+  {
+    "id": 160,
+    "model": "command-r-plus",
+    "points": "Cohere",
+    "token": 100000,
+    "features": ['conversation', 'code'],
+    "quota": 5
+  },
+  {
+    "id": 161,
+    "model": "command-r-plus-08-2024",
+    "points": "Cohere",
+    "token": 100000,
+    "features": ['conversation', 'code'],
+    "quota": 5
+  },
+  {
+    "id": 162,
+    "model": "gemini-exp-1206",
+    "points": "Google",
+    "token": 1000000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 2
   }
 ]

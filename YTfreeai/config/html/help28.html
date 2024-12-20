@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <link rel="stylesheet" href="{{all_min_css}}">
+  <link rel="stylesheet" href="{{all_css_src}}">
+</head>
+
+<body>
+
+
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>来源:</th>
+      <th>最大token:</th>
+      <th>模型倍率:</th>
+    </tr>
+    <script>
+      let model =
+      {
+        models: [
+          {
+            "id": 156,
+            "model": "kimi-math",
+            "points": "月之暗面",
+            "token": 200000,
+            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+            "quota": 0.8
+          },
+          {
+            "id": 157,
+            "model": "kimi-silent",
+            "points": "月之暗面",
+            "token": 200000,
+            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+            "quota": 0.8
+          },
+          {
+            "id": 158,
+            "model": "cogvideox",
+            "points": "质谱清言",
+            "token": 2000,
+            "features": ['video', 'image_recognition'],
+            "quota": "1.5/次"
+          },
+          {
+            "id": 159,
+            "model": "deepseek-search",
+            "points": "深度求索",
+            "token": 32000,
+            "features": ['conversation', 'code', 'internet'],
+            "quota": 1
+          },
+          {
+            "id": 160,
+            "model": "command-r-plus",
+            "points": "Cohere",
+            "token": 100000,
+            "features": ['conversation', 'code'],
+            "quota": 5
+          },
+          {
+            "id": 161,
+            "model": "command-r-plus-08-2024",
+            "points": "Cohere",
+            "token": 100000,
+            "features": ['conversation', 'code'],
+            "quota": 5
+          },
+          {
+            "id": 162,
+            "model": "gemini-exp-1206",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 2
+          }
+        ]
+      }
+      model.models.forEach(item => {
+        let features = '';
+        if (item.features.includes('internet')) {
+          features += ' <i class="fas fa-globe"></i>';
+        }
+        if (item.features.includes('drawing')) {
+          features += ' <i class="fas fa-paint-brush"></i>';
+        }
+        if (item.features.includes('code')) {
+          features += ' <i class="fas fa-code"></i>';
+        }
+        if (item.features.includes('image_recognition')) {
+          features += ' <i class="fas fa-image"></i>';
+        }
+        if (item.features.includes('conversation')) {
+          features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
+        }
+        if (item.features.includes('video')) {
+          features += ' <i class="fas fa-video"></i>';
+        }
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.model}${features}</td>
+            <td>${item.points}</td>
+            <td>${item.token}</td>
+            <td>${item.quota}</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+
+</html>
