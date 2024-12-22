@@ -1,92 +1,168 @@
-  @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
-  @import url('fontawesome-free-6.6.0-web/css/all.min.css');
-  
-  body {
-      background-color: #0d0d0d;
-      color: #e8ede8;
-      font-family: 'Inconsolata', monospace;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Chinese', sans-serif;
-      min-height: 100vh;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
+@import url('fontawesome-free-6.6.0-web/css/all.min.css');
 
-  h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      color: #00c8ff;
-  }
+@font-face {
+    font-family: "SourceCodePro-Italic-VariableFont_wght";
+    src: url("SourceCodePro-Italic-VariableFont_wght.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
 
-  .legend {
-      margin: 20px 0;
-      font-size: 1em;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-  }
+@font-face {
+    font-family: "RuanMengKeAiShouXieZi";
+    src: url("TengXiangJiaLiDaYuanJian-1.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
 
-  .legend i {
-      margin-right: 4px;
-      color: #00c8ff;
-  }
+body {
+    background-color: #0C0C0C;
+    color: #CCCCCC;
+    font-family: "RuanMengKeAiShouXieZi", "SourceCodePro-Italic-VariableFont_wght";
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
 
-  .legend div {
-      display: flex;
-      align-items: center;
-      margin: 5px 10px;
-  }
+h1 {
+    font-size: 2rem;
+    margin: 0 0 20px 0;
+    color: #FFFFFF;
+    text-align: center;
+    font-family: 'Chinese', sans-serif;
+}
 
-  table {
-      border-collapse: collapse;
-      width: 90%;
-      max-width: 1000px;
-      margin: 20px auto;
-      box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      animation: glowEffect 2s infinite;
-      background-color: #1a1a1a;
-      border-radius: 10px;
-      overflow: hidden;
-  }
+.legend {
+    justify-content: center;
+    margin: 10px 0;
+    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+    background-color: #1E1E1E;
+    border-radius: 4px;
+}
 
-  th,
-  td {
-      padding: 12px;
-      text-align: left;
-      border: 1px solid #00c8ff;
-      white-space: nowrap;
-  }
+.legend i {
+    margin-right: 6px;
+    color: #59B9F9;
+}
 
-  th {
-      background-color: #333;
-  }
+.legend div {
+    display: flex;
+    align-items: center;
+}
 
-  td {
-      background-color: #1a1a1a;
-  }
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0;
+    background-color: #1E1E1E;
+    border: 1px solid #323232;
+}
 
-  @keyframes glowEffect {
-      0% {
-          box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      }
+th,
+td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #323232;
+    white-space: nowrap;
+}
 
-      50% {
-          box-shadow: 0 0 30px rgba(62, 172, 196, 0.8);
-      }
+th {
+    background-color: #2D2D2D;
+    color: #FFFFFF;
+    font-weight: 700;
+}
 
-      100% {
-          box-shadow: 0 0 20px rgba(62, 172, 196, 0.5);
-      }
-  }
+td {
+    background-color: #1E1E1E;
+}
 
-  @font-face {
+tr:hover td {
+    background-color: #2D2D2D;
+}
+
+@font-face {
     font-family: "Chinese";
     src: url("ZCOOLQingKeHuangYou-Regular.ttf");
     font-weight: normal;
     font-style: normal;
-  }
+}
+
+/* 添加滚动条样式 */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1E1E1E;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #424242;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #525252;
+}
+
+.fas.fa-globe {
+    color: #2196F3;
+    /* 蓝色 */
+}
+
+.fas.fa-paint-brush {
+    color: #F44336;
+    /* 红色 */
+}
+
+.fas.fa-code {
+    color: #4CAF50;
+    /* 绿色 */
+}
+
+.fas.fa-image {
+    color: #9C27B0;
+    /* 紫色 */
+}
+
+.fas.fa-comments {
+    color: #ffffff;
+    /* 白色 */
+}
+
+.fas.fa-file-alt {
+    color: #607D8B;
+    /* 蓝灰色 */
+}
+
+.fas.fa-music {
+    color: #E91E63;
+    /* 粉红色 */
+}
+
+.fas.fa-video {
+    color: #00BCD4;
+    /* 青色 */
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .legend {
+        justify-content: flex-start;
+    }
+}

@@ -552,7 +552,24 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       search = CurrentModels.includes(model) ? false : search;
       let History = await reduceConsecutiveRoles(history);
       console.log(History);
-      let answer
+      let answer;
+      const modelResponders = {
+        'gpt': GPT4oResponse,
+        'gemini': GeminiResponse,
+        'claude': claudeResponse
+      };
+      async function getModelResponder(model) {
+        const modelKey = model.toLowerCase();
+        const matchedKey = Object.keys(modelResponders).find(key =>
+          modelKey.includes(key)
+        );
+        return matchedKey ? modelResponders[matchedKey] : GPT4oResponse;
+      }
+      async function handleModelResponse(model, history, fetch) {
+        const responder = await getModelResponder(model);
+        return await responder(history, fetch);
+      }
+
       try {
         const timeoutSettings = {
           'claude': 120000,
@@ -588,47 +605,38 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         const errorMessage = response_json?.error?.message;
 
         if (errorMessage) {
-          switch (true) {
-            case errorMessage.includes('无效的令牌'):
-              e.reply('无效的令牌，请填写正确的阴天密钥后使用!');
-              return false;
-            case errorMessage.includes('该令牌额度已用尽'):
-              e.reply('该令牌额度已用尽，请更换密钥后使用!');
-              return false;
-            case errorMessage.includes('上游负载已饱和'):
-              answer = null;
-              break;
-            default:
-              e.reply(`请求出错: ${errorMessage}`);
-              return false;
+          if (errorMessage.includes('无效的令牌')) {
+            e.reply('无效的令牌，请填写正确的阴天密钥后使用!');
+            return false;
+          } else if (errorMessage.includes('该令牌额度已用尽')) {
+            e.reply('该令牌额度已用尽，请更换密钥后使用!');
+            return false;
+          } else if (
+            errorMessage.includes('上游负载已饱和') ||
+            /not cfg .+ in site_map/.test(errorMessage)
+          ) {
+            answer = await handleModelResponse(model, History, fetch);
+          } else {
+            e.reply(`请求出错: ${errorMessage}`);
+            return false;
           }
+        } else {
+          answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
         }
-
-        answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
 
       } catch (error) {
         console.log(error);
         const networkErrors = ['Failed to fetch', 'request to', 'network'];
+        const otherErrors = ['Unexpected token'];
         if (networkErrors.some(msg => error.message?.toLowerCase().includes(msg))) {
           e.reply('与服务器通讯失败，请稍后再试');
           return false;
+        } else if (otherErrors.some(msg => error.message?.toLowerCase().includes(msg))) {
+          answer = await handleModelResponse(model, History, fetch);
         }
 
-        const modelResponders = {
-          'gpt-3.5-turbo': GPT4oResponse,
-          'gpt-4': GPT4oResponse,
-          'gemini': GeminiResponse,
-          'claude': claudeResponse,
-          'llama': llamaResponse
-        };
-
-        const getResponder = (model) => {
-          return Object.entries(modelResponders)
-            .find(([key]) => model.includes(key))?.[1];
-        };
-
         answer = error.message === 'Timeout' || !answer ?
-          await getResponder(model)?.(History, fetch) :
+          await handleModelResponse(model, History, fetch) :
           null;
       }
 
@@ -637,7 +645,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         return false;
       }
 
-      answer = answer.replace(/Content is blocked/g, "  ").trim()
+      answer = answer.replace(/Content\s+is\s+blocked/gi, '').trim();
       //e.reply(answer);
       history.push({
         "role": "assistant",
@@ -711,7 +719,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
           downloadImage(path, url, e, filePath);
         })
       }
-      const highmodels = ["gpt-4-all", "gpt-4o", "gpt-4o-all", "o1-mini", "o1-preview"];
+      const highmodels = ["gpt-4-gizmo", "gpt-4-all", "gpt-4o", "gpt-4o-all", "o1-mini", "o1-preview"];
       if (highmodels.includes(model)) {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
