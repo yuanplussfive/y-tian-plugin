@@ -1,4 +1,4 @@
-const { fetch } = globalThis;
+let fetch = (await import('node-fetch')).default;
 
 interface Message {
     role: string;

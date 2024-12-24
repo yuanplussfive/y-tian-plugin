@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+let fetch = (await import('node-fetch')).default;
 
 class PackdirClient {
     constructor(options = {}) {

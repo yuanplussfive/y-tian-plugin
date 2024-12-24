@@ -1,6 +1,6 @@
 import { cleanArray } from '../../../requests/cleanArray.js';
 import { mergeConsecutiveUserMessages } from '../../../requests/mergeConsecutiveUserMessages.js';
-import fetch from 'node-fetch';
+let fetch = (await import('node-fetch')).default;
 import crypto from 'crypto';
 import puppeteer from 'puppeteer';
 

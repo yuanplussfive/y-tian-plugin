@@ -1,5 +1,5 @@
 import { cleanArray } from '../../../requests/cleanArray.js';
-import fetch from 'node-fetch';
+let fetch = (await import('node-fetch')).default;
 
 export const airforce = async (messages, model) => {
     messages = await cleanArray(messages);

@@ -1,4 +1,4 @@
-const { fetch } = globalThis;
+let fetch = (await import('node-fetch')).default;
 
 export const FreeSearch = async (messages, model) => {
     const url = 'https://yuanpluss.online:3000/api/v1/search';
