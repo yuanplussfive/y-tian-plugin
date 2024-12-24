@@ -42,6 +42,7 @@ import { FreeGemini_3 } from '../utils/FreeGemini/Gemini_3.js';
 import { FreeClaude_1 } from '../utils/FreeClaude/Claude_1.js';
 import { processArray, countTextInString } from '../YTOpen-Ai/tools/messageGenerator.js';
 import { extractAndRender, extractCodeBlocks } from '../YTOpen-Ai/tools/preview.js';
+import { NXModelResponse } from "../utils/providers/ChooseModels.js"
 
 export const dependencies = {
   fs,
@@ -89,4 +90,5 @@ export const dependencies = {
   SessModels: sess_models,
   ChatModels: chat_models,
   OtherModels: other_models,
+  NXModelResponse
 }
