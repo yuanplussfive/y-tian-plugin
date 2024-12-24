@@ -14,11 +14,11 @@ const require = createRequire(import.meta.url)
 import cfg from "../../../lib/config/config.js"
 import puppeteer from "../../../lib/puppeteer/puppeteer.js"
 import common from "../../../lib/common/common.js"
-import request from "request"
-import WebSocket from "ws"
-import FormData from "form-data"
-import axios from "axios"
-import mimeTypes from "mime-types"
+import request from "../node_modules/axios/index.js"
+import WebSocket from "../node_modules/ws/index.js"
+import FormData from "../node_modules/mime-types/index.js"
+import axios from "../node_modules/axios/index.js"
+import mimeTypes from "../node_modules/mime-types/index.js"
 import { handleTTS } from "../model/Anime_tts.js"
 import { Anime_tts_roles } from "../model/Anime_tts_roles.js"
 import { tts_roles } from "../model/Anime_roles.js"
@@ -84,7 +84,7 @@ export const dependencies = {
   replyBasedOnStyle,
   handleTTS,
   handleSystemCommand,
-  extractAndRender, 
+  extractAndRender,
   extractCodeBlocks,
   GodModels: god_models,
   SessModels: sess_models,
