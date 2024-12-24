@@ -103,11 +103,12 @@ class PackdirClient {
     }
 
     // 获取或创建会话UUID
-    async getOrCreateSession(modelType, roomId) {
+    async getOrCreateSession(modelType, roomId, forceNew = false) {
         try {
             let sessionUuid = this.sessionCache.get(modelType);
 
-            if (!sessionUuid || this.lastModelType !== modelType) {
+            // 添加 forceNew 判断
+            if (!sessionUuid || this.lastModelType !== modelType || forceNew) {
                 this.log('info', `需要为模型 ${modelType} 创建新的会话`);
 
                 sessionUuid = await this.getSessionUuid(roomId);
@@ -275,8 +276,9 @@ class PackdirClient {
             }
 
             const roomId = await this.init(modelType, needsInit);
-            const sessionUuid = await this.getOrCreateSession(modelType, roomId);
+            const sessionUuid = await this.getOrCreateSession(modelType, roomId, needsInit);
 
+            console.log(sessionUuid);
             try {
                 const response = await axios.post(
                     `${this.baseURL}/api/airoom/message`,
