@@ -3,6 +3,7 @@ import { airforce } from "../providers/ChatModels/airforce/airforce.js";
 import { nexra } from "../providers/ChatModels/nexra/nexra.js";
 import { FreeSearch } from "../providers/ChatModels/YT/FreeSearch.js";
 import { airoom } from "../providers/ChatModels/airoom/airoom.js";
+import { mhystical } from "../providers/ChatModels/mhystical/mhystical.js";
 
 // 存储服务商的成功/失败统计
 const providerStats = {
@@ -10,17 +11,19 @@ const providerStats = {
   airforce: { success: 0, failure: 0 },
   nexra: { success: 0, failure: 0 },
   YT: { success: 0, failure: 0 },
-  airoom: { success: 0, failure: 0 }
+  airoom: { success: 0, failure: 0 },
+  mhystical: { success: 0, failure: 0 },
 };
 
 // 定义模型与提供商的映射关系
 const modelProviderMap = {
-  'claude-3.5-sonnet': ['airoom'],
+  'claude-3.5-sonnet': ['airoom', 'blackbox'],
   'claude-3.5-haiku': ['airoom'],
   'deepseek': ['airoom'],
   'gemini-pro': ['blackbox'],
   'gpt-4o': ['airoom', 'blackbox', 'airforce', 'nexra'],
   'gpt-4o-mini': ['airoom', 'nexra'],
+  'gpt-3.5-turbo-16k': ['mhystical'],
   'net-gpt-4o-mini': ['YT'],
   'llama-3.1-405b': ['blackbox'],
 };
@@ -33,6 +36,7 @@ const modelNameNormalization = {
   'claude-3.5-sonnet-nx': 'claude-3.5-sonnet',
   'claude-3.5-haiku-nx': 'claude-3.5-haiku',
   'gpt-4o-nx': 'gpt-4o',
+  'gpt-3.5-turbo-nx': 'gpt-3.5-turbo-16k',
   'gemini-pro-nx': 'gemini-pro',
   'deepseek-v2.5-nx': 'deepseek',
   'llama-3.1-405b-nx': 'llama-3.1-405b',
@@ -45,7 +49,8 @@ const providerApis = {
   airforce: airforce,
   nexra: nexra,
   YT: FreeSearch,
-  airoom: airoom
+  airoom: airoom,
+  mhystical: mhystical
 };
 
 const TIMEOUT = 120000;

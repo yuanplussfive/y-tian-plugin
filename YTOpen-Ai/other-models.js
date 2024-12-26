@@ -1383,5 +1383,13 @@ export const other_models = [
     "token": 16000,
     "features": ['conversation', 'code'],
     "quota": 0
+  },
+  {
+    "id": 171,
+    "model": "claude-3.5-sonnet-nx-demo",
+    "points": "逆向/云demo",
+    "token": 40000,
+    "features": ['conversation', 'code'],
+    "quota": 0.5
   }
 ]
