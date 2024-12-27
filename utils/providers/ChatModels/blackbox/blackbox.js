@@ -22,7 +22,7 @@ async function fetchNewSessionIdAndValidated() {
     let browser;
     let validated = null;
     let sessionId = null;
-    
+
     try {
         browser = await puppeteer.launch({
             headless: "new",
@@ -47,11 +47,11 @@ async function fetchNewSessionIdAndValidated() {
 
         await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0");
         await page.setViewport({ width: 1280, height: 800 });
-        await page.goto('https://www.blackbox.ai/', { 
+        await page.goto('https://www.blackbox.ai/', {
             waitUntil: 'networkidle2',
-            timeout: 30000 
+            timeout: 30000
         });
-        
+
         const cookies = await page.cookies();
         const sessionIdCookie = cookies.find(cookie => cookie.name.toLowerCase() === 'sessionid');
 
@@ -92,7 +92,7 @@ async function fetchNewSessionIdAndValidated() {
         sessionId = defaultValidatedToken;
         cachedValidated = validated;
         cachedSessionId = sessionId;
-        
+
         return {
             sessionId: sessionId,
             validated: validated
@@ -194,15 +194,16 @@ export const blackboxAi = async (messages, model) => {
     /**
      * 处理消息数组，添加随机 ID 和创建时间
      * @param {Array} messages - 消息数组
-     * @returns {Array} 处理后的消息数组
+     * @returns {Array} 处理后的消息数组，不修改原数组
      */
     const processMessages = (messages) => {
         return messages.map(msg => ({
-            ...msg,
-            id: crypto.randomBytes(4).toString("hex").slice(0, 7), // 随机生成的 ID
-            ...(msg.role === 'assistant' && { createdAt: new Date().toISOString() }) // 仅为 assistant 角色添加创建时间
+            ...JSON.parse(JSON.stringify(msg)),
+            id: crypto.randomBytes(4).toString("hex").slice(0, 7),
+            ...(msg.role === 'assistant' && { createdAt: new Date().toISOString() })
         }));
     };
+
     const results = await cleanArray(messages);
     const finalresults = await mergeConsecutiveUserMessages(results);
     const processedMessages = processMessages(finalresults);

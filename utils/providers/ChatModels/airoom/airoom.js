@@ -360,20 +360,19 @@ const client = new PackdirClient();
 export const airoom = async (messages, model) => {
     try {
         // 处理消息数组
-        messages = messages.length === 2 &&
+        const processedMessages = messages.length === 2 &&
             messages.some(m => m.role === 'system') &&
             messages.some(m => m.role === 'user')
             ? [{
                 role: 'user',
                 content: messages.map(m => m.content).join('\n')
             }]
-            : messages.map(item => {
-                if (item.role === 'system') {
-                    item.role = 'user';
-                }
-                return item;
-            });
-        const response = await client.sendMessage(messages, model);
+            : messages.map(item => ({
+                ...item,
+                role: item.role === 'system' ? 'user' : item.role
+            }));
+
+        const response = await client.sendMessage(processedMessages, model);
         return response;
 
     } catch (error) {

@@ -5,24 +5,24 @@ import { FreeSearch } from "../providers/ChatModels/YT/FreeSearch.js";
 import { airoom } from "../providers/ChatModels/airoom/airoom.js";
 import { mhystical } from "../providers/ChatModels/mhystical/mhystical.js";
 
-// 存储服务商的成功/失败统计
+// 存储服务商的成功/失败统计和权重配置
 const providerStats = {
-  blackbox: { success: 0, failure: 0 },
-  airforce: { success: 0, failure: 0 },
-  nexra: { success: 0, failure: 0 },
-  YT: { success: 0, failure: 0 },
-  airoom: { success: 0, failure: 0 },
-  mhystical: { success: 0, failure: 0 },
+  blackbox: { success: 0, failure: 0, weight: 90 },
+  airforce: { success: 0, failure: 0, weight: 60 },
+  nexra: { success: 0, failure: 0, weight: 70 },
+  YT: { success: 0, failure: 0, weight: 50 },
+  airoom: { success: 10, failure: 0, weight: 20 },
+  mhystical: { success: 0, failure: 0, weight: 40 },
 };
 
 // 定义模型与提供商的映射关系
 const modelProviderMap = {
-  'claude-3.5-sonnet': ['airoom', 'blackbox'],
+  'claude-3.5-sonnet': ['blackbox', 'airoom'],
   'claude-3.5-haiku': ['airoom'],
   'deepseek': ['airoom'],
   'gemini-pro': ['blackbox'],
-  'gpt-4o': ['airoom', 'blackbox', 'airforce', 'nexra'],
-  'gpt-4o-mini': ['airoom', 'nexra'],
+  'gpt-4o': ['blackbox', 'airforce', 'nexra'],
+  'gpt-4o-mini': ['nexra'],
   'gpt-3.5-turbo-16k': ['mhystical'],
   'net-gpt-4o-mini': ['YT'],
   'llama-3.1-405b': ['blackbox'],
@@ -53,8 +53,10 @@ const providerApis = {
   mhystical: mhystical
 };
 
+// 请求超时时间设置(毫秒)
 const TIMEOUT = 120000;
 
+// 超时处理包装函数
 const withTimeout = async (promise, timeout) => {
   let timer;
   const timeoutPromise = new Promise((_, reject) => {
@@ -73,16 +75,26 @@ const withTimeout = async (promise, timeout) => {
   }
 };
 
-const getProvidersBySuccess = () => {
+// 根据权重和成功率计算提供商优先级
+const calculateProviderPriority = (provider) => {
+  const stats = providerStats[provider];
+  const successRate = stats.success / (stats.success + stats.failure) || 0;
+  // 权重占70%，成功率占30%的综合评分
+  return (stats.weight * 0.7) + (successRate * 100 * 0.3);
+};
+
+// 获取按优先级排序的提供商列表
+const getProvidersByPriority = () => {
   return Object.entries(providerStats)
-    .sort(([, a], [, b]) => {
-      const successRateA = a.success / (a.success + a.failure) || 0;
-      const successRateB = b.success / (b.success + b.failure) || 0;
-      return successRateB - successRateA;
+    .sort(([providerA, a], [providerB, b]) => {
+      const priorityA = calculateProviderPriority(providerA);
+      const priorityB = calculateProviderPriority(providerB);
+      return priorityB - priorityA;
     })
     .map(([provider]) => provider);
 };
 
+// 更新提供商的成功/失败统计
 const updateStats = (provider, isSuccess) => {
   if (isSuccess) {
     providerStats[provider].success++;
@@ -91,8 +103,25 @@ const updateStats = (provider, isSuccess) => {
   }
 };
 
+// 带重试和失败转移的服务调用函数
 const retryWithFallback = async (messages, modelName, availableProviders) => {
-  const sortedProviders = getProvidersBySuccess().filter(provider =>
+  // 如果只有一个可用提供商，直接使用它
+  if (availableProviders.length === 1) {
+    const provider = availableProviders[0];
+    try {
+      const apiFunction = providerApis[provider];
+      const response = await withTimeout(apiFunction(messages, modelName), TIMEOUT);
+      updateStats(provider, !!response);
+      return response || '服务调用失败';
+    } catch (error) {
+      console.error(`${provider} failed:`, error);
+      updateStats(provider, false);
+      return '服务调用失败';
+    }
+  }
+
+  // 多个提供商时，按优先级尝试
+  const sortedProviders = getProvidersByPriority().filter(provider =>
     availableProviders.includes(provider)
   );
 
@@ -114,8 +143,8 @@ const retryWithFallback = async (messages, modelName, availableProviders) => {
   return '所有逆向服务均失败';
 };
 
+// 主要的模型响应处理函数
 export const NXModelResponse = async (messages, model) => {
-
   const normalizedModel = modelNameNormalization[model] || model;
   const supportedProviders = modelProviderMap[normalizedModel];
 
@@ -131,7 +160,17 @@ export const NXModelResponse = async (messages, model) => {
   }
 };
 
+// 获取提供商统计信息和优先级排序
 export const getProviderStatistics = () => ({
   stats: { ...providerStats },
-  sortedProviders: getProvidersBySuccess()
+  sortedProviders: getProvidersByPriority()
 });
+
+// 更新提供商权重的函数
+export const updateProviderWeight = (provider, weight) => {
+  if (providerStats[provider] && weight >= 1 && weight <= 100) {
+    providerStats[provider].weight = weight;
+    return true;
+  }
+  return false;
+};

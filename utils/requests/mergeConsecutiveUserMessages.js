@@ -8,32 +8,35 @@ export const mergeConsecutiveUserMessages = async (messages) => {
   if (!messages.length) return [];
 
   return messages.reduce((acc, curr, index) => {
+    // 创建当前消息的深拷贝
+    const currentMsg = JSON.parse(JSON.stringify(curr));
+
     // 如果当前消息的content是数组,直接添加并跳过处理
-    if (Array.isArray(curr.content)) {
-      acc.push(curr);
+    if (Array.isArray(currentMsg.content)) {
+      acc.push(currentMsg);
       return acc;
     }
 
     const prevItem = acc[acc.length - 1]; // 获取累加数组的最后一项
 
     // 处理system角色转换为user
-    if (curr.role === 'system') {
-      curr.role = 'user';
+    if (currentMsg.role === 'system') {
+      currentMsg.role = 'user';
     }
 
     // 如果前一项存在且两项都是user角色且content都不是数组,则合并content
     if (
       prevItem && 
       prevItem.role === 'user' && 
-      curr.role === 'user' &&
+      currentMsg.role === 'user' &&
       !Array.isArray(prevItem.content) &&
-      !Array.isArray(curr.content)
+      !Array.isArray(currentMsg.content)
     ) {
-      // 合并content,使用换行符连接
-      prevItem.content = prevItem.content + '\n' + curr.content;
+      // 创建新对象来存储合并后的内容
+      prevItem.content = prevItem.content + '\n' + currentMsg.content;
     } else {
       // 不需要合并则直接添加当前项
-      acc.push(curr);
+      acc.push(currentMsg);
     }
 
     return acc;
