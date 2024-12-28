@@ -4,6 +4,7 @@ import { nexra } from "../providers/ChatModels/nexra/nexra.js";
 import { FreeSearch } from "../providers/ChatModels/YT/FreeSearch.js";
 import { airoom } from "../providers/ChatModels/airoom/airoom.js";
 import { mhystical } from "../providers/ChatModels/mhystical/mhystical.js";
+import { e2b } from "../providers/ChatModels/e2b/e2b.js";
 
 // 存储服务商的成功/失败统计和权重配置
 const providerStats = {
@@ -13,23 +14,34 @@ const providerStats = {
   YT: { success: 0, failure: 0, weight: 50 },
   airoom: { success: 10, failure: 0, weight: 20 },
   mhystical: { success: 0, failure: 0, weight: 40 },
+  e2b: { success: 0, failure: 0, weight: 100 },
 };
 
 // 定义模型与提供商的映射关系
 const modelProviderMap = {
+  'claude-3.5-sonnet-20241022': ['e2b'],
   'claude-3.5-sonnet': ['blackbox', 'airoom'],
-  'claude-3.5-haiku': ['airoom'],
+  'claude-3.5-haiku': ['e2b', 'airoom'],
   'deepseek': ['airoom'],
   'gemini-pro': ['blackbox'],
-  'gpt-4o': ['blackbox', 'airforce', 'nexra'],
+  'gpt-4o': ['blackbox', 'e2b', 'airforce', 'nexra'],
   'gpt-4o-mini': ['nexra'],
   'gpt-3.5-turbo-16k': ['mhystical'],
   'net-gpt-4o-mini': ['YT'],
   'llama-3.1-405b': ['blackbox'],
+  'qwen-qwq-32b-preview': ['e2b'],
+  'gemini-1.5-pro': ['e2b'],
+  'o1-preview': ['e2b'],
+  'o1-mini': ['e2b'],
 };
 
 // 模型名称标准化映射
 const modelNameNormalization = {
+  'o1-mini-nx': 'o1-mini',
+  'o1-preview-nx': 'o1-preview',
+  'gemini-1.5-pro-nx': 'gemini-1.5-pro',
+  'qwen-qwq-32b-preview-nx': 'qwen-qwq-32b-preview',
+  'claude-3.5-sonnet-20241022-nx': 'claude-3.5-sonnet-20241022',
   'claude-3-5-sonnet-0620-nx': 'claude-3.5-sonnet',
   'claude-3.5-sonnet@0620-nx': 'claude-3.5-sonnet',
   'claude-3-5-sonnet-nx': 'claude-3.5-sonnet',
@@ -50,7 +62,8 @@ const providerApis = {
   nexra: nexra,
   YT: FreeSearch,
   airoom: airoom,
-  mhystical: mhystical
+  mhystical: mhystical,
+  e2b: e2b
 };
 
 // 请求超时时间设置(毫秒)
