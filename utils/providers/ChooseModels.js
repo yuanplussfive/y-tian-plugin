@@ -5,25 +5,27 @@ import { FreeSearch } from "../providers/ChatModels/YT/FreeSearch.js";
 import { airoom } from "../providers/ChatModels/airoom/airoom.js";
 import { mhystical } from "../providers/ChatModels/mhystical/mhystical.js";
 import { e2b } from "../providers/ChatModels/e2b/e2b.js";
+import { chatru } from "../providers/ChatModels/chatru/chatru.js";
 
 // 存储服务商的成功/失败统计和权重配置
 const providerStats = {
-  blackbox: { success: 0, failure: 0, weight: 90 },
+  blackbox: { success: 0, failure: 0, weight: 85 },
   airforce: { success: 0, failure: 0, weight: 60 },
   nexra: { success: 0, failure: 0, weight: 70 },
   YT: { success: 0, failure: 0, weight: 50 },
   airoom: { success: 10, failure: 0, weight: 20 },
   mhystical: { success: 0, failure: 0, weight: 40 },
   e2b: { success: 0, failure: 0, weight: 100 },
+  chatru: { success: 0, failure: 0, weight: 90 },
 };
 
 // 定义模型与提供商的映射关系
 const modelProviderMap = {
   'claude-3.5-sonnet-20241022': ['e2b'],
-  'claude-3.5-sonnet': ['blackbox', 'airoom'],
+  'claude-3.5-sonnet': ['blackbox', 'chatru', 'airoom'],
   'claude-3.5-haiku': ['e2b', 'airoom'],
   'deepseek': ['airoom'],
-  'gemini-pro': ['blackbox'],
+  'gemini-pro': ['chatru', 'blackbox'],
   'gpt-4o': ['blackbox', 'e2b', 'airforce', 'nexra'],
   'gpt-4o-mini': ['nexra'],
   'gpt-3.5-turbo-16k': ['mhystical'],
@@ -31,12 +33,16 @@ const modelProviderMap = {
   'llama-3.1-405b': ['blackbox'],
   'qwen-qwq-32b-preview': ['e2b'],
   'gemini-1.5-pro': ['e2b'],
-  'o1-preview': ['e2b'],
+  'o1-preview': ['e2b', 'chatru'],
+  'gemini-1.5-flash-vision': ['chatru'],
+  'gpt-4o-vision': ['chatru'],
   'o1-mini': ['e2b'],
 };
 
 // 模型名称标准化映射
 const modelNameNormalization = {
+  'gemini-1.5-flash-vision-nx': 'gemini-1.5-flash-vision',
+  'gpt-4o-vision-nx': 'gpt-4o-vision',
   'o1-mini-nx': 'o1-mini',
   'o1-preview-nx': 'o1-preview',
   'gemini-1.5-pro-nx': 'gemini-1.5-pro',
@@ -63,7 +69,8 @@ const providerApis = {
   YT: FreeSearch,
   airoom: airoom,
   mhystical: mhystical,
-  e2b: e2b
+  e2b: e2b,
+  chatru: chatru
 };
 
 // 请求超时时间设置(毫秒)
@@ -125,11 +132,11 @@ const retryWithFallback = async (messages, modelName, availableProviders) => {
       const apiFunction = providerApis[provider];
       const response = await withTimeout(apiFunction(messages, modelName), TIMEOUT);
       updateStats(provider, !!response);
-      return response || '服务调用失败';
+      return response || '逆向服务调用失败';
     } catch (error) {
       console.error(`${provider} failed:`, error);
       updateStats(provider, false);
-      return '服务调用失败';
+      return '逆向服务调用失败';
     }
   }
 

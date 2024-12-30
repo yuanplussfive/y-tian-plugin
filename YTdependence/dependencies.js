@@ -9,16 +9,24 @@ import os from "os"
 import querystring from 'querystring'
 import fs from "fs"
 import moment from "moment"
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
 import cfg from "../../../lib/config/config.js"
 import puppeteer from "../../../lib/puppeteer/puppeteer.js"
 import common from "../../../lib/common/common.js"
-import request from "../node_modules/axios/index.js"
-import WebSocket from "../node_modules/ws/index.js"
-import FormData from "form-data"
+import { createRequire } from 'module'
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const require = createRequire(import.meta.url);
+const formDataPath = join(__dirname, '../node_modules/form-data');
+const FormData = require(formDataPath);
+const requestPath = join(__dirname, '../node_modules/request');
+const request = require(requestPath);
+const WebSocketPath = join(__dirname, '../node_modules/ws');
+const WebSocket = require(WebSocketPath);
 import axios from "../node_modules/axios/index.js"
-import mimeTypes from "../node_modules/mime-types/index.js"
+const mimeTypesPath = join(__dirname, '../node_modules/mime-types');
+const mimeTypes = require(mimeTypesPath);
 import { handleTTS } from "../model/Anime_tts.js"
 import { Anime_tts_roles } from "../model/Anime_tts_roles.js"
 import { tts_roles } from "../model/Anime_roles.js"
@@ -43,6 +51,7 @@ import { FreeClaude_1 } from '../utils/FreeClaude/Claude_1.js';
 import { processArray, countTextInString } from '../YTOpen-Ai/tools/messageGenerator.js';
 import { extractAndRender, extractCodeBlocks } from '../YTOpen-Ai/tools/preview.js';
 import { NXModelResponse } from "../utils/providers/ChooseModels.js"
+import { bilibiliParser } from "../YTOpen-Ai/tools/bilibilivideoanalysis.js"
 
 export const dependencies = {
   fs,
@@ -90,5 +99,6 @@ export const dependencies = {
   SessModels: sess_models,
   ChatModels: chat_models,
   OtherModels: other_models,
-  NXModelResponse
+  NXModelResponse,
+  bilibiliParser
 }

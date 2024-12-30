@@ -211,9 +211,9 @@ async function launchPuppeteer(userDataDir) {
  * @returns {Array<string>} - 图片链接数组
  */
 function extractImageLinks(text) {
-  const regex = /!$$\d+$$$(https?:\/\/[^\s)]+)$/g; // 匹配 ![数字](链接)
+  const regex = /!\[(\d+)\]\((https?:\/\/[^\s)]+)\)/g;
   const matches = Array.from(text.matchAll(regex));
-  return matches.map(match => match[1]).filter(url => url.length > 0);
+  return matches.map(match => match[2]).filter(url => url.length > 0);
 }
 
 /**
