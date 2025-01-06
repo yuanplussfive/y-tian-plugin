@@ -1439,5 +1439,93 @@ export const other_models = [
     "token": 32000,
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 0
+  }, 
+  {
+    "id": 178,
+    "model": "yi-lightning-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 179,
+    "model": "hunyuan-lite-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 180,
+    "model": "glm-4-flash-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 181,
+    "model": "deepseek-v3-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 182,
+    "model": "spark-max-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 183,
+    "model": "qwen-2.5-72b-instruct-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 184,
+    "model": "ERNIE-Speed-128k-nx",
+    "points": "逆向渠道",
+    "token": 128000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 185,
+    "model": "grok-v2-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 186,
+    "model": "llama-3.3-70b-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 187,
+    "model": "claude-3.5-sonnet-poe-nx",
+    "points": "逆向渠道",
+    "token": 8000,
+    "features": ["conversation"],
+    "quota": 0
+  },
+  {
+    "id": 188,
+    "model": "gemini-2.0-flash-exp-nx",
+    "points": "逆向渠道",
+    "token": 1000000,
+    "features": ["conversation"],
+    "quota": 0
   }
 ]

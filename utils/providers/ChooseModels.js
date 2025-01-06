@@ -6,6 +6,7 @@ import { airoom } from "../providers/ChatModels/airoom/airoom.js";
 import { mhystical } from "../providers/ChatModels/mhystical/mhystical.js";
 import { e2b } from "../providers/ChatModels/e2b/e2b.js";
 import { chatru } from "../providers/ChatModels/chatru/chatru.js";
+import { zaiwen } from "../providers/ChatModels/zaiwen/zaiwen.js";
 
 // 存储服务商的成功/失败统计和权重配置
 const providerStats = {
@@ -17,14 +18,16 @@ const providerStats = {
   mhystical: { success: 0, failure: 0, weight: 40 },
   e2b: { success: 0, failure: 0, weight: 100 },
   chatru: { success: 0, failure: 0, weight: 90 },
+  zaiwen: { success: 0, failure: 0, weight: 90 }
 };
 
 // 定义模型与提供商的映射关系
 const modelProviderMap = {
+  'claude_3_igloo': ['zaiwen'],
   'claude-3.5-sonnet-20241022': ['e2b'],
   'claude-3.5-sonnet': ['blackbox', 'chatru', 'airoom'],
   'claude-3.5-haiku': ['e2b', 'airoom'],
-  'deepseek': ['airoom'],
+  'deepseek': ['zaiwen'],
   'gemini-pro': ['chatru', 'blackbox'],
   'gpt-4o': ['blackbox', 'e2b', 'airforce', 'nexra'],
   'gpt-4o-mini': ['nexra'],
@@ -37,6 +40,16 @@ const modelProviderMap = {
   'gemini-1.5-flash-vision': ['chatru'],
   'gpt-4o-vision': ['chatru'],
   'o1-mini': ['e2b'],
+  'yi-lightning': ['zaiwen'],
+  'hunyuan-lite': ['zaiwen'],
+  'glm-4-flash': ['zaiwen'],
+  'deepseek2.5': ['zaiwen'],
+  'spark-max': ['zaiwen'],
+  'qwen2572binstruct': ['zaiwen'],
+  'ERNIE-Speed-128k': ['zaiwen'],
+  'grok': ['zaiwen'],
+  'llama3370b': ['zaiwen'],
+  'gemini_2_falsh': ['zaiwen']
 };
 
 // 模型名称标准化映射
@@ -56,9 +69,20 @@ const modelNameNormalization = {
   'gpt-4o-nx': 'gpt-4o',
   'gpt-3.5-turbo-nx': 'gpt-3.5-turbo-16k',
   'gemini-pro-nx': 'gemini-pro',
-  'deepseek-v2.5-nx': 'deepseek',
+  'deepseek-v2.5-nx': 'deepseek2.5',
   'llama-3.1-405b-nx': 'llama-3.1-405b',
   'net-gpt-4o-mini-nx': 'net-gpt-4o-mini',
+  'yi-lightning-nx': 'yi-lightning',
+  'hunyuan-lite-nx': 'hunyuan-lite',
+  'glm-4-flash-nx': 'glm-4-flash',
+  'deepseek-v3-nx': 'deepseek2.5',
+  'spark-max-nx': 'spark-max',
+  'qwen-2.5-72b-instruct-nx': 'qwen2572binstruct',
+  'ERNIE-Speed-128k-nx': 'ERNIE-Speed-128k',
+  'grok-v2-nx': 'grok',
+  'llama-3.3-70b-nx': 'llama3370b',
+  'claude-3.5-sonnet-poe-nx': 'claude_3_igloo',
+  'gemini-2.0-flash-exp-nx': 'gemini_2_falsh',
 };
 
 // 提供商对应的API函数映射
@@ -70,11 +94,12 @@ const providerApis = {
   airoom: airoom,
   mhystical: mhystical,
   e2b: e2b,
-  chatru: chatru
+  chatru: chatru,
+  zaiwen: zaiwen
 };
 
 // 请求超时时间设置(毫秒)
-const TIMEOUT = 120000;
+const TIMEOUT = 240000;
 
 // 超时处理包装函数
 const withTimeout = async (promise, timeout) => {
