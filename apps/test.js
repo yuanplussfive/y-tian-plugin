@@ -12,9 +12,9 @@ import { PokeTool } from '../YTOpen-Ai/functions_tools/PokeTool.js';
 import { LikeTool } from '../YTOpen-Ai/functions_tools/LikeTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
+import { MessageManager } from '../utils/MessageManager.js';
 import { dependencies } from '../YTdependence/dependencies.js';
 const { fs, YAML, crypto, path } = dependencies;
-import { MessageManager } from './MessageManager.js';
 
 /**
  * 示例插件类
