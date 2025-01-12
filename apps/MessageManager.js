@@ -7,7 +7,6 @@ export class MessageRecordPlugin extends plugin {
             dsc: '记录群聊和私聊消息',
             event: 'message',
             priority: -Infinity,
-            /** 添加必要的配置项 */
             task: {
                 name: 'messageRecord',
                 fnc: () => { },
@@ -63,11 +62,31 @@ export class MessageRecordPlugin extends plugin {
                 return;
             }
 
-            const forwardMsgs = messages.map(msg => ({
-                user_id: msg.sender.user_id,
-                nickname: msg.sender.nickname,
-                message: `${msg.content}\n${msg.time}`
-            }));
+            const forwardMsgs = messages.map(msg => {
+                let message;
+                if (msg.content.includes('发送了一张图片')) {
+                    const match = msg.content.match(/\[(https?:\/\/[^\]]+)\]/);
+                    if (match) {
+                        message = [
+                            segment.image(match[1]),
+                            '\n',
+                            msg.time
+                        ];
+                    }
+                } else {
+                    message = [
+                        msg.content,
+                        '\n',
+                        msg.time
+                    ];
+                }
+
+                return {
+                    user_id: msg.sender.user_id,
+                    nickname: msg.sender.nickname,
+                    message
+                };
+            });
 
             const Summary = type === 'group'
                 ? await e.group.makeForwardMsg(forwardMsgs)
@@ -75,7 +94,6 @@ export class MessageRecordPlugin extends plugin {
 
             await e.reply(Summary);
 
-            await e.reply(Summary);
         } catch (error) {
             logger.error(`获取消息记录失败: ${error}`);
             await e.reply('获取消息记录失败，请查看控制台日志');
