@@ -306,8 +306,14 @@ Source: Bilibili-API-v2
 export const bilibiliParser = async (Urls) => {
   const parser = new BilibiliParser();
   const results = [];
-
-  for (const url of Urls) {
+  const regex = /https?:\/\/(?:www\.)?bilibili\.com\/video\/[a-zA-Z0-9]+(?:[/?][^)\s]*)?/g;
+  const videos = Urls.match(regex) || [];
+  console.log('找到的视频链接:', videos);
+  const cleanedVideos = [...new Set(videos.map(url => {
+    const match = url.match(/bilibili\.com\/video\/([A-Za-z0-9]+)/);
+    return match ? `https://www.bilibili.com/video/${match[1]}` : null;
+  }).filter(Boolean))];
+  for (const url of cleanedVideos) {
     try {
       const result = await parser.parseVideo(url);
       results.push({
