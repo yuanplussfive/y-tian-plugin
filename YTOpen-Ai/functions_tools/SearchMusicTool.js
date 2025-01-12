@@ -118,12 +118,12 @@ export class SearchMusicTool extends AbstractTool {
           await e.friend.shareMusic('163', ids);
         }
 
-        await e.reply(segment.record(musicUrl));
+        return `🎵 搜索结果:\nid: ${song.id}, name: ${song.name}, artists: ${song.artists}, alias: ${song.alias}`;
 
-        return `搜索结果:\nid: ${song.id}, name: ${song.name}, artists: ${song.artists}, alias: ${song.alias}`;
       } catch (shareError) {
-        console.error('分享或发送过程出错:', shareError);
-        return `分享音乐失败: ${shareError.message}`;
+        console.error('分享音乐失败:', shareError);
+        await e.reply(segment.record(musicUrl));
+        return `❌ 分享音乐卡片失败,但你可以试听:\nid: ${song.id}, name: ${song.name}, artists: ${song.artists}, alias: ${song.alias}`;
       }
     } catch (err) {
       console.error('执行过程中发生错误:', err);
