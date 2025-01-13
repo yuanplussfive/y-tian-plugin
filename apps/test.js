@@ -1080,7 +1080,7 @@ BEHAVIORAL GUIDELINES:
             await e.reply(finalReply);
           } else if (typeof result === 'object' && result.filePath) {
             // 如果是FileCreation工具，发送文件
-            await e.reply([segment.file(result.filePath), cleanMarkdownLinks(finalReply)]);
+            await e.reply([segment.file(result.filePath), finalReply]);
           } else if (this.bingImageSearchTool.name || this.emojiSearchTool.name) {
             // 如果是bingImageSearchTool或emojiSearchTool工具，发送文本回复
             await e.reply(cleanMarkdownLinks(finalReply));
