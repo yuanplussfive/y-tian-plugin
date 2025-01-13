@@ -79,13 +79,29 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
     const filePath = path.join(saveDir, finalFileName);
     fs.writeFileSync(filePath, Buffer.from(fileBuffer));
 
-    // 发送非图片文件
     const imageExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif'];
     if (!imageExtensions.includes(fileExtension.toLowerCase())) {
-      if (e.group_id) {
-        await e.group.sendFile(filePath);
-      } else {
-        await e.friend.sendFile(filePath);
+      try {
+        if (e.group_id) {
+          // 尝试 napcat 的方式发送
+          if (e.group.fs && typeof e.group.fs.upload === 'function') {
+            await e.group.fs.upload(filePath);
+          }
+          // 回退到 icqq 的方式
+          else if (typeof e.group.sendFile === 'function') {
+            await e.group.sendFile(filePath);
+          }
+        } else {
+          // 私聊情况
+          if (e.friend.fs && typeof e.friend.fs.upload === 'function') {
+            await e.friend.fs.upload(filePath);
+          }
+          else if (typeof e.friend.sendFile === 'function') {
+            await e.friend.sendFile(filePath);
+          }
+        }
+      } catch (err) {
+        console.error('文件发送失败:', err);
       }
     }
 

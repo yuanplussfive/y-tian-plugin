@@ -343,10 +343,19 @@ export class ExamplePlugin extends plugin {
     }
 
     // 更安全的触发前缀检查
-    const hasTriggerPrefix = this.config.triggerPrefixes.some(prefix =>
-      (e.msg && typeof e.msg === 'string' && e.msg.toLowerCase().includes(prefix.toLowerCase())) ||
-      (e.message && Array.isArray(e.message) && e.message.some(msg => msg.type === 'at' && msg.qq === Bot.uin))
-    );
+    const hasTriggerPrefix = this.config.triggerPrefixes.some(prefix => {
+      if (e.msg) {
+        const msgText = String(e.msg); // 强制转换为字符串
+        return msgText.toLowerCase().includes(prefix.toLowerCase());
+      }
+
+      if (e.message && Array.isArray(e.message)) {
+        return e.message.some(msg => msg.type === 'at' && msg.qq === Bot.uin);
+      }
+
+      return false;
+    });
+
 
     // 如果没有触发前缀，则使用随机概率
     if (!hasTriggerPrefix) {
