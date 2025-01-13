@@ -79,32 +79,49 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
     const filePath = path.join(saveDir, finalFileName);
     fs.writeFileSync(filePath, Buffer.from(fileBuffer));
 
+    // 发送非图片文件
     const imageExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif'];
     if (!imageExtensions.includes(fileExtension.toLowerCase())) {
-      try {
-        if (e.group_id) {
-          // 尝试 napcat 的方式发送
-          if (e.group.fs && typeof e.group.fs.upload === 'function') {
-            await e.group.fs.upload(filePath);
-          }
-          // 回退到 icqq 的方式
-          else if (typeof e.group.sendFile === 'function') {
-            await e.group.sendFile(filePath);
-          }
-        } else {
-          // 私聊情况
-          if (e.friend.fs && typeof e.friend.fs.upload === 'function') {
-            await e.friend.fs.upload(filePath);
-          }
-          else if (typeof e.friend.sendFile === 'function') {
-            await e.friend.sendFile(filePath);
-          }
+      if (e.group_id) {
+        // OneBot 11 协议方式
+        if (e.bot?.upload_group_file) {
+          await e.bot.upload_group_file({
+            group_id: e.group_id,
+            file: filePath,
+            name: path.basename(filePath)
+          });
         }
-      } catch (err) {
-        console.error('文件发送失败:', err);
-      }
-    }
-
+        // napcat API
+        else if (e.group?.upload_group_file) {
+          await e.group.upload_group_file(e.group_id, filePath);
+        }
+        // napcat 旧版写法
+        else if (e.group?.fs?.upload) {
+          await e.group.fs.upload(filePath);
+        }
+        // icqq 写法
+        else if (e.group?.sendFile) {
+          await e.group.sendFile(filePath);
+        }
+      } else if (e.friend || e.user_id) {
+        // OneBot 11 协议方式
+        if (e.bot?.upload_private_file) {
+          await e.bot.upload_private_file({
+            user_id: e.user_id,
+            file: filePath,
+            name: path.basename(filePath)
+          });
+        }
+        // napcat API
+        else if (e.friend?.fs?.upload) {
+          await e.friend.fs.upload(filePath);
+        }
+        // icqq 写法
+        else if (e.friend?.sendFile) {
+          await e.friend.sendFile(filePath);
+        }
+     }      
+  }
     return {
       success: true,
       filePath,
