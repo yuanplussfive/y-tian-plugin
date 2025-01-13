@@ -111,6 +111,7 @@ export class DalleTool extends AbstractTool {
     }
 
     if (imageUrl) {
+      await e.reply(segment.image(imageUrl));
       return {
         imageUrl,
         prompt

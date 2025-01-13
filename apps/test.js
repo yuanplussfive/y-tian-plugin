@@ -61,21 +61,78 @@ export class ExamplePlugin extends plugin {
     this.imageAnalysisTool = new ImageAnalysisTool();
     this.pokeTool = new PokeTool();
     this.likeTool = new LikeTool();
-    // 汇总所有工具的基本信息
+    // 工具定义部分
     this.functions = [
-      this.jinyanTool.getToolInfo(),
-      this.dalleTool.getToolInfo(),
-      this.freeSearchTool.getToolInfo(),
-      this.searchVideoTool.getToolInfo(),
-      this.searchMusicTool.getToolInfo(),
-      this.aiALLTool.getToolInfo(),
-      this.emojiSearchTool.getToolInfo(),
-      this.bingImageSearchTool.getToolInfo(),
-      this.imageAnalysisTool.getToolInfo(),
-      this.pokeTool.getToolInfo(),
-      this.likeTool.getToolInfo(),
-      // 可以在这里添加更多工具
+      {
+        name: this.jinyanTool.name,
+        description: this.jinyanTool.description,
+        parameters: this.jinyanTool.parameters
+      },
+      {
+        name: this.dalleTool.name,
+        description: this.dalleTool.description,
+        parameters: this.dalleTool.parameters
+      },
+      {
+        name: this.freeSearchTool.name,
+        description: this.freeSearchTool.description,
+        parameters: this.freeSearchTool.parameters
+      },
+      {
+        name: this.searchVideoTool.name,
+        description: this.searchVideoTool.description,
+        parameters: this.searchVideoTool.parameters
+      },
+      {
+        name: this.searchMusicTool.name,
+        description: this.searchMusicTool.description,
+        parameters: this.searchMusicTool.parameters
+      },
+      {
+        name: this.aiALLTool.name,
+        description: this.aiALLTool.description,
+        parameters: this.aiALLTool.parameters
+      },
+      {
+        name: this.emojiSearchTool.name,
+        description: this.emojiSearchTool.description,
+        parameters: this.emojiSearchTool.parameters
+      },
+      {
+        name: this.bingImageSearchTool.name,
+        description: this.bingImageSearchTool.description,
+        parameters: this.bingImageSearchTool.parameters
+      },
+      {
+        name: this.imageAnalysisTool.name,
+        description: this.imageAnalysisTool.description,
+        parameters: this.imageAnalysisTool.parameters
+      },
+      {
+        name: this.pokeTool.name,
+        description: this.pokeTool.description,
+        parameters: this.pokeTool.parameters
+      },
+      {
+        name: this.likeTool.name,
+        description: this.likeTool.description,
+        parameters: this.likeTool.parameters
+      }
     ];
+
+    // 转换为 OpenAI tools 格式
+    this.tools = this.functions.map(func => ({
+      type: 'function',
+      function: {
+        name: func.name,
+        description: func.description,
+        parameters: {
+          type: 'object',
+          properties: func.parameters.properties,
+          required: func.parameters.required || []
+        }
+      }
+    }));
 
     // 初始化消息历史管理，使用 Redis 和本地文件
     this.messageHistoriesRedisKey = 'group_user_message_history'; // Redis 中存储消息历史的键前缀，包含群组和用户
@@ -839,11 +896,11 @@ BEHAVIORAL GUIDELINES:
 
       console.log(groupUserMessages);
       // 构建初始请求体
+      // 修改初始请求体的构建
       const requestData = {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
-        functions: this.functions
-        // 移除固定的函数调用，允许OpenAI自由调用工具
+        tools: this.tools
       };
 
       // 调用 OpenAI API 获取初始响应
@@ -900,215 +957,146 @@ BEHAVIORAL GUIDELINES:
         }
       };
 
-      if (message.function_call) {
+      // 修改工具调用处理部分
+      if (message.tool_calls) {
+        hasHandledFunctionCall = true;
+        const toolResults = []; // 存储所有工具执行结果
 
-        hasHandledFunctionCall = true; // 标记已经处理过工具调用
+        // 为每个工具调用创建独立的消息历史
+        for (const toolCall of message.tool_calls) {
+          const { id, type, function: functionData } = toolCall;
 
-        const { name: functionName, arguments: argsString } = message.function_call;
-
-        // 添加函数名称映射逻辑
-        const CurrentfunctionName = functionName.toLowerCase().includes('dalle') && functionName !== 'dalleTool'
-          ? 'dalleTool'
-          : functionName;
-
-        // 在执行函数调用前，先添加 assistant 的响应
-        groupUserMessages.push({
-          role: 'assistant',
-          content: `好的，我来帮你${CurrentfunctionName === 'BingImageSearch' ? '搜索相关图片' :
-            CurrentfunctionName === 'dalleTool' ? '画图片' : '处理这个请求'}, 稍等一下哦~`,
-          function_call: {
-            name: CurrentfunctionName,  // 使用映射后的函数名称
-            arguments: argsString
-          }
-        });
-
-        // 验证工具名称
-        if (!functionName) {
-          await e.reply('未能识别调用的工具名称。');
-          // 清空当前用户的消息历史
-          await this.resetGroupUserMessages(groupId, userId);
-          return false;
-        }
-
-        // 解析参数
-        let params;
-        try {
-          params = JSON.parse(argsString);
-        } catch (parseError) {
-          console.error('参数解析错误：', parseError);
-          await e.reply('解析工具参数时发生错误。');
-          // 清空当前用户的消息历史
-          await this.resetGroupUserMessages(groupId, userId);
-          return false;
-        }
-
-        // 记录函数调用到历史
-        groupUserMessages.push({
-          role: 'function',
-          name: CurrentfunctionName,
-          content: JSON.stringify(params)
-        });
-
-        let result; // 确保在这里定义 result 变量
-
-        try {
-          // 根据函数名调用对应的工具
-          switch (functionName) {
-            case this.jinyanTool.name:
-              // 处理禁言工具
-              result = await executeTool(this.jinyanTool, {
-                ...params,
-                senderRole: senderRole,
-                targetRole: targetRole
-              }, e);
-              break;
-
-            case this.dalleTool.name:
-              // 处理AI绘图工具
-              result = await executeTool(this.dalleTool, params, e);
-              result = {
-                prompt: result.prompt,
-                imageUrl: result.imageUrl
-              };
-              break;
-
-            case this.freeSearchTool.name:
-              result = await executeTool(this.freeSearchTool, params, e);
-              break;
-
-            case this.searchVideoTool.name:
-              result = await executeTool(this.searchVideoTool, params, e);
-              break;
-
-            case this.searchMusicTool.name:
-              result = await executeTool(this.searchMusicTool, params, e);
-
-              break;
-
-            case this.aiALLTool.name:
-              result = await executeTool(this.aiALLTool, params, e);
-              break;
-
-            case this.emojiSearchTool.name:
-              result = await executeTool(this.emojiSearchTool, params, e);
-              break;
-
-            case this.bingImageSearchTool.name:
-              result = await executeTool(this.bingImageSearchTool, params, e);
-              break;
-
-            case this.imageAnalysisTool.name:
-              result = await executeTool(this.imageAnalysisTool, params, e);
-              break;
-
-            case this.pokeTool.name:
-              result = await executeTool(this.pokeTool, params, e);
-              break;
-
-            case this.likeTool.name:
-              result = await executeTool(this.likeTool, params, e);
-              break;
-            default:
-              throw new Error(`未知的工具调用: ${functionName}`);
+          if (type !== 'function') {
+            console.log(`暂不支持的工具类型: ${type}`);
+            continue;
           }
 
-          // 记录执行结果到历史
-          if (result) {
-            groupUserMessages.push({
-              role: 'function',
-              name: CurrentfunctionName,
-              content: JSON.stringify(result)
-            });
-          }
-
-        } catch (error) {
-          console.error(`工具执行失败: ${functionName}`, error);
-          await e.reply(`工具执行出错: ${error.message}`);
-          // 清空当前用户的消息历史
-          await this.resetGroupUserMessages(groupId, userId);
-          return false;
-        }
-
-        // 构建二次请求体，用于生成最终回复
-        const followUpRequestData = {
-          model: 'gpt-4o-fc',
-          messages: groupUserMessages
-        };
-
-        // 调用 YTapi 获取最终回复
-        const followUpResponse = await YTapi(followUpRequestData);
-
-        if (followUpResponse && followUpResponse.choices && followUpResponse.choices[0].message.content) {
-          let finalReply = followUpResponse.choices[0].message.content;
-          function cleanMarkdownLinks(text) {
-            return text
-              // 删除图片链接 ![alt](url)
-              .replace(/!\[([^\]]*)\]\([^)]+\)/g, '')
-              // 删除普通链接 [text](url)
-              .replace(/\[([^\]]*)\]\([^)]+\)/g, '$1')
-              // 删除参考式链接 [text][ref] 和 [ref]: url
-              .replace(/\[([^\]]*)\]\[[^\]]*\]/g, '$1')
-              .replace(/^\[[^\]]*\]:\s*http[^\n]*$/gm, '')
-              // 删除裸露的 URL
-              .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '')
-              // 清理多余的空行
-              .replace(/\n\s*\n\s*\n/g, '\n\n')
-              .trim();
-          }
-          // 添加 assistant 对结果的响应
-          groupUserMessages.push({
+          // 创建当前工具的消息上下文
+          let currentMessages = [...groupUserMessages];
+          currentMessages.push({
             role: 'assistant',
-            content: finalReply
+            content: null,
+            tool_calls: [{
+              id,
+              type,
+              function: {
+                name: functionData.name,
+                arguments: functionData.arguments
+              }
+            }]
           });
 
-          // 限制消息历史长度
-          groupUserMessages = this.trimMessageHistory(groupUserMessages);
-
-          // 保存更新后的消息历史
-          await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
-
-          // 发送工具执行结果
-          if (result && result.error) {
-            // 如果工具执行失败，发送错误信息
-            await e.reply(result.error);
-          } else if (typeof result === 'object' && result.imageUrl) {
-            // 如果是DALL·E工具，发送图片
-            await e.reply([segment.image(result.imageUrl), cleanMarkdownLinks(finalReply)]);
-          } else if (typeof result === 'object' && result.url) {
-            // 如果是SearchMusic工具，发送音乐分享
-            await e.reply(result.url);
-            await e.reply(finalReply);
-          } else if (typeof result === 'object' && result.filePath) {
-            // 如果是FileCreation工具，发送文件
-            await e.reply([segment.file(result.filePath), finalReply]);
-          } else if (this.bingImageSearchTool.name || this.emojiSearchTool.name) {
-            // 如果是bingImageSearchTool或emojiSearchTool工具，发送文本回复
-            await e.reply(cleanMarkdownLinks(finalReply));
-          } else {
-            // 如果是其他工具（如禁言工具）的结果，直接发送文本回复
-            await e.reply(finalReply);
+          const { name: functionName, arguments: argsString } = functionData;
+          let params;
+          try {
+            params = JSON.parse(argsString);
+          } catch (parseError) {
+            console.error('参数解析错误：', parseError);
+            continue;
           }
-        } else {
-          // 如果二次请求失败，发送默认回复
-          const defaultReply = '操作已完成';
-          await e.reply(defaultReply);
-          groupUserMessages.push({
-            role: 'assistant',
-            content: defaultReply
-          });
 
-          // 限制消息历史长度
-          groupUserMessages = this.trimMessageHistory(groupUserMessages);
+          // 执行工具
+          let result;
+          try {
+            switch (functionName) {
+              case this.jinyanTool.name:
+                result = await executeTool(this.jinyanTool, {
+                  ...params,
+                  senderRole: senderRole,
+                  targetRole: targetRole
+                }, e);
+                break;
 
-          // 保存更新后的消息历史
-          await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
+              case this.dalleTool.name:
+                result = await executeTool(this.dalleTool, params, e);
+                result = {
+                  prompt: result.prompt,
+                  imageUrl: result.imageUrl
+                };
+                break;
+
+              case this.freeSearchTool.name:
+                result = await executeTool(this.freeSearchTool, params, e);
+                break;
+
+              case this.searchVideoTool.name:
+                result = await executeTool(this.searchVideoTool, params, e);
+                break;
+
+              case this.searchMusicTool.name:
+                result = await executeTool(this.searchMusicTool, params, e);
+                break;
+
+              case this.aiALLTool.name:
+                result = await executeTool(this.aiALLTool, params, e);
+                break;
+
+              case this.emojiSearchTool.name:
+                result = await executeTool(this.emojiSearchTool, params, e);
+                break;
+
+              case this.bingImageSearchTool.name:
+                result = await executeTool(this.bingImageSearchTool, params, e);
+                break;
+
+              case this.imageAnalysisTool.name:
+                result = await executeTool(this.imageAnalysisTool, params, e);
+                break;
+
+              case this.pokeTool.name:
+                result = await executeTool(this.pokeTool, params, e);
+                break;
+
+              case this.likeTool.name:
+                result = await executeTool(this.likeTool, params, e);
+                break;
+
+              default:
+                throw new Error(`未知的工具调用: ${functionName}`);
+            }
+
+            if (result) {
+              toolResults.push(result); // 保存工具执行结果
+
+              // 添加工具执行结果到当前上下文
+              currentMessages.push({
+                role: 'tool',
+                tool_call_id: id,
+                name: functionName,
+                content: JSON.stringify(result)
+              });
+
+              console.log(currentMessages)
+              // 获取当前工具的响应
+              const toolResponse = await YTapi({
+                model: 'gpt-4o-fc',
+                messages: currentMessages
+              });
+
+              if (toolResponse?.choices?.[0]?.message?.content) {
+                const toolReply = toolResponse.choices[0].message.content;
+
+                e.reply(toolReply);
+                // 更新主消息历史
+                groupUserMessages = currentMessages;
+                groupUserMessages.push({
+                  role: 'assistant',
+                  content: toolReply
+                });
+              }
+            }
+          } catch (error) {
+            console.error(`工具执行失败: ${functionName}`, error);
+            await e.reply(`工具执行出错: ${error.message}`);
+            continue;
+          }
         }
 
-        // 请求完成后，清空当前用户的消息历史
+        // 清理消息历史
         await this.resetGroupUserMessages(groupId, userId);
-
         return true;
-      } else if (message.content) {
+      }
+      else if (message.content) {
         // 如果没有函数调用，直接回复内容
         // 检查是否上一次处理过函数调用，避免连续两次回复
         if (!hasHandledFunctionCall) {
