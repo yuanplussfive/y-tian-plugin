@@ -61,7 +61,7 @@ export class ExamplePlugin extends plugin {
     this.imageAnalysisTool = new ImageAnalysisTool();
     this.pokeTool = new PokeTool();
     this.likeTool = new LikeTool();
-    this.chatHistoryTool = new ChatHistoryTool();
+    //this.chatHistoryTool = new ChatHistoryTool();
     // 工具定义部分
     this.functions = [
       {
