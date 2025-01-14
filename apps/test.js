@@ -61,6 +61,7 @@ export class ExamplePlugin extends plugin {
     this.imageAnalysisTool = new ImageAnalysisTool();
     this.pokeTool = new PokeTool();
     this.likeTool = new LikeTool();
+    this.chatHistoryTool = new ChatHistoryTool();
     // 工具定义部分
     this.functions = [
       {
@@ -372,6 +373,7 @@ export class ExamplePlugin extends plugin {
  * @returns {Promise<boolean>}
  */
   async handleRandomReply(e) {
+    //console.log(e)
     if (!this.config.enabled) return false;
     if (!this.checkGroupPermission(e)) {
       // 检查是否存在明确的触发
@@ -599,35 +601,67 @@ ${ENDS}
         })()
       };
 
-      // 添加一个函数来格式化输出
       function formatSenderInfo(info) {
-        const sections = {
-          核心信息: ['发言文本', '发送时间', '携带图片个数', '携带图片的链接', '被艾特用户的qq'],
-          用户信息: ['昵称', '当前用户QQ号', '性别', '头像链接'],
-          群组信息: ['当前群名称', '当前用户群身份', '当前群头衔', '用户地区', '用户年龄', '用户加群时间', '用户最后发言时间', '会话ID'],
-          历史对话: ['历史记录']
+        // 定义格式化时间的辅助函数
+        const formatDateTime = (timeStr) => {
+          if (!timeStr) return '';
+          return timeStr.replace(/(\d{4})\/(\d{2})\/(\d{2})\s/, '$1年$2月$3日 ');
         };
 
-        let output = '';
-
-        // 遍历每个分类
-        for (const [section, keys] of Object.entries(sections)) {
-          const sectionData = keys
-            .filter(key => info[key] !== undefined && info[key] !== '未知' && info[key] !== '无')
-            .map(key => `${key}: ${info[key]}`)
-            .join('\n');
-
-          if (sectionData) {
-            output += `【${section}】\n${sectionData}\n\n`;
+        // 构建更清晰的消息结构
+        const sections = [
+          {
+            title: '💬 对话信息',
+            content: [
+              ['命令内容', info.发言文本],
+              ['发送时间', formatDateTime(info.发送时间)],
+              info.携带图片个数 > 0 ? ['图片数量', `${info.携带图片个数}张`] : null,
+              info.携带图片的链接 ? ['图片链接', info.携带图片的链接] : null,
+              info.被艾特用户的qq ? ['目标用户', `@${info.被艾特用户的qq}`] : null
+            ]
+          },
+          {
+            title: '👤 发送者信息',
+            content: [
+              ['昵称', info.昵称],
+              ['QQ号', info.当前用户QQ号],
+              ['头像', info.头像链接]
+            ]
+          },
+          {
+            title: '👥 群组信息',
+            content: [
+              ['群名称', info.当前群名称],
+              ['用户身份', info.当前用户群身份],
+              ['加群时间', formatDateTime(info.用户加群时间)],
+              ['最后发言', formatDateTime(info.用户最后发言时间)],
+              ['会话标识', info.会话ID]
+            ]
           }
-        }
+        ];
 
-        return output.trim();
+        // 构建格式化输出
+        let output = sections
+          .map(section => {
+            const sectionContent = section.content
+              .filter(item => item && item[1]) // 过滤掉空值
+              .map(([key, value]) => `${key}：${value}`)
+              .join('\n');
+
+            return `${section.title}\n${sectionContent}`;
+          })
+          .join('\n\n');
+
+        // 添加分隔线使结构更清晰
+        return `――――――――――――――――――\n${output}\n――――――――――――――――――`;
       }
 
+
+      // 使用时：
       if (e.group_id) {
-        userContent += `\n\n${formatSenderInfo(senderInfo)}`;
+        userContent = formatSenderInfo(senderInfo);
       }
+
       console.log(userContent);
 
 
@@ -650,6 +684,7 @@ RESPONSE GUIDELINES:
 处理图片消息时：
 - 优先分析消息中的图片内容和数量
 - 结合历史对话理解用户意图
+- 历史对话里面注意你自己的历史发言
 - 根据图片分析结果给出合适回应
 - 如果需要生成图片，积极配合处理
 
@@ -875,6 +910,34 @@ BEHAVIORAL GUIDELINES:
 7. 有情感波动
 8. 记住是在打字聊天`;
 
+      // 获取历史记录的代码修改
+      const getHistory = async () => {
+        const chatHistory = await this.messageManager.getMessages(
+          e.message_type,
+          e.message_type === 'group' ? e.group_id : e.user_id
+        );
+
+        if (!chatHistory || chatHistory.length === 0) {
+          return [];
+        }
+
+        return [
+          // 使用 reverse() 确保最新消息在下面
+          ...chatHistory.reverse().map(msg => ({
+            role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
+            content: `[${msg.time}] ${msg.sender.nickname}(${msg.sender.user_id}): ${msg.content}`
+          })),
+          {
+            role: 'assistant',
+            content: '我已经读取了上述群聊的聊天记录，我会优先关注你的最新消息'
+          }
+        ];
+      };
+
+
+      // 使用示例:
+      groupUserMessages = await getHistory();
+
       // 移除所有非system角色的消息
       groupUserMessages = groupUserMessages.filter(msg => msg.role !== 'system');
       // 添加动态生成的 system 消息
@@ -1076,7 +1139,33 @@ BEHAVIORAL GUIDELINES:
               if (toolResponse?.choices?.[0]?.message?.content) {
                 const toolReply = toolResponse.choices[0].message.content;
 
-                e.reply(toolReply);
+                const output = toolReply.replace(/^\[[\d-\s:]+\]\s+.*?[:：]\s*/, '')  // 移除时间戳和发送者信息
+                  .replace(/在群里说[:：]\s*/, '')  // 移除"在群里说:"
+                  .trim()  // 清理首尾空白
+                await e.reply(output);
+
+                // 记录工具调用的回复消息
+                try {
+                  const messageObj = {
+                    message_type: e.message_type,
+                    group_id: e.group_id,
+                    time: Math.floor(Date.now() / 1000),
+                    message: [{ type: 'text', text: toolReply }],
+                    source: 'send',
+                    self_id: Bot.uin,
+                    sender: {
+                      user_id: Bot.uin,
+                      nickname: Bot.nickname,
+                      card: Bot.nickname,
+                      role: 'member'
+                    }
+                  };
+
+                  await this.messageManager.recordMessage(messageObj);
+                } catch (error) {
+                  logger.error('[MessageRecord] 记录Bot工具响应消息失败：', error);
+                }
+
                 // 更新主消息历史
                 groupUserMessages = currentMessages;
                 groupUserMessages.push({
@@ -1094,13 +1183,38 @@ BEHAVIORAL GUIDELINES:
 
         // 清理消息历史
         await this.resetGroupUserMessages(groupId, userId);
-        return true;
+        return false;
       }
       else if (message.content) {
         // 如果没有函数调用，直接回复内容
         // 检查是否上一次处理过函数调用，避免连续两次回复
         if (!hasHandledFunctionCall) {
-          await e.reply(message.content);
+          const output = message.content.replace(/^\[[\d-\s:]+\]\s+.*?[:：]\s*/, '')  // 移除时间戳和发送者信息
+            .replace(/在群里说[:：]\s*/, '')  // 移除"在群里说:"
+            .trim()  // 清理首尾空白
+          await e.reply(output);
+
+          // 在这里直接记录 Bot 发送的消息
+          try {
+            const messageObj = {
+              message_type: e.message_type,
+              group_id: e.group_id,
+              time: Math.floor(Date.now() / 1000),
+              message: [{ type: 'text', text: message.content }],
+              source: 'send',
+              self_id: Bot.uin,
+              sender: {
+                user_id: Bot.uin,
+                nickname: Bot.nickname,
+                card: Bot.nickname,
+                role: 'member'
+              }
+            };
+
+            await this.messageManager.recordMessage(messageObj);
+          } catch (error) {
+            logger.error('[MessageRecord] 记录Bot消息失败：', error);
+          }
 
           // 将最终回复记录到历史中
           groupUserMessages.push({

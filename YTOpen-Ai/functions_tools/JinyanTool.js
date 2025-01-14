@@ -46,14 +46,14 @@ export class JinyanTool extends AbstractTool {
    * @returns {Promise<Object|string>} - 操作结果或错误信息
    */
   async func(opts, e) {
-    const { 
-      qq, 
-      time = 300, 
-      random = false, 
+    const {
+      qq,
+      time = 300,
+      random = false,
       senderRole,
-      confirm = false 
+      confirm = false
     } = opts;
-    
+
     const groupId = e.group_id;
 
     // 权限检查
@@ -81,36 +81,35 @@ export class JinyanTool extends AbstractTool {
         await group.muteAll(muteTime);
         return {
           action: muteTime === 0 ? 'unmuteAll' : 'muteAll',
-          time: muteTime
+          time: muteTime,
+          groupName: group.name || groupId // 添加群名称
         };
       }
 
       const members = await group.getMemberMap();
 
-      // 确定目标用户
       let targetQQ;
-      // 当 qq 未指定或 random 为 true 时，执行随机选择
+      let targetMember;
       if (!qq || random) {
-        // 获取所有可被禁言的普通成员
-        const availableMembers = Array.from(members.keys())
-          .filter(id => {
-            const member = members.get(id);
-            return id !== e.bot.uin && 
-                   member.role === 'member' &&
-                   id !== e.sender.user_id; // 不包括发送者自己
-          });
-        
+        const availableMembers = Array.from(members.entries())
+          .filter(([id, member]) =>
+            id !== e.bot.uin &&
+            member.role === 'member' &&
+            id !== e.sender.user_id
+          );
+
         if (availableMembers.length === 0) {
           return '群内没有可禁言的普通成员';
         }
-        
-        // 从可用成员中随机选择
-        targetQQ = availableMembers[Math.floor(Math.random() * availableMembers.length)];
+
+        [targetQQ, targetMember] = availableMembers[
+          Math.floor(Math.random() * availableMembers.length)
+        ];
       } else {
-        targetQQ = qq;
+        targetQQ = Number(qq);
+        targetMember = members.get(targetQQ);
       }
-      
-      const targetMember = members.get(Number(targetQQ));
+
       if (!targetMember) {
         return `用户 ${targetQQ} 不在群中`;
       }
@@ -125,6 +124,8 @@ export class JinyanTool extends AbstractTool {
       return {
         action: muteTime === 0 ? 'unmute' : 'mute',
         targetQQ,
+        targetName: targetMember.card || targetMember.nickname, // 添加目标用户昵称
+        groupName: group.name || groupId, // 添加群名称
         time: muteTime,
         isRandom: !qq || random
       };
