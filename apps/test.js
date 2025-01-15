@@ -8,6 +8,7 @@ import { EmojiSearchTool } from '../YTOpen-Ai/functions_tools/EmojiSearchTool.js
 import { loadData, saveData } from '../utils/redisClient.js';
 import { BingImageSearchTool } from '../YTOpen-Ai/functions_tools/BingImageSearchTool.js';
 import { ImageAnalysisTool } from '../YTOpen-Ai/functions_tools/ImageAnalysisTool.js';
+import { ChatHistoryTool } from '../YTOpen-Ai/functions_tools/ChatHistoryTool.js';
 import { PokeTool } from '../YTOpen-Ai/functions_tools/PokeTool.js';
 import { LikeTool } from '../YTOpen-Ai/functions_tools/LikeTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
