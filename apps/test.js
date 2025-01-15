@@ -491,9 +491,9 @@ export class ExamplePlugin extends plugin {
       // 构建发送者信息对象
       const { sender, group_id, msg } = e;
       const roleMap = {
-        owner: '群主',
-        admin: '管理员',
-        member: '普通群员'
+        owner: 'owner',
+        admin: 'admin',
+        member: 'member'
       };
 
       const sexMap = {
@@ -531,7 +531,7 @@ export class ExamplePlugin extends plugin {
 
         // 基本信息
         const timeStr = formatMessageTime();
-        const senderRole = roleMap[sender.role] || '我自己';
+        const senderRole = roleMap[sender.role] || 'member';
         const senderInfo = `${sender.card || sender.nickname}(qq号: ${sender.user_id})[群身份: ${senderRole}]`;
 
         // 构建消息内容
@@ -553,7 +553,7 @@ export class ExamplePlugin extends plugin {
         if (atQq && atQq.length > 0) {
           const atUserInfos = await Promise.all(atQq.map(async (userId) => {
             const memberInfo = await e.bot.pickGroup(groupId).pickMember(userId).info;
-            const role = roleMap[memberInfo.role] || '我自己';
+            const role = roleMap[memberInfo.role] || 'member';
             return `${memberInfo.card || memberInfo.nickname}(qq号: ${userId})[群身份: ${role}]`;
           }));
           content.push(`提到了用户: ${atUserInfos.join(', ')}`);
@@ -587,7 +587,7 @@ export class ExamplePlugin extends plugin {
         const targetUserId = atQq[0];
         try {
           const targetMemberInfo = await e.bot.pickGroup(e.group_id).pickMember(targetUserId).info;
-          targetRole = roleMap[targetMemberInfo.role] || '我自己';
+          targetRole = roleMap[targetMemberInfo.role] || 'member';
         } catch (error) {
           console.error(`获取目标成员信息失败: ${error}`);
         }
@@ -608,7 +608,7 @@ export class ExamplePlugin extends plugin {
 
         return [
           ...chatHistory.reverse().map(msg => {
-            const senderRole = roleMap[msg.sender.role] || '我自己';
+            const senderRole = roleMap[msg.sender.role] || 'member';
             const senderInfo = `${msg.sender.nickname}(QQ号:${msg.sender.user_id})[群身份: ${senderRole}]`;
             return {
               role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
@@ -652,7 +652,9 @@ export class ExamplePlugin extends plugin {
       const requestData = {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
-        tools: this.tools
+        tools: this.tools,
+        tool_choice: "auto",
+        temperature: 0,       // 降低随机性
       };
 
       // 调用 OpenAI API 获取初始响应
@@ -1054,7 +1056,8 @@ export class ExamplePlugin extends plugin {
     let output = content;
     if (content.includes('在群里说')) {
       output = content
-        .replace(/^.*在群里说[:：]\s*/, '')
+        // 匹配任意字符(包括换行)直到"在群里说"及其后的冒号和空白字符
+        .replace(/[\s\S]*在群里说[:：]\s*/, '')
         .trim();
     }
 
