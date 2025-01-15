@@ -1052,17 +1052,10 @@ export class ExamplePlugin extends plugin {
   // 添加消息处理函数
   async processToolSpecificMessage(content, toolName) {
     let output = content;
-    // 检查是否包含"在群里说"
     if (content.includes('在群里说')) {
-      // 找到"在群里说"的位置
-      const index = content.indexOf('在群里说');
-      // 检查前面的内容是否包含时间戳的特征（方括号+数字）
-      if (/^\[[\d\s:-]+\]/.test(content)) {
-        // 直接截取"在群里说"之后的内容
-        output = content.substring(index)
-          .replace(/在群里说[:：]\s*/, '')
-          .trim();
-      }
+      output = content
+        .replace(/^.*在群里说[:：]\s*/, '')
+        .trim();
     }
 
     switch (toolName) {
