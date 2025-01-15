@@ -41,7 +41,7 @@ export class ExamplePlugin extends plugin {
           fnc: 'resetHistory'
         },
         {
-          reg: "[\\s\\S]*", 
+          reg: "[\\s\\S]*",
           fnc: 'handleRandomReply',
           log: false  // 不记录日志避免刷屏
         }
@@ -161,28 +161,28 @@ export class ExamplePlugin extends plugin {
         providers: 'OpenAi',
         geminiApikey: ['AIzaxxxxxxx'],
         systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
-        
+
         bilibiliSessData: 'a16804xxxxxx'
       }
     }
 
     const configPath = path.join(process.cwd(), 'plugins/y-tian-plugin/config/message.yaml')
 
-  try {
-    let config;
-    if (fs.existsSync(configPath)) {
-      const file = fs.readFileSync(configPath, 'utf8')
-      config = YAML.parse(file)
-      
-      // 递归合并配置
-      const mergedConfig = this.mergeConfig(defaultConfig, config)
-      
-      // 如果发生了配置合并，将完整配置写回文件
-      if (JSON.stringify(config) !== JSON.stringify(mergedConfig)) {
-        fs.writeFileSync(configPath, YAML.stringify(mergedConfig))
-      }
-      
-      this.config = mergedConfig.pluginSettings
+    try {
+      let config;
+      if (fs.existsSync(configPath)) {
+        const file = fs.readFileSync(configPath, 'utf8')
+        config = YAML.parse(file)
+
+        // 递归合并配置
+        const mergedConfig = this.mergeConfig(defaultConfig, config)
+
+        // 如果发生了配置合并，将完整配置写回文件
+        if (JSON.stringify(config) !== JSON.stringify(mergedConfig)) {
+          fs.writeFileSync(configPath, YAML.stringify(mergedConfig))
+        }
+
+        this.config = mergedConfig.pluginSettings
       } else {
         // 创建默认配置文件
         const configDir = path.dirname(configPath)
@@ -204,24 +204,24 @@ export class ExamplePlugin extends plugin {
   }
 
   // 新增递归合并配置的方法
-mergeConfig(defaultConfig, userConfig) {
-  const merged = { ...defaultConfig }
-  
-  for (const key in defaultConfig) {
-    if (typeof defaultConfig[key] === 'object' && !Array.isArray(defaultConfig[key])) {
-      // 如果是对象，递归合并
-      merged[key] = this.mergeConfig(
-        defaultConfig[key], 
-        userConfig?.[key] || {}
-      )
-    } else {
-      // 如果不是对象，优先使用用户配置，否则使用默认值
-      merged[key] = userConfig?.[key] ?? defaultConfig[key]
+  mergeConfig(defaultConfig, userConfig) {
+    const merged = { ...defaultConfig }
+
+    for (const key in defaultConfig) {
+      if (typeof defaultConfig[key] === 'object' && !Array.isArray(defaultConfig[key])) {
+        // 如果是对象，递归合并
+        merged[key] = this.mergeConfig(
+          defaultConfig[key],
+          userConfig?.[key] || {}
+        )
+      } else {
+        // 如果不是对象，优先使用用户配置，否则使用默认值
+        merged[key] = userConfig?.[key] ?? defaultConfig[key]
+      }
     }
+
+    return merged
   }
-  
-  return merged
-}
 
   /**
  * 检查群聊权限
@@ -491,9 +491,9 @@ mergeConfig(defaultConfig, userConfig) {
       // 构建发送者信息对象
       const { sender, group_id, msg } = e;
       const roleMap = {
-        owner: 'owner',
-        admin: 'admin',
-        member: 'member'
+        owner: '群主',
+        admin: '管理员',
+        member: '普通群员'
       };
 
       const sexMap = {
@@ -501,8 +501,6 @@ mergeConfig(defaultConfig, userConfig) {
         female: '女',
         unknown: '未知'
       };
-
-      const uuid = crypto.randomUUID();
 
       // 获取群组中指定用户的消息历史
       let groupUserMessages = await this.getGroupUserMessages(groupId, userId);
@@ -517,137 +515,69 @@ mergeConfig(defaultConfig, userConfig) {
 
       let userContent = '';
       const atQq = e.message.filter(item => item.type === 'at').map(item => item.qq);
-      if (atQq.length > 0) {
-        userContent += `@用户: ${atQq.join(', ')}`;
-      }
-
-      if (args.includes('随机禁言')) {
-        userContent += ' 随机禁言一名用户';
-      }
-
       const images = await TakeImages(e);
       console.log(images);
 
-      const formatTime = (timestamp) => {
-        if (!timestamp) return undefined;
-        const date = new Date(timestamp * 1000);
-        return date.toLocaleString('zh-CN', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false
-        });
+      // 格式化时间的辅助函数
+      const formatMessageTime = () => {
+        const now = new Date();
+        const pad = (num) => String(num).padStart(2, '0');
+        return `[${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}]`;
       };
 
-      const getCurrentTime = () => new Date().toLocaleString('zh-CN');
+      // 构建消息内容
+      const buildMessageContent = async (sender, msg, images, atQq, groupId) => {
+        let parts = [];
 
-      const senderInfo = {
-        // 核心信息优先
-        发言文本: msg || '无',
-        发送时间: getCurrentTime(),
-        携带图片个数: images?.length || 0,
-        携带图片的链接: images || undefined,
-        被艾特用户的qq: atQq[0] || undefined,
+        // 基本信息
+        const timeStr = formatMessageTime();
+        const senderRole = roleMap[sender.role] || '我自己';
+        const senderInfo = `${sender.card || sender.nickname}(qq号: ${sender.user_id})[群身份: ${senderRole}]`;
 
-        // 用户基本信息次之
-        昵称: sender.card || sender.nickname || '未知',
-        当前用户QQ号: sender.user_id?.toString() || '未知',
-        性别: sexMap[sender.sex] || '未知',
-        头像链接: `http://q.qlogo.cn/headimg_dl?dst_uin=${sender.user_id}&spec=640&img_type=jpg`,
+        // 构建消息内容
+        let content = [];
 
-        // 群相关信息最后
-        当前群名称: e.group_name || '未知',
-        当前用户群身份: roleMap[sender.role] || 'member',
-        当前群头衔: sender.title || '无',
-        用户地区: sender.area || '未知',
-        用户年龄: sender.age || '未知',
-        用户加群时间: formatTime(join_time),
-        用户最后发言时间: formatTime(last_sent_time),
-        会话ID: uuid,
-        // 添加历史记录信息
-        历史记录: await (async () => {
-          const chatHistory = await this.messageManager.getMessages(
-            e.message_type,
-            e.message_type === 'group' ? e.group_id : e.user_id
-          );
+        // 添加基本文本
+        if (msg) {
+          content.push(`在群里说: ${msg}`);
+        }
 
-          if (!chatHistory || chatHistory.length === 0) {
-            return '暂无历史记录';
-          }
+        // 处理图片
+        if (images && images.length > 0) {
+          images.forEach(img => {
+            content.push(`发送了一张图片 [${img}]`);
+          });
+        }
 
-          // 只取最近的5条记录
-          const recentHistory = chatHistory;
-          return recentHistory.map(msg =>
-            `[${msg.time}] ${msg.sender.nickname}: ${msg.content}`
-          ).join('\n');
-        })()
+        // 处理@信息，加入身份信息
+        if (atQq && atQq.length > 0) {
+          const atUserInfos = await Promise.all(atQq.map(async (userId) => {
+            const memberInfo = await e.bot.pickGroup(groupId).pickMember(userId).info;
+            const role = roleMap[memberInfo.role] || '我自己';
+            return `${memberInfo.card || memberInfo.nickname}(qq号: ${userId})[群身份: ${role}]`;
+          }));
+          content.push(`提到了用户: ${atUserInfos.join(', ')}`);
+        }
+
+        // 组合所有部分
+        return `${timeStr} ${senderInfo}: ${content.join(', ')}`;
       };
 
-      function formatSenderInfo(info) {
-        // 定义格式化时间的辅助函数
-        const formatDateTime = (timeStr) => {
-          if (!timeStr) return '';
-          return timeStr.replace(/(\d{4})\/(\d{2})\/(\d{2})\s/, '$1年$2月$3日 ');
-        };
 
-        // 构建更清晰的消息结构
-        const sections = [
-          {
-            title: '💬 对话信息',
-            content: [
-              ['命令内容', info.发言文本],
-              ['发送时间', formatDateTime(info.发送时间)],
-              info.携带图片个数 > 0 ? ['图片数量', `${info.携带图片个数}张`] : null,
-              info.携带图片的链接 ? ['图片链接', info.携带图片的链接] : null,
-              info.被艾特用户的qq ? ['目标用户', `@${info.被艾特用户的qq}`] : null
-            ]
-          },
-          {
-            title: '👤 发送者信息',
-            content: [
-              ['昵称', info.昵称],
-              ['QQ号', info.当前用户QQ号],
-              ['头像', info.头像链接]
-            ]
-          },
-          {
-            title: '👥 群组信息',
-            content: [
-              ['群名称', info.当前群名称],
-              ['用户身份', info.当前用户群身份],
-              ['加群时间', formatDateTime(info.用户加群时间)],
-              ['最后发言', formatDateTime(info.用户最后发言时间)],
-              ['会话标识', info.会话ID]
-            ]
-          }
-        ];
-
-        // 构建格式化输出
-        let output = sections
-          .map(section => {
-            const sectionContent = section.content
-              .filter(item => item && item[1]) // 过滤掉空值
-              .map(([key, value]) => `${key}：${value}`)
-              .join('\n');
-
-            return `${section.title}\n${sectionContent}`;
-          })
-          .join('\n\n');
-
-        // 添加分隔线使结构更清晰
-        return `――――――――――――――――――\n${output}\n――――――――――――――――――`;
-      }
 
 
       // 使用时：
       if (e.group_id) {
-        userContent = formatSenderInfo(senderInfo);
+        userContent = await buildMessageContent(
+          sender,
+          msg,
+          images,
+          atQq,
+          e.group_id
+        );
       }
 
-      //console.log(userContent);
+      console.log(userContent);
 
 
       // 获取被提及用户的角色信息
@@ -657,7 +587,7 @@ mergeConfig(defaultConfig, userConfig) {
         const targetUserId = atQq[0];
         try {
           const targetMemberInfo = await e.bot.pickGroup(e.group_id).pickMember(targetUserId).info;
-          targetRole = roleMap[targetMemberInfo.role] || 'member';
+          targetRole = roleMap[targetMemberInfo.role] || '我自己';
         } catch (error) {
           console.error(`获取目标成员信息失败: ${error}`);
         }
@@ -677,11 +607,14 @@ mergeConfig(defaultConfig, userConfig) {
         }
 
         return [
-          // 使用 reverse() 确保最新消息在下面
-          ...chatHistory.reverse().map(msg => ({
-            role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
-            content: `[${msg.time}] ${msg.sender.nickname}(${msg.sender.user_id}): ${msg.content}`
-          })),
+          ...chatHistory.reverse().map(msg => {
+            const senderRole = roleMap[msg.sender.role] || '我自己';
+            const senderInfo = `${msg.sender.nickname}(QQ号:${msg.sender.user_id})[群身份: ${senderRole}]`;
+            return {
+              role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
+              content: `[${msg.time}] ${senderInfo}: ${msg.content}`
+            };
+          }),
           {
             role: 'assistant',
             content: '我已经读取了上述群聊的聊天记录，我会优先关注你的最新消息'
@@ -693,6 +626,7 @@ mergeConfig(defaultConfig, userConfig) {
       // 使用示例:
       groupUserMessages = await getHistory();
 
+      console.log(groupUserMessages)
       // 移除所有非system角色的消息
       groupUserMessages = groupUserMessages.filter(msg => msg.role !== 'system');
       // 添加动态生成的 system 消息
@@ -713,15 +647,13 @@ mergeConfig(defaultConfig, userConfig) {
       await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
 
       //console.log(groupUserMessages);
-      
+
       // 修改初始请求体的构建
       const requestData = {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
         tools: this.tools
       };
-
-      console.log(requestData.tools);
 
       // 调用 OpenAI API 获取初始响应
       const response = await YTapi(requestData, this.config);
@@ -778,12 +710,12 @@ mergeConfig(defaultConfig, userConfig) {
 
       // 修改工具调用处理部分
       if (message.tool_calls) {
-        if (!message || 
-          (message.choices && 
-           message.choices[0]?.finish_reason === 'content_filter' && 
-           message.choices[0]?.message === null)) {
-        return false;
-      }
+        if (!message ||
+          (message.choices &&
+            message.choices[0]?.finish_reason === 'content_filter' &&
+            message.choices[0]?.message === null)) {
+          return false;
+        }
         hasHandledFunctionCall = true;
         const toolResults = []; // 存储所有工具执行结果
 
@@ -798,7 +730,6 @@ mergeConfig(defaultConfig, userConfig) {
 
           // 创建当前工具的消息上下文
           let currentMessages = [...groupUserMessages];
-          console.log(id,type)
           currentMessages.push({
             role: 'assistant',
             content: null,
@@ -947,7 +878,6 @@ mergeConfig(defaultConfig, userConfig) {
         return false;
       }
       else if (message.content) {
-        // 如果没有函数调用，直接回复内容
         // 检查是否上一次处理过函数调用，避免连续两次回复
         if (!hasHandledFunctionCall) {
           const output = await this.processToolSpecificMessage(message.content)
@@ -1120,89 +1050,97 @@ mergeConfig(defaultConfig, userConfig) {
   }
 
   // 添加消息处理函数
-async processToolSpecificMessage(content, toolName) {
-  // 移除通用的时间戳和发送者信息
-  let output = content
-    .replace(/^\[[\d-\s:]+\]\s+.*?[:：]\s*/, '')
-    .replace(/在群里说[:：]\s*/, '')
-    .trim();
+  async processToolSpecificMessage(content, toolName) {
+    let output = content;
+    // 检查是否包含"在群里说"
+    if (content.includes('在群里说')) {
+      // 找到"在群里说"的位置
+      const index = content.indexOf('在群里说');
+      // 检查前面的内容是否包含时间戳的特征（方括号+数字）
+      if (/^\[[\d\s:-]+\]/.test(content)) {
+        // 直接截取"在群里说"之后的内容
+        output = content.substring(index)
+          .replace(/在群里说[:：]\s*/, '')
+          .trim();
+      }
+    }
 
-  switch (toolName) {
-    case 'dalleTool':
-      // 对绘图相关的回复进行处理
-      output = output
-        .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
-      break;
-      
-    case 'searchVideoTool':
-      // 视频搜索相关回复处理
-      output = output
-        .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
-      break;
-      
-    case 'searchMusicTool':
-      // 音乐搜索相关回复处理
-      output = output
-        .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '')
-        .replace(/这首歌|这个歌/, '歌曲');
-      break;
-      
-    case 'freeSearchTool':
-      // 自由搜索相关回复处理
-      output = output
-        .replace(/让我搜索|我来搜索|帮你搜索|给你搜索/, '正在搜索')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
-      break;
-      
-    case 'imageAnalysisTool':
-      // 图片分析相关回复处理
-      output = output
-        .replace(/让我看看|我来看看|帮你看看|给你看看/, '正在分析')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
-      break;
-      
-    case 'jinyanTool':
-      // 禁言相关回复处理
-      output = output
-        .replace(/让我来|我来|帮你|给你/, '')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
-      break;
-      
-    case 'emojiSearchTool':
-      // 表情搜索相关回复处理
-      output = output
-        .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
-      break;
-      
-    case 'bingImageSearchTool':
-      // 必应图片搜索相关回复处理
-      output = output
-        .replace(/让我搜索|我来搜索|帮你搜索|给你搜索/, '正在搜索')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
-      break;
-      
-    case 'pokeTool':
-      // 戳一戳相关回复处理
-      output = output
-        .replace(/让我戳|我来戳|帮你戳|给你戳/, '正在戳')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
-      break;
-      
-    case 'likeTool':
-      // 点赞相关回复处理
-      output = output
-        .replace(/让我给|我来给|帮你给|给你/, '')
-        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
-      break;
-      
-    default:
-      // 默认处理
-      output = output.replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+    switch (toolName) {
+      case 'dalleTool':
+        // 对绘图相关的回复进行处理
+        output = output
+          .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
+        break;
+
+      case 'searchVideoTool':
+        // 视频搜索相关回复处理
+        output = output
+          .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+        break;
+
+      case 'searchMusicTool':
+        // 音乐搜索相关回复处理
+        output = output
+          .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '')
+          .replace(/这首歌|这个歌/, '歌曲');
+        break;
+
+      case 'freeSearchTool':
+        // 自由搜索相关回复处理
+        output = output
+          .replace(/让我搜索|我来搜索|帮你搜索|给你搜索/, '正在搜索')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+        break;
+
+      case 'imageAnalysisTool':
+        // 图片分析相关回复处理
+        output = output
+          .replace(/让我看看|我来看看|帮你看看|给你看看/, '正在分析')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+        break;
+
+      case 'jinyanTool':
+        // 禁言相关回复处理
+        output = output
+          .replace(/让我来|我来|帮你|给你/, '')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+        break;
+
+      case 'emojiSearchTool':
+        // 表情搜索相关回复处理
+        output = output
+          .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+        break;
+
+      case 'bingImageSearchTool':
+        // 必应图片搜索相关回复处理
+        output = output
+          .replace(/让我搜索|我来搜索|帮你搜索|给你搜索/, '正在搜索')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+        break;
+
+      case 'pokeTool':
+        // 戳一戳相关回复处理
+        output = output
+          .replace(/让我戳|我来戳|帮你戳|给你戳/, '正在戳')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+        break;
+
+      case 'likeTool':
+        // 点赞相关回复处理
+        output = output
+          .replace(/让我给|我来给|帮你给|给你/, '')
+          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+        break;
+
+      default:
+        // 默认处理
+        output = output.replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+    }
+
+    return output.trim();
   }
-  
-  return output.trim();
-}
 }
