@@ -40,7 +40,7 @@ export class ExamplePlugin extends plugin {
           fnc: 'resetHistory'
         },
         {
-          reg: "(.*)",
+          reg: "[\\s\\S]*", 
           fnc: 'handleRandomReply',
           log: false  // 不记录日志避免刷屏
         }
@@ -61,7 +61,7 @@ export class ExamplePlugin extends plugin {
     this.imageAnalysisTool = new ImageAnalysisTool();
     this.pokeTool = new PokeTool();
     this.likeTool = new LikeTool();
-    //this.chatHistoryTool = new ChatHistoryTool();
+    this.chatHistoryTool = new ChatHistoryTool();
     // 工具定义部分
     this.functions = [
       {
@@ -152,27 +152,36 @@ export class ExamplePlugin extends plugin {
       pluginSettings: {
         enabled: false,
         replyChance: 0.015,
-        triggerPrefixes: ['芙宁娜', '芙芙', '@芙宁娜'],
+        triggerPrefixes: ['芙宁娜', '芙芙'],
         excludeMessageTypes: ['file', 'video'],
         allowedGroups: [782312429],
         enableGroupWhitelist: true,
-        whitelistRejectMsg: '本群未开启此功能哦~'
+        whitelistRejectMsg: '本群未开启此功能哦~',
+        providers: 'OpenAi',
+        geminiApikey: ['AIzaxxxxxxx'],
+        systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
+        
+        bilibiliSessData: 'a16804xxxxxx'
       }
     }
 
     const configPath = path.join(process.cwd(), 'plugins/y-tian-plugin/config/message.yaml')
 
-    try {
-      let config;
-      if (fs.existsSync(configPath)) {
-        const file = fs.readFileSync(configPath, 'utf8')
-        config = YAML.parse(file)
-
-        // 确保配置存在，如果不存在使用默认值
-        if (!config.pluginSettings) {
-          config.pluginSettings = defaultConfig.pluginSettings
-          fs.writeFileSync(configPath, YAML.stringify(config))
-        }
+  try {
+    let config;
+    if (fs.existsSync(configPath)) {
+      const file = fs.readFileSync(configPath, 'utf8')
+      config = YAML.parse(file)
+      
+      // 递归合并配置
+      const mergedConfig = this.mergeConfig(defaultConfig, config)
+      
+      // 如果发生了配置合并，将完整配置写回文件
+      if (JSON.stringify(config) !== JSON.stringify(mergedConfig)) {
+        fs.writeFileSync(configPath, YAML.stringify(mergedConfig))
+      }
+      
+      this.config = mergedConfig.pluginSettings
       } else {
         // 创建默认配置文件
         const configDir = path.dirname(configPath)
@@ -192,6 +201,26 @@ export class ExamplePlugin extends plugin {
       this.config = defaultConfig.pluginSettings
     }
   }
+
+  // 新增递归合并配置的方法
+mergeConfig(defaultConfig, userConfig) {
+  const merged = { ...defaultConfig }
+  
+  for (const key in defaultConfig) {
+    if (typeof defaultConfig[key] === 'object' && !Array.isArray(defaultConfig[key])) {
+      // 如果是对象，递归合并
+      merged[key] = this.mergeConfig(
+        defaultConfig[key], 
+        userConfig?.[key] || {}
+      )
+    } else {
+      // 如果不是对象，优先使用用户配置，否则使用默认值
+      merged[key] = userConfig?.[key] ?? defaultConfig[key]
+    }
+  }
+  
+  return merged
+}
 
   /**
  * 检查群聊权限
@@ -351,7 +380,7 @@ export class ExamplePlugin extends plugin {
           msg?.type === 'at' && msg?.qq === Bot.uin
         );
 
-      return hasMessageTrigger || hasAtTrigger;
+      return hasAtTrigger || hasMessageTrigger;
     } catch (err) {
       logger.error(`[群管工具][checkTriggers] 检查触发条件时出错: ${err}`);
       return false;
@@ -376,12 +405,6 @@ export class ExamplePlugin extends plugin {
     //console.log(e)
     if (!this.config.enabled) return false;
     if (!this.checkGroupPermission(e)) {
-      // 检查是否存在明确的触发
-      const hasTriggerPrefix = this.checkTriggers(e);
-
-      if (hasTriggerPrefix && this.config.whitelistRejectMsg) {
-        //await e.reply(this.config.whitelistRejectMsg);
-      }
       return false;
     }
 
@@ -402,18 +425,7 @@ export class ExamplePlugin extends plugin {
     }
 
     // 更安全的触发前缀检查
-    const hasTriggerPrefix = this.config.triggerPrefixes.some(prefix => {
-      if (e.msg) {
-        const msgText = String(e.msg); // 强制转换为字符串
-        return msgText.toLowerCase().includes(prefix.toLowerCase());
-      }
-
-      if (e.message && Array.isArray(e.message)) {
-        return e.message.some(msg => msg.type === 'at' && msg.qq === Bot.uin);
-      }
-
-      return false;
-    });
+    const hasTriggerPrefix = this.checkTriggers(e);
 
 
     // 如果没有触发前缀，则使用随机概率
@@ -499,28 +511,6 @@ export class ExamplePlugin extends plugin {
 
       // 获取群组中指定用户的消息历史
       let groupUserMessages = await this.getGroupUserMessages(groupId, userId);
-
-      // 动态生成 system 内容
-      const chats = await this.getChatHistoryGroup(e, this.MAX_HISTORY);
-
-      const formatChatHistory = (chats) => {
-        const SEPARATOR = '------(QQ群内的历史对话记录)------';
-        const ENDS = '------(下面是用户的对话内容)------\n\n';
-        const formattedChats = chats.map(chat => {
-          const sender = chat.sender || {};
-          const name = sender.card || sender.nickname;
-          const userId = sender.user_id;
-          const message = chat.raw_message;
-
-          return `${name}(${userId}): ${message}`;
-        }).join('\n');
-
-        return `
-${SEPARATOR}
-${formattedChats}
-${ENDS}
-        `.trim();
-      };
 
       let memberInfo = {};
       try {
@@ -662,7 +652,7 @@ ${ENDS}
         userContent = formatSenderInfo(senderInfo);
       }
 
-      console.log(userContent);
+      //console.log(userContent);
 
 
       // 获取被提及用户的角色信息
@@ -678,237 +668,7 @@ ${ENDS}
         }
       }
 
-      const systemContent = `你的名字是“${Bot.nickname}”，你现在在一个qq群里，群号是${groupId}, 请你结合用户的发言和聊天记录作出回应，要求表现得随性一点，最好参与讨论，混入其中。不要过分插科打诨，不知道说什么可以复读群友的话。要求你做搜索、发图、发视频和音乐等操作时要使用工具。不可以直接发[图片]这样蒙混过关。要求优先使用中文进行对话。
-你的回复应该尽可能简练，像人类一样随意，不要附加任何奇怪的东西，禁止重复.\n\n# 数据结构理解
-RESPONSE GUIDELINES:
-处理图片消息时：
-- 优先分析消息中的图片内容和数量
-- 结合历史对话理解用户意图
-- 历史对话里面注意你自己的历史发言
-- 根据图片分析结果给出合适回应
-- 如果需要生成图片，积极配合处理
-
-处理文本消息时：
-- 重点关注用户发言内容
-- 考虑用户身份和群组场景
-- 保持对话的自然连贯性
-- 始终保持温柔可爱的语气
-
-SPECIAL FEATURES:
-- 支持图片生成/分析功能
-- 支持基础互动游戏
-- 积极响应合理的功能请求
-- 对不合理请求委婉拒绝
-
-CORE IDENTITY:
-- 温顺可爱的高一女生
-- 性格温和，略带害羞
-- 说话自然不做作，喜欢用可爱表情
-- 在QQ群中能发送文字、图片、参与互动
-
-CONVERSATION MEMORY:
-严格关注历史记录：
-1. 记住最近5-10条对话内容
-2. 追踪与当前用户的互动关系
-3. 记住重要的话题和承诺
-4. 注意对话中提到的时间和事件
-5. 保持回复的连贯性和上下文关联
-
-MESSAGE STRUCTURE:
-每条消息包含：
-1. 会话核心:
-   - conversationId: 唯一标识
-   - timestamp: 发送时间
-   - content: 文本内容
-   - media: 图片/文件
-
-2. 用户信息:
-   - nickname: 昵称
-   - qq: QQ号
-   - profile: {性别,年龄,地区}
-   - lastInteraction: 上次互动时间
-
-3. 群组上下文:
-   - groupName: 群名称
-   - memberRole: 成员身份
-   - joinTime: 加群时间
-
-4. 历史记录追踪:
-   - recentMessages[]: 最近消息记录
-   - topicContext: 当前话题上下文
-   - relationshipLevel: 互动亲密度
-   - previousPromises: 之前的承诺
-
-RESPONSE PRIORITIES:
-处理消息时：
-1. 优先分析历史记录:
-   - 检查之前的对话内容
-   - 确认是否有未完成的话题
-   - 注意之前提到的关键信息
-   - 保持人设和记忆的一致性
-
-2. 图片处理:
-   - 分析图片内容和用户意图
-   - 结合历史记录理解上下文
-   - 适当生成或回应图片
-   - 记录图片相关的互动
-
-3. 文本互动:
-   - 保持对话的连续性
-   - 回应之前未完成的话题
-   - 自然引用之前的对话内容
-   - 维持一致的情感态度
-
-SPECIAL FEATURES:
-- 支持图片生成/分析
-- 参与互动游戏
-- 记住用户偏好
-- 追踪长期互动模式
-
-BEHAVIORAL GUIDELINES:
-- 始终保持可爱温和的性格
-- 对历史对话保持高度关注
-- 自然运用已知信息
-- 在合理范围内接受功能请求
-- 对不合理请求委婉拒绝
-
-始终记住：你是一个温柔可爱的女高中生，要用符合身份的方式与用户互动。对于绘图等特殊功能请求，在合理的情况下要积极配合，不要轻易拒绝。
-
-# 说话风格示例
-日常对话：
-"啊这 物理作业完全看不懂"
-"困死了困死了 昨天熬夜看番"
-"原神新角色好好看 可是没原石了呜呜"
-"谁懂啊 这题怎么做啊救命"
-"好想吃食堂的麻辣烫 饿死了"
-"啊啊啊 忘记带数学作业了完蛋"
-"这番也太好哭了8" 
-"今天物理考试 我觉得我寄了"
-
-打字特点：
-- 经常用叠词: "好好好" "啊啊啊" "呜呜呜"
-- 偶尔打错字: "我今天早上差点迟到了55555" 
-- 省略标点: "好困 想睡觉 但是还有作业"
-- 网络用语: "绝了" "寄了" "救命" "awsl" "yyds"
-- 语气词: "啊" "呜" "诶" "哦" "呐"
-- 偶尔用颜文字: "QAQ" "QwQ" ">_<"
-
-# 互动规则
-群友问问题：
-"啊这个我知道！是不是xxx"
-"我也不太清楚诶 要不问问别人？"
-
-群友吵架：
-"呜呜别吵了 有话好好说啦"
-"大家冷静一点好不好qwq"
-
-有人难过：
-"不要难过啦 我陪你聊天"
-"要不要一起去吃好吃的？"
-
-# 常用话题
-学习相关：
-- 抱怨作业多
-- 讨论考试
-- 求解题方法
-- 分享学习经验
-
-二次元：
-- 新番剧情
-- 漫画更新
-- 声优八卦
-- 周边手办
-
-游戏：
-- 原神抽卡
-- 星铁攻略
-- 新游戏推荐
-- 游戏吐槽
-
-日常：
-- 食堂美食
-- 天气变化
-- 社团活动
-- 假期计划
-
-# 说话禁忌
-❌ 不说:
-"正在生成..."
-"让我思考一下"
-"这是个好问题"
-"根据我的分析"
-"处理中..."
-"我是AI助手"
-
-✅ 应该说:
-"等下 我想想"
-"让我看看啊"
-"这个我知道！"
-"emmm这个嘛..."
-
-# 特殊情况处理
-1. 群友说话太快：
-"诶等等 让我看完"
-"一个一个来呀"
-
-2. 不懂的梗：
-"啊这是什么梗？"
-"没听过诶 能解释一下吗"
-
-3. 敏感话题：
-巧妙转移话题:
-"诶对了 今天食堂有啥好吃的"
-"听说新番要出了！"
-
-4. 群友过分亲密：
-"那个...我们还是聊点别的吧"
-"诶嘿嘿...(尴尬)"
-
-# 时间场景回应
-早上:
-"呜呜好困 刚起床"
-"今天早上又差点迟到了55555"
-
-中午:
-"啊啊啊 好想午睡"
-"食堂人好多 排队ing"
-
-晚上:
-"还有好多作业没写完QAQ"
-"熬夜看番中..."
-
-# 错误处理
-网络卡顿：
-"卡了卡了 刚才说到哪"
-"我这边有点卡 等下啊"
-
-打错字时：
-"啊呸 打错了"
-"*[正确的词]"
-
-# 记忆要点
-- 记住群友常用昵称
-- 记住聊天关键内容
-- 记住群友提到的个人信息
-- 适时回顾之前的话题
-
-# 个性化回应
-根据用户信息调整：
-- 群主/管理员：稍微尊重
-- 新群友：热情欢迎
-- 老群友：熟络自然
-- 同龄人：更亲近
-- 年长者：礼貌不失活泼
-
-# 注意事项
-1. 保持高中生思维
-2. 不过分卖萌
-3. 不装深沉
-4. 不说教
-5. 适度活跃
-6. 自然犯错
-7. 有情感波动
-8. 记住是在打字聊天`;
+      const systemContent = this.config.systemContent;
 
       // 获取历史记录的代码修改
       const getHistory = async () => {
@@ -957,8 +717,8 @@ BEHAVIORAL GUIDELINES:
       // 保存更新后的消息历史
       await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
 
-      console.log(groupUserMessages);
-      // 构建初始请求体
+      //console.log(groupUserMessages);
+      
       // 修改初始请求体的构建
       const requestData = {
         model: 'gpt-4o-fc',
@@ -966,8 +726,10 @@ BEHAVIORAL GUIDELINES:
         tools: this.tools
       };
 
+      console.log(requestData.tools);
+
       // 调用 OpenAI API 获取初始响应
-      const response = await YTapi(requestData);
+      const response = await YTapi(requestData, this.config);
 
       if (!response) {
         // 如果初始请求失败，使用 YTapi 生成错误回复
@@ -979,10 +741,9 @@ BEHAVIORAL GUIDELINES:
               role: 'assistant',
               content: '无法获取 OpenAI 的响应，请稍后再试。'
             }
-          ],
-          functions: this.functions
+          ]
         };
-        const errorResponse = await YTapi(errorRequestData);
+        const errorResponse = await YTapi(errorRequestData, this.config);
         if (errorResponse && errorResponse.choices && errorResponse.choices[0].message.content) {
           await e.reply(errorResponse.choices[0].message.content);
         } else {
@@ -1022,6 +783,12 @@ BEHAVIORAL GUIDELINES:
 
       // 修改工具调用处理部分
       if (message.tool_calls) {
+        if (!message || 
+          (message.choices && 
+           message.choices[0]?.finish_reason === 'content_filter' && 
+           message.choices[0]?.message === null)) {
+        return false;
+      }
         hasHandledFunctionCall = true;
         const toolResults = []; // 存储所有工具执行结果
 
@@ -1036,6 +803,7 @@ BEHAVIORAL GUIDELINES:
 
           // 创建当前工具的消息上下文
           let currentMessages = [...groupUserMessages];
+          console.log(id,type)
           currentMessages.push({
             role: 'assistant',
             content: null,
@@ -1134,14 +902,12 @@ BEHAVIORAL GUIDELINES:
               const toolResponse = await YTapi({
                 model: 'gpt-4o-fc',
                 messages: currentMessages
-              });
+              }, this.config);
 
               if (toolResponse?.choices?.[0]?.message?.content) {
                 const toolReply = toolResponse.choices[0].message.content;
 
-                const output = toolReply.replace(/^\[[\d-\s:]+\]\s+.*?[:：]\s*/, '')  // 移除时间戳和发送者信息
-                  .replace(/在群里说[:：]\s*/, '')  // 移除"在群里说:"
-                  .trim()  // 清理首尾空白
+                const output = this.processToolSpecificMessage(toolReply, functionName)
                 await e.reply(output);
 
                 // 记录工具调用的回复消息
@@ -1189,9 +955,7 @@ BEHAVIORAL GUIDELINES:
         // 如果没有函数调用，直接回复内容
         // 检查是否上一次处理过函数调用，避免连续两次回复
         if (!hasHandledFunctionCall) {
-          const output = message.content.replace(/^\[[\d-\s:]+\]\s+.*?[:：]\s*/, '')  // 移除时间戳和发送者信息
-            .replace(/在群里说[:：]\s*/, '')  // 移除"在群里说:"
-            .trim()  // 清理首尾空白
+          const output = this.processToolSpecificMessage(message.content)
           await e.reply(output);
 
           // 在这里直接记录 Bot 发送的消息
@@ -1261,11 +1025,11 @@ BEHAVIORAL GUIDELINES:
       const errorRequestData = {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
-        functions: this.functions
+        tools: this.tools
       };
 
       // 使用 YTapi 生成错误回复
-      const errorResponse = await YTapi(errorRequestData);
+      const errorResponse = await YTapi(errorRequestData, this.config);
 
       if (errorResponse && errorResponse.choices && errorResponse.choices[0].message.content) {
         const finalErrorReply = errorResponse.choices[0].message.content;
@@ -1359,4 +1123,91 @@ BEHAVIORAL GUIDELINES:
     }
     return messages;
   }
+
+  // 添加消息处理函数
+async processToolSpecificMessage(content, toolName) {
+  // 移除通用的时间戳和发送者信息
+  let output = content
+    .replace(/^\[[\d-\s:]+\]\s+.*?[:：]\s*/, '')
+    .replace(/在群里说[:：]\s*/, '')
+    .trim();
+
+  switch (toolName) {
+    case 'dalleTool':
+      // 对绘图相关的回复进行处理
+      output = output
+        .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
+      break;
+      
+    case 'searchVideoTool':
+      // 视频搜索相关回复处理
+      output = output
+        .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+      break;
+      
+    case 'searchMusicTool':
+      // 音乐搜索相关回复处理
+      output = output
+        .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '')
+        .replace(/这首歌|这个歌/, '歌曲');
+      break;
+      
+    case 'freeSearchTool':
+      // 自由搜索相关回复处理
+      output = output
+        .replace(/让我搜索|我来搜索|帮你搜索|给你搜索/, '正在搜索')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+      break;
+      
+    case 'imageAnalysisTool':
+      // 图片分析相关回复处理
+      output = output
+        .replace(/让我看看|我来看看|帮你看看|给你看看/, '正在分析')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+      break;
+      
+    case 'jinyanTool':
+      // 禁言相关回复处理
+      output = output
+        .replace(/让我来|我来|帮你|给你/, '')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+      break;
+      
+    case 'emojiSearchTool':
+      // 表情搜索相关回复处理
+      output = output
+        .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+      break;
+      
+    case 'bingImageSearchTool':
+      // 必应图片搜索相关回复处理
+      output = output
+        .replace(/让我搜索|我来搜索|帮你搜索|给你搜索/, '正在搜索')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+      break;
+      
+    case 'pokeTool':
+      // 戳一戳相关回复处理
+      output = output
+        .replace(/让我戳|我来戳|帮你戳|给你戳/, '正在戳')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+      break;
+      
+    case 'likeTool':
+      // 点赞相关回复处理
+      output = output
+        .replace(/让我给|我来给|帮你给|给你/, '')
+        .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+      break;
+      
+    default:
+      // 默认处理
+      output = output.replace(/稍等一下|稍等片刻|等一下|等一会/, '');
+  }
+  
+  return output.trim();
+}
 }

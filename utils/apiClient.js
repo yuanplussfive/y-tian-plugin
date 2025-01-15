@@ -6,22 +6,42 @@ const { _path, fetch, fs, path } = dependencies;
  * @param {Object} requestData - 请求体数据
  * @returns {Object|null} - 返回 OpenAI 的响应数据
  */
-export async function YTapi(requestData) {
+export async function YTapi(requestData, config) {
   const dirpath = `${_path}/data/YTotherai`;
   const dataPath = dirpath + "/data.json";
   const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
-  const token = data.chatgpt.stoken;
-
+  
+  // 转换 providers 为小写以进行比较
+  const provider = config.providers?.toLowerCase();
+  
   try {
-    const url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
+    let url, headers, finalRequestData;
+    
+    if (provider === 'gemini') {
+      url = 'https://api-proxy.me/gemini/v1beta/chat/completions';
+      headers = {
+        'Authorization': `Bearer ${config.geminiApikey[0]}`,
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestData)
-    });
+      };
+     // 为 Gemini 修改请求数据
+     finalRequestData = {
+      ...requestData,
+      model: "gemini-2.0-flash-exp"
+    };
+  } else {
+    url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
+    headers = {
+      'Authorization': `Bearer ${data.chatgpt.stoken}`,
+      'Content-Type': 'application/json'
+    };
+    finalRequestData = requestData;
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(finalRequestData)
+  });
 
     if (!response.ok) {
       const errorData = await response.text();
@@ -29,10 +49,9 @@ export async function YTapi(requestData) {
     }
 
     const responseData = await response.json();
-
-
-    console.log('OpenAI 响应:', responseData); 
+    console.log(`${provider || 'OpenAI'} 响应:`, responseData);
     return responseData;
+    
   } catch (error) {
     console.error('YTapi 错误:', error);
     return null;

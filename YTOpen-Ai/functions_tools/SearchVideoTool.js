@@ -1,7 +1,7 @@
 import { AbstractTool } from './AbstractTool.js';
 import { sendvideos } from '../tools/sendvideos.js';
-//import { BilibiliVideoSummary } from '../tools/BilibiliVideoSummary.js';
-//import common from '../../../../lib/common/common.js';
+import { BilibiliVideoSummary } from '../tools/BilibiliVideoSummary.js';
+import common from '../../../../lib/common/common.js';
 import fetch from 'node-fetch';
 
 /**

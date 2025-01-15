@@ -411,6 +411,7 @@ export const e2b = async (messages, model) => {
   const chatMessages = systemMessage
     ? messages.filter(msg => msg.role !== 'system')
     : messages;
-  const result = await E2BCli.sendChatRequest(chatMessages, systemPrompt);
+  let result = await E2BCli.sendChatRequest(chatMessages, systemPrompt);
+  result = result.replace(/\\n/g, '\n')?.trim()
   return result;
 }
