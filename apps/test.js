@@ -436,13 +436,7 @@ mergeConfig(defaultConfig, userConfig) {
       }
     }
 
-    // 复用现有的 handleTool 逻辑，但移除 #tool 前缀
-    const modifiedEvent = {
-      ...e,
-      msg: e.msg || ''  // 确保 msg 始终有值
-    };
-
-    return await this.handleTool(modifiedEvent);
+    return await this.handleTool(e);
   }
 
   /**
