@@ -69,8 +69,8 @@ export class JinyanTool extends AbstractTool {
       return `未找到群 ${groupId}`;
     }
 
-    // 处理禁言时长 (最少1分钟，最多30天)
-    const muteTime = Math.min(Math.max(time === 0 ? 0 : time, 60), 86400 * 30);
+    // 处理禁言时长 (最少0分钟，最多30天)
+    const muteTime = Math.min(Math.max(time === 0 ? 0 : time, 0), 86400 * 30);
 
     try {
       // 全体禁言需要特殊确认
