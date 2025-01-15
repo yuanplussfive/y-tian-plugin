@@ -908,7 +908,7 @@ mergeConfig(defaultConfig, userConfig) {
               if (toolResponse?.choices?.[0]?.message?.content) {
                 const toolReply = toolResponse.choices[0].message.content;
 
-                const output = this.processToolSpecificMessage(toolReply, functionName)
+                const output = await this.processToolSpecificMessage(toolReply, functionName)
                 await e.reply(output);
 
                 // 记录工具调用的回复消息
@@ -956,7 +956,7 @@ mergeConfig(defaultConfig, userConfig) {
         // 如果没有函数调用，直接回复内容
         // 检查是否上一次处理过函数调用，避免连续两次回复
         if (!hasHandledFunctionCall) {
-          const output = this.processToolSpecificMessage(message.content)
+          const output = await this.processToolSpecificMessage(message.content)
           await e.reply(output);
 
           // 在这里直接记录 Bot 发送的消息
