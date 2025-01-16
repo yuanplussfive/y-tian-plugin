@@ -697,6 +697,7 @@ export class ExamplePlugin extends plugin {
 
       // 修改工具调用处理部分
       if (message.tool_calls) {
+        console.log(message.tool_calls)
         if (!message ||
           (message.choices &&
             message.choices[0]?.finish_reason === 'content_filter' &&
@@ -872,6 +873,30 @@ export class ExamplePlugin extends plugin {
           }
         }
 
+        // 所有工具执行完成后，进行最终检查
+        try {
+          const finalCheckResponse = await YTapi({
+            model: 'gpt-4o-fc',
+            tools: this.tools,
+            messages: [...groupUserMessages, {
+              role: 'system',
+              content: '请检查用户的原始请求是否已全部完成。如果还有未完成的任务，请调用相应的工具来完成它们。'
+            }],
+            temperature: 0.1,
+            top_p: 0.9,
+            frequency_penalty: 0.1,
+            presence_penalty: 0.1
+          }, this.config);
+
+          // 如果检查发现还有需要调用的工具
+          if (finalCheckResponse?.choices?.[0]?.message?.tool_calls) {
+            const newMessage = finalCheckResponse.choices[0].message;
+            // 递归处理新的工具调用
+            await this.handleToolCalls(newMessage, e, groupUserMessages, atQq, senderRole, targetRole);
+          }
+        } catch (error) {
+          console.error('最终检查失败：', error);
+        }
         // 清理消息历史
         await this.resetGroupUserMessages(groupId, userId);
         return true;
@@ -1052,6 +1077,210 @@ export class ExamplePlugin extends plugin {
     return messages;
   }
 
+  /**
+ * 处理工具调用的辅助函数
+ * @param {Object} message - 包含工具调用信息的消息对象
+ * @param {Object} e - 事件对象
+ * @param {Array} groupUserMessages - 群组用户消息历史
+ * @param {Array} atQq - @的用户QQ号数组
+ * @param {string} senderRole - 发送者角色
+ * @param {string} targetRole - 目标角色
+ */
+  async handleToolCalls(message, e, groupUserMessages, atQq = [], senderRole = null, targetRole = null) {
+    if (!message ||
+      (message.choices &&
+        message.choices[0]?.finish_reason === 'content_filter' &&
+        message.choices[0]?.message === null)) {
+      return false;
+    }
+    const executeTool = async (tool, params, e, isRetry = false) => {
+      try {
+        return await tool.execute(params, e);
+      } catch (error) {
+        console.error(`工具执行错误 (${isRetry ? '重试' : '首次尝试'})：`, error);
+        if (!isRetry) {
+          console.log(`正在重试工具：${tool.name}`);
+          return await executeTool(tool, params, e, true);
+        }
+        throw error;
+      }
+    };
+    const toolResults = []; // 存储所有工具执行结果
+    let lastMessages = (() => {
+      const lastUserIndex = groupUserMessages.map(msg => msg.role).lastIndexOf('user');
+      return lastUserIndex !== -1
+        ? groupUserMessages.slice(lastUserIndex)
+        : [...groupUserMessages];
+    })();
+
+    // 执行当前所有的工具调用
+    for (const toolCall of message.tool_calls) {
+      const { id, type, function: functionData } = toolCall;
+
+      if (type !== 'function') {
+        console.log(`暂不支持的工具类型: ${type}`);
+        continue;
+      }
+
+      // 创建当前工具的消息上下文
+      let currentMessages = [...lastMessages];
+      currentMessages.push({
+        role: 'assistant',
+        content: null,
+        tool_calls: [{
+          id,
+          type,
+          function: {
+            name: functionData.name,
+            arguments: functionData.arguments
+          }
+        }]
+      });
+
+      const { name: functionName, arguments: argsString } = functionData;
+      let params;
+      try {
+        params = JSON.parse(argsString);
+      } catch (parseError) {
+        console.error('参数解析错误：', parseError);
+        continue;
+      }
+
+      // 执行工具
+      let result;
+      try {
+        // 根据工具名称执行相应的工具
+        switch (functionName) {
+          case this.jinyanTool.name:
+            result = await executeTool(this.jinyanTool, {
+              ...params,
+              ...(senderRole ? { senderRole } : {}),
+              ...(targetRole ? { targetRole } : {}),
+              ...(atQq.length > 0 ? {
+                target: atQq.length === 1 ? String(atQq[0]) : atQq.map(qq => String(qq))
+              } : {})
+            }, e);
+            break;
+
+          case this.dalleTool.name:
+            result = await executeTool(this.dalleTool, params, e);
+            result = {
+              prompt: result.prompt,
+              imageUrl: result.imageUrl
+            };
+            break;
+
+          case this.freeSearchTool.name:
+            result = await executeTool(this.freeSearchTool, params, e);
+            break;
+
+          case this.searchVideoTool.name:
+            result = await executeTool(this.searchVideoTool, params, e);
+            break;
+
+          case this.searchMusicTool.name:
+            result = await executeTool(this.searchMusicTool, params, e);
+            break;
+
+          case this.aiALLTool.name:
+            result = await executeTool(this.aiALLTool, params, e);
+            break;
+
+          case this.emojiSearchTool.name:
+            result = await executeTool(this.emojiSearchTool, params, e);
+            break;
+
+          case this.bingImageSearchTool.name:
+            result = await executeTool(this.bingImageSearchTool, params, e);
+            break;
+
+          case this.imageAnalysisTool.name:
+            result = await executeTool(this.imageAnalysisTool, params, e);
+            break;
+
+          case this.pokeTool.name:
+            result = await executeTool(this.pokeTool, {
+              ...params,
+              ...(atQq.length > 0 ? {
+                target: atQq.length === 1 ? String(atQq[0]) : atQq.map(qq => String(qq))
+              } : {})
+            }, e);
+            break;
+
+          case this.likeTool.name:
+            result = await executeTool(this.likeTool, params, e);
+            break;
+
+          default:
+            throw new Error(`未知的工具调用: ${functionName}`);
+        }
+
+        if (result) {
+          toolResults.push(result);
+
+          // 添加工具执行结果到当前上下文
+          currentMessages.push({
+            role: 'tool',
+            tool_call_id: id,
+            name: functionName,
+            content: JSON.stringify(result)
+          });
+
+          // 获取当前工具的响应
+          const toolResponse = await YTapi({
+            model: 'gpt-4o-fc',
+            messages: currentMessages,
+            temperature: 0.1,
+            top_p: 0.9,
+            frequency_penalty: 0.1,
+            presence_penalty: 0.1
+          }, this.config);
+
+          if (toolResponse?.choices?.[0]?.message?.content) {
+            const toolReply = toolResponse.choices[0].message.content;
+
+            const output = await this.processToolSpecificMessage(toolReply, functionName)
+            await e.reply(output);
+
+            // 记录工具调用的回复消息
+            try {
+              const messageObj = {
+                message_type: e.message_type,
+                group_id: e.group_id,
+                time: Math.floor(Date.now() / 1000),
+                message: [{ type: 'text', text: toolReply }],
+                source: 'send',
+                self_id: Bot.uin,
+                sender: {
+                  user_id: Bot.uin,
+                  nickname: Bot.nickname,
+                  card: Bot.nickname,
+                  role: 'member'
+                }
+              };
+
+              await this.messageManager.recordMessage(messageObj);
+            } catch (error) {
+              logger.error('[MessageRecord] 记录Bot工具响应消息失败：', error);
+            }
+
+            // 更新消息历史
+            lastMessages = currentMessages;
+            lastMessages.push({
+              role: 'assistant',
+              content: toolReply
+            });
+          }
+        }
+      } catch (error) {
+        console.error(`工具执行失败: ${functionName}`, error);
+        continue;
+      }
+    }
+
+    return true;
+  }
+
   // 添加消息处理函数
   async processToolSpecificMessage(content, toolName) {
     let output = content;
@@ -1070,78 +1299,38 @@ export class ExamplePlugin extends plugin {
 
     switch (toolName) {
       case 'dalleTool':
-        // 对绘图相关的回复进行处理
         output = output
           .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
         break;
 
       case 'searchVideoTool':
-        // 视频搜索相关回复处理
-        output = output
-          .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
         break;
 
       case 'searchMusicTool':
-        // 音乐搜索相关回复处理
-        output = output
-          .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '')
-          .replace(/这首歌|这个歌/, '歌曲');
         break;
 
       case 'freeSearchTool':
-        // 自由搜索相关回复处理
-        output = output
-          .replace(/让我搜索|我来搜索|帮你搜索|给你搜索/, '正在搜索')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
         break;
 
       case 'imageAnalysisTool':
-        // 图片分析相关回复处理
-        output = output
-          .replace(/让我看看|我来看看|帮你看看|给你看看/, '正在分析')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
         break;
 
       case 'jinyanTool':
-        // 禁言相关回复处理
-        output = output
-          .replace(/让我来|我来|帮你|给你/, '')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
         break;
 
       case 'emojiSearchTool':
-        // 表情搜索相关回复处理
-        output = output
-          .replace(/让我找找|我找找|帮你找|给你找/, '正在搜索')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
         break;
 
       case 'bingImageSearchTool':
-        // 必应图片搜索相关回复处理
-        output = output
-          .replace(/让我搜索|我来搜索|帮你搜索|给你搜索/, '正在搜索')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
         break;
 
       case 'pokeTool':
-        // 戳一戳相关回复处理
-        output = output
-          .replace(/让我戳|我来戳|帮你戳|给你戳/, '正在戳')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
         break;
 
       case 'likeTool':
-        // 点赞相关回复处理
-        output = output
-          .replace(/让我给|我来给|帮你给|给你/, '')
-          .replace(/稍等一下|稍等片刻|等一下|等一会/, '');
         break;
 
       default:
-        // 默认处理
-        output = output.replace(/稍等一下|稍等片刻|等一下|等一会/, '');
     }
 
     return output.trim();
