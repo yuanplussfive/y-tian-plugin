@@ -455,51 +455,14 @@ export class ExamplePlugin extends plugin {
     const userId = e.user_id; // 获取用户ID
 
     try {
-      const args = e.msg.replace(/^#tool\s*/, '').trim();
-
-      // 检查是否为清除或重置历史记录的命令
-      if (args.startsWith('clear_history')) {
-        const parts = args.split(' ');
-        let targetGroupId = groupId;
-        let targetUserId = userId;
-        if (parts.length > 1 && /^\d+$/.test(parts[1])) {
-          targetGroupId = parts[1];
-          if (parts.length > 2 && /^\d+$/.test(parts[2])) {
-            targetUserId = parts[2];
-          }
-        }
-        await this.clearGroupUserMessages(targetGroupId, targetUserId);
-        await e.reply(`已清除群组 ${targetGroupId} 中用户 ${targetUserId} 的消息历史。`);
-        return true;
-      }
-
-      if (args.startsWith('reset_history')) {
-        const parts = args.split(' ');
-        let targetGroupId = groupId;
-        let targetUserId = userId;
-        if (parts.length > 1 && /^\d+$/.test(parts[1])) {
-          targetGroupId = parts[1];
-          if (parts.length > 2 && /^\d+$/.test(parts[2])) {
-            targetUserId = parts[2];
-          }
-        }
-        await this.resetGroupUserMessages(targetGroupId, targetUserId);
-        await e.reply(`已重置群组 ${targetGroupId} 中用户 ${targetUserId} 的消息历史。`);
-        return true;
-      }
 
       // 构建发送者信息对象
       const { sender, group_id, msg } = e;
+      const args = msg ? msg.replace(/^#tool\s*/, '').trim() : '';
       const roleMap = {
         owner: 'owner',
         admin: 'admin',
         member: 'member'
-      };
-
-      const sexMap = {
-        male: '男',
-        female: '女',
-        unknown: '未知'
       };
 
       // 获取群组中指定用户的消息历史
@@ -511,10 +474,12 @@ export class ExamplePlugin extends plugin {
       } catch (error) {
         console.error(`获取成员信息失败: ${error}`);
       }
-      const { join_time, last_sent_time, role: senderRole } = memberInfo || {};
+      const { role: senderRole } = memberInfo || {};
 
       let userContent = '';
-      const atQq = e.message.filter(item => item.type === 'at').map(item => item.qq);
+      const atQq = e.message
+        .filter(item => item.type === 'at' && item.qq !== Bot.uin)
+        .map(item => item.qq);
       const images = await TakeImages(e);
       console.log(images);
 
@@ -526,75 +491,83 @@ export class ExamplePlugin extends plugin {
       };
 
       // 构建消息内容
-      const buildMessageContent = async (sender, msg, images, atQq, groupId) => {
-        let parts = [];
-
+      const buildMessageContent = async (sender, msg, images, atQq = [], group) => {
         // 基本信息
         const timeStr = formatMessageTime();
         const senderRole = roleMap[sender.role] || 'member';
         const senderInfo = `${sender.card || sender.nickname}(qq号: ${sender.user_id})[群身份: ${senderRole}]`;
 
+        // 获取被 at 用户的详细信息
+        let atContent = '';
+        if (atQq.length > 0) {
+          const memberMap = await group.getMemberMap();
+          const atUsers = atQq.map(qq => {
+            const memberInfo = memberMap.get(Number(qq));
+            if (!memberInfo) return `未知用户(qq号: ${qq})`;
+            const role = roleMap[memberInfo.role] || 'member';
+            return `${memberInfo.card || memberInfo.nickname}(qq号: ${qq})[群身份: ${role}]`;
+          });
+          atContent = `艾特了 ${atUsers.join('、')}，`;
+        }
+
         // 构建消息内容
         let content = [];
 
-        // 添加基本文本
+        // 添加消息文本
         if (msg) {
-          content.push(`在群里说: ${msg}`);
+          content.push(`说: ${msg}`);
         }
 
         // 处理图片
         if (images && images.length > 0) {
-          images.forEach(img => {
-            content.push(`发送了一张图片 [${img}]`);
-          });
-        }
-
-        // 处理@信息，加入身份信息
-        if (atQq && atQq.length > 0) {
-          const atUserInfos = await Promise.all(atQq.map(async (userId) => {
-            const memberInfo = await e.bot.pickGroup(groupId).pickMember(userId).info;
-            const role = roleMap[memberInfo.role] || 'member';
-            return `${memberInfo.card || memberInfo.nickname}(qq号: ${userId})[群身份: ${role}]`;
-          }));
-          content.push(`提到了用户: ${atUserInfos.join(', ')}`);
+          const imageText = images.length === 1 ? '发送了一张图片' : `发送了 ${images.length} 张图片`;
+          content.push(imageText);
         }
 
         // 组合所有部分
-        return `${timeStr} ${senderInfo}: ${content.join(', ')}`;
+        return `${timeStr} ${senderInfo}: ${atContent}${content.join('，')}`;
       };
-
-
 
 
       // 使用时：
       if (e.group_id) {
         userContent = await buildMessageContent(
           sender,
-          msg,
+          args,
           images,
           atQq,
-          e.group_id
+          e.group
         );
       }
 
       console.log(userContent);
 
 
-      // 获取被提及用户的角色信息
       let targetRole = 'member'; // 默认目标角色
       if (atQq.length > 0) {
-        // 假设只处理第一个被提及的用户
         const targetUserId = atQq[0];
         try {
-          const targetMemberInfo = await e.bot.pickGroup(e.group_id).pickMember(targetUserId).info;
-          targetRole = roleMap[targetMemberInfo.role] || 'member';
+          const memberMap = await e.bot.pickGroup(groupId).getMemberMap();
+          const memberInfo = memberMap.get(Number(targetUserId));
+          targetRole = roleMap[memberInfo.role] || 'member';
         } catch (error) {
           console.error(`获取目标成员信息失败: ${error}`);
         }
       }
 
-      const systemContent = this.config.systemContent;
+      // 获取所有高级别成员（管理员和群主）的信息字符串
+      const getHighLevelMembers = async (group) => {
+        const memberMap = await group.getMemberMap();
 
+        return Array.from(memberMap.values())
+          .filter(member => ['admin', 'owner'].includes(member.role))
+          .map(member => `${member.nickname}(QQ号: ${member.user_id})[群身份: ${roleMap[member.role]}]`)
+          .join('\n');
+      };
+
+      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await getHighLevelMembers(e.group)}`;
+
+      console.log(systemContent);
       // 获取历史记录的代码修改
       const getHistory = async () => {
         const chatHistory = await this.messageManager.getMessages(
@@ -606,9 +579,14 @@ export class ExamplePlugin extends plugin {
           return [];
         }
 
+        const memberMap = await e.bot.pickGroup(groupId).getMemberMap();
+
         return [
           ...chatHistory.reverse().map(msg => {
-            const senderRole = roleMap[msg.sender.role] || 'member';
+            const isSenderBot = msg.sender.user_id === e.bot.uin;
+            const senderRole = isSenderBot
+              ? (roleMap[memberMap.get(e.bot.uin)?.role] ?? roleMap[msg.sender.role] ?? 'member')
+              : (roleMap[msg.sender.role] ?? 'member');
             const senderInfo = `${msg.sender.nickname}(QQ号:${msg.sender.user_id})[群身份: ${senderRole}]`;
             return {
               role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
@@ -626,7 +604,7 @@ export class ExamplePlugin extends plugin {
       // 使用示例:
       groupUserMessages = await getHistory();
 
-      console.log(groupUserMessages)
+      //console.log(groupUserMessages)
       // 移除所有非system角色的消息
       groupUserMessages = groupUserMessages.filter(msg => msg.role !== 'system');
       // 添加动态生成的 system 消息
@@ -653,8 +631,11 @@ export class ExamplePlugin extends plugin {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
         tools: this.tools,
+        temperature: 0,
+        top_p: 0.1,
+        frequency_penalty: 0.8,
+        presence_penalty: 0.2,
         tool_choice: "auto",
-        temperature: 0,       // 降低随机性
       };
 
       // 调用 OpenAI API 获取初始响应
@@ -670,7 +651,11 @@ export class ExamplePlugin extends plugin {
               role: 'assistant',
               content: '无法获取 OpenAI 的响应，请稍后再试。'
             }
-          ]
+          ],
+          temperature: 0.8,
+          top_p: 0.9,
+          frequency_penalty: 0.6,
+          presence_penalty: 0.6
         };
         const errorResponse = await YTapi(errorRequestData, this.config);
         if (errorResponse && errorResponse.choices && errorResponse.choices[0].message.content) {
@@ -680,7 +665,7 @@ export class ExamplePlugin extends plugin {
         }
         // 清空当前用户的消息历史
         await this.resetGroupUserMessages(groupId, userId);
-        return false;
+        return true;
       }
 
       const choice = response.choices[0];
@@ -761,8 +746,11 @@ export class ExamplePlugin extends plugin {
               case this.jinyanTool.name:
                 result = await executeTool(this.jinyanTool, {
                   ...params,
-                  senderRole: senderRole,
-                  targetRole: targetRole
+                  ...(senderRole ? { senderRole } : {}),
+                  ...(targetRole ? { targetRole } : {}),
+                  ...(atQq.length > 0 ? {
+                    target: atQq.length === 1 ? String(atQq[0]) : atQq.map(qq => String(qq))
+                  } : {})
                 }, e);
                 break;
 
@@ -803,7 +791,12 @@ export class ExamplePlugin extends plugin {
                 break;
 
               case this.pokeTool.name:
-                result = await executeTool(this.pokeTool, params, e);
+                result = await executeTool(this.pokeTool, {
+                  ...params,
+                  ...(atQq.length > 0 ? {
+                    target: atQq.length === 1 ? String(atQq[0]) : atQq.map(qq => String(qq))
+                  } : {})
+                }, e);
                 break;
 
               case this.likeTool.name:
@@ -829,7 +822,11 @@ export class ExamplePlugin extends plugin {
               // 获取当前工具的响应
               const toolResponse = await YTapi({
                 model: 'gpt-4o-fc',
-                messages: currentMessages
+                messages: currentMessages,
+                temperature: 0.3,
+                top_p: 0.8,
+                frequency_penalty: 0.3,
+                presence_penalty: 0.2
               }, this.config);
 
               if (toolResponse?.choices?.[0]?.message?.content) {
@@ -877,7 +874,7 @@ export class ExamplePlugin extends plugin {
 
         // 清理消息历史
         await this.resetGroupUserMessages(groupId, userId);
-        return false;
+        return true;
       }
       else if (message.content) {
         // 检查是否上一次处理过函数调用，避免连续两次回复
@@ -928,7 +925,7 @@ export class ExamplePlugin extends plugin {
         await e.reply('未能理解您的请求，请检查命令格式。');
         // 请求完成后，清空当前用户的消息历史
         await this.resetGroupUserMessages(groupId, userId);
-        return false;
+        return true;
       }
 
     } catch (error) {
@@ -952,7 +949,11 @@ export class ExamplePlugin extends plugin {
       const errorRequestData = {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
-        tools: this.tools
+        tools: this.tools,
+        temperature: 0.8,
+        top_p: 0.9,
+        frequency_penalty: 0.6,
+        presence_penalty: 0.6
       };
 
       // 使用 YTapi 生成错误回复
@@ -968,7 +969,7 @@ export class ExamplePlugin extends plugin {
       // 请求完成后，清空当前用户的消息历史
       await this.resetGroupUserMessages(groupId, userId);
 
-      return false;
+      return true;
     }
   }
 
@@ -1054,11 +1055,17 @@ export class ExamplePlugin extends plugin {
   // 添加消息处理函数
   async processToolSpecificMessage(content, toolName) {
     let output = content;
-    if (content.includes('在群里说')) {
-      output = content
-        // 匹配任意字符(包括换行)直到"在群里说"及其后的冒号和空白字符
-        .replace(/[\s\S]*在群里说[:：]\s*/, '')
-        .trim();
+
+    const patterns = [
+      /[\s\S]*在群里说[:：]\s*/,
+      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*?(?:\(QQ号:\d+\))?\s*(?:\[群身份:\s*\w+\])?\s*[:：]\s*/
+    ];
+
+    for (const pattern of patterns) {
+      if (pattern.test(content)) {
+        output = content.replace(pattern, '').trim();
+        break;
+      }
     }
 
     switch (toolName) {

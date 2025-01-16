@@ -11,13 +11,23 @@ export class PokeTool extends AbstractTool {
     this.parameters = {
       type: "object",
       properties: {
-        qq: {
-          type: 'string',
-          description: '目标用户QQ号。留空则随机选择'
+        target: {
+          oneOf: [
+            { 
+              type: 'string', 
+              description: '目标用户的QQ号或群名片/昵称' 
+            },
+            { 
+              type: 'array', 
+              items: { type: 'string' }, 
+              description: '可同时指定多个目标，支持QQ号或群名片/昵称' 
+            }
+          ],
+          description: '目标用户。可以是QQ号、群名片或昵称，支持单个或数组。留空则随机选择'
         },
         times: {
           type: 'number',
-          description: '戳一戳次数。默认1次，最多10次',
+          description: '每个目标的戳一戳次数。默认1次，最多10次',
           default: 1
         },
         random: {
@@ -30,14 +40,89 @@ export class PokeTool extends AbstractTool {
   }
 
   /**
+   * 查找群成员
+   * @param {string} target - 目标用户的QQ号或名称
+   * @param {Map} members - 群成员Map
+   * @returns {Object|null} - 找到的成员信息或null
+   */
+  findMember(target, members) {
+    // 首先尝试作为QQ号查找
+    if (/^\d+$/.test(target)) {
+      const member = members.get(Number(target));
+      if (member) return { qq: Number(target), info: member };
+    }
+
+    // 按群名片或昵称查找
+    for (const [qq, info] of members.entries()) {
+      const card = info.card?.toLowerCase();
+      const nickname = info.nickname?.toLowerCase();
+      const searchTarget = target.toLowerCase();
+      
+      if (card === searchTarget || nickname === searchTarget ||
+          card?.includes(searchTarget) || nickname?.includes(searchTarget)) {
+        return { qq, info };
+      }
+    }
+    return null;
+  }
+
+  /**
+   * 对单个用户执行戳一戳操作
+   * @param {Object} group - 群对象
+   * @param {string} target - 目标用户标识（QQ号或名称）
+   * @param {Map} members - 群成员Map
+   * @param {number} pokeCount - 戳一戳次数
+   * @returns {Promise<Object>} - 操作结果
+   */
+  async pokeSingleUser(group, target, members, pokeCount) {
+    const foundMember = this.findMember(target, members);
+    
+    if (!foundMember) {
+      return { 
+        target,
+        error: `未找到用户 ${target}` 
+      };
+    }
+
+    const { qq: targetQQ, info: targetMember } = foundMember;
+    
+    try {
+      // 执行指定次数的戳一戳
+      for (let i = 0; i < pokeCount; i++) {
+        await group.pokeMember(targetQQ);
+        // 多次戳一戳时添加延迟
+        if (i < pokeCount - 1) {
+          await new Promise(resolve => setTimeout(resolve, 1500));
+        }
+      }
+
+      return {
+        target,
+        targetQQ,
+        targetName: targetMember.card || targetMember.nickname,
+        times: pokeCount,
+        success: true
+      };
+    } catch (error) {
+      return {
+        target,
+        targetQQ,
+        targetName: targetMember.card || targetMember.nickname,
+        error: error.message
+      };
+    }
+  }
+
+  /**
    * 执行戳一戳操作
    * @param {Object} opts - 参数选项
    * @param {Object} e - 事件对象
    * @returns {Promise<Object|string>} - 操作结果或错误信息
    */
   async func(opts, e) {
+    // 解构参数
     const { 
-      qq,
+      target,
       times = 1,
       random = false
     } = opts;
@@ -53,54 +138,62 @@ export class PokeTool extends AbstractTool {
     }
 
     try {
+      // 获取群成员列表
       const members = await group.getMemberMap();
+      
+      // 限制戳一戳次数在1-10次之间
+      const pokeCount = Math.min(Math.max(1, times), 10);
+      let targets = [];
 
-      // 确定目标用户
-      let targetQQ;
-      // 当 qq 未指定或 random 为 true 时，执行随机选择
-      if (!qq || random) {
-        // 获取所有可被戳的成员
-        const availableMembers = Array.from(members.keys())
-          .filter(id => {
-            return id !== Bot.uin && 
-                   id !== e.sender.user_id; // 不包括机器人自己和发送者
-          });
+      // 处理目标用户列表
+      if (!target || random) {
+        // 随机选择模式：过滤掉机器人自己和发送者
+        const availableMembers = Array.from(members.entries())
+          .filter(([id, _]) => id !== Bot.uin && id !== e.sender.user_id);
         
         if (availableMembers.length === 0) {
           return '群内没有可戳的成员';
         }
         
-        // 从可用成员中随机选择
-        targetQQ = availableMembers[Math.floor(Math.random() * availableMembers.length)];
+        // 随机选择一个目标
+        const [randomQQ, randomMember] = availableMembers[
+          Math.floor(Math.random() * availableMembers.length)
+        ];
+        targets = [String(randomQQ)];
       } else {
-        targetQQ = qq;
-      }
-      
-      const targetMember = members.get(Number(targetQQ));
-      if (!targetMember) {
-        return `用户 ${targetQQ} 不在群中`;
+        // 将输入转换为数组形式
+        targets = Array.isArray(target) ? target : [target];
       }
 
-      // 限制戳一戳次数
-      const pokeCount = Math.min(Math.max(1, times), 10);
+      // 并行执行所有戳一戳操作
+      const results = await Promise.all(
+        targets.map(async target => {
+          return await this.pokeSingleUser(group, target, members, pokeCount);
+        })
+      );
 
-      // 执行戳一戳
-      for (let i = 0; i < pokeCount; i++) {
-        await group.pokeMember(targetQQ).catch(err => {
-          return { error: err };
-      });
-        // 多次戳一戳时添加延迟
-        if (i < pokeCount - 1) {
-          await new Promise(resolve => setTimeout(resolve, 1500));
-        }
-      }
+      // 处理操作结果
+      const successResults = results.filter(r => r.success);
+      const errorResults = results.filter(r => r.error);
 
-      console.log(targetQQ, times)
+      // 返回操作结果
       return {
         action: 'poke',
-        targetQQ,
-        times: pokeCount,
-        isRandom: !qq || random
+        success: {
+          count: successResults.length,
+          targets: successResults.map(r => ({
+            target: r.target,
+            qq: r.targetQQ,
+            name: r.targetName,
+            times: r.times
+          }))
+        },
+        errors: errorResults.map(r => ({
+          target: r.target,
+          reason: r.error
+        })),
+        groupName: group.name || groupId,
+        isRandom: !target || random
       };
 
     } catch (error) {
