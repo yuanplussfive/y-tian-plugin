@@ -10,7 +10,7 @@ export class DalleTool extends AbstractTool {
   constructor() {
     super();
     this.name = 'dalleTool';
-    this.description = '根据提示词生成图片';
+    this.description = '根据提示词生成图片, 优先使用dalle';
     this.parameters = {
       type: 'object',
       properties: {

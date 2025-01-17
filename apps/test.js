@@ -1,5 +1,6 @@
 import { JinyanTool } from '../YTOpen-Ai/functions_tools/JinyanTool.js';
 import { DalleTool } from '../YTOpen-Ai/functions_tools/DalleTool.js';
+import { JimengTool } from '../YTOpen-Ai/functions_tools/jimengTool.js';
 import { FreeSearchTool } from '../YTOpen-Ai/functions_tools/SearchInformationTool.js';
 import { SearchVideoTool } from '../YTOpen-Ai/functions_tools/SearchVideoTool.js';
 import { SearchMusicTool } from '../YTOpen-Ai/functions_tools/SearchMusicTool.js';
@@ -63,8 +64,14 @@ export class ExamplePlugin extends plugin {
     this.pokeTool = new PokeTool();
     this.likeTool = new LikeTool();
     this.chatHistoryTool = new ChatHistoryTool();
+    this.jimengTool = new JimengTool();
     // 工具定义部分
     this.functions = [
+      {
+        name: this.jimengTool.name,
+        description: this.jimengTool.description,
+        parameters: this.jimengTool.parameters
+      },
       {
         name: this.jinyanTool.name,
         description: this.jinyanTool.description,
@@ -162,7 +169,8 @@ export class ExamplePlugin extends plugin {
         geminiApikey: ['AIzaxxxxxxx'],
         systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
 
-        bilibiliSessData: 'a16804xxxxxx'
+        bilibiliSessData: 'a16804xxxxxx',
+        jimengsessionid: '12345xxxxxx'
       }
     }
 
@@ -698,207 +706,271 @@ export class ExamplePlugin extends plugin {
       // 修改工具调用处理部分
       if (message.tool_calls) {
         console.log(message.tool_calls)
+        // 基础验证检查
         if (!message ||
           (message.choices &&
             message.choices[0]?.finish_reason === 'content_filter' &&
             message.choices[0]?.message === null)) {
           return false;
         }
-        hasHandledFunctionCall = true;
-        const toolResults = []; // 存储所有工具执行结果
 
-        // 为每个工具调用创建独立的消息历史
-        for (const toolCall of message.tool_calls) {
-          const { id, type, function: functionData } = toolCall;
-
-          if (type !== 'function') {
-            console.log(`暂不支持的工具类型: ${type}`);
-            continue;
-          }
-
-          // 创建当前工具的消息上下文
-          let currentMessages = [...groupUserMessages];
-          currentMessages.push({
-            role: 'assistant',
-            content: null,
-            tool_calls: [{
-              id,
-              type,
-              function: {
-                name: functionData.name,
-                arguments: functionData.arguments
-              }
-            }]
-          });
-
-          const { name: functionName, arguments: argsString } = functionData;
-          let params;
+        // 工具执行函数,支持失败重试
+        const executeTool = async (tool, params, e, isRetry = false) => {
           try {
-            params = JSON.parse(argsString);
-          } catch (parseError) {
-            console.error('参数解析错误：', parseError);
-            continue;
+            return await tool.execute(params, e);
+          } catch (error) {
+            console.error(`工具执行错误 (${isRetry ? '重试' : '首次尝试'})：`, error);
+            if (!isRetry) {
+              console.log(`正在重试工具：${tool.name}`);
+              return await executeTool(tool, params, e, true);
+            }
+            throw error;
           }
+        };
 
-          // 执行工具
-          let result;
-          try {
-            switch (functionName) {
-              case this.jinyanTool.name:
-                result = await executeTool(this.jinyanTool, {
-                  ...params,
-                  ...(senderRole ? { senderRole } : {}),
-                  ...(targetRole ? { targetRole } : {}),
-                  ...(atQq.length > 0 ? {
-                    target: atQq.length === 1 ? String(atQq[0]) : atQq.map(qq => String(qq))
-                  } : {})
-                }, e);
-                break;
+        // 存储工具执行结果
+        const toolResults = [];
+        // 记录已执行的工具调用,用于防止重复执行
+        const executedTools = new Map();
 
-              case this.dalleTool.name:
-                result = await executeTool(this.dalleTool, params, e);
-                result = {
-                  prompt: result.prompt,
-                  imageUrl: result.imageUrl
-                };
-                break;
+        // 获取最近的用户消息上下文
+        let lastMessages = (() => {
+          const lastUserIndex = groupUserMessages.map(msg => msg.role).lastIndexOf('user');
+          return lastUserIndex !== -1
+            ? groupUserMessages.slice(lastUserIndex)
+            : [...groupUserMessages];
+        })();
 
-              case this.freeSearchTool.name:
-                result = await executeTool(this.freeSearchTool, params, e);
-                break;
+        // 处理所有工具调用
+        if (message.tool_calls) {
+          for (const toolCall of message.tool_calls) {
+            const { id, type, function: functionData } = toolCall;
+            const { name: functionName, arguments: argsString } = functionData;
 
-              case this.searchVideoTool.name:
-                result = await executeTool(this.searchVideoTool, params, e);
-                break;
-
-              case this.searchMusicTool.name:
-                result = await executeTool(this.searchMusicTool, params, e);
-                break;
-
-              case this.aiALLTool.name:
-                result = await executeTool(this.aiALLTool, params, e);
-                break;
-
-              case this.emojiSearchTool.name:
-                result = await executeTool(this.emojiSearchTool, params, e);
-                break;
-
-              case this.bingImageSearchTool.name:
-                result = await executeTool(this.bingImageSearchTool, params, e);
-                break;
-
-              case this.imageAnalysisTool.name:
-                result = await executeTool(this.imageAnalysisTool, params, e);
-                break;
-
-              case this.pokeTool.name:
-                result = await executeTool(this.pokeTool, {
-                  ...params,
-                  ...(atQq.length > 0 ? {
-                    target: atQq.length === 1 ? String(atQq[0]) : atQq.map(qq => String(qq))
-                  } : {})
-                }, e);
-                break;
-
-              case this.likeTool.name:
-                result = await executeTool(this.likeTool, params, e);
-                break;
-
-              default:
-                throw new Error(`未知的工具调用: ${functionName}`);
+            if (type !== 'function') {
+              console.log(`暂不支持的工具类型: ${type}`);
+              continue;
             }
 
-            if (result) {
-              toolResults.push(result); // 保存工具执行结果
+            // 检查是否是重复的工具调用
+            const toolKey = `${functionName}-${argsString}`;
+            if (executedTools.has(toolKey)) {
+              console.log(`跳过重复的工具调用: ${functionName}`);
+              continue;
+            }
 
-              // 添加工具执行结果到当前上下文
-              currentMessages.push({
-                role: 'tool',
-                tool_call_id: id,
-                name: functionName,
-                content: JSON.stringify(result)
+            const isValidTool = this.tools.some(tool => tool.function.name === functionName);
+            if (!isValidTool) {
+              console.log(`跳过未授权的工具调用: ${functionName}`);
+              continue;
+            }
+
+            // 记录当前工具调用
+            executedTools.set(toolKey, true);
+
+            // 创建当前工具的消息上下文
+            let currentMessages = [...lastMessages];
+            currentMessages.push({
+              role: 'assistant',
+              content: null,
+              tool_calls: [{
+                id,
+                type,
+                function: {
+                  name: functionData.name,
+                  arguments: functionData.arguments
+                }
+              }]
+            });
+
+            // 解析工具参数
+            let params;
+            try {
+              params = JSON.parse(argsString);
+            } catch (parseError) {
+              console.error('参数解析错误：', parseError);
+              continue;
+            }
+
+            // 执行工具调用
+            let result;
+            try {
+              switch (functionName) {
+                case this.jinyanTool.name:
+                  result = await executeTool(this.jinyanTool, {
+                    ...params,
+                    ...(senderRole ? { senderRole } : {}),
+                    ...(targetRole ? { targetRole } : {}),
+                    ...(atQq.length > 0 ? {
+                      target: atQq.length === 1 ? String(atQq[0]) : atQq.map(qq => String(qq))
+                    } : {})
+                  }, e);
+                  break;
+
+                case this.dalleTool.name:
+                  result = await executeTool(this.dalleTool, params, e);
+                  result = {
+                    prompt: result.prompt,
+                    imageUrl: result.imageUrl
+                  };
+                  break;
+
+                case this.freeSearchTool.name:
+                  result = await executeTool(this.freeSearchTool, params, e);
+                  break;
+
+                case this.searchVideoTool.name:
+                  result = await executeTool(this.searchVideoTool, params, e);
+                  break;
+
+                case this.searchMusicTool.name:
+                  result = await executeTool(this.searchMusicTool, params, e);
+                  break;
+
+                case this.aiALLTool.name:
+                  result = await executeTool(this.aiALLTool, params, e);
+                  break;
+
+                case this.jimengTool.name:
+                  result = await executeTool(this.jimengTool, params, e);
+                  break;
+
+                case this.emojiSearchTool.name:
+                  result = await executeTool(this.emojiSearchTool, params, e);
+                  break;
+
+                case this.bingImageSearchTool.name:
+                  result = await executeTool(this.bingImageSearchTool, params, e);
+                  break;
+
+                case this.imageAnalysisTool.name:
+                  result = await executeTool(this.imageAnalysisTool, params, e);
+                  break;
+
+                case this.pokeTool.name:
+                  result = await executeTool(this.pokeTool, {
+                    ...params,
+                    ...(atQq.length > 0 ? {
+                      target: atQq.length === 1 ? String(atQq[0]) : atQq.map(qq => String(qq))
+                    } : {})
+                  }, e);
+                  break;
+
+                case this.likeTool.name:
+                  result = await executeTool(this.likeTool, params, e);
+                  break;
+
+                default:
+                  throw new Error(`未知的工具调用: ${functionName}`);
+              }
+
+              if (result) {
+                // 保存工具执行结果
+                toolResults.push(result);
+
+                // 添加工具执行结果到当前上下文
+                currentMessages.push({
+                  role: 'tool',
+                  tool_call_id: id,
+                  name: functionName,
+                  content: JSON.stringify(result)
+                });
+
+                // 获取当前工具的响应
+                const toolResponse = await YTapi({
+                  model: 'gpt-4o-fc',
+                  messages: currentMessages,
+                  temperature: 0.1,
+                  top_p: 0.9,
+                  frequency_penalty: 0.1,
+                  presence_penalty: 0.1
+                }, this.config);
+
+                if (toolResponse?.choices?.[0]?.message?.content) {
+                  const toolReply = toolResponse.choices[0].message.content;
+
+                  // 处理工具特定的消息
+                  const output = await this.processToolSpecificMessage(toolReply, functionName)
+                  await e.reply(output);
+
+                  // 记录工具调用的回复消息
+                  try {
+                    const messageObj = {
+                      message_type: e.message_type,
+                      group_id: e.group_id,
+                      time: Math.floor(Date.now() / 1000),
+                      message: [{ type: 'text', text: toolReply }],
+                      source: 'send',
+                      self_id: Bot.uin,
+                      sender: {
+                        user_id: Bot.uin,
+                        nickname: Bot.nickname,
+                        card: Bot.nickname,
+                        role: 'member'
+                      }
+                    };
+
+                    await this.messageManager.recordMessage(messageObj);
+                  } catch (error) {
+                    logger.error('[MessageRecord] 记录Bot工具响应消息失败：', error);
+                  }
+
+                  // 更新消息历史
+                  lastMessages = currentMessages;
+                  lastMessages.push({
+                    role: 'assistant',
+                    content: toolReply
+                  });
+                }
+              }
+            } catch (error) {
+              console.error(`工具执行失败: ${functionName}`, error);
+              // 记录失败的工具调用,以便最终检查时重试
+              executedTools.set(toolKey, false);
+              continue;
+            }
+          }
+
+          // 最终检查逻辑
+          try {
+            const finalCheckResponse = await YTapi({
+              model: 'gpt-4o-fc',
+              tools: this.tools,
+              messages: [...groupUserMessages, {
+                role: 'system',
+                content: `请检查用户的原始请求是否已全部完成。只有在以下情况才需要调用工具：
+        1. 之前的工具调用失败需要重试
+        2. 确实有未完成的必要任务
+        3. 用户明确要求的功能尚未实现
+        请不要调用与用户需求无关的工具。已执行过的工具调用：${Array.from(executedTools.keys()).join(', ')}`
+              }],
+              temperature: 0.1,
+              top_p: 0.9,
+              frequency_penalty: 0.1,
+              presence_penalty: 0.1
+            }, this.config);
+
+            // 处理需要补充执行的工具调用
+            if (finalCheckResponse?.choices?.[0]?.message?.tool_calls) {
+              const newToolCalls = finalCheckResponse.choices[0].message.tool_calls.filter(toolCall => {
+                const toolKey = `${toolCall.function.name}-${toolCall.function.arguments}`;
+                // 只处理未执行过或执行失败的工具调用
+                return !executedTools.has(toolKey) || executedTools.get(toolKey) === false;
               });
 
-              console.log(currentMessages)
-              // 获取当前工具的响应
-              const toolResponse = await YTapi({
-                model: 'gpt-4o-fc',
-                messages: currentMessages,
-                temperature: 0.3,
-                top_p: 0.8,
-                frequency_penalty: 0.3,
-                presence_penalty: 0.2
-              }, this.config);
-
-              if (toolResponse?.choices?.[0]?.message?.content) {
-                const toolReply = toolResponse.choices[0].message.content;
-
-                const output = await this.processToolSpecificMessage(toolReply, functionName)
-                await e.reply(output);
-
-                // 记录工具调用的回复消息
-                try {
-                  const messageObj = {
-                    message_type: e.message_type,
-                    group_id: e.group_id,
-                    time: Math.floor(Date.now() / 1000),
-                    message: [{ type: 'text', text: toolReply }],
-                    source: 'send',
-                    self_id: Bot.uin,
-                    sender: {
-                      user_id: Bot.uin,
-                      nickname: Bot.nickname,
-                      card: Bot.nickname,
-                      role: 'member'
-                    }
-                  };
-
-                  await this.messageManager.recordMessage(messageObj);
-                } catch (error) {
-                  logger.error('[MessageRecord] 记录Bot工具响应消息失败：', error);
-                }
-
-                // 更新主消息历史
-                groupUserMessages = currentMessages;
-                groupUserMessages.push({
-                  role: 'assistant',
-                  content: toolReply
-                });
+              if (newToolCalls.length > 0) {
+                const newMessage = {
+                  ...finalCheckResponse.choices[0].message,
+                  tool_calls: newToolCalls
+                };
+                await this.handleToolCalls(newMessage, e, groupUserMessages, atQq, senderRole, targetRole);
               }
             }
           } catch (error) {
-            console.error(`工具执行失败: ${functionName}`, error);
-            await e.reply(`工具执行出错: ${error.message}`);
-            continue;
+            console.error('最终检查失败：', error);
           }
         }
 
-        // 所有工具执行完成后，进行最终检查
-        try {
-          const finalCheckResponse = await YTapi({
-            model: 'gpt-4o-fc',
-            tools: this.tools,
-            messages: [...groupUserMessages, {
-              role: 'system',
-              content: '请检查用户的原始请求是否已全部完成。如果还有未完成的任务，请调用相应的工具来完成它们。'
-            }],
-            temperature: 0.1,
-            top_p: 0.9,
-            frequency_penalty: 0.1,
-            presence_penalty: 0.1
-          }, this.config);
-
-          // 如果检查发现还有需要调用的工具
-          if (finalCheckResponse?.choices?.[0]?.message?.tool_calls) {
-            const newMessage = finalCheckResponse.choices[0].message;
-            // 递归处理新的工具调用
-            await this.handleToolCalls(newMessage, e, groupUserMessages, atQq, senderRole, targetRole);
-          }
-        } catch (error) {
-          console.error('最终检查失败：', error);
-        }
-        // 清理消息历史
-        await this.resetGroupUserMessages(groupId, userId);
         return true;
       }
       else if (message.content) {
@@ -1116,9 +1188,16 @@ export class ExamplePlugin extends plugin {
     // 执行当前所有的工具调用
     for (const toolCall of message.tool_calls) {
       const { id, type, function: functionData } = toolCall;
+      const { name: functionName, arguments: argsString } = functionData;
 
       if (type !== 'function') {
         console.log(`暂不支持的工具类型: ${type}`);
+        continue;
+      }
+
+      const isValidTool = this.tools.some(tool => tool.function.name === functionName);
+      if (!isValidTool) {
+        console.log(`跳过未授权的工具调用: ${functionName}`);
         continue;
       }
 
@@ -1137,7 +1216,6 @@ export class ExamplePlugin extends plugin {
         }]
       });
 
-      const { name: functionName, arguments: argsString } = functionData;
       let params;
       try {
         params = JSON.parse(argsString);
@@ -1184,6 +1262,10 @@ export class ExamplePlugin extends plugin {
 
           case this.aiALLTool.name:
             result = await executeTool(this.aiALLTool, params, e);
+            break;
+
+          case this.jimengTool.name:
+            result = await executeTool(this.jimengTool, params, e);
             break;
 
           case this.emojiSearchTool.name:
@@ -1299,6 +1381,7 @@ export class ExamplePlugin extends plugin {
 
     switch (toolName) {
       case 'dalleTool':
+      case 'jimengTool':
         output = output
           .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
         break;

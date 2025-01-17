@@ -58,7 +58,7 @@ export class FreeSearchTool extends AbstractTool {
     const result = await this.freeSearch(query);
 
     if (result) {
-      return `搜索结果:\n${JSON.stringify(result, null, 2)}`;
+      return `搜索结果:\n${JSON.stringify(result, null, 2)}\n\n提示：如果用户想基于搜索结果制作文件，可以使用 aiALLTool 工具继续操作。`;
     } else {
       return '搜索失败，请检查关键词或稍后再试。';
     }
