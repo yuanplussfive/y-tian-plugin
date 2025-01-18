@@ -12,6 +12,7 @@ import { ImageAnalysisTool } from '../YTOpen-Ai/functions_tools/ImageAnalysisToo
 import { ChatHistoryTool } from '../YTOpen-Ai/functions_tools/ChatHistoryTool.js';
 import { PokeTool } from '../YTOpen-Ai/functions_tools/PokeTool.js';
 import { LikeTool } from '../YTOpen-Ai/functions_tools/LikeTool.js';
+import { AiMindMapTool } from '../YTOpen-Ai/functions_tools/AiMindMapTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
@@ -65,8 +66,14 @@ export class ExamplePlugin extends plugin {
     this.likeTool = new LikeTool();
     this.chatHistoryTool = new ChatHistoryTool();
     this.jimengTool = new JimengTool();
+    this.aiMindMapTool = new AiMindMapTool();
     // 工具定义部分
     this.functions = [
+      {
+        name: this.aiMindMapTool.name,
+        description: this.aiMindMapTool.description,
+        parameters: this.aiMindMapTool.parameters
+      },
       {
         name: this.jimengTool.name,
         description: this.jimengTool.description,
@@ -733,14 +740,6 @@ export class ExamplePlugin extends plugin {
         // 记录已执行的工具调用,用于防止重复执行
         const executedTools = new Map();
 
-        // 获取最近的用户消息上下文
-        let lastMessages = (() => {
-          const lastUserIndex = groupUserMessages.map(msg => msg.role).lastIndexOf('user');
-          return lastUserIndex !== -1
-            ? groupUserMessages.slice(lastUserIndex)
-            : [...groupUserMessages];
-        })();
-
         // 处理所有工具调用
         if (message.tool_calls) {
           for (const toolCall of message.tool_calls) {
@@ -769,7 +768,7 @@ export class ExamplePlugin extends plugin {
             executedTools.set(toolKey, true);
 
             // 创建当前工具的消息上下文
-            let currentMessages = [...lastMessages];
+            let currentMessages = [...groupUserMessages];
             currentMessages.push({
               role: 'assistant',
               content: null,
@@ -833,6 +832,10 @@ export class ExamplePlugin extends plugin {
 
                 case this.jimengTool.name:
                   result = await executeTool(this.jimengTool, params, e);
+                  break;
+
+                case this.aiMindMapTool.name:
+                  result = await executeTool(this.aiMindMapTool, params, e);
                   break;
 
                 case this.emojiSearchTool.name:
@@ -916,8 +919,8 @@ export class ExamplePlugin extends plugin {
                   }
 
                   // 更新消息历史
-                  lastMessages = currentMessages;
-                  lastMessages.push({
+                  groupUserMessages = currentMessages;
+                  groupUserMessages.push({
                     role: 'assistant',
                     content: toolReply
                   });
@@ -931,6 +934,7 @@ export class ExamplePlugin extends plugin {
             }
           }
 
+          //console.log(groupUserMessages);
           // 最终检查逻辑
           try {
             const finalCheckResponse = await YTapi({
@@ -1268,6 +1272,10 @@ export class ExamplePlugin extends plugin {
             result = await executeTool(this.jimengTool, params, e);
             break;
 
+          case this.aiMindMapTool.name:
+            result = await executeTool(this.aiMindMapTool, params, e);
+            break;
+
           case this.emojiSearchTool.name:
             result = await executeTool(this.emojiSearchTool, params, e);
             break;
@@ -1308,6 +1316,7 @@ export class ExamplePlugin extends plugin {
             content: JSON.stringify(result)
           });
 
+          //console.log(currentMessages);
           // 获取当前工具的响应
           const toolResponse = await YTapi({
             model: 'gpt-4o-fc',
@@ -1382,6 +1391,7 @@ export class ExamplePlugin extends plugin {
     switch (toolName) {
       case 'dalleTool':
       case 'jimengTool':
+      case 'aiMindMapTool':
         output = output
           .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
         break;

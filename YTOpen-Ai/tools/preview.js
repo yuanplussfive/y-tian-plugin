@@ -333,25 +333,135 @@ async function renderFrontendCodeBlock(browser, block, options) {
           </div>
         `;
         break;
-      case 'mermaid':
-        content = `
-          <div class="mermaid">
-            ${code}
-          </div>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.13.6/mermaid.min.js"></script>
-          <script>
-            try {
-              mermaid.initialize({ startOnLoad: true });
-            } catch (error) {
-              const errorDiv = document.createElement('div');
-              errorDiv.style.color = '#f44747';
-              errorDiv.textContent = 'Mermaid 渲染错误: ' + error;
-              document.body.appendChild(errorDiv);
-              console.error('Mermaid 渲染错误:', error);
-            }
-          </script>
-        `;
-        break;
+        case 'mermaid':
+          content = `
+            <div class="mermaid-wrapper">
+              <div class="mermaid">
+                ${code}
+              </div>
+              <div id="mermaid-error" style="display:none; color:#f44747; margin-top:10px;"></div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+            <script>
+              (function() {
+                const config = {
+                  startOnLoad: true,
+                  theme: 'default',
+                  securityLevel: 'loose',
+                  flowchart: {
+                    useMaxWidth: true,
+                    htmlLabels: true,
+                    curve: 'basis'
+                  },
+                  timeline: {
+                    noteFontSize: '14px',
+                    noteAlign: 'left'
+                  },
+                  er: {
+                    useMaxWidth: true
+                  },
+                  sequence: {
+                    useMaxWidth: true,
+                    showSequenceNumbers: false
+                  },
+                  gantt: {
+                    fontSize: 14
+                  }
+                };
+        
+                try {
+                  // 检测 Mermaid 版本并应用相应配置
+                  if (mermaid.version) {
+                    const version = mermaid.version.split('.');
+                    const majorVersion = parseInt(version[0]);
+                    const minorVersion = parseInt(version[1]);
+        
+                    // 针对不同版本调整配置
+                    if (majorVersion >= 9) {
+                      config.timeline = {
+                        enabled: true,
+                        noteFontSize: '14px'
+                      };
+                    }
+                  }
+        
+                  mermaid.initialize(config);
+        
+                  // 添加自定义错误处理
+                  mermaid.parseError = (err, hash) => {
+                    const errorDiv = document.getElementById('mermaid-error');
+                    if (errorDiv) {
+                      // 优化错误信息显示
+                      let errorMessage = '图表渲染失败: ';
+                      if (err.str) {
+                        errorMessage += err.str;
+                      } else if (err.message) {
+                        errorMessage += err.message;
+                      } else {
+                        errorMessage += '未知错误';
+                      }
+                      
+                      // 添加常见问题提示
+                      errorMessage += '<br><small>请检查：<br>1. 语法是否正确<br>2. 节点ID是否唯一<br>3. 箭头方向是否正确</small>';
+                      
+                      errorDiv.innerHTML = errorMessage;
+                      errorDiv.style.display = 'block';
+                    }
+                    console.error('Mermaid 解析错误:', err);
+                  };
+        
+                  // 自动重试机制
+                  let retryCount = 0;
+                  const maxRetries = 3;
+                  
+                  function tryRender() {
+                    try {
+                      mermaid.contentLoaded();
+                    } catch (error) {
+                      if (retryCount < maxRetries) {
+                        retryCount++;
+                        setTimeout(tryRender, 500); // 延迟500ms后重试
+                      } else {
+                        mermaid.parseError(error);
+                      }
+                    }
+                  }
+        
+                  // 确保 DOM 完全加载后再渲染
+                  if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', tryRender);
+                  } else {
+                    tryRender();
+                  }
+        
+                } catch (error) {
+                  const errorDiv = document.getElementById('mermaid-error');
+                  if (errorDiv) {
+                    errorDiv.textContent = '初始化失败: ' + error.message;
+                    errorDiv.style.display = 'block';
+                  }
+                  console.error('Mermaid 初始化错误:', error);
+                }
+              })();
+            </script>
+            <style>
+              .mermaid-wrapper {
+                width: 100%;
+                overflow-x: auto;
+              }
+              .mermaid {
+                display: flex;
+                justify-content: center;
+              }
+              #mermaid-error {
+                padding: 10px;
+                border-radius: 4px;
+                background-color: #fde7e9;
+                border: 1px solid #ffa7a7;
+              }
+            </style>
+          `;
+          break;
       default:
         content = `<pre><code>${escapeHtml(code)}</code></pre>`;
     }

@@ -54,11 +54,11 @@ export class FreeSearchTool extends AbstractTool {
       const messages = [{
         role: 'user',
         content: `搜索${query}\n
-                直接把总结发给我`
+                直接把相关搜索结果总结给我`
       }];
 
-      const result = await YTalltools(messages) || await this.FreeSearch(query);
-      console.log(result);
+      const primaryResult = await YTalltools(messages);
+      const result = (primaryResult?.length >= 200) ? primaryResult : await this.FreeSearch(query);
       return result;
 
     } catch (error) {
