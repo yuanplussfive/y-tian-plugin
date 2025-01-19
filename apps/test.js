@@ -13,6 +13,7 @@ import { ChatHistoryTool } from '../YTOpen-Ai/functions_tools/ChatHistoryTool.js
 import { PokeTool } from '../YTOpen-Ai/functions_tools/PokeTool.js';
 import { LikeTool } from '../YTOpen-Ai/functions_tools/LikeTool.js';
 import { AiMindMapTool } from '../YTOpen-Ai/functions_tools/AiMindMapTool.js';
+import { AiPPTTool } from '../YTOpen-Ai/functions_tools/AiPPTTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
@@ -67,8 +68,14 @@ export class ExamplePlugin extends plugin {
     this.chatHistoryTool = new ChatHistoryTool();
     this.jimengTool = new JimengTool();
     this.aiMindMapTool = new AiMindMapTool();
+    this.aiPPTTool = new AiPPTTool();
     // 工具定义部分
     this.functions = [
+      {
+        name: this.aiPPTTool.name,
+        description: this.aiPPTTool.description,
+        parameters: this.aiPPTTool.parameters
+      },
       {
         name: this.aiMindMapTool.name,
         description: this.aiMindMapTool.description,
@@ -838,6 +845,10 @@ export class ExamplePlugin extends plugin {
                   result = await executeTool(this.aiMindMapTool, params, e);
                   break;
 
+                case this.aiPPTTool.name:
+                  result = await executeTool(this.aiPPTTool, params, e);
+                  break;
+
                 case this.emojiSearchTool.name:
                   result = await executeTool(this.emojiSearchTool, params, e);
                   break;
@@ -1276,6 +1287,10 @@ export class ExamplePlugin extends plugin {
             result = await executeTool(this.aiMindMapTool, params, e);
             break;
 
+          case this.aiPPTTool.name:
+            result = await executeTool(this.aiPPTTool, params, e);
+            break;
+
           case this.emojiSearchTool.name:
             result = await executeTool(this.emojiSearchTool, params, e);
             break;
@@ -1392,6 +1407,7 @@ export class ExamplePlugin extends plugin {
       case 'dalleTool':
       case 'jimengTool':
       case 'aiMindMapTool':
+      case 'aiPPTTool':
         output = output
           .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
         break;

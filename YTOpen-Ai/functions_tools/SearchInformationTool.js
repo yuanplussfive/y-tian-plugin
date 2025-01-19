@@ -1,5 +1,4 @@
 import { AbstractTool } from './AbstractTool.js';
-import { YTalltools } from '../../utils/fileUtils.js';
 import fetch from 'node-fetch';
 
 /**
@@ -37,55 +36,40 @@ export class FreeSearchTool extends AbstractTool {
         return null;
       }
 
-      return (await response.text()).trim();
+      return await response.json();
     } catch (error) {
       return null;
     }
   };
 
   /**
-   * 执行自由搜索操作
-   * @param {string} query - 搜索关键词
-   * @returns {Promise<Array|null>} - 搜索结果列表或null
-   */
-  async freeSearch(query) {
-    try {
-      // 构建消息历史
-      const messages = [{
-        role: 'user',
-        content: `搜索${query}\n
-                直接把相关搜索结果总结给我`
-      }];
-
-      const primaryResult = await YTalltools(messages);
-      const result = (primaryResult?.length >= 200) ? primaryResult : await this.FreeSearch(query);
-      return result;
-
-    } catch (error) {
-      console.error('FreeSearch 错误:', error);
-      return null;
-    }
-  }
-
-  /**
-   * 执行自由搜索操作
+   * 处理搜索操作并返回结构化结果
    * @param {Object} opts - 参数选项
    * @param {Object} e - 事件对象
-   * @returns {Promise<string>} - 搜索结果或错误信息
+   * @returns {Promise<Object>} 结构化的搜索结果或错误对象
    */
   async func(opts, e) {
     const { query } = opts;
 
-    if (!query) {
-      return '搜索关键词（query）是必填项。';
+    if (!query?.trim()) {
+      return {
+        status: 'error',
+        code: 400,
+        message: '搜索关键词不能为空'
+      };
     }
 
-    const result = await this.freeSearch(query);
+    const result = await this.FreeSearch(query);
 
-    if (result) {
-      return `搜索结果:\n${JSON.stringify(result, null, 2)}`;
-    } else {
-      return '搜索失败，请检查关键词或稍后再试。';
+    console.log(result);
+    if (!result) {
+      return {
+        status: 'error',
+        code: 500,
+        message: '搜索失败，请稍后重试'
+      };
     }
+
+    return result;
   }
 }
