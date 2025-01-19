@@ -543,7 +543,8 @@ export class ExamplePlugin extends plugin {
         // 处理图片
         if (images && images.length > 0) {
           const imageText = images.length === 1 ? '发送了一张图片' : `发送了 ${images.length} 张图片`;
-          content.push(imageText);
+          const imageLinks = images.map(img => `\n![图片](${img})`).join('');
+          content.push(`${imageText}${imageLinks}`);
         }
 
         // 组合所有部分

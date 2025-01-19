@@ -10,7 +10,7 @@ export class ImageAnalysisTool extends AbstractTool {
     constructor() {
         super();
         this.name = 'imageAnalysisTool';
-        this.description = '当用户需要分析、处理、识别图片内容，或者询问图片相关信息时使用此工具。支持多图片分析，可提取图片中的文字信息并进行理解分析。';
+        this.description = '当用户需要分析、处理、识别图片内容，或者询问图片相关信息时使用此工具。支持多图片分析，可提取图片中的文字信息并进行理解分析。注意：所有图片URL必须保持完整原始形式，不得修改或简化URL参数。';
         this.parameters = {
             type: "object",
             properties: {
@@ -20,9 +20,18 @@ export class ImageAnalysisTool extends AbstractTool {
                 },
                 images: {
                     type: 'array',
-                    description: '需要处理的图片链接数组',
+                    description: '需要处理的图片链接数组。重要：必须保持原始URL的完整性，包括所有查询参数。示例链接：\n' +
+                        '1. 示例1: "https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhSpon0PNM0ysZkSasHTTFhNhPkn2xiM9ogCIP8KKPTzyfGXgYsDMgRwcm9kUIC9owFaELWsiGLkylkWILRwFGxE3cQ&spec=0&rkey=CAQSOAB6JWENi5LM1F9SWC-_lnNTz6V9r7O2ev3HX_QmYpr_odrwSXfUpXfNIyIowntqLF3KoE8inPMs"\n' +
+                        '2. 示例2: "https://gchat.qpic.cn/gchatpic_new/2119611465/782312429-2903731874-87B79F5B839EA2F3AD0AD48DD539D946/0?term=2&is_origin=0"\n' +
+                        '以上链接中的所有参数（特别是rkey、fileid等）都必须完整保留，不得简化或修改',
                     items: {
-                        type: 'string'
+                        type: 'string',
+                        description: '完整的图片URL，必须与原始输入完全一致。示例：\n' +
+                            '"https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhSpon0PNM0ysZkSasHTTFhNhPkn2xiM9ogCIP8KKPTzyfGXgYsDMgRwcm9kUIC9owFaELWsiGLkylkWILRwFGxE3cQ&spec=0&rkey=CAQSOAB6JWENi5LM1F9SWC-_lnNTz6V9r7O2ev3HX_QmYpr_odrwSXfUpXfNIyIowntqLF3KoE8inPMs"',
+                        examples: [
+                            "https://gchat.qpic.cn/gchatpic_new/2119611465/782312429-2903731874-87B79F5B839EA2F3AD0AD48DD539D946/0?term=2&is_origin=0",
+                            "https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhSpon0PNM0ysZkSasHTTFhNhPkn2xiM9ogCIP8KKPTzyfGXgYsDMgRwcm9kUIC9owFaELWsiGLkylkWILRwFGxE3cQ&spec=0&rkey=CAQSOAB6JWENi5LM1F9SWC-_lnNTz6V9r7O2ev3HX_QmYpr_odrwSXfUpXfNIyIowntqLF3KoE8inPMs"
+                        ]
                     }
                 }
             },
@@ -33,13 +42,13 @@ export class ImageAnalysisTool extends AbstractTool {
 
     async processImageUrl(url) {
         if (!url) return null;
-        
+
         // 处理腾讯图床链接
         if (url.includes('qq.com')) {
             const fid = url.match(/fileid=([^&]+)/)?.[1];
             const rkey = await this.getRKey(url);
             const host = await this.extractDomain(url);
-            
+
             if (fid && rkey && host) {
                 // 尝试不同的 appid
                 for (let appid = 1407; appid >= 1403; appid--) {
@@ -50,7 +59,7 @@ export class ImageAnalysisTool extends AbstractTool {
                 }
             }
         }
-        
+
         return url;
     }
 
