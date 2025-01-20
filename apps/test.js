@@ -14,6 +14,7 @@ import { PokeTool } from '../YTOpen-Ai/functions_tools/PokeTool.js';
 import { LikeTool } from '../YTOpen-Ai/functions_tools/LikeTool.js';
 import { AiMindMapTool } from '../YTOpen-Ai/functions_tools/AiMindMapTool.js';
 import { AiPPTTool } from '../YTOpen-Ai/functions_tools/AiPPTTool.js';
+import { WebParserTool } from '../YTOpen-Ai/functions_tools/WebParserTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
@@ -69,8 +70,14 @@ export class ExamplePlugin extends plugin {
     this.jimengTool = new JimengTool();
     this.aiMindMapTool = new AiMindMapTool();
     this.aiPPTTool = new AiPPTTool();
+    this.webParserTool = new WebParserTool();
     // 工具定义部分
     this.functions = [
+      {
+        name: this.webParserTool.name,
+        description: this.webParserTool.description,
+        parameters: this.webParserTool.parameters
+      },
       {
         name: this.aiPPTTool.name,
         description: this.aiPPTTool.description,
@@ -850,6 +857,10 @@ export class ExamplePlugin extends plugin {
                   result = await executeTool(this.aiPPTTool, params, e);
                   break;
 
+                case this.webParserTool.name:
+                  result = await executeTool(this.webParserTool, params, e);
+                  break;
+
                 case this.emojiSearchTool.name:
                   result = await executeTool(this.emojiSearchTool, params, e);
                   break;
@@ -1290,6 +1301,10 @@ export class ExamplePlugin extends plugin {
 
           case this.aiPPTTool.name:
             result = await executeTool(this.aiPPTTool, params, e);
+            break;
+
+          case this.webParserTool.name:
+            result = await executeTool(this.webParserTool, params, e);
             break;
 
           case this.emojiSearchTool.name:
