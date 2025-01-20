@@ -14,7 +14,7 @@ import { PokeTool } from '../YTOpen-Ai/functions_tools/PokeTool.js';
 import { LikeTool } from '../YTOpen-Ai/functions_tools/LikeTool.js';
 import { AiMindMapTool } from '../YTOpen-Ai/functions_tools/AiMindMapTool.js';
 import { AiPPTTool } from '../YTOpen-Ai/functions_tools/AiPPTTool.js';
-import { WebParserTool } from '../YTOpen-Ai/functions_tools/WebParserTool.js';
+import { WebParserTool } from '../YTOpen-Ai/functions_tools/webParserTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
