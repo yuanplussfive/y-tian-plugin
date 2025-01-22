@@ -1527,5 +1527,13 @@ export const other_models = [
     "token": 1000000,
     "features": ["conversation"],
     "quota": 0
+  },
+  {
+    "id": 189,
+    "model": "deepseek-reasoner-nx",
+    "points": "逆向渠道",
+    "token": 128000,
+    "features": ["conversation", "code"],
+    "quota": 0
   }
 ]

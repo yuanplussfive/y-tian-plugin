@@ -23,6 +23,7 @@ const providerStats = {
 
 // 定义模型与提供商的映射关系
 const modelProviderMap = {
+  'deepseek-reasoner': ['zaiwen'],
   'claude_3_igloo': ['zaiwen'],
   'claude-3.5-sonnet-20241022': ['e2b'],
   'claude-3.5-sonnet': ['blackbox', 'chatru', 'airoom'],
@@ -54,6 +55,7 @@ const modelProviderMap = {
 
 // 模型名称标准化映射
 const modelNameNormalization = {
+  'deepseek-reasoner-nx': 'deepseek-reasoner',
   'gemini-1.5-flash-vision-nx': 'gemini-1.5-flash-vision',
   'gpt-4o-vision-nx': 'gpt-4o-vision',
   'o1-mini-nx': 'o1-mini',
