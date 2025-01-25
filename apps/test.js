@@ -51,32 +51,8 @@ export class ExamplePlugin extends plugin {
         }
       ]
     });
-    this.init();
-  }
 
-  async init() {
-    let retryCount = 0;
-    const maxRetries = 2;
-    while (retryCount <= maxRetries) {
-      try {
-        await this.initialize();
-        console.log("全局方案数据初始化成功");
-        break;
-      } catch (error) {
-        console.error(`初始化失败 (第 ${retryCount + 1} 次尝试):`, error);
-        retryCount++;
-        if (retryCount > maxRetries) {
-          console.error("初始化失败，已达到最大重试次数。");
-        } else {
-          console.log("等待 1 秒后重试...");
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-      }
-    }
-  }
-
-  async initialize() {
-    await this.initConfig();
+    this.initConfig();
     this.messageManager = new MessageManager();
     // 初始化各个工具实例
     this.jinyanTool = new JinyanTool();
@@ -219,7 +195,8 @@ export class ExamplePlugin extends plugin {
       fs.mkdirSync(this.messageHistoriesDir, { recursive: true });
     }
   }
-  async initConfig() {
+
+  initConfig() {
     // 默认配置
     const defaultConfig = {
       pluginSettings: {
@@ -1540,26 +1517,22 @@ export class ExamplePlugin extends plugin {
     const basePatterns = [
       /\[图片\]/g,
       /[\s\S]*在群里说[:：]\s*/g,
-      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*(?:\(QQ号:\d+\))?\s*(?:\[群身份:\s*\w+\])?\s*[:：]\s*/g
+      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*(?:\(QQ号:\d+\))?(?:\[群身份:\s*\w+\])?\s*[:：]\s*/g
     ];
-
-    // 递归清理函数
-    function cleanText(text) {
+    
+    function cleanText(currentText) {
       let prevText;
-      let currentText = text;
-
       do {
         prevText = currentText;
-
+    
         for (const pattern of basePatterns) {
           currentText = currentText.replace(pattern, '').trim();
         }
       } while (prevText !== currentText);
-
+    
       return currentText;
     }
 
-    // 清理文本
     output = cleanText(output);
 
     // 移除末尾的 ```
@@ -1568,7 +1541,7 @@ export class ExamplePlugin extends plugin {
     }
 
     // 移除任意 [文本](URL) 格式的链接
-    //output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
+    output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
 
     switch (toolName) {
       case 'dalleTool':
