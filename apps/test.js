@@ -1537,7 +1537,7 @@ export class ExamplePlugin extends plugin {
   async processToolSpecificMessage(content, toolName) {
     let output = content;
 
-    const patterns = [
+    const basePatterns = [
       /\[图片\]/g,
       /[\s\S]*在群里说[:：]\s*/g,
       /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*(?:\(QQ号:\d+\))?\s*(?:\[群身份:\s*\w+\])?\s*[:：]\s*/g
