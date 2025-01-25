@@ -7,7 +7,7 @@ import fetch from 'node-fetch';
 export class EmojiSearchTool extends AbstractTool {
   constructor() {
     super();
-    this.name = 'emojiSearch';
+    this.name = 'emojiSearchTool';
     this.description = '根据关键词搜索表情包，并随机发送指定数量的表情包';
     this.parameters = {
       type: "object",

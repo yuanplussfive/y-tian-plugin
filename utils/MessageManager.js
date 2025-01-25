@@ -282,6 +282,13 @@ export class MessageManager {
    */
   async recordMessage(e) {
       try {
+  if (!e.sender) {
+            e.sender = {
+                user_id: Bot.uin,
+                nickname: Bot.nickname,
+                role: 'bot'
+            };
+        }
           const isGroup = e.message_type === 'group';
           const id = isGroup ? e.group_id : e.sender.user_id;
           const type = isGroup ? 'group' : 'private';

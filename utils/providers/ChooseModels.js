@@ -8,6 +8,13 @@ import { e2b } from "../providers/ChatModels/e2b/e2b.js";
 import { chatru } from "../providers/ChatModels/chatru/chatru.js";
 import { zaiwen } from "../providers/ChatModels/zaiwen/zaiwen.js";
 
+// 重试机制的配置参数
+const RETRY_CONFIG = {
+  maxRetries: 3,           // 每个提供商最大重试次数
+  retryDelay: 1000,       // 重试间隔时间(毫秒)
+  maxTotalAttempts: 9,   // 所有提供商总共最大尝试次数
+};
+
 // 存储服务商的成功/失败统计和权重配置
 const providerStats = {
   blackbox: { success: 0, failure: 0, weight: 85 },
@@ -23,6 +30,12 @@ const providerStats = {
 
 // 定义模型与提供商的映射关系
 const modelProviderMap = {
+  'doubao': ['zaiwen'],
+  'minimax': ['zaiwen'],
+  'qwen': ['zaiwen'],
+  'step2': ['zaiwen'],
+  'mita': ['zaiwen'],
+  'kimi': ['zaiwen'],
   'deepseek-reasoner': ['zaiwen'],
   'claude_3_igloo': ['zaiwen'],
   'claude-3.5-sonnet-20241022': ['e2b'],
@@ -55,6 +68,12 @@ const modelProviderMap = {
 
 // 模型名称标准化映射
 const modelNameNormalization = {
+  'doubao-nx': 'doubao',
+  'minimax-nx': 'minimax',
+  'qwen-2-72b-nx': 'qwen',
+  'step-2-nx': 'step2',
+  'mita-nx': 'mita',
+  'kimi-pro-nx': 'kimi',
   'deepseek-reasoner-nx': 'deepseek-reasoner',
   'gemini-1.5-flash-vision-nx': 'gemini-1.5-flash-vision',
   'gpt-4o-vision-nx': 'gpt-4o-vision',
@@ -103,6 +122,9 @@ const providerApis = {
 // 请求超时时间设置(毫秒)
 const TIMEOUT = 240000;
 
+// 延迟函数 - 用于重试间隔
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 // 超时处理包装函数
 const withTimeout = async (promise, timeout) => {
   let timer;
@@ -150,21 +172,47 @@ const updateStats = (provider, isSuccess) => {
   }
 };
 
-// 带重试和失败转移的服务调用函数
-const retryWithFallback = async (messages, modelName, availableProviders) => {
-  // 如果只有一个可用提供商，直接使用它
-  if (availableProviders.length === 1) {
-    const provider = availableProviders[0];
+// 带重试的单个提供商调用函数
+async function callProviderWithRetry(provider, messages, modelName) {
+  let retryCount = 0;
+
+  while (retryCount < RETRY_CONFIG.maxRetries) {
     try {
       const apiFunction = providerApis[provider];
       const response = await withTimeout(apiFunction(messages, modelName), TIMEOUT);
-      updateStats(provider, !!response);
-      return response || '逆向服务调用失败';
+
+      if (response) {
+        updateStats(provider, true);
+        return { success: true, response };
+      }
+
+      retryCount++;
+      if (retryCount < RETRY_CONFIG.maxRetries) {
+        console.log(`提供商 ${provider} 第 ${retryCount + 1}/${RETRY_CONFIG.maxRetries} 次尝试`);
+        await delay(RETRY_CONFIG.retryDelay);
+      }
+
     } catch (error) {
-      console.error(`${provider} failed:`, error);
-      updateStats(provider, false);
-      return '逆向服务调用失败';
+      retryCount++;
+      console.error(`${provider} 第 ${retryCount} 次尝试失败:`, error);
+
+      if (retryCount < RETRY_CONFIG.maxRetries) {
+        await delay(RETRY_CONFIG.retryDelay);
+      }
     }
+  }
+
+  updateStats(provider, false);
+  return { success: false };
+}
+
+// 带重试和失败转移的服务调用函数
+const retryWithFallback = async (messages, modelName, availableProviders) => {
+  // 如果只有一个可用提供商
+  if (availableProviders.length === 1) {
+    const provider = availableProviders[0];
+    const result = await callProviderWithRetry(provider, messages, modelName);
+    return result.success ? result.response : '逆向服务调用失败';
   }
 
   // 多个提供商时，按优先级尝试
@@ -172,25 +220,81 @@ const retryWithFallback = async (messages, modelName, availableProviders) => {
     availableProviders.includes(provider)
   );
 
-  for (const provider of sortedProviders) {
-    try {
-      const apiFunction = providerApis[provider];
-      const response = await withTimeout(apiFunction(messages, modelName), TIMEOUT);
+  let totalAttempts = 0;
 
-      if (response) {
-        updateStats(provider, true);
-        return response;
-      }
-    } catch (error) {
-      console.error(`${provider} failed:`, error);
-      updateStats(provider, false);
-      continue;
+  for (const provider of sortedProviders) {
+    // 检查总尝试次数是否超过限制
+    if (totalAttempts >= RETRY_CONFIG.maxTotalAttempts) {
+      console.error('达到最大总尝试次数限制');
+      return '所有逆向服务均失败：达到最大尝试次数';
+    }
+
+    const result = await callProviderWithRetry(provider, messages, modelName);
+    totalAttempts += RETRY_CONFIG.maxRetries;
+
+    if (result.success) {
+      return result.response;
     }
   }
+
   return '所有逆向服务均失败';
 };
 
-// 主要的模型响应处理函数
+// 添加字符串相似度计算函数 (Levenshtein Distance算法)
+function getLevenshteinDistance(str1, str2) {
+  const m = str1.length;
+  const n = str2.length;
+  const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (str1[i - 1] === str2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = Math.min(
+          dp[i - 1][j - 1] + 1,
+          dp[i - 1][j] + 1,
+          dp[i][j - 1] + 1
+        );
+      }
+    }
+  }
+  return dp[m][n];
+}
+
+// 获取相似模型列表
+function getSimilarModels(modelName, threshold = 0.7) {
+  const cleanModelName = modelName.toLowerCase()
+    .replace(/-nx$/, '') // 删除 '-nx' 后缀
+    .replace(/[\d\.-]+(?:[a-z]*)/g, '') // 删除数字、点（用于日期或版本号等）、字母组合
+    .replace(/[0-9]{4}[-/][0-9]{2}[-/][0-9]{2}/g, '') // 删除日期格式
+    .replace(/[0-9]+/g, '') // 删除单独的数字
+    .replace(/[-_]/g, ''); // 删除连字符和下划线
+
+  return Object.keys(modelProviderMap)
+    .filter(model => model !== modelName) // 排除原始模型
+    .map(model => {
+      const cleanCurrentModel = model.toLowerCase()
+        .replace(/[\d.]+[a-z]*/g, '')
+        .replace(/[-_]/g, '');
+
+      const maxLength = Math.max(cleanModelName.length, cleanCurrentModel.length);
+      const distance = getLevenshteinDistance(cleanModelName, cleanCurrentModel);
+      const similarity = 1 - distance / maxLength;
+
+      return {
+        model,
+        similarity
+      };
+    })
+    .filter(item => item.similarity >= threshold)
+    .sort((a, b) => b.similarity - a.similarity)
+    .map(item => item.model);
+}
+
 export const NXModelResponse = async (messages, model) => {
   const normalizedModel = modelNameNormalization[model] || model;
   const supportedProviders = modelProviderMap[normalizedModel];
@@ -200,11 +304,57 @@ export const NXModelResponse = async (messages, model) => {
   }
 
   try {
-    return await retryWithFallback(messages, normalizedModel, supportedProviders);
+    // 首先尝试原始模型的所有提供商
+    const response = await retryWithFallback(messages, normalizedModel, supportedProviders);
+
+    // 如果原始模型调用成功，直接返回结果
+    if (response && response !== '所有逆向服务均失败') {
+      return response;
+    }
+
+    // 如果原始模型的所有提供商都失败了，尝试相似模型
+    console.log(`模型 ${normalizedModel} 的所有提供商均失败，尝试相似模型...`);
+    const similarModels = getSimilarModels(normalizedModel);
+
+    for (const similarModel of similarModels) {
+      const fallbackProviders = modelProviderMap[similarModel];
+      if (fallbackProviders) {
+        try {
+          console.log(`尝试使用相似模型: ${similarModel}, 提供商: ${fallbackProviders.join(', ')}`);
+          const fallbackResponse = await retryWithFallback(messages, similarModel, fallbackProviders);
+
+          if (fallbackResponse && fallbackResponse !== '所有逆向服务均失败') {
+            console.log(`成功使用相似模型 ${similarModel} 获得响应`);
+            return fallbackResponse;
+          }
+        } catch (fallbackError) {
+          console.error(`相似模型 ${similarModel} 调用失败:`, fallbackError.message);
+          continue; // 继续尝试下一个相似模型
+        }
+      }
+    }
+
+    // 如果所有尝试都失败了
+    return '所有可用服务（包括相似模型）均失败';
+
   } catch (error) {
-    console.error('所有服务均失败:', error.message);
-    return `所有逆向服务均失败: ${error.message}`;
+    console.error('服务调用出错:', error.message);
+    return `服务调用失败: ${error.message}`;
   }
+};
+
+// 用于调试的辅助函数
+export const getModelSimilarityInfo = (modelName) => {
+  const normalizedModel = modelNameNormalization[modelName] || modelName;
+  const similarModels = getSimilarModels(normalizedModel);
+  return {
+    originalModel: modelName,
+    normalizedModel,
+    similarModels: similarModels.map(model => ({
+      model,
+      providers: modelProviderMap[model]
+    }))
+  };
 };
 
 // 获取提供商统计信息和优先级排序

@@ -51,8 +51,32 @@ export class ExamplePlugin extends plugin {
         }
       ]
     });
+    this.init();
+  }
 
-    this.initConfig();
+  async init() {
+    let retryCount = 0;
+    const maxRetries = 2;
+    while (retryCount <= maxRetries) {
+      try {
+        await this.initialize();
+        console.log("全局方案数据初始化成功");
+        break;
+      } catch (error) {
+        console.error(`初始化失败 (第 ${retryCount + 1} 次尝试):`, error);
+        retryCount++;
+        if (retryCount > maxRetries) {
+          console.error("初始化失败，已达到最大重试次数。");
+        } else {
+          console.log("等待 1 秒后重试...");
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+    }
+  }
+
+  async initialize() {
+    await this.initConfig();
     this.messageManager = new MessageManager();
     // 初始化各个工具实例
     this.jinyanTool = new JinyanTool();
@@ -150,19 +174,40 @@ export class ExamplePlugin extends plugin {
       }
     ];
 
-    // 转换为 OpenAI tools 格式
-    this.tools = this.functions.map(func => ({
-      type: 'function',
-      function: {
-        name: func.name,
-        description: func.description,
-        parameters: {
-          type: 'object',
-          properties: func.parameters.properties,
-          required: func.parameters.required || []
+    this.functionMap = new Map(this.functions.map(func => [func.name, func]));
+
+
+    // 根据名称选择要使用的函数，并转换为 OpenAI tools 格式
+    this.getToolsByName = function (toolNames) {
+      const selectedTools = toolNames.map(toolName => {
+        const func = this.functionMap.get(toolName);
+        if (!func) {
+          console.warn(`Tool with name "${toolName}" not found.`);
+          return null;
         }
-      }
-    }));
+        return {
+          type: 'function',
+          function: {
+            name: func.name,
+            description: func.description,
+            parameters: {
+              type: 'object',
+              properties: func.parameters.properties,
+              required: func.parameters.required || []
+            }
+          }
+        };
+      }).filter(Boolean);
+      return selectedTools;
+    };
+
+    const provider = this.config.providers.toLowerCase();
+    this.tools = this.getToolsByName(provider === 'gemini'
+      ? this.config.gemini_tools
+      : this.config.openai_tools
+    );
+
+    //console.log(this.tools); // 输出选定的工具
 
     // 初始化消息历史管理，使用 Redis 和本地文件
     this.messageHistoriesRedisKey = 'group_user_message_history'; // Redis 中存储消息历史的键前缀，包含群组和用户
@@ -174,8 +219,7 @@ export class ExamplePlugin extends plugin {
       fs.mkdirSync(this.messageHistoriesDir, { recursive: true });
     }
   }
-
-  initConfig() {
+  async initConfig() {
     // 默认配置
     const defaultConfig = {
       pluginSettings: {
@@ -191,7 +235,11 @@ export class ExamplePlugin extends plugin {
         systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
 
         bilibiliSessData: 'a16804xxxxxx',
-        jimengsessionid: '12345xxxxxx'
+        jimengsessionid: '12345xxxxxx',
+        geminiModel: 'gemini-2.0-flash-exp',
+        gemini_tool_choice: 'auto',
+        gemini_tools: ['imageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
+        openai_tools: ['likeTool', 'pokeTool', 'imageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
       }
     }
 
@@ -661,12 +709,24 @@ export class ExamplePlugin extends plugin {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
         tools: this.tools,
-        temperature: 0,
+        temperature: 1,
         top_p: 0.1,
         frequency_penalty: 0.8,
         presence_penalty: 0.2,
         tool_choice: "auto",
       };
+
+      // 检查 providers 是否为 gemini (不区分大小写)
+      if (this.config && this.config.providers && this.config.providers.toLowerCase() === 'gemini') {
+        // 修改模型
+        if (this.config.geminiModel) {
+          requestData.model = this.config.geminiModel;
+          requestData.tool_choice = this.config.gemini_tool_choice;
+        }
+        // 删除 frequency_penalty 和 presence_penalty 属性
+        delete requestData.frequency_penalty;
+        delete requestData.presence_penalty;
+      }
 
       // 调用 OpenAI API 获取初始响应
       const response = await YTapi(requestData, this.config);
@@ -687,6 +747,19 @@ export class ExamplePlugin extends plugin {
           frequency_penalty: 0.6,
           presence_penalty: 0.6
         };
+
+        // 检查 providers 是否为 gemini (不区分大小写)
+        if (this.config && this.config.providers && this.config.providers.toLowerCase() === 'gemini') {
+          // 修改模型
+          if (this.config.geminiModel) {
+            errorRequestData.model = this.config.geminiModel;
+          }
+
+
+          // 删除 frequency_penalty 和 presence_penalty 属性
+          delete errorRequestData.frequency_penalty;
+          delete errorRequestData.presence_penalty;
+        }
         const errorResponse = await YTapi(errorRequestData, this.config);
         if (errorResponse && errorResponse.choices && errorResponse.choices[0].message.content) {
           await e.reply(errorResponse.choices[0].message.content);
@@ -768,10 +841,10 @@ export class ExamplePlugin extends plugin {
 
             // 检查是否是重复的工具调用
             const toolKey = `${functionName}-${argsString}`;
-            if (executedTools.has(toolKey)) {
-              console.log(`跳过重复的工具调用: ${functionName}`);
-              continue;
-            }
+            //if (executedTools.has(toolKey)) {
+            //  console.log(`跳过重复的工具调用: ${functionName}`);
+            //  continue;
+            //}
 
             const isValidTool = this.tools.some(tool => tool.function.name === functionName);
             if (!isValidTool) {
@@ -784,7 +857,8 @@ export class ExamplePlugin extends plugin {
 
             // 创建当前工具的消息上下文
             let currentMessages = [...groupUserMessages];
-            currentMessages.push({
+
+            const requestBody = {
               role: 'assistant',
               content: null,
               tool_calls: [{
@@ -795,7 +869,13 @@ export class ExamplePlugin extends plugin {
                   arguments: functionData.arguments
                 }
               }]
-            });
+            }
+
+            if (this.config && this.config.providers && typeof this.config.providers === 'string' && this.config.providers.toLowerCase() === 'gemini') {
+              delete requestBody.content;
+            }
+
+            currentMessages.push(requestBody);
 
             // 解析工具参数
             let params;
@@ -902,15 +982,31 @@ export class ExamplePlugin extends plugin {
                   content: JSON.stringify(result)
                 });
 
-                // 获取当前工具的响应
-                const toolResponse = await YTapi({
+                const toolRequest = {
                   model: 'gpt-4o-fc',
                   messages: currentMessages,
                   temperature: 0.1,
                   top_p: 0.9,
                   frequency_penalty: 0.1,
                   presence_penalty: 0.1
-                }, this.config);
+                }
+
+                //console.log(currentMessages);
+                // 检查 providers 是否为 gemini (不区分大小写)
+                if (this.config && this.config.providers && this.config.providers.toLowerCase() === 'gemini') {
+                  // 修改模型
+                  if (this.config.geminiModel) {
+                    toolRequest.model = this.config.geminiModel;
+                  }
+
+
+                  // 删除 frequency_penalty 和 presence_penalty 属性
+                  delete toolRequest.frequency_penalty;
+                  delete toolRequest.presence_penalty;
+                }
+
+                // 获取当前工具的响应
+                const toolResponse = await YTapi(toolRequest, this.config);
 
                 if (toolResponse?.choices?.[0]?.message?.content) {
                   const toolReply = toolResponse.choices[0].message.content;
@@ -957,25 +1053,39 @@ export class ExamplePlugin extends plugin {
             }
           }
 
+          const FinalRequest = {
+            model: 'gpt-4o-fc',
+            tools: this.tools,
+            messages: [...groupUserMessages, {
+              role: 'system',
+              content: `请检查用户的原始请求是否已全部完成。只有在以下情况才需要调用工具：
+      1. 之前的工具调用失败需要重试
+      2. 确实有未完成的必要任务
+      3. 用户明确要求的功能尚未实现
+      请不要调用与用户需求无关的工具。已执行过的工具调用：${Array.from(executedTools.keys()).join(', ')}`
+            }],
+            temperature: 0.1,
+            top_p: 0.9,
+            frequency_penalty: 0.1,
+            presence_penalty: 0.1
+          }
+          // 检查 providers 是否为 gemini (不区分大小写)
+          if (this.config && this.config.providers && this.config.providers.toLowerCase() === 'gemini') {
+            // 修改模型
+            if (this.config.geminiModel) {
+              FinalRequest.model = this.config.geminiModel;
+            }
+
+
+            // 删除 frequency_penalty 和 presence_penalty 属性
+            delete FinalRequest.frequency_penalty;
+            delete FinalRequest.presence_penalty;
+          }
+
           //console.log(groupUserMessages);
           // 最终检查逻辑
           try {
-            const finalCheckResponse = await YTapi({
-              model: 'gpt-4o-fc',
-              tools: this.tools,
-              messages: [...groupUserMessages, {
-                role: 'system',
-                content: `请检查用户的原始请求是否已全部完成。只有在以下情况才需要调用工具：
-        1. 之前的工具调用失败需要重试
-        2. 确实有未完成的必要任务
-        3. 用户明确要求的功能尚未实现
-        请不要调用与用户需求无关的工具。已执行过的工具调用：${Array.from(executedTools.keys()).join(', ')}`
-              }],
-              temperature: 0.1,
-              top_p: 0.9,
-              frequency_penalty: 0.1,
-              presence_penalty: 0.1
-            }, this.config);
+            const finalCheckResponse = await YTapi(FinalRequest, this.config);
 
             // 处理需要补充执行的工具调用
             if (finalCheckResponse?.choices?.[0]?.message?.tool_calls) {
@@ -1079,6 +1189,20 @@ export class ExamplePlugin extends plugin {
         frequency_penalty: 0.6,
         presence_penalty: 0.6
       };
+
+      // 检查 providers 是否为 gemini (不区分大小写)
+      if (this.config && this.config.providers && this.config.providers.toLowerCase() === 'gemini') {
+        // 修改模型
+        if (this.config.geminiModel) {
+          errorRequestData.model = this.config.geminiModel;
+        }
+
+
+        // 删除 frequency_penalty 和 presence_penalty 属性
+        delete errorRequestData.frequency_penalty;
+        delete errorRequestData.presence_penalty;
+      }
+
 
       // 使用 YTapi 生成错误回复
       const errorResponse = await YTapi(errorRequestData, this.config);
@@ -1230,7 +1354,7 @@ export class ExamplePlugin extends plugin {
 
       // 创建当前工具的消息上下文
       let currentMessages = [...lastMessages];
-      currentMessages.push({
+      const requestBody = {
         role: 'assistant',
         content: null,
         tool_calls: [{
@@ -1241,7 +1365,13 @@ export class ExamplePlugin extends plugin {
             arguments: functionData.arguments
           }
         }]
-      });
+      }
+
+      if (this.config && this.config.providers && typeof this.config.providers === 'string' && this.config.providers.toLowerCase() === 'gemini') {
+        delete requestBody.content;
+      }
+
+      currentMessages.push(requestBody);
 
       let params;
       try {
@@ -1408,16 +1538,37 @@ export class ExamplePlugin extends plugin {
     let output = content;
 
     const patterns = [
-      /[\s\S]*在群里说[:：]\s*/,
-      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*?(?:\(QQ号:\d+\))?\s*(?:\[群身份:\s*\w+\])?\s*[:：]\s*/
+      /\[图片\]/g,
+      /[\s\S]*在群里说[:：]\s*/g,
+      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*(?:\(QQ号:\d+\))?\s*(?:\[群身份:\s*\w+\])?\s*[:：]\s*/g
     ];
 
-    for (const pattern of patterns) {
-      if (pattern.test(content)) {
-        output = content.replace(pattern, '').trim();
-        break;
-      }
+    // 递归清理函数
+    function cleanText(text) {
+      let prevText;
+      let currentText = text;
+
+      do {
+        prevText = currentText;
+
+        for (const pattern of basePatterns) {
+          currentText = currentText.replace(pattern, '').trim();
+        }
+      } while (prevText !== currentText);
+
+      return currentText;
     }
+
+    // 清理文本
+    output = cleanText(output);
+
+    // 移除末尾的 ```
+    if (output.endsWith('```')) {
+      output = output.slice(0, -3).trim();
+    }
+
+    // 移除任意 [文本](URL) 格式的链接
+    //output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
 
     switch (toolName) {
       case 'dalleTool':

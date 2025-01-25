@@ -157,8 +157,11 @@ export class example extends plugin {
   }
 
   async freeai(e) {
-    const img = await screen(4, puppeteer)
-    e.reply(img)
+    const img1 = await screen(4, puppeteer)
+    const img2 = await screen(29, puppeteer)
+    const forwardMsg = [img1, img2, img3]
+    const JsonPart = await common.makeForwardMsg(e, forwardMsg, '免费模型大全');
+    e.reply(JsonPart)
   }
 
   async group(e) {
@@ -187,7 +190,22 @@ async function screen(num, puppeteer) {
     chat_css_src: _path + "/plugins/y-tian-plugin/resources/css/chat_help.css",
     other_css_src: _path + "/plugins/y-tian-plugin/resources/css/other_help.css",
     god_css_src: _path + "/plugins/y-tian-plugin/resources/css/god_help.css",
-    src: _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
+    src: _path + "/plugins/y-tian-plugin/resources/css/jty.OTF",
+    ClaudeLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/claude.jpeg",
+    ChatGlmLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/chatglm.png",
+    QianFanLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/qianfan.png",
+    GrokLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/grok.jpg",
+    GeminiLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/gemini.jpg",
+    QwenLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/qwen.png",
+    LingLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/01.jpg",
+    SparkLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/spark.png",
+    DeepSeekLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/deepseek.jpeg",
+    ChatGptLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/chatgpt.jpg",
+    LlamaLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/llama.jpg",
+    DoubaoLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/doubao.png",
+    HunyuanLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hunyuan.png",
+    KimiLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/kimi.jpeg",
+    MinimaxLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hailuo.png",
   }
   const img = await puppeteer.screenshot('777', {
     ...data,

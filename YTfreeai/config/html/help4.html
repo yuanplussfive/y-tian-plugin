@@ -4,17 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>阴天免费模型①</title>
-    <link rel="stylesheet" href="{{all_min_css}}">
+    <title>阴天免费模型</title>
     <style>
+        @font-face {
+            font-family: "TengXiangJiaLiZhongYuanJian";
+            src: url("SanJiYuanTiJian-Zhong-2.ttf");
+        }
+
+        @font-face {
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+            src: url("AaGuXiLaZhangGuanKeAiDeShen-2.ttf");
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root {
-            --primary-color: #58a6ff;
-            --secondary-color: #36d6b1;
+            --primary-gradient: linear-gradient(135deg, #58a6ff 0%, #36d6b1 100%);
+            --secondary-gradient: linear-gradient(135deg, #21262d 0%, #0d1117 100%);
             --bg-color: #0d1117;
-            --card-bg: #21262d;
-            --text-primary: #c9d1d9;
-            --text-secondary: #8b949e;
-            --border-color: #30363d;
+            --card-bg: rgba(33, 38, 45, 0.8);
+            --text-primary: #e6edf3;
+            --text-secondary: #848d97;
+            --border-color: rgba(48, 54, 61, 0.5);
+            --command-bg: rgba(88, 166, 255, 0.15);
+            --example-bg: rgba(54, 214, 177, 0.15);
+            --glow-color: rgba(88, 166, 255, 0.2);
         }
 
         * {
@@ -24,148 +38,197 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
             background: var(--bg-color);
             color: var(--text-primary);
             min-height: 100vh;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 4rem 2rem;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 5rem;
             position: relative;
+            padding: 0 1rem;
         }
 
         .main-title {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            text-transform: none;
-            letter-spacing: 0.5px;
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
+            letter-spacing: -0.5px;
         }
 
         .main-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60%;
-            height: 3px;
-            background: var(--primary-color);
+            width: 180px;
+            height: 4px;
+            background: var(--primary-gradient);
             border-radius: 2px;
+            filter: drop-shadow(0 2px 4px var(--glow-color));
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2.5rem;
+            position: relative;
         }
 
         .card {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary-color);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+            border-color: rgba(88, 166, 255, 0.3);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 0.1;
         }
 
         .card-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.8rem;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1.5rem;
             border-bottom: 1px solid var(--border-color);
         }
 
         .card-icon {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(88, 166, 255, 0.1);
-            border-radius: 10px;
-            transition: color 0.3s ease;
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            border-radius: 50%;
         }
 
         .card:hover .card-icon {
-            color: var(--secondary-color);
+            transform: scale(1.05);
         }
 
         .card-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            transition: color 0.3s ease;
-        }
-
-        .card:hover .card-title {
-            color: var(--secondary-color);
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.25px;
         }
 
         .card-content {
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
             color: var(--text-secondary);
             font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .command-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .command,
+        .example {
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: default;
+            border: 1px solid transparent;
         }
 
         .command {
-            background: rgba(88, 166, 255, 0.1);
-            padding: 0.5rem 0.8rem;
-            border-radius: 6px;
-            margin: 0.5rem 0;
-            display: inline-block;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-        }
-
-        .command:hover {
-            background: rgba(88, 166, 255, 0.2);
+            background: var(--command-bg);
+            color: #58a6ff;
         }
 
         .example {
-            background: rgba(54, 214, 177, 0.1);
-            padding: 0.5rem 0.8rem;
-            border-radius: 6px;
-            margin: 0.5rem 0;
-            display: inline-block;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
+            background: var(--example-bg);
+            color: #36d6b1;
+        }
+
+        .command:hover {
+            background: rgba(88, 166, 255, 0.25);
+            border-color: rgba(88, 166, 255, 0.3);
         }
 
         .example:hover {
-            background: rgba(54, 214, 177, 0.2);
+            background: rgba(54, 214, 177, 0.25);
+            border-color: rgba(54, 214, 177, 0.3);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                padding: 3rem 1.5rem;
+            }
+
+            .main-title {
+                font-size: 2.75rem;
+            }
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 1rem;
+                padding: 2rem 1rem;
             }
 
             .main-title {
-                font-size: 2rem;
+                font-size: 2.25rem;
             }
 
             .grid {
@@ -173,196 +236,215 @@
             }
 
             .card {
-                padding: 1.2rem;
+                padding: 1.75rem;
             }
+
+            .card-header {
+                gap: 1rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .card-icon {
+                width: 56px;
+                height: 56px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .card-content {
+                font-size: 1rem;
+            }
+
+            .command,
+            .example {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 动态装饰元素 */
+        .decorative-blur {
+            position: fixed;
+            width: 600px;
+            height: 400px;
+            background: var(--primary-gradient);
+            filter: blur(120px);
+            opacity: 0.08;
+            z-index: -1;
+        }
+
+        .decorative-blur:nth-child(1) {
+            top: 20%;
+            left: -10%;
+        }
+
+        .decorative-blur:nth-child(2) {
+            bottom: 10%;
+            right: -10%;
         }
     </style>
 </head>
 
 <body>
+    <div class="decorative-blur"></div>
+    <div class="decorative-blur"></div>
+
     <div class="container">
         <header class="header">
-            <h1 class="main-title">阴天免费模型①</h1>
+            <h1 class="main-title">阴天免费模型</h1>
         </header>
 
         <div class="grid">
+            <!-- 原有卡片内容保持不变，仅结构微调 -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-message"></i>
+                        <img src="{{ChatGptLogo}}" alt="GPT-mini">
                     </div>
                     <h2 class="card-title">GPT-mini</h2>
                 </div>
                 <div class="card-content">
-                    <p>快速轻量高效的对话模型,可用于简单的问答交流。</p>
-                    <div class="command">#mini+问题</div>
-                    <div class="command">#结束mini对话</div>
-                    <p>示例: <span class="example">#mini 你好啊</span></p>
+                    <p>快速轻量高效的对话模型，可用于简单的问答交流。</p>
+                    <div class="command-group">
+                        <div class="command">#mini+问题</div>
+                        <div class="command">#结束mini对话</div>
+                    </div>
+                    <p>示例：<span class="example">#mini 你好啊</span></p>
                 </div>
             </div>
 
+            <!-- 其他卡片保持相同结构 -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-microchip"></i>
+                        <img src="{{ChatGptLogo}}" alt="GPT-4o">
                     </div>
                     <h2 class="card-title">GPT-4o</h2>
                 </div>
                 <div class="card-content">
-                    <p>更加强大的综合对话模型,可用于复杂的问答和任务处理。</p>
-                    <div class="command">#g4f+问题</div>
-                    <div class="command">#结束g4f对话</div>
-                    <p>示例: <span class="example">#g4f 写个冒泡排序</span></p>
+                    <p>更加强大的综合对话模型，可用于复杂的问答和任务处理。</p>
+                    <div class="command-group">
+                        <div class="command">#g4f+问题</div>
+                        <div class="command">#结束g4f对话</div>
+                    </div>
+                    <p>示例：<span class="example">#g4f 写个冒泡排序</span></p>
                 </div>
             </div>
 
+            <!-- 剩余卡片结构相同，仅内容不同 -->
+            <!-- 讯飞星火 -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-chart-line"></i>
+                        <img src="{{SparkLogo}}" alt="Spark">
                     </div>
-                    <h2 class="card-title">Spark</h2>
+                    <h2 class="card-title">讯飞星火</h2>
                 </div>
                 <div class="card-content">
                     <p>在中文理解与科技创新应用领域表现卓越的大模型。</p>
-                    <div class="command">#xh+问题</div>
-                    <div class="command">#结束xh对话</div>
-                    <p>示例: <span class="example">#xh 高分子材料是什么</span></p>
+                    <div class="command-group">
+                        <div class="command">#xh+问题</div>
+                        <div class="command">#结束xh对话</div>
+                    </div>
+                    <p>示例：<span class="example">#xh 高分子材料是什么</span></p>
                 </div>
             </div>
 
+            <!-- 通义千问 -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-brain"></i>
+                        <img src="{{QwenLogo}}" alt="Qwen-QwQ">
                     </div>
-                    <h2 class="card-title">Qwen-QwQ</h2>
+                    <h2 class="card-title">通义千问</h2>
                 </div>
                 <div class="card-content">
-                    <p>基于Qwen的深度推理模型,可帮您处理复杂任务。</p>
-                    <div class="command">#qwq+问题</div>
-                    <div class="command">#结束qwq对话</div>
-                    <p>示例: <span class="example">#qwq 论医药业的未来发展</span></p>
+                    <p>基于Qwen的深度推理模型，可帮您处理复杂任务。</p>
+                    <div class="command-group">
+                        <div class="command">#qwq+问题</div>
+                        <div class="command">#结束qwq对话</div>
+                    </div>
+                    <p>示例：<span class="example">#qwq 论医药业的未来发展</span></p>
                 </div>
             </div>
 
+            <!-- Claude -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-network-wired"></i>
+                        <img src="{{ClaudeLogo}}" alt="Claude">
                     </div>
                     <h2 class="card-title">Claude</h2>
                 </div>
                 <div class="card-content">
-                    <p>强大的综合模型,可与您进行自然语言交流,富有情感。</p>
-                    <div class="command">#claude+问题</div>
-                    <div class="command">#结束claude对话</div>
-                    <p>示例: <span class="example">#claude 写篇文言文创作</span></p>
+                    <p>强大的综合模型，可与您进行自然语言交流，富有情感。</p>
+                    <div class="command-group">
+                        <div class="command">#claude+问题</div>
+                        <div class="command">#结束claude对话</div>
+                    </div>
+                    <p>示例：<span class="example">#claude 写篇文言文创作</span></p>
                 </div>
             </div>
 
+            <!-- Gemini -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-comments"></i>
+                        <img src="{{GeminiLogo}}" alt="Gemini">
                     </div>
                     <h2 class="card-title">Gemini</h2>
                 </div>
                 <div class="card-content">
-                    <p>一款人性化的对话模型,富有发散性,自然语言交流。</p>
-                    <div class="command">#gemini+问题</div>
-                    <div class="command">#结束gemini对话</div>
-                    <p>示例: <span class="example">#gemini 近来过得怎么样</span></p>
+                    <p>一款人性化的对话模型，富有发散性，自然语言交流。</p>
+                    <div class="command-group">
+                        <div class="command">#gemini+问题</div>
+                        <div class="command">#结束gemini对话</div>
+                    </div>
+                    <p>示例：<span class="example">#gemini 近来过得怎么样</span></p>
                 </div>
             </div>
 
+            <!-- Grok -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-comments"></i>
+                        <img src="{{GrokLogo}}" alt="Grok">
                     </div>
                     <h2 class="card-title">Grok</h2>
                 </div>
                 <div class="card-content">
-                    <p>功能丰富的综合对话模型,可帮您完成各种任务。</p>
-                    <div class="command">#grok+问题</div>
-                    <div class="command">#结束grok对话</div>
-                    <p>示例: <span class="example">#grok 来道脑筋急转弯</span></p>
+                    <p>功能丰富的综合对话模型，可帮您完成各种任务。</p>
+                    <div class="command-group">
+                        <div class="command">#grok+问题</div>
+                        <div class="command">#结束grok对话</div>
+                    </div>
+                    <p>示例：<span class="example">#grok 来道脑筋急转弯</span></p>
                 </div>
             </div>
 
+            <!-- 文心一言 -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
-                        <i class="fas fa-message"></i>
+                        <img src="{{QianFanLogo}}" alt="Ernie">
                     </div>
-                    <h2 class="card-title">Ernie</h2>
+                    <h2 class="card-title">文心一言</h2>
                 </div>
                 <div class="card-content">
-                    <p>语料丰富的综合对话模型,擅长中文领域,富有发散性。</p>
-                    <div class="command">#wx+问题</div>
-                    <div class="command">#结束wx对话</div>
-                    <p>示例: <span class="example">#wx 写封信xx</span></p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-code"></i>
+                    <p>语料丰富的综合对话模型，擅长中文领域，富有发散性。</p>
+                    <div class="command-group">
+                        <div class="command">#wx+问题</div>
+                        <div class="command">#结束wx对话</div>
                     </div>
-                    <h2 class="card-title">Glm4</h2>
-                </div>
-                <div class="card-content">
-                    <p>综合对话模型,擅长代码/推理,速度快,效率高。</p>
-                    <div class="command">#zp+问题</div>
-                    <div class="command">#结束zp对话</div>
-                    <p>示例: <span class="example">#zp 写个简单的js飞行棋</span></p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h2 class="card-title">Yi</h2>
-                </div>
-                <div class="card-content">
-                    <p>综合对话模型,中文领域顶流,擅长中文等语言创作。</p>
-                    <div class="command">#yi+问题</div>
-                    <div class="command">#结束yi对话</div>
-                    <p>示例: <span class="example">#zp 写个故事xx</span></p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h2 class="card-title">Llama</h2>
-                </div>
-                <div class="card-content">
-                    <p>Meta公司推出的市场上的最强大的开源模型,支持多种语言。</p>
-                    <div class="command">#llama+问题</div>
-                    <div class="command">#结束llama对话</div>
-                    <p>示例: <span class="example">#llama xxxx</span></p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-terminal"></i>
-                    </div>
-                    <h2 class="card-title">Commandr</h2>
-                </div>
-                <div class="card-content">
-                    <p>专注于命令执行的综合模型,快速完成各种任务。</p>
-                    <div class="command">#cmr+问题</div>
-                    <div class="command">#结束cmr对话</div>
-                    <p>示例: <span class="example">#cmr 充当linux终端</span></p>
+                    <p>示例：<span class="example">#wx 写封信xx</span></p>
                 </div>
             </div>
         </div>

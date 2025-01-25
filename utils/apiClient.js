@@ -10,38 +10,39 @@ export async function YTapi(requestData, config) {
   const dirpath = `${_path}/data/YTotherai`;
   const dataPath = dirpath + "/data.json";
   const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
-  
+
   // 转换 providers 为小写以进行比较
   const provider = config.providers?.toLowerCase();
-  
+
   try {
     let url, headers, finalRequestData;
-    
+
     if (provider === 'gemini') {
       url = 'https://api-proxy.me/gemini/v1beta/chat/completions';
+      const randomIndex = Math.floor(Math.random() * config.geminiApikey.length);
       headers = {
-        'Authorization': `Bearer ${config.geminiApikey[0]}`,
+        'Authorization': `Bearer ${config.geminiApikey[randomIndex]}`,
         'Content-Type': 'application/json'
       };
-     // 为 Gemini 修改请求数据
-     finalRequestData = {
-      ...requestData,
-      model: "gemini-2.0-flash-exp"
-    };
-  } else {
-    url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
-    headers = {
-      'Authorization': `Bearer ${data.chatgpt.stoken}`,
-      'Content-Type': 'application/json'
-    };
-    finalRequestData = requestData;
-  }
+      // 为 Gemini 修改请求数据
+      finalRequestData = {
+        ...requestData
+      };
+      //console.log(finalRequestData)
+    } else {
+      url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
+      headers = {
+        'Authorization': `Bearer ${data.chatgpt.stoken}`,
+        'Content-Type': 'application/json'
+      };
+      finalRequestData = requestData;
+    }
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(finalRequestData)
-  });
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(finalRequestData)
+    });
 
     if (!response.ok) {
       const errorData = await response.text();
@@ -51,7 +52,7 @@ export async function YTapi(requestData, config) {
     const responseData = await response.json();
     console.log(`${provider || 'OpenAI'} 响应:`, responseData);
     return responseData;
-    
+
   } catch (error) {
     console.error('YTapi 错误:', error);
     return null;

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阴天免费模型</title>
+    <style>
+        @font-face {
+            font-family: "TengXiangJiaLiZhongYuanJian";
+            src: url("SanJiYuanTiJian-Zhong-2.ttf");
+        }
+
+        @font-face {
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+            src: url("AaGuXiLaZhangGuanKeAiDeShen-2.ttf");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #58a6ff 0%, #36d6b1 100%);
+            --secondary-gradient: linear-gradient(135deg, #21262d 0%, #0d1117 100%);
+            --bg-color: #0d1117;
+            --card-bg: rgba(33, 38, 45, 0.8);
+            --text-primary: #e6edf3;
+            --text-secondary: #848d97;
+            --border-color: rgba(48, 54, 61, 0.5);
+            --command-bg: rgba(88, 166, 255, 0.15);
+            --example-bg: rgba(54, 214, 177, 0.15);
+            --glow-color: rgba(88, 166, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+            background: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .main-title {
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            letter-spacing: -0.5px;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 4px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+            filter: drop-shadow(0 2px 4px var(--glow-color));
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2.5rem;
+            position: relative;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(88, 166, 255, 0.3);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 0.1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            border-radius: 50%;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.25px;
+        }
+
+        .card-content {
+            font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .command-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .command,
+        .example {
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: default;
+            border: 1px solid transparent;
+        }
+
+        .command {
+            background: var(--command-bg);
+            color: #58a6ff;
+        }
+
+        .example {
+            background: var(--example-bg);
+            color: #36d6b1;
+        }
+
+        .command:hover {
+            background: rgba(88, 166, 255, 0.25);
+            border-color: rgba(88, 166, 255, 0.3);
+        }
+
+        .example:hover {
+            background: rgba(54, 214, 177, 0.25);
+            border-color: rgba(54, 214, 177, 0.3);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                padding: 3rem 1.5rem;
+            }
+
+            .main-title {
+                font-size: 2.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .main-title {
+                font-size: 2.25rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1.75rem;
+            }
+
+            .card-header {
+                gap: 1rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .card-icon {
+                width: 56px;
+                height: 56px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .card-content {
+                font-size: 1rem;
+            }
+
+            .command,
+            .example {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 动态装饰元素 */
+        .decorative-blur {
+            position: fixed;
+            width: 600px;
+            height: 400px;
+            background: var(--primary-gradient);
+            filter: blur(120px);
+            opacity: 0.08;
+            z-index: -1;
+        }
+
+        .decorative-blur:nth-child(1) {
+            top: 20%;
+            left: -10%;
+        }
+
+        .decorative-blur:nth-child(2) {
+            bottom: 10%;
+            right: -10%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decorative-blur"></div>
+    <div class="decorative-blur"></div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">阴天免费模型</h1>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <img src="{{LlamaLogo}}" alt="Llama">
+                    </div>
+                    <h2 class="card-title">Llama</h2>
+                </div>
+                <div class="card-content">
+                    <p>Meta公司推出的市场上的最强大的开源模型，支持多种语言。</p>
+                    <div class="command-group">
+                        <div class="command">#llama+问题</div>
+                        <div class="command">#结束llama对话</div>
+                    </div>
+                    <p>示例：<span class="example">#llama xxxx</span></p>
+                </div>
+            </div>
+
+            <!-- 深度求索 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <img src="{{DeepSeekLogo}}" alt="Commandr">
+                    </div>
+                    <h2 class="card-title">深度求索</h2>
+                </div>
+                <div class="card-content">
+                    <p>专注于命令执行的综合模型，快速完成各种任务，量化训练</p>
+                    <div class="command-group">
+                        <div class="command">#deepseek+问题</div>
+                        <div class="command">#结束deepseek对话</div>
+                    </div>
+                    <p>示例：<span class="example">#deepseek 充当linux终端</span></p>
+                </div>
+            </div>
+            <!-- 智谱清言 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <img src="{{ChatGlmLogo}}" alt="Glm4">
+                    </div>
+                    <h2 class="card-title">智谱清言</h2>
+                </div>
+                <div class="card-content">
+                    <p>综合对话模型，擅长代码/推理，速度快，效率高。</p>
+                    <div class="command-group">
+                        <div class="command">#zp+问题</div>
+                        <div class="command">#结束zp对话</div>
+                    </div>
+                    <p>示例：<span class="example">#zp 写个简单的js飞行棋</span></p>
+                </div>
+            </div>
+
+            <!-- 零一万物 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <img src="{{LingLogo}}" alt="Yi">
+                    </div>
+                    <h2 class="card-title">零一万物</h2>
+                </div>
+                <div class="card-content">
+                    <p>综合对话模型，中文领域顶流，擅长中文等语言创作。</p>
+                    <div class="command-group">
+                        <div class="command">#yi+问题</div>
+                        <div class="command">#结束yi对话</div>
+                    </div>
+                    <p>示例：<span class="example">#yi 写个故事xx</span></p>
+                </div>
+            </div>
+            <!-- 零一万物 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <img src="{{DoubaoLogo}}" alt="Yi">
+                    </div>
+                    <h2 class="card-title">字节豆包</h2>
+                </div>
+                <div class="card-content">
+                    <p>综合对话模型，中文领域顶流，擅长中文等语言创作。</p>
+                    <div class="command-group">
+                        <div class="command">#豆包+问题</div>
+                        <div class="command">#结束豆包对话</div>
+                    </div>
+                    <p>示例：<span class="example">#豆包 写个故事xx</span></p>
+                </div>
+            </div>
+            <!-- 零一万物 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <img src="{{HunyuanLogo}}" alt="Yi">
+                    </div>
+                    <h2 class="card-title">腾讯混元</h2>
+                </div>
+                <div class="card-content">
+                    <p>综合对话模型，中文领域顶流，擅长中文等语言创作。</p>
+                    <div class="command-group">
+                        <div class="command">#混元+问题</div>
+                        <div class="command">#结束混元对话</div>
+                    </div>
+                    <p>示例：<span class="example">#混元 写个故事xx</span></p>
+                </div>
+            </div>
+            <!-- 零一万物 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <img src="{{KimiLogo}}" alt="Yi">
+                    </div>
+                    <h2 class="card-title">月之暗面</h2>
+                </div>
+                <div class="card-content">
+                    <p>综合对话模型，中文领域顶流，擅长中文等语言创作。</p>
+                    <div class="command-group">
+                        <div class="command">#kimi+问题</div>
+                        <div class="command">#结束kimi对话</div>
+                    </div>
+                    <p>示例：<span class="example">#kimi 写个故事xx</span></p>
+                </div>
+            </div>
+            <!-- 零一万物 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <img src="{{MinimaxLogo}}" alt="Yi">
+                    </div>
+                    <h2 class="card-title">Minimax</h2>
+                </div>
+                <div class="card-content">
+                    <p>综合对话模型，中文领域顶流，擅长中文等语言创作。</p>
+                    <div class="command-group">
+                        <div class="command">#海螺+问题</div>
+                        <div class="command">#结束海螺对话</div>
+                    </div>
+                    <p>示例：<span class="example">#海螺 写个故事xx</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,5 +1,24 @@
 import fetch from 'node-fetch';
 
+function processThinkingString(str) {
+    const thinkStartIndex = str.indexOf('[思考开始]');
+    const thinkEndIndex = str.indexOf('[思考结束]');
+
+    if (thinkStartIndex === -1 || thinkEndIndex === -1) {
+        return str;
+    }
+
+    const thinkingContent = str.substring(thinkStartIndex + 6, thinkEndIndex);
+
+    const processedThinking = thinkingContent.length > 1000
+        ? thinkingContent.substring(0, 1000) + '...'
+        : thinkingContent;
+
+    // 重建字符串
+    return '[思考开始]' + processedThinking + '[思考结束]' +
+        str.substring(thinkEndIndex + 6);
+}
+
 /**
  * 调用在Zaiwen平台的模型接口
  * @param {string} model - 模型名称
@@ -29,7 +48,8 @@ export async function zaiwen(messages, model) {
             "您的内容中有不良信息": "您的预设/对话内容中有不良信息，请结束对话/预设后重新提问",
             "Message too long": "上下文过长，已超过模型限制，请结束对话后重新提问",
             "我们聊的太多了": "请求频率过快，已超过限制，请等待一会后重新提问",
-            "zaiwen": null
+            "zaiwen": null,
+            "Server Error": null
         };
         for (const [key, value] of Object.entries(BanMessages)) {
             const regex = new RegExp(key, 'i');
@@ -37,7 +57,7 @@ export async function zaiwen(messages, model) {
                 return value;
             }
         }
-        return responseData.trim();
+        return processThinkingString(responseData.trim());
     } catch (error) {
         console.log(error.message);
         return null;
