@@ -24,7 +24,10 @@ const requestPath = join(__dirname, '../node_modules/request');
 const request = require(requestPath);
 const WebSocketPath = join(__dirname, '../node_modules/ws');
 const WebSocket = require(WebSocketPath);
-import axios from "../node_modules/axios/index.js"
+import axios from "../node_modules/axios/index.js";
+import { getEncoding } from 'js-tiktoken';
+const textractPath = join(__dirname, '../node_modules/textract');
+const textract = require(textractPath);
 const mimeTypesPath = join(__dirname, '../node_modules/mime-types');
 const mimeTypes = require(mimeTypesPath);
 import { handleTTS } from "../model/Anime_tts.js"
@@ -69,12 +72,14 @@ export const dependencies = {
   request,
   moment,
   common,
+  getEncoding,
   tts_roles,
   FormData,
   puppeteer,
   WebSocket,
   mimeTypes,
   querystring,
+  textract,
   processArray,
   countTextInString,
   FreeChat35_1,

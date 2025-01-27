@@ -27,6 +27,8 @@
     "fetch-undici": "^3.0.1",
     "keyv-file": "^0.2.0",
     "axios": "^1.4.0",
-    "form-data": "^4.0.0"
+    "form-data": "^4.0.0",
+    "textract": "^2.5.0",
+    "js-tiktoken": "^1.0.15"
   }
 }

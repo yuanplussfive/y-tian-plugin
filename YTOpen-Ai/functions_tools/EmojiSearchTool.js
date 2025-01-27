@@ -146,36 +146,54 @@ export class EmojiSearchTool extends AbstractTool {
         try {
           const response = await fetch(url, {
             method: 'HEAD',
-            timeout: 3000 // 3秒超时
+            timeout: 4000,
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+              'Referer': new URL(url).origin
+            },
+            retry: 1,
+            retryDelay: 1000
           });
 
-          // 检查响应状态和内容类型
           if (response.ok) {
             const contentType = response.headers.get('content-type');
             return contentType && contentType.startsWith('image/');
           }
           return false;
         } catch (error) {
-          console.log(`图片检查失败 ${url}:`, error);
+          console.log(`图片检查失败 ${url}:`, {
+            message: error.message,
+            name: error.name,
+            stack: error.stack
+          });
           return false;
         }
+      }
+
+      // 添加延迟函数，避免频繁请求
+      function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
       }
 
       // 打乱数组
       const shuffled = imageUrls.sort(() => 0.5 - Math.random());
 
-      // 并行检查所有图片的可用性
-      const urlChecks = await Promise.allSettled(
-        shuffled.map(async url => ({
-          url,
-          isAccessible: await isImageAccessible(url)
-        }))
-      );
+      const urlChecks = [];
+      for (const url of shuffled) {
+        try {
+          const isAccessible = await isImageAccessible(url);
+          urlChecks.push({ url, isAccessible });
+        } catch (error) {
+          urlChecks.push({ url, isAccessible: false, error });
+        }
+      }
+
+      //console.log(urlChecks);
 
       // 过滤出可用的图片URL
       const validUrls = urlChecks
-        .filter(result => result.status === 'fulfilled' && result.value.isAccessible)
-        .map(result => result.value.url)
+        .filter(result => result.isAccessible)
+        .map(result => result.url)
         .slice(0, validCount);
 
       if (validUrls.length === 0) {
@@ -207,110 +225,80 @@ export class EmojiSearchTool extends AbstractTool {
       let successCount = 0;
       let failedBatches = 0;
 
-      async function sendSingleImage(image) {
-        const maxRetries = 3;
-        for (let i = 0; i < maxRetries; i++) {
-          try {
-            const result = await Bot.pickGroup(e.group_id).sendMsg(image).catch(err => {
-              return { error: err };
-            });
-
-            if (!result.error) {
-              return { success: true };
-            }
-
-            // 特别处理 ECONNRESET 错误
-            if (result.error.message?.includes('ECONNRESET')) {
-              logger.warn(`[图片搜索] 图片发送失败(ECONNRESET)，第 ${i + 1} 次重试`);
-              await new Promise(resolve => setTimeout(resolve, 1000));
-              continue;
-            }
-
-            return { success: false, error: result.error };
-          } catch (err) {
-            logger.error(`[图片搜索] 图片发送异常: ${err.message}`);
-            if (i === maxRetries - 1) {
-              return { success: false, error: err };
-            }
-          }
-        }
-        return { success: false, error: new Error('达到最大重试次数') };
-      }
-
       async function sendBatchWithRetry(images, batchSize) {
         const maxRetries = 3;  // 每个批次最大重试次数
         const minBatchSize = 4;  // 最小批次大小
-    
+
         // 将图片按指定大小分组
         const batches = [];
         for (let i = 0; i < images.length; i += batchSize) {
-            batches.push(images.slice(i, i + batchSize));
+          batches.push(images.slice(i, i + batchSize));
         }
-    
+
         // 逐批次发送
         for (const batch of batches) {
-            let retryCount = 0;
-            let success = false;
-    
-            while (!success && retryCount < maxRetries) {
-                try {
-                    const result = await Bot.pickGroup(e.group_id).sendMsg(batch).catch(err => {
-                        return { error: err };
-                    });
-    
-                    if (!result.error) {
-                        success = true;
-                        successCount += batch.length;
-                        break;
-                    }
-    
-                    // ECONNRESET 错误特殊处理
-                    if (result.error.message?.includes('ECONNRESET')) {
-                        logger.warn(`[图片搜索] 批次发送失败(ECONNRESET)，第 ${retryCount + 1} 次重试`);
-                        await new Promise(resolve => setTimeout(resolve, 1000));
-                        retryCount++;
-                        continue;
-                    }
-    
-                    // 风控错误，尝试减小批次
-                    if (result.error?.code === -70 && batch.length > minBatchSize) {
-                        logger.mark(`[图片搜索] 检测到风控，尝试减小批次大小`);
-                        // 将当前批次拆分为更小的批次重试
-                        const smallerBatches = [];
-                        for (let i = 0; i < batch.length; i += minBatchSize) {
-                            smallerBatches.push(batch.slice(i, i + minBatchSize));
-                        }
-    
-                        // 发送更小的批次
-                        for (const smallBatch of smallerBatches) {
-                            await new Promise(resolve => setTimeout(resolve, 1500));
-                            const smallResult = await Bot.pickGroup(e.group_id).sendMsg(smallBatch);
-                            if (!smallResult.error) {
-                                successCount += smallBatch.length;
-                            }
-                        }
-                        success = true;
-                        break;
-                    }
-    
-                    retryCount++;
-                } catch (err) {
-                    logger.error(`[图片搜索] 批次发送异常: ${err.message}`);
-                    retryCount++;
+          let retryCount = 0;
+          let success = false;
+
+          while (!success && retryCount < maxRetries) {
+            try {
+              const result = await Bot.pickGroup(e.group_id).sendMsg(batch).catch(err => {
+                return { error: err };
+              });
+
+              if (!result.error) {
+                success = true;
+                successCount += batch.length;
+                break;
+              }
+
+              // ECONNRESET 错误特殊处理
+              if (result.error.message?.includes('ECONNRESET')) {
+                logger.warn(`[图片搜索] 批次发送失败(ECONNRESET)，第 ${retryCount + 1} 次重试`);
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                retryCount++;
+                continue;
+              }
+
+              // 风控错误，尝试减小批次
+              if (result.error?.code === -70 && batch.length > minBatchSize) {
+                logger.mark(`[图片搜索] 检测到风控，尝试减小批次大小`);
+                // 将当前批次拆分为更小的批次重试
+                const smallerBatches = [];
+                for (let i = 0; i < batch.length; i += minBatchSize) {
+                  smallerBatches.push(batch.slice(i, i + minBatchSize));
                 }
+
+                // 发送更小的批次
+                for (const smallBatch of smallerBatches) {
+                  await new Promise(resolve => setTimeout(resolve, 1500));
+                  const smallResult = await Bot.pickGroup(e.group_id).sendMsg(smallBatch);
+                  if (!smallResult.error) {
+                    successCount += smallBatch.length;
+                  }
+                }
+                success = true;
+                break;
+              }
+
+              retryCount++;
+            } catch (err) {
+              logger.error(`[图片搜索] 批次发送异常: ${err.message}`);
+              retryCount++;
             }
-    
-            if (!success) {
-                logger.error(`[图片搜索] 批次发送失败，达到最大重试次数`);
-                failedBatches++;
-            }
-    
-            // 批次间延迟
-            await new Promise(resolve => setTimeout(resolve, 2000));
+          }
+
+          if (!success) {
+            logger.error(`[图片搜索] 批次发送失败，达到最大重试次数`);
+            failedBatches++;
+          }
+
+          // 批次间延迟
+          await new Promise(resolve => setTimeout(resolve, 2000));
         }
-    
+
         return { success: true };
-    }    
+      }
 
       await sendBatchWithRetry(allimages, BATCH_SIZE);
 

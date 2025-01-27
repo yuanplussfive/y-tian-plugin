@@ -44,18 +44,15 @@ export async function YTapi(requestData, config) {
       body: JSON.stringify(finalRequestData)
     });
 
-    if (!response.ok) {
-      const errorData = await response.text();
-      throw new Error(`HTTP错误! 状态: ${response.status}, 信息: ${errorData}`);
-    }
-
     const responseData = await response.json();
     console.log(`${provider || 'OpenAI'} 响应:`, responseData);
-    return responseData;
+    return Array.isArray(responseData) && responseData[0]
+    ? responseData[0]
+    : responseData;  
 
   } catch (error) {
     console.error('YTapi 错误:', error);
-    return null;
+    return { error: error?.message };
   }
 }
 

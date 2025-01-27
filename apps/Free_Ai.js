@@ -1,5 +1,7 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const { fs, _path, common, replyBasedOnStyle, puppeteer, NXModelResponse } = dependencies;
+const { fs, _path, common, replyBasedOnStyle, puppeteer, NXModelResponse, mimeTypes } = dependencies;
+import { extractFile } from '../YTOpen-Ai/tools/textract.js';
+import { takeSourceMsg, getBufferFile } from '../YTOpen-Ai/tools/UploadFile.js';
 const aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
 const aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
 const styles = aiSettings.chatgpt.ai_chat_style;
@@ -92,12 +94,32 @@ export class YTFreeAi extends plugin {
       return;
     }
 
+    let { fileUrl, fileName } = await getFileInfo(e);
+    console.log(fileUrl, fileName);
     const userId = e.user_id;
-    const userMsg = e.msg.slice(e.msg.indexOf(model) + model.length).trim();
+    let userMsg = e.msg.slice(e.msg.indexOf(model) + model.length).trim();
+    let userFinalMsg = userMsg;
+    if (fileName) {
+      const { buffer } = await getBufferFile(fileUrl, fileName) || {};
+      const MimeType = mimeTypes.lookup(fileName) || 'application/octet-stream';
+      const result = await extractFile(MimeType, buffer)
+      const separator = '='.repeat(50);  // 创建分隔线
+      const contentText = result.length > 6000
+        ? result.substring(0, 6000) + '...'
+        : result;
+      const fileInfoText = `${separator}
+文件名称: ${fileName}
+${separator}
+文件内容:
+${contentText}
+${separator}`;
 
+      userFinalMsg = `${fileInfoText}\n\n${userFinalMsg}`;
+      console.log('文件信息:\n', fileInfoText);
+    }
     // 获取该用户的历史记录
     const history = await this.getHistory(userId, model);
-    history.push({ role: "user", content: userMsg });
+    history.push({ role: "user", content: userFinalMsg });
 
     const answer = await this.getModelResponse(model, history);
     if (answer) {
@@ -117,4 +139,110 @@ export class YTFreeAi extends plugin {
     }
     return null;
   }
+}
+
+/**
+ * 获取文件URL和文件名
+ * @param {Object} e - 事件对象
+ * @returns {Promise<{fileUrl: string, fileName: string}>}
+ */
+async function getFileInfo(e) {
+  try {
+    const ncResult = await getGroupFileUrl(e);
+    if (ncResult?.fileUrl) {
+      return {
+        fileUrl: ncResult.fileUrl,
+        fileName: ncResult.fileName
+      };
+    }
+
+    const sourceFiles = await takeSourceMsg(e, { file: true });
+    if (!sourceFiles) {
+      return {};
+    }
+
+    let fileName;
+    if (e.group?.getChatHistory) {
+      const [history] = await e.group.getChatHistory(e.source.seq, 1).then(hist => hist.slice(-1));
+      fileName = history?.message[0]?.name;
+    } else if (e.friend?.getChatHistory) {
+      const [history] = await e.friend.getChatHistory(e.source.time, 1).then(hist => hist.slice(-1));
+      fileName = history?.message[0]?.name;
+    }
+
+    return {
+      fileUrl: sourceFiles,
+      fileName
+    };
+  } catch (error) {
+    console.error('获取文件信息失败:', error);
+    return {};
+  }
+}
+
+async function getGroupFileUrl(e) {
+  if (!e?.reply_id) return {};
+
+  const replyMsg = await getReplyMsg(e);
+  const messages = replyMsg?.message;
+
+  if (!Array.isArray(messages)) return {};
+
+  for (const msg of messages) {
+    if (msg.type === 'file') {
+      const file_id = msg.data?.file_id;
+      const { data: { url } } = await e.bot.sendApi("get_group_file_url", {
+        group_id: e.group_id,
+        file_id
+      });
+
+      const filename = await extractFileExtension(file_id);
+
+      return {
+        fileUrl: `${url}file.${filename}`,
+        fileName: `file.${filename}`
+      };
+    }
+  }
+
+  return {};
+}
+
+async function getReplyMsg(e) {
+  try {
+    const historyResponse = await e.bot.sendApi("get_group_msg_history", {
+      group_id: e.group_id,
+      count: 1,
+    });
+
+    if (!historyResponse?.data?.messages || historyResponse.data.messages.length === 0) {
+      return null;
+    }
+
+    const recentMessage = historyResponse.data.messages[0];
+    const messageId = recentMessage?.message?.[0]?.data?.id;
+
+    if (!messageId) {
+      return null;
+    }
+
+    const messageResponse = await e.bot.sendApi("get_msg", {
+      message_id: messageId,
+    });
+
+    if (!messageResponse?.data) {
+      return null;
+    }
+
+    return messageResponse.data;
+
+  } catch (error) {
+    console.error("getReplyMsg:", error);
+    return null;
+  }
+}
+
+async function extractFileExtension(filename) {
+  const match = filename.match(/\.([a-zA-Z0-9]+)$/);
+  return match ? match[1] : null;
 }

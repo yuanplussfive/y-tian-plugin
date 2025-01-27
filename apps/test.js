@@ -27,8 +27,8 @@ const { fs, YAML, crypto, path } = dependencies;
 export class ExamplePlugin extends plugin {
   constructor() {
     super({
-      name: '群管工具',
-      dsc: '群管理工具**',
+      name: '全局方案-test',
+      dsc: '全局方案测试版',
       event: 'message',
       priority: -111111111,
       rule: [
@@ -705,45 +705,23 @@ export class ExamplePlugin extends plugin {
         delete requestData.presence_penalty;
       }
 
-      // 调用 OpenAI API 获取初始响应
-      const response = await YTapi(requestData, this.config);
+      // 最多重试1次
+      let retryCount = 1;
+      let response = null;
 
-      if (!response) {
-        // 如果初始请求失败，使用 YTapi 生成错误回复
-        const errorRequestData = {
-          model: 'gpt-4o-fc',
-          messages: [
-            ...groupUserMessages,
-            {
-              role: 'assistant',
-              content: '无法获取 OpenAI 的响应，请稍后再试。'
-            }
-          ],
-          temperature: 0.8,
-          top_p: 0.9,
-          frequency_penalty: 0.6,
-          presence_penalty: 0.6
-        };
-
-        // 检查 providers 是否为 gemini (不区分大小写)
-        if (this.config && this.config.providers && this.config.providers.toLowerCase() === 'gemini') {
-          // 修改模型
-          if (this.config.geminiModel) {
-            errorRequestData.model = this.config.geminiModel;
-          }
-
-
-          // 删除 frequency_penalty 和 presence_penalty 属性
-          delete errorRequestData.frequency_penalty;
-          delete errorRequestData.presence_penalty;
+      while (retryCount >= 0) {
+        try {
+          response = await YTapi(requestData, this.config);
+          if (response) break;
+        } catch (error) {
+          console.error(`API请求失败(${retryCount}): ${error}`);
         }
-        const errorResponse = await YTapi(errorRequestData, this.config);
-        if (errorResponse && errorResponse.choices && errorResponse.choices[0].message.content) {
-          await e.reply(errorResponse.choices[0].message.content);
-        } else {
-          await e.reply('无法获取 OpenAI 的响应，请稍后再试。');
-        }
-        // 清空当前用户的消息历史
+        retryCount--;
+      }
+
+      console.log(response)
+      if (!response || response.error) {
+        await e.reply(response?.error ? JSON.stringify(response.error, null, 2) : '抱歉,请求失败,请稍后重试');
         await this.resetGroupUserMessages(groupId, userId);
         return true;
       }
@@ -804,6 +782,8 @@ export class ExamplePlugin extends plugin {
         const toolResults = [];
         // 记录已执行的工具调用,用于防止重复执行
         const executedTools = new Map();
+        // 记录是否发送
+        let aicallback = false;
 
         // 处理所有工具调用
         if (message.tool_calls) {
@@ -982,10 +962,22 @@ export class ExamplePlugin extends plugin {
                   delete toolRequest.presence_penalty;
                 }
 
-                // 获取当前工具的响应
-                const toolResponse = await YTapi(toolRequest, this.config);
+                // 最多重试1次
+                let retryCount = 1;
+                let toolResponse = null;
+
+                while (retryCount >= 0) {
+                  try {
+                    toolResponse = await YTapi(toolRequest, this.config);
+                    if (toolResponse) break;
+                  } catch (error) {
+                    console.error(`API请求失败(${retryCount}): ${error}`);
+                  }
+                  retryCount--;
+                }
 
                 if (toolResponse?.choices?.[0]?.message?.content) {
+                  aicallback = true;
                   const toolReply = toolResponse.choices[0].message.content;
 
                   // 处理工具特定的消息
@@ -1064,6 +1056,10 @@ export class ExamplePlugin extends plugin {
           try {
             const finalCheckResponse = await YTapi(FinalRequest, this.config);
 
+            if (!finalCheckResponse || finalCheckResponse.error) {
+              await e.reply(finalCheckResponse?.error ? JSON.stringify(finalCheckResponse.error, null, 2) : '抱歉,请求失败,请稍后重试');
+            }
+
             // 处理需要补充执行的工具调用
             if (finalCheckResponse?.choices?.[0]?.message?.tool_calls) {
               const newToolCalls = finalCheckResponse.choices[0].message.tool_calls.filter(toolCall => {
@@ -1072,7 +1068,7 @@ export class ExamplePlugin extends plugin {
                 return !executedTools.has(toolKey) || executedTools.get(toolKey) === false;
               });
 
-              if (newToolCalls.length > 0) {
+              if (newToolCalls.length > 0 || aicallback == false) {
                 const newMessage = {
                   ...finalCheckResponse.choices[0].message,
                   tool_calls: newToolCalls
@@ -1143,7 +1139,7 @@ export class ExamplePlugin extends plugin {
       console.error('[工具插件]执行异常：', error);
 
       // 构建错误信息并记录到历史中
-      const errorMessage = `执行操作时发生错误：${error.message}`;
+      const errorMessage = `执行工具调用操作时发生错误：${error.message}`;
       let groupUserMessages = await this.getGroupUserMessages(groupId, userId);
       groupUserMessages.push({
         role: 'assistant',
@@ -1160,7 +1156,6 @@ export class ExamplePlugin extends plugin {
       const errorRequestData = {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
-        tools: this.tools,
         temperature: 0.8,
         top_p: 0.9,
         frequency_penalty: 0.6,
@@ -1186,7 +1181,8 @@ export class ExamplePlugin extends plugin {
 
       if (errorResponse && errorResponse.choices && errorResponse.choices[0].message.content) {
         const finalErrorReply = errorResponse.choices[0].message.content;
-        await e.reply(finalErrorReply);
+        const output = await this.processToolSpecificMessage(finalErrorReply);
+        await e.reply(output);
       } else {
         await e.reply(errorMessage);
       }
@@ -1454,16 +1450,31 @@ export class ExamplePlugin extends plugin {
             content: JSON.stringify(result)
           });
 
-          //console.log(currentMessages);
-          // 获取当前工具的响应
-          const toolResponse = await YTapi({
+          // 构建工具的请求体
+          const toolRequest = {
             model: 'gpt-4o-fc',
             messages: currentMessages,
             temperature: 0.1,
             top_p: 0.9,
             frequency_penalty: 0.1,
             presence_penalty: 0.1
-          }, this.config);
+          }
+
+          // 检查 providers 是否为 gemini (不区分大小写)
+          if (this.config && this.config.providers && this.config.providers.toLowerCase() === 'gemini') {
+            // 修改模型
+            if (this.config.geminiModel) {
+              toolRequest.model = this.config.geminiModel;
+            }
+
+
+            // 删除 frequency_penalty 和 presence_penalty 属性
+            delete toolRequest.frequency_penalty;
+            delete toolRequest.presence_penalty;
+          }
+
+          // 获取当前工具的响应
+          const toolResponse = await YTapi(toolRequest, this.config);
 
           if (toolResponse?.choices?.[0]?.message?.content) {
             const toolReply = toolResponse.choices[0].message.content;
@@ -1519,17 +1530,17 @@ export class ExamplePlugin extends plugin {
       /[\s\S]*在群里说[:：]\s*/g,
       /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*(?:\(QQ号:\d+\))?(?:\[群身份:\s*\w+\])?\s*[:：]\s*/g
     ];
-    
+
     function cleanText(currentText) {
       let prevText;
       do {
         prevText = currentText;
-    
+
         for (const pattern of basePatterns) {
           currentText = currentText.replace(pattern, '').trim();
         }
       } while (prevText !== currentText);
-    
+
       return currentText;
     }
 
