@@ -43,7 +43,7 @@ const modelProviderMap = {
   'claude-3.5-haiku': ['e2b', 'airoom'],
   'deepseek': ['zaiwen'],
   'gemini-pro': ['chatru', 'blackbox'],
-  'gpt-4o': ['blackbox', 'e2b', 'airforce', 'nexra'],
+  'gpt-4o': ['blackbox', 'airforce', 'nexra'],
   'gpt-4o-mini': ['nexra'],
   'gpt-3.5-turbo-16k': ['mhystical'],
   'net-gpt-4o-mini': ['YT'],

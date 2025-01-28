@@ -4,12 +4,25 @@ import Koa from 'koa';
 import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 import crypto from 'crypto';
+import cors from '@koa/cors';
+import { PassThrough } from 'stream';
 
 const app = new Koa();
 const router = new Router();
 
 // 配置中间件解析JSON请求体
 app.use(bodyParser());
+
+// 配置CORS中间件
+app.use(cors({
+  origin: '*', 
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+  maxAge: 5,
+  credentials: true,
+  keepHeadersOnError: true
+}));
 
 // OpenAI API相关配置
 const DEFAULT_API_KEY = 'sk-123456';
@@ -33,8 +46,6 @@ const MODEL_MAP = {
   'llama-3.1-405b': 'llama-3.1-405b-nx',
   'llama-3.3-70b': 'llama-3.3-70b-nx',
   'yi-lightning': 'yi-lightning-nx',
-  
-  // 商业模型
   'gemini-1.5-flash-vision': 'gemini-1.5-flash-vision-nx',
   'gemini-1.5-pro': 'gemini-1.5-pro-nx',
   'gemini-pro': 'gemini-pro-nx',
@@ -47,8 +58,6 @@ const MODEL_MAP = {
   'claude-3.5-haiku': 'claude-3.5-haiku-nx',
   'claude-3.5-sonnet-poe': 'claude-3.5-sonnet-poe-nx',
   'grok-v2': 'grok-v2-nx',
-  
-  // 其他模型
   'step-2': 'step-2-nx',
   'mita': 'mita-nx', 
   'kimi-pro': 'kimi-pro-nx',
@@ -113,7 +122,7 @@ router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
         throw new Error('获取模型响应失败');
       }
 
-      const content = response.data.choices[0].message.content;
+      const content = response;
       const chunks = content.match(/.{1,20}/g) || [content];
 
       const stream = new PassThrough();
