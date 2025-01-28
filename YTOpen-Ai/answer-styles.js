@@ -1,3 +1,5 @@
+import { TotalTokens } from '../YTOpen-Ai/tools/CalculateToken.js';
+
 async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
 
     const processSource = async (answer) => {
@@ -100,30 +102,13 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         });
     }
 
-    const countTextInString = async (text) => {
-        if (Array.isArray(text)) {
-            text = text
-                .filter(item => item.type === 'text')
-                .map(item => item.text)
-                .join(' ');
-        }
-        if (typeof text !== 'string' || !text.trim()) {
-            return 0;
-        }
-        const englishWordRegex = /[a-zA-Z]+/g;
-        const chineseCharRegex = /[\u4e00-\u9fa5]/g;
-        const englishWords = text.match(englishWordRegex) || [];
-        const chineseChars = text.match(chineseCharRegex) || [];
-        return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
-    };
-
     const sendAsForwardMsg = async (text) => {
         const forwardMsg = await common.makeForwardMsg(e, [text], 'text');
         e.reply(forwardMsg);
     };
 
     try {
-        const words = await countTextInString(answer);
+        const { prompt_tokens: words } = await TotalTokens(answer);
         console.log(`token: ${words}`);
         //console.log(answer);
         answer = await processSource(answer);

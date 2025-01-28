@@ -321,3 +321,148 @@ export async function getResponse(messages, model, services) {
   console.error('All services failed.');
   return null;
 }
+
+/**
+* 获取引用消息
+* @param {object} e - 消息事件
+* @param {object} options - 可选参数
+* @param {boolean} options.img - 是否获取图片直链
+* @param {boolean} options.file - 是否获取文件下载链接
+* @returns {Promise<Array|string|false>} 获取到的消息链或false
+*/
+async function takeSourceMsg(e, { img, file } = {}) {
+  let source = ""
+  if (e.getReply) {
+    source = await e.getReply()
+  } else if (e.source) {
+    if (e.group?.getChatHistory) {
+      source = (await e.group.getChatHistory(e.source.seq, 1)).pop()
+    } else if (e.friend?.getChatHistory) {
+      source = (await e.friend.getChatHistory(e.source.time, 1)).pop()
+    }
+  }
+  if (!source) return false
+  if (img) {
+    let imgArr = []
+    for (let i of source.message) {
+      if (i.type == "image") {
+        imgArr.push(i.url)
+      }
+    }
+    return !_.isEmpty(imgArr) && imgArr
+  }
+  if (file) {
+    if (source.message[0].type === "file") {
+      let { fid } = source.message[0]
+      return fid && e.group_id ? e?.group?.getFileUrl(fid) : e?.friend?.getFileUrl(fid)
+    }
+    return false
+  }
+  return source
+}
+
+/**
+ * 获取文件URL和文件名
+ * @param {Object} e - 事件对象
+ * @returns {Promise<{fileUrl: string, fileName: string}>}
+ */
+export async function getFileInfo(e) {
+  try {
+    const ncResult = await getGroupFileUrl(e);
+    if (ncResult?.fileUrl) {
+      return {
+        fileUrl: ncResult.fileUrl,
+        fileName: ncResult.fileName
+      };
+    }
+
+    const sourceFiles = await takeSourceMsg(e, { file: true });
+    if (!sourceFiles) {
+      return {};
+    }
+
+    let fileName;
+    if (e.group?.getChatHistory) {
+      const [history] = await e.group.getChatHistory(e.source.seq, 1).then(hist => hist.slice(-1));
+      fileName = history?.message[0]?.name;
+    } else if (e.friend?.getChatHistory) {
+      const [history] = await e.friend.getChatHistory(e.source.time, 1).then(hist => hist.slice(-1));
+      fileName = history?.message[0]?.name;
+    }
+
+    return {
+      fileUrl: sourceFiles,
+      fileName
+    };
+  } catch (error) {
+    console.error('获取文件信息失败:', error);
+    return {};
+  }
+}
+
+async function getGroupFileUrl(e) {
+  if (!e?.reply_id) return {};
+
+  const replyMsg = await getReplyMsg(e);
+  const messages = replyMsg?.message;
+
+  if (!Array.isArray(messages)) return {};
+
+  for (const msg of messages) {
+    if (msg.type === 'file') {
+      const file_id = msg.data?.file_id;
+      const { data: { url } } = await e.bot.sendApi("get_group_file_url", {
+        group_id: e.group_id,
+        file_id
+      });
+
+      const filename = await extractFileExtension(file_id);
+
+      return {
+        fileUrl: `${url}file.${filename}`,
+        fileName: `file.${filename}`
+      };
+    }
+  }
+
+  return {};
+}
+
+async function getReplyMsg(e) {
+  try {
+    const historyResponse = await e.bot.sendApi("get_group_msg_history", {
+      group_id: e.group_id,
+      count: 1,
+    });
+
+    if (!historyResponse?.data?.messages || historyResponse.data.messages.length === 0) {
+      return null;
+    }
+
+    const recentMessage = historyResponse.data.messages[0];
+    const messageId = recentMessage?.message?.[0]?.data?.id;
+
+    if (!messageId) {
+      return null;
+    }
+
+    const messageResponse = await e.bot.sendApi("get_msg", {
+      message_id: messageId,
+    });
+
+    if (!messageResponse?.data) {
+      return null;
+    }
+
+    return messageResponse.data;
+
+  } catch (error) {
+    console.error("getReplyMsg:", error);
+    return null;
+  }
+}
+
+async function extractFileExtension(filename) {
+  const match = filename.match(/\.([a-zA-Z0-9]+)$/);
+  return match ? match[1] : null;
+}
