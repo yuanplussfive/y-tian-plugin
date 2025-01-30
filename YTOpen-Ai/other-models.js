@@ -150,7 +150,7 @@ export const other_models = [
     "points": "OpenAI",
     "token": 128000,
     "features": ['conversation'],
-    "quota": "0.01/次"
+    "quota": "0.07"
   },
   {
     "id": 20,
@@ -256,7 +256,7 @@ export const other_models = [
     "points": "Microsoft",
     "token": 128000,
     "features": ['conversation', 'internet', 'image_recognition'],
-    "quota": "0.01/次"
+    "quota": "0.07"
   },
   {
     "id": 33,
@@ -274,7 +274,7 @@ export const other_models = [
     "points": "Claude",
     "token": 100000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.05/次"
+    "quota": "0"
   },
   {
     "id": 35,
@@ -282,7 +282,7 @@ export const other_models = [
     "points": "Claude",
     "token": 100000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.05/次"
+    "quota": "0"
   },
   {
     "id": 36,
@@ -290,7 +290,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.05/次"
+    "quota": "0"
   },
   {
     "id": 37,
@@ -298,7 +298,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.05/次"
+    "quota": "0"
   },
   {
     "id": 38,
@@ -306,7 +306,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.05/次"
+    "quota": "0"
   },
   {
     "id": 39,
@@ -314,7 +314,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'code', 'image_recognition'],
-    "quota": 15
+    "quota": 0
   },
   {
     "id": 40,
@@ -762,7 +762,7 @@ export const other_models = [
     "points": "deepseek",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 0.5
+    "quota": 0
   },
   {
     "id": 94,
@@ -770,7 +770,7 @@ export const other_models = [
     "points": "deepseek",
     "token": 16000,
     "features": ['code'],
-    "quota": 0.5
+    "quota": 0
   },
   {
     "id": 95,
@@ -778,7 +778,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 100000,
     "features": ['conversation', 'code'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 96,
@@ -1118,7 +1118,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 138,
@@ -1126,7 +1126,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 139,
@@ -1294,7 +1294,7 @@ export const other_models = [
     "points": "深度求索",
     "token": 32000,
     "features": ['conversation', 'code', 'internet'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 160,

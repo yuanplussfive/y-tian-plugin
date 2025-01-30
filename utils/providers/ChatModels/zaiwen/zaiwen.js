@@ -1,23 +1,5 @@
 import fetch from 'node-fetch';
-
-function processThinkingString(str) {
-    const thinkStartIndex = str.indexOf('[思考开始]');
-    const thinkEndIndex = str.indexOf('[思考结束]');
-
-    if (thinkStartIndex === -1 || thinkEndIndex === -1) {
-        return str;
-    }
-
-    const thinkingContent = str.substring(thinkStartIndex + 6, thinkEndIndex);
-
-    const processedThinking = thinkingContent.length > 1000
-        ? thinkingContent.substring(0, 1000) + '...'
-        : thinkingContent;
-
-    // 重建字符串
-    return '[思考开始]' + processedThinking + '[思考结束]' +
-        str.substring(thinkEndIndex + 6);
-}
+import { ThinkingProcessor } from '../../ThinkingProcessor.js';
 
 /**
  * 调用在Zaiwen平台的模型接口
@@ -57,7 +39,10 @@ export async function zaiwen(messages, model) {
                 return value;
             }
         }
-        return processThinkingString(responseData.trim());
+        return ThinkingProcessor.processThinking(responseData.trim(), {
+            format: 'tag',
+            maxLength: 300
+        });
     } catch (error) {
         console.log(error.message);
         return null;

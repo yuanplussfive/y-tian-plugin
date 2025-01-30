@@ -10,9 +10,9 @@ import { zaiwen } from "../providers/ChatModels/zaiwen/zaiwen.js";
 
 // 重试机制的配置参数
 const RETRY_CONFIG = {
-  maxRetries: 3,           // 每个提供商最大重试次数
-  retryDelay: 1000,       // 重试间隔时间(毫秒)
-  maxTotalAttempts: 9,   // 所有提供商总共最大尝试次数
+  maxRetries: 2,
+  retryDelay: 1000,
+  maxTotalAttempts: 6,
 };
 
 // 存储服务商的成功/失败统计和权重配置
@@ -30,6 +30,8 @@ const providerStats = {
 
 // 定义模型与提供商的映射关系
 const modelProviderMap = {
+  'claude-sonnet-3.5': ['chatru'],
+  'deepseek-r1': ['chatru'],
   'doubao': ['zaiwen'],
   'minimax': ['zaiwen'],
   'qwen': ['zaiwen'],
@@ -39,7 +41,7 @@ const modelProviderMap = {
   'deepseek-reasoner': ['zaiwen'],
   'claude_3_igloo': ['zaiwen'],
   'claude-3.5-sonnet-20241022': ['e2b'],
-  'claude-3.5-sonnet': ['blackbox', 'chatru', 'airoom'],
+  'claude-3.5-sonnet': ['blackbox'],
   'claude-3.5-haiku': ['e2b', 'airoom'],
   'deepseek': ['zaiwen'],
   'gemini-pro': ['chatru', 'blackbox'],
@@ -68,6 +70,8 @@ const modelProviderMap = {
 
 // 模型名称标准化映射
 const modelNameNormalization = {
+  'claude-sonnet-3.5-nx': 'claude-sonnet-3.5',
+  'deepseek-r1-nx': 'deepseek-r1',
   'doubao-nx': 'doubao',
   'minimax-nx': 'minimax',
   'qwen-2-72b-nx': 'qwen',
@@ -119,8 +123,25 @@ const providerApis = {
   zaiwen: zaiwen
 };
 
-// 请求超时时间设置(毫秒)
-const TIMEOUT = 240000;
+// 默认超时时间 (3分钟)
+const DEFAULT_TIMEOUT = 180000;
+
+// 模型超时时间配置
+const modelTimeouts = {
+  'gpt-4o': 120000, // 2分钟
+  'claude-3.5-sonnet': 120000, // 2分钟
+  'gemini-pro': 120000, // 2分钟
+  'gpt-3.5-turbo-16k': 120000, // 2分钟
+  'net-gpt-4o-mini': 120000, // 2分钟
+  'llama-3.1-405b': 120000, // 2分钟
+  'qwen-qwq-32b-preview': 240000, // 4分钟
+  'gemini-1.5-pro': 90000, // 1.5分钟
+  'gemini-1.5-flash-vision': 90000, // 1.5分钟
+  'gpt-4o-vision': 120000, // 2分钟
+  'o1-mini': 120000, // 2分钟
+  'o1-preview': 300000, // 5分钟
+};
+
 
 // 延迟函数 - 用于重试间隔
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -148,7 +169,6 @@ const withTimeout = async (promise, timeout) => {
 const calculateProviderPriority = (provider) => {
   const stats = providerStats[provider];
   const successRate = stats.success / (stats.success + stats.failure) || 0;
-  // 权重占70%，成功率占30%的综合评分
   return (stats.weight * 0.7) + (successRate * 100 * 0.3);
 };
 
@@ -173,13 +193,13 @@ const updateStats = (provider, isSuccess) => {
 };
 
 // 带重试的单个提供商调用函数
-async function callProviderWithRetry(provider, messages, modelName) {
+async function callProviderWithRetry(provider, messages, modelName, timeout) {
   let retryCount = 0;
 
   while (retryCount < RETRY_CONFIG.maxRetries) {
     try {
       const apiFunction = providerApis[provider];
-      const response = await withTimeout(apiFunction(messages, modelName), TIMEOUT);
+      const response = await withTimeout(apiFunction(messages, modelName), timeout);
 
       if (response) {
         updateStats(provider, true);
@@ -207,11 +227,11 @@ async function callProviderWithRetry(provider, messages, modelName) {
 }
 
 // 带重试和失败转移的服务调用函数
-const retryWithFallback = async (messages, modelName, availableProviders) => {
+const retryWithFallback = async (messages, modelName, availableProviders, timeout) => {
   // 如果只有一个可用提供商
   if (availableProviders.length === 1) {
     const provider = availableProviders[0];
-    const result = await callProviderWithRetry(provider, messages, modelName);
+    const result = await callProviderWithRetry(provider, messages, modelName, timeout);
     return result.success ? result.response : '逆向服务调用失败';
   }
 
@@ -229,7 +249,7 @@ const retryWithFallback = async (messages, modelName, availableProviders) => {
       return '所有逆向服务均失败：达到最大尝试次数';
     }
 
-    const result = await callProviderWithRetry(provider, messages, modelName);
+    const result = await callProviderWithRetry(provider, messages, modelName, timeout);
     totalAttempts += RETRY_CONFIG.maxRetries;
 
     if (result.success) {
@@ -265,39 +285,89 @@ function getLevenshteinDistance(str1, str2) {
   return dp[m][n];
 }
 
+// 模型名称预处理函数
+const preprocessModelName = (modelName) => {
+  return modelName.toLowerCase()
+    .replace(/-nx$/, '')
+    .replace(/[\d\.-]+(?:[a-z]*)/g, '')
+    .replace(/[0-9]{4}[-/][0-9]{2}[-/][0-9]{2}/g, '')
+    .replace(/[0-9]+/g, '')
+    .replace(/[-_]/g, '');
+};
+
 // 获取相似模型列表
-function getSimilarModels(modelName, threshold = 0.7) {
-  const cleanModelName = modelName.toLowerCase()
-    .replace(/-nx$/, '') // 删除 '-nx' 后缀
-    .replace(/[\d\.-]+(?:[a-z]*)/g, '') // 删除数字、点（用于日期或版本号等）、字母组合
-    .replace(/[0-9]{4}[-/][0-9]{2}[-/][0-9]{2}/g, '') // 删除日期格式
-    .replace(/[0-9]+/g, '') // 删除单独的数字
-    .replace(/[-_]/g, ''); // 删除连字符和下划线
+function getSimilarModels(modelName, initialThreshold = 0.7, thresholdStep = 0.05) {
+  const cleanModelName = preprocessModelName(modelName);
+  let currentThreshold = initialThreshold;
+  let similarModels = [];
 
-  return Object.keys(modelProviderMap)
-    .filter(model => model !== modelName) // 排除原始模型
-    .map(model => {
-      const cleanCurrentModel = model.toLowerCase()
-        .replace(/[\d.]+[a-z]*/g, '')
-        .replace(/[-_]/g, '');
+  while (currentThreshold >= 0.2 && similarModels.length === 0) { // 确保至少有一个相似模型，最低阈值设置为0.2
+    similarModels = Object.keys(modelProviderMap)
+      .filter(model => model !== modelName)
+      .map(model => {
+        const cleanCurrentModel = preprocessModelName(model);
+        const maxLength = Math.max(cleanModelName.length, cleanCurrentModel.length);
+        const distance = getLevenshteinDistance(cleanModelName, cleanCurrentModel);
+        const similarity = 1 - distance / maxLength;
 
-      const maxLength = Math.max(cleanModelName.length, cleanCurrentModel.length);
-      const distance = getLevenshteinDistance(cleanModelName, cleanCurrentModel);
-      const similarity = 1 - distance / maxLength;
+        // 优先考虑提供商重叠的模型
+        const providerOverlap = modelProviderMap[model].filter(provider => modelProviderMap[modelName]?.includes(provider)).length;
+        return {
+          model,
+          similarity,
+          providerOverlap,
+          historySuccessRate: providerStats[modelProviderMap[model]?.[0]]?.success / (providerStats[modelProviderMap[model]?.[0]]?.success + providerStats[modelProviderMap[model]?.[0]]?.failure) || 0
+        };
+      })
+      .filter(item => item.similarity >= currentThreshold)
+      .sort((a, b) => {
+        // 优先考虑提供商重叠、历史成功率，然后才是相似度
+        if (b.providerOverlap !== a.providerOverlap) {
+          return b.providerOverlap - a.providerOverlap;
+        }
+        if (b.historySuccessRate !== a.historySuccessRate) {
+          return b.historySuccessRate - a.historySuccessRate
+        }
+        return b.similarity - a.similarity;
+      })
+      .map(item => item.model);
 
-      return {
-        model,
-        similarity
-      };
-    })
-    .filter(item => item.similarity >= threshold)
-    .sort((a, b) => b.similarity - a.similarity)
-    .map(item => item.model);
+    currentThreshold -= thresholdStep;
+  }
+
+  // 如果在所有阈值下都找不到相似模型，则返回一个最相似的模型（即使相似度较低）
+  if (similarModels.length === 0) {
+    similarModels = Object.keys(modelProviderMap)
+      .filter(model => model !== modelName)
+      .map(model => {
+        const cleanCurrentModel = preprocessModelName(model);
+        const maxLength = Math.max(cleanModelName.length, cleanCurrentModel.length);
+        const distance = getLevenshteinDistance(cleanModelName, cleanCurrentModel);
+        const similarity = 1 - distance / maxLength;
+        return {
+          model,
+          similarity
+        }
+      })
+      .sort((a, b) => b.similarity - a.similarity)
+      .map(item => item.model);
+    if (similarModels.length > 0) {
+      console.warn(`找不到合适的相似模型，使用最相似的模型：${similarModels[0]}`);
+      return [similarModels[0]]; // 返回最相似的模型
+    }
+  }
+
+  return similarModels;
 }
+
+// 默认兜底模型
+const DEFAULT_FALLBACK_MODEL = 'gpt-3.5-turbo-16k';
 
 export const NXModelResponse = async (messages, model) => {
   const normalizedModel = modelNameNormalization[model] || model;
   const supportedProviders = modelProviderMap[normalizedModel];
+  const timeout = modelTimeouts[normalizedModel] || DEFAULT_TIMEOUT;
+
 
   if (!supportedProviders) {
     return `不支持的模型: ${model}`;
@@ -305,7 +375,7 @@ export const NXModelResponse = async (messages, model) => {
 
   try {
     // 首先尝试原始模型的所有提供商
-    const response = await retryWithFallback(messages, normalizedModel, supportedProviders);
+    const response = await retryWithFallback(messages, normalizedModel, supportedProviders, timeout);
 
     // 如果原始模型调用成功，直接返回结果
     if (response && response !== '所有逆向服务均失败') {
@@ -314,14 +384,21 @@ export const NXModelResponse = async (messages, model) => {
 
     // 如果原始模型的所有提供商都失败了，尝试相似模型
     console.log(`模型 ${normalizedModel} 的所有提供商均失败，尝试相似模型...`);
-    const similarModels = getSimilarModels(normalizedModel);
+    let similarModels = getSimilarModels(normalizedModel);
+
+    // 如果没有找到相似模型，使用默认兜底模型
+    if (similarModels.length === 0) {
+      console.log(`没有找到相似模型，使用默认兜底模型: ${DEFAULT_FALLBACK_MODEL}`);
+      similarModels = [DEFAULT_FALLBACK_MODEL];
+    }
 
     for (const similarModel of similarModels) {
       const fallbackProviders = modelProviderMap[similarModel];
+      const fallbackTimeout = modelTimeouts[similarModel] || DEFAULT_TIMEOUT;
       if (fallbackProviders) {
         try {
           console.log(`尝试使用相似模型: ${similarModel}, 提供商: ${fallbackProviders.join(', ')}`);
-          const fallbackResponse = await retryWithFallback(messages, similarModel, fallbackProviders);
+          const fallbackResponse = await retryWithFallback(messages, similarModel, fallbackProviders, fallbackTimeout);
 
           if (fallbackResponse && fallbackResponse !== '所有逆向服务均失败') {
             console.log(`成功使用相似模型 ${similarModel} 获得响应`);

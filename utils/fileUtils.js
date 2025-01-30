@@ -143,41 +143,134 @@ export async function removeDuplicates(array) {
   return result;
 }
 
-/**
- * 获取Base64格式的图片
- * @param {string} imageUrl - 图片URL
- * @param {string} filename - 文件名
- * @returns {Promise<string>} - Base64字符串或错误信息
- */
 export async function getBase64Image(imageUrl, filename) {
   try {
-    const response = await axios.get(imageUrl, {
-      responseType: 'arraybuffer',
-      validateStatus: function (status) {
-        return status >= 200 && status <= 500; // 接受更广范围的状态码以处理错误
-      }
-    });
-    if (response?.status >= 400) {
-      return "该图片链接已过期，请重新获取";
-    }
-    // 检查是否返回了JSON错误信息(腾讯下载图床)
-    if (response.headers['content-type'].includes('application/json')) {
-      const textDecoder = new TextDecoder('utf-8');
-      const jsonStr = textDecoder.decode(response.data);
-      const jsonData = JSON.parse(jsonStr);
+      const response = await axios.get(imageUrl, {
+          responseType: 'arraybuffer',
+          timeout: 15000,
+          maxRedirects: 5,
+          maxBodyLength: 15 * 1024 * 1024, 
+          validateStatus: function (status) {
+              return status >= 200 && status <= 500;
+          }
+      });
 
-      if (jsonData.retmsg?.includes('expired')) {
-        return "该图片链接已过期，请重新获取";
+      if (response?.status >= 400) {
+          return "该图片链接已过期，请重新获取";
       }
-    }
 
-    const mimeType = mimeTypes.lookup(filename) || 'application/octet-stream';
-    const base64 = `data:${mimeType};base64,` + Buffer.from(response.data, 'binary').toString('base64');
-    return base64;
+      // 检查是否返回了JSON错误信息(腾讯下载图床)
+      if (response.headers['content-type']?.includes('application/json')) {
+          const text = Buffer.from(response.data).toString();
+          if (text.includes('retmsg') || text.includes('expired') || text.includes('error')) {
+              return "该图片链接已过期，请重新获取";
+          }
+      }
+
+      const buffer = Buffer.from(response.data);
+       // 检查是否是有效的图片格式
+       if (!isBufferImage(buffer)) {
+           return "无效的图片格式";
+       }
+
+      const mimeType = mimeTypes.lookup(filename) || 'application/octet-stream';
+      const base64 = `data:${mimeType};base64,` + buffer.toString('base64');
+      return base64;
+
   } catch (error) {
-    console.error('校验失败:', error.message);
-    return "无效的图片下载链接";
+      console.error('校验失败:', error.message);
+      return "无效的图片下载链接";
   }
+}
+
+/**
+ * 获取Base64格式的文件
+ * @param {string} fileUrl - 文件URL
+ * @param {string} filename - 文件名
+ * @param {string} type - 文件类型('file'或'img')
+ * @returns {Promise<string>} - Base64字符串或错误信息
+ */
+export async function getBase64File(fileUrl, filename, type = 'file') {
+  try {
+      const response = await axios.get(fileUrl, {
+          responseType: 'arraybuffer',
+          timeout: 20000, // 设置超时时间为20秒
+          maxRedirects: 5, // 设置最大重定向次数
+          maxBodyLength: 20 * 1024 * 1024,
+          validateStatus: function (status) {
+              return status >= 200 && status <= 500;
+          }
+      });
+
+      if (response?.status >= 400) {
+          return "该文件链接已过期，请重新获取";
+      }
+
+      // 检查是否返回了JSON错误信息
+      if (response.headers['content-type']?.includes('application/json')) {
+          const text = Buffer.from(response.data).toString();
+          if (text.includes('retmsg') || text.includes('expired') || text.includes('error')) {
+              return "该文件链接已过期，请重新获取";
+          }
+      }
+
+      const buffer = Buffer.from(response.data);
+
+      // 如果是图片类型，需要验证图片格式
+      if (type === 'img' && !isBufferImage(buffer)) {
+          return "无效的图片格式";
+      }
+
+      // 获取MIME类型
+      const mimeType = getMimeType(filename, type);
+      const base64 = `data:${mimeType};base64,` + buffer.toString('base64');
+      return base64;
+
+  } catch (error) {
+      console.error('校验失败:', error.message);
+      return type === 'img' ? "无效的图片下载链接" : "无效的文件下载链接";
+  }
+}
+
+/**
+* 获取文件的MIME类型
+* @param {string} filename - 文件名
+* @param {string} type - 文件类型('file'或'img')
+* @returns {string} - MIME类型
+*/
+function getMimeType(filename, type) {
+  const mimeType = mimeTypes.lookup(filename);
+  
+  if (mimeType) return mimeType;
+  
+  // 默认MIME类型
+  if (type === 'img') {
+      return 'image/jpeg';
+  }
+  return 'application/octet-stream';
+}
+
+/**
+* 检查是否是有效的图片格式
+* @param {Buffer} buffer - 文件buffer
+* @returns {boolean} - 是否为有效图片
+*/
+function isBufferImage(buffer) {
+  const imageSignatures = {
+      jpeg: ['FF', 'D8'],
+      png: ['89', '50', '4E', '47'],
+      gif: ['47', '49', '46'],
+      webp: ['52', '49', '46', '46'],
+      bmp: ['42', '4D']
+  };
+
+  const fileHeader = [...buffer.slice(0, 8)].map(byte => 
+      byte.toString(16).padStart(2, '0').toUpperCase()
+  );
+
+  return Object.values(imageSignatures).some(signature =>
+      signature.every((byte, index) => fileHeader[index] === byte)
+  );
 }
 
 /**

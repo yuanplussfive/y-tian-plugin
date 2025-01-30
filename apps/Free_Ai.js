@@ -1,10 +1,9 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const { fs, _path, common, replyBasedOnStyle, puppeteer, NXModelResponse, mimeTypes } = dependencies;
-import { extractFile } from '../YTOpen-Ai/tools/textract.js';
-import { getBufferFile } from '../YTOpen-Ai/tools/UploadFile.js';
+const { fs, _path, common, replyBasedOnStyle, puppeteer, NXModelResponse } = dependencies;
 import { getFileInfo } from '../utils/fileUtils.js';
-import { TotalTokens } from '../YTOpen-Ai/tools/CalculateToken.js';
 import { TakeImages } from '../utils/fileUtils.js';
+import { Chatru_gemini } from '../utils/providers/VisionModels/chatru/gemini.js';
+import { processUploadedFile } from '../YTOpen-Ai/tools/processUploadedFile.js'
 const aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
 const aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
 const styles = aiSettings.chatgpt.ai_chat_style;
@@ -97,10 +96,20 @@ export class YTFreeAi extends plugin {
       return;
     }
 
-    let { fileUrl, fileName } = await getFileInfo(e);
     //console.log(fileUrl, fileName);
     const userId = e.user_id;
     let userMsg = e.msg.replace(new RegExp(`^#${model}\\s*`, 'i'), '').trim();
+    const images = await TakeImages(e);
+    if (images && images.length > 0) {
+      const answer = await Chatru_gemini([{ role: 'user', content: userMsg }], images);
+      if (answer) {
+        await replyBasedOnStyle(styles, answer, e, modellist[model] || model, puppeteer, fs, _path, userMsg, common);
+      } else {
+        e.reply("未能获取到有效的图片回复，请稍后再试");
+      }
+      return;
+    }
+    let { fileUrl, fileName } = await getFileInfo(e);
     let userFinalMsg = await processUploadedFile(fileUrl, fileName, userMsg);
     const history = await this.getHistory(userId, model);
     history.push({ role: "user", content: userFinalMsg });
@@ -121,52 +130,5 @@ export class YTFreeAi extends plugin {
       return await NXModelResponse(history, modelName);
     }
     return null;
-  }
-}
-
-/**
- * 处理上传文件
- * @param {string} fileUrl 文件URL
- * @param {string} fileName 文件名称
- * @param {string} userMessage 用户消息
- * @returns {Promise<string>} 处理后的消息文本
- */
-async function processUploadedFile(fileUrl, fileName, userMessage) {
-  if (!fileName) {
-    return userMessage;
-  }
-
-  try {
-    const { buffer } = await getBufferFile(fileUrl, fileName) || {};
-    
-    const MimeType = mimeTypes.lookup(fileName) || 'application/octet-stream';
-
-    const result = await extractFile(MimeType, buffer);
-
-    const { prompt_tokens: tokens } = await TotalTokens(result);
-    console.log('文件总 token:', tokens);
-
-    const contentText = tokens > 8000
-      ? result.substring(0, 8000) + '...'
-      : result;
-
-    const separator = '='.repeat(50);
-
-    const fileInfoText = `${separator}
-文件名称: ${fileName}
-${separator}
-文件内容:
-${contentText}
-${separator}`;
-
-    const finalMessage = `${fileInfoText}\n\n${userMessage}`;
-    
-    console.log('文件信息:\n', fileInfoText);
-    
-    return finalMessage;
-
-  } catch (error) {
-    console.error('处理文件时出错:', error);
-    return userMessage;
   }
 }

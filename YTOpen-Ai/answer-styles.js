@@ -108,7 +108,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
     };
 
     try {
-        const { prompt_tokens: words } = await TotalTokens(answer);
+        const { completion_tokens: words } = await TotalTokens(answer);
         console.log(`token: ${words}`);
         //console.log(answer);
         answer = await processSource(answer);

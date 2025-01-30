@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { processStreamResponse } from '../../../requests/processStreamResponse.js';
+import { ThinkingProcessor } from '../../ThinkingProcessor.js';
 
 /**
  * 发送聊天请求并获取AI回复内容
@@ -45,7 +46,11 @@ export const chatru = async (messages, model) => {
             return null;
         }
 
-        return await processStreamResponse(response);
+        const output = await processStreamResponse(response);
+        return ThinkingProcessor.processThinking(output.trim(), {
+            format: 'tag',
+            maxLength: 300
+        });
     } catch (error) {
         console.error('请求失败:', error.message);
         return null;

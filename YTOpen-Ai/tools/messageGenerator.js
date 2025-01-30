@@ -1,6 +1,6 @@
-// 导入必要的模块
 import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
+import { TotalTokens } from './CalculateToken.js';
 
 /**
  * 异步生成器函数，用于逐条生成消息
@@ -64,7 +64,7 @@ class MessageProcessor extends Transform {
       // 如果是 user 消息，检查是否超过数量限制
       if (message.role === 'user') {
         while (this.userCount > this.numbers && this.newArr.length > 1) {
-          const removedObj = this._removeOldestUserMessage();
+          const removedObj = await this._removeOldestUserMessage();
           if (removedObj) {
             this.totalContentLength -= removedObj.contentLength;
             this.userCount--;
@@ -76,7 +76,7 @@ class MessageProcessor extends Transform {
 
       // 检查内容长度是否超过限制
       while (this.totalContentLength > this.contentLengthLimit && this.newArr.length > 1) {
-        const removedObj = this._removeOldestMessage(1); // 保留至少一个消息
+        const removedObj = await this._removeOldestMessage(1); // 保留至少一个消息
         if (removedObj) {
           this.totalContentLength -= removedObj.contentLength + removedObj.assistantContentLength;
           if (removedObj.role === 'user') {
@@ -113,7 +113,7 @@ class MessageProcessor extends Transform {
    * 移除最旧的 user 消息及其紧随的 assistant 消息
    * @returns {Object|null} 被移除的 user 消息对象
    */
-  _removeOldestUserMessage() {
+  async _removeOldestUserMessage() {
     for (let i = 0; i < this.newArr.length; i++) {
       if (this.newArr[i].role === 'user') {
         const removedUser = this.newArr.splice(i, 1)[0];
@@ -126,10 +126,10 @@ class MessageProcessor extends Transform {
         return {
           role: 'user',
           contentLength: removedUser.content
-            ? countTextInStringSync(removedUser.content)
+            ? await countTextInString(removedUser.content)
             : 0,
           assistantContentLength: removedAssistant && removedAssistant.content
-            ? countTextInStringSync(removedAssistant.content)
+            ? await countTextInString(removedAssistant.content)
             : 0
         };
       }
@@ -142,7 +142,7 @@ class MessageProcessor extends Transform {
    * @param {number} minRetainCount - 最少保留的消息数
    * @returns {Object|null} 被移除的消息对象
    */
-  _removeOldestMessage(minRetainCount = 1) {
+  async _removeOldestMessage(minRetainCount = 1) {
     if (this.newArr.length <= minRetainCount) return null; // 确保至少保留 minRetainCount 条消息
 
     const removedObj = this.newArr.shift();
@@ -157,34 +157,12 @@ class MessageProcessor extends Transform {
     return {
       role: removedObj.role,
       contentLength: removedObj.content
-        ? this.countTextInStringSync(removedObj.content)
+        ? await countTextInString(removedObj.content)
         : 0,
       assistantContentLength: removedAssistant && removedAssistant.content
-        ? this.countTextInStringSync(removedAssistant.content)
+        ? await countTextInString(removedAssistant.content)
         : 0
     };
-  }
-
-  /**
-   * 同步计算文本长度，用于移除操作
-   * @param {string|Array} text - 文本内容
-   * @returns {number} 文本长度
-   */
-  countTextInStringSync(text) {
-    if (Array.isArray(text)) {
-      text = text
-        .filter(item => item.type === 'text')
-        .map(item => item.text)
-        .join(' ');
-    }
-    if (typeof text !== 'string' || !text.trim()) {
-      return 0;
-    }
-    const englishWordRegex = /[a-zA-Z]+/g;
-    const chineseCharRegex = /[\u4e00-\u9fa5]/g;
-    const englishWords = text.match(englishWordRegex) || [];
-    const chineseChars = text.match(chineseCharRegex) || [];
-    return Math.floor(englishWords.length * 2 + chineseChars.length * 1.5);
   }
 }
 
@@ -194,42 +172,8 @@ class MessageProcessor extends Transform {
  * @returns {Promise<number>} 文本长度
  */
 async function countTextInString(text) {
-  if (Array.isArray(text)) {
-    text = text
-      .filter(item => item.type === 'text')
-      .map(item => item.text)
-      .join(' ');
-  }
-  if (typeof text !== 'string' || !text.trim()) {
-    return 0;
-  }
-  const englishWordRegex = /[a-zA-Z]+/g;
-  const chineseCharRegex = /[\u4e00-\u9fa5]/g;
-  const englishWords = text.match(englishWordRegex) || [];
-  const chineseChars = text.match(chineseCharRegex) || [];
-  return Math.floor(englishWords.length * 1.5 + chineseChars.length * 1.4);
-}
-
-/**
- * 同步版本的 countTextInString，用于移除消息时的长度计算
- * @param {string|Array} text - 文本内容
- * @returns {number} 文本长度
- */
-function countTextInStringSync(text) {
-  if (Array.isArray(text)) {
-    text = text
-      .filter(item => item.type === 'text')
-      .map(item => item.text)
-      .join(' ');
-  }
-  if (typeof text !== 'string' || !text.trim()) {
-    return 0;
-  }
-  const englishWordRegex = /[a-zA-Z]+/g;
-  const chineseCharRegex = /[\u4e00-\u9fa5]/g;
-  const englishWords = text.match(englishWordRegex) || [];
-  const chineseChars = text.match(chineseCharRegex) || [];
-  return Math.floor(englishWords.length * 1.5 + chineseChars.length * 1.4);
+  const { total_tokens } = await TotalTokens(text);
+  return total_tokens;
 }
 
 /**

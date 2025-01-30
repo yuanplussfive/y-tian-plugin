@@ -1,9 +1,11 @@
+import { god_models } from "../YTOpen-Ai/god-models.js";
+
 async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, imgurl, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, stoken, WebSocket, crypto, querystring, https, request, ocrurl, axios, GPT4oResponse, GeminiResponse, claudeResponse, Anime_tts_roles) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { search } = chatgptConfig;
   const godgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/model.json`, "utf-8")).godgpt;
   const { model } = godgptConfig
-  let msg = await formatMessage(e.msg) || '认真分析这个文件';
+  let msg = await formatMessage(e.msg) || '...';
   let SettingsPath = _path + '/data/YTAi_Setting/data.json';
   let Settings = JSON.parse(await fs.promises.readFile(SettingsPath, "utf-8"));
   let { god_moment_numbers, god_moment_open } = Settings.chatgpt;
@@ -31,36 +33,20 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
   }
   let message = msg;
   if (imgurl.length > 0) {
-    const Models = [
-      "gpt-4o",
-      "glm-4v",
-      "gpt-4-v",
-      "gpt-4-all",
-      "gpt-4o-all",
-      "gpt-4o-mini",
-      "gpt-4-dalle",
-      "o1",
-      "o1-all",
-      "o1-mini-all",
-      "o1-preview-all",
-      "o1-pro",
-      "o1-pro-all",
-      "gemini-pro",
-      "gemini-pro-vision",
-      "gemini-1.5-pro",
-      "gemini-1.5-pro-001",
-      "gemini-1.5-pro-002",
-      "gemini-1.5-flash",
-      "gemini-1.5-pro-exp-0827",
-      "gemini-1.5-pro-exp-0801",
-      "claude-3-opus-20240229",
-      "claude-3-5-sonnet-20240620",
-      "claude-3-5-sonnet-20241022",
-      "claude-3-5-sonnet-all",
-      "llama-3.2-11b-vision-instruct",
-      "llama-3.2-90b-vision-instruct"
-    ];
-    if (Models.includes(model) || model.includes("gpt-4-gizmo")) {
+
+    const isValidModel = (() => {
+      try {
+        if (!god_models?.models) return false;
+        const CurrentModel = god_models.models.find(m => m?.name === model);
+        if (!CurrentModel?.features) return false;
+        return CurrentModel.features.includes('image_recognition') || CurrentModel.features.includes('file');
+      } catch {
+        return false;
+      }
+    })();
+
+    console.log(isValidModel);
+    if (isValidModel || model.includes("gpt-4-gizmo")) {
       message = [
         {
           "type": "text",

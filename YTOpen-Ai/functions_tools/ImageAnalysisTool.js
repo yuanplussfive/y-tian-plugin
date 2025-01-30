@@ -51,7 +51,7 @@ export class ImageAnalysisTool extends AbstractTool {
 
             if (fid && rkey && host) {
                 // 尝试不同的 appid
-                for (let appid = 1407; appid >= 1403; appid--) {
+                for (let appid = 1408; appid >= 1403; appid--) {
                     const newUrl = `${host}/download?appid=${appid}&fileid=${fid}&spec=0&rkey=${rkey}`;
                     if (await this.isUrlAvailable(newUrl)) {
                         return newUrl;
@@ -65,13 +65,43 @@ export class ImageAnalysisTool extends AbstractTool {
 
     async isUrlAvailable(url) {
         try {
-            const response = await axios.head(url);
+            const response = await axios.get(url, {
+                responseType: 'arraybuffer',
+                timeout: 5000,
+                maxRedirects: 5
+            });
+
             const contentType = response.headers['content-type'];
-            return contentType && !contentType.includes('application/json');
-        } catch {
+
+            if (contentType?.includes('application/json')) {
+                const text = Buffer.from(response.data).toString();
+                if (text.includes('retcode') || text.includes('error')) {
+                    return false;
+                }
+            }
+
+            const buffer = Buffer.from(response.data);
+
+            const imageSignatures = {
+                jpeg: ['FF', 'D8'],
+                png: ['89', '50', '4E', '47'],
+                gif: ['47', '49', '46'],
+                webp: ['52', '49', '46', '46'],
+                bmp: ['42', '4D']
+            };
+
+            const fileHeader = [...buffer.slice(0, 8)].map(byte => byte.toString(16).padStart(2, '0').toUpperCase());
+
+            return Object.values(imageSignatures).some(signature =>
+                signature.every((byte, index) => fileHeader[index] === byte)
+            );
+
+        } catch (error) {
+            //console.error('URL检查失败:', error.message);
             return false;
         }
     }
+
 
     getRKey(url) {
         const rkeyMatch = url.match(/rkey=([^&]+)/);
