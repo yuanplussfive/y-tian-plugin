@@ -1,110 +1,103 @@
 export const ThinkingProcessor = {
-  // 支持的标记格式
-  MARKERS: {
-      BRACKET: {
-          start: '[思考开始]',
-          end: '[思考结束]'
-      },
-      TAG: {
-          start: '<think>',
-          end: '</think>'
-      },
-      MARKDOWN: {
-          start: '> 思考:\n> ',
-          end: '\n'
-      }
-  },
+    MARKERS: {
+        BRACKET: { start: '[思考开始]', end: '[思考结束]' },
+        TAG: { start: '<think>', end: '</think>' },
+        MARKDOWN: { start: '> 思考:\n> ', end: '\n' }
+    },
 
-  // 处理思考内容：截断或保留
-  processThinking(str, options = {}) {
-      const {
-          maxLength = 1000,
-          format = 'all',  // 'all', 'bracket', 'tag'
-          truncate = true, // true表示截断，false表示保留完整内容
-          toMarkdown = true // 是否转换为markdown格式
-      } = options;
+    processThinking(str, options = {}) {
+        const {
+            maxLength = 1000,
+            format = 'all',
+            truncate = true,
+            toMarkdown = true
+        } = options;
 
-      let result = str;
-      
-      if (format === 'all' || format === 'bracket') {
-          result = this._processFormat(
-              result,
-              this.MARKERS.BRACKET.start,
-              this.MARKERS.BRACKET.end,
-              truncate,
-              maxLength,
-              toMarkdown
-          );
-      }
-      
-      if (format === 'all' || format === 'tag') {
-          result = this._processFormat(
-              result,
-              this.MARKERS.TAG.start,
-              this.MARKERS.TAG.end,
-              truncate,
-              maxLength,
-              toMarkdown
-          );
-      }
+        if (!str) return str;
 
-      return result;
-  },
+        let result = str;
 
-  // 删除所有思考内容
-  removeThinking(str, format = 'all') {
-      return this.processThinking(str, {
-          format,
-          truncate: true,
-          maxLength: 0,
-          toMarkdown: false
-      });
-  },
+        // 处理不匹配的结束标记
+        if (maxLength === 0) {
+            for (const type of ['TAG', 'BRACKET']) {
+                const endMarker = this.MARKERS[type].end;
+                const endIndex = result.lastIndexOf(endMarker);
+                if (endIndex !== -1) {
+                    result = result.substring(endIndex + endMarker.length).trim();
+                }
+            }
+        }
 
-  // 内部处理函数
-  _processFormat(str, startMarker, endMarker, truncate, maxLength, toMarkdown) {
-      let result = str;
-      let startIndex = 0;
-      
-      while ((startIndex = result.indexOf(startMarker, startIndex)) !== -1) {
-          const endIndex = result.indexOf(endMarker, startIndex);
-          
-          if (endIndex === -1) break;
-          
-          const thinkingContent = result.substring(
-              startIndex + startMarker.length,
-              endIndex
-          );
+        // 按格式处理内容
+        const formats = format === 'all' ? ['BRACKET', 'TAG'] : [format.toUpperCase()];
+        for (const fmt of formats) {
+            const markers = this.MARKERS[fmt];
+            if (markers) {
+                result = this._processFormat(
+                    result,
+                    markers.start,
+                    markers.end,
+                    truncate,
+                    maxLength,
+                    toMarkdown
+                );
+            }
+        }
 
-          if (maxLength === 0) {
-              // 完全删除思考内容
-              result = result.substring(0, startIndex) + 
-                       result.substring(endIndex + endMarker.length);
-          } else {
-              let processedContent = thinkingContent;
-              if (truncate && thinkingContent.length > maxLength) {
-                  processedContent = thinkingContent.substring(0, maxLength) + '...';
-              }
+        return result;
+    },
 
-              if (toMarkdown) {
-                  // 转换为markdown格式
-                  result = result.substring(0, startIndex) +
-                          this.MARKERS.MARKDOWN.start +
-                          processedContent.replace(/\n/g, '\n> ') +
-                          this.MARKERS.MARKDOWN.end +
-                          result.substring(endIndex + endMarker.length);
-                  startIndex = startIndex + this.MARKERS.MARKDOWN.start.length + processedContent.length + this.MARKERS.MARKDOWN.end.length;
-              } else {
-                  result = result.substring(0, startIndex) +
-                          startMarker +
-                          processedContent +
-                          endMarker +
-                          result.substring(endIndex + endMarker.length);
-                  startIndex = startIndex + startMarker.length + processedContent.length + endMarker.length;
-              }
-          }
-      }
-      
-      return result;
-  }
+    removeThinking(str, format = 'all') {
+        return this.processThinking(str, {
+            format,
+            truncate: true,
+            maxLength: 0,
+            toMarkdown: false
+        });
+    },
+
+    _processFormat(str, startMarker, endMarker, truncate, maxLength, toMarkdown) {
+        let result = str;
+        let startIndex = 0;
+
+        while ((startIndex = result.indexOf(startMarker, startIndex)) !== -1) {
+            const endIndex = result.indexOf(endMarker, startIndex);
+            if (endIndex === -1) break;
+
+            const content = result.substring(startIndex + startMarker.length, endIndex);
+
+            if (maxLength === 0) {
+                // 完全删除内容
+                result = result.substring(0, startIndex) +
+                    result.substring(endIndex + endMarker.length);
+                continue;
+            }
+
+            // 处理内容
+            let processedContent = truncate && content.length > maxLength ?
+                content.substring(0, maxLength) + '...' : content;
+
+            if (toMarkdown) {
+                result = result.substring(0, startIndex) +
+                    this.MARKERS.MARKDOWN.start +
+                    processedContent.replace(/\n/g, '\n> ') +
+                    this.MARKERS.MARKDOWN.end +
+                    result.substring(endIndex + endMarker.length);
+                startIndex += this.MARKERS.MARKDOWN.start.length +
+                    processedContent.length +
+                    this.MARKERS.MARKDOWN.end.length;
+            } else {
+                result = result.substring(0, startIndex) +
+                    startMarker +
+                    processedContent +
+                    endMarker +
+                    result.substring(endIndex + endMarker.length);
+                startIndex += startMarker.length +
+                    processedContent.length +
+                    endMarker.length;
+            }
+        }
+
+        return result;
+    }
 };

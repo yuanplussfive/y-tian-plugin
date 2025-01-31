@@ -378,7 +378,7 @@ export const NXModelResponse = async (messages, model) => {
     const response = await retryWithFallback(messages, normalizedModel, supportedProviders, timeout);
 
     // 如果原始模型调用成功，直接返回结果
-    if (response && response !== '所有逆向服务均失败') {
+    if (response && !(/失败|逆向/.test(response))) {
       return response;
     }
 

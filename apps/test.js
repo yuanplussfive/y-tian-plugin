@@ -1535,20 +1535,10 @@ export class ExamplePlugin extends plugin {
     const basePatterns = [
       /\[图片\]/g,
       /[\s\S]*在群里说[:：]\s*/g,
-      /\[\d{2}:\d{2}:\d{2}\]\s*/g,
-      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*/g,
-      /.*?(?:\(QQ号:\s*\d+\))?\s*/g,
-      /(?:\[群身份:\s*\w+\])?\s*/g,
-      /.*?[:：]\s*/g
+      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*(?:\(QQ号:\d+\))?(?:\[群身份:\s*\w+\])?\s*[:：]\s*/g
     ];
 
     function cleanText(currentText) {
-      // 首先处理 </think> 标记
-      const thinkIndex = currentText.lastIndexOf('</think>');
-      if (thinkIndex !== -1) {
-        currentText = currentText.substring(thinkIndex + 8).trim();
-      }
-
       let prevText;
       do {
         prevText = currentText;
@@ -1563,7 +1553,6 @@ export class ExamplePlugin extends plugin {
 
     output = cleanText(output);
 
-
     // 移除末尾的 ```
     if (output.endsWith('```')) {
       output = output.slice(0, -3).trim();
@@ -1572,7 +1561,7 @@ export class ExamplePlugin extends plugin {
     // 移除任意 [文本](URL) 格式的链接
     output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
     output = ThinkingProcessor.removeThinking(output);
-
+    
     switch (toolName) {
       case 'dalleTool':
       case 'jimengTool':
