@@ -2,12 +2,6 @@ import puppeteer from 'puppeteer';
 import { dependencies } from "../../../../YTdependence/dependencies.js";
 const { WebSocket, FormData: NodeFormData, mimeTypes, fetch } = dependencies;
 
-// 获取Node.js主版本号
-function getNodeMajorVersion() {
-    const version = process.version.match(/^v(\d+)/);
-    return version ? parseInt(version[1]) : 0;
-}
-
 // 获取MIME类型
 function getMimeType(filename) {
     const mimeType = mimeTypes.lookup(filename) || 'application/octet-stream';

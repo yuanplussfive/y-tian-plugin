@@ -19,6 +19,7 @@ import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
 import { dependencies } from '../YTdependence/dependencies.js';
+import { ThinkingProcessor } from '../utils/providers/ThinkingProcessor.js';
 const { fs, YAML, crypto, path } = dependencies;
 
 /**
@@ -201,6 +202,7 @@ export class ExamplePlugin extends plugin {
     const defaultConfig = {
       pluginSettings: {
         enabled: false,
+        groupHistory: true,
         replyChance: 0.015,
         triggerPrefixes: ['芙宁娜', '芙芙'],
         excludeMessageTypes: ['file', 'video'],
@@ -214,6 +216,10 @@ export class ExamplePlugin extends plugin {
         bilibiliSessData: 'a16804xxxxxx',
         jimengsessionid: '12345xxxxxx',
         geminiModel: 'gemini-2.0-flash-exp',
+        gemini_tool_choice: 'auto',
+        OneApiUrl: 'https://chutes-deepseek-ai-deepseek-r1.chutes.ai',
+        OneApiModel: 'deepseek-ai/DeepSeek-R1',
+        OneApiKey: ['cpk_8f29ba06571f4a3a9f8543f8e2eafa9b.cf973b9dc97952c0bb0b8f6ee6f9340d.e5YL7A2Sw20BBPdEg2ntoWdsQXNCBSWm'],
         gemini_tool_choice: 'auto',
         gemini_tools: ['imageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
         openai_tools: ['likeTool', 'pokeTool', 'imageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
@@ -656,8 +662,9 @@ export class ExamplePlugin extends plugin {
       };
 
 
-      // 使用示例:
-      groupUserMessages = await getHistory();
+      if (this.config.groupHistory) {
+        groupUserMessages = await getHistory();
+      }
 
       //console.log(groupUserMessages)
       // 移除所有非system角色的消息
@@ -1528,10 +1535,20 @@ export class ExamplePlugin extends plugin {
     const basePatterns = [
       /\[图片\]/g,
       /[\s\S]*在群里说[:：]\s*/g,
-      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*(?:\(QQ号:\d+\))?(?:\[群身份:\s*\w+\])?\s*[:：]\s*/g
+      /\[\d{2}:\d{2}:\d{2}\]\s*/g,
+      /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*/g,
+      /.*?(?:\(QQ号:\s*\d+\))?\s*/g,
+      /(?:\[群身份:\s*\w+\])?\s*/g,
+      /.*?[:：]\s*/g
     ];
 
     function cleanText(currentText) {
+      // 首先处理 </think> 标记
+      const thinkIndex = currentText.lastIndexOf('</think>');
+      if (thinkIndex !== -1) {
+        currentText = currentText.substring(thinkIndex + 8).trim();
+      }
+
       let prevText;
       do {
         prevText = currentText;
@@ -1546,6 +1563,7 @@ export class ExamplePlugin extends plugin {
 
     output = cleanText(output);
 
+
     // 移除末尾的 ```
     if (output.endsWith('```')) {
       output = output.slice(0, -3).trim();
@@ -1553,6 +1571,7 @@ export class ExamplePlugin extends plugin {
 
     // 移除任意 [文本](URL) 格式的链接
     output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
+    output = ThinkingProcessor.removeThinking(output);
 
     switch (toolName) {
       case 'dalleTool':

@@ -29,6 +29,19 @@ export async function YTapi(requestData, config) {
         ...requestData
       };
       //console.log(finalRequestData)
+    } else if (provider === 'oneapi') {
+      url = `${config.OneApiUrl}/v1/chat/completions`;
+      const randomIndex = Math.floor(Math.random() * config.OneApiKey.length);
+      headers = {
+        'Authorization': `Bearer ${config.OneApiKey[randomIndex]}`,
+        'Content-Type': 'application/json'
+      };
+      // 为 oneapi 修改请求数据
+      finalRequestData = {
+        model: config.OneApiModel,
+        messages: requestData.messages,
+      }
+      //console.log(finalRequestData)
     } else {
       url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
       headers = {
@@ -46,13 +59,27 @@ export async function YTapi(requestData, config) {
 
     const responseData = await response.json();
     console.log(`${provider || 'OpenAI'} 响应:`, responseData);
-    return Array.isArray(responseData) && responseData[0]
-    ? responseData[0]
-    : responseData;  
+    return processResponse(responseData);
 
   } catch (error) {
     console.error('YTapi 错误:', error);
     return { error: error?.message };
+  }
+}
+
+function processResponse(responseData) {
+  if (Array.isArray(responseData) && responseData.length > 0) {
+    return responseData[0];
+  } else if (typeof responseData === 'object') {
+    if (responseData.detail) {
+      return { error: responseData.detail };
+    } else if (responseData.error) {
+      return responseData;
+    } else {
+      return responseData.detail || responseData;
+    }
+  } else {
+    return responseData;
   }
 }
 
