@@ -1439,7 +1439,7 @@ export const other_models = [
     "token": 32000,
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 0
-  }, 
+  },
   {
     "id": 178,
     "model": "yi-lightning-nx",
@@ -1582,6 +1582,22 @@ export const other_models = [
     "points": "逆向渠道",
     "token": 32000,
     "features": ["conversation", "code", "internet"],
+    "quota": 0
+  },
+  {
+    "id": 196,
+    "model": "o3-mini",
+    "points": "逆向渠道",
+    "token": 128000,
+    "features": ["conversation", "code"],
+    "quota": 0
+  },
+  {
+    "id": 197,
+    "model": "o3-mini-all",
+    "points": "逆向渠道",
+    "token": 128000,
+    "features": ["conversation", "code"],
     "quota": 0
   }
 ]
