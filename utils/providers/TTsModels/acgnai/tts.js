@@ -1,5 +1,14 @@
 import yaml from 'yaml';
 import fs from 'fs/promises';
+import crypto from 'crypto';
+import { createRequire } from 'module'
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const require = createRequire(import.meta.url);
+const WebSocketPath = join(__dirname, '../../../../node_modules/ws');
+const WebSocket = require(WebSocketPath);
 
 const CONFIG_FILE = `${process.cwd()}/plugins/y-tian-plugin/config/voice_config.yaml`;
 const BASE_URL = 'https://gsv.acgnai.top/gradio_api/queue';
@@ -241,6 +250,10 @@ async function generateAudio(text, sessionHash, headers) {
 // 主函数
 export async function TTSCreate(text) {
     try {
+        if (config.speaker == '东雪莲') {
+            const answer = await DongXueLian(text);
+            return answer;
+        }
         const sessionHash = generateSessionHash();
         console.log("Session Hash:", sessionHash);
 
@@ -263,5 +276,101 @@ export async function TTSCreate(text) {
     } catch (error) {
         console.error('音频生成过程中发生错误:', error);
         throw error;
+    }
+}
+
+async function processAudioGeneration(textData, speakerName) {
+    return new Promise((resolve, reject) => {
+        const timestamp = Date.now();
+        const url = `wss://xzjosh-azuma-gpt-sovits.ms.show/queue/join?t=${timestamp}&__theme=light&backend_url=%2F&studio_token=`;
+        const ws = new WebSocket(url, {
+            headers: {
+                "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+                "cache-control": "no-cache",
+                "pragma": "no-cache",
+                "sec-websocket-extensions": "permessage-deflate; client_max_window_bits",
+                "sec-websocket-key": crypto.randomBytes(16).toString('base64'),
+                "sec-websocket-version": "13"
+            }
+        });
+
+        let sessionHash = null;
+        let audioUrl = null;
+        let errorReason = null;
+
+        ws.on('open', () => {
+            console.log('WebSocket connection opened.');
+        });
+
+        ws.on('message', (message) => {
+            try {
+                const data = JSON.parse(message);
+                console.log('Received message:', data);
+
+                if (data.msg === 'send_hash') {
+                    sessionHash = generateSessionHash();
+                    ws.send(JSON.stringify({ fn_index: 1, session_hash: sessionHash }));
+                } else if (data.msg === 'estimation') {
+                } else if (data.msg === 'send_data') {
+                    const payload = {
+                        data: [textData, textData, "中文", speakerName, "中文", "不切"],
+                        dataType: ["dropdown", "textbox", "dropdown", "textbox", "dropdown", "radio"],
+                        event_data: null,
+                        fn_index: 1,
+                        session_hash: sessionHash,
+                    };
+                    ws.send(JSON.stringify(payload));
+                } else if (data.msg === 'process_starts') {
+                } else if (data.msg === 'process_generating' && data.output && data.output.data && data.output.data.length > 0) {
+                    const audioItem = data.output.data.find(item => item.name && item.name.endsWith('audio.wav'));
+                    if (audioItem) {
+                        audioUrl = audioItem.name;
+                        console.log('Audio URL:', audioUrl);
+                        ws.close();
+                        resolve({ success: true, audioUrl: audioUrl });
+                    } else {
+                        console.log('No audio URL found in process_generating message');
+                        errorReason = 'No audio URL found in process_generating message';
+                        ws.close();
+                    }
+                }
+            } catch (error) {
+                console.error('Error parsing message:', error);
+                errorReason = 'Error parsing message: ' + error.message;
+                ws.close();
+            }
+        });
+
+        ws.on('close', (code, reason) => {
+            console.log('WebSocket connection closed:', code, reason);
+            if (audioUrl) {
+                // 成功获取 audioUrl，已经在 message 事件中 resolve 了，这里不需要处理
+            } else {
+                reject({ success: false, error: errorReason || 'WebSocket connection closed without audio URL' });
+            }
+        });
+
+        ws.on('error', (error) => {
+            console.error('WebSocket error:', error);
+            errorReason = `WebSocket error: ${error.message}`;
+            reject({ success: false, error: errorReason });
+        });
+    });
+}
+
+async function DongXueLian(text) {
+    const textData = "完了我找不到他之前的投稿了，反正就是有一个。";
+    try {
+        const result = await processAudioGeneration(textData, text);
+        if (result.success) {
+            console.log("Successfully generated audio, URL:", result.audioUrl);
+            return `https://xzjosh-azuma-gpt-sovits.ms.show/file=${result.audioUrl}`
+        } else {
+            console.error("Failed to generate audio:", result.error);
+            return null;
+        }
+    } catch (error) {
+        console.error("Failed to generate audio:", error);
+        return null;
     }
 }
