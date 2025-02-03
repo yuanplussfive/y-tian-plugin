@@ -278,7 +278,7 @@ class PackdirClient {
             const roomId = await this.init(modelType, needsInit);
             const sessionUuid = await this.getOrCreateSession(modelType, roomId, needsInit);
 
-            console.log(sessionUuid);
+            //console.log(sessionUuid);
             try {
                 const response = await axios.post(
                     `${this.baseURL}/api/airoom/message`,

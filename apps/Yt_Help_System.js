@@ -121,7 +121,8 @@ export class example extends plugin {
     const img_3 = await screen(21, puppeteer)
     const img_4 = await screen(25, puppeteer)
     const img_5 = await screen(28, puppeteer)
-    const forwardMsg = [img_1, img_2, img_3, img_4, img_5]
+    const img_6 = await screen(31, puppeteer)
+    const forwardMsg = [img_1, img_2, img_3, img_4, img_5, img_6]
     const JsonPart = await common.makeForwardMsg(e, forwardMsg, '附加模型大全');
     e.reply(JsonPart)
   }
@@ -160,7 +161,7 @@ export class example extends plugin {
     const img1 = await screen(4, puppeteer)
     const img2 = await screen(29, puppeteer)
     const img3 = await screen(30, puppeteer)
-    const forwardMsg = [img1, img2, img3]
+    const forwardMsg = [img1, img2, img3];
     const JsonPart = await common.makeForwardMsg(e, forwardMsg, '免费模型大全');
     e.reply(JsonPart)
   }
@@ -207,6 +208,8 @@ async function screen(num, puppeteer) {
     HunyuanLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hunyuan.png",
     KimiLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/kimi.jpeg",
     MinimaxLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hailuo.png",
+    StepLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hailuo.png",
+    MitaLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/mita.jpg",
   }
   const img = await puppeteer.screenshot('777', {
     ...data,

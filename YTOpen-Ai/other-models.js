@@ -106,7 +106,7 @@ export const other_models = [
   },
   {
     "id": 14,
-    "model": "gpt-4-o",
+    "model": "gpt-4o",
     "points": "OpenAI",
     "token": 8000,
     "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
@@ -1610,7 +1610,7 @@ export const other_models = [
   },
   {
     "id": 199,
-    "model": "o1",
+    "model": "o1-nx",
     "points": "逆向渠道",
     "token": 32000,
     "features": ["conversation", "code"],

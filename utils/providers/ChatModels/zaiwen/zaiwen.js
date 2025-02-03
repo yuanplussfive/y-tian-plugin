@@ -25,7 +25,7 @@ export async function zaiwen(messages, model) {
         });
 
         const responseData = await response.text();
-        console.log(responseData);
+        //console.log(responseData);
         const BanMessages = {
             "您的内容中有不良信息": "您的预设/对话内容中有不良信息，请结束对话/预设后重新提问",
             "Message too long": "上下文过长，已超过模型限制，请结束对话后重新提问",
@@ -39,12 +39,9 @@ export async function zaiwen(messages, model) {
                 return value;
             }
         }
-        return ThinkingProcessor.processThinking(responseData.trim(), {
-            format: 'tag',
-            maxLength: 300
-        });
+        return ThinkingProcessor.removeThinking(responseData.trim());
     } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
         return null;
     }
 }

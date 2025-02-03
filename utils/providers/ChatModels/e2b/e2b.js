@@ -385,7 +385,7 @@ Try to reply as if you were a living person, not just cold mechanical language, 
    */
   async sendChatRequest(messages, systemPrompt) {
     const transformedMessages = this._transformContent(messages);
-    console.log(transformedMessages);
+    //console.log(transformedMessages);
     const requestBody = this._buildRequestBody(transformedMessages, systemPrompt);
 
     const response = await fetch(this.modelConfig.apiUrl, {
@@ -407,7 +407,7 @@ Try to reply as if you were a living person, not just cold mechanical language, 
       body: JSON.stringify(requestBody)
     });
 
-    console.log('状态码:', response.status);
+    //console.log('状态码:', response.status);
 
     const responseClone = response.clone();
 
@@ -417,12 +417,12 @@ Try to reply as if you were a living person, not just cold mechanical language, 
 
     try {
       const res = await response.json();
-      console.log(res);
+      //console.log(res);
       return res?.code?.trim() ?? null;
 
     } catch (error) {
       const text = await responseClone.text();
-      console.error('原始响应内容:', text);
+      //console.error('原始响应内容:', text);
       return '请求失败, 疑似上下文超过最大限制或ip被风控, 请结束对话后重试, 切勿重复请求该对话!';
     }
   }

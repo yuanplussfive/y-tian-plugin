@@ -70,7 +70,7 @@ async function fetchNewSessionIdAndValidated() {
                     }
                 }
             } catch (error) {
-                console.warn('解析 JS 文件时出错:', error.message);
+                //console.warn('解析 JS 文件时出错:', error.message);
             }
         });
 
@@ -95,7 +95,7 @@ async function fetchNewSessionIdAndValidated() {
         await page.waitForTimeout(5000);
 
         const cookies = await page.cookies();
-        console.log("All Cookies:", cookies); // 打印所有 cookies
+        //console.log("All Cookies:", cookies); // 打印所有 cookies
 
         const sessionIdCookie = cookies.find(cookie => cookie.name.toLowerCase() === 'sessionid');
 
@@ -147,7 +147,7 @@ async function fetchNewSessionIdAndValidated() {
         };
 
     } catch (error) {
-        console.error('获取 sessionId 和 validated 失败:', error.message);
+        //console.error('获取 sessionId 和 validated 失败:', error.message);
         // 完全失败的情况下，都设置半小时过期时间
         sessionIdExpiry = Date.now() + HALF_HOUR;
         validatedExpiry = Date.now() + HALF_HOUR;
@@ -239,11 +239,11 @@ export const blackboxAi = async (messages, model) => {
     let sessionData;
     try {
         sessionData = await getSessionIdAndValidated();
-        console.log('获取到的 sessionId 值:', sessionData.sessionId);
-        console.log('获取到的 validated 值:', sessionData.validated);
-        console.log('获取到的其他 Cookie 值:', sessionData.otherCookies);
+        //console.log('获取到的 sessionId 值:', sessionData.sessionId);
+        //console.log('获取到的 validated 值:', sessionData.validated);
+        //console.log('获取到的其他 Cookie 值:', sessionData.otherCookies);
     } catch (error) {
-        console.error('获取 sessionId 或 validated 值失败:', error.message);
+        //console.error('获取 sessionId 或 validated 值失败:', error.message);
         return null;
     }
 
@@ -274,7 +274,7 @@ export const blackboxAi = async (messages, model) => {
         'cookie': `sessionId=${sessionData.sessionId}; ${Object.entries(sessionData.otherCookies).map(([key, value]) => `${key}=${value}`).join('; ')};`
     };
 
-    console.log(headers)
+    //console.log(headers)
     const modelConfigs = {
         "gpt-4o": {
             maxTokens: 4096,
@@ -383,7 +383,7 @@ export const blackboxAi = async (messages, model) => {
         clearTimeout(timeout);
 
         if (!response.ok) {
-            console.error(`请求失败，状态码: ${response.status}`);
+            //console.error(`请求失败，状态码: ${response.status}`);
             return null;
         }
 
@@ -392,9 +392,9 @@ export const blackboxAi = async (messages, model) => {
 
     } catch (error) {
         if (error.name === 'AbortError') {
-            console.error('请求超时');
+            //console.error('请求超时');
         } else {
-            console.error('请求失败:', error.message);
+            //console.error('请求失败:', error.message);
         }
         return null;
     }

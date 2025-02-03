@@ -11,26 +11,27 @@ import { Chatnio } from "../providers/ChatModels/chatnio/chatnio.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import chalk from 'chalk';
 
 // 重试机制的配置参数
 const RETRY_CONFIG = {
-    maxRetries: 2,
-    retryDelay: 1000,
-    maxTotalAttempts: 6,
+    maxRetries: 2, // 最大重试次数
+    retryDelay: 1000, // 重试延迟（毫秒）
+    maxTotalAttempts: 6, // 最大总尝试次数
 };
 
 // 存储服务商的成功/失败统计和权重配置
 const providerStats = {
-    blackbox: { success: 0, failure: 0, weight: 85 },
-    airforce: { success: 0, failure: 0, weight: 60 },
-    nexra: { success: 0, failure: 0, weight: 70 },
-    YT: { success: 0, failure: 0, weight: 50 },
-    airoom: { success: 10, failure: 0, weight: 20 },
-    mhystical: { success: 0, failure: 0, weight: 40 },
-    e2b: { success: 0, failure: 0, weight: 100 },
-    chatru: { success: 0, failure: 0, weight: 90 },
-    zaiwen: { success: 0, failure: 0, weight: 90 },
-    chatnio: { success: 0, failure: 0, weight: 95 }
+    blackbox: { success: 0, failure: 0, weight: 40 }, // blackbox 提供商
+    airforce: { success: 0, failure: 0, weight: 60 }, // airforce 提供商
+    nexra: { success: 0, failure: 0, weight: 70 }, // nexra 提供商
+    YT: { success: 0, failure: 0, weight: 50 }, // YT 提供商
+    airoom: { success: 10, failure: 0, weight: 20 }, // airoom 提供商
+    mhystical: { success: 0, failure: 0, weight: 40 }, // mhystical 提供商
+    e2b: { success: 0, failure: 0, weight: 90 }, // e2b 提供商
+    chatru: { success: 0, failure: 0, weight: 90 }, // chatru 提供商
+    zaiwen: { success: 0, failure: 0, weight: 90 }, // zaiwen 提供商
+    chatnio: { success: 0, failure: 0, weight: 95 } // chatnio 提供商
 };
 
 // 获取当前文件所在的目录
@@ -75,8 +76,7 @@ Object.keys(providerModelConfigs).forEach(provider => {
     }
 });
 
-console.log(modelProviderMap)
-// 模型名称标准化映射 (这里可以简化，直接使用别名映射)
+// 模型名称标准化映射
 const modelNameNormalization = {};
 Object.keys(providerModelConfigs).forEach(provider => {
     const providerModels = providerModelConfigs[provider].models;
@@ -173,32 +173,41 @@ const updateStats = (provider, isSuccess) => {
 };
 
 // 带重试的单个提供商调用函数
-async function callProviderWithRetry(provider, messages, modelName, timeout) {
+async function callProviderWithRetry(provider, messages, modelName, timeout, logger) {
     let retryCount = 0;
+    const startTime = Date.now(); // 记录请求开始时间
+    const providerModel = providerModelConfigs[provider]?.models?.[modelName];
+    const providerModelName = providerModel?.providerModelName || modelName;
+    // 记录开始请求的详细信息
+    logger.debug(`开始请求：使用 ${chalk.cyan(provider)} 提供商，模型 ${chalk.yellow(modelName)} 映射为 ${chalk.yellow(providerModelName)}，第 ${retryCount + 1}/${RETRY_CONFIG.maxRetries} 次重试`);
 
     while (retryCount < RETRY_CONFIG.maxRetries) {
         try {
             const apiFunction = providerApis[provider];
-            // 获取 providerModelName
-            const providerModel = providerModelConfigs[provider]?.models?.[modelName]
-            const providerModelName = providerModel?.providerModelName || modelName;
 
+            // 记录尝试请求的详细信息
+            logger.debug(`尝试请求：${chalk.cyan(provider)} 提供商，模型 ${chalk.yellow(providerModelName)}, 第 ${retryCount + 1}/${RETRY_CONFIG.maxRetries} 次重试`);
             const response = await withTimeout(apiFunction(messages, providerModelName), timeout);
+            const endTime = Date.now(); // 记录请求结束时间
+            const duration = endTime - startTime; // 计算请求耗时
 
             if (response) {
                 updateStats(provider, true);
+                logger.info(`${chalk.green('成功')} 从 ${chalk.cyan(provider)} 提供商获取响应，模型 ${chalk.yellow(providerModelName)}，耗时 ${chalk.magenta(duration/1000)} s`);
                 return { success: true, response };
             }
 
             retryCount++;
             if (retryCount < RETRY_CONFIG.maxRetries) {
-                console.log(`提供商 ${provider} 第 ${retryCount + 1}/${RETRY_CONFIG.maxRetries} 次尝试`);
+                logger.debug(`提供商 ${chalk.cyan(provider)} 第 ${retryCount + 1}/${RETRY_CONFIG.maxRetries} 次重试`);
                 await delay(RETRY_CONFIG.retryDelay);
             }
 
         } catch (error) {
             retryCount++;
-            console.error(`${provider} 第 ${retryCount} 次尝试失败:`, error);
+            const endTime = Date.now(); // 记录请求结束时间
+            const duration = endTime - startTime; // 计算请求耗时
+            logger.error(`${chalk.red('错误')} 在 ${chalk.cyan(provider)} 提供商，第 ${retryCount} 次重试，耗时 ${chalk.magenta(duration/1000)} s:`, error);
 
             if (retryCount < RETRY_CONFIG.maxRetries) {
                 await delay(RETRY_CONFIG.retryDelay);
@@ -207,15 +216,19 @@ async function callProviderWithRetry(provider, messages, modelName, timeout) {
     }
 
     updateStats(provider, false);
+    const endTime = Date.now(); // 记录请求结束时间
+    const duration = endTime - startTime; // 计算请求耗时
+    logger.warn(`${chalk.yellow('失败')} 所有重试尝试，提供商 ${chalk.cyan(provider)}，耗时 ${chalk.magenta(duration/1000)} s`);
     return { success: false };
 }
 
 // 带重试和失败转移的服务调用函数
-const retryWithFallback = async (messages, modelName, availableProviders, timeout) => {
+const retryWithFallback = async (messages, modelName, availableProviders, timeout, logger) => {
     // 如果只有一个可用提供商
     if (availableProviders.length === 1) {
         const provider = availableProviders[0];
-        const result = await callProviderWithRetry(provider, messages, modelName, timeout);
+        logger.debug(`只有一个可用提供商 ${chalk.cyan(provider)}，模型 ${chalk.yellow(modelName)}`);
+        const result = await callProviderWithRetry(provider, messages, modelName, timeout, logger);
         return result.success ? result.response : '逆向服务调用失败';
     }
 
@@ -224,16 +237,20 @@ const retryWithFallback = async (messages, modelName, availableProviders, timeou
         availableProviders.includes(provider)
     );
 
+    logger.debug(`模型 ${chalk.yellow(modelName)} 的提供商按优先级排序: ${chalk.cyan(sortedProviders.join(', '))}`);
+
     let totalAttempts = 0;
 
     for (const provider of sortedProviders) {
+         // 记录当前尝试的提供商
+        logger.debug(`尝试提供商：${chalk.cyan(provider)}，模型：${chalk.yellow(modelName)}，总尝试次数：${totalAttempts + 1}/${RETRY_CONFIG.maxTotalAttempts}`);
         // 检查总尝试次数是否超过限制
         if (totalAttempts >= RETRY_CONFIG.maxTotalAttempts) {
-            console.error('达到最大总尝试次数限制');
+            logger.error(`${chalk.red('达到最大总尝试次数限制')}`);
             return '所有逆向服务均失败：达到最大尝试次数';
         }
 
-        const result = await callProviderWithRetry(provider, messages, modelName, timeout);
+        const result = await callProviderWithRetry(provider, messages, modelName, timeout, logger);
         totalAttempts += RETRY_CONFIG.maxRetries;
 
         if (result.success) {
@@ -241,6 +258,7 @@ const retryWithFallback = async (messages, modelName, availableProviders, timeou
         }
     }
 
+    logger.warn(`${chalk.yellow('所有提供商都失败')}，模型 ${chalk.yellow(modelName)}`);
     return '所有逆向服务均失败';
 };
 
@@ -280,7 +298,7 @@ const preprocessModelName = (modelName) => {
 };
 
 // 获取相似模型列表
-function getSimilarModels(modelName, initialThreshold = 0.7, thresholdStep = 0.05) {
+function getSimilarModels(modelName, initialThreshold = 0.7, thresholdStep = 0.05, logger) {
     const cleanModelName = preprocessModelName(modelName);
     let currentThreshold = initialThreshold;
     let similarModels = [];
@@ -336,78 +354,142 @@ function getSimilarModels(modelName, initialThreshold = 0.7, thresholdStep = 0.0
             .sort((a, b) => b.similarity - a.similarity)
             .map(item => item.model);
         if (similarModels.length > 0) {
-            console.warn(`找不到合适的相似模型，使用最相似的模型：${similarModels[0]}`);
+            logger.warn(`找不到合适的相似模型，使用最相似的模型：${chalk.yellow(similarModels[0])}`);
             return [similarModels[0]]; // 返回最相似的模型
         }
     }
 
+    logger.debug(`为模型 ${chalk.yellow(modelName)} 找到的相似模型：${chalk.cyan(similarModels.join(', '))}`);
     return similarModels;
 }
 
 // 默认兜底模型
 const DEFAULT_FALLBACK_MODEL = 'gpt-3.5-turbo-16k';
 
-export const NXModelResponse = async (messages, model) => {
+
+class Logger {
+    constructor(options = {}) {
+        // 日志级别设置，默认为 debug
+        this.logLevel = options.logLevel || 'debug'; // debug, info, warn, error
+    }
+
+    // 日志输出函数
+    log(level, message, error = null) {
+        const levels = {
+            debug: 0,
+            info: 1,
+            warn: 2,
+            error: 3
+        };
+
+        if (levels[level] >= levels[this.logLevel]) {
+            const timestamp = new Date().toLocaleTimeString();
+            let logMessage = `${chalk.gray(`[${timestamp}]`)} ${message}`;
+
+            if (error) {
+                logMessage += `\n${chalk.red(error.stack || error.message || error)}`;
+            }
+
+            console.log(logMessage);
+        }
+    }
+
+    debug(message, error = null) {
+        this.log('debug', chalk.blue(`[调试] `) + message, error);
+    }
+
+    info(message, error = null) {
+        this.log('info', chalk.green(`[信息] `) + message, error);
+    }
+
+    warn(message, error = null) {
+        this.log('warn', chalk.yellow(`[警告] `) + message, error);
+    }
+
+    error(message, error = null) {
+        this.log('error', chalk.red(`[错误] `) + message, error);
+    }
+}
+
+export const NXModelResponse = async (messages, model, options = {}) => {
+    const logger = new Logger(options);
+    const startTime = Date.now(); // 记录整个请求开始时间
+
     const normalizedModel = modelNameNormalization[model] || model;
     const supportedProviders = modelProviderMap[normalizedModel];
     const timeout = modelTimeouts[normalizedModel] || DEFAULT_TIMEOUT;
 
-    console.log(normalizedModel)
+    logger.debug(`收到模型请求：${chalk.yellow(model)}，映射为：${chalk.yellow(normalizedModel)}`);
+
     if (!supportedProviders) {
+        logger.warn(`不支持的模型：${chalk.yellow(model)}`);
         return `不支持的模型: ${model}`;
     }
 
     try {
         // 首先尝试原始模型的所有提供商
-        const response = await retryWithFallback(messages, normalizedModel, supportedProviders, timeout);
+        logger.debug(`开始尝试原始模型：${chalk.yellow(normalizedModel)}，可用提供商：${chalk.cyan(supportedProviders.join(', '))}`);
+        const response = await retryWithFallback(messages, normalizedModel, supportedProviders, timeout, logger);
+        const endTime = Date.now(); // 记录整个请求结束时间
+        const duration = endTime - startTime; // 计算整个请求耗时
 
         // 如果原始模型调用成功，直接返回结果
         if (response && !(/失败|逆向/.test(response))) {
+            logger.info(`成功使用原始模型 ${chalk.yellow(normalizedModel)} 获取响应，总耗时 ${chalk.magenta(duration/1000)} s`);
             return response;
         }
 
         // 如果原始模型的所有提供商都失败了，尝试相似模型
-        console.log(`模型 ${normalizedModel} 的所有提供商均失败，尝试相似模型...`);
-        let similarModels = getSimilarModels(normalizedModel);
+        logger.warn(`模型 ${chalk.yellow(normalizedModel)} 的所有提供商均失败，尝试相似模型...`);
+        let similarModels = getSimilarModels(normalizedModel, 0.7, 0.05, logger);
 
         // 如果没有找到相似模型，使用默认兜底模型
         if (similarModels.length === 0) {
-            console.log(`没有找到相似模型，使用默认兜底模型: ${DEFAULT_FALLBACK_MODEL}`);
+            logger.warn(`没有找到相似模型，使用默认兜底模型：${chalk.yellow(DEFAULT_FALLBACK_MODEL)}`);
             similarModels = [DEFAULT_FALLBACK_MODEL];
         }
 
         for (const similarModel of similarModels) {
             const fallbackProviders = modelProviderMap[similarModel];
             const fallbackTimeout = modelTimeouts[similarModel] || DEFAULT_TIMEOUT;
+            const startTimeSimilar = Date.now(); // 记录相似模型请求开始时间
             if (fallbackProviders) {
                 try {
-                    console.log(`尝试使用相似模型: ${similarModel}, 提供商: ${fallbackProviders.join(', ')}`);
-                    const fallbackResponse = await retryWithFallback(messages, similarModel, fallbackProviders, fallbackTimeout);
-
+                    logger.debug(`尝试使用相似模型：${chalk.yellow(similarModel)}，提供商：${chalk.cyan(fallbackProviders.join(', '))}`);
+                    const fallbackResponse = await retryWithFallback(messages, similarModel, fallbackProviders, fallbackTimeout, logger);
+                    const endTimeSimilar = Date.now(); // 记录相似模型请求结束时间
+                    const durationSimilar = endTimeSimilar - startTimeSimilar; // 计算相似模型请求耗时
                     if (fallbackResponse && fallbackResponse !== '所有逆向服务均失败') {
-                        console.log(`成功使用相似模型 ${similarModel} 获得响应`);
+                        logger.info(`成功使用相似模型 ${chalk.yellow(similarModel)} 获取响应，耗时 ${chalk.magenta(durationSimilar/1000)} s`);
                         return fallbackResponse;
                     }
                 } catch (fallbackError) {
-                    console.error(`相似模型 ${similarModel} 调用失败:`, fallbackError.message);
+                    logger.error(`相似模型 ${chalk.yellow(similarModel)} 调用失败：`, fallbackError);
                     continue; // 继续尝试下一个相似模型
                 }
             }
         }
 
         // 如果所有尝试都失败了
+        logger.error(`所有可用服务（包括相似模型）均失败`);
+        const endTimeAll = Date.now(); // 记录整个请求结束时间
+        const durationAll = endTimeAll - startTime; // 计算整个请求耗时
+        logger.error(`所有可用服务（包括相似模型）均失败, 总耗时 ${chalk.magenta(durationAll/1000)} s`);
         return '所有可用服务（包括相似模型）均失败';
 
     } catch (error) {
-        console.error('服务调用出错:', error.message);
+        const endTimeAll = Date.now(); // 记录整个请求结束时间
+        const durationAll = endTimeAll - startTime; // 计算整个请求耗时
+        logger.error(`服务调用出错，总耗时 ${chalk.magenta(durationAll/1000)} s：`, error);
         return `服务调用失败: ${error.message}`;
     }
 };
 
 // 用于调试的辅助函数
-export const getModelSimilarityInfo = (modelName) => {
+export const getModelSimilarityInfo = (modelName, options = {}) => {
+    const logger = new Logger(options);
     const normalizedModel = modelNameNormalization[modelName] || modelName;
-    const similarModels = getSimilarModels(normalizedModel);
+    const similarModels = getSimilarModels(normalizedModel, 0.7, 0.05, logger);
     return {
         originalModel: modelName,
         normalizedModel,
@@ -419,16 +501,23 @@ export const getModelSimilarityInfo = (modelName) => {
 };
 
 // 获取提供商统计信息和优先级排序
-export const getProviderStatistics = () => ({
-    stats: { ...providerStats },
-    sortedProviders: getProvidersByPriority()
-});
+export const getProviderStatistics = (options = {}) => {
+    const logger = new Logger(options);
+    logger.debug(`请求提供商统计信息`);
+    return {
+        stats: { ...providerStats },
+        sortedProviders: getProvidersByPriority()
+    };
+};
 
 // 更新提供商权重的函数
-export const updateProviderWeight = (provider, weight) => {
+export const updateProviderWeight = (provider, weight, options = {}) => {
+    const logger = new Logger(options);
     if (providerStats[provider] && weight >= 1 && weight <= 100) {
         providerStats[provider].weight = weight;
+        logger.info(`提供商 ${chalk.cyan(provider)} 的权重更新为 ${chalk.yellow(weight)}`);
         return true;
     }
+    logger.warn(`提供商 ${chalk.cyan(provider)} 无效或权重值无效`);
     return false;
 };

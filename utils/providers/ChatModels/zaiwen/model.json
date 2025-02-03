@@ -72,6 +72,10 @@
       "providerModelName": "claude_3_igloo",
        "aliases": ["claude-3.5-sonnet-poe"]
     },
+    "claude-3.5-sonnet": {
+      "providerModelName": "claude_3_igloo",
+       "aliases": ["claude-3.5-sonnet"]
+    },
     "gemini-2.0-flash-exp": {
       "providerModelName": "gemini_2_falsh",
       "aliases": ["gemini-2.0-flash-exp"]

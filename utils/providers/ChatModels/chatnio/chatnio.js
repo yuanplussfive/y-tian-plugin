@@ -68,16 +68,16 @@ class FileUploader {
                 headers: headers,
                 body: formData
             });
-            console.log(headers)
+            //console.log(headers)
             if (!uploadResponse.ok) {
-                console.log(`上传失败: ${uploadResponse.statusText}`);
+                //console.log(`上传失败: ${uploadResponse.statusText}`);
                 return null;
             }
 
             return await uploadResponse.json();
 
         } catch (error) {
-            console.error('上传失败了:', error);
+            //console.error('上传失败了:', error);
             return null;
         }
     }
@@ -154,7 +154,7 @@ class ChatNIO {
             clearTimeout(this.inactivityTimer);
         }
         this.inactivityTimer = setTimeout(() => {
-            console.log('连接超时,关闭连接');
+            //console.log('连接超时,关闭连接');
             this.close();
         }, this.timeout);
     }
@@ -164,7 +164,7 @@ class ChatNIO {
         this.socket = new WebSocket(this.wsUrl);
 
         this.socket.onopen = () => {
-            console.log('WebSocket连接已建立');
+            //console.log('WebSocket连接已建立');
             this.resetInactivityTimer();
 
             // 发送认证信息
@@ -186,20 +186,20 @@ class ChatNIO {
                 if (this.onMessage) {
                     this.onMessage(this.fullResponse);
                 } else {
-                    console.log("完整回复:", this.fullResponse);
+                    //console.log("完整回复:", this.fullResponse);
                 }
                 this.fullResponse = '';
             }
         };
 
         this.socket.onerror = (error) => {
-            console.error('WebSocket错误:', error);
+            //console.error('WebSocket错误:', error);
             if (this.onError) this.onError(error);
             this.close();
         };
 
         this.socket.onclose = () => {
-            console.log('WebSocket连接已关闭');
+            //console.log('WebSocket连接已关闭');
             if (this.inactivityTimer) {
                 clearTimeout(this.inactivityTimer);
             }
@@ -298,11 +298,11 @@ async function simulateWithPuppeteer() {
         });
 
         if (!websiteId) {
-            console.log('抓取 Website ID 失败, 使用固定值');
+            //console.log('抓取 Website ID 失败, 使用固定值');
             websiteId = '2bfbc2b3-1e1f-48e0-ac6b-665117069b8d';
         }
 
-        console.log(websiteId);
+        //console.log(websiteId);
         const randomTitle = generateRandomChineseTitle();
 
         const result = await page.evaluate(async ({ randomTitle, websiteId }) => {
@@ -331,7 +331,7 @@ async function simulateWithPuppeteer() {
 
         return result;
     } catch (error) {
-        console.error('Error:', error);
+        //console.error('Error:', error);
         throw error;
     } finally {
         await browser.close();
@@ -349,10 +349,10 @@ export async function Chatnio(messages, model, fileUrl = null) {
             cachedToken = await simulateWithPuppeteer();
             cachedChat = new ChatNIO(cachedToken, {
                 onMessage: (response) => {
-                    console.log('收到回复:', response);
+                    //console.log('收到回复:', response);
                 },
                 onError: (error) => {
-                    console.error('发生错误:', error);
+                    //console.error('发生错误:', error);
                 }
             });
             await cachedChat.waitForConnection();
@@ -362,7 +362,7 @@ export async function Chatnio(messages, model, fileUrl = null) {
         // 如果有文件需要上传
         if (fileUrl) {
             const uploadResult = await cachedChat.uploadFile(fileUrl, model);
-            console.log('文件上传结果:', uploadResult);
+            //console.log('文件上传结果:', uploadResult);
             UserInput = `\`\`\`file \n[[1.jpeg]]\n${uploadResult.content}\n\`\`\`\n\n${UserInput}`;
         }
         if (!UserInput) {
@@ -376,7 +376,7 @@ export async function Chatnio(messages, model, fileUrl = null) {
         return output;
 
     } catch (error) {
-        console.error('请求失败:', error);
+        //console.error('请求失败:', error);
         cachedToken = null;
         cachedChat = null;
         return null;

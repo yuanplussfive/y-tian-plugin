@@ -17,7 +17,7 @@ export const chatru = async (messages, model) => {
         stream: true
     };
 
-    console.log(requestConfig);
+    //console.log(requestConfig);
     const headers = {
         'Content-Type': 'application/json',
         'Accept': 'text/event-stream',
@@ -42,17 +42,14 @@ export const chatru = async (messages, model) => {
 
         if (!response.ok) {
             const errorText = await response.text().catch(() => 'No error details available');
-            console.error(`请求失败 ${response.status}: ${errorText}`);
+            //console.error(`请求失败 ${response.status}: ${errorText}`);
             return null;
         }
 
         const output = await processStreamResponse(response);
-        return ThinkingProcessor.processThinking(output.trim(), {
-            format: 'tag',
-            maxLength: 300
-        });
+        return ThinkingProcessor.removeThinking(output.trim());
     } catch (error) {
-        console.error('请求失败:', error.message);
+        //console.error('请求失败:', error.message);
         return null;
     }
 };

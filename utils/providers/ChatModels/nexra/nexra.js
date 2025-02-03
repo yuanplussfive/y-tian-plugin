@@ -57,7 +57,7 @@ export const nexra = async (messages, model) => {
             return null;
         }
     } catch (error) {
-        console.error('Error:', error);
+        //console.error('Error:', error);
         return null;
     }
 }
