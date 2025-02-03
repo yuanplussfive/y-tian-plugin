@@ -9,7 +9,6 @@ const aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"
 const styles = aiSettings.chatgpt.ai_chat_style;
 
 const modellist = {
-  "": "deepseek-",
   "deepr1": "deepseek-r1",
   "o3mini": "o3-mini",
   "海螺": "minimax-pro",
