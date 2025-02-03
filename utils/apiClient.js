@@ -36,10 +36,12 @@ export async function YTapi(requestData, config) {
         'Authorization': `Bearer ${config.OneApiKey[randomIndex]}`,
         'Content-Type': 'application/json'
       };
+
       // 为 oneapi 修改请求数据
       finalRequestData = {
         model: config.OneApiModel,
         messages: requestData.messages,
+        stream: false
       }
       //console.log(finalRequestData)
     } else {

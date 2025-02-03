@@ -1,0 +1,8 @@
+{
+  "models": {
+    "gpt-3.5-turbo-16k": {
+      "providerModelName": "gpt-3.5-turbo-16k",
+      "aliases": ["gpt-3.5-turbo-16k"]
+    }
+  }
+}

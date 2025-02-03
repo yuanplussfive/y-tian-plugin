@@ -1,0 +1,8 @@
+{
+  "models": {
+    "gpt-4o-mini": {
+      "providerModelName": "gpt-4o-mini",
+      "aliases": ["gpt-4o-mini"]
+    }
+  }
+}

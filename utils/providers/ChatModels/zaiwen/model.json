@@ -1,0 +1,80 @@
+{
+  "models": {
+    "doubao-pro": {
+      "providerModelName": "doubao",
+       "aliases": ["doubao-pro"]
+    },
+    "gpt-4o": {
+      "providerModelName": "gpt4_o",
+       "aliases": ["gpt-4o"]
+    },
+    "gpt-4o-mini": {
+      "providerModelName": "gpt4_o_mini",
+       "aliases": ["gpt-4o-mini"]
+    },
+    "minimax-pro": {
+      "providerModelName": "minimax",
+      "aliases": ["minimax-pro"]
+    },
+    "qwen-2-72b": {
+      "providerModelName": "qwen",
+      "aliases": ["qwen-2-72b"]
+    },
+     "step-2": {
+      "providerModelName": "step2",
+      "aliases": ["step-2"]
+    },
+    "mita-search": {
+      "providerModelName": "mita",
+      "aliases": ["mita-search"]
+    },
+    "kimi-pro": {
+      "providerModelName": "kimi",
+      "aliases": ["kimi-pro"]
+    },
+     "deepseek-reasoner": {
+      "providerModelName": "deepseek-reasoner",
+      "aliases": ["deepseek-reasoner"]
+    },
+    "yi-lightning": {
+      "providerModelName": "yi-lightning",
+      "aliases": ["yi-lightning"]
+    },
+    "hunyuan-lite": {
+      "providerModelName": "hunyuan-lite",
+       "aliases": ["hunyuan-lite"]
+    },
+     "glm-4-flash": {
+      "providerModelName": "glm-4-flash",
+      "aliases": ["glm-4-flash"]
+    },
+    "spark-max": {
+      "providerModelName": "spark-max",
+      "aliases": ["spark-max"]
+    },
+    "qwen-2.5-72b-instruct": {
+      "providerModelName": "qwen2572binstruct",
+      "aliases": ["qwen-2.5-72b-instruct"]
+    },
+     "ERNIE-Speed-128k": {
+      "providerModelName": "ERNIE-Speed-128k",
+       "aliases": ["ERNIE-Speed-128k"]
+    },
+    "grok-v2": {
+      "providerModelName": "grok",
+      "aliases": ["grok-v2"]
+    },
+    "llama-3.3-70b": {
+      "providerModelName": "llama3370b",
+      "aliases": ["llama-3.3-70b"]
+    },
+    "claude-3.5-sonnet-poe": {
+      "providerModelName": "claude_3_igloo",
+       "aliases": ["claude-3.5-sonnet-poe"]
+    },
+    "gemini-2.0-flash-exp": {
+      "providerModelName": "gemini_2_falsh",
+      "aliases": ["gemini-2.0-flash-exp"]
+    }
+  }
+}

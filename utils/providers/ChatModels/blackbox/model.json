@@ -1,0 +1,20 @@
+{
+  "models": {
+    "claude-3.5-sonnet": {
+      "providerModelName": "claude-3.5-sonnet",
+      "aliases": ["claude-3.5-sonnet"]
+    },
+    "gemini-pro": {
+      "providerModelName": "gemini-pro",
+       "aliases": ["gemini-pro"]
+    },
+    "gpt-4o": {
+      "providerModelName": "gpt-4o",
+      "aliases": ["gpt-4o"]
+    },
+    "llama-3.1-405b": {
+      "providerModelName": "llama-3.1-405b",
+      "aliases": ["llama-3.1-405b"]
+    }
+  }
+}

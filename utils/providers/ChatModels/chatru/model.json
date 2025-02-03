@@ -1,0 +1,32 @@
+{
+  "models": {
+    "claude-3.5-sonnet": {
+      "providerModelName": "claude-sonnet-3.5",
+       "aliases": ["claude-3.5-sonnet"]
+    },
+    "deepseek-r1": {
+      "providerModelName": "deepseek-r1",
+      "aliases": ["deepseek-r1"]
+    },
+    "deepseek-v3": {
+      "providerModelName": "deepseek-v3",
+      "aliases": ["deepseek-v3"]
+    },
+    "gemini-pro": {
+      "providerModelName": "gemini-pro",
+      "aliases": ["gemini-pro"]
+    },
+     "o1-preview": {
+        "providerModelName": "o1-preview",
+        "aliases": ["o1-preview"]
+    },
+    "gemini-1.5-flash-vision": {
+      "providerModelName": "gemini-1.5-flash-vision",
+       "aliases": ["gemini-1.5-flash-vision"]
+    },
+    "gpt-4o-vision": {
+      "providerModelName": "gpt-4o-vision",
+      "aliases": ["gpt-4o-vision"]
+    }
+  }
+}

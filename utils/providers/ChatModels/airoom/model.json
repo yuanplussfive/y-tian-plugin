@@ -1,0 +1,8 @@
+{
+  "models": {
+    "claude-3.5-haiku": {
+      "providerModelName": "claude-3.5-haiku",
+       "aliases": ["claude-3.5-haiku"]
+    }
+  }
+}

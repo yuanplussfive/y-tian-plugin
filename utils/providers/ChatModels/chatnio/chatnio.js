@@ -1,6 +1,17 @@
+import { createRequire } from 'module'
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const require = createRequire(import.meta.url);
+const formDataPath = join(__dirname, '../../../../node_modules/form-data');
+const NodeFormData = require(formDataPath);
+const WebSocketPath = join(__dirname, '../../../../node_modules/ws');
+const WebSocket = require(WebSocketPath);
+const mimeTypesPath = join(__dirname, '../../../../node_modules/mime-types');
+const mimeTypes = require(mimeTypesPath);
+const { fetch } = globalThis;
 import puppeteer from 'puppeteer';
-import { dependencies } from "../../../../YTdependence/dependencies.js";
-const { WebSocket, FormData: NodeFormData, mimeTypes, fetch } = dependencies;
 
 // 获取MIME类型
 function getMimeType(filename) {
@@ -332,7 +343,7 @@ let cachedToken = null;
 let cachedChat = null;
 
 // 主要导出函数
-export async function Chatnio(model, messages, fileUrl = null) {
+export async function Chatnio(messages, model, fileUrl = null) {
     try {
         if (messages.length === 1 || !cachedToken || !cachedChat) {
             cachedToken = await simulateWithPuppeteer();
