@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>配置管理</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>配置管理</h1>
+            <p class="subtitle">在这里管理您的系统配置</p>
+        </header>
+
+        <main>
+            <div class="actions">
+                <button id="saveBtn" class="btn primary">保存配置</button>
+                <button id="refreshBtn" class="btn secondary">刷新</button>
+                <span id="message" class="message"></span>
+            </div>
+            <div id="editor" class="editor-container"></div>
+        </main>
+    </div>
+    <script src="/js/config.js"></script>
+</body>
+</html>

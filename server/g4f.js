@@ -6,6 +6,10 @@ import bodyParser from 'koa-bodyparser';
 import crypto from 'crypto';
 import cors from '@koa/cors';
 import { PassThrough } from 'stream';
+import fs from 'fs/promises';
+import serve from 'koa-static';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = new Koa();
 const router = new Router();
@@ -41,6 +45,7 @@ const MODEL_MAP = {
   'ERNIE-Speed-128k': 'ERNIE-Speed-128k-nx',
   
   // 开源模型
+  'deepseek-r1': 'deepseek-r1-nx',
   'deepseek-reasoner': 'deepseek-reasoner-nx',
   'deepseek-v3': 'deepseek-v2.5-nx',
   'llama-3.1-405b': 'llama-3.1-405b-nx',
@@ -75,11 +80,7 @@ const MODEL_MAP = {
  */
 async function getModelResponse(model, history) {
   try {
-    const modelName = MODEL_MAP[model];
-    if (!modelName) {
-      throw new Error('不支持的模型类型');
-    }
-    return await NXModelResponse(history, modelName);
+    return await NXModelResponse(history, model);
   } catch (error) {
     console.error('获取模型响应失败:', error);
     return null;
@@ -134,7 +135,7 @@ router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
           id: `chatcmpl-${crypto.randomBytes(12).toString('hex')}`,
           object: 'chat.completion.chunk',
           created: Math.floor(Date.now() / 1000),
-          model: MODEL_MAP[model] || MODEL_MAP['gpt-4o-mini'],
+          model: model || 'gpt-4o-mini',
           choices: [{
             index: 0,
             delta: { content: chunk },
@@ -150,7 +151,7 @@ router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
         id: `chatcmpl-${crypto.randomBytes(12).toString('hex')}`,
         object: 'chat.completion.chunk',
         created: Math.floor(Date.now() / 1000),
-        model: MODEL_MAP[model] || MODEL_MAP['gpt-4o-mini'],
+        model: model || 'gpt-4o-mini',
         choices: [{
           index: 0,
           delta: {},
@@ -200,11 +201,259 @@ router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
   }
 });
 
+// 修改配置文件相关的路由
+router.get('/v1/config', validateApiKey, async (ctx) => {
+  try {
+    const config = await fs.readFile('../config/message.yaml', 'utf8');
+    ctx.body = { config };
+  } catch (error) {
+    ctx.status = 500;
+    ctx.body = { error: error };
+  }
+});
+
+router.post('/v1/config', validateApiKey, async (ctx) => {
+  try {
+    const { config } = ctx.request.body;
+    await fs.writeFile('../config/message.yaml', config, 'utf8');
+    ctx.body = { message: '配置更新成功' };
+  } catch (error) {
+    ctx.status = 500;
+    ctx.body = { error: '更新配置文件失败' };
+  }
+});
+
+// 修改这部分代码的位置和内容
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 首先配置静态文件服务
+app.use(serve(path.join(__dirname, 'public')));
+
+// 创建一个新的路由来处理根路径
+router.get('/', async (ctx) => {
+    try {
+        ctx.type = 'html';
+        const htmlContent = await fs.readFile(path.join(__dirname, 'public', 'config.html'), 'utf8');
+        ctx.body = htmlContent;
+    } catch (error) {
+        console.error('读取HTML文件失败:', error);
+        ctx.status = 500;
+        ctx.body = '服务器错误';
+    }
+});
+
+// 确保文件存在
+async function ensurePublicFiles() {
+    const publicDir = path.join(__dirname, 'public');
+    const cssDir = path.join(publicDir, 'css');
+    const jsDir = path.join(publicDir, 'js');
+
+    // 创建必要的目录
+    await fs.mkdir(publicDir, { recursive: true });
+    await fs.mkdir(cssDir, { recursive: true });
+    await fs.mkdir(jsDir, { recursive: true });
+
+    // 创建 HTML 文件
+    const htmlContent = `
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>配置管理</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>配置管理</h1>
+            <p class="subtitle">在这里管理您的系统配置</p>
+        </header>
+
+        <main>
+            <div class="actions">
+                <button id="saveBtn" class="btn primary">保存配置</button>
+                <button id="refreshBtn" class="btn secondary">刷新</button>
+                <span id="message" class="message"></span>
+            </div>
+            <div id="editor" class="editor-container"></div>
+        </main>
+    </div>
+    <script src="/js/config.js"></script>
+</body>
+</html>`;
+
+    // 创建 CSS 文件
+    const cssContent = `
+:root {
+    --primary-color: #2563eb;
+    --bg-color: #111827;
+    --surface-color: #1f2937;
+    --text-color: #ffffff;
+    --text-secondary: #9ca3af;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: #1d4ed8;
+}
+
+.btn.secondary {
+    background-color: #4b5563;
+    color: white;
+}
+
+.btn.secondary:hover {
+    background-color: #374151;
+}
+
+.editor-container {
+    height: 600px;
+    border: 1px solid #374151;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.message {
+    padding: 0.5rem;
+    color: #10b981;
+    font-size: 0.875rem;
+}
+
+.message.error {
+    color: #ef4444;
+}`;
+
+    // 创建 JavaScript 文件
+    const jsContent = `
+let editor;
+
+require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' } });
+require(['vs/editor/editor.main'], function () {
+    editor = monaco.editor.create(document.getElementById('editor'), {
+        value: '',
+        language: 'yaml',
+        theme: 'vs-dark',
+        minimap: { enabled: false },
+        fontSize: 14,
+        lineNumbers: 'on',
+        scrollBeyondLastLine: false,
+        automaticLayout: true,
+    });
+
+    fetchConfig();
+});
+
+async function fetchConfig() {
+    try {
+        const response = await fetch('/v1/config', {
+            headers: {
+                'Authorization': \`Bearer \${localStorage.getItem('apiKey') || 'sk-123456'}\`
+            }
+        });
+        const data = await response.json();
+        editor.setValue(data.config || '');
+        showMessage('配置已加载');
+    } catch (error) {
+        showMessage('获取配置失败', true);
+    }
+}
+
+async function saveConfig() {
+    try {
+        const config = editor.getValue();
+        const response = await fetch('/v1/config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': \`Bearer \${localStorage.getItem('apiKey') || 'sk-123456'}\`
+            },
+            body: JSON.stringify({ config })
+        });
+        const data = await response.json();
+        showMessage(data.message || '保存成功');
+    } catch (error) {
+        showMessage('保存失败', true);
+    }
+}
+
+function showMessage(text, isError = false) {
+    const messageEl = document.getElementById('message');
+    messageEl.textContent = text;
+    messageEl.className = \`message \${isError ? 'error' : ''}\`;
+    setTimeout(() => {
+        messageEl.textContent = '';
+    }, 3000);
+}
+
+document.getElementById('saveBtn').addEventListener('click', saveConfig);
+document.getElementById('refreshBtn').addEventListener('click', fetchConfig);`;
+
+    // 写入文件
+    await fs.writeFile(path.join(publicDir, 'config.html'), htmlContent);
+    await fs.writeFile(path.join(cssDir, 'style.css'), cssContent);
+    await fs.writeFile(path.join(jsDir, 'config.js'), jsContent);
+}
+
+// 在启动服务器之前确保文件存在
+await ensurePublicFiles();
+
 // 注册路由
 app.use(router.routes()).use(router.allowedMethods());
 
 // 启动服务器
 const PORT = process.env.PORT || 7799;
 app.listen(PORT, () => {
-  console.log(`服务器已启动,监听端口 ${PORT}`);
+    console.log(`服务器已启动,监听端口 ${PORT}`);
 });

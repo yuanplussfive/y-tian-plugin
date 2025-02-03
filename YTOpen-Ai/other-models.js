@@ -1587,17 +1587,41 @@ export const other_models = [
   {
     "id": 196,
     "model": "o3-mini",
-    "points": "逆向渠道",
+    "points": "OpenAi",
     "token": 128000,
     "features": ["conversation", "code"],
-    "quota": 0
+    "quota": 6
   },
   {
     "id": 197,
     "model": "o3-mini-all",
-    "points": "逆向渠道",
+    "points": "OpenAi Plus",
     "token": 128000,
     "features": ["conversation", "code"],
+    "quota": 6
+  },
+  {
+    "id": 198,
+    "model": "o3-mini-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation", "code"],
     "quota": 0
+  },
+  {
+    "id": 199,
+    "model": "o1",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation", "code"],
+    "quota": 0
+  },
+  {
+    "id": 200,
+    "model": "deepseek-r1-nothinking",
+    "points": "deepseek",
+    "token": 64000,
+    "features": ["conversation", "code"],
+    "quota": 8
   }
 ]
