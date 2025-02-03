@@ -38,6 +38,7 @@
     "koa-bodyparser": "^4.4.1",
     "node-fetch": "^3.3.2",
     "@koa/cors": "^4.0.0",
-    "pdf-parse": "^1.1.1"
+    "pdf-parse": "^1.1.1",
+    "koa-static": "^5.0.0"
   }
 }
