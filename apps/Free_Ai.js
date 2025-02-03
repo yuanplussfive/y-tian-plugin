@@ -1,9 +1,9 @@
-import { dependencies } from "../../plugins/y-tian-plugin/YTdependence/dependencies.js";
+import { dependencies } from "../YTdependence/dependencies.js";
 const { fs, _path, common, replyBasedOnStyle, puppeteer, NXModelResponse } = dependencies;
-import { getFileInfo } from '../y-tian-plugin/utils/fileUtils.js';
-import { TakeImages } from '../y-tian-plugin/utils/fileUtils.js';
-import { Chatru_gemini } from '../y-tian-plugin/utils/providers/VisionModels/chatru/gemini.js';
-import { processUploadedFile } from '../y-tian-plugin/YTOpen-Ai/tools/processUploadedFile.js'
+import { getFileInfo } from '../utils/fileUtils.js';
+import { TakeImages } from '../utils/fileUtils.js';
+import { Chatru_gemini } from '../utils/providers/VisionModels/chatru/gemini.js';
+import { processUploadedFile } from '../YTOpen-Ai/tools/processUploadedFile.js'
 const aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
 const aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
 const styles = aiSettings.chatgpt.ai_chat_style;
