@@ -208,7 +208,7 @@ async function screen(num, puppeteer) {
     HunyuanLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hunyuan.png",
     KimiLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/kimi.jpeg",
     MinimaxLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hailuo.png",
-    StepLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hailuo.png",
+    StepLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/step.png",
     MitaLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/mita.jpg",
   }
   const img = await puppeteer.screenshot('777', {

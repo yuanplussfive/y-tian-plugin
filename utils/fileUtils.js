@@ -145,41 +145,41 @@ export async function removeDuplicates(array) {
 
 export async function getBase64Image(imageUrl, filename) {
   try {
-      const response = await axios.get(imageUrl, {
-          responseType: 'arraybuffer',
-          timeout: 15000,
-          maxRedirects: 5,
-          maxBodyLength: 15 * 1024 * 1024, 
-          validateStatus: function (status) {
-              return status >= 200 && status <= 500;
-          }
-      });
-
-      if (response?.status >= 400) {
-          return "该图片链接已过期，请重新获取";
+    const response = await axios.get(imageUrl, {
+      responseType: 'arraybuffer',
+      timeout: 15000,
+      maxRedirects: 5,
+      maxBodyLength: 15 * 1024 * 1024,
+      validateStatus: function (status) {
+        return status >= 200 && status <= 500;
       }
+    });
 
-      // 检查是否返回了JSON错误信息(腾讯下载图床)
-      if (response.headers['content-type']?.includes('application/json')) {
-          const text = Buffer.from(response.data).toString();
-          if (text.includes('retmsg') || text.includes('expired') || text.includes('error')) {
-              return "该图片链接已过期，请重新获取";
-          }
+    if (response?.status >= 400) {
+      return "该图片链接已过期，请重新获取";
+    }
+
+    // 检查是否返回了JSON错误信息(腾讯下载图床)
+    if (response.headers['content-type']?.includes('application/json')) {
+      const text = Buffer.from(response.data).toString();
+      if (text.includes('retmsg') || text.includes('expired') || text.includes('error')) {
+        return "该图片链接已过期，请重新获取";
       }
+    }
 
-      const buffer = Buffer.from(response.data);
-       // 检查是否是有效的图片格式
-       if (!isBufferImage(buffer)) {
-           return "无效的图片格式";
-       }
+    const buffer = Buffer.from(response.data);
+    // 检查是否是有效的图片格式
+    if (!isBufferImage(buffer)) {
+      return "无效的图片格式";
+    }
 
-      const mimeType = mimeTypes.lookup(filename) || 'application/octet-stream';
-      const base64 = `data:${mimeType};base64,` + buffer.toString('base64');
-      return base64;
+    const mimeType = mimeTypes.lookup(filename) || 'application/octet-stream';
+    const base64 = `data:${mimeType};base64,` + buffer.toString('base64');
+    return base64;
 
   } catch (error) {
-      console.error('校验失败:', error.message);
-      return "无效的图片下载链接";
+    console.error('校验失败:', error.message);
+    return "无效的图片下载链接";
   }
 }
 
@@ -192,43 +192,43 @@ export async function getBase64Image(imageUrl, filename) {
  */
 export async function getBase64File(fileUrl, filename, type = 'file') {
   try {
-      const response = await axios.get(fileUrl, {
-          responseType: 'arraybuffer',
-          timeout: 20000, // 设置超时时间为20秒
-          maxRedirects: 5, // 设置最大重定向次数
-          maxBodyLength: 20 * 1024 * 1024,
-          validateStatus: function (status) {
-              return status >= 200 && status <= 500;
-          }
-      });
-
-      if (response?.status >= 400) {
-          return "该文件链接已过期，请重新获取";
+    const response = await axios.get(fileUrl, {
+      responseType: 'arraybuffer',
+      timeout: 20000, // 设置超时时间为20秒
+      maxRedirects: 5, // 设置最大重定向次数
+      maxBodyLength: 20 * 1024 * 1024,
+      validateStatus: function (status) {
+        return status >= 200 && status <= 500;
       }
+    });
 
-      // 检查是否返回了JSON错误信息
-      if (response.headers['content-type']?.includes('application/json')) {
-          const text = Buffer.from(response.data).toString();
-          if (text.includes('retmsg') || text.includes('expired') || text.includes('error')) {
-              return "该文件链接已过期，请重新获取";
-          }
+    if (response?.status >= 400) {
+      return "该文件链接已过期，请重新获取";
+    }
+
+    // 检查是否返回了JSON错误信息
+    if (response.headers['content-type']?.includes('application/json')) {
+      const text = Buffer.from(response.data).toString();
+      if (text.includes('retmsg') || text.includes('expired') || text.includes('error')) {
+        return "该文件链接已过期，请重新获取";
       }
+    }
 
-      const buffer = Buffer.from(response.data);
+    const buffer = Buffer.from(response.data);
 
-      // 如果是图片类型，需要验证图片格式
-      if (type === 'img' && !isBufferImage(buffer)) {
-          return "无效的图片格式";
-      }
+    // 如果是图片类型，需要验证图片格式
+    if (type === 'img' && !isBufferImage(buffer)) {
+      return "无效的图片格式";
+    }
 
-      // 获取MIME类型
-      const mimeType = getMimeType(filename, type);
-      const base64 = `data:${mimeType};base64,` + buffer.toString('base64');
-      return base64;
+    // 获取MIME类型
+    const mimeType = getMimeType(filename, type);
+    const base64 = `data:${mimeType};base64,` + buffer.toString('base64');
+    return base64;
 
   } catch (error) {
-      console.error('校验失败:', error.message);
-      return type === 'img' ? "无效的图片下载链接" : "无效的文件下载链接";
+    console.error('校验失败:', error.message);
+    return type === 'img' ? "无效的图片下载链接" : "无效的文件下载链接";
   }
 }
 
@@ -240,12 +240,12 @@ export async function getBase64File(fileUrl, filename, type = 'file') {
 */
 function getMimeType(filename, type) {
   const mimeType = mimeTypes.lookup(filename);
-  
+
   if (mimeType) return mimeType;
-  
+
   // 默认MIME类型
   if (type === 'img') {
-      return 'image/jpeg';
+    return 'image/jpeg';
   }
   return 'application/octet-stream';
 }
@@ -257,19 +257,19 @@ function getMimeType(filename, type) {
 */
 function isBufferImage(buffer) {
   const imageSignatures = {
-      jpeg: ['FF', 'D8'],
-      png: ['89', '50', '4E', '47'],
-      gif: ['47', '49', '46'],
-      webp: ['52', '49', '46', '46'],
-      bmp: ['42', '4D']
+    jpeg: ['FF', 'D8'],
+    png: ['89', '50', '4E', '47'],
+    gif: ['47', '49', '46'],
+    webp: ['52', '49', '46', '46'],
+    bmp: ['42', '4D']
   };
 
-  const fileHeader = [...buffer.slice(0, 8)].map(byte => 
-      byte.toString(16).padStart(2, '0').toUpperCase()
+  const fileHeader = [...buffer.slice(0, 8)].map(byte =>
+    byte.toString(16).padStart(2, '0').toUpperCase()
   );
 
   return Object.values(imageSignatures).some(signature =>
-      signature.every((byte, index) => fileHeader[index] === byte)
+    signature.every((byte, index) => fileHeader[index] === byte)
   );
 }
 
@@ -461,7 +461,7 @@ async function takeSourceMsg(e, { img, file } = {}) {
  */
 export async function getFileInfo(e) {
   try {
-    const ncResult = await getGroupFileUrl(e);
+    const ncResult = await getFileUrl(e);
     if (ncResult?.fileUrl) {
       return {
         fileUrl: ncResult.fileUrl,
@@ -493,7 +493,7 @@ export async function getFileInfo(e) {
   }
 }
 
-async function getGroupFileUrl(e) {
+async function getFileUrl(e) {
   if (!e?.reply_id) return {};
 
   const replyMsg = await getReplyMsg(e);
@@ -504,17 +504,31 @@ async function getGroupFileUrl(e) {
   for (const msg of messages) {
     if (msg.type === 'file') {
       const file_id = msg.data?.file_id;
-      const { data: { url } } = await e.bot.sendApi("get_group_file_url", {
-        group_id: e.group_id,
-        file_id
-      });
 
-      const filename = await extractFileExtension(file_id);
-
-      return {
-        fileUrl: `${url}file.${filename}`,
-        fileName: `file.${filename}`
-      };
+      // 判断是群聊还是私聊
+      if (e.group_id) {
+        // 群聊文件
+        const { data: { url } } = await e.bot.sendApi("get_group_file_url", {
+          group_id: e.group_id,
+          file_id
+        });
+        const filename = await extractFileExtension(file_id);
+        return {
+          fileUrl: `${url}file.${filename}`,
+          fileName: `file.${filename}`
+        };
+      } else {
+        // 私聊文件
+        const { data: { url } } = await e.bot.sendApi("get_private_file_url", {
+          user_id: e.user_id,
+          file_id
+        });
+        const filename = await extractFileExtension(file_id);
+        return {
+          fileUrl: `${url}file.${filename}`,
+          fileName: `file.${filename}`
+        };
+      }
     }
   }
 
@@ -523,10 +537,22 @@ async function getGroupFileUrl(e) {
 
 async function getReplyMsg(e) {
   try {
-    const historyResponse = await e.bot.sendApi("get_group_msg_history", {
-      group_id: e.group_id,
-      count: 1,
-    });
+    let historyResponse;
+
+    // 判断是群聊还是私聊
+    if (e.group_id) {
+      // 群聊消息历史
+      historyResponse = await e.bot.sendApi("get_group_msg_history", {
+        group_id: e.group_id,
+        count: 1,
+      });
+    } else {
+      // 私聊消息历史
+      historyResponse = await e.bot.sendApi("get_private_msg_history", {
+        user_id: e.user_id,
+        count: 1,
+      });
+    }
 
     if (!historyResponse?.data?.messages || historyResponse.data.messages.length === 0) {
       return null;

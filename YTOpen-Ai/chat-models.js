@@ -857,6 +857,104 @@ export const chat_models = {
       "token_count": 2000,
       "Magnification": "6.0/次",
       "features": ['video']
+    },
+    {
+      "id": "122",
+      "name": "gemini-2.0-flash-exp",
+      "token_count": 1000000,
+      "Magnification": 0.6,
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "123",
+      "name": "gemini-2.0-flash-thinking-exp-1219",
+      "token_count": 1000000,
+      "Magnification": 0.6,
+      "features": ['conversation', 'code', 'image_recognition']
+    },
+    {
+      "id": "124",
+      "name": "o3-mini",
+      "token_count": 128000,
+      "Magnification": 0.5,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "125",
+      "name": "o3-mini-all",
+      "token_count": 128000,
+      "Magnification": 0.5,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "126",
+      "name": "o3-mini-high",
+      "token_count": 128000,
+      "Magnification": '0.15/次',
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "127",
+      "name": "o3-mini-high-all",
+      "token_count": 128000,
+      "Magnification": '0.15/次',
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "128",
+      "name": "deepseek-v3",
+      "token_count": 64000,
+      "Magnification": 0.27,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "129",
+      "name": "deepseek-reasoner",
+      "token_count": 64000,
+      "Magnification": 5,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "130",
+      "name": "deepseek-r1",
+      "token_count": 64000,
+      "Magnification": 0.5,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "131",
+      "name": "moonshot-v1-8k",
+      "token_count": 8000,
+      "Magnification": 0.85,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "132",
+      "name": "moonshot-v1-32k",
+      "token_count": 32000,
+      "Magnification": 1.7,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "133",
+      "name": "moonshot-v1-128k",
+      "token_count": 128000,
+      "Magnification": 4.2,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "134",
+      "name": "claude-3-5-sonnet-all",
+      "token_count": 200000,
+      "Magnification": 1.5,
+      "features": ['conversation', 'code', 'image_recognition', 'file']
+    },
+    {
+      "id": "135",
+      "name": "claude-3-5-haiku-20241022",
+      "token_count": 200000,
+      "Magnification": 0.5,
+      "features": ['conversation', 'code']
     }
   ]
 }
