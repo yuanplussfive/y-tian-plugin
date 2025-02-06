@@ -1623,5 +1623,13 @@ export const other_models = [
     "token": 64000,
     "features": ["conversation", "code"],
     "quota": 8
+  },
+  {
+    "id": 201,
+    "model": "gemini-2-flash-thinking-exp",
+    "points": "逆向渠道",
+    "token": 1000000,
+    "features": ["conversation", "code"],
+    "quota": 0
   }
 ]
