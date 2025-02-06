@@ -1,0 +1,34 @@
+{
+  "models": {
+    "deepseek-v3": {
+      "providerModelName": "deepseek-v3",
+      "aliases": [
+        "deepseek-v3"
+      ]
+    },
+    "QWQ-32b-preview": {
+      "providerModelName": "QWQ-32b-preview",
+      "aliases": [
+        "QWQ-32b-preview"
+      ]
+    },
+    "gemini-1.5-flash": {
+      "providerModelName": "gemini-1.5-flash",
+      "aliases": [
+        "gemini-1.5-flash"
+      ]
+    },
+    "gemini-1.5-pro": {
+      "providerModelName": "gemini-1.5-pro",
+      "aliases": [
+        "gemini-1.5-pro"
+      ]
+    },
+    "gemini-2.0-flash-thinking-exp": {
+      "providerModelName": "gemini-2.0-flash-thinking",
+      "aliases": [
+        "gemini-2.0-flash-thinking-exp"
+      ]
+    }
+  }
+}

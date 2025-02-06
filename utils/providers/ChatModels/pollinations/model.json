@@ -1,0 +1,64 @@
+{
+  "models": {
+    "gemini-2.0-flash-exp": {
+      "providerModelName": "gemini-2-flash",
+      "aliases": [
+        "gemini-2.0-flash-exp"
+      ]
+    },
+    "gpt-4o": {
+      "providerModelName": "gpt-4o",
+      "aliases": [
+        "gpt-4o"
+      ]
+    },
+    "gpt-4o-mini": {
+      "providerModelName": "gpt-4o-mini",
+      "aliases": [
+        "gpt-4o-mini"
+      ]
+    },
+    "llama-3.3-70b": {
+      "providerModelName": "llama-70b",
+      "aliases": [
+        "llama-3.3-70b"
+      ]
+    },
+    "qwen-2-72b": {
+      "providerModelName": "qwen-72b",
+      "aliases": [
+        "qwen-2-72b"
+      ]
+    },
+    "deepseek-v3": {
+      "providerModelName": "deepseek-v3",
+      "aliases": [
+        "deepseek-v3"
+      ]
+    },
+    "qwen-coder-32b": {
+      "providerModelName": "qwen-coder-32b",
+      "aliases": [
+        "qwen-coder-32b"
+      ]
+    },
+    "deepseek-r1": {
+      "providerModelName": "deepseek-r1",
+      "aliases": [
+        "deepseek-r1"
+      ]
+    },
+    "mistral-7b": {
+      "providerModelName": "mistral-nemo",
+      "aliases": [
+        "mistral-7b"
+      ]
+    },
+    "gemini-2.0-flash-thinking-exp": {
+      "providerModelName": "gemini-2-flash-thinking",
+      "aliases": [
+        "gemini-2.0-flash-thinking-exp"
+      ]
+    }
+  }
+}

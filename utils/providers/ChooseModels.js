@@ -1,4 +1,4 @@
-import { blackboxAi } from "../providers/ChatModels/blackbox/blackbox.js";
+import { blackbox } from "../providers/ChatModels/blackbox/blackbox.js";
 import { airforce } from "../providers/ChatModels/airforce/airforce.js";
 import { nexra } from "../providers/ChatModels/nexra/nexra.js";
 import { FreeSearch } from "../providers/ChatModels/YT/FreeSearch.js";
@@ -8,6 +8,10 @@ import { e2b } from "../providers/ChatModels/e2b/e2b.js";
 import { chatru } from "../providers/ChatModels/chatru/chatru.js";
 import { zaiwen } from "../providers/ChatModels/zaiwen/zaiwen.js";
 import { Chatnio } from "../providers/ChatModels/chatnio/chatnio.js";
+import { pollinations } from "../providers/ChatModels/pollinations/pollinations.js";
+import { glider } from "../providers/ChatModels/glider/glider.js";
+import { gizai } from "../providers/ChatModels/gizai/gizai.js";
+import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -22,16 +26,20 @@ const RETRY_CONFIG = {
 
 // 存储服务商的成功/失败统计和权重配置
 const providerStats = {
-    blackbox: { success: 0, failure: 0, weight: 40 }, // blackbox 提供商
-    airforce: { success: 0, failure: 0, weight: 60 }, // airforce 提供商
-    nexra: { success: 0, failure: 0, weight: 70 }, // nexra 提供商
-    YT: { success: 0, failure: 0, weight: 50 }, // YT 提供商
-    airoom: { success: 10, failure: 0, weight: 20 }, // airoom 提供商
-    mhystical: { success: 0, failure: 0, weight: 40 }, // mhystical 提供商
-    e2b: { success: 0, failure: 0, weight: 90 }, // e2b 提供商
-    chatru: { success: 0, failure: 0, weight: 90 }, // chatru 提供商
-    zaiwen: { success: 0, failure: 0, weight: 90 }, // zaiwen 提供商
-    chatnio: { success: 0, failure: 0, weight: 95 } // chatnio 提供商
+    blackbox: { success: 0, failure: 0, weight: 75 },
+    airforce: { success: 0, failure: 0, weight: 50 },
+    nexra: { success: 0, failure: 0, weight: 50 },
+    YT: { success: 0, failure: 0, weight: 50 },
+    airoom: { success: 10, failure: 0, weight: 10 },
+    mhystical: { success: 0, failure: 0, weight: 40 },
+    e2b: { success: 0, failure: 0, weight: 90 },
+    chatru: { success: 0, failure: 0, weight: 90 },
+    zaiwen: { success: 0, failure: 0, weight: 90 },
+    chatnio: { success: 0, failure: 0, weight: 95 },
+    pollinations: { success: 0, failure: 0, weight: 88 },
+    glider: { success: 0, failure: 0, weight: 92 },
+    gizai: { success: 0, failure: 0, weight: 90 },
+    jmuz: { success: 0, failure: 0, weight: 70 }
 };
 
 // 获取当前文件所在的目录
@@ -53,26 +61,26 @@ fs.readdirSync(chatModelDir).forEach(provider => {
 const modelProviderMap = {};
 Object.keys(providerModelConfigs).forEach(provider => {
     const providerModels = providerModelConfigs[provider].models;
-    if(providerModels){ // 确保providerModels存在
-      Object.keys(providerModels).forEach(modelName => {
-        const modelConfig = providerModels[modelName];
-        if (!modelProviderMap[modelName]) {
-            modelProviderMap[modelName] = [];
-        }
-        if (!modelProviderMap[modelName].includes(provider)) {
-            modelProviderMap[modelName].push(provider);
-        }
-        if (modelConfig.aliases) {
-            modelConfig.aliases.forEach(alias => {
-                if (!modelProviderMap[alias]) {
-                    modelProviderMap[alias] = [];
-                }
-                if (!modelProviderMap[alias].includes(provider)) {
-                    modelProviderMap[alias].push(provider);
-                }
-            });
-        }
-    });
+    if (providerModels) { // 确保providerModels存在
+        Object.keys(providerModels).forEach(modelName => {
+            const modelConfig = providerModels[modelName];
+            if (!modelProviderMap[modelName]) {
+                modelProviderMap[modelName] = [];
+            }
+            if (!modelProviderMap[modelName].includes(provider)) {
+                modelProviderMap[modelName].push(provider);
+            }
+            if (modelConfig.aliases) {
+                modelConfig.aliases.forEach(alias => {
+                    if (!modelProviderMap[alias]) {
+                        modelProviderMap[alias] = [];
+                    }
+                    if (!modelProviderMap[alias].includes(provider)) {
+                        modelProviderMap[alias].push(provider);
+                    }
+                });
+            }
+        });
     }
 });
 
@@ -92,7 +100,7 @@ Object.keys(providerModelConfigs).forEach(provider => {
 
 // 提供商对应的API函数映射
 const providerApis = {
-    blackbox: blackboxAi,
+    blackbox: blackbox,
     airforce: airforce,
     nexra: nexra,
     YT: FreeSearch,
@@ -101,7 +109,11 @@ const providerApis = {
     e2b: e2b,
     chatru: chatru,
     zaiwen: zaiwen,
-    chatnio: Chatnio
+    chatnio: Chatnio,
+    pollinations: pollinations,
+    glider: glider,
+    gizai: gizai,
+    jmuz: jmuz
 };
 
 // 默认超时时间 (3分钟)
@@ -121,6 +133,7 @@ const modelTimeouts = {
     'gpt-4o-vision': 120000, // 2分钟
     'o1-mini': 120000, // 2分钟
     'o1-preview': 300000, // 5分钟
+    'gemini-2-flash-thinking-exp': 300000, // 5分钟
 };
 
 // 延迟函数 - 用于重试间隔
@@ -193,7 +206,7 @@ async function callProviderWithRetry(provider, messages, modelName, timeout, log
 
             if (response) {
                 updateStats(provider, true);
-                logger.info(`${chalk.green('成功')} 从 ${chalk.cyan(provider)} 提供商获取响应，模型 ${chalk.yellow(providerModelName)}，耗时 ${chalk.magenta(duration/1000)} s`);
+                logger.info(`${chalk.green('成功')} 从 ${chalk.cyan(provider)} 提供商获取响应，模型 ${chalk.yellow(providerModelName)}，耗时 ${chalk.magenta(duration / 1000)} s`);
                 return { success: true, response };
             }
 
@@ -207,7 +220,7 @@ async function callProviderWithRetry(provider, messages, modelName, timeout, log
             retryCount++;
             const endTime = Date.now(); // 记录请求结束时间
             const duration = endTime - startTime; // 计算请求耗时
-            logger.error(`${chalk.red('错误')} 在 ${chalk.cyan(provider)} 提供商，第 ${retryCount} 次重试，耗时 ${chalk.magenta(duration/1000)} s:`, error);
+            logger.error(`${chalk.red('错误')} 在 ${chalk.cyan(provider)} 提供商，第 ${retryCount} 次重试，耗时 ${chalk.magenta(duration / 1000)} s:`, error);
 
             if (retryCount < RETRY_CONFIG.maxRetries) {
                 await delay(RETRY_CONFIG.retryDelay);
@@ -218,7 +231,7 @@ async function callProviderWithRetry(provider, messages, modelName, timeout, log
     updateStats(provider, false);
     const endTime = Date.now(); // 记录请求结束时间
     const duration = endTime - startTime; // 计算请求耗时
-    logger.warn(`${chalk.yellow('失败')} 所有重试尝试，提供商 ${chalk.cyan(provider)}，耗时 ${chalk.magenta(duration/1000)} s`);
+    logger.warn(`${chalk.yellow('失败')} 所有重试尝试，提供商 ${chalk.cyan(provider)}，耗时 ${chalk.magenta(duration / 1000)} s`);
     return { success: false };
 }
 
@@ -229,7 +242,7 @@ const retryWithFallback = async (messages, modelName, availableProviders, timeou
         const provider = availableProviders[0];
         logger.debug(`只有一个可用提供商 ${chalk.cyan(provider)}，模型 ${chalk.yellow(modelName)}`);
         const result = await callProviderWithRetry(provider, messages, modelName, timeout, logger);
-        return result.success ? result.response : '逆向服务调用失败';
+        return result.success ? result.response?.trim() : '逆向服务调用失败';
     }
 
     // 多个提供商时，按优先级尝试
@@ -242,7 +255,7 @@ const retryWithFallback = async (messages, modelName, availableProviders, timeou
     let totalAttempts = 0;
 
     for (const provider of sortedProviders) {
-         // 记录当前尝试的提供商
+        // 记录当前尝试的提供商
         logger.debug(`尝试提供商：${chalk.cyan(provider)}，模型：${chalk.yellow(modelName)}，总尝试次数：${totalAttempts + 1}/${RETRY_CONFIG.maxTotalAttempts}`);
         // 检查总尝试次数是否超过限制
         if (totalAttempts >= RETRY_CONFIG.maxTotalAttempts) {
@@ -254,7 +267,7 @@ const retryWithFallback = async (messages, modelName, availableProviders, timeou
         totalAttempts += RETRY_CONFIG.maxRetries;
 
         if (result.success) {
-            return result.response;
+            return result.response?.trim();
         }
     }
 
@@ -364,7 +377,7 @@ function getSimilarModels(modelName, initialThreshold = 0.7, thresholdStep = 0.0
 }
 
 // 默认兜底模型
-const DEFAULT_FALLBACK_MODEL = 'gpt-3.5-turbo-16k';
+const DEFAULT_FALLBACK_MODEL = 'gpt-4o';
 
 
 class Logger {
@@ -435,7 +448,7 @@ export const NXModelResponse = async (messages, model, options = {}) => {
 
         // 如果原始模型调用成功，直接返回结果
         if (response && !(/失败|逆向/.test(response))) {
-            logger.info(`成功使用原始模型 ${chalk.yellow(normalizedModel)} 获取响应，总耗时 ${chalk.magenta(duration/1000)} s`);
+            logger.info(`成功使用原始模型 ${chalk.yellow(normalizedModel)} 获取响应，总耗时 ${chalk.magenta(duration / 1000)} s`);
             return response;
         }
 
@@ -460,7 +473,7 @@ export const NXModelResponse = async (messages, model, options = {}) => {
                     const endTimeSimilar = Date.now(); // 记录相似模型请求结束时间
                     const durationSimilar = endTimeSimilar - startTimeSimilar; // 计算相似模型请求耗时
                     if (fallbackResponse && fallbackResponse !== '所有逆向服务均失败') {
-                        logger.info(`成功使用相似模型 ${chalk.yellow(similarModel)} 获取响应，耗时 ${chalk.magenta(durationSimilar/1000)} s`);
+                        logger.info(`成功使用相似模型 ${chalk.yellow(similarModel)} 获取响应，耗时 ${chalk.magenta(durationSimilar / 1000)} s`);
                         return fallbackResponse;
                     }
                 } catch (fallbackError) {
@@ -474,13 +487,13 @@ export const NXModelResponse = async (messages, model, options = {}) => {
         logger.error(`所有可用服务（包括相似模型）均失败`);
         const endTimeAll = Date.now(); // 记录整个请求结束时间
         const durationAll = endTimeAll - startTime; // 计算整个请求耗时
-        logger.error(`所有可用服务（包括相似模型）均失败, 总耗时 ${chalk.magenta(durationAll/1000)} s`);
+        logger.error(`所有可用服务（包括相似模型）均失败, 总耗时 ${chalk.magenta(durationAll / 1000)} s`);
         return '所有可用服务（包括相似模型）均失败';
 
     } catch (error) {
         const endTimeAll = Date.now(); // 记录整个请求结束时间
         const durationAll = endTimeAll - startTime; // 计算整个请求耗时
-        logger.error(`服务调用出错，总耗时 ${chalk.magenta(durationAll/1000)} s：`, error);
+        logger.error(`服务调用出错，总耗时 ${chalk.magenta(durationAll / 1000)} s：`, error);
         return `服务调用失败: ${error.message}`;
     }
 };
@@ -520,4 +533,32 @@ export const updateProviderWeight = (provider, weight, options = {}) => {
     }
     logger.warn(`提供商 ${chalk.cyan(provider)} 无效或权重值无效`);
     return false;
+};
+
+// 获取所有模型和提供商，按照提供商调用顺序排列
+export const getAllModelsWithProviders = (options = {}) => {
+    const logger = new Logger(options);
+    logger.debug(`请求所有模型和提供商信息`);
+
+    const modelsWithProviders = {};
+
+    // 获取按优先级排序的提供商列表
+    const sortedProviders = getProvidersByPriority();
+
+    // 遍历排序后的提供商列表
+    sortedProviders.forEach(provider => {
+        // 遍历所有模型，查找当前提供商支持的模型
+        Object.keys(modelProviderMap).forEach(model => {
+            if (modelProviderMap[model].includes(provider)) {
+                if (!modelsWithProviders[model]) {
+                    modelsWithProviders[model] = [];
+                }
+                if (!modelsWithProviders[model].includes(provider)) {
+                    modelsWithProviders[model].push(provider);
+                }
+            }
+        });
+    });
+
+    return modelsWithProviders;
 };

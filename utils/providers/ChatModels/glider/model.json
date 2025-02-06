@@ -1,0 +1,28 @@
+{
+  "models": {
+    "deepseek-r1": {
+      "providerModelName": "deepseek-r1",
+      "aliases": [
+        "deepseek-r1"
+      ]
+    },
+    "llama-3.3-70b": {
+      "providerModelName": "llama-3.1-70b",
+      "aliases": [
+        "llama-3.3-70b"
+      ]
+    },
+    "llama-3.2-3b": {
+      "providerModelName": "llama-3.2-3b",
+      "aliases": [
+        "llama-3.2-3b"
+      ]
+    },
+    "llama-3.1-8b": {
+      "providerModelName": "llama-3.1-8b",
+      "aliases": [
+        "llama-3.1-8b"
+      ]
+    }
+  }
+}

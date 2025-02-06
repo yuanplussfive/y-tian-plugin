@@ -2,19 +2,57 @@
   "models": {
     "claude-3.5-sonnet": {
       "providerModelName": "claude-3.5-sonnet",
-      "aliases": ["claude-3.5-sonnet"]
+      "aliases": [
+        "claude-3.5-sonnet"
+      ]
     },
     "gemini-pro": {
       "providerModelName": "gemini-pro",
-       "aliases": ["gemini-pro"]
+      "aliases": [
+        "gemini-pro"
+      ]
     },
     "gpt-4o": {
       "providerModelName": "gpt-4o",
-      "aliases": ["gpt-4o"]
+      "aliases": [
+        "gpt-4o"
+      ]
     },
-    "llama-3.1-405b": {
-      "providerModelName": "llama-3.1-405b",
-      "aliases": ["llama-3.1-405b"]
+    "deepseek-r1": {
+      "providerModelName": "deepseek-r1",
+      "aliases": [
+        "deepseek-r1"
+      ]
+    },
+    "deepseek-v3": {
+      "providerModelName": "deepseek-v3",
+      "aliases": [
+        "deepseek-v3"
+      ]
+    },
+    "QwQ-32B-Preview": {
+      "providerModelName": "QwQ-32B-Preview",
+      "aliases": [
+        "QwQ-32B-Preview"
+      ]
+    },
+    "mixtral-8x7b": {
+      "providerModelName": "mixtral-8x7b",
+      "aliases": [
+        "mixtral-8x7b"
+      ]
+    },
+    "llama-3.3-70B": {
+      "providerModelName": "llama-3.3-70B",
+      "aliases": [
+        "llama-3.3-70B"
+      ]
+    },
+    "mistral-7b": {
+      "providerModelName": "mistral-7b",
+      "aliases": [
+        "mistral-7b"
+      ]
     }
   }
 }
