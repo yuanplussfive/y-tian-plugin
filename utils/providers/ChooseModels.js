@@ -12,6 +12,7 @@ import { pollinations } from "../providers/ChatModels/pollinations/pollinations.
 import { glider } from "../providers/ChatModels/glider/glider.js";
 import { gizai } from "../providers/ChatModels/gizai/gizai.js";
 import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
+import { merlin } from "../providers/ChatModels/merlin/merlin.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -39,7 +40,8 @@ const providerStats = {
     pollinations: { success: 0, failure: 0, weight: 88 },
     glider: { success: 0, failure: 0, weight: 92 },
     gizai: { success: 0, failure: 0, weight: 90 },
-    jmuz: { success: 0, failure: 0, weight: 70 }
+    jmuz: { success: 0, failure: 0, weight: 70 },
+    merlin: { success: 0, failure: 0, weight: 40 }
 };
 
 // 获取当前文件所在的目录
@@ -113,7 +115,8 @@ const providerApis = {
     pollinations: pollinations,
     glider: glider,
     gizai: gizai,
-    jmuz: jmuz
+    jmuz: jmuz,
+    merlin: merlin
 };
 
 // 默认超时时间 (3分钟)
