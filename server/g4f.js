@@ -101,71 +101,91 @@ router.get('/v1/models', validateApiKey, async (ctx) => {
   }
 });
 
-// 聊天完成接口
 router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
   try {
     const { messages, model = 'gpt-4o-mini', stream = false } = ctx.request.body;
 
-    // 流式响应设置
+    // 验证请求参数
+    if (!Array.isArray(messages) || messages.length === 0) {
+      throw new Error('messages必须是非空数组');
+    }
+
     if (stream) {
+      // 流式响应设置
       ctx.set({
         'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive'
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
+        'X-Accel-Buffering': 'no'
       });
-
       ctx.status = 200;
-      const response = await getModelResponse(model, messages);
-      if (!response) {
-        throw new Error('获取模型响应失败');
-      }
 
-      const content = response;
-      const chunks = content.match(/.{1,20}/g) || [content];
+      const responseStream = new PassThrough();
+      ctx.body = responseStream;
 
-      const stream = new PassThrough();
-      ctx.body = stream;
+      // 发送响应流
+      const sendSSE = (data) => {
+        const message = `data: ${JSON.stringify(data)}\n\n`;
+        return new Promise((resolve, reject) => {
+          const canWrite = responseStream.write(message);
+          if (canWrite) {
+            resolve();
+          } else {
+            responseStream.once('drain', resolve);
+          }
+        });
+      };
 
-      // 流式响应处理
-      for (const chunk of chunks) {
-        const data = {
+      try {
+        // 获取模型响应
+        const responseIterator = await getStreamingModelResponse(model, messages);
+
+        for await (const chunk of responseIterator) {
+          const data = {
+            id: `chatcmpl-${crypto.randomBytes(12).toString('hex')}`,
+            object: 'chat.completion.chunk',
+            created: Math.floor(Date.now() / 1000),
+            model,
+            choices: [{
+              index: 0,
+              delta: { content: chunk },
+              finish_reason: null
+            }]
+          };
+          await sendSSE(data);
+        }
+
+        // 发送完成标记
+        const finalMessage = {
           id: `chatcmpl-${crypto.randomBytes(12).toString('hex')}`,
           object: 'chat.completion.chunk',
           created: Math.floor(Date.now() / 1000),
-          model: model || 'gpt-4o-mini',
+          model,
           choices: [{
             index: 0,
-            delta: { content: chunk },
-            finish_reason: null
+            delta: {},
+            finish_reason: 'stop'
           }]
         };
-        stream.write(`data: ${JSON.stringify(data)}\
-\
-`);
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await sendSSE(finalMessage);
+        await sendSSE('[DONE]');
+        responseStream.end();
+
+      } catch (error) {
+        // 发送错误消息
+        const errorMessage = {
+          error: {
+            message: error.message,
+            type: 'server_error',
+            code: 'internal_error'
+          }
+        };
+        await sendSSE(errorMessage);
+        responseStream.end();
       }
 
-      // 发送结束标记
-      const finalData = {
-        id: `chatcmpl-${crypto.randomBytes(12).toString('hex')}`,
-        object: 'chat.completion.chunk',
-        created: Math.floor(Date.now() / 1000),
-        model: model || 'gpt-4o-mini',
-        choices: [{
-          index: 0,
-          delta: {},
-          finish_reason: 'stop'
-        }]
-      };
-      stream.write(`data: ${JSON.stringify(finalData)}\
-\
-`);
-      stream.write('data: [DONE]\
-\
-');
-      stream.end();
-
     } else {
+      // 非流式响应
       const response = await getModelResponse(model, messages);
       if (!response) {
         throw new Error('获取模型响应失败');
@@ -173,12 +193,11 @@ router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
 
       const { prompt_tokens, completion_tokens, total_tokens } = await TotalTokens(response, messages);
 
-      // 普通响应
       ctx.body = {
         id: `chatcmpl-${crypto.randomBytes(12).toString('hex')}`,
         object: 'chat.completion',
         created: Math.floor(Date.now() / 1000),
-        model: model,
+        model,
         choices: [{
           index: 0,
           message: {
@@ -196,13 +215,39 @@ router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
     }
   } catch (error) {
     console.error('处理请求失败:', error);
-    ctx.status = 500;
+    ctx.status = error.status || 500;
     ctx.body = {
-      error: error.message,
-      message: '服务器内部错误'
+      error: {
+        message: error.message,
+        type: 'server_error',
+        code: error.code || 'internal_error'
+      }
     };
   }
 });
+
+// 流式响应生成器函数
+async function* getStreamingModelResponse(model, messages) {
+  try {
+    const response = await getModelResponse(model, messages);
+    if (!response) {
+      throw new Error('获取模型响应失败');
+    }
+
+    // 优化分块逻辑
+    const chunks = response.split(/(?<=[\.\!\?\。\！\？])\s+/);
+
+    for (const chunk of chunks) {
+      if (chunk.trim()) {
+        yield chunk.trim();
+        // 控制输出速度
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+    }
+  } catch (error) {
+    throw new Error(`生成响应失败: ${error.message}`);
+  }
+}
 
 // 修改配置文件相关的路由
 router.get('/v1/config', validateApiKey, async (ctx) => {
