@@ -171,8 +171,6 @@ class PackdirClient {
         }
     }
 
-    // ... existing code ...
-
     // 提取 axios 错误信息的辅助函数
     getErrorMessage(error) {
         if (error.response) {

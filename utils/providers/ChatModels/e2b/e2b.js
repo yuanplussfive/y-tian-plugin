@@ -423,7 +423,7 @@ Try to reply as if you were a living person, not just cold mechanical language, 
     } catch (error) {
       const text = await responseClone.text();
       //console.error('原始响应内容:', text);
-      return '请求失败, 疑似上下文超过最大限制或ip被风控, 请结束对话后重试, 切勿重复请求该对话!';
+      return null;
     }
   }
 }
