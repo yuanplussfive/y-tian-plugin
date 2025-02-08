@@ -20,6 +20,7 @@ import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
 import { dependencies } from '../YTdependence/dependencies.js';
 import { ThinkingProcessor } from '../utils/providers/ThinkingProcessor.js';
+import { TotalTokens } from '../YTOpen-Ai/tools/CalculateToken.js';
 const { fs, YAML, crypto, path } = dependencies;
 
 /**
@@ -989,7 +990,7 @@ export class ExamplePlugin extends plugin {
 
                   // 处理工具特定的消息
                   const output = await this.processToolSpecificMessage(toolReply, functionName)
-                  await e.reply(output);
+                  await this.sendSegmentedMessage(e, output)
 
                   // 记录工具调用的回复消息
                   try {
@@ -1094,7 +1095,7 @@ export class ExamplePlugin extends plugin {
         // 检查是否上一次处理过函数调用，避免连续两次回复
         if (!hasHandledFunctionCall) {
           const output = await this.processToolSpecificMessage(message.content)
-          await e.reply(output);
+          await this.sendSegmentedMessage(e, output)
 
           // 在这里直接记录 Bot 发送的消息
           try {
@@ -1189,7 +1190,7 @@ export class ExamplePlugin extends plugin {
       if (errorResponse && errorResponse.choices && errorResponse.choices[0].message.content) {
         const finalErrorReply = errorResponse.choices[0].message.content;
         const output = await this.processToolSpecificMessage(finalErrorReply);
-        await e.reply(output);
+        await this.sendSegmentedMessage(e, output)
       } else {
         await e.reply(errorMessage);
       }
@@ -1487,7 +1488,7 @@ export class ExamplePlugin extends plugin {
             const toolReply = toolResponse.choices[0].message.content;
 
             const output = await this.processToolSpecificMessage(toolReply, functionName)
-            await e.reply(output);
+            await this.sendSegmentedMessage(e, output)
 
             // 记录工具调用的回复消息
             try {
@@ -1528,7 +1529,106 @@ export class ExamplePlugin extends plugin {
     return true;
   }
 
-  // 添加消息处理函数
+  async sendSegmentedMessage(e, output) {
+    try {
+      const { total_tokens } = await TotalTokens(output);
+      if (total_tokens <= 50) {
+        return await e.reply(output);
+      }
+
+      const punctuationMarks = ['。', '！', '？', '；', '.', '!', '?', ';', '\n'];
+      let segments = [];
+
+      // 预处理 Markdown 链接，将其替换为特殊标记
+      let processedOutput = output;
+      const markdownLinks = [];
+      const markdownPattern = /(!?\[.*?\]\(.*?\))/g;
+      let linkIndex = 0;
+
+      processedOutput = processedOutput.replace(markdownPattern, (match) => {
+        markdownLinks.push(match);
+        return `{{MDLINK${linkIndex++}}}`;
+      });
+
+      const idealSegmentCount = processedOutput.length > 100 ? 3 : 2;
+      const idealLength = Math.ceil(processedOutput.length / idealSegmentCount);
+
+      let currentSegment = '';
+
+      for (let i = 0; i < processedOutput.length; i++) {
+        currentSegment += processedOutput[i];
+
+        // 检查当前位置是否在特殊标记中
+        const linkMatch = currentSegment.match(/{{MDLINK\d+}}/g);
+        if (linkMatch) {
+          // 如果当前段包含未完成的特殊标记，继续添加字符
+          const lastLink = linkMatch[linkMatch.length - 1];
+          if (!currentSegment.endsWith('}}') && lastLink &&
+            currentSegment.indexOf(lastLink) + lastLink.length > currentSegment.length) {
+            continue;
+          }
+        }
+
+        if (punctuationMarks.includes(processedOutput[i])) {
+          if (currentSegment.length >= idealLength * 0.7) {
+            segments.push(currentSegment);
+            currentSegment = '';
+          }
+        }
+      }
+
+      if (currentSegment.length > 0) {
+        if (segments.length > 0 && currentSegment.length < 20) {
+          segments[segments.length - 1] += currentSegment;
+        } else {
+          segments.push(currentSegment);
+        }
+      }
+
+      if (segments.length <= 1) {
+        segments = [];
+        const segmentLength = Math.ceil(processedOutput.length / idealSegmentCount);
+
+        let i = 0;
+        while (i < processedOutput.length) {
+          let endIndex = Math.min(i + segmentLength, processedOutput.length);
+
+          // 检查分段点是否在特殊标记中间
+          const segment = processedOutput.slice(i, endIndex);
+          const linkMatch = segment.match(/{{MDLINK\d+}}/g);
+          if (linkMatch) {
+            const lastLink = linkMatch[linkMatch.length - 1];
+            if (!segment.endsWith('}}') && lastLink) {
+              // 调整分段点到特殊标记结束位置
+              const fullLink = processedOutput.slice(i).match(new RegExp(`${lastLink}}}`))[0];
+              endIndex = i + processedOutput.slice(i).indexOf(fullLink) + fullLink.length;
+            }
+          }
+
+          segments.push(processedOutput.slice(i, endIndex));
+          i = endIndex;
+        }
+      }
+
+      // 还原特殊标记为原始 Markdown 链接
+      segments = segments.map(segment => {
+        return segment.replace(/{{MDLINK(\d+)}}/g, (match, index) => {
+          return markdownLinks[parseInt(index)];
+        });
+      });
+
+      for (let segment of segments) {
+        if (segment && segment.trim()) {
+          await e.reply(segment.trim());
+          await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
+        }
+      }
+    } catch (error) {
+      console.error('分段发送错误:', error);
+      await e.reply(output);
+    }
+  }
+
   async processToolSpecificMessage(content, toolName) {
     let output = content;
 
@@ -1558,10 +1658,8 @@ export class ExamplePlugin extends plugin {
       output = output.slice(0, -3).trim();
     }
 
-    // 移除任意 [文本](URL) 格式的链接
-    output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
     output = ThinkingProcessor.removeThinking(output);
-    
+
     switch (toolName) {
       case 'dalleTool':
       case 'jimengTool':
@@ -1569,6 +1667,8 @@ export class ExamplePlugin extends plugin {
       case 'aiPPTTool':
         output = output
           .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
+        // 移除任意 [文本](URL) 格式的链接
+        output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
         break;
 
       case 'searchVideoTool':

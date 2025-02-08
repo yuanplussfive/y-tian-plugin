@@ -45,61 +45,104 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
             return `search(${quote}${decoded}${quote})`;
         });
     }
-    async function splitTextAndReply(text) {
-        const terminators = ['。', '！', '；', '!', ';', '？', '?', '.'];
-        let segmentCount = 1;
-        if (text.length > 800) {
-            segmentCount = text.length > 1200 ? 3 : 2;
-        } else if (text.length > 500) {
-            segmentCount = 2;
-        }
-        if (segmentCount === 1) {
-            e.reply(text);
-            return;
-        }
-        const idealLength = Math.ceil(text.length / segmentCount);
-        const segments = [];
-        let startIndex = 0;
-        while (startIndex < text.length) {
-            let searchEnd = Math.min(startIndex + idealLength + (idealLength * 0.3), text.length);
-            let endIndex = -1;
-            for (let i = searchEnd; i > startIndex + (idealLength * 0.7); i--) {
-                if (terminators.includes(text[i])) {
-                    endIndex = i + 1;
-                    break;
-                }
+    async function sendSegmentedMessage(e, output) {
+        try {
+            const { total_tokens } = await TotalTokens(output);
+            if (total_tokens <= 50) {
+                return await e.reply(output);
             }
-            if (endIndex === -1) {
-                for (let i = searchEnd; i > startIndex + (idealLength * 0.7); i--) {
-                    if (text[i] === '；' || text[i] === '。' || text[i] === '!' || text[i] === '！' || text[i] === '？' || text[i] === '?' || text[i] === ';' || text[i] === '.') {
-                        endIndex = i + 1;
-                        break;
+
+            const punctuationMarks = ['。', '！', '？', '；', '.', '!', '?', ';', '\n'];
+            let segments = [];
+
+            // 预处理 Markdown 链接，将其替换为特殊标记
+            let processedOutput = output;
+            const markdownLinks = [];
+            const markdownPattern = /(!?\[.*?\]\(.*?\))/g;
+            let linkIndex = 0;
+
+            processedOutput = processedOutput.replace(markdownPattern, (match) => {
+                markdownLinks.push(match);
+                return `{{MDLINK${linkIndex++}}}`;
+            });
+
+            const idealSegmentCount = processedOutput.length > 100 ? 3 : 2;
+            const idealLength = Math.ceil(processedOutput.length / idealSegmentCount);
+
+            let currentSegment = '';
+
+            for (let i = 0; i < processedOutput.length; i++) {
+                currentSegment += processedOutput[i];
+
+                // 检查当前位置是否在特殊标记中
+                const linkMatch = currentSegment.match(/{{MDLINK\d+}}/g);
+                if (linkMatch) {
+                    // 如果当前段包含未完成的特殊标记，继续添加字符
+                    const lastLink = linkMatch[linkMatch.length - 1];
+                    if (!currentSegment.endsWith('}}') && lastLink &&
+                        currentSegment.indexOf(lastLink) + lastLink.length > currentSegment.length) {
+                        continue;
                     }
                 }
-                if (endIndex === -1) {
-                    for (let i = searchEnd; i > startIndex + (idealLength * 0.7); i--) {
-                        if (text[i] === ' ') {
-                            endIndex = i + 1;
-                            break;
+
+                if (punctuationMarks.includes(processedOutput[i])) {
+                    if (currentSegment.length >= idealLength * 0.7) {
+                        segments.push(currentSegment);
+                        currentSegment = '';
+                    }
+                }
+            }
+
+            if (currentSegment.length > 0) {
+                if (segments.length > 0 && currentSegment.length < 20) {
+                    segments[segments.length - 1] += currentSegment;
+                } else {
+                    segments.push(currentSegment);
+                }
+            }
+
+            if (segments.length <= 1) {
+                segments = [];
+                const segmentLength = Math.ceil(processedOutput.length / idealSegmentCount);
+
+                let i = 0;
+                while (i < processedOutput.length) {
+                    let endIndex = Math.min(i + segmentLength, processedOutput.length);
+
+                    // 检查分段点是否在特殊标记中间
+                    const segment = processedOutput.slice(i, endIndex);
+                    const linkMatch = segment.match(/{{MDLINK\d+}}/g);
+                    if (linkMatch) {
+                        const lastLink = linkMatch[linkMatch.length - 1];
+                        if (!segment.endsWith('}}') && lastLink) {
+                            // 调整分段点到特殊标记结束位置
+                            const fullLink = processedOutput.slice(i).match(new RegExp(`${lastLink}}}`))[0];
+                            endIndex = i + processedOutput.slice(i).indexOf(fullLink) + fullLink.length;
                         }
                     }
-                }
-                if (endIndex === -1) {
-                    endIndex = Math.min(startIndex + idealLength, text.length);
+
+                    segments.push(processedOutput.slice(i, endIndex));
+                    i = endIndex;
                 }
             }
-            segments.push(text.substring(startIndex, endIndex));
-            startIndex = endIndex;
-            if (text.length - startIndex < idealLength * 0.5) {
-                segments.push(text.substring(startIndex));
-                break;
+
+            // 还原特殊标记为原始 Markdown 链接
+            segments = segments.map(segment => {
+                return segment.replace(/{{MDLINK(\d+)}}/g, (match, index) => {
+                    return markdownLinks[parseInt(index)];
+                });
+            });
+
+            for (let segment of segments) {
+                if (segment && segment.trim()) {
+                    await e.reply(segment.trim());
+                    await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
+                }
             }
+        } catch (error) {
+            console.error('分段发送错误:', error);
+            await e.reply(output);
         }
-        segments.forEach((segment, index) => {
-            setTimeout(() => {
-                e.reply(segment.trim());
-            }, index * 2500);
-        });
     }
 
     const sendAsForwardMsg = async (text) => {
@@ -139,7 +182,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 break;
 
             case "similar":
-                await splitTextAndReply(answer);
+                await sendSegmentedMessage(e, answer);
                 break;
 
             case "picture":
