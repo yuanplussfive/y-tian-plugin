@@ -481,7 +481,7 @@ export const other_models = [
     "model": "glm-turbo",
     "points": "清华&智谱",
     "token": 8000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -489,7 +489,7 @@ export const other_models = [
     "model": "glm-pro",
     "points": "清华&智谱",
     "token": 8000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -497,7 +497,7 @@ export const other_models = [
     "model": "glm-3-turbo",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -505,7 +505,7 @@ export const other_models = [
     "model": "glm-4",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -513,7 +513,7 @@ export const other_models = [
     "model": "glm-4-flash",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -521,7 +521,7 @@ export const other_models = [
     "model": "glm-4-all",
     "points": "智谱清言",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -529,7 +529,7 @@ export const other_models = [
     "model": "glm-turbo",
     "points": "清华&智谱",
     "token": 8000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -537,7 +537,7 @@ export const other_models = [
     "model": "glm-pro",
     "points": "清华&智谱",
     "token": 8000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -545,7 +545,7 @@ export const other_models = [
     "model": "glm-3-turbo",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -553,7 +553,7 @@ export const other_models = [
     "model": "glm-4",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -561,7 +561,7 @@ export const other_models = [
     "model": "glm-4-flash",
     "points": "清华&智谱",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -569,7 +569,7 @@ export const other_models = [
     "model": "glm-4-all",
     "points": "智谱清言",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
 
@@ -1109,7 +1109,7 @@ export const other_models = [
     "model": "glm-4-flash-new",
     "points": "质谱清言",
     "token": 8000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
   {
@@ -1461,7 +1461,7 @@ export const other_models = [
     "model": "glm-4-flash-nx",
     "points": "逆向渠道",
     "token": 32000,
-    "features": ["conversation", "code", "internet", "drawing"],
+    "features": ["conversation", "code", "internet"],
     "quota": 0
   },
   {

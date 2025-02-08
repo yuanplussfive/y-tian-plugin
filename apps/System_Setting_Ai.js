@@ -1,6 +1,7 @@
 import { dependencies } from "../YTdependence/dependencies.js";
+import { getFileInfo } from '../utils/fileUtils.js';
 const { fs, _path, puppeteer, Anime_tts_roles, tts_roles, https, http, common, cfg } = dependencies
-let dirpath = _path + '/data/YTAi_Setting'
+let dirpath = _path + '/data/YTAi_Setting';
 if (!fs.existsSync(dirpath)) {
     fs.mkdirSync(dirpath)
 }
@@ -154,7 +155,12 @@ export class example extends plugin {
                     fnc: 'search_prompts'
                 },
                 {
-                    reg: "[\s\S]*",
+                    reg: "^#下载预设[\s\S]*",
+                    fnc: 'download_prompts',
+                    log: false
+                },
+                {
+                    reg: "^#上传预设[\s\S]*",
                     fnc: 'upload_prompts',
                     log: false
                 }
@@ -179,7 +185,7 @@ export class example extends plugin {
             const nums = e.msg.replace(/#下载云预设/g, '').match(/\d+/g);
             const presetsPath = `${_path}/data/阴天预设`;
             if (systempromise[nums - 1]) {
-                await fs.promises.writeFile(`${presetsPath}/${systempromise[nums - 1].fileName}`, systempromise[nums - 1].content, 'utf-8');
+                await fs.promises.writeFile(`${presetsPath}/${systempromise[nums - 1].fileName.replace(/basic\\/, '')}`, systempromise[nums - 1].content, 'utf-8');
                 e.reply(`成功下载预设【${systempromise[nums - 1].fileName.replace(/\.txt$/, "")}】`);
             } else {
                 e.reply('不存在当前预设id，请先搜索');
@@ -199,27 +205,61 @@ export class example extends plugin {
                 e.reply(`HTTP error! status: ${response.status}`);
             }
             const { matchingFiles } = await response.json();
+
             if (!matchingFiles || matchingFiles.length === 0) {
                 await e.reply('未找到相关预设。');
                 return false;
             }
-            systempromise = matchingFiles;
+
+            //适配服务器返回的是文件名字符串而不是对象的情况
+            systempromise = matchingFiles.map(fileName => ({ fileName })); //将文件名字符串转换为包含fileName属性的数组
+
+            // 获取文件内容
+            await Promise.all(systempromise.map(async (item) => {
+                try {
+                    const filePath = `https://yuanpluss.online:3000/uploads/${encodeURIComponent(item.fileName)}`; // 构建静态文件URL，并进行编码
+                    const response = await fetch(filePath);
+                    if (response.ok) {
+                        item.content = await response.text();
+                    } else {
+                        console.error(`无法获取文件内容：${filePath}, 状态码：${response.status}`);
+                        item.content = "(获取失败)"; // 或者设置为一个错误信息
+                    }
+                } catch (error) {
+                    console.error(`获取文件内容时发生错误：${error.message}`);
+                    item.content = "(获取失败)"; // 或者设置为一个错误信息
+                }
+            }));
+
+
             let startIndex = 0;
             const batchSize = 80;
-            while (startIndex < matchingFiles.length) {
-                const batchFiles = matchingFiles.slice(startIndex, startIndex + batchSize);
+
+            while (startIndex < systempromise.length) { // 使用systempromise.length
+                const batchFiles = systempromise.slice(startIndex, startIndex + batchSize);
+
                 const fileDetails = batchFiles.map((item, index) => {
                     const cleanName = item.fileName.replace(/\.txt$/, "");
-                    const weight = item.content.slice(0, 100);
-                    return `*序号*: ${startIndex + index + 1}\n*名称*: ${cleanName}\n*内容简述*:\n【${weight}】`;
+                    const weight = item.content ? item.content.slice(0, 100) : "（内容为空或获取失败）";
+                    return `
+                ┌──────────────────────
+                │ 序号: ${startIndex + index + 1}
+                │ 名称: ${cleanName}
+                │ 内容简述:
+                │   ${weight}
+                └──────────────────────
+                    `.trim();
                 });
+
                 const forwardMsg = await common.makeForwardMsg(e, fileDetails, '云预设魔法大全');
                 await common.sleep(1500);
                 await e.reply(forwardMsg);
+
                 startIndex += batchSize;
             }
+
         } catch (error) {
-            console.error(error.message);
+            console.error("搜索预设时发生错误:", error.message);
             await e.reply('搜索过程中发生错误，请稍后再试。');
         }
     }
@@ -303,26 +343,35 @@ export class example extends plugin {
     }
 
     async upload_prompts(e) {
-        const presetsPath = `${_path}/data/阴天预设`;
-        const { name } = e?.file || {};
-        const data = readJsonFile(dataFilePath);
-        if (name?.endsWith?.('.txt') && data.chatgpt.add_prompts_open) {
-            let fileUrl = await e[e.group_id ? 'group' : 'friend'].getFileUrl(e.file.fid);
-            let filename = e.file.name;
-            const client = fileUrl.startsWith('https') ? https : http;
-            client.get(fileUrl, function (response) {
-                const file = fs.createWriteStream(presetsPath + "/" + filename);
-                response.pipe(file);
-                file.on('finish', function () {
-                    file.close(() => {
-                        e.reply('成功新增预设:\n ' + filename.replace(/.txt/, ""))
-                    })
-                });
-            }).on('error', function (error) {
-                fs.unlink(filename);
-                console.error('下载预设文件失败:\n ' + error.message);
-            });
+        let { fileUrl, fileName: filenames } = await getFileInfo(e)
+        if (!fileUrl || !filenames) return false;
+        const response = await fetch(fileUrl);
+        if (!response.ok) {
+            throw new Error('获取文件失败');
         }
+        const content = await response.text();
+        const uploads = await UploadSystemFile(e.user_id, filenames, content);
+        e.reply(uploads?.message || '文件上传失败');
+        return false;
+    }
+
+    async download_prompts(e) {
+        let { fileUrl, fileName: filenames } = await getFileInfo(e)
+        if (!fileUrl || !filenames) return false
+        const client = fileUrl.startsWith('https') ? https : http
+        client.get(fileUrl, function (response) {
+            const presetsPath = `${_path}/data/阴天预设`;
+            const file = fs.createWriteStream(presetsPath + "/" + filenames)
+            response.pipe(file)
+            file.on('finish', function () {
+                file.close(() => {
+                    e.reply('成功新增预设:\n ' + filenames.replace(/.txt/, ""))
+                })
+            })
+        }).on('error', function (error) {
+            fs.unlink(filenames)
+            console.error('下载预设文件失败:\n ' + error.message)
+        })
         return false
     }
 
@@ -634,3 +683,28 @@ export class example extends plugin {
         }
     }
 }
+
+const UploadSystemFile = async (username, filename, content) => {
+    try {
+      const response = await fetch(`https://yuanpluss.online:3000/api/upload/txt/${username}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          filename: filename,
+          content: content
+        })
+      });
+  
+      const result = await response.json();
+      if (!response.ok) {
+        return '失败：' + result.error;
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('上传失败:', error);
+      return '失败：' + error?.message;
+    }
+  };
