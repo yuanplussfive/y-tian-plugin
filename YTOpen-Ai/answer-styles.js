@@ -49,15 +49,16 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
         try {
             const { total_tokens } = await TotalTokens(output);
             
-            // 直接发送小段文本
+            // 如果文本很短，直接发送
             if (total_tokens <= 20) {
                 return await e.reply(output);
             }
     
-            // 原有的长文本处理逻辑
+            // 定义标点符号列表
             const primaryPunctuations = ['。', '！', '？', '；', '.', '!', '?', ';', '\n', '，', ','];
             const secondaryPunctuations = ['：', ':', '）', ')', '》', '>'];
             
+            // 保存Markdown链接，防止被分割
             let processedOutput = output;
             const markdownLinks = [];
             const markdownPattern = /(!?\[.*?\]\(.*?\))/g;
@@ -68,6 +69,19 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 return `{{MDLINK${linkIndex++}}}`;
             });
     
+            // 保存括号内的完整文本，防止被分割
+            const bracketTexts = [];
+            let bracketIndex = 0;
+            const bracketPattern = /[（(]((?:[^（()）]|（[^（()）]*）|\([^（()）]*\))*)[)）]/g;
+            
+            processedOutput = processedOutput.replace(bracketPattern, (match) => {
+                // 如果括号内文本超长，不进行特殊处理
+                if (match.length > 100) return match;
+                bracketTexts.push(match);
+                return `{{BRACKET${bracketIndex++}}}`;
+            });
+    
+            // 计算理想分段长度
             const textLength = processedOutput.length;
             const idealSegmentCount = Math.ceil(textLength / 300) + 1;
             const idealLength = Math.ceil(textLength / idealSegmentCount);
@@ -77,11 +91,13 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
             let currentSegment = '';
             let lastPunctuationIndex = 0;
     
+            // 第一轮分段：按标点符号分割
             for (let i = 0; i < processedOutput.length; i++) {
                 currentSegment += processedOutput[i];
                 
-                const linkMatch = /{{MDLINK\d+}}/.test(currentSegment);
-                if (linkMatch && !currentSegment.endsWith('}}')) {
+                // 检查是否在特殊标记内
+                const specialMatch = /{{(?:MDLINK|BRACKET)\d+}}/.test(currentSegment);
+                if (specialMatch && !currentSegment.endsWith('}}')) {
                     continue;
                 }
     
@@ -100,6 +116,7 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 }
             }
     
+            // 处理剩余文本
             if (currentSegment.length > 0) {
                 if (segments.length > 0 && currentSegment.length < minLength) {
                     segments[segments.length - 1] += currentSegment;
@@ -108,12 +125,14 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 }
             }
     
+            // 如果第一轮分段失败，进行强制分段
             if (segments.length <= 1) {
                 segments = [];
                 let i = 0;
                 while (i < processedOutput.length) {
                     let endIndex = Math.min(i + idealLength, processedOutput.length);
                     
+                    // 向后查找最近的标点
                     let punctuationFound = false;
                     for (let j = endIndex; j > i && j > endIndex - 50; j--) {
                         if (primaryPunctuations.includes(processedOutput[j])) {
@@ -123,9 +142,11 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                         }
                     }
                     
+                    // 处理特殊标记
                     if (!punctuationFound) {
                         const segment = processedOutput.slice(i, endIndex);
-                        if (/{{MDLINK\d+}}/.test(segment) && !segment.endsWith('}}')) {
+                        const specialMatch = segment.match(/{{(?:MDLINK|BRACKET)\d+}}/g);
+                        if (specialMatch && !segment.endsWith('}}')) {
                             endIndex = i + processedOutput.slice(i).indexOf('}}') + 2;
                         }
                     }
@@ -135,13 +156,20 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                 }
             }
     
+            // 还原特殊标记
             segments = segments.map(segment => {
-                return segment.replace(/{{MDLINK(\d+)}}/g, (_, index) => markdownLinks[parseInt(index)]);
+                // 还原Markdown链接
+                segment = segment.replace(/{{MDLINK(\d+)}}/g, (_, index) => markdownLinks[parseInt(index)]);
+                // 还原括号文本
+                segment = segment.replace(/{{BRACKET(\d+)}}/g, (_, index) => bracketTexts[parseInt(index)]);
+                return segment;
             });
     
+            // 发送消息
             for (let segment of segments) {
                 if (segment?.trim()) {
                     await e.reply(segment.trim());
+                    // 随机延迟，防止发送过快
                     await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
                 }
             }
