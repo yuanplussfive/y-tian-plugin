@@ -48,95 +48,101 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
     async function sendSegmentedMessage(e, output) {
         try {
             const { total_tokens } = await TotalTokens(output);
-            if (total_tokens <= 50) {
+            
+            // 直接发送小段文本
+            if (total_tokens <= 20) {
                 return await e.reply(output);
             }
-
-            const punctuationMarks = ['。', '！', '？', '；', '.', '!', '?', ';', '\n'];
-            let segments = [];
-
-            // 预处理 Markdown 链接，将其替换为特殊标记
+    
+            // 原有的长文本处理逻辑
+            const primaryPunctuations = ['。', '！', '？', '；', '.', '!', '?', ';', '\n', '，', ','];
+            const secondaryPunctuations = ['：', ':', '）', ')', '》', '>'];
+            
             let processedOutput = output;
             const markdownLinks = [];
             const markdownPattern = /(!?\[.*?\]\(.*?\))/g;
             let linkIndex = 0;
-
+    
             processedOutput = processedOutput.replace(markdownPattern, (match) => {
                 markdownLinks.push(match);
                 return `{{MDLINK${linkIndex++}}}`;
             });
-
-            const idealSegmentCount = processedOutput.length > 100 ? 3 : 2;
-            const idealLength = Math.ceil(processedOutput.length / idealSegmentCount);
-
+    
+            const textLength = processedOutput.length;
+            const idealSegmentCount = Math.ceil(textLength / 300) + 1;
+            const idealLength = Math.ceil(textLength / idealSegmentCount);
+            const minLength = Math.floor(idealLength * 0.6);
+            
+            let segments = [];
             let currentSegment = '';
-
+            let lastPunctuationIndex = 0;
+    
             for (let i = 0; i < processedOutput.length; i++) {
                 currentSegment += processedOutput[i];
-
-                // 检查当前位置是否在特殊标记中
-                const linkMatch = currentSegment.match(/{{MDLINK\d+}}/g);
-                if (linkMatch) {
-                    // 如果当前段包含未完成的特殊标记，继续添加字符
-                    const lastLink = linkMatch[linkMatch.length - 1];
-                    if (!currentSegment.endsWith('}}') && lastLink &&
-                        currentSegment.indexOf(lastLink) + lastLink.length > currentSegment.length) {
-                        continue;
-                    }
+                
+                const linkMatch = /{{MDLINK\d+}}/.test(currentSegment);
+                if (linkMatch && !currentSegment.endsWith('}}')) {
+                    continue;
                 }
-
-                if (punctuationMarks.includes(processedOutput[i])) {
-                    if (currentSegment.length >= idealLength * 0.7) {
+    
+                const isPrimaryPunctuation = primaryPunctuations.includes(processedOutput[i]);
+                const isSecondaryPunctuation = secondaryPunctuations.includes(processedOutput[i]);
+                
+                if ((isPrimaryPunctuation || isSecondaryPunctuation) && 
+                    currentSegment.length >= minLength) {
+                    
+                    if (isPrimaryPunctuation || 
+                        (isSecondaryPunctuation && i - lastPunctuationIndex > idealLength * 1.2)) {
                         segments.push(currentSegment);
                         currentSegment = '';
+                        lastPunctuationIndex = i;
                     }
                 }
             }
-
+    
             if (currentSegment.length > 0) {
-                if (segments.length > 0 && currentSegment.length < 20) {
+                if (segments.length > 0 && currentSegment.length < minLength) {
                     segments[segments.length - 1] += currentSegment;
                 } else {
                     segments.push(currentSegment);
                 }
             }
-
+    
             if (segments.length <= 1) {
                 segments = [];
-                const segmentLength = Math.ceil(processedOutput.length / idealSegmentCount);
-
                 let i = 0;
                 while (i < processedOutput.length) {
-                    let endIndex = Math.min(i + segmentLength, processedOutput.length);
-
-                    // 检查分段点是否在特殊标记中间
-                    const segment = processedOutput.slice(i, endIndex);
-                    const linkMatch = segment.match(/{{MDLINK\d+}}/g);
-                    if (linkMatch) {
-                        const lastLink = linkMatch[linkMatch.length - 1];
-                        if (!segment.endsWith('}}') && lastLink) {
-                            // 调整分段点到特殊标记结束位置
-                            const fullLink = processedOutput.slice(i).match(new RegExp(`${lastLink}}}`))[0];
-                            endIndex = i + processedOutput.slice(i).indexOf(fullLink) + fullLink.length;
+                    let endIndex = Math.min(i + idealLength, processedOutput.length);
+                    
+                    let punctuationFound = false;
+                    for (let j = endIndex; j > i && j > endIndex - 50; j--) {
+                        if (primaryPunctuations.includes(processedOutput[j])) {
+                            endIndex = j + 1;
+                            punctuationFound = true;
+                            break;
                         }
                     }
-
+                    
+                    if (!punctuationFound) {
+                        const segment = processedOutput.slice(i, endIndex);
+                        if (/{{MDLINK\d+}}/.test(segment) && !segment.endsWith('}}')) {
+                            endIndex = i + processedOutput.slice(i).indexOf('}}') + 2;
+                        }
+                    }
+    
                     segments.push(processedOutput.slice(i, endIndex));
                     i = endIndex;
                 }
             }
-
-            // 还原特殊标记为原始 Markdown 链接
+    
             segments = segments.map(segment => {
-                return segment.replace(/{{MDLINK(\d+)}}/g, (match, index) => {
-                    return markdownLinks[parseInt(index)];
-                });
+                return segment.replace(/{{MDLINK(\d+)}}/g, (_, index) => markdownLinks[parseInt(index)]);
             });
-
+    
             for (let segment of segments) {
-                if (segment && segment.trim()) {
+                if (segment?.trim()) {
                     await e.reply(segment.trim());
-                    await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
+                    await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
                 }
             }
         } catch (error) {

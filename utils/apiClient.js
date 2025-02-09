@@ -11,7 +11,6 @@ export async function YTapi(requestData, config) {
   const dataPath = dirpath + "/data.json";
   const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
 
-  // 转换 providers 为小写以进行比较
   const provider = config.providers?.toLowerCase();
 
   try {
@@ -24,26 +23,57 @@ export async function YTapi(requestData, config) {
         'Authorization': `Bearer ${config.geminiApikey[randomIndex]}`,
         'Content-Type': 'application/json'
       };
-      // 为 Gemini 修改请求数据
       finalRequestData = {
         ...requestData
       };
-      //console.log(finalRequestData)
     } else if (provider === 'oneapi') {
-      url = `${config.OneApiUrl}/v1/chat/completions`;
-      const randomIndex = Math.floor(Math.random() * config.OneApiKey.length);
-      headers = {
-        'Authorization': `Bearer ${config.OneApiKey[randomIndex]}`,
+      // 首先使用 OpenAI 请求
+      const openaiUrl = 'https://yuanpluss.online:3000/api/v1/4o/fc';
+      const openaiHeaders = {
+        'Authorization': `Bearer ${data.chatgpt.stoken}`,
         'Content-Type': 'application/json'
       };
 
-      // 为 oneapi 修改请求数据
-      finalRequestData = {
-        model: config.OneApiModel,
-        messages: requestData.messages,
-        stream: false
+      const openaiResponse = await fetch(openaiUrl, {
+        method: 'POST',
+        headers: openaiHeaders,
+        body: JSON.stringify(requestData)
+      });
+
+      const openaiData = await openaiResponse.json();
+
+      // 检查 finish_reason
+      if (openaiData.choices?.[0]?.finish_reason === 'stop') {
+        // 如果是 'stop'，使用 OneAPI 进行请求
+        url = `${config.OneApiUrl}/v1/chat/completions`;
+        const randomIndex = Math.floor(Math.random() * config.OneApiKey.length);
+        headers = {
+          'Authorization': `Bearer ${config.OneApiKey[randomIndex]}`,
+          'Content-Type': 'application/json'
+        };
+
+        // 处理messages中的工具调用消息
+        const processedMessages = requestData.messages.map(msg => {
+          if (msg.role === 'assistant' && msg.tool_calls) {
+            // 直接使用tool_calls中的arguments作为content
+            return {
+              role: 'assistant',
+              content: msg.tool_calls[0].function.arguments
+            };
+          }
+          return msg.role === 'tool' ? null : msg;
+        }).filter(Boolean);
+
+        finalRequestData = {
+          model: config.OneApiModel,
+          messages: processedMessages,
+          stream: false
+        };
+      } else if (openaiData.choices?.[0]?.finish_reason === 'tool_calls') {
+        // 如果是 'tool_calls'，替换 model 并返回
+        openaiData.model = config.OneApiModel;
+        return processResponse(openaiData);
       }
-      //console.log(finalRequestData)
     } else {
       url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
       headers = {
@@ -53,15 +83,18 @@ export async function YTapi(requestData, config) {
       finalRequestData = requestData;
     }
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(finalRequestData)
-    });
+    // 只有在需要发送新请求时才执行
+    if (url && headers && finalRequestData) {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(finalRequestData)
+      });
 
-    const responseData = await response.json();
-    console.log(`${provider || 'OpenAI'} 响应:`, responseData);
-    return processResponse(responseData);
+      const responseData = await response.json();
+      console.log(`${provider || 'OpenAI'} 响应:`, responseData);
+      return processResponse(responseData);
+    }
 
   } catch (error) {
     console.error('YTapi 错误:', error);
