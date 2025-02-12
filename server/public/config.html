@@ -1,29 +1,434 @@
-
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>配置管理</title>
+    <title>配置管理中心</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.css">
     <link rel="stylesheet" href="/css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+    <style>
+        /* 访问密钥输入框样式 - 咖啡馆酒馆风格 (简约可爱) */
+        .access-key-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            /* 半透明背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            font-family: 'Nunito', sans-serif;
+            /* 使用圆润的字体 */
+        }
+
+        .access-key-modal {
+            background-color: #f8f0e3;
+            /* 米色背景 */
+            padding: 30px;
+            border-radius: 15px;
+            /* 更大的圆角 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            /* 柔和的阴影 */
+            text-align: center;
+            border: 2px solid #d1b29a;
+            /* 浅棕色边框 */
+            /* 简化背景纹理 */
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0z' fill='%23f8f0e3'/%3E%3Cpath d='M5 5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm10 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-10 10c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm10 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z' fill='%23d1b29a' fill-opacity='0.2'/%3E%3C/svg%3E");
+            /* 使用点状纹理 */
+        }
+
+        .access-key-modal label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: normal;
+            /* 取消加粗 */
+            color: #79604b;
+            /* 棕色文字 */
+            font-size: 1.2em;
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+            /* 调整文字阴影 */
+            letter-spacing: 0.5px;
+            /* 调整字间距 */
+            line-height: 1.3;
+            /* 调整行高 */
+        }
+
+        .access-key-modal input {
+            padding: 10px;
+            border: 2px solid #d1b29a;
+            /* 浅棕色边框 */
+            border-radius: 10px;
+            /* 更大的圆角 */
+            margin-bottom: 20px;
+            width: 280px;
+            background-color: #fff;
+            /* 白色背景 */
+            color: #333;
+            font-size: 1em;
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+            /* 柔和的内阴影 */
+        }
+
+        .access-key-modal button {
+            padding: 12px 25px;
+            background: #e6cbb2;
+            /* 浅棕色背景 */
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            /* 更大的圆角 */
+            cursor: pointer;
+            font-size: 1.1em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            /* 柔和的文字阴影 */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            /* 柔和的阴影 */
+            letter-spacing: 0.5px;
+            /* 调整字间距 */
+        }
+
+        .access-key-modal button:hover {
+            background: #d1b29a;
+            /* 更深的浅棕色 */
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>配置管理</h1>
-            <p class="subtitle">在这里管理您的系统配置</p>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-scroll"></i> 阴天管理端
+            </div>
+            <div class="header-actions">
+                <div class="custom-select">
+                    <div class="select-trigger">
+                        <span>选择主题</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="select-options">
+                        <!-- 主题选项将通过 JavaScript 动态生成 -->
+                    </div>
+                    <input type="hidden" id="theme-selector" value="theme-default">
+                </div>
+            </div>
         </header>
 
-        <main>
-            <div class="actions">
-                <button id="saveBtn" class="btn primary">保存配置</button>
-                <button id="refreshBtn" class="btn secondary">刷新</button>
+        <main class="app-main">
+            <section class="config-area">
+                <div class="config-modes">
+                    <button id="show-yaml-editor" class="mode-button active" data-mode="json">
+                        <i class="fas fa-code"></i> JSON 编辑器
+                    </button>
+                    <button id="show-graphic-editor" class="mode-button" data-mode="graphic">
+                        <i class="fas fa-palette"></i> 图形化配置
+                    </button>
+                    <button id="show-log-viewer" class="mode-button" data-mode="log">
+                        <i class="fas fa-terminal"></i> 日志监控
+                    </button>
+                </div>
+
+                <div class="editor-section" id="yaml-editor-container">
+                    <div class="editor-container">
+                        <div id="editor" style="width:100%;height:500px;"></div>
+                    </div>
+                </div>
+
+                <div class="editor-section" id="graphic-editor-container" style="display: none;">
+                    <div class="graphic-editor-container">
+                        <h2>图形化配置</h2>
+                        <div id="config-form">
+                            <!-- 动态生成表单 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 日志监控区域 -->
+                <div class="editor-section" id="log-viewer-container" style="display: none;">
+                    <div class="log-viewer-container">
+                        <h2>日志监控</h2>
+                        <div id="log-content" class="log-content">
+                            <!-- 日志内容将在此处显示 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="toolbar">
+                <div class="actions">
+                    <button id="saveBtn" class="custom-btn primary">
+                        <span class="button-content">
+                            <i class="fas fa-save"></i> 保存配置
+                        </span>
+                    </button>
+                    <button id="refreshBtn" class="custom-btn secondary">
+                        <span class="button-content">
+                            <i class="fas fa-sync-alt"></i> 刷新配置
+                        </span>
+                    </button>
+                </div>
                 <span id="message" class="message"></span>
-            </div>
-            <div id="editor" class="editor-container"></div>
+            </section>
         </main>
+
+        <footer class="app-footer">
+            <p>&copy; created by Y-Tian-Plugin V3</p>
+        </footer>
     </div>
+
+    <!-- 访问密钥输入框 -->
+    <div class="access-key-overlay" id="accessKeyOverlay" style="display: none;">
+        <div class="access-key-modal">
+            <label for="accessKeyInput">请输入访问密钥:</label>
+            <input type="password" id="accessKeyInput">
+            <button id="verifyAccessKeyBtn">验证</button>
+            <p id="accessKeyMessage" style="color: red;"></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
     <script src="/js/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const customSelect = document.querySelector('.custom-select');
+            const selectTrigger = customSelect.querySelector('.select-trigger');
+            const selectOptions = customSelect.querySelector('.select-options');
+            const themeSelector = document.getElementById('theme-selector');
+            const showYamlEditorBtn = document.getElementById('show-yaml-editor');
+            const showGraphicEditorBtn = document.getElementById('show-graphic-editor');
+            const showLogViewerBtn = document.getElementById('show-log-viewer');
+            const yamlEditorContainer = document.getElementById('yaml-editor-container');
+            const graphicEditorContainer = document.getElementById('graphic-editor-container');
+            const logViewerContainer = document.getElementById('log-viewer-container');
+            const logContent = document.getElementById('log-content');
+
+            // 初始化主题选项
+            const themes = {
+                'theme-default': '默认主题',
+                'theme-dark': '深色主题',
+                'theme-light': '浅色主题',
+                'theme-parchment': '羊皮纸主题'
+            };
+
+            for (const theme in themes) {
+                if (themes.hasOwnProperty(theme)) {
+                    const option = document.createElement('div');
+                    option.classList.add('option');
+                    option.dataset.theme = theme;
+                    option.textContent = themes[theme];
+                    selectOptions.appendChild(option);
+                }
+            }
+
+            selectTrigger.addEventListener('click', () => {
+                selectOptions.classList.toggle('show');
+                selectTrigger.classList.toggle('active'); // 添加 active 类
+            });
+
+            selectOptions.addEventListener('click', (event) => {
+                if (event.target.classList.contains('option')) {
+                    const theme = event.target.dataset.theme;
+                    themeSelector.value = theme;
+                    selectTrigger.querySelector('span').textContent = event.target.textContent;
+                    selectOptions.classList.remove('show');
+                    selectTrigger.classList.remove('active'); // 移除 active 类
+
+                    // 应用主题
+                    document.documentElement.className = theme;
+                }
+            });
+
+            // 关闭选择框，如果点击了选择框外部
+            document.addEventListener('click', (event) => {
+                if (!customSelect.contains(event.target)) {
+                    selectOptions.classList.remove('show');
+                    selectTrigger.classList.remove('active'); // 移除 active 类
+                }
+            });
+
+            // 切换编辑器/配置/日志显示
+            function showSection(sectionId) {
+                yamlEditorContainer.style.display = 'none';
+                graphicEditorContainer.style.display = 'none';
+                logViewerContainer.style.display = 'none';
+
+                document.querySelectorAll('.mode-button').forEach(button => {
+                    button.classList.remove('active');
+                });
+
+                document.getElementById(sectionId).style.display = 'block';
+
+                if (sectionId === 'yaml-editor-container') {
+                    showYamlEditorBtn.classList.add('active');
+                } else if (sectionId === 'graphic-editor-container') {
+                    showGraphicEditorBtn.classList.add('active');
+                } else if (sectionId === 'log-viewer-container') {
+                    showLogViewerBtn.classList.add('active');
+                }
+            }
+
+            showYamlEditorBtn.addEventListener('click', () => showSection('yaml-editor-container'));
+            showGraphicEditorBtn.addEventListener('click', () => showSection('graphic-editor-container'));
+            showLogViewerBtn.addEventListener('click', () => showSection('log-viewer-container'));
+
+            // 访问密钥验证逻辑
+            const accessKeyOverlay = document.getElementById('accessKeyOverlay');
+            const accessKeyInput = document.getElementById('accessKeyInput');
+            const verifyAccessKeyBtn = document.getElementById('verifyAccessKeyBtn');
+            const accessKeyMessage = document.getElementById('accessKeyMessage');
+
+            // 封装一个更健壮的 Cookie 读取函数
+            function getCookie(name) {
+                const nameEQ = name + "=";
+                const ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            // 初始化页面
+            async function initializePage() {
+                // 检查 localStorage 中是否已验证
+                const isVerified = localStorage.getItem('isVerified');
+                if (isVerified === 'true') {
+                    accessKeyOverlay.style.display = 'none';
+                    if (window.initialize) {
+                        try {
+                            await window.initialize();
+                        } catch (error) {
+                            console.error("初始化失败:", error);
+                            accessKeyMessage.textContent = '初始化失败，请重试。';
+                            accessKeyOverlay.style.display = 'flex';
+                        }
+                    }
+                    return; // 停止执行
+                }
+
+                const accessToken = getCookie('access_token');
+                console.log('All cookies:', document.cookie); // 添加日志
+
+                if (accessToken) {
+                    console.log('Access token found:', accessToken); // 添加日志
+                    try {
+                        const response = await fetch('/verify-token', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ token: accessToken })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            accessKeyOverlay.style.display = 'none';
+                            // 标记为已验证
+                            localStorage.setItem('isVerified', 'true');
+                            if (window.initialize) {
+                                try {
+                                    await window.initialize();
+                                } catch (error) {
+                                    console.error("初始化失败:", error);
+                                    accessKeyMessage.textContent = '初始化失败，请重试。';
+                                    accessKeyOverlay.style.display = 'flex';
+                                }
+                            }
+                        } else {
+                            console.log('Token verification failed:', data.message);
+                            document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                            accessKeyOverlay.style.display = 'flex';
+                            accessKeyMessage.textContent = '登录过期，请重新登录。';
+                        }
+                    } catch (error) {
+                        console.error('Token verification error:', error);
+                        document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                        accessKeyOverlay.style.display = 'flex';
+                        accessKeyMessage.textContent = '登录验证失败，请重新登录。';
+                    }
+                } else {
+                    accessKeyOverlay.style.display = 'flex';
+                }
+            }
+
+            // 延迟执行页面初始化，确保 Cookie 设置完成
+            setTimeout(initializePage, 500);
+
+            verifyAccessKeyBtn.addEventListener('click', async () => {
+                const accessKey = accessKeyInput.value;
+                const response = await fetch('/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ accessKey })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    accessKeyOverlay.style.display = 'none';
+                    accessKeyMessage.textContent = '';
+                    // 标记为已验证
+                    localStorage.setItem('isVerified', 'true');
+                    // 手动初始化配置
+                    if (window.initialize) {
+                        try {
+                            await window.initialize();
+                        } catch (error) {
+                            console.error("初始化失败:", error);
+                            accessKeyMessage.textContent = '初始化失败，请重试。';
+                            accessKeyOverlay.style.display = 'flex';
+                        }
+                    }
+                } else {
+                    accessKeyMessage.textContent = '访问密钥错误!';
+                }
+            });
+
+            // WebSocket 连接
+            const responsePort = await fetch('/api/port');
+            const dataPort = await responsePort.json();
+            const wsPort = dataPort.port;
+            const ws = new WebSocket('ws://' + window.location.hostname + `:${wsPort}`); // 根据你的实际端口修改
+
+            ws.onopen = () => {
+                console.log('WebSocket 连接已建立, 逆转api可用');
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.type === 'log') {
+                        const logEntry = document.createElement('div');
+                        logEntry.textContent = data.message;
+                        logContent.appendChild(logEntry);
+
+                        // 自动滚动到底部
+                        logContent.scrollTop = logContent.scrollHeight;
+                    }
+                } catch (error) {
+                    console.error('解析 WebSocket 数据失败:', error);
+                }
+            };
+
+            ws.onclose = () => {
+                console.log('WebSocket 连接已关闭');
+            };
+
+            ws.onerror = (error) => {
+                console.error('WebSocket 错误:', error);
+            };
+        });
+    </script>
 </body>
+
 </html>

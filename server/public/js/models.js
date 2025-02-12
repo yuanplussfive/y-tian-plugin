@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modelListContainer = document.getElementById('model-list');
 
     try {
-        const apiKey = localStorage.getItem('apiKey') || 'sk-123456';
+        const apiKey = process.env.DEFAULT_API_KEY || 'sk-123456';
         const response = await fetch('/v1/models', {
             headers: {
                 'Authorization': `Bearer ${apiKey}`

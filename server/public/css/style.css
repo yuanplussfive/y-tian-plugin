@@ -1,88 +1,1018 @@
+/* 引入 Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
-:root {
-    --primary-color: #2563eb;
-    --bg-color: #111827;
-    --surface-color: #1f2937;
-    --text-color: #ffffff;
-    --text-secondary: #9ca3af;
+/* 字体定义 */
+@font-face {
+   font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+   src: url("../font/AaGuXiLaZhangGuanKeAiDeShen-2.ttf");
+   font-weight: normal;
+   font-style: normal;
+}
+
+@font-face {
+   font-family: "TengXiangJiaLiDaYuanJian";
+   src: url("../font/TengXiangJiaLiDaYuanJian-1.ttf");
+   font-weight: normal;
+   font-style: normal;
+}
+
+@font-face {
+   font-family: "SourceCodePro";
+   src: url("../font/SourceCodePro-Italic-VariableFont_wght.ttf") format("truetype");
+   font-weight: normal;
+   font-style: normal;
+}
+
+@font-face {
+   font-family: "Chinese";
+   src: url("../font/ZCOOLQingKeHuangYou-Regular.ttf");
+   font-weight: normal;
+   font-style: normal;
+}
+
+/* 全局样式 */
+html,
+body {
+   height: 100%;
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+   transition: background-color 0.3s, color 0.3s;
+   /* 主题切换过渡 */
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+   font-family: 'Spectral', serif;
+   /* 酒馆背景 */
+   background: url('../img/酒馆.png') no-repeat center center fixed;
+   background-size: cover;
+   color: #d4c4a9;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+/* 全局链接样式 */
+a {
+   color: #c6a381;
+   text-decoration: none;
+   transition: color 0.3s;
 }
 
-header {
-    margin-bottom: 2rem;
+p {
+   font-family: "SourceCodePro";
 }
 
-h1 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 600;
+input {
+   font-family: "TengXiangJiaLiDaYuanJian";
 }
 
-.subtitle {
-    color: var(--text-secondary);
-    margin-top: 0.5rem;
+a:hover {
+   text-decoration: underline;
+   color: #e0c4a1;
 }
 
-.actions {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    align-items: center;
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+   width: 12px;
+   /* 滚动条宽度 */
 }
 
-.btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
+::-webkit-scrollbar-track {
+   background-color: rgba(51, 43, 43, 0.5);
+   /* 滚动条背景色 */
+   border-radius: 6px;
+   /* 圆角 */
 }
 
-.btn.primary {
-    background-color: var(--primary-color);
-    color: white;
+::-webkit-scrollbar-thumb {
+   background-color: #a88764;
+   /* 滚动条滑块颜色 */
+   border-radius: 6px;
+   /* 圆角 */
+   border: 2px solid rgba(51, 43, 43, 0.5);
+   /* 滑块边框 */
 }
 
-.btn.primary:hover {
-    background-color: #1d4ed8;
+::-webkit-scrollbar-thumb:hover {
+   background-color: #c6a381;
+   /* 鼠标悬停时的滑块颜色 */
 }
 
-.btn.secondary {
-    background-color: #4b5563;
-    color: white;
+/* 容器 */
+.app-container {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   background: rgba(44, 38, 38, 0.6);
+   /* 调整透明度 */
+   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+   /* 调整阴影 */
+   overflow: auto;
+   transition: background-color 0.3s;
 }
 
-.btn.secondary:hover {
-    background-color: #374151;
+/* 头部 */
+.app-header {
+   background: rgba(51, 43, 43, 0.7);
+   /* 调整透明度 */
+   padding: 1.5rem 2rem;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+   transition: background-color 0.3s;
+}
+
+.logo {
+   font-family: "TengXiangJiaLiDaYuanJian";
+   font-size: 1.65rem;
+   font-weight: bold;
+   color: #e0c4a1;
+   display: flex;
+   align-items: center;
+   gap: 0.75rem;
+   transition: color 0.3s;
+}
+
+.logo i {
+   font-size: 2.5rem;
+   color: #c6a381;
+   transition: color 0.3s;
+}
+
+/* 主体 */
+.app-main {
+   flex: 1;
+   padding: 2rem;
+   overflow: auto;
+}
+
+/* 配置区域 */
+.config-area {
+   margin-bottom: 2rem;
+}
+
+/* 配置模式 */
+.config-modes {
+   display: flex;
+   gap: 1rem;
+   margin-bottom: 1.5rem;
+}
+
+.mode-button {
+   padding: 0.75rem 1.5rem;
+   border: none;
+   border-radius: 0.5rem;
+   background: rgba(68, 57, 57, 0.6);
+   color: #c6a381;
+   cursor: pointer;
+   transition: background-color 0.3s, color 0.3s, transform 0.2s ease-in-out;
+}
+
+.mode-button:hover {
+   background-color: rgba(85, 71, 71, 0.8);
+   color: #e0c4a1;
+   transform: scale(1.05);
+}
+
+.mode-button.active {
+   background-color: #a88764;
+   color: #fff;
+   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+   /* 增加阴影 */
+}
+
+/* 编辑器区域 */
+.editor-section {
+   margin-bottom: 1.5rem;
 }
 
 .editor-container {
-    height: 600px;
-    border: 1px solid #374151;
-    border-radius: 0.5rem;
-    overflow: hidden;
+   background: rgba(51, 43, 43, 0.6);
+   border-radius: 0.5rem;
+   padding: 1rem;
 }
 
+/* 图形化配置 */
+.graphic-editor-container {
+   padding: 1rem;
+}
+
+/* 调整配置板块标题样式 */
+.graphic-editor-container h2 {
+   font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+   font-size: 1.5rem;
+   /* 更大的字体 */
+   margin-bottom: 1.5rem;
+   color: #e0c4a1;
+   transition: color 0.3s;
+   text-align: center;
+   /* 居中对齐 */
+   font-style: italic;
+   /* 斜体 */
+   font-weight: bold;
+   /* 加粗 */
+   letter-spacing: 1px;
+   /* 增加字母间距 */
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+   /* 阴影效果 */
+   border-bottom: 2px dashed #c6a381;
+   /* 下划线 */
+   padding-bottom: 0.5rem;
+   /* 增加标题下方的内边距 */
+}
+
+/* 配置板块 */
+.config-section {
+   margin-bottom: 2rem;
+   padding: 1rem;
+   background: rgba(51, 43, 43, 0.6);
+   border-radius: 0.5rem;
+   box-sizing: border-box;
+   overflow: visible;
+   /* 修改：允许内容溢出 */
+   position: relative;
+   /* 为绝对定位的下拉菜单提供定位上下文 */
+}
+
+.config-section h2 {
+   font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+   font-size: 1.5rem;
+   margin-bottom: 1rem;
+   color: #e0c4a1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   /* 水平居中 */
+   gap: 0.5rem;
+   text-align: center;
+   /* 确保文本居中 */
+   font-style: italic;
+   font-weight: bold;
+   letter-spacing: 1px;
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+   border-bottom: 2px dashed #c6a381;
+   padding-bottom: 0.5rem;
+}
+
+/* 表单 */
+.form-group {
+   margin-bottom: 1.25rem;
+   /* 确保垂直间距 */
+   width: 100%;
+   /* 确保占据整个宽度 */
+   box-sizing: border-box;
+}
+
+/* 标签容器 */
+.form-group .label-container {
+   display: flex;
+   align-items: center;
+   margin-bottom: 0.5rem;
+   gap: 0.5rem;
+}
+
+/* 标签图标 */
+.form-group .label-icon {
+   font-size: 1.2rem;
+   /* 调整图标大小 */
+}
+
+.form-group label {
+   font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+   display: block;
+   font-size: 1.1rem;
+   color: #c6a381;
+   transition: color 0.3s;
+}
+
+/* 字段描述 */
+.form-group .field-description {
+   font-size: 0.9rem;
+   color: #bbb;
+   margin-top: 0.25rem;
+   font-style: italic;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+   font-family: "TengXiangJiaLiDaYuanJian";
+   width: 100%;
+   padding: 0.75rem;
+   border: 1px solid rgba(255, 255, 255, 0.1);
+   border-radius: 0.3rem;
+   background: rgba(68, 57, 57, 0.6);
+   color: #d4c4a9;
+   transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
+   box-sizing: border-box;
+   /* 包含 padding 和 border */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group select:focus {
+   outline: none;
+   border-color: #a88764;
+   box-shadow: 0 0 0.3rem rgba(168, 135, 100, 0.5);
+}
+
+/* 数组 */
+.array-input-container {
+   font-family: "TengXiangJiaLiDaYuanJian";
+   display: flex;
+   flex-direction: column;
+   gap: 0.75rem;
+   width: 100%;
+   /* 确保占据整个宽度 */
+   box-sizing: border-box;
+}
+
+.array-input-item {
+   font-family: "TengXiangJiaLiDaYuanJian";
+   display: flex;
+   align-items: center;
+   gap: 0.75rem;
+   padding: 0.75rem;
+   border: 1px solid rgba(255, 255, 255, 0.1);
+   border-radius: 0.3rem;
+   background: rgba(68, 57, 57, 0.6);
+   transition: background-color 0.3s;
+   width: 100%;
+   /* 确保占据整个宽度 */
+   box-sizing: border-box;
+}
+
+.array-input-item input,
+.modal .array-input-item select {
+   font-family: "TengXiangJiaLiDaYuanJian";
+   flex: 1;
+   padding: 0.6rem;
+   border: none;
+   border-radius: 0.25rem;
+   background: rgba(85, 71, 71, 0.8);
+   color: #d4c4a9;
+   transition: background-color 0.3s, color 0.3s;
+   width: 100%;
+   /* 确保占据整个宽度 */
+   box-sizing: border-box;
+}
+
+.array-input-item button {
+   font-family: "TengXiangJiaLiDaYuanJian";
+   padding: 0.5rem 1rem;
+   border: none;
+   border-radius: 0.25rem;
+   background: #c6a381;
+   color: #fff;
+   cursor: pointer;
+   transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+.array-input-item button:hover {
+   background-color: #a88764;
+   transform: scale(1.1);
+}
+
+/* 工具栏 */
+.toolbar {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-top: 1.5rem;
+}
+
+/* 操作按钮 */
+.actions {
+   display: flex;
+   gap: 1rem;
+}
+
+/* 自定义按钮 */
+.custom-btn {
+   position: relative;
+   overflow: hidden;
+   padding: 0.75rem 1.5rem;
+   border: none;
+   border-radius: 0.3rem;
+   cursor: pointer;
+   transition: all 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.custom-btn .button-content {
+   position: relative;
+   z-index: 2;
+   color: #fff;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.5rem;
+}
+
+.custom-btn::before {
+   content: '';
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   width: 0;
+   height: 0;
+   background: rgba(255, 255, 255, 0.2);
+   border-radius: 50%;
+   transform: translate(-50%, -50%);
+   transition: width 0.4s ease, height 0.4s ease;
+   z-index: 1;
+}
+
+.custom-btn:hover {
+   color: #fff;
+   transform: scale(1.05);
+}
+
+.custom-btn:hover::before {
+   width: 200%;
+   height: 200%;
+}
+
+.custom-btn.primary {
+   background: #a88764;
+}
+
+.custom-btn.primary:hover {
+   background-color: #c6a381;
+}
+
+.custom-btn.secondary {
+   background: rgba(68, 57, 57, 0.6);
+   color: #c6a381;
+}
+
+.custom-btn.secondary:hover {
+   background-color: rgba(85, 71, 71, 0.8);
+   color: #e0c4a1;
+}
+
+/* 消息 */
 .message {
-    padding: 0.5rem;
-    color: #10b981;
-    font-size: 0.875rem;
+   padding: 0.75rem 1.25rem;
+   border-radius: 0.3rem;
+   background: rgba(51, 43, 43, 0.8);
+   color: #d4c4a9;
+   opacity: 0;
+   transition: opacity 0.3s, transform 0.3s;
+   transform: translateY(-10px);
+}
+
+.message.show {
+   opacity: 1;
+   transform: translateY(0);
 }
 
 .message.error {
-    color: #ef4444;
+   background: #c74c4c;
+   color: #fff;
+}
+
+/* 页脚 */
+.app-footer {
+   background: rgba(51, 43, 43, 0.8);
+   padding: 0.25rem;
+   text-align: center;
+   color: #c6a381;
+   border-top: 1px solid rgba(255, 255, 255, 0.1);
+   transition: background-color 0.3s, color 0.3s;
+}
+
+/* 自定义选择框 */
+.custom-select {
+   position: relative;
+   width: 180px;
+   /* 增加宽度 */
+}
+
+.custom-select .select-trigger {
+   font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+   background: rgba(68, 57, 57, 0.6);
+   color: #c6a381;
+   padding: 0.6rem 1rem;
+   border-radius: 0.3rem;
+   cursor: pointer;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.custom-select .select-trigger:hover {
+   background-color: rgba(85, 71, 71, 0.8);
+   color: #e0c4a1;
+   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+}
+
+.custom-select .select-trigger.active {
+   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+.custom-select .select-options {
+   font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+   position: absolute;
+   top: 100%;
+   left: 0;
+   width: 100%;
+   background: rgba(68, 57, 57, 0.8);
+   border-radius: 0.3rem;
+   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 0.3s, visibility 0.3s, transform 0.3s ease-in-out;
+   z-index: 10;
+   transform-origin: top;
+   transform: scaleY(0);
+   overflow: hidden;
+   /* 确保内容超出时隐藏 */
+   max-height: 200px;
+   /* 限制最大高度 */
+   overflow-y: auto;
+   /* 允许垂直滚动 */
+}
+
+/* 滚动条样式 */
+.custom-select .select-options::-webkit-scrollbar {
+   width: 8px;
+   /* 滚动条宽度 */
+}
+
+.custom-select .select-options::-webkit-scrollbar-track {
+   background-color: rgba(51, 43, 43, 0.5);
+   /* 滚动条背景色 */
+}
+
+.custom-select .select-options::-webkit-scrollbar-thumb {
+   background-color: #a88764;
+   /* 滚动条滑块颜色 */
+   border-radius: 4px;
+}
+
+.custom-select .select-options.show {
+   opacity: 1;
+   visibility: visible;
+   transform: scaleY(1);
+}
+
+.custom-select .select-options .option {
+   padding: 0.6rem 1rem;
+   color: #c6a381;
+   cursor: pointer;
+   transition: background-color 0.3s, color 0.3s;
+   display: flex;
+   /* 使用 Flexbox */
+   align-items: center;
+   /* 垂直居中 */
+   justify-content: space-between;
+   /* 内容两端对齐 */
+}
+
+.custom-select .select-options .option:hover {
+   background-color: rgba(85, 71, 71, 0.8);
+   color: #e0c4a1;
+}
+
+.custom-select .select-options .option .option-label {
+   flex: 1;
+   /* 占据剩余空间 */
+}
+
+.custom-select .select-options .option .option-description {
+   font-size: 0.8rem;
+   /* 描述文字更小 */
+   color: #bbb;
+   /* 描述文字颜色 */
+   margin-left: 1rem;
+   /* 与标签文字间隔 */
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+   .app-main {
+       padding: 1rem;
+   }
+
+   .config-modes {
+       flex-direction: column;
+   }
+
+   .custom-btn {
+       width: 100%;
+   }
+}
+
+/* 添加项目按钮样式 */
+.btn {
+   padding: 0.5rem 1rem;
+   border: none;
+   border-radius: 0.25rem;
+   cursor: pointer;
+   transition: background-color 0.3s, transform 0.2s ease-in-out;
+   margin-top: 0.5rem;
+   font-size: 1rem;
+   /* 调整字体大小 */
+   font-weight: bold;
+   /* 加粗字体 */
+}
+
+.btn.primary {
+   background: #a88764;
+   color: #fff;
+}
+
+.btn.primary:hover {
+   background-color: #c6a381;
+   transform: scale(1.05);
+}
+
+.btn.secondary {
+   background: rgba(68, 57, 57, 0.6);
+   color: #c6a381;
+}
+
+.btn.secondary:hover {
+   background-color: rgba(85, 71, 71, 0.8);
+   color: #e0c4a1;
+   transform: scale(1.05);
+}
+
+/* 主题样式 */
+
+/* 默认主题 */
+.theme-default {
+   /* 默认颜色方案 */
+   --primary-color: #a88764;
+   --secondary-color: #c6a381;
+   --text-color: #d4c4a9;
+   --background-color: rgba(44, 38, 38, 0.6);
+   --header-background: rgba(51, 43, 43, 0.7);
+   --input-background: rgba(68, 57, 57, 0.6);
+   --input-border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 深色主题 */
+.theme-dark {
+   --primary-color: #6a5acd;
+   --secondary-color: #8470ff;
+   --text-color: #eee;
+   --background-color: rgba(30, 30, 30, 0.8);
+   --header-background: rgba(40, 40, 40, 0.9);
+   --input-background: rgba(50, 50, 50, 0.8);
+   --input-border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 浅色主题 */
+.theme-light {
+   --primary-color: #4682b4;
+   --secondary-color: #6495ed;
+   --text-color: #333;
+   --background-color: rgba(240, 240, 240, 0.8);
+   --header-background: rgba(250, 250, 250, 0.9);
+   --input-background: rgba(230, 230, 230, 0.8);
+   --input-border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* 羊皮纸主题 */
+.theme-parchment {
+   --primary-color: #b8860b;
+   --secondary-color: #daa520;
+   --text-color: #543d21;
+   --background-color: rgba(255, 250, 205, 0.7);
+   --header-background: rgba(238, 232, 170, 0.8);
+   --input-background: rgba(255, 245, 180, 0.7);
+   --input-border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+/* 应用主题变量 */
+.theme-default,
+.theme-dark,
+.theme-light,
+.theme-parchment {
+   body {
+       color: var(--text-color);
+       transition: color 0.3s;
+   }
+
+   .app-container {
+       background: var(--background-color);
+       transition: background-color 0.3s;
+   }
+
+   .app-header {
+       background: var(--header-background);
+       transition: background-color 0.3s;
+   }
+
+   .logo {
+       color: var(--text-color);
+   }
+
+   .logo i {
+       color: var(--secondary-color);
+   }
+
+   .mode-button.active {
+       background-color: var(--primary-color);
+   }
+
+   .custom-btn.primary,
+   .btn.primary {
+       background: var(--primary-color);
+       color: #fff;
+       /* 确保文字颜色 */
+   }
+
+   .custom-btn.primary:hover,
+   .btn.primary:hover {
+       background-color: var(--secondary-color);
+   }
+
+   .custom-btn.secondary,
+   .btn.secondary {
+       background: rgba(68, 57, 57, 0.6);
+       color: var(--secondary-color);
+   }
+
+   .custom-btn.secondary:hover,
+   .btn.secondary:hover {
+       background-color: rgba(85, 71, 71, 0.8);
+       color: var(--text-color);
+   }
+
+
+   /* 表单元素 */
+   .form-group input[type="text"],
+   .form-group input[type="number"],
+   .form-group select,
+   .array-input-item input,
+   .modal .array-input-item select {
+       background: var(--input-background);
+       border: var(--input-border);
+       color: var(--text-color);
+   }
+
+   /* 其他需要主题化的元素 */
+}
+
+/* 在你的 style.css 文件中添加以下样式 */
+/* 自定义选择框样式 */
+.custom-select-graphic {
+   position: relative;
+   width: 100%;
+   /* 调整宽度 */
+}
+
+.custom-select-graphic .select-trigger {
+   font-family: "TengXiangJiaLiDaYuanJian";
+   background: rgba(68, 57, 57, 0.6);
+   color: #c6a381;
+   padding: 0.6rem 1rem;
+   border-radius: 0.3rem;
+   cursor: pointer;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+   box-sizing: border-box;
+}
+
+.custom-select-graphic .select-trigger:hover {
+   background-color: rgba(85, 71, 71, 0.8);
+   color: #e0c4a1;
+   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+}
+
+.custom-select-graphic .select-trigger.active {
+   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+.custom-select-graphic .select-options {
+   position: absolute;
+   top: 100%;
+   left: 0;
+   width: 100%;
+   background: rgba(68, 57, 57, 0.8);
+   border-radius: 0.3rem;
+   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 0.3s, visibility 0.3s, transform 0.3s ease-in-out;
+   z-index: 100;
+   /* 确保在其他元素之上 */
+   transform-origin: top;
+   transform: scaleY(0);
+   overflow: hidden;
+   max-height: 200px;
+   overflow-y: auto;
+   box-sizing: border-box;
+   /* 修改：使用绝对定位，使其脱离文档流 */
+   position: absolute;
+   top: 100%;
+   left: 0;
+   z-index: 1000;
+   /* 确保在其他元素之上 */
+}
+
+.custom-select-graphic .select-options.show {
+   opacity: 1;
+   visibility: visible;
+   transform: scaleY(1);
+}
+
+.custom-select-graphic .select-options .option {
+   padding: 0.6rem 1rem;
+   color: #c6a381;
+   cursor: pointer;
+   transition: background-color 0.3s, color 0.3s;
+   box-sizing: border-box;
+}
+
+.custom-select-graphic .select-options .option:hover {
+   background-color: rgba(85, 71, 71, 0.8);
+   color: #e0c4a1;
+}
+
+/* 弹窗样式 */
+.modal {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.5);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 1000;
+}
+
+.modal-content {
+   background: rgba(51, 43, 43, 0.8);
+   border-radius: 0.5rem;
+   padding: 2rem;
+   width: 80%;
+   max-width: 600px;
+   color: #d4c4a9;
+   position: relative;
+   box-sizing: border-box;
+}
+
+.modal h2 {
+   font-size: 1.75rem;
+   margin-bottom: 1rem;
+   color: #e0c4a1;
+}
+
+.modal .close-button {
+   position: absolute;
+   top: 0.5rem;
+   right: 0.5rem;
+   font-size: 2rem;
+   cursor: pointer;
+   color: #c6a381;
+}
+
+.modal-actions {
+   display: flex;
+   justify-content: flex-end;
+   gap: 1rem;
+   margin-top: 2rem;
+}
+
+/* 日志监控样式 */
+.log-viewer-container {
+   padding: 1rem;
+   background: #1E1E1E; /* VSCode Dark Theme Background */
+   border-radius: 0.5rem;
+   box-sizing: border-box;
+   height: 500px; /* 设置一个合适的固定高度 */
+   overflow-y: auto; /* 启用垂直滚动条 */
+   font-family: 'Source Code Pro', monospace; /* 使用等宽字体 */
+   color: #D4D4D4; /* VSCode Dark Theme Text Color */
+   line-height: 1.6;
+   font-size: 0.9rem;
+   white-space: pre-wrap; /* 保留空格和换行 */
+   border: 1px solid #333; /* Subtle border for the container */
+}
+
+.log-viewer-container h2 {
+   font-family: "AaGuXiLaZhangGuanKeAiDeShen-2";
+   font-size: 1.5rem;
+   margin-bottom: 1rem;
+   color: #e0c4a1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.5rem;
+   text-align: center;
+   font-style: italic;
+   font-weight: bold;
+   letter-spacing: 1px;
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+   border-bottom: 2px dashed #c6a381;
+   padding-bottom: 0.5rem;
+}
+
+/* 确保日志内容填充整个容器 */
+.log-content {
+   height: 100%;
+   overflow-y: auto;
+   padding: 0.5rem;
+}
+
+/* 调整滚动条样式 */
+.log-viewer-container::-webkit-scrollbar {
+   width: 8px;
+}
+
+.log-viewer-container::-webkit-scrollbar-track {
+   background-color: #252526; /* VSCode Dark Theme Scrollbar Track */
+}
+
+.log-viewer-container::-webkit-scrollbar-thumb {
+   background-color: #6A737D; /* VSCode Dark Theme Scrollbar Thumb */
+   border-radius: 4px;
+}
+
+/* 添加更多主题样式 */
+.theme-dark .log-viewer-container,
+.theme-light .log-viewer-container,
+.theme-parchment .log-viewer-container {
+   /* 根据主题调整日志查看器的颜色 */
+   background: #1E1E1E; /* VSCode Dark Theme Background */
+   color: #D4D4D4; /* VSCode Dark Theme Text Color */
+   border: 1px solid #333; /* Subtle border for the container */
+}
+
+/* 调整日志内容颜色 */
+.theme-dark .log-content,
+.theme-light .log-content,
+.theme-parchment .log-content {
+   color: #D4D4D4; /* VSCode Dark Theme Text Color */
+}
+
+/* 确保在日志内容超出时显示滚动条 */
+#log-content {
+   overflow-y: auto;
+   max-height: 400px; /* 设置一个最大高度 */
+}
+
+/* Log Entry Styling */
+.log-entry {
+   margin-bottom: 0.5rem;
+   padding: 0.5rem;
+   border-radius: 0.25rem;
+   background-color: #252526; /* Slightly darker background for each entry */
+   border-left: 3px solid transparent; /* For potential status indication */
+   transition: background-color 0.2s ease;
+}
+
+.log-entry:hover {
+   background-color: #2D2D2D; /* Slightly lighter on hover */
+}
+
+.log-entry.info {
+   border-left-color: #4CAF50; /* Green for informational messages */
+}
+
+.log-entry.warning {
+   border-left-color: #FF9800; /* Orange for warnings */
+}
+
+.log-entry.error {
+   border-left-color: #F44336; /* Red for errors */
+}
+
+.log-timestamp {
+   color: #888; /* Muted timestamp color */
+   font-size: 0.8rem;
+   margin-right: 0.5rem;
+}
+
+.log-message {
+   word-break: break-word;
+}
+
+.log-entry:hover .log-timestamp {
+   color: #BBB;
+}
+
+.log-level {
+   font-weight: bold;
+   margin-right: 0.5rem;
+}
+
+.log-level.info {
+   color: #4CAF50;
+}
+
+.log-level.warning {
+   color: #FF9800;
+}
+
+.log-level.error {
+   color: #F44336;
 }

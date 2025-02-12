@@ -185,7 +185,7 @@ export class example extends plugin {
             const nums = e.msg.replace(/#下载云预设/g, '').match(/\d+/g);
             const presetsPath = `${_path}/data/阴天预设`;
             if (systempromise[nums - 1]) {
-                await fs.promises.writeFile(`${presetsPath}/${systempromise[nums - 1].fileName.replace(/basic\\/, '')}`, systempromise[nums - 1].content, 'utf-8');
+                await fs.promises.writeFile(`${presetsPath}/${systempromise[nums - 1].fileName.replace(/^[^/]+\//, '')}`, systempromise[nums - 1].content, 'utf-8');
                 e.reply(`成功下载预设【${systempromise[nums - 1].fileName.replace(/\.txt$/, "")}】`);
             } else {
                 e.reply('不存在当前预设id，请先搜索');
