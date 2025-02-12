@@ -1,7 +1,8 @@
 import { dependencies } from "../YTdependence/dependencies.js";
 const { path, axios, common } = dependencies;
-import { exec } from 'child_process';
+import { exec, execSync } from 'child_process';
 import dotenv from 'dotenv';
+import fs from 'fs';
 
 export class YTSystem extends plugin {
   constructor() {
@@ -34,31 +35,76 @@ export class YTSystem extends plugin {
 
     // 加载环境变量
     dotenv.config({ path: path.join(process.cwd(), 'plugins/y-tian-plugin/.env') })
-    //console.log(process.env.PORT)
     this.pluginPath = path.join(process.cwd(), 'plugins/y-tian-plugin')
     this.apiBaseUrl = 'http://localhost'
     this.defaultPort = process.env.PORT || 7799
+    
+    // 初始化时获取npm路径
+    this.npmPath = this.getNpmPath()
   }
 
-  async getServerPort() {
+  // 获取系统npm路径的方法
+  getNpmPath() {
     try {
-      // 先尝试从运行中的服务获取端口
-      const response = await axios.get(`${this.apiBaseUrl}:${this.defaultPort}/api/server-info`, {
-        timeout: 60000
-      })
-      return response.data
+      let npmPath;
+      if (process.platform === 'win32') {
+        // Windows系统查找npm路径
+        const possiblePaths = [
+          path.join(process.env.APPDATA, 'npm', 'npm.cmd'),
+          path.join(process.env.ProgramFiles, 'nodejs', 'npm.cmd'),
+          path.join(process.env['ProgramFiles(x86)'], 'nodejs', 'npm.cmd')
+        ]
+        
+        for (const p of possiblePaths) {
+          if (fs.existsSync(p)) {
+            npmPath = p
+            break
+          }
+        }
+      } else {
+        // Linux/Mac系统使用which命令
+        npmPath = execSync('which npm', { encoding: 'utf8' }).trim()
+      }
+
+      if (!npmPath) {
+        throw new Error('未找到npm执行程序')
+      }
+
+      // 验证npm是否可用
+      execSync(`"${npmPath}" -v`, { encoding: 'utf8' })
+      logger.info(`找到npm路径: ${npmPath}`)
+      return npmPath
     } catch (error) {
-      // 如果服务未响应，返回环境变量中的端口
-      logger.warn(`获取运行时端口失败，使用配置端口: ${this.defaultPort}`)
-      return this.defaultPort
+      logger.error(`获取npm路径失败: ${error}`)
+      return null
+    }
+  }
+
+  // 验证npm环境
+  async validateNpmEnv() {
+    if (!this.npmPath) {
+      throw new Error('未找到可用的npm环境，请先安装Node.js和npm')
+    }
+    
+    // 验证插件目录
+    if (!fs.existsSync(this.pluginPath)) {
+      throw new Error(`插件目录不存在: ${this.pluginPath}`)
+    }
+
+    // 验证package.json
+    const pkgPath = path.join(this.pluginPath, 'package.json')
+    if (!fs.existsSync(pkgPath)) {
+      throw new Error('未找到package.json文件')
     }
   }
 
   async RunServer(e) {
-    if(!this.validateCommand(e)) return false
+    if (!this.validateCommand(e)) return false
 
     try {
+      await this.validateNpmEnv()
       await e.reply(`等待服务端运行启动...`, true, { recallMsg: 5000 })
+
       // 设置环境变量
       const env = {
         ...process.env,
@@ -66,28 +112,28 @@ export class YTSystem extends plugin {
         PORT: this.defaultPort
       }
 
-      exec('npm run dev', {
+      // 使用完整npm路径执行命令
+      exec(`"${this.npmPath}" run dev`, {
         cwd: this.pluginPath,
-        env
+        env,
+        shell: true
       }, async (error, stdout, stderr) => {
         if (error) {
           await e.reply(`启动失败: ${error.message}`)
           return
         }
         
-        // 等待服务启动
         await new Promise(resolve => setTimeout(resolve, 2000))
         
-        // 获取端口信息
-        const { port, internalIp, publicIp } = await this.getServerPort();
-        const forwardMsg = [];
+        const { port, internalIp, publicIp } = await this.getServerPort()
+        const forwardMsg = []
         await e.reply(`阴天服务端启动成功!`)
-        forwardMsg.push(`本机访问地址: \n${this.apiBaseUrl}:${port}`);
-        forwardMsg.push(`内网访问地址: \n${internalIp}`);
-        forwardMsg.push(`公网访问地址: \n${publicIp}`);
-        forwardMsg.push(`逆转api模型: \n${this.apiBaseUrl}:${port}/v1/models`);
-        forwardMsg.push(`逆转api端点: \n${this.apiBaseUrl}:${port}/v1/chat/completions`);
-        await e.reply(await common.makeForwardMsg(e, forwardMsg, '阴天服务端详情'));
+        forwardMsg.push(`本机访问地址: \n${this.apiBaseUrl}:${port}`)
+        forwardMsg.push(`内网访问地址: \n${internalIp}`)
+        forwardMsg.push(`公网访问地址: \n${publicIp}`)
+        forwardMsg.push(`逆转api模型: \n${this.apiBaseUrl}:${port}/v1/models`)
+        forwardMsg.push(`逆转api端点: \n${this.apiBaseUrl}:${port}/v1/chat/completions`)
+        await e.reply(await common.makeForwardMsg(e, forwardMsg, '阴天服务端详情'))
 
         if (stderr) {
           logger.warn(`启动警告: ${stderr}`)
@@ -103,18 +149,20 @@ export class YTSystem extends plugin {
   }
 
   async StopServer(e) {
-    if(!this.validateCommand(e)) return false
+    if (!this.validateCommand(e)) return false
 
     try {
+      await this.validateNpmEnv()
       const { port } = await this.getServerPort()
       const isRunning = await this.isServerRunning(port)
-      if(!isRunning) {
+      if (!isRunning) {
         await e.reply('服务端当前未运行')
         return false
       }
 
-      exec('npm run stop', {
-        cwd: this.pluginPath
+      exec(`"${this.npmPath}" run stop`, {
+        cwd: this.pluginPath,
+        shell: true
       }, async (error, stdout, stderr) => {
         if (error) {
           await e.reply(`停止失败: ${error.message}`)
@@ -132,6 +180,19 @@ export class YTSystem extends plugin {
     }
 
     return true
+  }
+
+  // 其他方法保持不变...
+  async getServerPort() {
+    try {
+      const response = await axios.get(`${this.apiBaseUrl}:${this.defaultPort}/api/server-info`, {
+        timeout: 60000
+      })
+      return response.data
+    } catch (error) {
+      logger.warn(`获取运行时端口失败，使用配置端口: ${this.defaultPort}`)
+      return this.defaultPort
+    }
   }
 
   async CheckStatus(e) {

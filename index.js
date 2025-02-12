@@ -2,8 +2,28 @@ import fs from 'node:fs'
 import chalk from 'chalk'
 import { exec } from 'child_process'
 import { promisify } from 'util'
+import path from 'path'
 
 const execAsync = promisify(exec)
+
+// 检查并创建env文件
+function checkAndCreateEnvFile() {
+  const envPath = './plugins/y-tian-plugin/.env'
+  if (!fs.existsSync(envPath)) {
+    const envContent = `PORT=7900
+DEFAULT_API_KEY=sk-123456
+OPENAI_API_BASE=https://api.openai.com
+DATABASE_URL=mongodb://user:password@host:port/database
+ACCESS_KEY=114514`
+
+    try {
+      fs.writeFileSync(envPath, envContent, 'utf8')
+      logger.info(chalk.green('已创建默认.env文件'))
+    } catch (error) {
+      logger.error(chalk.red('创建.env文件失败：'), error)
+    }
+  }
+}
 
 // 检查包管理器是否可用
 async function checkPackageManager(cmd) {
@@ -138,7 +158,10 @@ logger.info(greenText(`
 `))
 
 try {
-  // 先检查并安装依赖
+  // 检查并创建.env文件
+  checkAndCreateEnvFile()
+
+  // 检查并安装依赖
   const dependenciesInstalled = await installDependencies()
   if (!dependenciesInstalled) {
     logger.error(chalk.red('依赖安装失败，插件无法正常工作，请检查网络或手动安装依赖'))
