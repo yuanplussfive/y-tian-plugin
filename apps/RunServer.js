@@ -1,10 +1,44 @@
 import { dependencies } from "../YTdependence/dependencies.js";
 const { path, axios, common } = dependencies;
-import { exec, execSync } from 'child_process';
-import dotenv from 'dotenv';
-import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import fs from 'fs/promises';  // 使用 promise 版本的 fs
+import dotenv from 'dotenv';
+import { spawn } from 'child_process';  // 使用 spawn 替代 exec
+import os from 'os'; // 引入 os 模块用于获取系统信息
+
+/**
+ * 服务运行环境类型枚举
+ */
+const RuntimeEnv = {
+  DOCKER: 'docker',
+  LOCAL: 'local',
+  PM2: 'pm2'
+};
+
+/**
+ * 服务状态枚举
+ */
+const ServiceStatus = {
+  RUNNING: 'running',
+  STOPPED: 'stopped',
+  ERROR: 'error'
+};
+
+function getLocalIPs() {
+  const networkInterfaces = os.networkInterfaces();
+  const addresses = [];
+  
+  for (const interfaceName in networkInterfaces) {
+    for (const networkInterface of networkInterfaces[interfaceName]) {
+      // 跳过内部环回地址和非IPv4地址
+      if (networkInterface.family === 'IPv4' && !networkInterface.internal) {
+        addresses.push(networkInterface.address);
+      }
+    }
+  }
+  return addresses;
+}
 
 export class YTSystem extends plugin {
   constructor() {
@@ -33,234 +67,419 @@ export class YTSystem extends plugin {
           isPrivate: true
         }
       ]
-    })
+    });
 
-    // 获取当前文件的目录路径
+    this.init();
+  }
+
+  /**
+   * 初始化服务配置
+   */
+  async init() {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
-
-    // 插件根目录路径
+    
     this.pluginPath = path.join(__dirname, '../');
-
-    // 加载环境变量
+    
     dotenv.config({ path: path.join(this.pluginPath, '.env') });
+    
+    this.config = {
+      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost',
+      port: process.env.PORT || 7799,
+      runtimeEnv: this.detectRuntimeEnv(),
+      dockerImage: process.env.DOCKER_IMAGE || 'api-server:latest',
+      dockerContainer: process.env.DOCKER_CONTAINER || 'api-server'
+    };
 
-    this.apiBaseUrl = 'http://localhost';
-    this.defaultPort = process.env.PORT || 7799;
-    this.npmPath = null;
-    this.npmRetryCount = 0;
-    this.maxRetries = 3;
-
-    // 初始化npm环境
-    this.initNpmEnvironment();
+    this.serviceStatus = {
+      status: ServiceStatus.STOPPED,
+      process: null,
+      container: null,
+      startTime: null,
+      processInfo: null
+    };
   }
 
-  // 初始化npm环境
-  async initNpmEnvironment() {
-    try {
-      // 首次尝试获取npm路径
-      this.npmPath = await this.findNpmPath();
-      if (!this.npmPath) {
-        throw new Error('未找到npm路径');
-      }
-      //logger.info('[阴天插件] NPM环境初始化成功');
-    } catch (error) {
-      //logger.error(`[阴天插件] NPM环境初始化失败: ${error}`);
-      // 启动重试机制
-      this.retryNpmInit();
+  /**
+   * 检测运行环境
+   * @returns {string} 运行环境类型
+   */
+  detectRuntimeEnv() {
+    if (process.env.DOCKER_CONTAINER) {
+      return RuntimeEnv.DOCKER;
     }
-  }
-
-  // NPM初始化重试机制
-  async retryNpmInit() {
-    if (this.npmRetryCount < this.maxRetries) {
-      this.npmRetryCount++;
-      logger.info(`[阴天插件] 正在进行第${this.npmRetryCount}次重试...`);
-      setTimeout(() => this.initNpmEnvironment(), 2000 * this.npmRetryCount);
-    } else {
-      logger.error('[阴天插件] NPM环境初始化最终失败，请检查系统环境');
+    if (process.env.PM2_HOME) {
+      return RuntimeEnv.PM2;
     }
+    return RuntimeEnv.LOCAL;
   }
 
-  // 查找npm路径的改进方法
-  async findNpmPath() {
-    try {
-      if (process.platform === 'win32') {
-        // Windows系统下查找npm
-        const npmCmd = 'where npm';
-        const result = execSync(npmCmd, { encoding: 'utf8', shell: true });
-        const paths = result.split('\n').map(p => p.trim()).filter(Boolean);
-        return paths[0]; // 返回第一个找到的路径
-      } else {
-        // Linux/Mac系统下查找npm
-        const npmPath = execSync('which npm', { encoding: 'utf8', shell: true }).trim();
-        return npmPath;
-      }
-    } catch (error) {
-      logger.error(`[阴天插件] 查找npm路径失败: ${error}`);
-      return null;
-    }
+  /**
+   * 格式化进程信息
+   * @param {object} info 进程信息
+   * @returns {string} 格式化后的信息
+   */
+  formatProcessInfo(info) {
+    return [
+      '┌────┬───────────┬──────────┬─────────┬──────────┬────────┬──────┬───────────┐',
+      '│ id │ name      │ mode     │ pid     │ status   │ cpu    │ mem  │ uptime    │',
+      '├────┼───────────┼──────────┼─────────┼──────────┼────────┼──────┼───────────┤',
+      `│ ${info.id.padEnd(3)} │ ${info.name.padEnd(9)} │ ${info.mode.padEnd(8)} │ ${
+        info.pid.toString().padEnd(7)} │ ${info.status.padEnd(8)} │ ${
+        info.cpu.padEnd(6)} │ ${info.mem.padEnd(4)} │ ${info.uptime.padEnd(9)} │`,
+      '└────┴───────────┴──────────┴─────────┴──────────┴────────┴──────┴───────────┘'
+    ].join('\n');
   }
 
-  // 执行命令的封装方法
-  executeCommand(command, options = {}) {
-    return new Promise((resolve, reject) => {
-      const defaultOptions = {
-        cwd: this.pluginPath,
-        shell: true,
-        env: { ...process.env }
-      };
-
-      const finalOptions = { ...defaultOptions, ...options };
-
-      exec(command, finalOptions, (error, stdout, stderr) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve({ stdout, stderr });
-      });
-    });
-  }
-
+  /**
+   * 启动服务
+   * @param {object} e 事件对象
+   */
   async RunServer(e) {
     if (!this.validateCommand(e)) return false;
 
     try {
-      await this.validateNpmEnv();
-      await e.reply('等待服务端启动...', true, { recallMsg: 5000 });
+      await e.reply('正在启动服务端...', true, { recallMsg: 5 });
 
-      const env = {
-        ...process.env,
-        NODE_ENV: 'development',
-        PORT: this.defaultPort
-      };
-
-      const { stdout, stderr } = await this.executeCommand(`"${this.npmPath}" run dev`, { env });
-
-      // 等待服务启动
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      const { port, internalIp, publicIp } = await this.getServerPort();
-      const forwardMsg = [
-        `本机访问地址: \n${this.apiBaseUrl}:${port}`,
-        `内网访问地址: \n${internalIp}`,
-        `公网访问地址: \n${publicIp}`,
-        `逆转api模型: \n${this.apiBaseUrl}:${port}/v1/models`,
-        `逆转api端点: \n${this.apiBaseUrl}:${port}/v1/chat/completions`
-      ];
-
-      await e.reply('阴天服务端启动成功!');
-      await e.reply(await common.makeForwardMsg(e, forwardMsg, '阴天服务端详情'));
-
-      if (stderr) {
-        logger.warn(`[阴天插件] 启动警告: ${stderr}`);
+      switch (this.config.runtimeEnv) {
+        case RuntimeEnv.DOCKER:
+          await this.startDockerService();
+          break;
+        case RuntimeEnv.PM2:
+          await this.startPM2Service();
+          break;
+        default:
+          await this.startLocalService();
       }
 
+      this.serviceStatus.startTime = new Date();
+      
+      // 等待服务器启动完成
+      await this.waitForServer();
+      
+      // 获取服务器信息
+      const serverInfo = await this.getServerInfo();
+      console.log(serverInfo);
+      await this.sendDetailedServerInfo(e, serverInfo);
+      
       return true;
     } catch (error) {
-      logger.error(`[阴天插件] 启动服务端错误: ${error}`);
+      logger.error(`[阴天插件] 启动失败: ${error.message}`);
       await e.reply(`启动失败: ${error.message}`);
       return false;
     }
   }
 
+  // 等待服务器启动的方法
+  async waitForServer(maxAttempts = 30, interval = 1000) {
+    for (let i = 0; i < maxAttempts; i++) {
+      try {
+        const response = await axios.get(
+          `${this.config.apiBaseUrl}:${this.config.port}`,
+          { timeout: 5000 }
+        );
+        if (response.status === 200) {
+          return true;
+        }
+      } catch (error) {
+        // 继续等待
+        await new Promise(resolve => setTimeout(resolve, interval));
+      }
+    }
+    throw new Error('服务器启动超时');
+  }
+
+  /**
+   * 启动Docker服务
+   */
+  async startDockerService() {
+    const dockerRun = spawn('docker', [
+      'run',
+      '-d',
+      '--name', this.config.dockerContainer,
+      '-p', `${this.config.port}:${this.config.port}`,
+      this.config.dockerImage
+    ]);
+
+    return new Promise((resolve, reject) => {
+      dockerRun.on('close', (code) => {
+        if (code === 0) {
+          this.serviceStatus.status = ServiceStatus.RUNNING;
+          this.serviceStatus.container = this.config.dockerContainer;
+          resolve();
+        } else {
+          reject(new Error(`Docker启动失败，退出码: ${code}`));
+        }
+      });
+    });
+  }
+
+  /**
+   * 启动本地服务
+   */
+  async startLocalService() {
+    const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+    const npmStart = spawn(npm, ['run', 'dev'], {
+      cwd: this.pluginPath,
+      env: { ...process.env, PORT: this.config.port }
+    });
+
+    this.serviceStatus.process = npmStart;
+    this.serviceStatus.status = ServiceStatus.RUNNING;
+
+    // 记录进程信息
+    this.serviceStatus.processInfo = {
+      id: '0',
+      name: 'yintian-server',
+      mode: 'fork',
+      pid: npmStart.pid,
+      status: 'online',
+      cpu: '0%',
+      mem: '0MB',
+      uptime: '0s'
+    };
+
+    npmStart.stdout.on('data', (data) => {
+      logger.info(`[阴天插件] ${data}`);
+    });
+
+    npmStart.stderr.on('data', (data) => {
+      logger.warn(`[阴天插件] ${data}`);
+    });
+
+    // 更新进程信息
+    this.updateProcessInfo();
+  }
+
+  /**
+   * 启动PM2服务
+   */
+  async startPM2Service() {
+    const pm2 = spawn('pm2', [
+      'start',
+      path.join(this.pluginPath, 'index.js'),
+      '--name', 'yintian-server',
+      '--watch'
+    ]);
+
+    return new Promise((resolve, reject) => {
+      pm2.on('close', (code) => {
+        if (code === 0) {
+          this.serviceStatus.status = ServiceStatus.RUNNING;
+          this.updatePM2Info();
+          resolve();
+        } else {
+          reject(new Error(`PM2启动失败，退出码: ${code}`));
+        }
+      });
+    });
+  }
+
+  /**
+   * 更新进程信息
+   */
+  async updateProcessInfo() {
+    if (!this.serviceStatus.process) return;
+
+    const usage = process.cpuUsage();
+    const memUsage = process.memoryUsage();
+    const uptime = Math.floor((new Date() - this.serviceStatus.startTime) / 1000);
+
+    this.serviceStatus.processInfo = {
+      id: '0',
+      name: 'yintian-server',
+      mode: 'fork',
+      pid: this.serviceStatus.process.pid,
+      status: 'online',
+      cpu: `${((usage.user + usage.system) / 1000000).toFixed(1)}%`,
+      mem: `${Math.round(memUsage.heapUsed / 1024 / 1024)}MB`,
+      uptime: `${uptime}s`
+    };
+  }
+
+  /**
+   * 更新PM2进程信息
+   */
+  async updatePM2Info() {
+    const pm2List = spawn('pm2', ['jlist']);
+    let output = '';
+
+    return new Promise((resolve) => {
+      pm2List.stdout.on('data', (data) => {
+        output += data;
+      });
+
+      pm2List.on('close', () => {
+        try {
+          const processes = JSON.parse(output);
+          const serverProcess = processes.find(p => p.name === 'yintian-server');
+          
+          if (serverProcess) {
+            this.serviceStatus.processInfo = {
+              id: serverProcess.pm_id.toString(),
+              name: serverProcess.name,
+              mode: serverProcess.exec_mode,
+              pid: serverProcess.pid,
+              status: serverProcess.pm2_env.status,
+              cpu: `${serverProcess.monit.cpu}%`,
+              mem: `${Math.round(serverProcess.monit.memory / 1024 / 1024)}MB`,
+              uptime: `${Math.floor(serverProcess.pm2_env.pm_uptime / 1000)}s`
+            };
+          }
+        } catch (error) {
+          logger.error(`[阴天插件] 更新PM2信息失败: ${error.message}`);
+        }
+        resolve();
+      });
+    });
+  }
+
+  /**
+   * 停止服务
+   * @param {object} e 事件对象
+   */
   async StopServer(e) {
     if (!this.validateCommand(e)) return false;
 
     try {
-      await this.validateNpmEnv();
-      const { port } = await this.getServerPort();
-      const isRunning = await this.isServerRunning(port);
-
-      if (!isRunning) {
-        await e.reply('服务端当前未运行');
-        return false;
+      switch (this.config.runtimeEnv) {
+        case RuntimeEnv.DOCKER:
+          await this.stopDockerService();
+          break;
+        case RuntimeEnv.PM2:
+          await this.stopPM2Service();
+          break;
+        default:
+          await this.stopLocalService();
       }
 
-      const { stdout, stderr } = await this.executeCommand(`"${this.npmPath}" run stop`);
-      await e.reply('阴天服务端已停止运行');
-
-      if (stderr) {
-        logger.warn(`[阴天插件] 停止警告: ${stderr}`);
-      }
-
+      const forwardMsg = [
+        '服务端已停止运行',
+        `运行环境: ${this.config.runtimeEnv}`,
+        `停止时间: ${new Date().toLocaleString()}`
+      ];
+      
+      await e.reply(await common.makeForwardMsg(e, forwardMsg, '阴天服务端停止通知'));
       return true;
     } catch (error) {
-      logger.error(`[阴天插件] 停止服务端错误: ${error}`);
+      logger.error(`[阴天插件] 停止失败: ${error.message}`);
       await e.reply(`停止失败: ${error.message}`);
       return false;
     }
   }
 
-  async CheckStatus(e) {
-    if (!this.validateCommand(e)) return false;
-
-    try {
-      const { stdout } = await this.executeCommand('pm2 show api-server');
-      const status = this.parseStatus(stdout);
-      const { port } = await this.getServerPort();
-
-      let statusMsg = `服务端状态:\n${status}`;
-      statusMsg += `\n服务地址: ${this.apiBaseUrl}:${port}`;
-
-      await e.reply(statusMsg);
-      return true;
-    } catch (error) {
-      logger.error(`[阴天插件] 检查状态错误: ${error}`);
-      await e.reply('获取状态失败,服务可能未运行');
-      return false;
-    }
-  }
-
-  // 其他方法保持不变...
-  parseStatus(output) {
-    const lines = output.split('\n');
-    const status = {};
-
-    for (const line of lines) {
-      if (line.includes('status')) {
-        status.status = line.split('│')[2]?.trim();
-      }
-      if (line.includes('memory')) {
-        status.memory = line.split('│')[2]?.trim();
-      }
-      if (line.includes('cpu')) {
-        status.cpu = line.split('│')[2]?.trim();
-      }
-      if (line.includes('uptime')) {
-        status.uptime = line.split('│')[2]?.trim();
-      }
-    }
-
-    return Object.entries(status)
-      .map(([k, v]) => `${k}: ${v}`)
-      .join('\n');
-  }
-
-  async getServerPort() {
-    try {
-      const response = await axios.get(`${this.apiBaseUrl}:${this.defaultPort}/api/server-info`, {
-        timeout: 60000
+  /**
+   * 停止Docker服务
+   */
+  async stopDockerService() {
+    if (this.serviceStatus.container) {
+      const dockerStop = spawn('docker', ['stop', this.serviceStatus.container]);
+      await new Promise((resolve, reject) => {
+        dockerStop.on('close', (code) => {
+          if (code === 0) {
+            this.serviceStatus.status = ServiceStatus.STOPPED;
+            this.serviceStatus.container = null;
+            this.serviceStatus.processInfo = null;
+            resolve();
+          } else {
+            reject(new Error(`Docker停止失败，退出码: ${code}`));
+          }
+        });
       });
-      return response.data;
-    } catch (error) {
-      logger.warn(`[阴天插件] 获取运行时端口失败，使用配置端口: ${this.defaultPort}`);
-      return { port: this.defaultPort };
     }
   }
 
-  async isServerRunning(port) {
-    try {
-      const response = await axios.get(`${this.apiBaseUrl}:${port}/api/port`, {
-        timeout: 2000
+  /**
+   * 停止本地服务
+   */
+  async stopLocalService() {
+    if (this.serviceStatus.process) {
+      this.serviceStatus.process.kill();
+      this.serviceStatus.process = null;
+      this.serviceStatus.status = ServiceStatus.STOPPED;
+      this.serviceStatus.processInfo = null;
+    }
+  }
+
+  /**
+   * 停止PM2服务
+   */
+  async stopPM2Service() {
+    const pm2Stop = spawn('pm2', ['stop', 'yintian-server']);
+    await new Promise((resolve, reject) => {
+      pm2Stop.on('close', (code) => {
+        if (code === 0) {
+          this.serviceStatus.status = ServiceStatus.STOPPED;
+          this.serviceStatus.processInfo = null;
+          resolve();
+        } else {
+          reject(new Error(`PM2停止失败，退出码: ${code}`));
+        }
       });
-      return response.status === 200;
-    } catch {
-      return false;
+    });
+  }
+
+  /**
+   * 获取服务器详细信息
+   */
+  async getServerInfo() {
+    try {
+      const response = await axios.get(
+        `${this.config.apiBaseUrl}:${this.config.port}/api/server-info`,
+        { timeout: 30000 }
+      );
+      console.log(response.data);
+      return {
+        ...response.data,
+        localIPs: getLocalIPs()
+      };
+    } catch (error) {
+      console.log(error)
+      return {
+        port: this.config.port,
+        status: this.serviceStatus.status,
+        runtime: this.config.runtimeEnv,
+        localIPs: getLocalIPs()
+      };
     }
   }
 
+  /**
+   * 发送详细的服务器信息
+   * @param {object} e 事件对象
+   * @param {object} info 服务器信息
+   */
+  async sendDetailedServerInfo(e, info) {
+    const forwardMsg = [
+      '==== 基本信息 ====',
+      `运行环境: ${this.config.runtimeEnv}`,
+      `服务状态: ${this.serviceStatus.status}`,
+      `启动时间: ${this.serviceStatus.startTime?.toLocaleString() || '未知'}`,
+      '',
+      '==== 网络信息 ====',
+      `内网地址: ${info.localIPs.map(ip => `http://${ip}:${info.port}`).join('\n         ')}`,
+      `公网地址: ${info.publicIp}:${info.port}`,
+      `API端点: ${this.config.apiBaseUrl}:${info.port}/v1/chat/completions`,
+      `模型端点: ${this.config.apiBaseUrl}:${info.port}/v1/models`,
+      ''
+    ];
+
+    // 添加进程信息
+    if (this.serviceStatus.processInfo) {
+      forwardMsg.push(
+        '==== 进程信息 ====',
+        this.formatProcessInfo(this.serviceStatus.processInfo)
+      );
+    }
+
+    await e.reply(await common.makeForwardMsg(e, forwardMsg, '阴天服务端详细信息'));
+  }
+
+  /**
+   * 验证命令权限
+   * @param {object} e 事件对象
+   * @returns {boolean} 验证结果
+   */
   validateCommand(e) {
     if (!e.isPrivate) {
       e.reply('该命令仅支持私聊使用');
@@ -275,18 +494,21 @@ export class YTSystem extends plugin {
     return true;
   }
 
-  async validateNpmEnv() {
-    if (!this.npmPath) {
-      throw new Error('未找到可用的npm环境，请先安装Node.js和npm');
-    }
+  /**
+   * 检查服务状态
+   * @param {object} e 事件对象
+   */
+  async CheckStatus(e) {
+    if (!this.validateCommand(e)) return false;
 
-    if (!fs.existsSync(this.pluginPath)) {
-      throw new Error(`插件目录不存在: ${this.pluginPath}`);
-    }
-
-    const pkgPath = path.join(this.pluginPath, 'package.json');
-    if (!fs.existsSync(pkgPath)) {
-      throw new Error('未找到package.json文件');
+    try {
+      const serverInfo = await this.getServerInfo();
+      await this.sendDetailedServerInfo(e, serverInfo);
+      return true;
+    } catch (error) {
+      logger.error(`[阴天插件] 获取状态失败: ${error.message}`);
+      await e.reply(`获取状态失败: ${error.message}`);
+      return false;
     }
   }
 }
