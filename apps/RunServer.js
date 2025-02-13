@@ -63,9 +63,9 @@ export class YTSystem extends plugin {
       if (!this.npmPath) {
         throw new Error('未找到npm路径');
       }
-      logger.info('[阴天插件] NPM环境初始化成功');
+      //logger.info('[阴天插件] NPM环境初始化成功');
     } catch (error) {
-      logger.error(`[阴天插件] NPM环境初始化失败: ${error}`);
+      //logger.error(`[阴天插件] NPM环境初始化失败: ${error}`);
       // 启动重试机制
       this.retryNpmInit();
     }
