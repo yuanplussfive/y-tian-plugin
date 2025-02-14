@@ -1,4 +1,6 @@
-import puppeteer from 'puppeteer';
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+const puppeteer = require('puppeteer');
 import fs from 'fs';
 import path from 'path';
 import { exec, spawn } from 'child_process';
@@ -180,10 +182,12 @@ async function extractAndRender(text, options = {}) {
  * @returns {Promise<Browser>} - Puppeteer 浏览器实例
  */
 async function launchPuppeteer(userDataDir) {
+  const nodeVersion = process.version.slice(1).split('.')[0];
+
   try {
     // 尝试使用 "new" headless 模式
     const browser = await puppeteer.launch({
-      headless: 'new',
+      headless: parseInt(nodeVersion) >= 20 ? "new" : true,
       userDataDir, // 指定用户数据目录
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });

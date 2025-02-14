@@ -738,7 +738,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.05/次"
+    "quota": "0"
   },
   {
     "id": 91,
@@ -746,7 +746,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.05/次"
+    "quota": "0"
   },
   {
     "id": 92,
@@ -754,7 +754,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0.05/次"
+    "quota": "0"
   },
   {
     "id": 93,
@@ -1629,6 +1629,22 @@ export const other_models = [
     "model": "deepseek-r1-nx",
     "points": "逆向渠道",
     "token": 64000,
+    "features": ["conversation", "code"],
+    "quota": 0
+  },
+  {
+    "id": 202,
+    "model": "reka-flash-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation", "code"],
+    "quota": 0
+  },
+  {
+    "id": 203,
+    "model": "claude-docx-nx",
+    "points": "逆向渠道",
+    "token": 200000,
     "features": ["conversation", "code"],
     "quota": 0
   }

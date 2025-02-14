@@ -1,0 +1,8 @@
+{
+  "models": {
+    "slack-ai": {
+      "providerModelName": "slack-ai",
+      "aliases": ["slack-ai"]
+    }
+  }
+}

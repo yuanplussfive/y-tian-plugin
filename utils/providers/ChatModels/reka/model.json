@@ -1,0 +1,8 @@
+{
+  "models": {
+    "reka-flash": {
+      "providerModelName": "reka-flash",
+      "aliases": ["reka-flash"]
+    }
+  }
+}

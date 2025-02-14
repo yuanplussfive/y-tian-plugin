@@ -1,45 +1,21 @@
 {
   "models": {
     "claude-3.5-sonnet": {
-      "providerModelName": "claude-3.5-sonnet",
+      "providerModelName": "claude-3-5-sonnet-20241022",
       "aliases": [
-        "claude-3.5-sonnet"
+        "claude-3-5-sonnet-20241022"
       ]
     },
-    "claude-3.5-haiku": {
-      "providerModelName": "claude-3.5-haiku",
+    "claude-3-5-sonnet-20241022": {
+      "providerModelName": "claude-3-5-sonnet-20241022",
       "aliases": [
-        "claude-3.5-haiku"
+        "claude-3-5-sonnet-20241022"
       ]
     },
-    "o3-mini": {
-      "providerModelName": "o3-mini",
+    "claude-3.5-sonnet-20241022": {
+      "providerModelName": "claude-3-5-sonnet-20241022",
       "aliases": [
-        "o3-mini"
-      ]
-    },
-    "claude-3-haiku": {
-      "providerModelName": "claude-3-haiku",
-      "aliases": [
-        "claude-3-haiku"
-      ]
-    },
-    "deepseek-chat": {
-      "providerModelName": "deepseek-chat",
-      "aliases": [
-        "deepseek-chat"
-      ]
-    },
-    "gpt-4o": {
-      "providerModelName": "gpt-4o",
-      "aliases": [
-        "gpt-4o"
-      ]
-    },
-    "gpt-4o-mini": {
-      "providerModelName": "gpt-4o-mini",
-      "aliases": [
-        "gpt-4o-mini"
+        "claude-3-5-sonnet-20241022"
       ]
     }
   }

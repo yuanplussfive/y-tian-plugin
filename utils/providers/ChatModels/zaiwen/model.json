@@ -2,83 +2,141 @@
   "models": {
     "doubao-pro": {
       "providerModelName": "doubao",
-       "aliases": ["doubao-pro"]
+      "aliases": [
+        "doubao-pro"
+      ]
     },
     "gpt-4o": {
       "providerModelName": "gpt4_o",
-       "aliases": ["gpt-4o"]
+      "aliases": [
+        "gpt-4o"
+      ]
     },
     "gpt-4o-mini": {
       "providerModelName": "gpt4_o_mini",
-       "aliases": ["gpt-4o-mini"]
+      "aliases": [
+        "gpt-4o-mini"
+      ]
     },
     "minimax-pro": {
       "providerModelName": "minimax",
-      "aliases": ["minimax-pro"]
+      "aliases": [
+        "minimax-pro"
+      ]
     },
     "qwen-2-72b": {
       "providerModelName": "qwen",
-      "aliases": ["qwen-2-72b"]
+      "aliases": [
+        "qwen-2-72b"
+      ]
     },
-     "step-2": {
+    "step-2": {
       "providerModelName": "step2",
-      "aliases": ["step-2"]
+      "aliases": [
+        "step-2"
+      ]
     },
     "mita-search": {
       "providerModelName": "mita",
-      "aliases": ["mita-search"]
+      "aliases": [
+        "mita-search"
+      ]
     },
     "kimi-pro": {
       "providerModelName": "kimi",
-      "aliases": ["kimi-pro"]
+      "aliases": [
+        "kimi-pro"
+      ]
     },
-     "deepseek-reasoner": {
+    "deepseek-reasoner": {
       "providerModelName": "deepseek-reasoner",
-      "aliases": ["deepseek-reasoner"]
+      "aliases": [
+        "deepseek-reasoner"
+      ]
     },
     "yi-lightning": {
       "providerModelName": "yi-lightning",
-      "aliases": ["yi-lightning"]
+      "aliases": [
+        "yi-lightning"
+      ]
     },
     "hunyuan-lite": {
       "providerModelName": "hunyuan-lite",
-       "aliases": ["hunyuan-lite"]
+      "aliases": [
+        "hunyuan-lite"
+      ]
     },
-     "glm-4-flash": {
+    "glm-4-flash": {
       "providerModelName": "glm-4-flash",
-      "aliases": ["glm-4-flash"]
+      "aliases": [
+        "glm-4-flash"
+      ]
     },
     "spark-max": {
       "providerModelName": "spark-max",
-      "aliases": ["spark-max"]
+      "aliases": [
+        "spark-max"
+      ]
     },
     "qwen-2.5-72b-instruct": {
       "providerModelName": "qwen2572binstruct",
-      "aliases": ["qwen-2.5-72b-instruct"]
+      "aliases": [
+        "qwen-2.5-72b-instruct"
+      ]
     },
-     "ERNIE-Speed-128k": {
+    "ERNIE-Speed-128k": {
       "providerModelName": "ERNIE-Speed-128k",
-       "aliases": ["ERNIE-Speed-128k"]
+      "aliases": [
+        "ERNIE-Speed-128k"
+      ]
     },
     "grok-v2": {
       "providerModelName": "grok",
-      "aliases": ["grok-v2"]
+      "aliases": [
+        "grok-v2"
+      ]
     },
     "llama-3.3-70b": {
       "providerModelName": "llama3370b",
-      "aliases": ["llama-3.3-70b"]
+      "aliases": [
+        "llama-3.3-70b"
+      ]
     },
     "claude-3.5-sonnet-poe": {
       "providerModelName": "claude_3_igloo",
-       "aliases": ["claude-3.5-sonnet-poe"]
+      "aliases": [
+        "claude-3.5-sonnet-poe"
+      ]
     },
     "claude-3.5-sonnet": {
       "providerModelName": "claude_3_igloo",
-       "aliases": ["claude-3.5-sonnet"]
+      "aliases": [
+        "claude-3.5-sonnet"
+      ]
     },
     "gemini-2.0-flash-exp": {
       "providerModelName": "gemini_2_falsh",
-      "aliases": ["gemini-2.0-flash-exp"]
+      "aliases": [
+        "gemini-2.0-flash-exp"
+      ]
+    },
+    "o3-mini": {
+      "providerModelName": "o3-mini",
+      "aliases": [
+        "o3-mini"
+      ]
+    },
+    "llama-3.1-405b": {
+      "providerModelName": "llama31405b",
+      "aliases": [
+        "llama-3.1-405b"
+      ]
+    },
+    "deepseek-v3": {
+      "providerModelName": "deepseekv3",
+      "aliases": [
+        "deepseek-v3"
+      ]
     }
   }
 }

@@ -1,0 +1,8 @@
+{
+  "models": {
+    "claude-docx": {
+      "providerModelName": "claude-docx",
+      "aliases": ["claude-docx"]
+    }
+  }
+}

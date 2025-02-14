@@ -28,7 +28,7 @@ const ServiceStatus = {
 function getLocalIPs() {
   const networkInterfaces = os.networkInterfaces();
   const addresses = [];
-  
+
   for (const interfaceName in networkInterfaces) {
     for (const networkInterface of networkInterfaces[interfaceName]) {
       // 跳过内部环回地址和非IPv4地址
@@ -78,11 +78,11 @@ export class YTSystem extends plugin {
   async init() {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
-    
+
     this.pluginPath = path.join(__dirname, '../');
-    
+
     dotenv.config({ path: path.join(this.pluginPath, '.env') });
-    
+
     this.config = {
       apiBaseUrl: process.env.API_BASE_URL || 'http://localhost',
       port: process.env.PORT || 7799,
@@ -115,21 +115,23 @@ export class YTSystem extends plugin {
   }
 
   /**
-   * 格式化进程信息
+   * 格式化进程信息 (普通字符串换行形式)
    * @param {object} info 进程信息
    * @returns {string} 格式化后的信息
    */
   formatProcessInfo(info) {
-    return [
-      '┌────┬───────────┬──────────┬─────────┬──────────┬────────┬──────┬───────────┐',
-      '│ id │ name      │ mode     │ pid     │ status   │ cpu    │ mem  │ uptime    │',
-      '├────┼───────────┼──────────┼─────────┼──────────┼────────┼──────┼───────────┤',
-      `│ ${info.id.padEnd(3)} │ ${info.name.padEnd(9)} │ ${info.mode.padEnd(8)} │ ${
-        info.pid.toString().padEnd(7)} │ ${info.status.padEnd(8)} │ ${
-        info.cpu.padEnd(6)} │ ${info.mem.padEnd(4)} │ ${info.uptime.padEnd(9)} │`,
-      '└────┴───────────┴──────────┴─────────┴──────────┴────────┴──────┴───────────┘'
-    ].join('\n');
+    return `
+ID:     ${info.id}
+Name:   ${info.name}
+Mode:   ${info.mode}
+PID:    ${info.pid}
+Status: ${info.status}
+CPU:    ${info.cpu}
+Mem:    ${info.mem}
+Uptime: ${info.uptime}
+`;
   }
+
 
   /**
    * 启动服务
@@ -153,15 +155,12 @@ export class YTSystem extends plugin {
       }
 
       this.serviceStatus.startTime = new Date();
-      
-      // 等待服务器启动完成
-      await this.waitForServer();
-      
-      // 获取服务器信息
-      const serverInfo = await this.getServerInfo();
-      console.log(serverInfo);
+
+      // 使用健康检查等待服务器启动
+      const serverInfo = await this.waitForServerReady(60000, 3000); // 等待最多 60 秒，每 3 秒检查一次
+
       await this.sendDetailedServerInfo(e, serverInfo);
-      
+
       return true;
     } catch (error) {
       logger.error(`[阴天插件] 启动失败: ${error.message}`);
@@ -170,23 +169,30 @@ export class YTSystem extends plugin {
     }
   }
 
-  // 等待服务器启动的方法
-  async waitForServer(maxAttempts = 30, interval = 1000) {
-    for (let i = 0; i < maxAttempts; i++) {
+  /**
+   * 健康检查，等待服务器启动
+   * @param {number} timeout 最大等待时间（毫秒）
+   * @param {number} interval 检查间隔（毫秒）
+   * @returns {Promise<object>} 服务器信息
+   */
+  async waitForServerReady(timeout, interval) {
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeout) {
       try {
-        const response = await axios.get(
-          `${this.config.apiBaseUrl}:${this.config.port}`,
-          { timeout: 5000 }
-        );
-        if (response.status === 200) {
-          return true;
+        const serverInfo = await this.getServerInfo();
+        if (serverInfo && serverInfo.hasOwnProperty('publicIp')) {
+          return serverInfo;
         }
+        logger.info('[阴天插件] 服务正在启动中，等待...');
+        await common.sleep(interval);
       } catch (error) {
-        // 继续等待
-        await new Promise(resolve => setTimeout(resolve, interval));
+        logger.warn(`[阴天插件] 健康检查失败: ${error.message}`);
+        await common.sleep(interval);
       }
     }
-    throw new Error('服务器启动超时');
+
+    throw new Error('等待服务器启动超时');
   }
 
   /**
@@ -230,7 +236,7 @@ export class YTSystem extends plugin {
     // 记录进程信息
     this.serviceStatus.processInfo = {
       id: '0',
-      name: 'yintian-server',
+      name: 'api-server',
       mode: 'fork',
       pid: npmStart.pid,
       status: 'online',
@@ -258,7 +264,7 @@ export class YTSystem extends plugin {
     const pm2 = spawn('pm2', [
       'start',
       path.join(this.pluginPath, 'index.js'),
-      '--name', 'yintian-server',
+      '--name', 'api-server',
       '--watch'
     ]);
 
@@ -287,7 +293,7 @@ export class YTSystem extends plugin {
 
     this.serviceStatus.processInfo = {
       id: '0',
-      name: 'yintian-server',
+      name: 'api-server',
       mode: 'fork',
       pid: this.serviceStatus.process.pid,
       status: 'online',
@@ -312,8 +318,8 @@ export class YTSystem extends plugin {
       pm2List.on('close', () => {
         try {
           const processes = JSON.parse(output);
-          const serverProcess = processes.find(p => p.name === 'yintian-server');
-          
+          const serverProcess = processes.find(p => p.name === 'api-server');
+
           if (serverProcess) {
             this.serviceStatus.processInfo = {
               id: serverProcess.pm_id.toString(),
@@ -358,7 +364,7 @@ export class YTSystem extends plugin {
         `运行环境: ${this.config.runtimeEnv}`,
         `停止时间: ${new Date().toLocaleString()}`
       ];
-      
+
       await e.reply(await common.makeForwardMsg(e, forwardMsg, '阴天服务端停止通知'));
       return true;
     } catch (error) {
@@ -393,11 +399,65 @@ export class YTSystem extends plugin {
    * 停止本地服务
    */
   async stopLocalService() {
-    if (this.serviceStatus.process) {
-      this.serviceStatus.process.kill();
-      this.serviceStatus.process = null;
-      this.serviceStatus.status = ServiceStatus.STOPPED;
-      this.serviceStatus.processInfo = null;
+    const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+
+    // 1. 使用 pm2 stop api-server (如果启动服务时使用了 pm2)
+    try {
+      const npmStop = spawn(npm, ['run', 'stop'], {  // 使用 package.json 中的 stop 脚本
+        cwd: this.pluginPath,
+      });
+
+      npmStop.stdout.on('data', (data) => {
+        logger.info(`[阴天插件] ${data}`);
+      });
+
+      npmStop.stderr.on('data', (data) => {
+        logger.warn(`[阴天插件] ${data}`);
+      });
+
+      await new Promise((resolve, reject) => {
+        npmStop.on('close', (code) => {
+          if (code === 0) {
+            logger.info('[阴天插件] 本地服务已停止 (通过 pm2)');
+            this.serviceStatus.status = ServiceStatus.STOPPED;
+            this.serviceStatus.process = null;
+            this.serviceStatus.processInfo = null; // 清空进程信息
+            resolve();
+          } else {
+            logger.error(`[阴天插件] 停止本地服务失败 (通过 pm2)，退出码: ${code}`);
+            reject(new Error(`停止本地服务失败 (通过 pm2)，退出码: ${code}`));
+          }
+        });
+
+        npmStop.on('error', (err) => {
+          logger.error(`[阴天插件] 停止本地服务时发生错误 (通过 pm2): ${err}`);
+          reject(err);
+        });
+      });
+
+
+    } catch (error) {
+      logger.error(`[阴天插件] 尝试通过 pm2 停止服务时发生错误: ${error}`);
+      // 如果 pm2 停止失败，可以尝试其他方法作为备选方案
+      //  可以考虑使用方法 2 或 3 作为降级方案。
+      this.killProcess(); // 尝试强制杀死进程
+    }
+  }
+
+  //  一个辅助函数，用于强制停止进程
+  async killProcess() {
+    if (this.serviceStatus.process && this.serviceStatus.process.pid) {
+      try {
+        process.kill(this.serviceStatus.process.pid);
+        logger.info(`[阴天插件] 强制停止进程 ${this.serviceStatus.process.pid}`);
+        this.serviceStatus.status = ServiceStatus.STOPPED;
+        this.serviceStatus.process = null;
+        this.serviceStatus.processInfo = null;
+      } catch (err) {
+        logger.warn(`[阴天插件] 无法强制停止进程 ${this.serviceStatus.process.pid}: ${err}`);
+      }
+    } else {
+      logger.warn("[阴天插件] 没有进程可以停止");
     }
   }
 
@@ -405,7 +465,7 @@ export class YTSystem extends plugin {
    * 停止PM2服务
    */
   async stopPM2Service() {
-    const pm2Stop = spawn('pm2', ['stop', 'yintian-server']);
+    const pm2Stop = spawn('pm2', ['stop', 'api-server']);
     await new Promise((resolve, reject) => {
       pm2Stop.on('close', (code) => {
         if (code === 0) {
@@ -428,13 +488,13 @@ export class YTSystem extends plugin {
         `${this.config.apiBaseUrl}:${this.config.port}/api/server-info`,
         { timeout: 30000 }
       );
-      console.log(response.data);
+      //console.log(response.data);
       return {
         ...response.data,
         localIPs: getLocalIPs()
       };
     } catch (error) {
-      console.log(error)
+      //console.log(error)
       return {
         port: this.config.port,
         status: this.serviceStatus.status,
@@ -457,8 +517,8 @@ export class YTSystem extends plugin {
       `启动时间: ${this.serviceStatus.startTime?.toLocaleString() || '未知'}`,
       '',
       '==== 网络信息 ====',
-      `内网地址: ${info.localIPs.map(ip => `http://${ip}:${info.port}`).join('\n         ')}`,
-      `公网地址: ${info.publicIp}:${info.port}`,
+      `内网地址: ${info.internalIp}`,
+      `公网地址: ${info.publicIp}`,
       `API端点: ${this.config.apiBaseUrl}:${info.port}/v1/chat/completions`,
       `模型端点: ${this.config.apiBaseUrl}:${info.port}/v1/models`,
       ''

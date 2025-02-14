@@ -12,7 +12,9 @@ import { pollinations } from "../providers/ChatModels/pollinations/pollinations.
 import { glider } from "../providers/ChatModels/glider/glider.js";
 import { gizai } from "../providers/ChatModels/gizai/gizai.js";
 import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
-import { merlin } from "../providers/ChatModels/merlin/merlin.js";
+import { AnthropicDoc } from "../providers/ChatModels/AnthropicDoc/AnthropicDoc.js";
+import { reka } from "../providers/ChatModels/reka/reka.js";
+import { SlackAi } from "../providers/ChatModels/slack/slack.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -41,7 +43,9 @@ const providerStats = {
     glider: { success: 0, failure: 0, weight: 92 },
     gizai: { success: 0, failure: 0, weight: 90 },
     jmuz: { success: 0, failure: 0, weight: 70 },
-    merlin: { success: 0, failure: 0, weight: 40 }
+    AnthropicDoc: { success: 0, failure: 0, weight: 100 },
+    reka: { success: 0, failure: 0, weight: 100 },
+    slack: { success: 0, failure: 0, weight: 100 },
 };
 
 // 获取当前文件所在的目录
@@ -116,7 +120,9 @@ const providerApis = {
     glider: glider,
     gizai: gizai,
     jmuz: jmuz,
-    merlin: merlin
+    AnthropicDoc: AnthropicDoc,
+    reka: reka,
+    slack: SlackAi
 };
 
 // 默认超时时间 (3分钟)
