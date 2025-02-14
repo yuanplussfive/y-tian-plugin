@@ -9,37 +9,56 @@ const WebSocket = require(WebSocketPath);
 import { randomUUID } from 'crypto';
 
 /**
-* @class InKeepClient
-* @description 封装与 InKeep API 交互的 WebSocket 客户端。
-*/
+ * @class InKeepClient
+ * @description 封装与 InKeep API 交互的 WebSocket 客户端。
+ */
 class InKeepClient {
-    /**
-     * @constructor
-     * @param {object} config - 配置对象，包含 WebSocket 连接所需的各种参数。
-     */
     constructor(config) {
         this.config = config;
-        this.enableContext = false; // 是否启用上下文
+        this.ws = null;
+        this.handshakePromise = null;
+        this.subscribeId = null;
+        this.organizationId = null;
+        this.integrationId = null;
+        this.isWsConnected = false;
     }
 
     /**
-     * @method processMessages
-     * @description 处理消息上下文的函数
-     * @param {Array<object>} messages - 消息数组
-     * @returns {string} - 处理后的消息字符串
+     * @method ensureConnection
+     * @description 确保 WebSocket 连接已建立并完成握手。
+     * @returns {Promise<void>}
      */
-    processMessages(messages) {
-        if (!messages || messages.length === 0) {
-            console.warn("processMessages: 消息数组为空，返回默认消息。");
-            return this.config.DEFAULT_MESSAGE;
-        }
+    async ensureConnection() {
+        if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+            this.ws = new WebSocket(this.config.WS_URI, ["graphql-transport-ws"]);
 
-        try {
-            const contextString = messages.map(message => `${message.role}: ${message.content}`).join("\n");
-            return contextString;
-        } catch (error) {
-            console.error("processMessages: 处理消息上下文时出错:", error);
-            return this.config.DEFAULT_MESSAGE;
+            this.handshakePromise = new Promise((resolve, reject) => {
+                this.ws.onopen = async () => {
+                    try {
+                        await this.performHandshake(this.ws);
+                        this.isWsConnected = true;
+                        resolve();
+                    } catch (error) {
+                        this.isWsConnected = false;
+                        reject(error);
+                    }
+                };
+
+                this.ws.onerror = (error) => {
+                    this.isWsConnected = false;
+                    reject(error);
+                };
+
+                this.ws.onclose = () => {
+                    this.isWsConnected = false;
+                    this.ws = null;
+                    this.handshakePromise = null;
+                };
+            });
+
+            return this.handshakePromise;
+        } else if (!this.isWsConnected) {
+            return this.handshakePromise;
         }
     }
 
@@ -47,28 +66,23 @@ class InKeepClient {
      * @method performHandshake
      * @description 执行 WebSocket 握手的函数。
      * @param {WebSocket} ws - WebSocket 实例。
-     * @returns {Promise<void>} - Promise，在握手成功时解决。
+     * @returns {Promise<void>}
      */
     async performHandshake(ws) {
         return new Promise((resolve, reject) => {
-            // 初始化消息，包含鉴权信息
             const initMsg = {
                 type: "connection_init",
                 payload: { headers: { Authorization: this.config.AUTH_TOKEN } },
             };
-            // 发送初始化消息
             ws.send(JSON.stringify(initMsg));
 
-            // 监听 WebSocket 消息
             ws.on('message', (data) => {
                 const resp = JSON.parse(data);
-                // 如果收到连接确认消息，则解决 Promise
                 if (resp.type === "connection_ack") {
                     resolve();
                 }
             });
 
-            // 监听 WebSocket 错误
             ws.on('error', (error) => {
                 reject(error);
             });
@@ -76,26 +90,31 @@ class InKeepClient {
     }
 
     /**
-     * @method subscribe
-     * @description 执行订阅操作的函数。
-     * @param {WebSocket} ws - WebSocket 实例。
-     * @param {string} messageInput - 用户输入的消息。
-     * @returns {Promise<string>} - Promise，在接收到最终内容时解决。
-     */
-    async subscribe(ws, messageInput) {
+         * @method subscribe
+         * @description 执行订阅操作的函数。
+         * @param {WebSocket} ws - WebSocket 实例。
+         * @param {string} messageInput - 用户输入的消息。
+         * @param {boolean} shouldReset - 是否重置会话ID
+         * @returns {Promise<string>}
+         */
+    async subscribe(ws, messageInput, shouldReset = false) {
         return new Promise((resolve, reject) => {
-            // 生成唯一的订阅 ID
-            const subscribeId = randomUUID(); // 使用 crypto.randomUUID()
-            // 订阅消息，包含查询参数
+            // Only generate new IDs if shouldReset is true OR the IDs are not yet initialized.
+            if (shouldReset || !this.subscribeId) {
+                this.subscribeId = randomUUID();
+                this.organizationId = `org_${randomUUID().replace(/-/g, '').substring(0, 16)}`;
+                this.integrationId = randomUUID().replace(/-/g, '').substring(0, 32);
+            }
+
             const subscribeMsg = {
-                id: subscribeId,
+                id: this.subscribeId,
                 type: "subscribe",
                 payload: {
                     variables: {
                         messageInput: messageInput,
                         messageContext: null,
-                        organizationId: this.config.ORG_ID,
-                        integrationId: this.config.INTEGRATION_ID,
+                        organizationId: this.organizationId,
+                        integrationId: this.integrationId,
                         chatMode: "AUTO",
                         messageAttributes: {},
                         includeAIAnnotations: false,
@@ -104,81 +123,51 @@ class InKeepClient {
                     extensions: {},
                     operationName: "OnNewSessionChatResult",
                     query: `
-                       subscription OnNewSessionChatResult($messageInput: String!, $messageContext: String, $organizationId: ID!, 
-                       $integrationId: ID, $chatMode: ChatMode, $filters: ChatFiltersInput, $messageAttributes: JSON, $tags: [String!], 
-                       $workflowId: String, $context: String, $guidance: String, $includeAIAnnotations: Boolean!, $environment: String) {
-                         newSessionChatResult(input: {messageInput: $messageInput, messageContext: $messageContext, organizationId: $organizationId, 
-                       integrationId: $integrationId, chatMode: $chatMode, messageAttributes: $messageAttributes, environment: $environment}) {
-                           isEnd sessionId message { id content __typename }
-                         }
-                       }
-                   `,
+                    subscription OnNewSessionChatResult($messageInput: String!, $messageContext: String, $organizationId: ID!, 
+                    $integrationId: ID, $chatMode: ChatMode, $filters: ChatFiltersInput, $messageAttributes: JSON, $tags: [String!], 
+                    $workflowId: String, $context: String, $guidance: String, $includeAIAnnotations: Boolean!, $environment: String) {
+                      newSessionChatResult(input: {messageInput: $messageInput, messageContext: $messageContext, organizationId: $organizationId, 
+                    integrationId: $integrationId, chatMode: $chatMode, messageAttributes: $messageAttributes, environment: $environment}) {
+                        isEnd sessionId message { id content __typename }
+                      }
+                    }
+                `,
                 },
             };
 
-            // 发送订阅消息
+            console.log(subscribeMsg)
             ws.send(JSON.stringify(subscribeMsg));
 
-            // 监听 WebSocket 消息
             ws.on('message', (data) => {
                 const message = JSON.parse(data);
 
-                // 如果收到 "next" 消息
                 if (message.type === "next") {
-                    // Extract the content
                     const content = message.payload.data.newSessionChatResult.message.content;
 
-                    // 如果收到 "isEnd" 标志，则解决 Promise with the *current* content
                     if (message.payload.data.newSessionChatResult.isEnd) {
-                        resolve(content); // Resolve with the *last* content received.
+                        resolve(content);
                     }
                 } else if (message.type === "error") {
-                    // 如果收到错误消息，则拒绝 Promise
                     reject(message);
                 }
             });
 
-            // 监听 WebSocket 错误
             ws.on('error', (error) => {
                 reject(error);
             });
         });
     }
 
-    /**
-     * @method openaiCompatibleComplete
-     * @description 模拟 OpenAI 兼容的完成请求的函数。
-     * @param {string} modelName - 模型名称。
-     * @param {string} messageInput - 用户输入的消息。
-     * @returns {Promise<string>} - Promise，在接收到最终内容时解决。
-     */
-    async openaiCompatibleComplete(modelName, messageInput) {
-        // 创建 WebSocket 连接
-        const ws = new WebSocket(this.config.WS_URI, ["graphql-transport-ws"]);
+    async openaiCompatibleComplete(modelName, messageInput, shouldReset = false) {
+        await this.ensureConnection();
 
-        return new Promise((resolve, reject) => {
-            // 当 WebSocket 连接打开时
-            ws.onopen = async () => {
-                try {
-                    // 执行握手
-                    await this.performHandshake(ws);
-                    // 执行订阅并获取内容
-                    const content = await this.subscribe(ws, messageInput);
-                    // 关闭 WebSocket 连接
-                    ws.close();
-                    // 解决 Promise
-                    resolve(content);
-                } catch (error) {
-                    // 如果发生错误，关闭 WebSocket 连接并拒绝 Promise
-                    ws.close();
-                    reject(error);
-                }
-            };
-
-            // 当 WebSocket 发生错误时
-            ws.onerror = (error) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const content = await this.subscribe(this.ws, messageInput, shouldReset);
+                resolve(content);
+            } catch (error) {
                 reject(error);
-            };
+            }
         });
     }
 
@@ -186,57 +175,87 @@ class InKeepClient {
      * @method chatCompletions
      * @description 模拟聊天完成请求的函数。
      * @param {object} req - 请求对象，包含模型名称和消息列表。
-     * @returns {Promise<string|object>} - Promise，在接收到最终内容时解决，或在发生错误时返回错误对象。
+     * @param {boolean} shouldReset - 是否重置会话ID
+     * @returns {Promise<string|object>}
      */
-    async chatCompletions(req) {
+    async chatCompletions(req, shouldReset = false) {
         if (req.model !== this.config.MODEL) {
             return { error: "不支持的模型。" };
         }
 
         const messages = req.messages || [];
-        let messageInput;
-
-        // 根据是否启用上下文选择消息输入
-        if (this.enableContext) {
-            const processed = this.processMessages(messages);
-            messageInput = processed ? processed[processed.length - 1] : this.config.DEFAULT_MESSAGE;
-        } else {
-            messageInput = messages.length > 0 ? messages[messages.length - 1].content : this.config.DEFAULT_MESSAGE;
+        if (messages.length === 0) {
+            return { error: "消息列表不能为空。" };
         }
 
+        const messageInput = messages[messages.length - 1].content;
 
         try {
-            const result = await this.openaiCompatibleComplete(this.config.MODEL, messageInput);
+            const result = await this.openaiCompatibleComplete(this.config.MODEL, messageInput, shouldReset);
             return result;
         } catch (error) {
             console.error("聊天完成请求出错:", error);
             return { error: "处理过程中发生错误。" };
         }
     }
+
+    /**
+     * @method closeConnection
+     * @description 关闭 WebSocket 连接并重置状态。
+     */
+    closeConnection() {
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            this.ws.close();
+        }
+        this.ws = null;
+        this.handshakePromise = null;
+        this.subscribeId = null;
+        this.organizationId = null;
+        this.integrationId = null;
+        this.isWsConnected = false;
+    }
 }
 
 const CONFIG = {
     WS_URI: "wss://api.inkeep.com/graphql",
     AUTH_TOKEN: "Bearer ee5b7c15ed3553cd6abc407340aad09ac7cb3b9f76d8613a",
-    ORG_ID: "org_xxxxxxxxxxxxxxx",
-    INTEGRATION_ID: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    DEFAULT_MESSAGE: "你好。",
     MODEL: "claude-3-5-sonnet-20241022",
 };
 
-export async function AnthropicDoc(messages) {
-    const inKeepClient = new InKeepClient(CONFIG);
+let inKeepClient = null; // 单例模式，保持client
 
+/**
+* @function AnthropicDoc
+* @description 处理Anthropic文档请求的主函数。
+* @param {Array} messages - 消息数组。
+* @param {boolean} shouldReset - 是否重置会话（默认为false）。
+* @returns {Promise<string|null>} - 返回处理结果或null（如果出错）。
+*/
+export async function AnthropicDoc(messages) {
+    if (!inKeepClient) {
+        inKeepClient = new InKeepClient(CONFIG);
+    }
+
+    // Reset the client if the messages array has only one element
+    const shouldResetForMessageCount = messages.length === 1;
+    const resetFlag = shouldResetForMessageCount;
+
+    console.log(resetFlag)
     const req = {
         model: CONFIG.MODEL,
         messages
     };
 
     try {
-        const result = await inKeepClient.chatCompletions(req);
+        const result = await inKeepClient.chatCompletions(req, resetFlag);
         return result?.trim();
     } catch (error) {
         console.error("调用 chatCompletions 出错:", error);
         return null;
+    } finally {
+        if (resetFlag) {
+            inKeepClient.closeConnection();
+            inKeepClient = null; // 重置单例
+        }
     }
 }

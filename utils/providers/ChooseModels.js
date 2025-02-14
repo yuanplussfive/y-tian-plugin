@@ -33,7 +33,7 @@ const providerStats = {
     airforce: { success: 0, failure: 0, weight: 50 },
     nexra: { success: 0, failure: 0, weight: 50 },
     YT: { success: 0, failure: 0, weight: 50 },
-    airoom: { success: 10, failure: 0, weight: 10 },
+    airoom: { success: 10, failure: 0, weight: 95 },
     mhystical: { success: 0, failure: 0, weight: 40 },
     e2b: { success: 0, failure: 0, weight: 90 },
     chatru: { success: 0, failure: 0, weight: 90 },
