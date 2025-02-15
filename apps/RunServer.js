@@ -263,7 +263,7 @@ Uptime: ${info.uptime}
   async startPM2Service() {
     const pm2 = spawn('pm2', [
       'start',
-      path.join(this.pluginPath, 'index.js'),
+      path.join(this.pluginPath, 'ecosystem.config.cjs'),
       '--name', 'api-server',
       '--watch'
     ]);

@@ -1,5 +1,4 @@
 export const other_models = [
-  // OpenAI Models
   {
     "id": 1,
     "model": "gpt-3.5-turbo",
@@ -200,8 +199,6 @@ export const other_models = [
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 10
   },
-
-  // Microsoft Models
   {
     "id": 26,
     "model": "Bing-Balanced",
@@ -240,7 +237,7 @@ export const other_models = [
     "points": "Microsoft",
     "token": 128000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 31,
@@ -248,7 +245,7 @@ export const other_models = [
     "points": "Microsoft",
     "token": 128000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 32,
@@ -266,8 +263,6 @@ export const other_models = [
     "features": ['conversation', 'internet', 'image_recognition'],
     "quota": 7.5
   },
-
-  // Claude Models
   {
     "id": 34,
     "model": "claude-1-100k",
@@ -340,26 +335,22 @@ export const other_models = [
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 60
   },
-
-  // Microsoft & ByteDance Models
   {
     "id": 43,
     "model": "coze-gpt-4-all",
     "points": "Microsoft & 字节跳动",
     "token": 32768,
-    "features": ['conversation', 'internet', 'drawing'],
-    "quota": 15
+    "features": ['conversation', 'internet'],
+    "quota": 0
   },
   {
     "id": 44,
     "model": "coze-assistent-all",
     "points": "字节跳动",
-    "token": 32000,
-    "features": ['conversation', 'internet', 'drawing'],
-    "quota": 1
+    "token": 32768,
+    "features": ['conversation', 'internet'],
+    "quota": 0
   },
-
-  // Google Models
   {
     "id": 45,
     "model": "gemini-pro",
@@ -432,8 +423,6 @@ export const other_models = [
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 5
   },
-
-  // Google Search Models
   {
     "id": 54,
     "model": "command-r",
@@ -442,15 +431,13 @@ export const other_models = [
     "features": ['conversation'],
     "quota": 2.5
   },
-
-  // Meta Models
   {
     "id": 55,
     "model": "llama-2-70b-chat",
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 56,
@@ -466,7 +453,7 @@ export const other_models = [
     "points": "llava",
     "token": 8000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 58,
@@ -474,7 +461,7 @@ export const other_models = [
     "points": "百川智能",
     "token": 32000,
     "features": ['conversation'],
-    "quota": "0.05/次"
+    "quota": 0
   },
   {
     "id": 59,
@@ -572,8 +559,6 @@ export const other_models = [
     "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 1
   },
-
-  // Moonshot Models
   {
     "id": 71,
     "model": "kimi-search",
@@ -614,25 +599,21 @@ export const other_models = [
     "features": ['conversation', 'code'],
     "quota": 15
   },
-
-  // 腾讯混元模型
   {
     "id": 76,
     "model": "hunyuan",
     "points": "腾讯混元",
     "token": 32000,
     "features": ['conversation'],
-    "quota": "0.05/次"
+    "quota": 0
   },
-
-  // Meta Models
   {
     "id": 77,
     "model": "meta-llama-3.1-8B",
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 78,
@@ -640,7 +621,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 79,
@@ -648,7 +629,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 80,
@@ -656,7 +637,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 81,
@@ -664,7 +645,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 82,
@@ -672,7 +653,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 83,
@@ -680,7 +661,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 84,
@@ -688,7 +669,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 85,
@@ -696,7 +677,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 86,
@@ -704,7 +685,7 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": 30
+    "quota": 0
   },
   {
     "id": 87,
@@ -712,10 +693,8 @@ export const other_models = [
     "points": "Meta",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": 30
+    "quota": 0
   },
-
-  // Other Providers
   {
     "id": 88,
     "model": "ERNIE-Bot-4",
@@ -738,7 +717,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0"
+    "quota": 0
   },
   {
     "id": 91,
@@ -746,7 +725,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0"
+    "quota": 0
   },
   {
     "id": 92,
@@ -754,7 +733,7 @@ export const other_models = [
     "points": "reka",
     "token": 24000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0"
+    "quota": 0
   },
   {
     "id": 93,
@@ -786,7 +765,7 @@ export const other_models = [
     "points": "blackbox",
     "token": 9000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 97,
@@ -794,7 +773,7 @@ export const other_models = [
     "points": "blackbox",
     "token": 9000,
     "features": ['conversation', 'internet'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 98,
@@ -802,7 +781,7 @@ export const other_models = [
     "points": "blackbox",
     "token": 9000,
     "features": ['conversation', 'code'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 99,
@@ -810,7 +789,7 @@ export const other_models = [
     "points": "huggingface",
     "token": 8000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 100,
@@ -818,7 +797,7 @@ export const other_models = [
     "points": "huggingface",
     "token": 8000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 101,
@@ -842,7 +821,7 @@ export const other_models = [
     "points": "Google",
     "token": 8000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 104,
@@ -850,7 +829,7 @@ export const other_models = [
     "points": "Google",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 105,
@@ -858,7 +837,7 @@ export const other_models = [
     "points": "Google",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 106,
@@ -866,7 +845,7 @@ export const other_models = [
     "points": "Google",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 107,
@@ -874,7 +853,7 @@ export const other_models = [
     "points": "Google",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 108,
@@ -900,8 +879,6 @@ export const other_models = [
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 5
   },
-
-  // Fast Technology (快手科技) Models
   {
     "id": 111,
     "model": "kling-v1-5s",
@@ -934,15 +911,13 @@ export const other_models = [
     "features": ['video'],
     "quota": "18/次"
   },
-
-  // Other Models
   {
     "id": 115,
     "model": "mistral-7b",
     "points": "mistral",
     "token": 7000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 116,
@@ -950,7 +925,7 @@ export const other_models = [
     "points": "mixtral",
     "token": 7000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 117,
@@ -958,7 +933,7 @@ export const other_models = [
     "points": "mixtral",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 118,
@@ -966,7 +941,7 @@ export const other_models = [
     "points": "mixtral",
     "token": 32000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 119,
@@ -982,7 +957,7 @@ export const other_models = [
     "points": "mixtral",
     "token": 8000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 121,
@@ -990,55 +965,55 @@ export const other_models = [
     "points": "Atom",
     "token": 7000,
     "features": ['conversation'],
-    "quota": "0.05/次"
+    "quota": 0
   },
   {
     "id": 122,
     "model": "spark-desk-v1.5",
     "points": "讯飞星火",
     "token": 8000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-    "quota": 1
+    "features": ['conversation', 'internet', 'code'],
+    "quota": 0
   },
   {
     "id": 123,
     "model": "spark-desk-v2",
     "points": "讯飞星火",
     "token": 32000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-    "quota": 1
+    "features": ['conversation', 'internet', 'code'],
+    "quota": 0
   },
   {
     "id": 124,
     "model": "spark-desk-v3",
     "points": "讯飞星火",
     "token": 32000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-    "quota": 1
+    "features": ['conversation', 'internet', 'code'],
+    "quota": 0
   },
   {
     "id": 125,
     "model": "spark-desk-v3.5",
     "points": "讯飞星火",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-    "quota": 1
+    "features": ['conversation', 'internet', 'code'],
+    "quota": 0
   },
   {
     "id": 126,
     "model": "spark-desk-v4",
     "points": "科大讯飞",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-    "quota": 1
+    "features": ['conversation', 'internet', 'code'],
+    "quota": 0
   },
   {
     "id": 127,
     "model": "spark-desk-max",
     "points": "科大讯飞",
     "token": 128000,
-    "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-    "quota": 1
+    "features": ['conversation', 'internet', 'code'],
+    "quota": 0
   },
   {
     "id": 128,
@@ -1066,11 +1041,11 @@ export const other_models = [
   },
   {
     "id": 131,
-    "model": "llava-13b",
+    "model": "llava-2-13b",
     "points": "llava",
     "token": 8000,
     "features": ['conversation'],
-    "quota": 1
+    "quota": 0
   },
   {
     "id": 132,
@@ -1142,7 +1117,7 @@ export const other_models = [
     "points": "通义千问",
     "token": 32000,
     "features": ['conversation', 'code'],
-    "quota": "0.05/次"
+    "quota": 0
   },
   {
     "id": 141,
@@ -1516,7 +1491,7 @@ export const other_models = [
     "id": 187,
     "model": "claude-3.5-sonnet-poe-nx",
     "points": "逆向渠道",
-    "token": 8000,
+    "token": 32000,
     "features": ["conversation"],
     "quota": 0
   },
@@ -1646,6 +1621,46 @@ export const other_models = [
     "points": "逆向渠道",
     "token": 200000,
     "features": ["conversation", "code"],
+    "quota": 0
+  },
+  {
+    "id": 204,
+    "model": "o3-mini-high",
+    "points": "OpenAi Plus",
+    "token": 128000,
+    "features": ["conversation", "code"],
+    "quota": 24
+  },
+  {
+    "id": 205,
+    "model": "o3-mini-high-all",
+    "points": "OpenAi Plus",
+    "token": 128000,
+    "features": ["conversation", "code"],
+    "quota": 24
+  },
+  {
+    "id": 206,
+    "model": "mistral-large-2411-nx",
+    "points": "逆向渠道",
+    "token": 32000,
+    "features": ["conversation", "code"],
+    "quota": 0
+  },
+  {
+    "id": 207,
+    "model": "grok-2-1212-nx",
+    "points": "逆向渠道",
+    "token": 100000,
+    "features": ["conversation", "code"],
+    "quota": 0
+  },
+  {
+    "id": 208,
+    "model": "glm-4-9b-chat-nx",
+    "points": "逆向渠道",
+    "token": 8192,
+    "features": ["conversation"],
     "quota": 0
   }
 ]

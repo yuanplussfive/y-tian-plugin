@@ -15,6 +15,7 @@ import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
 import { AnthropicDoc } from "../providers/ChatModels/AnthropicDoc/AnthropicDoc.js";
 import { reka } from "../providers/ChatModels/reka/reka.js";
 import { SlackAi } from "../providers/ChatModels/slack/slack.js";
+import { PromPlateAi } from "../providers/ChatModels/PromPlateAi/PromPlateAi.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -35,7 +36,7 @@ const providerStats = {
     YT: { success: 0, failure: 0, weight: 50 },
     airoom: { success: 10, failure: 0, weight: 95 },
     mhystical: { success: 0, failure: 0, weight: 40 },
-    e2b: { success: 0, failure: 0, weight: 90 },
+    e2b: { success: 0, failure: 0, weight: 85 },
     chatru: { success: 0, failure: 0, weight: 90 },
     zaiwen: { success: 0, failure: 0, weight: 90 },
     chatnio: { success: 0, failure: 0, weight: 95 },
@@ -46,6 +47,7 @@ const providerStats = {
     AnthropicDoc: { success: 0, failure: 0, weight: 100 },
     reka: { success: 0, failure: 0, weight: 100 },
     slack: { success: 0, failure: 0, weight: 100 },
+    PromPlateAi: { success: 0, failure: 0, weight: 90 },
 };
 
 // 获取当前文件所在的目录
@@ -122,7 +124,8 @@ const providerApis = {
     jmuz: jmuz,
     AnthropicDoc: AnthropicDoc,
     reka: reka,
-    slack: SlackAi
+    slack: SlackAi,
+    PromPlateAi: PromPlateAi,
 };
 
 // 默认超时时间 (3分钟)

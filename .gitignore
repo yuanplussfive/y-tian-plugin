@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # Ignore all files in config directory
 config/*
+
+# Ignore all JSON files in the specified directory
+/utils/providers/**/*.json
