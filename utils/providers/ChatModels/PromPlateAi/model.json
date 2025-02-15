@@ -1,0 +1,58 @@
+{
+  "models": {
+    "QwQ-32B-Preview": {
+      "providerModelName": "QwQ-32B-Preview",
+      "aliases": [
+        "QwQ-32B-Preview"
+      ]
+    },
+    "qwq-32B-Preview": {
+      "providerModelName": "QwQ-32B-Preview",
+      "aliases": [
+        "qwq-32B-Preview"
+      ]
+    },
+    "grok-2-1212": {
+      "providerModelName": "grok-2-1212",
+      "aliases": [
+        "grok-2-1212"
+      ]
+    },
+    "yi-lightning": {
+      "providerModelName": "yi-lightning",
+      "aliases": [
+        "yi-lightning"
+      ]
+    },
+    "gemma-2-9b-it": {
+      "providerModelName": "gemma2-9b-it",
+      "aliases": [
+        "gemma-2-9b-it"
+      ]
+    },
+    "glm-4-9b-chat": {
+      "providerModelName": "THUDM/glm-4-9b-chat",
+      "aliases": [
+        "glm-4-9b-chat"
+      ]
+    },
+    "gpt-4o-mini": {
+      "providerModelName": "gpt-4o-mini",
+      "aliases": [
+        "gpt-4o-mini"
+      ]
+    },
+    "mistral-nemo": {
+      "providerModelName": "Mistral-Nemo",
+      "aliases": [
+        "mistral-nemo"
+      ]
+    },
+    "mistral-large-2411": {
+      "providerModelName": "Mistral-large-2411",
+      "aliases": [
+        "mistral-large-2411"
+      ]
+    }
+  }
+}
