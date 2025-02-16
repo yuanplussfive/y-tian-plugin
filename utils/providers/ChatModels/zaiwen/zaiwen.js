@@ -27,9 +27,9 @@ export async function zaiwen(messages, model) {
         const responseData = await response.text();
         //console.log(responseData);
         const BanMessages = {
-            "您的内容中有不良信息": "您的预设/对话内容中有不良信息，请结束对话/预设后重新提问",
-            "Message too long": "上下文过长，已超过模型限制，请结束对话后重新提问",
-            "我们聊的太多了": "请求频率过快，已超过限制，请等待一会后重新提问",
+            "您的内容中有不良信息": null,
+            "Message too long": null,
+            "我们聊的太多了": null,
             "zaiwen": null,
             "Server Error": null
         };

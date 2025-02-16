@@ -194,7 +194,7 @@ export async function getBase64File(fileUrl, filename, type = 'file') {
   try {
     const response = await axios.get(fileUrl, {
       responseType: 'arraybuffer',
-      timeout: 20000, // 设置超时时间为20秒
+      timeout: 60000, // 设置超时时间为60秒
       maxRedirects: 5, // 设置最大重定向次数
       maxBodyLength: 20 * 1024 * 1024,
       validateStatus: function (status) {
