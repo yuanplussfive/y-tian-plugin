@@ -1538,148 +1538,202 @@ export class ExamplePlugin extends plugin {
 
   async sendSegmentedMessage(e, output) {
     try {
-        const { total_tokens } = await TotalTokens(output);
-        
-        // 如果文本很短，直接发送
-        if (total_tokens <= 20) {
-            return await e.reply(output);
+      const { total_tokens } = await TotalTokens(output);
+
+      // 如果文本很短，直接发送
+      if (total_tokens <= 20) {
+        return await e.reply(output);
+      }
+
+      // 定义标点符号和特殊字符列表
+      const primaryPunctuations = ['。', '！', '？', '；', '!', '?', ';', '\n'];
+      const secondaryPunctuations = ['：', ':', '）', ')', '》', '>'];
+      const commas = ['，', ','];
+      const endingPunctuations = ['。', '！', '？', '；', '!', '?', ';', '：', ':', '...', '…'];
+
+      // 预处理文本，处理特殊字符串
+      let processedOutput = output;
+
+      // 保护省略号，防止被错误分割
+      processedOutput = processedOutput.replace(/\.{3,}|。{3,}|…+/g, '{{ELLIPSIS}}');
+
+      // 保存Markdown链接
+      const markdownLinks = [];
+      const markdownPattern = /(!?$$.*?$$$.*?$)/g;
+      let linkIndex = 0;
+
+      processedOutput = processedOutput.replace(markdownPattern, (match) => {
+        markdownLinks.push(match);
+        return `{{MDLINK${linkIndex++}}}`;
+      });
+
+      // 保护括号内的完整内容
+      const bracketTexts = [];
+      let bracketIndex = 0;
+      const bracketPattern = /[（(]((?:[^（()）]|（[^（()）]*）|$[^（()）]*$)*?)[)）]/g; // 非贪婪匹配
+
+      processedOutput = processedOutput.replace(bracketPattern, (match) => {
+        // 超长括号内容不保护，允许分割
+        if (match.length > 100) return match;
+        bracketTexts.push(match);
+        return `{{BRACKET${bracketIndex++}}}`;
+      });
+
+      // 计算分段策略
+      const textLength = processedOutput.length;
+      const idealSegmentCount = Math.ceil(textLength / 300) + 1;
+      const idealLength = Math.ceil(textLength / idealSegmentCount);
+      const minLength = Math.floor(idealLength * 0.6);
+      const maxLength = Math.ceil(idealLength * 1.4);
+
+      let segments = [];
+      let currentSegment = '';
+      let lastPunctuationIndex = 0;
+      let insideSpecialTag = false; // 标记是否在特殊标记内
+
+      // 智能分段处理
+      for (let i = 0; i < processedOutput.length; i++) {
+        currentSegment += processedOutput[i];
+
+        if (processedOutput[i] === '{' && processedOutput[i + 1] === '{') {
+          insideSpecialTag = true;
+        }
+        if (processedOutput[i] === '}' && processedOutput[i + 1] === '}') {
+          insideSpecialTag = false;
         }
 
-        // 定义标点符号列表
-        const primaryPunctuations = ['。', '！', '？', '；', '.', '!', '?', ';', '\n', '，', ','];
-        const secondaryPunctuations = ['：', ':', '）', ')', '》', '>'];
-        
-        // 保存Markdown链接，防止被分割
-        let processedOutput = output;
-        const markdownLinks = [];
-        const markdownPattern = /(!?\[.*?\]\(.*?\))/g;
-        let linkIndex = 0;
+        // 判断当前字符的分割属性
+        const isPrimaryPunctuation = primaryPunctuations.includes(processedOutput[i]);
+        const isSecondaryPunctuation = secondaryPunctuations.includes(processedOutput[i]); // 定义 isSecondaryPunctuation
+        const isComma = commas.includes(processedOutput[i]);
 
-        processedOutput = processedOutput.replace(markdownPattern, (match) => {
-            markdownLinks.push(match);
-            return `{{MDLINK${linkIndex++}}}`;
+        // 分段判断逻辑
+        if (currentSegment.length >= minLength && !insideSpecialTag) {
+          let shouldSplit = false;
+
+          // 主要标点符号直接分割
+          if (isPrimaryPunctuation) {
+            shouldSplit = true;
+          }
+          // 次要标点符号在段落过长时分割
+          else if (isSecondaryPunctuation && currentSegment.length > idealLength) {
+            shouldSplit = true;
+          }
+          // 逗号在段落明显过长时分割
+          else if (isComma && currentSegment.length > maxLength) {
+            shouldSplit = true;
+          }
+
+          if (shouldSplit) {
+            segments.push(currentSegment);
+            currentSegment = '';
+            lastPunctuationIndex = i;
+          }
+        }
+      }
+
+      // 处理剩余文本
+      if (currentSegment.length > 0) {
+        if (segments.length > 0 && currentSegment.length < minLength) {
+          segments[segments.length - 1] += currentSegment;
+        } else {
+          segments.push(currentSegment);
+        }
+      }
+
+      // 强制分段（当智能分段失败时）
+      if (segments.length <= 1 && textLength > maxLength) {
+        segments = [];
+        const specialMatches = [...processedOutput.matchAll(/{{(?:MDLINK|BRACKET|ELLIPSIS)\d*}}/g)];
+        const textWithoutSpecials = processedOutput.replace(/{{(?:MDLINK|BRACKET|ELLIPSIS)\d*}}/g, '');
+
+        let i = 0;
+        while (i < textWithoutSpecials.length) {
+          let endIndex = Math.min(i + idealLength, textWithoutSpecials.length);
+
+          // 向后查找合适的分割点
+          let splitPointFound = false;
+          for (let j = endIndex; j > i && j > endIndex - 50; j--) {
+            if ([...primaryPunctuations, ...secondaryPunctuations, ...commas].includes(textWithoutSpecials[j])) {
+              endIndex = j + 1;
+              splitPointFound = true;
+              break;
+            }
+          }
+
+          segments.push(textWithoutSpecials.slice(i, endIndex));
+          i = endIndex;
+        }
+
+        // 重新插入特殊标记
+        segments = segments.map(segment => {
+          let newSegment = segment;
+          specialMatches.forEach(match => {
+            const index = processedOutput.indexOf(match[0]);
+            if (index >= processedOutput.indexOf(segment) && index < processedOutput.indexOf(segment) + segment.length) {
+              newSegment = newSegment.replace('', match[0]); // 简单替换，可能需要更精确的插入逻辑
+            }
+          });
+          return newSegment;
         });
+      }
 
-        // 保存括号内的完整文本，防止被分割
-        const bracketTexts = [];
-        let bracketIndex = 0;
-        const bracketPattern = /[（(]((?:[^（()）]|（[^（()）]*）|\([^（()）]*\))*)[)）]/g;
-        
-        processedOutput = processedOutput.replace(bracketPattern, (match) => {
-            // 如果括号内文本超长，不进行特殊处理
-            if (match.length > 100) return match;
-            bracketTexts.push(match);
-            return `{{BRACKET${bracketIndex++}}}`;
-        });
-
-        // 计算理想分段长度
-        const textLength = processedOutput.length;
-        const idealSegmentCount = Math.ceil(textLength / 300) + 1;
-        const idealLength = Math.ceil(textLength / idealSegmentCount);
-        const minLength = Math.floor(idealLength * 0.6);
-        
-        let segments = [];
-        let currentSegment = '';
-        let lastPunctuationIndex = 0;
-
-        // 第一轮分段：按标点符号分割
-        for (let i = 0; i < processedOutput.length; i++) {
-            currentSegment += processedOutput[i];
-            
-            // 检查是否在特殊标记内
-            const specialMatch = /{{(?:MDLINK|BRACKET)\d+}}/.test(currentSegment);
-            if (specialMatch && !currentSegment.endsWith('}}')) {
-                continue;
-            }
-
-            const isPrimaryPunctuation = primaryPunctuations.includes(processedOutput[i]);
-            const isSecondaryPunctuation = secondaryPunctuations.includes(processedOutput[i]);
-            
-            if ((isPrimaryPunctuation || isSecondaryPunctuation) && 
-                currentSegment.length >= minLength) {
-                
-                if (isPrimaryPunctuation || 
-                    (isSecondaryPunctuation && i - lastPunctuationIndex > idealLength * 1.2)) {
-                    segments.push(currentSegment);
-                    currentSegment = '';
-                    lastPunctuationIndex = i;
-                }
-            }
-        }
-
-        // 处理剩余文本
-        if (currentSegment.length > 0) {
-            if (segments.length > 0 && currentSegment.length < minLength) {
-                segments[segments.length - 1] += currentSegment;
-            } else {
-                segments.push(currentSegment);
-            }
-        }
-
-        // 如果第一轮分段失败，进行强制分段
-        if (segments.length <= 1) {
-            segments = [];
-            let i = 0;
-            while (i < processedOutput.length) {
-                let endIndex = Math.min(i + idealLength, processedOutput.length);
-                
-                // 向后查找最近的标点
-                let punctuationFound = false;
-                for (let j = endIndex; j > i && j > endIndex - 50; j--) {
-                    if (primaryPunctuations.includes(processedOutput[j])) {
-                        endIndex = j + 1;
-                        punctuationFound = true;
-                        break;
-                    }
-                }
-                
-                // 处理特殊标记
-                if (!punctuationFound) {
-                    const segment = processedOutput.slice(i, endIndex);
-                    const specialMatch = segment.match(/{{(?:MDLINK|BRACKET)\d+}}/g);
-                    if (specialMatch && !segment.endsWith('}}')) {
-                        endIndex = i + processedOutput.slice(i).indexOf('}}') + 2;
-                    }
-                }
-
-                segments.push(processedOutput.slice(i, endIndex));
-                i = endIndex;
-            }
-        }
+      // 还原特殊标记并处理段落结尾标点
+      segments = segments.map((segment, index) => {
+        let processedSegment = segment;
 
         // 还原特殊标记
-        segments = segments.map(segment => {
-            // 还原Markdown链接
-            segment = segment.replace(/{{MDLINK(\d+)}}/g, (_, index) => markdownLinks[parseInt(index)]);
-            // 还原括号文本
-            segment = segment.replace(/{{BRACKET(\d+)}}/g, (_, index) => bracketTexts[parseInt(index)]);
-            return segment;
-        });
+        processedSegment = processedSegment.replace(/{{ELLIPSIS}}/g, '...');
+        processedSegment = processedSegment.replace(/{{MDLINK(\d+)}}/g, (_, index) => markdownLinks[parseInt(index)]);
+        processedSegment = processedSegment.replace(/{{BRACKET(\d+)}}/g, (_, index) => bracketTexts[parseInt(index)]);
 
-        // 发送消息
-        for (let segment of segments) {
-            if (segment?.trim()) {
-                await e.reply(segment.trim());
-                // 随机延迟，防止发送过快
-                await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
-            }
+        // 处理段落结尾的标点符号
+        processedSegment = processedSegment.trim();
+        if (processedSegment.length > 0) {
+          const lastChar = processedSegment[processedSegment.length - 1];
+          // 如果末尾是逗号，替换为句号
+          if (commas.includes(lastChar)) {
+            processedSegment = processedSegment.slice(0, -1) + '。';
+          }
+          // 如果末尾没有标点符号，添加句号
+          else if (!endingPunctuations.includes(lastChar) &&
+            !lastChar.match(/[a-zA-Z0-9]}]/)) {
+            processedSegment += '。';
+          }
         }
+
+        return processedSegment;
+      });
+
+      // 发送消息，模拟人类打字速度
+      for (let i = 0; i < segments.length; i++) {
+        const segment = segments[i];
+        if (segment?.trim()) {
+          await e.reply(segment.trim());
+
+          // 根据文本长度和是否是最后一段动态调整延迟
+          if (i < segments.length - 1) {
+            const delay = 800 + Math.min(segment.length * 10, 2000) + Math.random() * 1000;
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
+        }
+      }
     } catch (error) {
-        console.error('分段发送错误:', error);
-        await e.reply(output);
+      console.error('分段发送错误:', error);
+      await e.reply(output);
     }
-}
+  }
 
   async processToolSpecificMessage(content, toolName) {
     let output = content;
-    
+
     // 删除基础模式
     const basePatterns = [
       /\[图片\]/g,
       /[\s\S]*在群里说[:：]\s*/g,
       /\[\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}\]\s*.*(?:\(QQ号:\d+\))?(?:\[群身份:\s*\w+\])?\s*[:：]\s*/g
     ];
-  
+
     let prevText;
     do {
       prevText = output;
@@ -1688,12 +1742,12 @@ export class ExamplePlugin extends plugin {
       }
     } while (prevText !== output);
 
-      
+
     // 删除代码块
     output = output.replace(/```[\s\S]*?```/g, '');
-    
+
     // 删除内容少于20个字符的方括号
-    output = output.replace(/\[((?:(?!\]).){1,20})\]/g, '');
+    output = output.replace(/\[((?:https?:\/\/|[^[\]]*\.[^[\]]+|[^[\]]*\.(jpg|jpeg|png|gif|webp|mp4|mov)|!?\[.*?\]\(.*?\)|.*?\]\(.*?\))(?:(?!\]).){0,100})\]/g, '');
 
     // 移除末尾的 ```
     if (output.endsWith('```')) {
@@ -1702,15 +1756,20 @@ export class ExamplePlugin extends plugin {
 
     output = ThinkingProcessor.removeThinking(output);
 
+    function convertImageMd(text) {
+      return text.replace(/!?\[(.*?)\]\((.*?)\)/g, (match, alt, url) => {
+        return `${alt}\n- ${url}`;
+      });
+    }
+
     switch (toolName) {
       case 'dalleTool':
       case 'jimengTool':
       case 'aiMindMapTool':
       case 'aiPPTTool':
-        output = output
-          .replace(/!?\[([^\]]*)\]\(.*?\)/g, '$1');
-        // 移除任意 [文本](URL) 格式的链接
-        output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
+        output = output.replace(/!?\[([^\]]*)\]\((.*?example.*?)\)/g, '$1');
+        output = output.replace(/\[([^\]]+)\]\((https?:\/\/.*?example.*?)\)/g, '').trim();
+        output = convertImageMd(output);
         break;
 
       case 'searchVideoTool':
