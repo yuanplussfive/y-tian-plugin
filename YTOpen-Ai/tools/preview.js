@@ -187,7 +187,7 @@ async function launchPuppeteer(userDataDir) {
   try {
     // 尝试使用 "new" headless 模式
     const browser = await puppeteer.launch({
-      headless: parseInt(nodeVersion) >= 20 ? "new" : true,
+      headless: parseInt(nodeVersion) >= 16 ? "new" : true,
       userDataDir, // 指定用户数据目录
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });

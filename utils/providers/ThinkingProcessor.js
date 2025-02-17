@@ -101,3 +101,13 @@ export const ThinkingProcessor = {
         return result;
     }
 };
+
+export function deleteBeforeThink(str) {
+    const index = str.indexOf("</think>");
+
+    if (index === -1) {
+        return str;
+    }
+
+    return str.substring(index + "</think>".length);
+}

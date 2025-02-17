@@ -26,7 +26,7 @@ class RekaAIChat {
                const nodeVersion = process.version.slice(1).split('.')[0];
 
                launchOptions = {
-                   headless: parseInt(nodeVersion) >= 20 ? "new" : true
+                   headless: parseInt(nodeVersion) >= 16 ? "new" : "true"
                };
 
                this.browser = await puppeteer.launch(launchOptions);
@@ -90,15 +90,19 @@ class RekaAIChat {
            // 5. 等待回复完全加载完毕 (添加延迟确保回复完整)
            await this.page.waitForTimeout(1000);
 
-           // 6. 获取所有回复元素，选择最后一个
+           // 6. 获取回复内容 (提取所有 class 为 "text-item_paragraph__AoNWy" 的 p 标签的内容并合并)
            const responseText = await this.page.evaluate((selector) => {
-               const elements = document.querySelectorAll(selector);
-               // 获取最后一个元素的内容
-               const lastElement = elements[elements.length - 1];
-               if (lastElement) {
-                   return lastElement.textContent || ''; // 获取整个元素的文本内容
+               const responseElement = document.querySelector(selector);
+               if (!responseElement) {
+                   return '';
                }
-               return '';
+
+               const pElements = responseElement.querySelectorAll('p.text-item_paragraph__AoNWy');
+               let combinedText = '';
+               pElements.forEach(p => {
+                   combinedText += p.textContent + ' '; // 添加空格分隔
+               });
+               return combinedText.trim(); // 去除首尾空格
            }, responseSelector);
 
            //console.log('问题:', lastQuestion);
@@ -159,9 +163,9 @@ export async function reka(messages) {
        await rekaInstance.ensureInitialized();
 
        const questions = extractContentsWithMap([messages[messages.length - 1]]);
-       //console.log(questions);
+       console.log(questions);
        const response = await rekaInstance.ask(questions);
-       //console.log('回复:', response);
+       console.log('回复:', response);
        return response.trim();
    } catch (error) {
        console.error('发生错误:', error);

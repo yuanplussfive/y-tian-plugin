@@ -7,8 +7,8 @@ import bodyParser from 'koa-bodyparser';
 import crypto from 'crypto';
 import cors from '@koa/cors';
 import { PassThrough } from 'stream';
-import fs from 'fs'; // Changed from fs/promises to fs
-import fsPromises from 'fs/promises'; // Import fsPromises for async operations
+import fs from 'fs';
+import fsPromises from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { TotalTokens } from '../YTOpen-Ai/tools/CalculateToken.js';
@@ -19,7 +19,7 @@ import {
 import serve from 'koa-static';
 import WebSocket from 'ws';
 import { publicIpv4 } from 'public-ip';
-import jwt from 'jsonwebtoken'; // Import JWT library
+import jwt from 'jsonwebtoken';
 
 const app = new Koa();
 const router = new Router();
@@ -147,7 +147,30 @@ async function writeConfigFile(filename, data) {
 router.get('/v1/models', validateApiKey, async (ctx) => {
     try {
         const models = getAllModelsWithProviders();
-        ctx.body = models;
+ 
+        // 优化数据结构，方便前端展示
+        const modelList = Object.entries(models).map(([modelName, providers]) => ({
+            modelName,
+            providers
+        }));
+ 
+        // 计算统计数据
+        const totalModels = Object.keys(models).length;
+        const allProviders = new Set();
+        Object.values(models).forEach(providers => {
+            providers.forEach(provider => allProviders.add(provider));
+        });
+        const totalProviders = allProviders.size;
+        const providerList = Array.from(allProviders).sort(); // 排序，保持一致性
+ 
+        const response = {
+            models: modelList,
+            totalModels,
+            totalProviders,
+            providerList
+        };
+ 
+        ctx.body = response;
     } catch (error) {
         console.error("Koa 路由: 获取模型列表失败:", error);
         ctx.status = 500;
@@ -156,7 +179,7 @@ router.get('/v1/models', validateApiKey, async (ctx) => {
             stack: error.stack
         };
     }
-});
+ }); 
 
 // 处理聊天请求
 router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
@@ -436,13 +459,25 @@ router.get('/api/port', async (ctx) => {
     ctx.body = { port: process.env.PORT || 7799 };
 });
 
-// API 端点，提供端口号和IP地址
 router.get('/api/server-info', async (ctx) => {
     const port = process.env.PORT || 7799;
+
+    const [internalIp, publicIpAddress] = await Promise.all([
+        getInternalIp(),
+        getPublicIp()
+    ]);
+
+    ctx.body = {
+        port: port,
+        internalIp: internalIp ? `${internalIp}:${port}` : null,
+        publicIp: publicIpAddress ? `${publicIpAddress}:${port}` : null
+    };
+});
+
+async function getInternalIp() {
     const interfaces = os.networkInterfaces();
     let internalIp = null;
 
-    // 查找第一个非loopback的IPv4地址
     for (const name of Object.keys(interfaces)) {
         for (const iface of interfaces[name]) {
             if (iface.family === 'IPv4' && !iface.internal) {
@@ -452,22 +487,18 @@ router.get('/api/server-info', async (ctx) => {
         }
         if (internalIp) break;
     }
+    return internalIp;
+}
 
-    let publicIpAddress = null;
+async function getPublicIp() {
     try {
-        // 使用 publicIpv4() 而不是 publicIp.v4()
-        publicIpAddress = await publicIpv4(); // 获取公网IP
+        return await publicIpv4(); // 获取公网IP
     } catch (error) {
         console.warn("无法获取公网IP:", error);
-        // 如果无法获取公网IP，则保持为null
+        return null;
     }
+}
 
-    ctx.body = {
-        port: port,
-        internalIp: internalIp ? `${internalIp}:${port}` : null,
-        publicIp: publicIpAddress ? `${publicIpAddress}:${port}` : null
-    };
-});
 
 // 创建 WebSocket 服务器
 const wss = new WebSocket.Server({ noServer: true });

@@ -133,16 +133,6 @@ class PollinationsAI {
     }
 }
 
-function deleteBeforeThink(str) {
-    const index = str.indexOf("</think>");
-
-    if (index === -1) {
-        return str;
-    }
-
-    return str.substring(index + "</think>".length);
-}
-
 export async function pollinations(messages, model) {
     try {
         const client = new PollinationsAI();
@@ -151,7 +141,7 @@ export async function pollinations(messages, model) {
             messages,
         });
 
-        return deleteBeforeThink(generatedText);
+        return generatedText;
     } catch (error) {
         return null;
     }

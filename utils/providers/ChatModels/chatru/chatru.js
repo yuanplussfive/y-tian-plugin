@@ -47,7 +47,7 @@ export const chatru = async (messages, model) => {
         }
 
         const output = await processStreamResponse(response);
-        return ThinkingProcessor.removeThinking(output.trim());
+        return output.trim();
     } catch (error) {
         //console.error('请求失败:', error.message);
         return null;

@@ -103,23 +103,13 @@ class Glider {
     }
 }
 
-function deleteBeforeThink(str) {
-    const index = str.indexOf("</think>");
-
-    if (index === -1) {
-        return str;
-    }
-
-    return str.substring(index + "</think>".length);
-}
-
 export async function glider(messages, model) {
     const glider = new Glider();
 
     try {
         const result = await glider.chat(messages, model);
         if (result.response) {
-            return deleteBeforeThink(result.response);
+            return result.response;
         }
     } catch (error) {
         console.error('Error:', error);

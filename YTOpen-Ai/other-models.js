@@ -1662,5 +1662,45 @@ export const other_models = [
     "token": 8192,
     "features": ["conversation"],
     "quota": 0
+  },
+  {
+    "id": 209,
+    "model": "gemini-2.0-flash-thinking-exp",
+    "points": "Google",
+    "token": 1000000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 1
+  },
+  {
+    "id": 210,
+    "model": "gemini-2.0-flash-thinking-exp-1219",
+    "points": "Google",
+    "token": 1000000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 1
+  },
+  {
+    "id": 211,
+    "model": "gemini-2.0-flash-lite-preview-02-05",
+    "points": "Google",
+    "token": 1000000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 0.5
+  },
+  {
+    "id": 212,
+    "model": "gemini-2.0-pro-exp-02-05",
+    "points": "Google",
+    "token": 1000000,
+    "features": ['conversation', 'code', 'image_recognition'],
+    "quota": 6
+  },
+  {
+    "id": 213,
+    "model": "learnlm-1.5-pro-experimental",
+    "points": "Google",
+    "token": 1000000,
+    "features": ['conversation', 'code'],
+    "quota": 1
   }
 ]
