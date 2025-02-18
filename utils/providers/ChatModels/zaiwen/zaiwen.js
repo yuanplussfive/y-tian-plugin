@@ -31,7 +31,8 @@ export async function zaiwen(messages, model) {
             "Message too long": null,
             "我们聊的太多了": null,
             "zaiwen": null,
-            "Server Error": null
+            "Server Error": null,
+            "detail:": null
         };
         for (const [key, value] of Object.entries(BanMessages)) {
             const regex = new RegExp(key, 'i');

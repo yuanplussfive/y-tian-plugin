@@ -374,6 +374,9 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
           'claude': 100000,
           'gemini': 120000,
           'all': 210000,
+          'r1': 900000,
+          'o1': 900000,
+          'o3': 900000,
           'default': 180000
         };
         const timeoutDuration = Object.entries(timeoutSettings).find(([key, _]) =>

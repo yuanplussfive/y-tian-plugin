@@ -561,6 +561,9 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
           'claude': 120000,
           'gemini': 120000,
           'all': 300000,
+          'r1': 900000,
+          'o1': 900000,
+          'o3': 900000,
           'default': 180000
         };
         const timeoutDuration = Object.entries(timeoutSettings).find(([key, _]) =>
@@ -656,7 +659,49 @@ if (errorMessage) {
 
         } catch { }
       }
-      console.log(Messages)
+      console.log(Messages);
+      /**
+ * 将长文本消息分段添加到转发消息数组
+ * @param {Object} e 事件对象
+ * @param {String|Array} messages 要发送的消息
+ * @param {Number} maxLength 单段最大长度，默认1000字符
+ */
+async function sendLongMessage(e, messages, maxLength = 1000) {
+  try {
+    const forwardMsg = [];
+    
+    // 如果是字符串，转换为数组处理
+    const msgArray = typeof messages === 'string' ? [messages] : messages;
+    
+    for (let msg of msgArray) {
+      if (typeof msg === 'string' && msg.length > maxLength) {
+        // 计算需要分成几段
+        const segmentCount = Math.ceil(msg.length / maxLength);
+        
+        // 分段处理文本
+        for (let i = 0; i < segmentCount; i++) {
+          const start = i * maxLength;
+          const end = Math.min(start + maxLength, msg.length);
+          const segment = msg.substring(start, end);
+          
+          if (segment.trim()) {
+            forwardMsg.push(segment);
+          }
+        }
+      } else {
+        forwardMsg.push(msg);
+      }
+    }
+    
+    // 生成转发消息并发送
+    const jsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
+    await e.reply(jsonPart);
+    
+  } catch (error) {
+    logger.error(`消息处理失败：${error}`);
+    await e.reply('消息发送失败，请稍后重试');
+  }
+}
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
       if (styles == "picture") {
@@ -670,10 +715,10 @@ if (errorMessage) {
             forwardMsg.push(segment.image(result.outputPath));
           });
         } catch { }
-        forwardMsg.push(Messages);
-        const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
+        //forwardMsg.push(Messages);
+        //const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
         //e.reply(Messages)
-        e.reply(JsonPart);
+        await sendLongMessage(e, Messages);
         if (urls.length !== 0) {
           let uniqueUrls = [...new Set(urls)];
           if (uniqueUrls.length > 1) {
