@@ -22,8 +22,8 @@ export class FreeSearchTool extends AbstractTool {
   }
 
   async FreeSearch(query) {
-    const url = 'https://yuanpluss.online:3000/api/v1/search';
-    const data = { messages: [{ role: "user", content: query }], stream: false };
+    const url = 'https://yuanpluss.online:3000/v1/search';
+    const data = { q: query };
 
     try {
       const response = await fetch(url, {

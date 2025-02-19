@@ -151,6 +151,11 @@ export class example extends plugin {
                     permission: 'master'
                 },
                 {
+                    reg: "^#(开启|关闭)附加(联网|搜索)$",
+                    fnc: 'other_netsearch',
+                    permission: 'master'
+                },
+                {
                     reg: "^#(搜索|查看|下载)云预设[\s\S]*",
                     fnc: 'search_prompts'
                 },
@@ -166,6 +171,13 @@ export class example extends plugin {
                 }
             ]
         })
+    }
+
+    async other_netsearch(e) {
+        let data = readJsonFile(dataFilePath);
+        data.chatgpt.other_netsearch = e.msg.includes("开启");
+        writeJsonFile(dataFilePath, data);
+        e.reply(`附加方案智能联网搜索已${data.chatgpt.other_netsearch ? '开启' : '关闭'}`);
     }
 
     async totalTtsRole(e) {
@@ -686,25 +698,25 @@ export class example extends plugin {
 
 const UploadSystemFile = async (username, filename, content) => {
     try {
-      const response = await fetch(`https://yuanpluss.online:3000/api/upload/txt/${username}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          filename: filename,
-          content: content
-        })
-      });
-  
-      const result = await response.json();
-      if (!response.ok) {
-        return '失败：' + result.error;
-      }
-      
-      return result;
+        const response = await fetch(`https://yuanpluss.online:3000/api/upload/txt/${username}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                filename: filename,
+                content: content
+            })
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            return '失败：' + result.error;
+        }
+
+        return result;
     } catch (error) {
-      console.error('上传失败:', error);
-      return '失败：' + error?.message;
+        console.error('上传失败:', error);
+        return '失败：' + error?.message;
     }
-  };
+};
