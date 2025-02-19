@@ -371,7 +371,7 @@ export const airoom = async (messages, model) => {
             }));
 
         const response = await client.sendMessage(processedMessages, model);
-        if (response.startWith('Failed to')) {
+        if (response.startsWith('Failed to')) {
             return null;
         }
         return response;
