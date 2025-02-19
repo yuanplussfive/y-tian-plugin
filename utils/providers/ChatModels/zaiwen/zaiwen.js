@@ -32,7 +32,7 @@ export async function zaiwen(messages, model) {
             "我们聊的太多了": null,
             "zaiwen": null,
             "Server Error": null,
-            "detail:": null
+            '{"detail":"模型返回出错，可能是文档类型不支持、网络波动、输入文字过长"}': null
         };
         for (const [key, value] of Object.entries(BanMessages)) {
             const regex = new RegExp(key, 'i');

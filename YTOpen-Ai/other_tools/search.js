@@ -90,7 +90,20 @@ async function YTapi(messages, tools) {
 
     const url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
     const requestData = {
-      messages: [messages[messages.length - 1]], //仅发送最后一条消息
+      messages: [{
+        role: "system",
+        content: "你是一个Ai搜索助手，需要判断用户的问题是否需要进行搜索。不要使用你自己的知识，如果不需要搜索相关，直接反馈'<No need to search>'"
+      },
+      {
+        role: "user",
+        content: "你是谁"
+      },
+      {
+        role: "assistant",
+        content: "<No need to search>"
+      },
+      messages[messages.length - 1]
+      ],
       tools
     };
 

@@ -1,5 +1,8 @@
 import { AbstractTool } from './AbstractTool.js';
-import puppeteer from 'puppeteer';
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+const puppeteer = require('puppeteer');
+const nodeVersion = process.version.slice(1).split('.')[0];
 
 /**
  * 网页内容解析工具类
@@ -87,7 +90,7 @@ export class WebParserTool extends AbstractTool {
       try {
         // 启动浏览器，添加更多配置选项
         browser = await puppeteer.launch({
-          headless: 'new',
+          headless: parseInt(nodeVersion) >= 16 ? "new" : true,
           defaultViewport: null,
           timeout: 35000,
           args: [

@@ -1,4 +1,7 @@
-import puppeteer from 'puppeteer';
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+const puppeteer = require('puppeteer');
+const nodeVersion = process.version.slice(1).split('.')[0];
 
 class WebContentExtractor {
   /**
@@ -7,8 +10,8 @@ class WebContentExtractor {
   constructor() {
     this.MAX_RETRIES = 2; // 最大重试次数
     this.RETRY_DELAY = 2000; // 重试延迟时间(毫秒)
-    this.HEADLESS = 'new'; // 是否以无头模式运行浏览器
-    this.NAVIGATION_TIMEOUT = 30000; // 页面导航超时时间
+    this.HEADLESS = parseInt(nodeVersion) >= 16 ? "new" : true,
+      this.NAVIGATION_TIMEOUT = 30000; // 页面导航超时时间
     this.CONTENT_SELECTOR_TIMEOUT = 5000; // 内容选择器超时时间
     this.JAVASCRIPT_DISABLED_HINTS = [ // JavaScript 禁用提示语列表
       "doesn't work properly without JavaScript enabled",
@@ -108,7 +111,7 @@ class WebContentExtractor {
   async extractJsonData(page) {
     const jsonData = {};
     try {
-      const scripts = await page.$$('script'); // 获取所有 script 标签
+      const scripts = await page.$('script'); // 获取所有 script 标签
 
       for (const script of scripts) {
         const text = await script.evaluate(node => node.textContent); // 获取 script 标签的内容
@@ -151,12 +154,15 @@ class WebContentExtractor {
       // 尝试使用预定义的选择器来定位主要内容区域
       let mainElement = null;
       for (const selector of this.CONTENT_SELECTORS) {
-        const elements = await page.$$(selector);
+        const elements = await page.$$(selector); // 使用 $$ 获取所有匹配的元素
         if (elements.length > 0) {
           // 选择文本内容最长的元素作为主要内容区域
           mainElement = elements.reduce((a, b) =>
-            (a.textContent || '').length > (b.textContent || '').length ? a : b
+            (a && a.evaluate ? a.evaluate(el => el.textContent || '') : Promise.resolve(''))
+              .then(aText => (b && b.evaluate ? b.evaluate(el => el.textContent || '') : Promise.resolve(''))
+                .then(bText => aText.length > bText.length ? a : b))
           );
+          mainElement = await mainElement; // Resolve the promise
           break;
         }
       }
@@ -232,150 +238,135 @@ class WebContentExtractor {
    */
   async fetchAndCleanContent(url) {
     let browser = null;
+    let finalContent = null; // 用于存储最终结果，以便在finally块中使用
 
-    for (let attempt = 1; attempt <= this.MAX_RETRIES; attempt++) {
+    try {
+      // 启动浏览器，添加更多配置选项
+      browser = await puppeteer.launch({
+        headless: this.HEADLESS,
+        defaultViewport: null,
+        timeout: this.NAVIGATION_TIMEOUT,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu',
+          '--enable-javascript',
+          '--window-size=1920,1080'
+        ]
+      });
+
+      const page = await browser.newPage();
+
+      // 启用JavaScript
+      await page.setJavaScriptEnabled(true);
+
+      // 设置移动端用户代理和HTTP头
+      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
+      await page.setExtraHTTPHeaders({
+        'Accept-Language': 'zh-CN,zh;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      });
+
+      // 设置导航超时时间
+      await page.setDefaultNavigationTimeout(this.NAVIGATION_TIMEOUT);
+
+      // 设置请求拦截，优化加载性能
+      await page.setRequestInterception(true);
+      page.on('request', request => {
+        if (['image', 'font', 'media'].includes(request.resourceType())) {
+          request.abort();
+        } else {
+          request.continue();
+        }
+      });
+
+      // 导航到页面并等待加载完成
+      await page.goto(url, {
+        waitUntil: ['networkidle0', 'domcontentloaded', 'load'],
+        timeout: this.NAVIGATION_TIMEOUT
+      });
+
+      // 等待页面JavaScript执行完成
+      await page.waitForTimeout(3000);
+
+      // 检查页面是否包含JavaScript禁用提示
+      const jsDisabledContent = await page.evaluate((hints) => {
+        const text = document.body.innerText;
+        return hints.some(hint => text.includes(hint));
+      }, this.JAVASCRIPT_DISABLED_HINTS);
+
+      if (jsDisabledContent) {
+        throw new Error('检测到JavaScript禁用提示，重试加载');
+      }
+
+      // 等待页面主要内容加载
       try {
-        // 启动浏览器，添加更多配置选项
-        browser = await puppeteer.launch({
-          headless: this.HEADLESS,
-          defaultViewport: null,
-          timeout: this.NAVIGATION_TIMEOUT,
-          args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu',
-            '--enable-javascript',
-            '--window-size=1920,1080'
-          ]
-        });
+        await Promise.race([
+          page.waitForSelector('.articleContent', { timeout: this.CONTENT_SELECTOR_TIMEOUT }),
+          page.waitForSelector('#newsText', { timeout: this.CONTENT_SELECTOR_TIMEOUT }),
+          page.waitForSelector('.article-content', { timeout: this.CONTENT_SELECTOR_TIMEOUT }),
+          page.waitForSelector('.content', { timeout: this.CONTENT_SELECTOR_TIMEOUT }),
+          page.waitForSelector('article', { timeout: this.CONTENT_SELECTOR_TIMEOUT })
+        ]);
+      } catch (e) {
+        console.log('等待内容选择器超时，继续处理');
+      }
 
-        const page = await browser.newPage();
+      // 等待动态加载指示器消失
+      try {
+        await page.waitForFunction(() => {
+          const loaders = document.querySelectorAll('.loading, .spinner, [role="progressbar"]');
+          return loaders.length === 0;
+        }, { timeout: this.CONTENT_SELECTOR_TIMEOUT });
+      } catch (e) {
+        console.log('等待加载指示器超时，继续处理');
+      }
 
-        // 启用JavaScript
-        await page.setJavaScriptEnabled(true);
+      // 智能提取页面内容
+      const content = await this.extractPageContent(page);
 
-        // 设置移动端用户代理和HTTP头
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-        await page.setExtraHTTPHeaders({
-          'Accept-Language': 'zh-CN,zh;q=0.9',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        });
+      // 验证提取的内容
+      if (!content.textContent ||
+        content.textContent.trim().length === 0 ||
+        this.JAVASCRIPT_DISABLED_HINTS.some(hint => content.textContent.includes(hint))) {
+        throw new Error('提取的内容无效或为空');
+      }
 
-        // 设置导航超时时间
-        await page.setDefaultNavigationTimeout(this.NAVIGATION_TIMEOUT);
+      // 清理和格式化文本内容
+      const cleanContent = this.cleanTextContent(content.textContent);
 
-        // 设置请求拦截，优化加载性能
-        await page.setRequestInterception(true);
-        page.on('request', request => {
-          if (['image', 'font', 'media'].includes(request.resourceType())) {
-            request.abort();
-          } else {
-            request.continue();
-          }
-        });
+      // 构建最终返回的数据结构
+      finalContent = {
+        title: content.title,
+        text: cleanContent.substring(0, 4500), // 限制文本长度
+        metadata: {
+          ...content.meta
+        },
+        url: url,
+        timestamp: new Date().toISOString()
+      };
 
-        // 导航到页面并等待加载完成
-        await page.goto(url, {
-          waitUntil: ['networkidle0', 'domcontentloaded', 'load'],
-          timeout: this.NAVIGATION_TIMEOUT
-        });
+      return finalContent;
 
-        // 等待页面JavaScript执行完成
-        await page.waitForTimeout(3000);
-
-        // 检查页面是否包含JavaScript禁用提示
-        const jsDisabledContent = await page.evaluate((hints) => {
-          const text = document.body.innerText;
-          return hints.some(hint => text.includes(hint));
-        }, this.JAVASCRIPT_DISABLED_HINTS);
-
-        if (jsDisabledContent) {
-          throw new Error('检测到JavaScript禁用提示，重试加载');
-        }
-
-        // 等待页面主要内容加载
+    } catch (error) {
+      console.error(`抓取 ${url} 失败:`, error.message);
+      throw error; // 重新抛出错误，以便在调用者处处理
+    } finally {
+      if (browser) {
         try {
-          await Promise.race([
-            page.waitForSelector('.articleContent', { timeout: this.CONTENT_SELECTOR_TIMEOUT }),
-            page.waitForSelector('#newsText', { timeout: this.CONTENT_SELECTOR_TIMEOUT }),
-            page.waitForSelector('.article-content', { timeout: this.CONTENT_SELECTOR_TIMEOUT }),
-            page.waitForSelector('.content', { timeout: this.CONTENT_SELECTOR_TIMEOUT }),
-            page.waitForSelector('article', { timeout: this.CONTENT_SELECTOR_TIMEOUT })
-          ]);
-        } catch (e) {
-          console.log('等待内容选择器超时，继续处理');
-        }
-
-        // 等待动态加载指示器消失
-        try {
-          await page.waitForFunction(() => {
-            const loaders = document.querySelectorAll('.loading, .spinner, [role="progressbar"]');
-            return loaders.length === 0;
-          }, { timeout: this.CONTENT_SELECTOR_TIMEOUT });
-        } catch (e) {
-          console.log('等待加载指示器超时，继续处理');
-        }
-
-        // 智能提取页面内容
-        const content = await this.extractPageContent(page);
-
-        // 验证提取的内容
-        if (!content.textContent ||
-          content.textContent.trim().length === 0 ||
-          this.JAVASCRIPT_DISABLED_HINTS.some(hint => content.textContent.includes(hint))) {
-          throw new Error('提取的内容无效或为空');
-        }
-
-        // 清理和格式化文本内容
-        const cleanContent = this.cleanTextContent(content.textContent);
-
-        // 构建最终返回的数据结构
-        const finalContent = {
-          title: content.title,
-          text: cleanContent.substring(0, 4500), // 限制文本长度
-          metadata: {
-            ...content.meta
-          },
-          url: url,
-          timestamp: new Date().toISOString()
-        };
-
-        return finalContent;
-
-      } catch (error) {
-        console.error(`第 ${attempt} 次尝试失败:`, error);
-
-        if (browser) {
-          try {
-            await browser.close();
-          } catch (closeError) {
-            console.error('关闭浏览器失败:', closeError.message);
-          }
-          browser = null;
-        }
-
-        if (attempt === this.MAX_RETRIES) {
-          throw new Error(`在 ${this.MAX_RETRIES} 次尝试后仍然无法从 ${url} 获取内容: ${error.message}`);
-        }
-
-        await new Promise(resolve => setTimeout(resolve, this.RETRY_DELAY));
-      } finally {
-        if (browser) {
-          try {
-            await browser.close();
-          } catch (closeError) {
-            console.error('在 finally 块中关闭浏览器失败:', closeError.message);
-          }
+          await browser.close();
+          console.log('浏览器已关闭');
+        } catch (closeError) {
+          console.error('关闭浏览器失败:', closeError.message);
         }
       }
     }
   }
 }
 
-// 示例用法
 export async function PuppeteerToText(url) {
   const extractor = new WebContentExtractor();
 
