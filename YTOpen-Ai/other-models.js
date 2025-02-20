@@ -1782,5 +1782,13 @@ export const other_models = [
     "token": 64000,
     "features": ['conversation', 'code'],
     "quota": 0.25
+  },
+  {
+    "id": 224,
+    "model": "grok-3-preview",
+    "points": "Xai",
+    "token": 128000,
+    "features": ['conversation', 'code'],
+    "quota": 4
   }
 ]

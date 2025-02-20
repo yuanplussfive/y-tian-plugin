@@ -1538,189 +1538,140 @@ export class ExamplePlugin extends plugin {
 
   async sendSegmentedMessage(e, output) {
     try {
+      // 计算输出文本的总 token 数，用于判断是否需要分段发送
       const { total_tokens } = await TotalTokens(output);
 
-      // 如果文本很短，直接发送
+      // 如果文本较短（token 数小于等于 20），则直接发送
       if (total_tokens <= 20) {
         return await e.reply(output);
       }
 
-      // 定义标点符号和特殊字符列表
-      const primaryPunctuations = ['。', '！', '？', '；', '!', '?', ';', '\n'];
-      const secondaryPunctuations = ['：', ':', '）', ')', '》', '>'];
-      const commas = ['，', ','];
-      const endingPunctuations = ['。', '！', '？', '；', '!', '?', ';', '：', ':', '...', '…'];
+      // 定义用于分割句子的标点符号列表
+      const punctuations = ['。', '！', '？', '；', '!', '?', ';', '\n'];
+      // 定义句子结尾可能出现的标点符号列表，用于确保每个分段都有结尾标点
+      const endingPunctuations = ['。', '！', '？', '；', '!', '?', ';', '...', '…'];
 
-      // 预处理文本，处理特殊字符串
+      // 预处理文本，防止分割时破坏特殊字符
+
       let processedOutput = output;
 
-      // 保护省略号，防止被错误分割
+      // 保护 emojis 和 emoticons，用占位符替换，避免被分割
+      const emojiPattern = /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[（(][^（)）]*[）)]|[:;][)D]|[:<]3/gu;
+      const emojis = []; // 存储提取出的 emojis
+      let emojiIndex = 0; // emojis 的索引
+
+      processedOutput = processedOutput.replace(emojiPattern, (match) => {
+        emojis.push(match); // 将匹配到的 emoji 存入数组
+        return `{{EMOJI${emojiIndex++}}}`; // 用占位符替换
+      });
+
+      // 保护省略号，避免被分割
       processedOutput = processedOutput.replace(/\.{3,}|。{3,}|…+/g, '{{ELLIPSIS}}');
 
-      // 保存Markdown链接
-      const markdownLinks = [];
-      const markdownPattern = /(!?$$.*?$$$.*?$)/g;
-      let linkIndex = 0;
+      // 计算理想的分段长度
+      const maxSegments = 5; // 最大分段数
+      const textLength = processedOutput.length; // 文本长度
+      const idealSegmentCount = Math.min(Math.ceil(textLength / 300), maxSegments); // 理想的分段数，每段大约300个字符，但不超过最大分段数
+      const idealLength = Math.ceil(textLength / idealSegmentCount); // 理想的每段长度
 
-      processedOutput = processedOutput.replace(markdownPattern, (match) => {
-        markdownLinks.push(match);
-        return `{{MDLINK${linkIndex++}}}`;
-      });
+      // 寻找分割点
+      const splitPoints = []; // 存储分割点的数组
+      let lastSplitPoint = 0; // 上一个分割点的位置
 
-      // 保护括号内的完整内容
-      const bracketTexts = [];
-      let bracketIndex = 0;
-      const bracketPattern = /[（(]((?:[^（()）]|（[^（()）]*）|$[^（()）]*$)*?)[)）]/g; // 非贪婪匹配
-
-      processedOutput = processedOutput.replace(bracketPattern, (match) => {
-        // 超长括号内容不保护，允许分割
-        if (match.length > 100) return match;
-        bracketTexts.push(match);
-        return `{{BRACKET${bracketIndex++}}}`;
-      });
-
-      // 计算分段策略
-      const textLength = processedOutput.length;
-      const idealSegmentCount = Math.ceil(textLength / 300) + 1;
-      const idealLength = Math.ceil(textLength / idealSegmentCount);
-      const minLength = Math.floor(idealLength * 0.6);
-      const maxLength = Math.ceil(idealLength * 1.4);
-
-      let segments = [];
-      let currentSegment = '';
-      let lastPunctuationIndex = 0;
-      let insideSpecialTag = false; // 标记是否在特殊标记内
-
-      // 智能分段处理
+      // 遍历文本，寻找合适的分割点
       for (let i = 0; i < processedOutput.length; i++) {
-        currentSegment += processedOutput[i];
-
-        if (processedOutput[i] === '{' && processedOutput[i + 1] === '{') {
-          insideSpecialTag = true;
-        }
-        if (processedOutput[i] === '}' && processedOutput[i + 1] === '}') {
-          insideSpecialTag = false;
-        }
-
-        // 判断当前字符的分割属性
-        const isPrimaryPunctuation = primaryPunctuations.includes(processedOutput[i]);
-        const isSecondaryPunctuation = secondaryPunctuations.includes(processedOutput[i]); // 定义 isSecondaryPunctuation
-        const isComma = commas.includes(processedOutput[i]);
-
-        // 分段判断逻辑
-        if (currentSegment.length >= minLength && !insideSpecialTag) {
-          let shouldSplit = false;
-
-          // 主要标点符号直接分割
-          if (isPrimaryPunctuation) {
-            shouldSplit = true;
-          }
-          // 次要标点符号在段落过长时分割
-          else if (isSecondaryPunctuation && currentSegment.length > idealLength) {
-            shouldSplit = true;
-          }
-          // 逗号在段落明显过长时分割
-          else if (isComma && currentSegment.length > maxLength) {
-            shouldSplit = true;
-          }
-
-          if (shouldSplit) {
-            segments.push(currentSegment);
-            currentSegment = '';
-            lastPunctuationIndex = i;
+        // 如果当前字符是标点符号
+        if (punctuations.includes(processedOutput[i])) {
+          const segmentLength = i - lastSplitPoint + 1; // 计算当前段的长度
+          // 如果当前段的长度大于等于理想长度的 70%，则认为是一个合适的分割点
+          if (segmentLength >= idealLength * 0.7) {
+            splitPoints.push(i + 1); // 将分割点添加到数组
+            lastSplitPoint = i + 1; // 更新上一个分割点的位置
           }
         }
       }
 
-      // 处理剩余文本
-      if (currentSegment.length > 0) {
-        if (segments.length > 0 && currentSegment.length < minLength) {
-          segments[segments.length - 1] += currentSegment;
+      // 调整分割点，以维持最大分段数
+      while (splitPoints.length >= maxSegments) {
+        // 寻找最短的段，并移除其分割点
+        let minLength = Infinity; // 最小长度，初始值为无穷大
+        let removeIndex = -1; // 要移除的分割点的索引，初始值为 -1
+
+        // 遍历分割点，寻找最短的段
+        for (let i = 0; i < splitPoints.length - 1; i++) {
+          const segmentLength = splitPoints[i + 1] - splitPoints[i]; // 计算当前段的长度
+          // 如果当前段的长度小于最小长度，则更新最小长度和要移除的分割点的索引
+          if (segmentLength < minLength) {
+            minLength = segmentLength;
+            removeIndex = i;
+          }
+        }
+
+        // 如果找到了要移除的分割点，则移除它
+        if (removeIndex !== -1) {
+          splitPoints.splice(removeIndex, 1);
         } else {
-          segments.push(currentSegment);
+          // 如果没有找到要移除的分割点，则跳出循环（理论上不应该发生）
+          break;
         }
       }
 
-      // 强制分段（当智能分段失败时）
-      if (segments.length <= 1 && textLength > maxLength) {
-        segments = [];
-        const specialMatches = [...processedOutput.matchAll(/{{(?:MDLINK|BRACKET|ELLIPSIS)\d*}}/g)];
-        const textWithoutSpecials = processedOutput.replace(/{{(?:MDLINK|BRACKET|ELLIPSIS)\d*}}/g, '');
+      // 创建分段
+      let segments = []; // 存储分段的数组
+      let start = 0; // 分段的起始位置
 
-        let i = 0;
-        while (i < textWithoutSpecials.length) {
-          let endIndex = Math.min(i + idealLength, textWithoutSpecials.length);
-
-          // 向后查找合适的分割点
-          let splitPointFound = false;
-          for (let j = endIndex; j > i && j > endIndex - 50; j--) {
-            if ([...primaryPunctuations, ...secondaryPunctuations, ...commas].includes(textWithoutSpecials[j])) {
-              endIndex = j + 1;
-              splitPointFound = true;
-              break;
-            }
-          }
-
-          segments.push(textWithoutSpecials.slice(i, endIndex));
-          i = endIndex;
+      // 根据分割点分割文本
+      for (const point of splitPoints) {
+        // 如果分割点大于起始位置，则创建一个分段
+        if (point > start) {
+          segments.push(processedOutput.slice(start, point)); // 将分段添加到数组
+          start = point; // 更新起始位置
         }
-
-        // 重新插入特殊标记
-        segments = segments.map(segment => {
-          let newSegment = segment;
-          specialMatches.forEach(match => {
-            const index = processedOutput.indexOf(match[0]);
-            if (index >= processedOutput.indexOf(segment) && index < processedOutput.indexOf(segment) + segment.length) {
-              newSegment = newSegment.replace('', match[0]); // 简单替换，可能需要更精确的插入逻辑
-            }
-          });
-          return newSegment;
-        });
       }
 
-      // 还原特殊标记并处理段落结尾标点
+      // 如果起始位置小于文本长度，则将剩余的文本作为一个分段
+      if (start < processedOutput.length) {
+        segments.push(processedOutput.slice(start));
+      }
+
+      // 恢复特殊字符并处理分段
       segments = segments.map((segment, index) => {
-        let processedSegment = segment;
+        // 恢复省略号和 emojis
+        let processed = segment
+          .replace(/{{ELLIPSIS}}/g, '...') // 恢复省略号
+          .replace(/{{EMOJI(\d+)}}/g, (_, index) => emojis[parseInt(index)]) // 恢复 emojis
+          .trim(); // 移除首尾空格
 
-        // 还原特殊标记
-        processedSegment = processedSegment.replace(/{{ELLIPSIS}}/g, '...');
-        processedSegment = processedSegment.replace(/{{MDLINK(\d+)}}/g, (_, index) => markdownLinks[parseInt(index)]);
-        processedSegment = processedSegment.replace(/{{BRACKET(\d+)}}/g, (_, index) => bracketTexts[parseInt(index)]);
-
-        // 处理段落结尾的标点符号
-        processedSegment = processedSegment.trim();
-        if (processedSegment.length > 0) {
-          const lastChar = processedSegment[processedSegment.length - 1];
-          // 如果末尾是逗号，替换为句号
-          if (commas.includes(lastChar)) {
-            processedSegment = processedSegment.slice(0, -1) + '。';
-          }
-          // 如果末尾没有标点符号，添加句号
-          else if (!endingPunctuations.includes(lastChar) &&
-            !lastChar.match(/[a-zA-Z0-9]}]/)) {
-            processedSegment += '。';
-          }
+        // 添加适当的结尾标点
+        if (processed && !endingPunctuations.some(p => processed.endsWith(p))) {
+          processed += ''; // 如果分段没有以结尾标点结尾，则添加句号
         }
 
-        return processedSegment;
+        return processed; // 返回处理后的分段
       });
 
-      // 发送消息，模拟人类打字速度
+      // 发送消息，模拟人类发送的自然延迟
       for (let i = 0; i < segments.length; i++) {
-        const segment = segments[i];
+        const segment = segments[i]; // 获取当前分段
+        // 如果分段不为空
         if (segment?.trim()) {
-          await e.reply(segment.trim());
+          await e.reply(segment.trim()); // 发送分段
 
-          // 根据文本长度和是否是最后一段动态调整延迟
+          // 如果不是最后一个分段，则添加延迟
           if (i < segments.length - 1) {
-            const delay = 800 + Math.min(segment.length * 10, 2000) + Math.random() * 1000;
-            await new Promise(resolve => setTimeout(resolve, delay));
+            // 动态延迟，基于分段长度
+            const baseDelay = 1000; // 基础延迟 1 秒
+            const charDelay = segment.length * 5; // 每字符延迟 5 毫秒
+            const randomDelay = Math.random() * 500; // 随机延迟 0-500 毫秒
+            const delay = Math.min(baseDelay + charDelay + randomDelay, 3000); // 总延迟，但不超过 3 秒
+            await new Promise(resolve => setTimeout(resolve, delay)); // 延迟
           }
         }
       }
     } catch (error) {
+      // 如果发生错误，则打印错误信息，并直接发送原始文本
       console.error('分段发送错误:', error);
-      await e.reply(output);
+      await e.reply(output); // 直接发送原始文本
     }
   }
 
