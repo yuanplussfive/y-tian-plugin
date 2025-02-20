@@ -543,14 +543,14 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         'gpt': GPT4oResponse,
         'gemini': GeminiResponse,
         'claude': claudeResponse
-        };
+      };
       async function getModelResponder(model) {
         const modelKey = model.toLowerCase();
         const matchedKey = Object.keys(modelResponders).find(key =>
-        modelKey.includes(key)
+          modelKey.includes(key)
         );
         return matchedKey ? modelResponders[matchedKey] : GPT4oResponse;
-        }
+      }
       async function handleModelResponse(model, history, fetch) {
         const responder = await getModelResponder(model);
         return await responder(history, fetch);
@@ -593,25 +593,25 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
 
         const errorMessage = response_json?.error?.message;
 
-if (errorMessage) {
-  if (errorMessage.includes('无效的令牌')) {
-    e.reply('无效的令牌，请填写正确的阴天密钥后使用!');
-    return false;
-  } else if (errorMessage.includes('该令牌额度已用尽')) {
-    e.reply('该令牌额度已用尽，请更换密钥后使用!');
-    return false;
-  } else if (
-    errorMessage.includes('上游负载已饱和') ||
-    /not cfg .+ in site_map/.test(errorMessage)
-  ) {
-    answer = await handleModelResponse(model, History, fetch);
-  } else {
-    e.reply(`请求出错: ${errorMessage}`);
-    return false;
-  }
-} else {
-  answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
-}
+        if (errorMessage) {
+          if (errorMessage.includes('无效的令牌')) {
+            e.reply('无效的令牌，请填写正确的阴天密钥后使用!');
+            return false;
+          } else if (errorMessage.includes('该令牌额度已用尽')) {
+            e.reply('该令牌额度已用尽，请更换密钥后使用!');
+            return false;
+          } else if (
+            errorMessage.includes('上游负载已饱和') ||
+            /not cfg .+ in site_map/.test(errorMessage)
+          ) {
+            answer = await handleModelResponse(model, History, fetch);
+          } else {
+            e.reply(`请求出错: ${errorMessage}`);
+            return false;
+          }
+        } else {
+          answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
+        }
 
       } catch (error) {
         console.log(error);
@@ -633,7 +633,7 @@ if (errorMessage) {
         e.reply('无有效回复，请稍后再试');
         return false;
       }
-      
+
       answer = answer.replace(/Content\s+is\s+blocked/gi, '').trim();
       //e.reply(answer);
       history.push({
@@ -666,42 +666,42 @@ if (errorMessage) {
  * @param {String|Array} messages 要发送的消息
  * @param {Number} maxLength 单段最大长度，默认1000字符
  */
-async function sendLongMessage(e, messages, maxLength = 1000) {
-  try {
-    const forwardMsg = [];
-    
-    // 如果是字符串，转换为数组处理
-    const msgArray = typeof messages === 'string' ? [messages] : messages;
-    
-    for (let msg of msgArray) {
-      if (typeof msg === 'string' && msg.length > maxLength) {
-        // 计算需要分成几段
-        const segmentCount = Math.ceil(msg.length / maxLength);
-        
-        // 分段处理文本
-        for (let i = 0; i < segmentCount; i++) {
-          const start = i * maxLength;
-          const end = Math.min(start + maxLength, msg.length);
-          const segment = msg.substring(start, end);
-          
-          if (segment.trim()) {
-            forwardMsg.push(segment);
+      async function sendLongMessage(e, messages, maxLength = 1000) {
+        try {
+          const forwardMsg = [];
+
+          // 如果是字符串，转换为数组处理
+          const msgArray = typeof messages === 'string' ? [messages] : messages;
+
+          for (let msg of msgArray) {
+            if (typeof msg === 'string' && msg.length > maxLength) {
+              // 计算需要分成几段
+              const segmentCount = Math.ceil(msg.length / maxLength);
+
+              // 分段处理文本
+              for (let i = 0; i < segmentCount; i++) {
+                const start = i * maxLength;
+                const end = Math.min(start + maxLength, msg.length);
+                const segment = msg.substring(start, end);
+
+                if (segment.trim()) {
+                  forwardMsg.push(segment);
+                }
+              }
+            } else {
+              forwardMsg.push(msg);
+            }
           }
+
+          // 生成转发消息并发送
+          const jsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
+          await e.reply(jsonPart);
+
+        } catch (error) {
+          logger.error(`消息处理失败：${error}`);
+          await e.reply('消息发送失败，请稍后重试');
         }
-      } else {
-        forwardMsg.push(msg);
       }
-    }
-    
-    // 生成转发消息并发送
-    const jsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
-    await e.reply(jsonPart);
-    
-  } catch (error) {
-    logger.error(`消息处理失败：${error}`);
-    await e.reply('消息发送失败，请稍后重试');
-  }
-}
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
       if (styles == "picture") {
@@ -719,14 +719,6 @@ async function sendLongMessage(e, messages, maxLength = 1000) {
         //const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
         //e.reply(Messages)
         await sendLongMessage(e, Messages);
-        if (urls.length !== 0) {
-          let uniqueUrls = [...new Set(urls)];
-          if (uniqueUrls.length > 1) {
-            const duplicateIndex = uniqueUrls.findIndex(url => url.includes('download'));
-            uniqueUrls.splice(duplicateIndex, 1);
-          }
-          console.log(uniqueUrls)
-        }
       }
       await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
@@ -739,34 +731,22 @@ async function sendLongMessage(e, messages, maxLength = 1000) {
           await handleTTS(e, roles, Messages, fetch, _path);
         }
       }
-      if (model == "gpt-4-dalle") {
-        let result = await extractImageLinks2(answer)
-        console.log(result)
-        if (result.length === 0) {
-          return false
+      const isDrawModel = (() => {
+        try {
+          if (!chat_models?.models) return false;
+          const CurrentModel = chat_models.models.find(m => m?.name === model);
+          if (!CurrentModel?.features) return false;
+          return CurrentModel.features.includes('drawing');
+        } catch {
+          return false;
         }
-        result.forEach((url, index) => {
-          const filePath = `${_path}/resources/dall_e_plus_${index}_chat.png`;
-          downloadImage(path, url, e, filePath);
-        })
-      }
-      const highmodels = ["gpt-4-gizmo", "gpt-4-all", "gpt-4o", "gpt-4o-all", "o1-mini", "o1-preview"];
-      if (highmodels.includes(model)) {
+      })();
+
+      console.log(isDrawModel);
+      if (isDrawModel || model.includes("gpt-4-gizmo")) {
         let urls = await get_address(answer);
         if (urls.length !== 0) {
-          try {
-            urls = await removeDuplicates(urls);
-          } catch (error) {
-            e.reply(error);
-          }
-          const filePath = path.join(_path, 'resources', 'dall_e_chat.png');
-          for (const url of urls) {
-            try {
-              await downloadImage(path, url, e, filePath);
-            } catch (error) {
-              e.reply(error);
-            }
-          }
+          await handleImages(urls, e, _path)
         }
         console.log(3, urls)
         urls.forEach(async (url) => {
@@ -808,23 +788,41 @@ async function sendLongMessage(e, messages, maxLength = 1000) {
     return result;
   }
 
-  async function downloadImage(path, url, e, filePath) {
+  async function handleImages(urls, e, _path) {
+    // 创建存储图片信息的数组
+    const imageResults = [];
+
+    // 为每个URL创建唯一的文件路径
+    for (let i = 0; i < urls.length; i++) {
+      const filePath = path.join(_path, 'resources', `dall_e_chat_${i}.png`);
+      try {
+        const result = await downloadImage(path, urls[i], filePath);
+        if (result.success) {
+          imageResults.push(segment.image(filePath));
+        } else {
+          imageResults.push(urls[i].trim());
+        }
+      } catch (error) {
+        imageResults.push(urls[i].trim());
+        console.error(`下载失败: ${urls[i]}`, error);
+      }
+    }
+
+    // 一次性发送所有图片
+    if (imageResults.length > 0) {
+      const output = await common.makeForwardMsg(e, imageResults, '图片展示');
+      await e.reply(output);
+    }
+  }
+
+  async function downloadImage(path, url, filePath) {
     const fileExtension = path.extname(url).toLowerCase();
-    console.log(fileExtension);
     if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
-      return;
+      return { success: false };
     }
 
     const downloadTimeout = 40000;
-    let urlSent = false;
     let downloadAborted = false;
-
-    const sendUrl = () => {
-      if (!urlSent) {
-        e.reply(url.trim());
-        urlSent = true;
-      }
-    };
 
     const downloadPromise = async () => {
       try {
@@ -833,24 +831,27 @@ async function sendLongMessage(e, messages, maxLength = 1000) {
           method: 'GET',
           responseType: 'stream'
         });
+
         if (response.status >= 400) {
           throw new Error(`Failed to download ${url}: ${response.status}`);
         }
+
         const file = fs.createWriteStream(filePath);
         response.data.pipe(file);
+
         await new Promise((resolve, reject) => {
           file.on('finish', resolve);
           file.on('error', reject);
         });
+
         if (!downloadAborted) {
-          console.log(111);
-          e.reply(segment.image(filePath));
+          return { success: true };
         }
+        return { success: false };
+
       } catch (err) {
-        console.log(err);
-        if (!downloadAborted) {
-          sendUrl();
-        }
+        console.error(err);
+        return { success: false };
       }
     };
 
@@ -862,13 +863,11 @@ async function sendLongMessage(e, messages, maxLength = 1000) {
     );
 
     try {
-      await Promise.race([downloadPromise(), timeoutPromise]);
+      const result = await Promise.race([downloadPromise(), timeoutPromise]);
+      return result;
     } catch (err) {
-      if (err.message === 'Download timed out') {
-        sendUrl();
-      } else {
-        throw err;
-      }
+      console.error(err);
+      return { success: false };
     }
   }
 
@@ -984,7 +983,7 @@ async function sendLongMessage(e, messages, maxLength = 1000) {
           await e.friend.sendFile(filePath);
         }
       }
-      e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
+      //e.reply(`${filename}文件成功保存在 ${filePath}`, true, { recallMsg: 6 });
     } catch (error) {
       console.error(`失败了: ${url}: ${error}`);
     }

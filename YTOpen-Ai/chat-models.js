@@ -955,6 +955,34 @@ export const chat_models = {
       "token_count": 200000,
       "Magnification": 0.5,
       "features": ['conversation', 'code']
+    },
+    {
+      "id": "136",
+      "name": "grok-2-1212",
+      "token_count": 128000,
+      "Magnification": 1,
+      "features": ['conversation', 'code']
+    },
+    {
+      "id": "137",
+      "name": "grok-3",
+      "token_count": 128000,
+      "Magnification": 2.5,
+      "features": ['conversation', 'code', 'image_recognition', 'drawing']
+    },
+    {
+      "id": "138",
+      "name": "grok-3-deepsearch",
+      "token_count": 128000,
+      "Magnification": 1,
+      "features": ['conversation', 'code', 'image_recognition', 'internet']
+    },
+    {
+      "id": "139",
+      "name": "grok-3-reasoner",
+      "token_count": 128000,
+      "Magnification": 10,
+      "features": ['conversation', 'code', 'image_recognition', 'internet']
     }
   ]
 }
