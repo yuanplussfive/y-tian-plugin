@@ -609,6 +609,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
             e.reply(`请求出错: ${errorMessage}`);
             return false;
           }
+          history.pop();
         } else {
           answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
         }
@@ -1055,8 +1056,10 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       for (let i = arr.length - 1; i >= 0; i--) {
         const obj = arr[i];
         if (obj.role !== "user" && obj.role !== "assistant") {
-          newArr.unshift(obj);
-        } else if (newArr.length < numbers) {
+          if (newArr.length < numbers) { // 检查长度
+            newArr.unshift(obj);
+          }
+        } else if (newArr.length < numbers) { // 检查长度
           if (obj.role === "user") {
             if (Array.isArray(obj.content)) {
               let validContent = obj.content.filter(item => item.type === "text");
@@ -1069,7 +1072,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
             } else {
               newArr.unshift(obj);
             }
-            if (arr[i + 1]?.role === "assistant") {
+            if (arr[i + 1]?.role === "assistant" && newArr.length < numbers) { // 再次检查长度
               newArr.unshift(arr[i + 1]);
               i--;
             }
@@ -1077,11 +1080,14 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
             newArr.unshift(obj);
           }
         }
+        if (newArr.length >= numbers) { // 提前退出循环
+            break;
+        }
       }
       return newArr;
     }
     return arr;
-  }
+  }  
 }
 
 export { run_conversation }

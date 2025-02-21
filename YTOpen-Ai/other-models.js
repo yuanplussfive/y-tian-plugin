@@ -4,7 +4,7 @@ export const other_models = [
     "model": "gpt-3.5-turbo",
     "points": "OpenAI",
     "token": 4096,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 0.5
   },
   {
@@ -12,7 +12,7 @@ export const other_models = [
     "model": "gpt-3.5-turbo-0613",
     "points": "OpenAI",
     "token": 4096,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 0.5
   },
   {
@@ -20,7 +20,7 @@ export const other_models = [
     "model": "gpt-3.5-turbo-1106",
     "points": "OpenAI",
     "token": 4096,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 0.5
   },
   {
@@ -28,7 +28,7 @@ export const other_models = [
     "model": "gpt-3.5-turbo-0125",
     "points": "OpenAI",
     "token": 4096,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 0.5
   },
   {
@@ -36,7 +36,7 @@ export const other_models = [
     "model": "gpt-3.5-turbo-16k",
     "points": "OpenAI",
     "token": 16384,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 1
   },
   {
@@ -44,7 +44,7 @@ export const other_models = [
     "model": "gpt-3.5-turbo-16k-0613",
     "points": "OpenAI",
     "token": 16384,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 1
   },
   {
@@ -52,7 +52,7 @@ export const other_models = [
     "model": "gpt-3.5-turbo-16k-1106",
     "points": "OpenAI",
     "token": 16384,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 1
   },
   {
@@ -60,7 +60,7 @@ export const other_models = [
     "model": "gpt-3.5-turbo-16k-0125",
     "points": "OpenAI",
     "token": 16384,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 1
   },
   {
@@ -68,7 +68,7 @@ export const other_models = [
     "model": "gpt-4",
     "points": "OpenAI",
     "token": 8192,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 15
   },
   {
@@ -76,7 +76,7 @@ export const other_models = [
     "model": "gpt-4-32k",
     "points": "OpenAI",
     "token": 32000,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 30
   },
   {
@@ -84,7 +84,7 @@ export const other_models = [
     "model": "gpt-4-turbo",
     "points": "OpenAI",
     "token": 128000,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 7.5
   },
   {
@@ -92,7 +92,7 @@ export const other_models = [
     "model": "gpt-4-1106-preview",
     "points": "OpenAI",
     "token": 131072,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 7.5
   },
   {
@@ -100,19 +100,11 @@ export const other_models = [
     "model": "gpt-4-0125-preview",
     "points": "OpenAI",
     "token": 131072,
-    "features": ['conversation'],
+    "features": ['conversation', 'code'],
     "quota": 5
   },
   {
     "id": 14,
-    "model": "gpt-4o",
-    "points": "OpenAI",
-    "token": 8000,
-    "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
-    "quota": 2.5
-  },
-  {
-    "id": 15,
     "model": "gpt-4-all",
     "points": "OpenAI",
     "token": 128000,
@@ -120,20 +112,28 @@ export const other_models = [
     "quota": 30
   },
   {
+    "id": 15,
+    "model": "gpt-4o-all-lite",
+    "points": "OpenAI-Plus/Free",
+    "token": 8000,
+    "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
+    "quota": 2.5
+  },
+  {
     "id": 16,
     "model": "gpt-4o-all",
-    "points": "OpenAI",
+    "points": "OpenAI-Plus",
     "token": 128000,
     "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
     "quota": 15
   },
   {
     "id": 17,
-    "model": "gpt-4-omni",
+    "model": "gpt-4o-mini-2024-07-18",
     "points": "OpenAI",
     "token": 32000,
-    "features": ['conversation', 'internet', 'drawing'],
-    "quota": 60
+    "features": ['conversation', 'code'],
+    "quota": 0.07
   },
   {
     "id": 18,
@@ -141,7 +141,7 @@ export const other_models = [
     "points": "OpenAI",
     "token": 2000,
     "features": ['drawing'],
-    "quota": "0.16/次"
+    "quota": 0
   },
   {
     "id": 19,
@@ -149,7 +149,7 @@ export const other_models = [
     "points": "OpenAI",
     "token": 128000,
     "features": ['conversation'],
-    "quota": "0.07"
+    "quota": 0.07
   },
   {
     "id": 20,
@@ -161,11 +161,11 @@ export const other_models = [
   },
   {
     "id": 21,
-    "model": "gpt-4.5o-ultra",
+    "model": "gpt-4o-2024-11-20",
     "points": "OpenAI",
     "token": 128000,
     "features": ['conversation', 'code'],
-    "quota": 30
+    "quota": 1.25
   },
   {
     "id": 22,
@@ -699,9 +699,9 @@ export const other_models = [
     "id": 88,
     "model": "ERNIE-Bot-4",
     "points": "百度千帆",
-    "token": 8000,
+    "token": 128000,
     "features": ['conversation'],
-    "quota": "0.05/次"
+    "quota": 0
   },
   {
     "id": 89,
@@ -709,7 +709,7 @@ export const other_models = [
     "points": "零一万物",
     "token": 2000000,
     "features": ['conversation'],
-    "quota": "0.05/次"
+    "quota": 0
   },
   {
     "id": 90,
@@ -1053,7 +1053,7 @@ export const other_models = [
     "points": "零一万物",
     "token": 100000,
     "features": ['conversation', 'code'],
-    "quota": "0.05/次"
+    "quota": 0
   },
   {
     "id": 133,
