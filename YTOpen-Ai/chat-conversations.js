@@ -702,24 +702,31 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       }
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
-      if (urls.length >= 1) {
-        if (styles == "picture") {
-          try {
-            const results = await extractAndRender(Messages, {
-              outputDir: './resources'
-            });
-            results.forEach(result => {
-              forwardMsg.push(segment.image(result.outputPath));
-            });
-          } catch (error) {
-            console.error(error);
-          }
-        }
+      let pictureProcessed = false; // 标记是否处理了 picture
 
+      if (styles == "picture") {
+        try {
+          const results = await extractAndRender(answer, {
+            outputDir: './resources'
+          });
+          results.forEach(result => {
+            forwardMsg.push(segment.image(result.outputPath));
+          });
+          pictureProcessed = true; // 标记为已处理
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      if (urls.length >= 1) {
         const images = await handleImages(urls, _path);
         if (images.length > 0) {
           forwardMsg = [...images, ...forwardMsg];
         }
+      }
+
+      // 只发送一次消息
+      if (pictureProcessed || urls.length >= 1) {
         await sendLongMessage(e, Messages, forwardMsg);
       }
       await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
