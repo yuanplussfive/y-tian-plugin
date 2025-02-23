@@ -804,7 +804,8 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       try {
         const result = await downloadImage(path, urls[i], filePath);
         if (result.success) {
-          imageResults.push(segment.image(filePath));
+          await e.reply(segment.image(filePath));
+          //imageResults.push(segment.image(filePath));
         } else {
           imageResults.push(urls[i].trim());
         }
