@@ -1,6 +1,6 @@
 import { dependencies } from "../YTdependence/dependencies.js";
 import { getFileInfo } from '../utils/fileUtils.js';
-const { fs, _path, puppeteer, Anime_tts_roles, tts_roles, https, http, common, cfg } = dependencies
+const { fs, _path, puppeteer, Anime_tts_roles, tts_roles, https, http, common, cfg, path } = dependencies
 let dirpath = _path + '/data/YTAi_Setting';
 if (!fs.existsSync(dirpath)) {
     fs.mkdirSync(dirpath)
@@ -197,7 +197,10 @@ export class example extends plugin {
             const nums = e.msg.replace(/#下载云预设/g, '').match(/\d+/g);
             const presetsPath = `${_path}/data/阴天预设`;
             if (systempromise[nums - 1]) {
-                await fs.promises.writeFile(`${presetsPath}/${systempromise[nums - 1].fileName.replace(/^[^/]+\//, '')}`, systempromise[nums - 1].content, 'utf-8');
+                const filename = path.basename(systempromise[nums - 1].fileName)
+                console.log(filename)
+                const filePath = path.join(presetsPath, filename);
+                await fs.promises.writeFile(filePath, systempromise[nums - 1].content, 'utf-8')
                 e.reply(`成功下载预设【${systempromise[nums - 1].fileName.replace(/\.txt$/, "")}】`);
             } else {
                 e.reply('不存在当前预设id，请先搜索');

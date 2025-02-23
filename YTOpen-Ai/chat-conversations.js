@@ -642,6 +642,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         "content": answer
       });
       await saveUserHistory(path, userid, dirpath, history);
+      let forwardMsg = []
       let Messages = answer
       const models = ["gpt-4-all", "gpt-4-dalle", "gpt-4-v", "gpt-4o", "gpt-4o-all", "o1-preview", "o1-mini"];
       const keywords = ["json dalle-prompt", `"prompt":`, `"size":`, "json dalle"];
@@ -651,11 +652,8 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         console.log(result)
         try {
           if (result.hasOwnProperty('jsonPart') && JSON.parse(result.jsonPart)) {
-            let forwardMsg = []
-            forwardMsg.push(JSON.parse(result.jsonPart).prompt)
-            forwardMsg.push(JSON.parse(result.jsonPart).size)
-            const JsonPart = await common.makeForwardMsg(e, forwardMsg, '绘图prompt');
-            e.reply(JsonPart)
+            forwardMsg.push(`绘图提示词: \n${JSON.parse(result.jsonPart).prompt || '无'}`)
+            forwardMsg.push(`规格: ${JSON.parse(result.jsonPart).size || '1024x1024'}`)
           }
 
         } catch { }
@@ -667,9 +665,8 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
  * @param {String|Array} messages 要发送的消息
  * @param {Number} maxLength 单段最大长度，默认1000字符
  */
-      async function sendLongMessage(e, messages, maxLength = 1000) {
+      async function sendLongMessage(e, messages, forwardMsg, maxLength = 1000) {
         try {
-          const forwardMsg = [];
 
           // 如果是字符串，转换为数组处理
           const msgArray = typeof messages === 'string' ? [messages] : messages;
@@ -705,21 +702,25 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       }
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
-      if (styles == "picture") {
-        let forwardMsg = [];
-        try {
-          const results = await extractAndRender(Messages, {
-            outputDir: './resources'
-          });
-          forwardMsg.push("预览效果");
-          results.forEach(result => {
-            forwardMsg.push(segment.image(result.outputPath));
-          });
-        } catch { }
-        //forwardMsg.push(Messages);
-        //const JsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
-        //e.reply(Messages)
-        await sendLongMessage(e, Messages);
+      if (urls.length >= 1) {
+        if (styles == "picture") {
+          try {
+            const results = await extractAndRender(Messages, {
+              outputDir: './resources'
+            });
+            results.forEach(result => {
+              forwardMsg.push(segment.image(result.outputPath));
+            });
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+        const images = await handleImages(urls, _path);
+        if (images.length > 0) {
+          forwardMsg = [...images, ...forwardMsg];
+        }
+        await sendLongMessage(e, Messages, forwardMsg);
       }
       await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
@@ -746,9 +747,6 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       console.log(isDrawModel);
       if (isDrawModel || model.includes("gpt-4-gizmo")) {
         let urls = await get_address(answer);
-        if (urls.length !== 0) {
-          await handleImages(urls, e, _path)
-        }
         console.log(3, urls)
         urls.forEach(async (url) => {
           await downloadAndSaveFile(url, path, fetch, _path, fs, e);
@@ -789,9 +787,9 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     return result;
   }
 
-  async function handleImages(urls, e, _path) {
+  async function handleImages(urls, _path) {
     // 创建存储图片信息的数组
-    const imageResults = [];
+    const imageResults = ["预览:"];
 
     // 为每个URL创建唯一的文件路径
     for (let i = 0; i < urls.length; i++) {
@@ -809,11 +807,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       }
     }
 
-    // 一次性发送所有图片
-    if (imageResults.length > 0) {
-      const output = await common.makeForwardMsg(e, imageResults, '图片展示');
-      await e.reply(output);
-    }
+    return imageResults;
   }
 
   async function downloadImage(path, url, filePath) {
@@ -1081,13 +1075,13 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
           }
         }
         if (newArr.length >= numbers) { // 提前退出循环
-            break;
+          break;
         }
       }
       return newArr;
     }
     return arr;
-  }  
+  }
 }
 
 export { run_conversation }
