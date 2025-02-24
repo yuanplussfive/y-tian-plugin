@@ -15,6 +15,7 @@ import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
 import { AnthropicDoc } from "../providers/ChatModels/AnthropicDoc/AnthropicDoc.js";
 import { reka } from "../providers/ChatModels/reka/reka.js";
 import { SlackAi } from "../providers/ChatModels/slack/slack.js";
+import { cursor } from "../providers/ChatModels/cursor/cursor.js";
 import { PromPlateAi } from "../providers/ChatModels/PromPlateAi/PromPlateAi.js";
 import { deepseek_thinking } from "./config.js";
 import { ThinkingProcessor } from "./ThinkingProcessor.js";
@@ -50,6 +51,7 @@ const providerStats = {
    reka: { success: 0, failure: 0, weight: 100 },
    slack: { success: 0, failure: 0, weight: 100 },
    PromPlateAi: { success: 0, failure: 0, weight: 90 },
+   cursor: { success: 0, failure: 0, weight: 100 }
 };
 
 // 获取当前文件所在的目录
@@ -128,6 +130,7 @@ const providerApis = {
    reka: reka,
    slack: SlackAi,
    PromPlateAi: PromPlateAi,
+   cursor: cursor
 };
 
 // 默认超时时间 (3分钟)
