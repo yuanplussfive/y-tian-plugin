@@ -1814,5 +1814,13 @@ export const other_models = [
     "token": 200000,
     "features": ['conversation', 'code', 'image_recognition'],
     "quota": 0
+  },
+  {
+    "id": 228,
+    "model": "claude-3.7-sonnet-nx",
+    "points": "逆向渠道",
+    "token": 200000,
+    "features": ['conversation', 'code'],
+    "quota": 0
   }
 ]
