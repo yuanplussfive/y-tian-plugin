@@ -988,14 +988,14 @@ export const chat_models = {
       "id": "140",
       "name": "claude-3-7-sonnet-20250219",
       "token_count": 32000,
-      "Magnification": 10,
+      "Magnification": 2,
       "features": ['conversation', 'code', 'image_recognition', 'file']
     },
     {
       "id": "141",
       "name": "claude-3-7-sonnet-thinking",
       "token_count": 32000,
-      "Magnification": 10,
+      "Magnification": 3,
       "features": ['conversation', 'code', 'image_recognition', 'file']
     },
     {
