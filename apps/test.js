@@ -1144,7 +1144,7 @@ export class ExamplePlugin extends plugin {
 
         return true;
       } else {
-        await e.reply('未能理解您的请求，请检查命令格式。');
+        //await e.reply('未能理解您的请求，请检查命令格式。');
         // 请求完成后，清空当前用户的消息历史
         await this.resetGroupUserMessages(groupId, userId);
         return true;

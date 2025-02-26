@@ -1,0 +1,58 @@
+{
+  "models": {
+    "claude-3.5-sonnet": {
+      "providerModelName": "claude-3-5-sonnet",
+      "aliases": [
+        "claude-3.5-sonnet"
+      ]
+    },
+    "claude-3.7-sonnet": {
+      "providerModelName": "claude-3-7-sonnet",
+      "aliases": [
+        "claude-3.7-sonnet"
+      ]
+    },
+    "claude-3.5-haiku": {
+      "providerModelName": "claude-3-5-haiku",
+      "aliases": [
+        "claude-3.5-haiku"
+      ]
+    },
+    "gemini-2.0-flash-exp": {
+      "providerModelName": "gemini-2.0-flash",
+      "aliases": [
+        "gemini-2.0-flash-exp"
+      ]
+    },
+    "o1": {
+      "providerModelName": "o1",
+      "aliases": [
+        "o1"
+      ]
+    },
+    "o3-mini-high": {
+      "providerModelName": "o3-mini-high",
+      "aliases": [
+        "o3-mini-high"
+      ]
+    },
+    "gpt-4o": {
+      "providerModelName": "gpt-4o",
+      "aliases": [
+        "gpt-4o"
+      ]
+    },
+    "deepseek-v3": {
+      "providerModelName": "deep-seek-v3",
+      "aliases": [
+        "deepseek-v3"
+      ]
+    },
+    "deepseek-reasoner": {
+      "providerModelName": "deep-seek-r1",
+      "aliases": [
+        "deepseek-reasoner"
+      ]
+    }
+  }
+}
