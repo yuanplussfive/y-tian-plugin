@@ -8,8 +8,8 @@ import { spawn } from 'child_process';  // 使用 spawn 替代 exec
 import os from 'os'; // 引入 os 模块用于获取系统信息
 
 /**
- * 服务运行环境类型枚举
- */
+* 服务运行环境类型枚举
+*/
 const RuntimeEnv = {
   DOCKER: 'docker',
   LOCAL: 'local',
@@ -17,8 +17,8 @@ const RuntimeEnv = {
 };
 
 /**
- * 服务状态枚举
- */
+* 服务状态枚举
+*/
 const ServiceStatus = {
   RUNNING: 'running',
   STOPPED: 'stopped',
@@ -49,13 +49,13 @@ export class YTSystem extends plugin {
       priority: 1000,
       rule: [
         {
-          reg: "^#*阴天(插件)?(启动|开启)服务端$",
+          reg: "^#*阴天(插件)?(启动|开启)服务端( *)?(docker|pm2|node)?$",
           fnc: "RunServer",
           permission: "master",
           isPrivate: true
         },
         {
-          reg: "^#*阴天(插件)?(关闭|停止)服务端$",
+          reg: "^#*阴天(插件)?(关闭|停止)服务端( *)?(docker|pm2|node)?$",
           fnc: "StopServer",
           permission: "master",
           isPrivate: true
@@ -143,15 +143,23 @@ Uptime: ${info.uptime}
     try {
       await e.reply('正在启动服务端...', true, { recallMsg: 5 });
 
-      switch (this.config.runtimeEnv) {
-        case RuntimeEnv.DOCKER:
+      let startMode = e.msg.match(/(docker|pm2|node)$/)?.[0];
+      if (!startMode) {
+        startMode = this.config.runtimeEnv.toLowerCase(); // Default to detected env
+      }
+
+      switch (startMode) {
+        case 'docker':
           await this.startDockerService();
           break;
-        case RuntimeEnv.PM2:
+        case 'pm2':
           await this.startPM2Service();
           break;
-        default:
+        case 'node':
           await this.startLocalService();
+          break;
+        default:
+          await this.startLocalService(); // Default to local if no match
       }
 
       this.serviceStatus.startTime = new Date();
@@ -224,8 +232,7 @@ Uptime: ${info.uptime}
    * 启动本地服务
    */
   async startLocalService() {
-    const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-    const npmStart = spawn(npm, ['run', 'dev'], {
+    const npmStart = spawn('node', ['./server/g4f.js'], {
       cwd: this.pluginPath,
       env: { ...process.env, PORT: this.config.port }
     });
@@ -261,12 +268,7 @@ Uptime: ${info.uptime}
    * 启动PM2服务
    */
   async startPM2Service() {
-    const pm2 = spawn('pm2', [
-      'start',
-      path.join(this.pluginPath, 'ecosystem.config.cjs'),
-      '--name', 'api-server',
-      '--watch'
-    ]);
+    const pm2 = spawn('npm', ['run', 'dev']);
 
     return new Promise((resolve, reject) => {
       pm2.on('close', (code) => {
@@ -348,15 +350,23 @@ Uptime: ${info.uptime}
     if (!this.validateCommand(e)) return false;
 
     try {
-      switch (this.config.runtimeEnv) {
-        case RuntimeEnv.DOCKER:
+      let stopMode = e.msg.match(/(docker|pm2|node)$/)?.[0];
+      if (!stopMode) {
+        stopMode = this.config.runtimeEnv.toLowerCase(); // Default to detected env
+      }
+
+      switch (stopMode) {
+        case 'docker':
           await this.stopDockerService();
           break;
-        case RuntimeEnv.PM2:
+        case 'pm2':
           await this.stopPM2Service();
           break;
-        default:
+        case 'node':
           await this.stopLocalService();
+          break;
+        default:
+          await this.stopLocalService(); // Default to local if no match
       }
 
       const forwardMsg = [
