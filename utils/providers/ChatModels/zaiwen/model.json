@@ -114,6 +114,12 @@
         "claude-3.5-sonnet"
       ]
     },
+    "claude-3.7-sonnet": {
+      "providerModelName": "flannel",
+      "aliases": [
+        "claude-3.7-sonnet"
+      ]
+    },
     "gemini-2.0-flash-exp": {
       "providerModelName": "gemini_2_falsh",
       "aliases": [

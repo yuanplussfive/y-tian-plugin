@@ -1,0 +1,28 @@
+{
+  "models": {
+    "llama-3.3-70b-instruct-turbo-ddg": {
+      "providerModelName": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+      "aliases": [
+        "llama-3.3-70b-instruct-turbo-ddg"
+      ]
+    },
+    "claude-3-haiku-20240307-ddg": {
+      "providerModelName": "claude-3-haiku-20240307",
+      "aliases": [
+        "claude-3-haiku-20240307-ddg"
+      ]
+    },
+    "o3-mini-ddg": {
+      "providerModelName": "o3-mini",
+      "aliases": [
+        "o3-mini-ddg"
+      ]
+    },
+    "gpt-4o-ddg": {
+      "providerModelName": "gpt-4o-mini",
+      "aliases": [
+        "gpt-4o-ddg"
+      ]
+    }
+  }
+}

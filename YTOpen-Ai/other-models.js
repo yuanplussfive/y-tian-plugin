@@ -1820,7 +1820,31 @@ export const other_models = [
     "model": "claude-3.7-sonnet-nx",
     "points": "逆向渠道",
     "token": 200000,
-    "features": ['conversation', 'code'],
+    "features": ['conversation', 'code', 'internet'],
+    "quota": 0
+  },
+  {
+    "id": 229,
+    "model": "claude-3-haiku-20240307-ddg-nx",
+    "points": "ddg",
+    "token": 32000,
+    "features": ['conversation', 'code', 'internet'],
+    "quota": 0
+  },
+  {
+    "id": 230,
+    "model": "gpt-4o-ddg-nx",
+    "points": "ddg",
+    "token": 32000,
+    "features": ['conversation', 'code', 'internet'],
+    "quota": 0
+  },
+  {
+    "id": 231,
+    "model": "o3-mini-ddg-nx",
+    "points": "ddg",
+    "token": 32000,
+    "features": ['conversation', 'code', 'internet'],
     "quota": 0
   }
 ]
