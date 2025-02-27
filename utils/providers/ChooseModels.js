@@ -41,7 +41,7 @@ const providerStats = {
   YT: { success: 0, failure: 0, weight: 50 },
   airoom: { success: 10, failure: 0, weight: 45 },
   mhystical: { success: 0, failure: 0, weight: 40 },
-  e2b: { success: 0, failure: 0, weight: 85 },
+  e2b: { success: 0, failure: 0, weight: 92 },
   chatru: { success: 0, failure: 0, weight: 89 },
   zaiwen: { success: 0, failure: 0, weight: 90 },
   chatnio: { success: 0, failure: 0, weight: 95 },
@@ -55,7 +55,7 @@ const providerStats = {
   PromPlateAi: { success: 0, failure: 0, weight: 90 },
   cursor: { success: 0, failure: 0, weight: 100 },
   ddg: { success: 0, failure: 0, weight: 100 },
-  genspark: { success: 0, failure: 0, weight: 92 },
+  genspark: { success: 0, failure: 0, weight: 80 },
 };
 
 // 获取当前文件所在的目录

@@ -30,7 +30,7 @@
             "model": "o3-mini",
             "points": "OpenAi",
             "token": 128000,
-            "features": ["conversation", "code"],
+            "features": ["conversation", "code", "internet"],
             "quota": 6
           },
           {
@@ -38,7 +38,7 @@
             "model": "o3-mini-all",
             "points": "OpenAi Plus",
             "token": 128000,
-            "features": ["conversation", "code"],
+            "features": ["conversation", "code", "internet"],
             "quota": 6
           },
           {
@@ -94,7 +94,7 @@
             "model": "o3-mini-high",
             "points": "OpenAi Plus",
             "token": 128000,
-            "features": ["conversation", "code"],
+            "features": ["conversation", "code", "internet"],
             "quota": 24
           },
           {
@@ -102,7 +102,7 @@
             "model": "o3-mini-high-all",
             "points": "OpenAi Plus",
             "token": 128000,
-            "features": ["conversation", "code"],
+            "features": ["conversation", "code", "internet"],
             "quota": 24
           },
           {
@@ -312,6 +312,14 @@
             "token": 32000,
             "features": ['conversation', 'code', 'internet'],
             "quota": 0
+          },
+          {
+            "id": 232,
+            "model": "claude-3.7-sonnet",
+            "points": "Anthropic",
+            "token": 200000,
+            "features": ['conversation', 'code'],
+            "quota": 5
           }
         ]
       }

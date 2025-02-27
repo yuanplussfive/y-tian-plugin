@@ -269,7 +269,7 @@ export const other_models = [
     "points": "Claude",
     "token": 100000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0"
+    "quota": 0
   },
   {
     "id": 35,
@@ -277,7 +277,7 @@ export const other_models = [
     "points": "Claude",
     "token": 100000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0"
+    "quota": 0
   },
   {
     "id": 36,
@@ -285,7 +285,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0"
+    "quota": 0
   },
   {
     "id": 37,
@@ -293,7 +293,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0"
+    "quota": 0
   },
   {
     "id": 38,
@@ -301,7 +301,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'image_recognition'],
-    "quota": "0"
+    "quota": 0
   },
   {
     "id": 39,
@@ -325,7 +325,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'code'],
-    "quota": 30
+    "quota": 7.5
   },
   {
     "id": 42,
@@ -333,7 +333,7 @@ export const other_models = [
     "points": "Claude",
     "token": 200000,
     "features": ['conversation', 'code', 'image_recognition'],
-    "quota": 60
+    "quota": 7.5
   },
   {
     "id": 43,
@@ -1564,7 +1564,7 @@ export const other_models = [
     "model": "o3-mini",
     "points": "OpenAi",
     "token": 128000,
-    "features": ["conversation", "code"],
+    "features": ["conversation", "code", "internet"],
     "quota": 6
   },
   {
@@ -1572,7 +1572,7 @@ export const other_models = [
     "model": "o3-mini-all",
     "points": "OpenAi Plus",
     "token": 128000,
-    "features": ["conversation", "code"],
+    "features": ["conversation", "code", "internet"],
     "quota": 6
   },
   {
@@ -1628,7 +1628,7 @@ export const other_models = [
     "model": "o3-mini-high",
     "points": "OpenAi Plus",
     "token": 128000,
-    "features": ["conversation", "code"],
+    "features": ["conversation", "code", "internet"],
     "quota": 24
   },
   {
@@ -1636,7 +1636,7 @@ export const other_models = [
     "model": "o3-mini-high-all",
     "points": "OpenAi Plus",
     "token": 128000,
-    "features": ["conversation", "code"],
+    "features": ["conversation", "code", "internet"],
     "quota": 24
   },
   {
@@ -1846,5 +1846,13 @@ export const other_models = [
     "token": 32000,
     "features": ['conversation', 'code', 'internet'],
     "quota": 0
+  },
+  {
+    "id": 232,
+    "model": "claude-3.7-sonnet",
+    "points": "Anthropic",
+    "token": 200000,
+    "features": ['conversation', 'code'],
+    "quota": 5
   }
 ]

@@ -877,28 +877,28 @@ export const chat_models = {
       "name": "o3-mini",
       "token_count": 128000,
       "Magnification": 0.5,
-      "features": ['conversation', 'code']
+      "features": ['conversation', 'code', "internet"]
     },
     {
       "id": "125",
       "name": "o3-mini-all",
       "token_count": 128000,
       "Magnification": 0.5,
-      "features": ['conversation', 'code']
+      "features": ['conversation', 'code', "internet"]
     },
     {
       "id": "126",
       "name": "o3-mini-high",
       "token_count": 128000,
       "Magnification": '0.15/次',
-      "features": ['conversation', 'code']
+      "features": ['conversation', 'code', "internet"]
     },
     {
       "id": "127",
       "name": "o3-mini-high-all",
       "token_count": 128000,
       "Magnification": '0.15/次',
-      "features": ['conversation', 'code']
+      "features": ['conversation', 'code', "internet"]
     },
     {
       "id": "128",
