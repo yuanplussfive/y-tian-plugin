@@ -602,6 +602,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
             return false;
           } else if (
             errorMessage.includes('上游负载已饱和') ||
+            errorMessage.includes('当前模型负载较高') ||
             /not cfg .+ in site_map/.test(errorMessage)
           ) {
             answer = await handleModelResponse(model, History, fetch);

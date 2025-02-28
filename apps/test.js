@@ -8,7 +8,8 @@ import { AiALLTool } from '../YTOpen-Ai/functions_tools/AiALLTool.js';
 import { EmojiSearchTool } from '../YTOpen-Ai/functions_tools/EmojiSearchTool.js';
 import { loadData, saveData } from '../utils/redisClient.js';
 import { BingImageSearchTool } from '../YTOpen-Ai/functions_tools/BingImageSearchTool.js';
-import { ImageAnalysisTool } from '../YTOpen-Ai/functions_tools/ImageAnalysisTool.js';
+import { OpenAiImageAnalysisTool } from '../YTOpen-Ai/functions_tools/OpenAiImageAnalysisTool.js';
+import { GoogleImageAnalysisTool } from '../YTOpen-Ai/functions_tools/GoogleAnalysisTool.js';
 import { ChatHistoryTool } from '../YTOpen-Ai/functions_tools/ChatHistoryTool.js';
 import { PokeTool } from '../YTOpen-Ai/functions_tools/PokeTool.js';
 import { LikeTool } from '../YTOpen-Ai/functions_tools/LikeTool.js';
@@ -65,7 +66,8 @@ export class ExamplePlugin extends plugin {
     this.aiALLTool = new AiALLTool(); // 新增 AiALL 工具
     this.emojiSearchTool = new EmojiSearchTool(); // 新增 EmojiSearch 工具
     this.bingImageSearchTool = new BingImageSearchTool(); // 新增 BingImageSearch 工具
-    this.imageAnalysisTool = new ImageAnalysisTool();
+    this.OpenAiimageAnalysisTool = new OpenAiImageAnalysisTool();
+    this.googleImageAnalysisTool = new GoogleImageAnalysisTool();
     this.pokeTool = new PokeTool();
     this.likeTool = new LikeTool();
     this.chatHistoryTool = new ChatHistoryTool();
@@ -136,9 +138,14 @@ export class ExamplePlugin extends plugin {
         parameters: this.bingImageSearchTool.parameters
       },
       {
-        name: this.imageAnalysisTool.name,
-        description: this.imageAnalysisTool.description,
-        parameters: this.imageAnalysisTool.parameters
+        name: this.OpenAiimageAnalysisTool.name,
+        description: this.OpenAiimageAnalysisTool.description,
+        parameters: this.OpenAiimageAnalysisTool.parameters
+      },
+      {
+        name: this.googleImageAnalysisTool.name,
+        description: this.googleImageAnalysisTool.description,
+        parameters: this.googleImageAnalysisTool.parameters
       },
       {
         name: this.pokeTool.name,
@@ -223,9 +230,9 @@ export class ExamplePlugin extends plugin {
         OneApiModel: 'deepseek-ai/DeepSeek-R1',
         OneApiKey: ['cpk_8f29ba06571f4a3a9f8543f8e2eafa9b.cf973b9dc97952c0bb0b8f6ee6f9340d.e5YL7A2Sw20BBPdEg2ntoWdsQXNCBSWm'],
         openai_tool_choice: 'auto',
-        gemini_tools: ['imageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
-        openai_tools: ['likeTool', 'pokeTool', 'imageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
-        oneapi_tools: ['likeTool', 'pokeTool', 'imageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
+        gemini_tools: ['OpenAiimageAnalysisTool', 'googleImageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
+        openai_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
+        oneapi_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
       }
     }
 
@@ -691,11 +698,30 @@ export class ExamplePlugin extends plugin {
 
       //console.log(groupUserMessages);
 
+      // 获取图片数量 (你需要从你的代码中获取 images 数量)
+      const imageCount = images?.length; // 假设 messageManager 有一个方法获取图片数量
+
+      let tool_choice = "auto"
+      if (imageCount >= 1) {
+        let fixedToolName = null;
+        this.tools = this.getToolsByName(['googleImageAnalysisTool']);
+
+        if (this.tools && this.tools.length > 0) {
+          fixedToolName = 'googleImageAnalysisTool';
+        } else {
+          this.tools = this.getToolsByName(['OpenAiImageAnalysisTool']);
+          if (this.tools && this.tools.length > 0) {
+            fixedToolName = 'OpenAiImageAnalysisTool';
+          }
+        }
+        tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
+      }
+
       // 修改初始请求体的构建
       const requestData = {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
-        ...(this.config.UseTools && { tools: this.tools, tool_choice: "auto" }),
+        ...(this.config.UseTools && { tools: this.tools, tool_choice }),
         temperature: 1,
         top_p: 0.1,
         frequency_penalty: 0.8,
@@ -813,6 +839,7 @@ export class ExamplePlugin extends plugin {
             //  continue;
             //}
 
+
             const isValidTool = this.tools.some(tool => tool.function.name === functionName);
             if (!isValidTool) {
               console.log(`跳过未授权的工具调用: ${functionName}`);
@@ -916,8 +943,12 @@ export class ExamplePlugin extends plugin {
                   result = await executeTool(this.bingImageSearchTool, params, e);
                   break;
 
-                case this.imageAnalysisTool.name:
-                  result = await executeTool(this.imageAnalysisTool, params, e);
+                case this.OpenAiimageAnalysisTool.name:
+                  result = await executeTool(this.OpenAiimageAnalysisTool, params, e);
+                  break;
+
+                case this.googleImageAnalysisTool.name:
+                  result = await executeTool(this.googleImageAnalysisTool, params, e);
                   break;
 
                 case this.pokeTool.name:
@@ -949,6 +980,7 @@ export class ExamplePlugin extends plugin {
                   content: JSON.stringify(result)
                 });
 
+                console.log(currentMessages)
                 const toolRequest = {
                   model: 'gpt-4o-fc',
                   messages: currentMessages,
@@ -1433,8 +1465,12 @@ export class ExamplePlugin extends plugin {
             result = await executeTool(this.bingImageSearchTool, params, e);
             break;
 
-          case this.imageAnalysisTool.name:
-            result = await executeTool(this.imageAnalysisTool, params, e);
+          case this.OpenAiimageAnalysisTool.name:
+            result = await executeTool(this.OpenAiimageAnalysisTool, params, e);
+            break;
+
+          case this.googleImageAnalysisTool.name:
+            result = await executeTool(this.googleImageAnalysisTool, params, e);
             break;
 
           case this.pokeTool.name:
@@ -1677,7 +1713,7 @@ export class ExamplePlugin extends plugin {
 
   async processToolSpecificMessage(content, toolName) {
     let output = content;
-
+    output = output.replace(/\\n/g, '\n');
     // 删除基础模式
     const basePatterns = [
       /\[图片\]/g,
@@ -1732,7 +1768,7 @@ export class ExamplePlugin extends plugin {
       case 'freeSearchTool':
         break;
 
-      case 'imageAnalysisTool':
+      case 'OpenAiimageAnalysisTool':
         break;
 
       case 'jinyanTool':

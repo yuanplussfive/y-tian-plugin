@@ -362,6 +362,39 @@ export async function extractDomain(url) {
   return url;
 }
 
+export async function YTOtherModels(messages, model) {
+  const dirpath = `${_path}/data/YTotherai`;
+  const dataPath = dirpath + "/data.json";
+  const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
+  const token = data.chatgpt.stoken;
+  try {
+    const url = 'https://yuanpluss.online:3000/api/v1/chat/completions';
+    const data = {
+      model,
+      messages
+    };
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    //console.log(response.ok)
+    const responseData = await response.json();
+    if (responseData.error) {
+      console.log(responseData)
+      return responseData.error;
+    }
+    console.log(responseData);
+    return responseData?.choices[0]?.message?.content;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
 export async function YTalltools(messages) {
   const dirpath = `${_path}/data/YTotherai`;
   const dataPath = dirpath + "/data.json";
