@@ -723,12 +723,12 @@ export class ExamplePlugin extends plugin {
       const requestData = {
         model: 'gpt-4o-fc',
         messages: groupUserMessages,
-        ...(this.config.UseTools && { tools: this.tools, tool_choice }),
+        ...(this.config.UseTools && { tools: this.tools }),
         temperature: 1,
         top_p: 0.1,
         frequency_penalty: 0.8,
         presence_penalty: 0.2,
-        tool_choice: "auto",
+        tool_choice,
       };
 
       // 检查 providers 是否为 gemini (不区分大小写)
