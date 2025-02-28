@@ -1095,9 +1095,9 @@ export class ExamplePlugin extends plugin {
 
           //console.log(groupUserMessages);
           // 最终检查逻辑
-          if (!this.config.UseTools || this.config.providers == 'oneapi') {
-            return false;
-          }
+          //if (!this.config.UseTools || this.config.providers == 'oneapi') {
+          //  return false;
+          //}
           try {
             const finalCheckResponse = await YTapi(FinalRequest, this.config);
 
