@@ -1095,9 +1095,9 @@ export class ExamplePlugin extends plugin {
 
           //console.log(groupUserMessages);
           // 最终检查逻辑
-          //if (!this.config.UseTools || this.config.providers == 'oneapi') {
-          //  return false;
-          //}
+          if (!this.config.UseTools || this.config.providers == 'oneapi') {
+            return false;
+          }
           try {
             const finalCheckResponse = await YTapi(FinalRequest, this.config);
 
@@ -1755,8 +1755,9 @@ export class ExamplePlugin extends plugin {
       case 'aiMindMapTool':
       case 'aiPPTTool':
         output = output.replace(/!?\[([^\]]*)\]\((.*?example.*?)\)/g, '$1');
-        output = output.replace(/\[([^\]]+)\]\((https?:\/\/.*?example.*?)\)/g, '').trim();
-        output = convertImageMd(output);
+        output = output.replace(/\[([^\]]+)\]\((https?:\/\/.*?example.*?)\)/g, '');
+        output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
+        //output = convertImageMd(output);
         break;
 
       case 'searchVideoTool':
@@ -1787,6 +1788,7 @@ export class ExamplePlugin extends plugin {
         break;
 
       default:
+        output = convertImageMd(output);
     }
 
     return output.trim();
