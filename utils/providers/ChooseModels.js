@@ -12,6 +12,7 @@ import { pollinations } from "../providers/ChatModels/pollinations/pollinations.
 import { glider } from "../providers/ChatModels/glider/glider.js";
 import { gizai } from "../providers/ChatModels/gizai/gizai.js";
 import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
+import { grok } from "../providers/ChatModels/grok/grok.js";
 import { AnthropicDoc } from "../providers/ChatModels/AnthropicDoc/AnthropicDoc.js";
 import { reka } from "../providers/ChatModels/reka/reka.js";
 import { SlackAi } from "../providers/ChatModels/slack/slack.js";
@@ -43,7 +44,7 @@ const providerStats = {
   mhystical: { success: 0, failure: 0, weight: 40 },
   e2b: { success: 0, failure: 0, weight: 92 },
   chatru: { success: 0, failure: 0, weight: 89 },
-  zaiwen: { success: 0, failure: 0, weight: 90 },
+  zaiwen: { success: 0, failure: 0, weight: 100 },
   chatnio: { success: 0, failure: 0, weight: 95 },
   pollinations: { success: 0, failure: 0, weight: 88 },
   glider: { success: 0, failure: 0, weight: 92 },
@@ -55,7 +56,8 @@ const providerStats = {
   PromPlateAi: { success: 0, failure: 0, weight: 90 },
   cursor: { success: 0, failure: 0, weight: 100 },
   ddg: { success: 0, failure: 0, weight: 100 },
-  genspark: { success: 0, failure: 0, weight: 80 },
+  genspark: { success: 0, failure: 0, weight: 65 },
+  grok: { success: 0, failure: 0, weight: 100 }
 };
 
 // 获取当前文件所在的目录
@@ -140,7 +142,8 @@ const providerApis = {
   PromPlateAi: PromPlateAi,
   cursor: cursor,
   ddg: ddg,
-  genspark: genspark
+  genspark: genspark,
+  grok: grok
 };
 
 // 默认超时时间 (3分钟)

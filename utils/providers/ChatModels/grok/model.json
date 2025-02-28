@@ -1,0 +1,34 @@
+{
+  "models": {
+    "grok-3-search": {
+      "providerModelName": "grok-3-search",
+      "aliases": [
+        "grok-3-search"
+      ]
+    },
+    "grok-3": {
+      "providerModelName": "grok-3",
+      "aliases": [
+        "grok-3"
+      ]
+    },
+    "grok-3-imageGen": {
+      "providerModelName": "grok-3-imageGen",
+      "aliases": [
+        "grok-3-imageGen"
+      ]
+    },
+    "grok-3-deepsearch": {
+      "providerModelName": "grok-3-deepsearch",
+      "aliases": [
+        "grok-3-deepsearch"
+      ]
+    },
+    "grok-3-reasoning": {
+      "providerModelName": "grok-3-reasoning",
+      "aliases": [
+        "grok-3-reasoning"
+      ]
+    }
+  }
+}
