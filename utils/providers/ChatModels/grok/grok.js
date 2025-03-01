@@ -20,13 +20,13 @@ export const grok = async (messages, model) => {
        config = configs.pluginSettings; // 获取插件设置
    }
 
-   const url = config?.GeminiUrl; // 从配置中获取 Gemini API 的 URL
-   const keys = config?.GeminiSoo || []; // 从配置中获取 Gemini API 的密钥数组，如果不存在则使用空数组
+   const url = config?.GrokUrl; // 从配置中获取 Grok API 的 URL
+   const keys = config?.GrokSso || []; // 从配置中获取 Grok API 的密钥数组，如果不存在则使用空数组
    const data = { model, messages, stream: false }; // 构造请求体
 
    // 检查 URL 和密钥是否存在，如果不存在则记录警告并返回 null
    if (!url || keys.length === 0) {
-       console.warn("Gemini URL 或密钥未在配置中找到。");
+       console.warn("Grok URL 或密钥未在配置中找到。");
        return null; // 缺少关键配置，无法继续
    }
 

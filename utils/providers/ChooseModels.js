@@ -44,7 +44,7 @@ const providerStats = {
   mhystical: { success: 0, failure: 0, weight: 40 },
   e2b: { success: 0, failure: 0, weight: 92 },
   chatru: { success: 0, failure: 0, weight: 89 },
-  zaiwen: { success: 0, failure: 0, weight: 100 },
+  zaiwen: { success: 0, failure: 0, weight: 90 },
   chatnio: { success: 0, failure: 0, weight: 95 },
   pollinations: { success: 0, failure: 0, weight: 88 },
   glider: { success: 0, failure: 0, weight: 92 },

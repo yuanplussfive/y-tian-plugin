@@ -233,8 +233,8 @@ export class ExamplePlugin extends plugin {
         gemini_tools: ['OpenAiimageAnalysisTool', 'googleImageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
         openai_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
         oneapi_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
-        GeminiUrl: 'https://yuoop-grokapiservice.hf.space/v1/chat/completions',
-        GeminiSoo: ['123456xxx'],
+        GrokUrl: 'https://grok33.deno.dev/v1/chat/completions',
+        GrokSso: ['123456xxx'],
       }
     }
 
@@ -1751,6 +1751,52 @@ export class ExamplePlugin extends plugin {
       });
     }
 
+    function stripMarkdown(markdownText) {
+      // 1. Remove links: [text](url) and [text](<url>)
+      markdownText = markdownText.replace(/\[([^\]]+)\]\((?:<([^>]*)>|([^)]*))\)/g, '$1');
+    
+      // 2. Remove images: ![alt text](url)
+      markdownText = markdownText.replace(/!\[([^\]]*)\]\((?:<([^>]*)>|([^)]*))\)/g, '$1');
+    
+      // 3. Remove strong/bold: **text** or __text__
+      markdownText = markdownText.replace(/(\*\*|__)(.*?)\1/g, '$2');
+    
+      // 4. Remove emphasis/italics: *text* or _text_
+      markdownText = markdownText.replace(/(\*|_)(.*?)\1/g, '$2');
+    
+      // 5. Remove inline code: `text`
+      markdownText = markdownText.replace(/`(.*?)`/g, '$1');
+    
+      // 6. Remove blockquotes: > text
+      markdownText = markdownText.replace(/^> (.*$)/mg, '$1');
+    
+      // 7. Remove headings: #, ##, ###, etc.
+      markdownText = markdownText.replace(/^(#+)(.*)$/mg, '$2');
+    
+      // 8. Remove unordered lists: * text, - text, + text
+      markdownText = markdownText.replace(/^(\*|\-|\+) (.*)$/mg, '$2');
+    
+      // 9. Remove ordered lists: 1. text, 2. text, etc.
+      markdownText = markdownText.replace(/^\d+\. (.*)$/mg, '$1');
+    
+      // 10. Remove horizontal rules: ---, ___, ***
+      markdownText = markdownText.replace(/^(\-\-\-|\_\_\_|(\*\*\*))$/mg, '');
+    
+      // 11. Remove HTML tags (be careful with this one!)
+      markdownText = markdownText.replace(/<[^>]*>/g, '');
+    
+      // 12. Remove LaTeX inline: $ x^2 $
+      markdownText = markdownText.replace(/\$([^$]+)\$/g, '$1');
+    
+      // 13. Remove LaTeX block: $$ e=mc^2 $$
+      markdownText = markdownText.replace(/\$\$([^$]+)\$\$/g, '$1');
+    
+      // 14. Remove escaped characters: \, \*, \`, etc.
+      markdownText = markdownText.replace(/\\(.)/g, '$1');
+    
+      return markdownText.trim();
+    }
+
     switch (toolName) {
       case 'dalleTool':
       case 'jimengTool':
@@ -1758,6 +1804,7 @@ export class ExamplePlugin extends plugin {
       case 'aiPPTTool':
         output = output.replace(/!?\[([^\]]*)\]\((.*?example.*?)\)/g, '$1');
         output = output.replace(/\[([^\]]+)\]\((https?:\/\/.*?example.*?)\)/g, '');
+        output = stripMarkdown(output);
         output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
         //output = convertImageMd(output);
         break;
