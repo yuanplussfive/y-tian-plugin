@@ -245,7 +245,10 @@ async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path,
                     ? `${cssPath}/gptx2.css`
                     : `${cssPath}/gptx.css`;
 
-                if (model.includes('deepseek') && model.includes('r1')) {
+                const isDeepseek = model.includes('deepseek');
+                const hasReasoner = model.includes('r1') || model.includes('reasoner');
+
+                if (isDeepseek && hasReasoner) {
                     answer = formatThinkContent(answer);
                 }
                 const data = {

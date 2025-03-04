@@ -27,6 +27,14 @@
         models: [
           {
             "id": 116,
+            "model": "mistral-7b",
+            "points": "mistral",
+            "token": 7000,
+            "features": ['conversation'],
+            "quota": 0
+          },
+          {
+            "id": 117,
             "model": "mixtral-8x7b",
             "points": "mixtral",
             "token": 7000,
@@ -34,7 +42,7 @@
             "quota": 0
           },
           {
-            "id": 117,
+            "id": 118,
             "model": "mixtral-8x7b-instruct",
             "points": "mixtral",
             "token": 32000,
@@ -42,20 +50,12 @@
             "quota": 0
           },
           {
-            "id": 118,
+            "id": 119,
             "model": "mixtral-8x22b",
             "points": "mixtral",
             "token": 32000,
             "features": ['conversation'],
             "quota": 0
-          },
-          {
-            "id": 119,
-            "model": "pplx-70b-online",
-            "points": "pplx",
-            "token": 32000,
-            "features": ['conversation'],
-            "quota": 1
           },
           {
             "id": 120,
@@ -65,285 +65,289 @@
             "features": ['conversation'],
             "quota": 0
           },
+
+          // Ollama Models
           {
             "id": 121,
-            "model": "Atom-13B-Chat",
-            "points": "Atom",
-            "token": 7000,
-            "features": ['conversation'],
-            "quota": 0
+            "model": "yi-1.5-9b-chat",
+            "points": "ollama",
+            "token": 16000,
+            "features": ['conversation', 'code'],
+            "quota": 0.25
           },
           {
             "id": 122,
-            "model": "spark-desk-v1.5",
-            "points": "讯飞星火",
-            "token": 8000,
-            "features": ['conversation', 'internet', 'code'],
-            "quota": 0
+            "model": "yi-34b",
+            "points": "ollama",
+            "token": 16000,
+            "features": ['conversation', 'code'],
+            "quota": 0.25
           },
           {
             "id": 123,
-            "model": "spark-desk-v2",
-            "points": "讯飞星火",
+            "model": "qwen-2.5-7B-instruct",
+            "points": "ollama",
             "token": 32000,
-            "features": ['conversation', 'internet', 'code'],
-            "quota": 0
+            "features": ['conversation'],
+            "quota": 0.25
           },
           {
             "id": 124,
-            "model": "spark-desk-v3",
-            "points": "讯飞星火",
+            "model": "qwen-2.5-7B-coder",
+            "points": "ollama",
             "token": 32000,
-            "features": ['conversation', 'internet', 'code'],
-            "quota": 0
+            "features": ['code'],
+            "quota": 0.25
           },
           {
             "id": 125,
-            "model": "spark-desk-v3.5",
-            "points": "讯飞星火",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code'],
-            "quota": 0
+            "model": "llama-3.3-70B-Instruct-turbo",
+            "points": "ollama",
+            "token": 32000,
+            "features": ['conversation', 'code'],
+            "quota": 0.25
           },
           {
             "id": 126,
-            "model": "spark-desk-v4",
-            "points": "科大讯飞",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code'],
-            "quota": 0
+            "model": "llama-3-vision",
+            "points": "ollama",
+            "token": 32000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 0.25
           },
           {
             "id": 127,
-            "model": "spark-desk-max",
-            "points": "科大讯飞",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code'],
-            "quota": 0
+            "model": "deepseek-r1-distill-qwen-7b",
+            "points": "ollama",
+            "token": 32000,
+            "features": ['conversation', 'code'],
+            "quota": 0.25
           },
           {
             "id": 128,
-            "model": "grok-v2.0",
-            "points": "Xai",
-            "token": 128000,
-            "features": ['conversation', 'code', , 'image_recognition'],
-            "quota": 10
+            "model": "deepseek-r1-distill-llama-8b",
+            "points": "ollama",
+            "token": 32000,
+            "features": ['conversation', 'code'],
+            "quota": 0.25
           },
           {
             "id": 129,
-            "model": "grok-v2.0-mini",
-            "points": "Xai",
-            "token": 128000,
-            "features": ['conversation', 'code', 'image_recognition'],
-            "quota": 5
+            "model": "deepseek-r1-distill-llama-70b",
+            "points": "ollama",
+            "token": 64000,
+            "features": ['conversation', 'code'],
+            "quota": 0.25
           },
           {
             "id": 130,
-            "model": "grok-beta",
-            "points": "Xai",
-            "token": 128000,
-            "features": ['conversation', 'code', 'image_recognition'],
-            "quota": 2
+            "model": "internlm-2.5-7b-chat",
+            "points": "ollama",
+            "token": 64000,
+            "features": ['conversation', 'code'],
+            "quota": 0.25
           },
+
+          // 逆向渠道 Models
           {
             "id": 131,
-            "model": "llava-2-13b",
-            "points": "llava",
-            "token": 8000,
-            "features": ['conversation'],
+            "model": "gpt-4o-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ['conversation', 'code'],
             "quota": 0
           },
           {
             "id": 132,
-            "model": "yi-lightning",
-            "points": "零一万物",
-            "token": 100000,
+            "model": "gpt-4o-mini-nx",
+            "points": "逆向渠道",
+            "token": 8000,
             "features": ['conversation', 'code'],
             "quota": 0
           },
           {
             "id": 133,
-            "model": "nijidjourney-create",
-            "points": "nijidjourney",
-            "token": 800,
-            "features": ['drawing'],
-            "quota": "0.1/次"
+            "model": "gemini-pro-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ['conversation', 'code'],
+            "quota": 0
           },
           {
             "id": 134,
-            "model": "midjourney-create",
-            "points": "midjourney",
-            "token": 800,
-            "features": ['drawing'],
-            "quota": "0.1/次"
+            "model": "llama-3.1-405b-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ['conversation', 'code'],
+            "quota": 0
           },
           {
             "id": 135,
-            "model": "midjourney-all",
-            "points": "midjourney",
-            "token": 800,
-            "features": ['drawing'],
-            "quota": "0.25/次"
+            "model": "claude-3.5-sonnet-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ['conversation', 'code'],
+            "quota": 0
           },
           {
             "id": 136,
-            "model": "glm-4-flash-new",
-            "points": "质谱清言",
+            "model": "net-gpt-4o-mini-nx",
+            "points": "逆向渠道",
             "token": 8000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
+            "features": ['conversation', 'code', 'internet'],
+            "quota": 0
           },
           {
             "id": 137,
-            "model": "deepseek-v2.5-new",
-            "points": "深度求索",
+            "model": "claude-3.5-haiku-nx",
+            "points": "逆向渠道",
             "token": 32000,
             "features": ['conversation', 'code'],
             "quota": 0
           },
           {
             "id": 138,
-            "model": "deepseek-r1-preview",
-            "points": "深度求索",
-            "token": 32000,
+            "model": "deepseek-v2.5-nx",
+            "points": "逆向渠道",
+            "token": 16000,
             "features": ['conversation', 'code'],
             "quota": 0
           },
           {
             "id": 139,
-            "model": "code-claude-3.5-sonnet",
-            "points": "Claude",
-            "token": 40000,
-            "features": ['code'],
-            "quota": 12
+            "model": "claude-3.5-sonnet-20241022-nx",
+            "points": "逆向渠道",
+            "token": 100000,
+            "features": ['conversation', 'code'],
+            "quota": 0
           },
           {
             "id": 140,
-            "model": "qwq-32b-preview",
-            "points": "通义千问",
+            "model": "gemini-1.5-pro-nx",
+            "points": "逆向渠道",
             "token": 32000,
             "features": ['conversation', 'code'],
             "quota": 0
           },
           {
             "id": 141,
-            "model": "o1",
-            "points": "OpenAi",
-            "token": 200000,
-            "features": ['conversation', 'code', 'image_recognition'],
-            "quota": 90
+            "model": "qwen-qwq-32b-preview-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ['conversation', 'code'],
+            "quota": 0
           },
           {
             "id": 142,
-            "model": "o1-all",
-            "points": "OpenAi",
-            "token": 200000,
-            "features": ['conversation', 'code', 'image_recognition'],
-            "quota": 90
+            "model": "o1-mini-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ['conversation', 'code'],
+            "quota": 0
           },
           {
             "id": 143,
-            "model": "o1-pro",
-            "points": "OpenAi",
-            "token": 200000,
-            "features": ['conversation', 'code', 'image_recognition'],
-            "quota": 150
+            "model": "o1-preview-nx",
+            "points": "逆向渠道",
+            "token": 100000,
+            "features": ['conversation', 'code'],
+            "quota": 0
           },
           {
             "id": 144,
-            "model": "o1-pro-all",
-            "points": "OpenAi",
-            "token": 200000,
+            "model": "gpt-4o-vision-nx",
+            "points": "逆向渠道",
+            "token": 8000,
             "features": ['conversation', 'code', 'image_recognition'],
-            "quota": 150
+            "quota": 0
           },
           {
             "id": 145,
-            "model": "flux-pro",
-            "points": "BlackForestLabs",
-            "token": 1200,
-            "features": ['drawing'],
-            "quota": "0.08/次"
+            "model": "gemini-1.5-flash-vision-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 0
           },
           {
             "id": 146,
-            "model": "flux-pro-max",
-            "points": "BlackForestLabs",
-            "token": 1200,
-            "features": ['drawing'],
-            "quota": "0.1/次"
+            "model": "yi-lightning-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation"],
+            "quota": 0
           },
           {
             "id": 147,
-            "model": "flux-1.1-pro",
-            "points": "BlackForestLabs",
-            "token": 1200,
-            "features": ['drawing'],
-            "quota": "0.15/次"
+            "model": "hunyuan-lite-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation"],
+            "quota": 0
           },
           {
             "id": 148,
-            "model": "generate-pptx",
-            "points": "y-tian-plugin",
-            "token": 20000,
-            "features": [],
-            "quota": "5.0/次"
+            "model": "glm-4-flash-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation", "code", "internet"],
+            "quota": 0
           },
           {
             "id": 149,
-            "model": "gemini-2.0-flash-exp",
-            "points": "Google",
-            "token": 2000000,
-            "features": ['conversation', 'code', 'image_recognition'],
-            "quota": 0.5
+            "model": "deepseek-v3-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation"],
+            "quota": 0
           },
           {
             "id": 150,
-            "model": "gpt-4-gizmo",
-            "points": "OpenAi",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
-            "quota": "0.5/次"
+            "model": "spark-max-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation"],
+            "quota": 0
           },
           {
             "id": 151,
-            "model": "jimeng-2.1",
-            "points": "字节跳动",
-            "token": 2000,
-            "features": ['drawing'],
-            "quota": "0.25/次"
+            "model": "qwen-2.5-72b-instruct-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation"],
+            "quota": 0
           },
           {
             "id": 152,
-            "model": "kimi",
-            "points": "月之暗面",
-            "token": 200000,
-            "features": ['conversation', 'code', 'image_recognition', 'file'],
-            "quota": 0.8
+            "model": "ERNIE-Speed-128k-nx",
+            "points": "逆向渠道",
+            "token": 128000,
+            "features": ["conversation"],
+            "quota": 0
           },
           {
             "id": 153,
-            "model": "kimi-search",
-            "points": "月之暗面",
-            "token": 200000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-            "quota": 0.8
+            "model": "grok-v2-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation"],
+            "quota": 0
           },
           {
             "id": 154,
-            "model": "kimi-research",
-            "points": "月之暗面",
-            "token": 200000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-            "quota": 0.8
+            "model": "llama-3.3-70b-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation"],
+            "quota": 0
           },
           {
             "id": 155,
-            "model": "kimi-k1",
-            "points": "月之暗面",
-            "token": 200000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-            "quota": 0.8
+            "model": "claude-3.5-sonnet-poe-nx",
+            "points": "逆向渠道",
+            "token": 32000,
+            "features": ["conversation"],
+            "quota": 0
           }
         ]
       }

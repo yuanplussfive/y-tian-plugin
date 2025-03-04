@@ -27,6 +27,14 @@
         models: [
           {
             "id": 36,
+            "model": "claude-1.3-100k",
+            "points": "Claude",
+            "token": 100000,
+            "features": ['conversation', 'image_recognition'],
+            "quota": 0
+          },
+          {
+            "id": 37,
             "model": "claude-2-200k",
             "points": "Claude",
             "token": 200000,
@@ -34,7 +42,7 @@
             "quota": 0
           },
           {
-            "id": 37,
+            "id": 38,
             "model": "claude-3-haiku",
             "points": "Claude",
             "token": 200000,
@@ -42,7 +50,7 @@
             "quota": 0
           },
           {
-            "id": 38,
+            "id": 39,
             "model": "claude-3-sonnet",
             "points": "Claude",
             "token": 200000,
@@ -50,7 +58,7 @@
             "quota": 0
           },
           {
-            "id": 39,
+            "id": 40,
             "model": "claude-3-opus",
             "points": "Claude",
             "token": 200000,
@@ -58,7 +66,7 @@
             "quota": 0
           },
           {
-            "id": 40,
+            "id": 41,
             "model": "claude-3.5-sonnet",
             "points": "Claude",
             "token": 200000,
@@ -66,39 +74,41 @@
             "quota": 5
           },
           {
-            "id": 41,
-            "model": "claude-3-5-sonnet-20241022",
+            "id": 42,
+            "model": "claude-3.5-sonnet-20241022",
             "points": "Claude",
             "token": 200000,
             "features": ['conversation', 'code'],
             "quota": 7.5
           },
           {
-            "id": 42,
-            "model": "claude-3-5-sonnet-all",
+            "id": 43,
+            "model": "claude-3.5-sonnet-all",
             "points": "Claude",
             "token": 200000,
             "features": ['conversation', 'code', 'image_recognition'],
             "quota": 7.5
           },
           {
-            "id": 43,
-            "model": "coze-gpt-4-all",
-            "points": "Microsoft & 字节跳动",
-            "token": 32768,
-            "features": ['conversation', 'internet'],
-            "quota": 0
-          },
-          {
             "id": 44,
-            "model": "coze-assistent-all",
-            "points": "字节跳动",
-            "token": 32768,
-            "features": ['conversation', 'internet'],
-            "quota": 0
+            "model": "code-claude-3.5-sonnet",
+            "points": "Claude",
+            "token": 40000,
+            "features": ['code'],
+            "quota": 12
           },
           {
             "id": 45,
+            "model": "claude-3.7-sonnet",
+            "points": "Anthropic",
+            "token": 200000,
+            "features": ['conversation', 'code'],
+            "quota": 5
+          },
+
+          // Google Models
+          {
+            "id": 46,
             "model": "gemini-pro",
             "points": "Google",
             "token": 32000,
@@ -106,7 +116,7 @@
             "quota": 1
           },
           {
-            "id": 46,
+            "id": 47,
             "model": "gemini-pro-vision",
             "points": "Google",
             "token": 32000,
@@ -114,7 +124,7 @@
             "quota": 2
           },
           {
-            "id": 47,
+            "id": 48,
             "model": "gemini-1.5-flash",
             "points": "Google",
             "token": 32000,
@@ -122,7 +132,7 @@
             "quota": 0.5
           },
           {
-            "id": 48,
+            "id": 49,
             "model": "gemini-1.5-flash-latest",
             "points": "Google",
             "token": 100000,
@@ -130,7 +140,7 @@
             "quota": 0.5
           },
           {
-            "id": 49,
+            "id": 50,
             "model": "gemini-1.5-pro",
             "points": "Google",
             "token": 128000,
@@ -138,7 +148,7 @@
             "quota": 5
           },
           {
-            "id": 50,
+            "id": 51,
             "model": "gemini-1.5-pro-exp-0801",
             "points": "Google",
             "token": 128000,
@@ -146,7 +156,7 @@
             "quota": 5
           },
           {
-            "id": 51,
+            "id": 52,
             "model": "gemini-1.5-pro-exp-0827",
             "points": "Google",
             "token": 200000,
@@ -154,7 +164,7 @@
             "quota": 3
           },
           {
-            "id": 52,
+            "id": 53,
             "model": "gemini-1.5-pro-001",
             "points": "Google",
             "token": 1000000,
@@ -162,7 +172,7 @@
             "quota": 5
           },
           {
-            "id": 53,
+            "id": 54,
             "model": "gemini-1.5-pro-002",
             "points": "Google",
             "token": 1000000,
@@ -170,7 +180,129 @@
             "quota": 5
           },
           {
-            "id": 54,
+            "id": 55,
+            "model": "gemma-8b-it",
+            "points": "Google",
+            "token": 8000,
+            "features": ['conversation'],
+            "quota": 0
+          },
+          {
+            "id": 56,
+            "model": "gemma-7b-it",
+            "points": "Google",
+            "token": 32000,
+            "features": ['conversation'],
+            "quota": 0
+          },
+          {
+            "id": 57,
+            "model": "gemma-2b-it",
+            "points": "Google",
+            "token": 32000,
+            "features": ['conversation'],
+            "quota": 0
+          },
+          {
+            "id": 58,
+            "model": "gemma-2-9b-it",
+            "points": "Google",
+            "token": 32000,
+            "features": ['conversation'],
+            "quota": 0
+          },
+          {
+            "id": 59,
+            "model": "gemma-2-27b-it",
+            "points": "Google",
+            "token": 32000,
+            "features": ['conversation'],
+            "quota": 0
+          },
+          {
+            "id": 60,
+            "model": "gemini-1.5-pro-exp-0801",
+            "points": "Google",
+            "token": 200000,
+            "features": ['conversation', 'image_recognition'],
+            "quota": 3
+          },
+          {
+            "id": 61,
+            "model": "gemini-1.5-pro-001",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 5
+          },
+          {
+            "id": 62,
+            "model": "gemini-1.5-pro-002",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 5
+          },
+          {
+            "id": 63,
+            "model": "gemini-exp-1206",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 2
+          },
+          {
+            "id": 64,
+            "model": "gemini-2.0-flash-exp",
+            "points": "Google",
+            "token": 2000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 0.5
+          },
+          {
+            "id": 65,
+            "model": "gemini-2.0-flash-thinking-exp",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 1
+          },
+          {
+            "id": 66,
+            "model": "gemini-2.0-flash-thinking-exp-1219",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 1
+          },
+          {
+            "id": 67,
+            "model": "gemini-2.0-flash-lite-preview-02-05",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 0.5
+          },
+          {
+            "id": 68,
+            "model": "gemini-2.0-pro-exp-02-05",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code', 'image_recognition'],
+            "quota": 6
+          },
+          {
+            "id": 69,
+            "model": "learnlm-1.5-pro-experimental",
+            "points": "Google",
+            "token": 1000000,
+            "features": ['conversation', 'code'],
+            "quota": 1
+          },
+
+          // Cohere Models
+          {
+            "id": 70,
             "model": "command-r",
             "points": "Cohere",
             "token": 32000,
@@ -178,7 +310,25 @@
             "quota": 2.5
           },
           {
-            "id": 55,
+            "id": 71,
+            "model": "command-r-plus",
+            "points": "Cohere",
+            "token": 100000,
+            "features": ['conversation', 'code'],
+            "quota": 5
+          },
+          {
+            "id": 72,
+            "model": "command-r-plus-08-2024",
+            "points": "Cohere",
+            "token": 100000,
+            "features": ['conversation', 'code'],
+            "quota": 5
+          },
+
+          // Meta Models
+          {
+            "id": 73,
             "model": "llama-2-70b-chat",
             "points": "Meta",
             "token": 32000,
@@ -186,7 +336,7 @@
             "quota": 0
           },
           {
-            "id": 56,
+            "id": 74,
             "model": "code-llama-70b",
             "points": "Meta",
             "token": 32000,
@@ -194,156 +344,12 @@
             "quota": 1
           },
           {
-            "id": 57,
-            "model": "llava-13b",
-            "points": "llava",
-            "token": 8000,
-            "features": ['conversation'],
-            "quota": 0
-          },
-          {
-            "id": 58,
-            "model": "baichuan-53b",
-            "points": "百川智能",
-            "token": 32000,
-            "features": ['conversation'],
-            "quota": 0
-          },
-          {
-            "id": 59,
-            "model": "glm-turbo",
-            "points": "清华&智谱",
-            "token": 8000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 60,
-            "model": "glm-pro",
-            "points": "清华&智谱",
-            "token": 8000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 61,
-            "model": "glm-3-turbo",
-            "points": "清华&智谱",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 62,
-            "model": "glm-4",
-            "points": "清华&智谱",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 63,
-            "model": "glm-4-flash",
-            "points": "清华&智谱",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 64,
-            "model": "glm-4-all",
-            "points": "智谱清言",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 65,
-            "model": "glm-turbo",
-            "points": "清华&智谱",
-            "token": 8000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 66,
-            "model": "glm-pro",
-            "points": "清华&智谱",
-            "token": 8000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 67,
-            "model": "glm-3-turbo",
-            "points": "清华&智谱",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 68,
-            "model": "glm-4",
-            "points": "清华&智谱",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 69,
-            "model": "glm-4-flash",
-            "points": "清华&智谱",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 70,
-            "model": "glm-4-all",
-            "points": "智谱清言",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition'],
-            "quota": 1
-          },
-          {
-            "id": 71,
-            "model": "kimi-search",
-            "points": "moonshot",
-            "token": 8000,
-            "features": ['conversation', 'internet'],
-            "quota": 10
-          },
-          {
-            "id": 72,
-            "model": "kimi-all",
-            "points": "moonshot",
-            "token": 128000,
-            "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-            "quota": 10
-          },
-          {
-            "id": 73,
-            "model": "moonshot-v1-8k",
-            "points": "moonshot",
-            "token": 8000,
-            "features": ['conversation', 'code'],
-            "quota": 5
-          },
-          {
-            "id": 74,
-            "model": "moonshot-v1-32k",
-            "points": "moonshot",
-            "token": 32000,
-            "features": ['conversation', 'code'],
-            "quota": 10
-          },
-          {
             "id": 75,
-            "model": "moonshot-v1-128k",
-            "points": "moonshot",
-            "token": 128000,
-            "features": ['conversation', 'code'],
-            "quota": 15
+            "model": "meta-llama-3.1-8B",
+            "points": "Meta",
+            "token": 32000,
+            "features": ['conversation'],
+            "quota": 0
           }
         ]
       }
