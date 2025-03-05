@@ -1614,8 +1614,6 @@ export const other_models = [
     "features": ['conversation', 'code'],
     "quota": 0
   },
-
-  // llava Models
   {
     "id": 197,
     "model": "llava-13b",
@@ -1624,4 +1622,12 @@ export const other_models = [
     "features": ['conversation'],
     "quota": 0
   },
+  {
+    "id": 198,
+    "model": "grok-3",
+    "points": "Xai",
+    "token": 128000,
+    "features": ['conversation', 'code'],
+    "quota": 4
+  }
 ]  
