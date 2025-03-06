@@ -661,46 +661,66 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       }
       console.log(Messages);
       /**
- * 将长文本消息分段添加到转发消息数组
- * @param {Object} e 事件对象
- * @param {String|Array} messages 要发送的消息
- * @param {Number} maxLength 单段最大长度，默认1000字符
- */
+      * 将长文本消息分段添加到转发消息数组
+      * @param {Object} e 事件对象
+      * @param {String|Array} messages 要发送的消息
+      * @param {Number} maxLength 单段最大长度，默认1000字符
+      */
       async function sendLongMessage(e, messages, forwardMsg, maxLength = 1000) {
+        // 如果是字符串，转换为数组处理
+        const msgArray = typeof messages === 'string' ? [messages] : messages;
+
         try {
+          // 先尝试直接将所有消息添加到转发消息中
+          const directForwardMsg = [...forwardMsg];
+          msgArray.forEach(msg => directForwardMsg.push(msg));
 
-          // 如果是字符串，转换为数组处理
-          const msgArray = typeof messages === 'string' ? [messages] : messages;
-
-          for (let msg of msgArray) {
-            if (typeof msg === 'string' && msg.length > maxLength) {
-              // 计算需要分成几段
-              const segmentCount = Math.ceil(msg.length / maxLength);
-
-              // 分段处理文本
-              for (let i = 0; i < segmentCount; i++) {
-                const start = i * maxLength;
-                const end = Math.min(start + maxLength, msg.length);
-                const segment = msg.substring(start, end);
-
-                if (segment.trim()) {
-                  forwardMsg.push(segment);
-                }
-              }
-            } else {
-              forwardMsg.push(msg);
-            }
-          }
-
-          // 生成转发消息并发送
-          const jsonPart = await common.makeForwardMsg(e, forwardMsg, 'Preview');
+          // 尝试一次性发送所有消息
+          const jsonPart = await common.makeForwardMsg(e, directForwardMsg, 'Preview');
           await e.reply(jsonPart);
+          logger.info('消息已成功一次性发送');
 
         } catch (error) {
-          logger.error(`消息处理失败：${error}`);
-          await e.reply('消息发送失败，请稍后重试');
+          logger.warn(`一次性发送失败，将尝试分段发送: ${error.message}`);
+
+          try {
+            // 创建新的转发消息数组
+            const segmentedForwardMsg = [...forwardMsg];
+
+            // 对每条消息进行处理
+            for (let msg of msgArray) {
+              if (typeof msg === 'string' && msg.length > maxLength) {
+                // 计算需要分成几段
+                const segmentCount = Math.ceil(msg.length / maxLength);
+                logger.info(`消息长度为${msg.length}，将分为${segmentCount}段发送`);
+
+                // 分段处理文本
+                for (let i = 0; i < segmentCount; i++) {
+                  const start = i * maxLength;
+                  const end = Math.min(start + maxLength, msg.length);
+                  const segment = msg.substring(start, end);
+
+                  if (segment.trim()) {
+                    segmentedForwardMsg.push(segment);
+                  }
+                }
+              } else {
+                segmentedForwardMsg.push(msg);
+              }
+            }
+
+            // 生成转发消息并发送
+            const jsonPart = await common.makeForwardMsg(e, segmentedForwardMsg, 'Preview');
+            await e.reply(jsonPart);
+            logger.info('消息已成功分段发送');
+
+          } catch (secondError) {
+            logger.error(`分段发送也失败了: ${secondError.message}`);
+            await e.reply('消息发送失败，请稍后重试');
+          }
         }
       }
+
       let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
       let urls = await get_address(answer);
       let pictureProcessed = false; // 标记是否处理了 picture
