@@ -1661,5 +1661,109 @@ export const other_models = [
     "token": 800,
     "features": ['drawing'],
     "quota": "0.8/次"
+  },
+  {
+    "id": 203,
+    "model": "mistral-tiny-latest",
+    "points": "mistral",
+    "token": 32000,
+    "features": ['conversation', 'code'],
+    "quota": 0.6
+  },
+  {
+    "id": 204,
+    "model": "ministral-8b-latest",
+    "points": "mistral",
+    "token": 32000,
+    "features": ['conversation', 'code'],
+    "quota": 2
+  },
+  {
+    "id": 205,
+    "model": "open-mistral-nemo",
+    "points": "mistral",
+    "token": 131000,
+    "features": ['conversation', 'code'],
+    "quota": 0.3
+  },
+  {
+    "id": 206,
+    "model": "open-mixtral-8x7b",
+    "points": "mistral",
+    "token": 32000,
+    "features": ['conversation', 'code'],
+    "quota": 0.5
+  },
+  {
+    "id": 207,
+    "model": "open-mixtral-8x22b",
+    "points": "mistral",
+    "token": 64000,
+    "features": ['conversation', 'code'],
+    "quota": 4
+  },
+  {
+    "id": 208,
+    "model": "mistral-small-latest",
+    "points": "mistral",
+    "token": 32000,
+    "features": ['conversation', 'code'],
+    "quota": 0.5
+  },
+  {
+    "id": 209,
+    "model": "mistral-medium-latest",
+    "points": "mistral",
+    "token": 32000,
+    "features": ['conversation', 'code'],
+    "quota": 2.5
+  },
+  {
+    "id": 210,
+    "model": "mistral-large-latest",
+    "points": "mistral",
+    "token": 131000,
+    "features": ['conversation', 'code'],
+    "quota": 3.5
+  },
+  {
+    "id": 211,
+    "model": "mistral-saba-latest",
+    "points": "mistral",
+    "token": 32000,
+    "features": ['conversation', 'code'],
+    "quota": 1
+  },
+  {
+    "id": 212,
+    "model": "codestral-latest",
+    "points": "mistral",
+    "token": 32000,
+    "features": ['code'],
+    "quota": 2
+  },
+  {
+    "id": 213,
+    "model": "pixtral-12b",
+    "points": "mistral",
+    "token": 131000,
+    "features": ['conversation', 'image_recognition'],
+    "quota": 1
+  },
+  {
+    "id": 214,
+    "model": "pixtral-large-latest",
+    "points": "mistral",
+    "token": 131000,
+    "features": ['conversation', 'image_recognition'],
+    "quota": 3.5
+  },
+  {
+    "id": 215,
+    "model": "mistral-large-pixtral",
+    "points": "mistral",
+    "token": 131000,
+    "features": ['conversation', 'code'],
+    "quota": 3.5
   }
 ]  

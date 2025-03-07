@@ -654,25 +654,44 @@ export class ExamplePlugin extends plugin {
 
         const memberMap = await e.bot.pickGroup(groupId).getMemberMap();
 
+        const formattedHistory = await Promise.all(chatHistory.reverse().map(async msg => {
+          const isSenderBot = msg.sender.user_id === e.bot.uin;
+          const senderRole = isSenderBot
+            ? (roleMap[memberMap.get(e.bot.uin)?.role] ?? roleMap[msg.sender.role] ?? 'member')
+            : (roleMap[msg.sender.role] ?? 'member');
+          const senderInfo = `${msg.sender.nickname}(QQ号:${msg.sender.user_id})[群身份: ${senderRole}]`;
+          return {
+            role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
+            content: `[${msg.time}] ${senderInfo}: ${msg.content}`
+          };
+        }));
+
+        // 获取bot的实际群角色
+        let botRole = 'member';
+        try {
+          const botMemberInfo = memberMap.get(Bot.uin);
+          botRole = roleMap[botMemberInfo?.role] || 'member';
+        } catch (error) {
+          console.error(`获取bot群角色失败: ${error}`);
+        }
+
+        // 格式化最后一条消息
+        const lastMessage = await buildMessageContent(
+          { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
+          '我已经读取了上述群聊的聊天记录，我会优先关注你的最新消息',
+          [],
+          [],
+          e.group
+        );
+
         return [
-          ...chatHistory.reverse().map(msg => {
-            const isSenderBot = msg.sender.user_id === e.bot.uin;
-            const senderRole = isSenderBot
-              ? (roleMap[memberMap.get(e.bot.uin)?.role] ?? roleMap[msg.sender.role] ?? 'member')
-              : (roleMap[msg.sender.role] ?? 'member');
-            const senderInfo = `${msg.sender.nickname}(QQ号:${msg.sender.user_id})[群身份: ${senderRole}]`;
-            return {
-              role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
-              content: `[${msg.time}] ${senderInfo}: ${msg.content}`
-            };
-          }),
+          ...formattedHistory,
           {
             role: 'assistant',
-            content: '我已经读取了上述群聊的聊天记录，我会优先关注你的最新消息'
+            content: lastMessage
           }
         ];
       };
-
 
       if (this.config.groupHistory) {
         groupUserMessages = await getHistory();
@@ -1134,11 +1153,9 @@ export class ExamplePlugin extends plugin {
       else if (message.content) {
         // 检查是否上一次处理过函数调用，避免连续两次回复
         if (!hasHandledFunctionCall) {
-          const output = await this.processToolSpecificMessage(message.content)
-          await this.sendSegmentedMessage(e, output)
-          if (this.config.providers == 'oneapi') {
-
-          }
+          //console.log(message.content)
+          const output = await this.processToolSpecificMessage(message.content);
+          await this.sendSegmentedMessage(e, output);
           // 在这里直接记录 Bot 发送的消息
           try {
             const messageObj = {
@@ -1577,6 +1594,21 @@ export class ExamplePlugin extends plugin {
 
   async sendSegmentedMessage(e, output) {
     try {
+      // 处理文本中的@用户名为真实的at
+      if (e.group) {
+        const outputs = await this.convertAtInString(output, e.group);
+        const { result, hasAt, atQQList } = outputs;
+        console.log(result)
+        output = result || output;
+        if (hasAt) {
+          let replyMsg = [];
+          atQQList.forEach(qq => {
+            replyMsg.push(segment.at(qq));
+          });
+          await e.reply(replyMsg);
+        }
+      }
+
       // 计算输出文本的总 token 数，用于判断是否需要分段发送
       const { total_tokens } = await TotalTokens(output);
 
@@ -1593,6 +1625,16 @@ export class ExamplePlugin extends plugin {
       // 预处理文本，防止分割时破坏特殊字符
 
       let processedOutput = output;
+
+      // 保护 CQ码，避免被分割
+      const cqCodePattern = /\[CQ:[^\]]+\]/g;
+      const cqCodes = []; // 存储提取出的CQ码
+      let cqCodeIndex = 0; // CQ码的索引
+
+      processedOutput = processedOutput.replace(cqCodePattern, (match) => {
+        cqCodes.push(match); // 将匹配到的CQ码存入数组
+        return `{{CQCODE${cqCodeIndex++}}}`; // 用占位符替换
+      });
 
       // 保护 emojis 和 emoticons，用占位符替换，避免被分割
       const emojiPattern = /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[（(][^（)）]*[）)]|[:;][)D]|[:<]3/gu;
@@ -1675,10 +1717,11 @@ export class ExamplePlugin extends plugin {
 
       // 恢复特殊字符并处理分段
       segments = segments.map((segment, index) => {
-        // 恢复省略号和 emojis
+        // 恢复省略号、emojis和CQ码
         let processed = segment
           .replace(/{{ELLIPSIS}}/g, '...') // 恢复省略号
           .replace(/{{EMOJI(\d+)}}/g, (_, index) => emojis[parseInt(index)]) // 恢复 emojis
+          .replace(/{{CQCODE(\d+)}}/g, (_, index) => cqCodes[parseInt(index)]) // 恢复 CQ码
           .trim(); // 移除首尾空格
 
         // 添加适当的结尾标点
@@ -1714,6 +1757,77 @@ export class ExamplePlugin extends plugin {
     }
   }
 
+  /**
+   * 将字符串中的 @用户名 转换为真实的艾特，并返回是否有at对象及其qq
+   * @param {string} content - 包含@用户名的字符串
+   * @param {object} group - 群对象，用于获取成员列表
+   * @returns {object} - 包含处理后的字符串、是否有at和at的qq列表
+   */
+  async convertAtInString(content, group) {
+    // 获取群成员Map
+    const members = await group.getMemberMap();
+
+    // 正则表达式匹配 @开头后跟非空白字符的部分
+    const atRegex = /@([^\s]+)/g;
+
+    // 存储处理后的字符串
+    let result = content;
+    // 存储at的qq列表
+    const atQQList = [];
+
+    // 查找所有匹配项
+    let match;
+    while ((match = atRegex.exec(content)) !== null) {
+      const fullMatch = match[0]; // 完整匹配，如 @枫狸🍁
+      const username = match[1]; // 用户名部分，如 枫狸🍁
+
+      // 使用findMember查找用户
+      const member = this.findMember(username, members);
+
+      if (member) {
+        // 直接替换字符串中的@部分为空字符串
+        result = result.replace(fullMatch, '');
+
+        // 添加到at的qq列表
+        atQQList.push(member.qq);
+      }
+    }
+
+    // 返回处理后的字符串、是否有at和at的qq列表
+    return {
+      result,
+      hasAt: atQQList.length > 0,
+      atQQList
+    };
+  }
+
+  /**
+   * 查找群成员
+   * @param {string} target - 目标用户的QQ号或名称
+   * @param {Map} members - 群成员Map
+   * @returns {Object|null} - 找到的成员信息或null
+   */
+  findMember(target, members) {
+    // 首先尝试作为QQ号查找
+    if (/^\d+$/.test(target)) {
+      const member = members.get(Number(target));
+      if (member) return { qq: Number(target), info: member };
+    }
+
+    // 按群名片或昵称查找
+    for (const [qq, info] of members.entries()) {
+      const card = info.card?.toLowerCase();
+      const nickname = info.nickname?.toLowerCase();
+      const searchTarget = target.toLowerCase();
+
+      if (card === searchTarget || nickname === searchTarget ||
+        card?.includes(searchTarget) || nickname?.includes(searchTarget)) {
+        return { qq, info };
+      }
+    }
+    return null;
+  }
+
   async processToolSpecificMessage(content, toolName) {
     let output = content;
     output = output.replace(/\\n/g, '\n');
@@ -1731,7 +1845,6 @@ export class ExamplePlugin extends plugin {
         output = output.replace(pattern, '').trim();
       }
     } while (prevText !== output);
-
 
     // 删除代码块
     output = output.replace(/```[\s\S]*?```/g, '');
