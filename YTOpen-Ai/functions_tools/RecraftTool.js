@@ -4,10 +4,10 @@ import { YTOtherModels, get_address } from '../../utils/fileUtils.js';
 /**
 * 多模型AI绘图工具类
 */
-export class FluxTool extends AbstractTool {
+export class RecraftTool extends AbstractTool {
   constructor() {
     super();
-    this.name = 'fluxTool';
+    this.name = 'recraftTool';
     this.description = '根据提示词生成图片, 使用flux(黑森林实验室)模型进行绘图';
     this.parameters = {
       type: 'object',
@@ -44,7 +44,7 @@ export class FluxTool extends AbstractTool {
     }
 
     try {
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], "flux-sch");
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], "recraft-v3");
 
       console.log(imageArray)
       if (!imageArray) {

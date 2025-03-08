@@ -4,11 +4,11 @@ import { YTOtherModels, get_address } from '../../utils/fileUtils.js';
 /**
 * 多模型AI绘图工具类
 */
-export class FluxTool extends AbstractTool {
+export class IdeogramTool extends AbstractTool {
   constructor() {
     super();
-    this.name = 'fluxTool';
-    this.description = '根据提示词生成图片, 使用flux(黑森林实验室)模型进行绘图';
+    this.name = 'ideogramTool';
+    this.description = '根据提示词生成图片, 使用ideogram-v2模型进行绘图';
     this.parameters = {
       type: 'object',
       properties: {
@@ -44,7 +44,7 @@ export class FluxTool extends AbstractTool {
     }
 
     try {
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], "flux-sch");
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], "ideogram-v2");
 
       console.log(imageArray)
       if (!imageArray) {

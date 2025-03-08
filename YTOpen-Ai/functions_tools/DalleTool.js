@@ -10,7 +10,7 @@ export class DalleTool extends AbstractTool {
  constructor() {
    super();
    this.name = 'dalleTool';
-   this.description = '根据提示词生成图片, 优先使用dalle';
+   this.description = '根据提示词生成图片, 使用dalle(OpenAi团队)模型进行绘图';
    this.parameters = {
      type: 'object',
      properties: {

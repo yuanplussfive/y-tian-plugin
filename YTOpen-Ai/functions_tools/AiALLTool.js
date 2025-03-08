@@ -8,7 +8,7 @@ export class AiALLTool extends AbstractTool {
   constructor() {
     super();
     this.name = 'aiALLTool';
-    this.description = '根据用户的描述进行多模态请求，生成各种文件（如doc、excel、pdf等）。生成文件时必须指定文件名和格式';
+    this.description = '根据用户的描述进行多模态请求，生成各种文件（如doc、excel、pdf等）。生成文件时必须指定文件名和格式, 但是不能生成图片形式的文件';
     this.parameters = {
       type: "object",
       properties: {

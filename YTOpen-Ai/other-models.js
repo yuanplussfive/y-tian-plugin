@@ -1765,5 +1765,13 @@ export const other_models = [
     "token": 131000,
     "features": ['conversation', 'code'],
     "quota": 3.5
+  },
+  {
+    "id": 216,
+    "model": "flux-lora",
+    "points": "y-tian-plugin",
+    "token": 800,
+    "features": ['drawing'],
+    "quota": "0.7/次"
   }
 ]  
