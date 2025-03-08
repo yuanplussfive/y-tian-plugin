@@ -799,8 +799,8 @@ export class ExamplePlugin extends plugin {
       }
 
       console.log(response)
-      if (!response || response.error) {
-        await e.reply(response?.error ? JSON.stringify(response.error, null, 2) : '抱歉,请求失败,请稍后重试');
+      if (!response || (response.error && Object.keys(response.error).length > 0)) {
+        await e.reply(response?.error ? response.error : '抱歉,请求失败,请稍后重试');
         await this.resetGroupUserMessages(groupId, userId);
         return true;
       }
