@@ -15,6 +15,9 @@ import { PokeTool } from '../YTOpen-Ai/functions_tools/PokeTool.js';
 import { LikeTool } from '../YTOpen-Ai/functions_tools/LikeTool.js';
 import { AiMindMapTool } from '../YTOpen-Ai/functions_tools/AiMindMapTool.js';
 import { AiPPTTool } from '../YTOpen-Ai/functions_tools/AiPPTTool.js';
+import { FluxTool } from '../YTOpen-Ai/functions_tools/FluxTool.js';
+import { RecraftTool } from '../YTOpen-Ai/functions_tools/RecraftTool.js';
+import { IdeogramTool } from '../YTOpen-Ai/functions_tools/IdeogramTool.js';
 import { WebParserTool } from '../YTOpen-Ai/functions_tools/webParserTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
@@ -75,8 +78,26 @@ export class ExamplePlugin extends plugin {
     this.aiMindMapTool = new AiMindMapTool();
     this.aiPPTTool = new AiPPTTool();
     this.webParserTool = new WebParserTool();
+    this.fluxTool = new FluxTool();
+    this.ideogramTool = new IdeogramTool();
+    this.recraftTool = new RecraftTool();
     // 工具定义部分
     this.functions = [
+      {
+        name: this.recraftTool.name,
+        description: this.recraftTool.description,
+        parameters: this.recraftTool.parameters
+      },
+      {
+        name: this.ideogramTool.name,
+        description: this.ideogramTool.description,
+        parameters: this.ideogramTool.parameters
+      },
+      {
+        name: this.fluxTool.name,
+        description: this.fluxTool.description,
+        parameters: this.fluxTool.parameters
+      },
       {
         name: this.webParserTool.name,
         description: this.webParserTool.description,
@@ -230,9 +251,9 @@ export class ExamplePlugin extends plugin {
         OneApiModel: 'deepseek-ai/DeepSeek-R1',
         OneApiKey: ['cpk_8f29ba06571f4a3a9f8543f8e2eafa9b.cf973b9dc97952c0bb0b8f6ee6f9340d.e5YL7A2Sw20BBPdEg2ntoWdsQXNCBSWm'],
         openai_tool_choice: 'auto',
-        gemini_tools: ['OpenAiimageAnalysisTool', 'googleImageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
-        openai_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
-        oneapi_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'freeSearchTool'],
+        gemini_tools: ['OpenAiimageAnalysisTool', 'googleImageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'webParserTool', 'dalleTool', 'fluxTool', 'ideogramTool', 'recraftTool', 'freeSearchTool'],
+        openai_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'fluxTool', 'ideogramTool', 'recraftTool', 'freeSearchTool'],
+        oneapi_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'fluxTool', 'ideogramTool', 'recraftTool', 'freeSearchTool'],
         GrokUrl: 'https://grok33.deno.dev/v1/chat/completions',
         GrokSso: ['123456xxx'],
       }
@@ -957,6 +978,18 @@ export class ExamplePlugin extends plugin {
                   result = await executeTool(this.webParserTool, params, e);
                   break;
 
+                case this.fluxTool.name:
+                  result = await executeTool(this.fluxTool, params, e);
+                  break;
+
+                case this.ideogramTool.name:
+                  result = await executeTool(this.ideogramTool, params, e);
+                  break;
+
+                case this.recraftTool.name:
+                  result = await executeTool(this.recraftTool, params, e);
+                  break;
+
                 case this.emojiSearchTool.name:
                   result = await executeTool(this.emojiSearchTool, params, e);
                   break;
@@ -1477,6 +1510,18 @@ export class ExamplePlugin extends plugin {
             result = await executeTool(this.webParserTool, params, e);
             break;
 
+          case this.fluxTool.name:
+            result = await executeTool(this.fluxTool, params, e);
+            break;
+
+          case this.ideogramTool.name:
+            result = await executeTool(this.ideogramTool, params, e);
+            break;
+
+          case this.recraftTool.name:
+            result = await executeTool(this.recraftTool, params, e);
+            break;
+
           case this.emojiSearchTool.name:
             result = await executeTool(this.emojiSearchTool, params, e);
             break;
@@ -1778,8 +1823,8 @@ export class ExamplePlugin extends plugin {
     // 查找所有匹配项
     let match;
     while ((match = atRegex.exec(content)) !== null) {
-      const fullMatch = match[0]; // 完整匹配，如 @枫狸🍁
-      const username = match[1]; // 用户名部分，如 枫狸🍁
+      const fullMatch = match[0]; // 完整匹配，如 @xx
+      const username = match[1]; // 用户名部分，如 xx
 
       // 使用findMember查找用户
       const member = this.findMember(username, members);
@@ -1846,6 +1891,23 @@ export class ExamplePlugin extends plugin {
       }
     } while (prevText !== output);
 
+    function extractMessage(inputString) {
+      const regex = /\[群身份: .+?\][:：]\s*(.*)/i;
+      let message = inputString; // 初始消息为原始字符串
+      const match = regex.exec(inputString);
+
+      if (match) {
+        message = match[1]; // 如果匹配到群身份，则提取冒号后的内容
+      }
+
+      // 删除 "说:" 或 "说：" 开头的部分
+      const sayRegex = /^[说說][:：]\s*/;
+      message = message.replace(sayRegex, "");
+
+      return message;
+    }
+
+    output = extractMessage(output);
     // 删除代码块
     output = output.replace(/```[\s\S]*?```/g, '');
 
