@@ -161,12 +161,18 @@ async function YTapi(messages, tools) {
  */
 export async function SearchMessages(messages) {
   try {
-    const url = 'https://yuanpluss.online:3000/v1/search';
-    const q = await SearchTools(messages);
     const keywords = ['查', '搜', '找', '看'];
     const content = messages[messages.length - 1].content;
     const key = keywords.some(keyword => content.includes(keyword));
-    if (!key || !q.query || !q.url) { return messages; }
+    if (!key) { 
+      return messages; 
+    }
+    const url = 'https://yuanpluss.online:3000/v1/search';
+    const q = await SearchTools(messages);
+    console.log(key)
+    if (!q.query || !q.url) { 
+      return messages; 
+    }
 
     if (q.query) {
       const data = {
