@@ -256,6 +256,8 @@ export class ExamplePlugin extends plugin {
         oneapi_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'fluxTool', 'ideogramTool', 'recraftTool', 'freeSearchTool'],
         GrokUrl: 'https://grok33.deno.dev/v1/chat/completions',
         GrokSso: ['123456xxx'],
+        CursorUrl: 'https://yuanplus.chat:2443/v1/chat/completions',
+        WorkosCursorSessionToken: ['user_xxxx'],
       }
     }
 

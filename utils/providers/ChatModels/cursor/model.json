@@ -1,5 +1,53 @@
 {
   "models": {
+    "gpt-4-cursor": {
+      "providerModelName": "gpt-4",
+      "aliases": [
+        "gpt-4-cursor"
+      ]
+    },
+    "o1-cursor": {
+      "providerModelName": "o1",
+      "aliases": [
+        "o1-cursor"
+      ]
+    },
+    "cursor-fast": {
+      "providerModelName": "cursor-fast",
+      "aliases": [
+        "cursor-fast"
+      ]
+    },
+    "gemini-2.0-flash-thinking-exp-cursor": {
+      "providerModelName": "gemini-2.0-flash-thinking-exp",
+      "aliases": [
+        "gemini-2.0-flash-thinking-exp-cursor"
+      ]
+    },
+    "gemini-2.0-pro-exp-cursor": {
+      "providerModelName": "gemini-2.0-pro-exp",
+      "aliases": [
+        "gemini-2.0-pro-exp-cursor"
+      ]
+    },
+    "claude-3.7-sonnet-thinking-cursor": {
+      "providerModelName": "claude-3.7-sonnet-thinking",
+      "aliases": [
+        "claude-3.7-sonnet-thinking-cursor"
+      ]
+    },
+    "claude-3.7-sonnet-cursor": {
+      "providerModelName": "claude-3.7-sonnet",
+      "aliases": [
+        "claude-3.7-sonnet-cursor"
+      ]
+    },
+    "claude-3.5-sonnet-20241022-cursor": {
+      "providerModelName": "claude-3.5-sonnet-20241022",
+      "aliases": [
+        "claude-3.5-sonnet-20241022-cursor"
+      ]
+    },
     "claude-3.5-sonnet-cursor": {
       "providerModelName": "claude-3.5-sonnet",
       "aliases": [
@@ -24,16 +72,52 @@
         "o1-preview-cursor"
       ]
     },
-    "o1-cursor": {
-      "providerModelName": "o1",
+    "gpt-4.5-preview-cursor": {
+      "providerModelName": "gpt-4.5-preview",
       "aliases": [
-        "o1-cursor"
+        "gpt-4.5-preview-cursor"
       ]
     },
-    "claude-3-opus-cursor": {
-      "providerModelName": "claude-3-opus",
+    "gemini-2.0-flash-cursor": {
+      "providerModelName": "gemini-2.0-flash",
       "aliases": [
-        "claude-3-opus-cursor"
+        "gemini-2.0-flash-cursor"
+      ]
+    },
+    "deepseek-r1-cursor": {
+      "providerModelName": "deepseek-r1",
+      "aliases": [
+        "deepseek-r1-cursor"
+      ]
+    },
+    "deepseek-v3-cursor": {
+      "providerModelName": "deepseek-v3",
+      "aliases": [
+        "deepseek-v3-cursor"
+      ]
+    },
+    "o3-mini-cursor": {
+      "providerModelName": "o3-mini",
+      "aliases": [
+        "o3-mini-cursor"
+      ]
+    },
+    "grok-2-cursor": {
+      "providerModelName": "grok-2",
+      "aliases": [
+        "grok-2-cursor"
+      ]
+    },
+    "gpt-4o-cursor": {
+      "providerModelName": "gpt-4o",
+      "aliases": [
+        "gpt-4o-cursor"
+      ]
+    },
+    "gpt-4o-mini-cursor": {
+      "providerModelName": "gpt-4o-mini",
+      "aliases": [
+        "gpt-4o-mini-cursor"
       ]
     }
   }
