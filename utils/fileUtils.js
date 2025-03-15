@@ -148,6 +148,34 @@ export async function removeDuplicates(array) {
   return result;
 }
 
+export async function PluginUploadFile(base64Data, filename) {
+  try {
+    const response = await fetch('https://openai.yuanplus.chat/v2/upload', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        base64Data: base64Data,
+        filename: filename
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log(data);
+      return data;
+    } else {
+      return {};
+    }
+
+  } catch (error) {
+    console.error('上传错误:', error);
+    return {};
+  }
+}
+
 export async function getBase64Image(imageUrl, filename) {
   try {
     const response = await axios.get(imageUrl, {

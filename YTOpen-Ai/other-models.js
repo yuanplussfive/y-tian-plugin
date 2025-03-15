@@ -1802,8 +1802,48 @@ export const other_models = [
     "id": 220,
     "model": "gemini-2.0-flash-re",
     "points": "y-tian-plugin",
-    "token": 1000000,
+    "token": 800,
     "features": ['conversation', 'code'],
     "quota": 0
+  },
+  {
+    "id": 221,
+    "model": "ideogram-v2a",
+    "points": "y-tian-plugin",
+    "token": 800,
+    "features": ['drawing'],
+    "quota": "0.4/次"
+  },
+  {
+    "id": 222,
+    "model": "sana",
+    "points": "y-tian-plugin",
+    "token": 800,
+    "features": ['drawing'],
+    "quota": "0.08/次"
+  },
+  {
+    "id": 223,
+    "model": "flux-lora-nier",
+    "points": "y-tian-plugin",
+    "token": 800,
+    "features": ['drawing'],
+    "quota": "0.7/次"
+  },
+  {
+    "id": 224,
+    "model": "flux-lora-nwsj",
+    "points": "y-tian-plugin",
+    "token": 800,
+    "features": ['drawing'],
+    "quota": "0.7/次"
+  },
+  {
+    "id": 225,
+    "model": "flux-subject",
+    "points": "y-tian-plugin",
+    "token": 800,
+    "features": ['drawing', 'image_recognition'],
+    "quota": "0.6/次"
   }
 ]  

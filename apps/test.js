@@ -258,6 +258,8 @@ export class ExamplePlugin extends plugin {
         GrokSso: ['123456xxx'],
         CursorUrl: 'https://yuanplus.chat:2443/v1/chat/completions',
         WorkosCursorSessionToken: ['user_xxxx'],
+        OpenAiProxy: 'https://openai.yuanplus.chat/v1/chat/completions',
+        OpenAiAuthToken: 'sk-y-tian-plugin',
       }
     }
 
