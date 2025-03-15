@@ -110,7 +110,12 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
  * @returns {Promise<Array>} - 链接数组
  */
 export async function get_address(inputString) {
-  const regex = /!?\[([^\]]*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4}|yuanpluss\.online:\d+\/files\/[a-zA-Z0-9_\/]+?\.[a-z]{2,4}))\)/g;
+  const filesystemSiteRegex = `filesystem\\.site\/cdn\/\\d{8}\/[a-zA-Z0-9]+?\\.[a-z]{2,4}`;
+  const yuanplussOnlineRegex = `yuanpluss\\.online:\\d+\/files\/[a-zA-Z0-9_\\/]+?\\.[a-z]{2,4}`;
+  const openaiYuanplusChatRegex = `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/]+?\\.[a-z]{2,4}`;
+
+  const combinedRegex = `!?\\[([^\\]]*?)\\]\\((https:\\\/\\\/(${filesystemSiteRegex}|${yuanplussOnlineRegex}|${openaiYuanplusChatRegex}))\\)`;
+  const regex = new RegExp(combinedRegex, "g");
   let match;
   let links = [];
   let extensions = new Set();

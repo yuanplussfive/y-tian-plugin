@@ -1,0 +1,28 @@
+{
+  "models": {
+    "gpt-4o-all-re": {
+      "providerModelName": "gpt-4o-all-re",
+      "aliases": [
+        "gpt-4o-all-re"
+      ]
+    },
+    "grok-3-office-re": {
+      "providerModelName": "grok-3-office-re",
+      "aliases": [
+        "grok-3-office-re"
+      ]
+    },
+    "gpt-4o-all-lite-re": {
+      "providerModelName": "gpt-4o-all-lite-re",
+      "aliases": [
+        "gpt-4o-all-lite-re"
+      ]
+    },
+    "gemini-2.0-flash-re": {
+      "providerModelName": "gemini-2.0-flash-re",
+      "aliases": [
+        "gemini-2.0-flash-re"
+      ]
+    }
+  }
+}
