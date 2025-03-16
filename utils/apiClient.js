@@ -32,8 +32,9 @@ export async function YTapi(requestData, config) {
         let url, headers, finalRequestData;
 
         if (provider === 'gemini') {
-            // Gemini API 请求逻辑 (保持不变)
-            url = 'https://api-proxy.me/gemini/v1beta/chat/completions';
+            // Gemini API 请求逻辑
+            const urls = config.GeminiProxyList;
+            url = urls?.[Math.floor(Math.random() * urls.length)] || 'https://api-proxy.me/gemini/v1beta/chat/completions';            
             if (!config.geminiApikey || config.geminiApikey.length === 0) {
                 return { error: "未配置 Gemini API Key" };
             }

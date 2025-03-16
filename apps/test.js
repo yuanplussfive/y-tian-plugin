@@ -260,6 +260,12 @@ export class ExamplePlugin extends plugin {
         WorkosCursorSessionToken: ['user_xxxx'],
         OpenAiProxy: 'https://openai.yuanplus.chat/v1/chat/completions',
         OpenAiAuthToken: 'sk-y-tian-plugin',
+        GeminiProxyList: [
+          'https://api-proxy.me/gemini',
+          'https://gemini-proxy-1.deno.dev',
+          'https://gemini-proxy-2.deno.dev',
+          'https://gemini-proxy-3.deno.dev',
+        ],
       }
     }
 
