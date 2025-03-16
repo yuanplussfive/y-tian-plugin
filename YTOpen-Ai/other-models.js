@@ -1845,5 +1845,13 @@ export const other_models = [
     "token": 800,
     "features": ['drawing', 'image_recognition'],
     "quota": "0.6/次"
+  },
+  {
+    "id": 226,
+    "model": "gemini-2.0-flash-exp-image-generation",
+    "points": "Google",
+    "token": 1000000,
+    "features": ['drawing', 'image_recognition'],
+    "quota": 0
   }
 ]  
