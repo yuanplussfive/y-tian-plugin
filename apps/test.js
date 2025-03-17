@@ -266,6 +266,7 @@ export class ExamplePlugin extends plugin {
           'https://gemini-proxy-2.deno.dev',
           'https://gemini-proxy-3.deno.dev',
         ],
+        VegaStoken: 'uuid'
       }
     }
 

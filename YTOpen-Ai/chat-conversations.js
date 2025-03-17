@@ -416,21 +416,6 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
   }
 
   async function handlesdModel(e, Apikey, msg, model, apiurl, _path) {
-    async function transform(msg) {
-      try {
-        let response = await fetch("https://translate-api-fykz.xiangtatech.com/translation/webs/index", {
-          "method": "POST",
-          "headers": {
-            "content-type": "application/x-www-form-urlencoded",
-          },
-          "body": `appid=105&sgid=auto&sbid=auto&egid=en&ebid=en&content=${msg}&type=2`
-        });
-        let response_json = await response.json()
-        return await response_json.by
-      } catch {
-        return msg
-      }
-    }
     try {
       const response = await fetch(apiurl, {
         method: 'POST',
@@ -441,7 +426,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         body: JSON.stringify({
           model: model,
           stream: false,
-          messages: [{ role: "user", content: await transform(msg) }]
+          messages: [{ role: "user", content: msg }]
         }),
       });
       const input = await response.json();
