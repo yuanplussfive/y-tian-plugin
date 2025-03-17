@@ -24,8 +24,8 @@
   <h1 style="text-align: center; font-family: 'Courier New', monospace; letter-spacing: 2px;">😃 阴天插件索引页</h1>
 
   <p style="text-align: center; font-size: 18px; font-family: 'Courier New', monospace;">
-    <strong>在线免费使用
-      <a href="https://yuanpluss.online:1111/" style="color: #00ffff;">AI</a>
+    <strong>在线平台
+      <a href="https://yuanplus.chat/" style="color: #00ffff;">AI</a>
     </strong>
   </p>
 
