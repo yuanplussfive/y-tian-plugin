@@ -124,17 +124,30 @@ export async function get_address(inputString) {
   const yuanplussOnlineRegex = `yuanpluss\\.online:\\d+\/files\/[a-zA-Z0-9_\\/]+?\\.[a-z]{2,4}`;
   const openaiYuanplusChatRegex = `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/]+?\\.[a-z]{2,4}`;
 
-  const combinedRegex = `!?\\[([^\\]]*?)\\]\\((https:\\\/\\\/(${filesystemSiteRegex}|${yuanplussOnlineRegex}|${openaiYuanplusChatRegex}))\\)`;
-  const regex = new RegExp(combinedRegex, "g");
-  let match;
+  const exclamationMarkRegex = `!\\[([^\\]]*?)\\]\\((https:\\\/\\\/(${filesystemSiteRegex}|${yuanplussOnlineRegex}|${openaiYuanplusChatRegex}))\\)`;
+  const noExclamationMarkRegex = `\\[([^\\]]*?)\\]\\((https:\\\/\\\/(${filesystemSiteRegex}|${yuanplussOnlineRegex}|${openaiYuanplusChatRegex}))\\)`;
+
   let links = [];
-  // 不再使用Set来过滤扩展名
-  // let extensions = new Set();
-  while ((match = regex.exec(inputString)) !== null) {
-    const link = match[2];
-    // 删除扩展名检查逻辑，直接添加所有匹配的链接
+
+  const exclamationRegex = new RegExp(exclamationMarkRegex, "g");
+  let exclamationMatch;
+  while ((exclamationMatch = exclamationRegex.exec(inputString)) !== null) {
+    const link = exclamationMatch[2];
     links.push(link);
   }
+
+  if (links.length >= 1) {
+    console.log(links);
+    return links;
+  }
+
+  const noExclamationRegex = new RegExp(noExclamationMarkRegex, "g");
+  let noExclamationMatch;
+  while ((noExclamationMatch = noExclamationRegex.exec(inputString)) !== null) {
+    const link = noExclamationMatch[2];
+    links.push(link);
+  }
+
   console.log(links);
   return links;
 }
