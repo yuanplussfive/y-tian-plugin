@@ -1849,9 +1849,17 @@ export const other_models = [
   {
     "id": 226,
     "model": "gemini-2.0-flash-exp-image-generation",
-    "points": "Google",
+    "points": "Google(需配置)",
     "token": 1000000,
     "features": ['drawing', 'image_recognition'],
+    "quota": 0
+  },
+  {
+    "id": 227,
+    "model": "gemini-2.0-flash-net",
+    "points": "Google(需配置)",
+    "token": 1000000,
+    "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 0
   }
 ]  

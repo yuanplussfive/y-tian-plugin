@@ -229,7 +229,8 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
             }
           } catch (error) {
             const errorMessage = error.message || '';
-            if (errorMessage.toLowerCase().includes('request to') ||
+            if (errorMessage.toLowerCase().includes('socket hang up') || 
+              errorMessage.toLowerCase().includes('request to') ||
               errorMessage.toLowerCase().includes('failed to fetch')) {
               e.reply('与服务器连接失败，请检查网络连接或尝试更改方案代理！');
             } else {
@@ -486,7 +487,7 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
 
       } catch (error) {
         console.log(error);
-        const networkErrors = ['Failed to fetch', 'request to', 'network'];
+        const networkErrors = ['Failed to fetch', 'request to', 'network', 'socket hang up'];
         const otherErrors = ['Unexpected token'];
         if (networkErrors.some(msg => error.message?.toLowerCase().includes(msg))) {
           e.reply('与服务器通讯失败，请稍后再试');
@@ -651,7 +652,7 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
       }
     } catch (error) {
       console.log(error);
-      const networkErrors = ['Failed to fetch', 'request to', 'network'];
+      const networkErrors = ['Failed to fetch', 'request to', 'network', 'socket hang up'];
       if (networkErrors.some(msg => error.message?.toLowerCase().includes(msg))) {
         e.reply('与服务器通讯失败，请稍后再试');
       } else {
