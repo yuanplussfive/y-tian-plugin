@@ -1,5 +1,15 @@
-import { dependencies } from '../YTdependence/dependencies.js';
-const { fs, _path, mimeTypes, axios, path } = dependencies;
+const _path = process.cwd()
+import { createRequire } from 'module'
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const require = createRequire(import.meta.url);
+import axios from "../node_modules/axios/index.js";
+const mimeTypesPath = join(__dirname, '../node_modules/mime-types');
+const mimeTypes = require(mimeTypesPath);
+import fs from "fs";
+import path from "path";
 
 /**
  * 获取文件扩展名
@@ -118,14 +128,12 @@ export async function get_address(inputString) {
   const regex = new RegExp(combinedRegex, "g");
   let match;
   let links = [];
-  let extensions = new Set();
+  // 不再使用Set来过滤扩展名
+  // let extensions = new Set();
   while ((match = regex.exec(inputString)) !== null) {
     const link = match[2];
-    const extension = link.split('.').pop().toLowerCase();
-    if (!extensions.has(extension)) {
-      links.push(link);
-      extensions.add(extension);
-    }
+    // 删除扩展名检查逻辑，直接添加所有匹配的链接
+    links.push(link);
   }
   console.log(links);
   return links;

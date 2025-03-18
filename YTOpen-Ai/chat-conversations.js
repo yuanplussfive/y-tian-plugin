@@ -1,6 +1,20 @@
+const _path = process.cwd();
+import { get_address } from "../utils/fileUtils.js";
 import { chat_models } from "../YTOpen-Ai/chat-models.js";
+import { OpenAiChatCmpletions } from "../YTOpen-Ai/OpenAiChatCmpletions.js";
+import https from "https";
+import axios from "../node_modules/axios/index.js";
+import common from "../../../lib/common/common.js";
+import puppeteer from "../../../lib/puppeteer/puppeteer.js";
+import fs from "fs";
+import path from "path";
+import fetch from "node-fetch";
+import { extractAndRender } from '../YTOpen-Ai/tools/preview.js';
+import { handleTTS } from "../model/Anime_tts.js";
+import { replyBasedOnStyle } from "../YTOpen-Ai/answer-styles.js";
+let dirpath = `${_path}/data/YTopenai`;
 
-async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender, FreeChat35_3, FreeChat35_4, FreeChat35_5, FreeGemini_1, FreeGemini_2, FreeGemini_3, FreeClaude_1, dirpath, e, apiurl, group, common, puppeteer, fs, _path, path, Bot_Name, fetch, replyBasedOnStyle, handleTTS, Apikey, imgurl, https, crypto, WebSocket, axios, GPT4oResponse, GeminiResponse, claudeResponse, Anime_tts_roles) {
+async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anime_tts_roles) {
   const chatgptConfig = JSON.parse(fs.readFileSync(`${dirpath}/data.json`, "utf-8")).chatgpt;
   const { model, search } = chatgptConfig;
   let msg = await formatMessage(e.msg) || '...';
@@ -59,7 +73,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     "role": "user",
     "content": message
   });
-  await handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path);
+  await handleGpt4AllModel(e, history, Apikey, search, model, apiurl);
 
   async function formatMessage(originalMsg) {
     if (originalMsg) {
@@ -119,7 +133,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
-  async function handleMJModel(e, history, Apikey, msg, model, apiurl, path, https, _path) {
+  async function handleMJModel(e) {
     let filteredArray = history.filter(function (item) {
       return item.role !== "system";
     });
@@ -135,23 +149,10 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     try {
       let answer;
       console.log(filteredArray)
-      const response = await fetch(apiurl, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
-        },
-        body: JSON.stringify({
-          model: model,
-          messages: filteredArray
-        }),
-      });
-      let response_json = await response.json();
-      //console.log(response_json)
-      answer = await response_json.choices[0].message.content;
+      const response = await OpenAiChatCmpletions(apiurl, Apikey, model, filteredArray);
+      answer = await response.choices[0].message.content;
       const markdownText = answer?.replace(/!\[[\s\S]*?\]\(.*?\)[\s\n]*/m, '');
-      let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
-      await replyBasedOnStyle(styles, markdownText, e, model, puppeteer, fs, _path, msg, common)
+      await replyBasedOnStyle(markdownText, e, model, msg)
 
       history.push({
         "role": "assistant",
@@ -169,7 +170,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         urls = [match[1]];
       }
       if (urls.length !== 0) {
-        const filePath = path.join(_path, 'resources', 'dall_e_chat.png');
+        const filePath = path.join(_path, 'resources', 'mj_chat.png');
         for (const url of urls) {
           try {
             const downloadTimeout = 40000;
@@ -247,29 +248,10 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
 
   async function handleSunoModel(e, Apikey, msg, model, apiurl, _path) {
     try {
-      let answer;
-      const response = await fetch(apiurl, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
-        },
-        body: JSON.stringify({
-          model: model,
-          stream: true,
-          messages: [{ role: "user", content: msg }]
-        }),
-      });
-      const input = await response.text();
-      console.log(input)
-      const urlRegex = /https:\/\/filesystem\.site\/cdn\/[0-9]{8}\/[A-Za-z0-9]+(\.(mp3|mp4))/g;
-      const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
-      const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
-      answer = contentArray.join('').trim();
-      console.log(answer);
-      let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
-      await replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common)
-      const urls = answer.match(urlRegex);
+      const response = await OpenAiChatCmpletions(apiurl, Apikey, model, [{ role: "user", content: msg }]);
+      const answer = response?.choices[0]?.message?.content;
+      await replyBasedOnStyle(answer, e, model, msg);
+      const urls = await get_address(answer);
       console.log(urls);
       if (urls.length !== 0) {
         urls.filter(url => url.endsWith('.mp3')).map(url => e.reply(segment.record(url)));
@@ -281,41 +263,15 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
-  async function handleideoModel(e, Apikey, msg, model, apiurl, _path) {
+  async function handleideoModel(e) {
     try {
-      const extractAndProcessUrls = (inputString) => {
-        const regex = /https:\/\/(?:filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4}|yuanpluss\.online:\d+\/files\/[a-zA-Z0-9_\/]+?\.[a-z]{2,4})/g;
-        const matches = inputString.match(regex) || [];
-        const uniqueUrls = [...new Set(matches)];
-        const urls = uniqueUrls.map(url => ({ url }));
-        return urls;
-      };
-      const response = await fetch(apiurl, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
-        },
-        body: JSON.stringify({
-          "model": "ideogram",
-          "stream": true,
-          "messages": [
-            {
-              "role": "user",
-              "content": msg
-            }
-          ]
-        }),
-      });
-      const input = await response.text();
-      const inputString = await extractContent(input);
-      const urls = extractAndProcessUrls(inputString);
+      const response = await OpenAiChatCmpletions(apiurl, Apikey, model, [{ role: "user", content: msg }]);
+      const OnputString = response?.choices[0]?.message?.content;
+      console.log(OnputString)
+      const urls = await get_address(OnputString);
       console.log(urls);
       if (urls.length !== 0) {
-        let images = [];
-        urls.forEach(urlObj => {
-          images.push(segment.image(urlObj.url));
-        });
+        const images = urls.map(url => segment.image(url));
         e.reply(images);
       }
     } catch (error) {
@@ -324,7 +280,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
-  async function handlelumaModel(e, Apikey, msg, model, apiurl, _path) {
+  async function handlelumaModel(e) {
     try {
       let answer;
       let question = msg;
@@ -353,8 +309,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
       const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
       answer = contentArray.join('').trim();
-      let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
-      await replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, question, common)
+      await replyBasedOnStyle(answer, e, model, question)
       //e.reply(answer);
       console.log(answer);
       const urls = answer.match(urlRegex);
@@ -368,21 +323,10 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
-  async function handlevoiceModel(e, apiKey, msg, model, apiUrl, _path) {
+  async function handlevoiceModel(e) {
     let response, input, inputStr, forwardMsg, jsonPart, match, url, browser, page;
     try {
-      response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: model,
-          stream: false,
-          messages: [{ role: "user", content: msg }]
-        })
-      });
+      response = await OpenAiChatCmpletions(apiurl, Apikey, model, [{ role: "user", content: msg }]);
 
       if (!response.ok) {
         e.reply(`HTTP error! status: ${response.status}`);
@@ -417,19 +361,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
 
   async function handlesdModel(e, Apikey, msg, model, apiurl, _path) {
     try {
-      const response = await fetch(apiurl, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Apikey}`,
-        },
-        body: JSON.stringify({
-          model: model,
-          stream: false,
-          messages: [{ role: "user", content: msg }]
-        }),
-      });
-      const input = await response.json();
+      const input = await OpenAiChatCmpletions(apiurl, Apikey, model, [{ role: "user", content: msg }]);
       const output = input?.choices[0]?.message?.content
       const imageLinkRegex = /!\[.*?\]\((https?:\/\/.*?)\)/g;
       const imageLinks = output.matchAll(imageLinkRegex);
@@ -440,8 +372,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
           return false;
         }
         console.log(imgUrl);
-        let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
-        await replyBasedOnStyle(styles, output, e, model, puppeteer, fs, _path, msg, common)
+        await replyBasedOnStyle(output, e, model, msg)
         const downloadAndSendImages = async (imgUrls, basePath) => {
           try {
             for (const [index, url] of imgUrls.entries()) {
@@ -479,43 +410,28 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     }
   }
 
-  async function extractContent(dataString) {
-    const lines = dataString.split('\n');
-    let result = '';
-    lines.forEach(line => {
-      try {
-        const jsonString = line.replace('data: ', '');
-        const jsonData = JSON.parse(jsonString);
-        if (jsonData && jsonData.choices && jsonData.choices[0] && jsonData.choices[0].delta && jsonData.choices[0].delta.content) {
-          const content = jsonData.choices[0].delta.content;
-          result += content;
-        }
-      } catch (error) {
-        //console.log(error);
-      }
-    });
-    return result;
-  }
-
-  async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl, path, https, _path) {
+  async function handleGpt4AllModel(e, history, Apikey, search, model, apiurl) {
+    const GPT4oResponse = async (messages) => await OpenAiChatCmpletions(apiurl, Apikey, 'gpt-4o', messages);
+    const claudeResponse = async (messages) => await OpenAiChatCmpletions(apiurl, Apikey, 'claude-3-5-sonnet', messages);
+    const GeminiResponse = async (messages) => await OpenAiChatCmpletions(apiurl, Apikey, 'gemini-2.0-flash-exp', messages);
     switch (true) {
       case model === "mj-chat":
-        await handleMJModel(e, history, Apikey, msg, model, apiurl, path, https, _path);
+        await handleMJModel(e);
         return false;
       case /(suno|udio)/.test(model):
-        await handleSunoModel(e, Apikey, msg, model, apiurl, _path);
+        await handleSunoModel(e);
         return false;
       case /(luma|runway|vidu|sora)/.test(model):
-        await handlelumaModel(e, Apikey, msg, model, apiurl, _path);
+        await handlelumaModel(e);
         return false;
       case /(ideogram)/.test(model):
-        await handleideoModel(e, Apikey, msg, model, apiurl, _path);
+        await handleideoModel(e);
         return false;
       case /(stable-diffusion|playground|flux|sd3.5|ssd)/.test(model):
-        await handlesdModel(e, Apikey, msg, model, apiurl, _path);
+        await handlesdModel(e);
         return false;
       case /(advanced-voice)/.test(model):
-        await handlevoiceModel(e, Apikey, msg, model, apiurl, _path);
+        await handlevoiceModel(e);
         return false;
     }
     try {
@@ -536,47 +452,15 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         );
         return matchedKey ? modelResponders[matchedKey] : GPT4oResponse;
       }
-      async function handleModelResponse(model, history, fetch) {
+      async function handleModelResponse(history, model) {
         const responder = await getModelResponder(model);
-        return await responder(history, fetch);
+        return await responder(history, model);
       }
 
       try {
-        const timeoutSettings = {
-          'claude': 120000,
-          'gemini': 120000,
-          'all': 300000,
-          'r1': 900000,
-          'o1': 900000,
-          'o3': 900000,
-          'default': 180000
-        };
-        const timeoutDuration = Object.entries(timeoutSettings).find(([key, _]) =>
-          model.toLowerCase().includes(key)
-        )?.[1] || timeoutSettings.default;
-
-        const response = await Promise.race([
-          fetch(apiurl, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${Apikey}`,
-            },
-            body: JSON.stringify({
-              model: model,
-              messages: History,
-              search: search,
-            }),
-          }),
-          new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Timeout')), timeoutDuration)
-          ),
-        ]);
-
-        let response_json = await response.json();
-        console.log(response_json);
-
-        const errorMessage = response_json?.error?.message;
+        const response = await OpenAiChatCmpletions(apiurl, Apikey, model, history);
+        console.log(response);
+        const errorMessage = response?.error?.message;
 
         if (errorMessage) {
           if (errorMessage.includes('无效的令牌')) {
@@ -597,7 +481,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
           }
           history.pop();
         } else {
-          answer = (response_json?.choices?.length > 0) ? response_json.choices[0]?.message?.content : null;
+          answer = (response?.choices?.length > 0) ? response.choices[0]?.message?.content : null;
         }
 
       } catch (error) {
@@ -735,7 +619,7 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       if (pictureProcessed || urls.length >= 1) {
         await sendLongMessage(e, Messages, forwardMsg);
       }
-      await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
+      await replyBasedOnStyle(Messages, e, model, msg)
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {
@@ -944,20 +828,6 @@ async function run_conversation(UploadFiles, extractCodeBlocks, extractAndRender
     } catch (err) {
       console.error(`保存用户历史失败: ${err}`);
     }
-  }
-
-  async function get_address(inputString) {
-    const regex = /!?\[([^\]]*?)\]\((https:\/\/(?:filesystem\.site\/cdn\/\d{8}\/[a-zA-Z0-9]+?\.[a-z]{2,4}|yuanpluss\.online:\d+\/files\/[a-zA-Z0-9_\/]+?\.[a-z]{2,4}))\)/g;
-    let match;
-    let links = [];
-    while ((match = regex.exec(inputString)) !== null) {
-      const link = match[2];
-      if (!links.includes(link)) {
-        links.push(link);
-      }
-    }
-    console.log(links);
-    return links
   }
 
   async function downloadAndSaveFile(url, path, fetch, _path, fs, e) {

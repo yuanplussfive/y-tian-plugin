@@ -1,7 +1,11 @@
+const _path = process.cwd();
 import { TotalTokens } from '../YTOpen-Ai/tools/CalculateToken.js';
+import common from "../../../lib/common/common.js";
+import puppeteer from "../../../lib/puppeteer/puppeteer.js";
+import fs from "fs";
 
-async function replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, msg, common) {
-
+async function replyBasedOnStyle(answer, e, model, msg) {
+    const styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
     const processSource = async (answer) => {
         answer = await processSourceText(answer);
         answer = await decodeSearchContent(answer);

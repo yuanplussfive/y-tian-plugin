@@ -197,7 +197,7 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
         }
         console.log(imgUrl);
         let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
-        await replyBasedOnStyle(styles, output, e, model, puppeteer, fs, _path, msg, common)
+        await replyBasedOnStyle(output, e, model, msg)
         const downloadAndSendImages = async (imgUrls, basePath) => {
           try {
             for (const [index, url] of imgUrls.entries()) {
@@ -261,9 +261,8 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       const urlRegex = /https:\/\/filesystem\.site\/cdn\/[0-9]{8}\/[A-Za-z0-9]+(\.(mp3|mp4))/g;
       const contentMatch = input.match(/"delta":{"content":"([\s\S]*?)"}/g);
       const contentArray = contentMatch?.map(match => match.replace(/"delta":{"content":"([\s\S]*?)"}/, '$1').replace(/\\n/g, "\n")) || [];
-      answer = contentArray.join('').trim();
-      let styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
-      await replyBasedOnStyle(styles, answer, e, model, puppeteer, fs, _path, question, common)
+      answer = contentArray.join('').trim()
+      await replyBasedOnStyle(answer, e, model, question);
       //e.reply(answer);
       console.log(answer);
       const urls = answer.match(urlRegex);
@@ -494,7 +493,7 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
           console.log(uniqueUrls)
         }
       }
-      await replyBasedOnStyle(styles, Messages, e, model, puppeteer, fs, _path, msg, common)
+      await replyBasedOnStyle(Messages, e, model, msg);
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {

@@ -21,6 +21,7 @@
   "author": "Hello World && yuanpluss",
   "license": "MIT",
   "dependencies": {
+    "openai": "^4.87.3",
     "crypto-js": "^4.2.0",
     "mime-types": "^2.1.35",
     "request": "^2.88.2",
