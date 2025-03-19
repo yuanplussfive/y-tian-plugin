@@ -27,7 +27,7 @@ export async function generateSuno(prompt) {
             `https://sunoproxy${i ? i : ''}.deno.dev`
         );
 
-    const API_DOMAINS = generateApiUrls(17);
+    const API_DOMAINS = generateApiUrls(31);
 
     const headers = {
         "accept": "application/json, text/plain, */*",
