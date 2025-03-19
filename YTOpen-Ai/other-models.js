@@ -1497,7 +1497,7 @@ export const other_models = [
     "model": "nijidjourney-create",
     "points": "nijidjourney",
     "token": 800,
-    "features": ['drawing'],
+    "features": ['drawing', 'image_recognition'],
     "quota": "0.1/次"
   },
 
@@ -1507,7 +1507,7 @@ export const other_models = [
     "model": "midjourney-create",
     "points": "midjourney",
     "token": 800,
-    "features": ['drawing'],
+    "features": ['drawing', 'image_recognition'],
     "quota": "0.1/次"
   },
   {
@@ -1515,7 +1515,7 @@ export const other_models = [
     "model": "midjourney-all",
     "points": "midjourney",
     "token": 800,
-    "features": ['drawing'],
+    "features": ['drawing', 'image_recognition'],
     "quota": "0.25/次"
   },
 

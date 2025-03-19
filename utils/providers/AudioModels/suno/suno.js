@@ -9,6 +9,9 @@ const pipeline = promisify(stream.pipeline);
 let isProcessing = false;
 const taskQueue = [];
 
+// 域名使用限制管理
+const domainLimits = new Map();
+
 /**
  * 生成中文歌曲并获取结果
  * @param {string} prompt 歌曲风格描述
@@ -24,7 +27,7 @@ export async function generateSuno(prompt) {
             `https://sunoproxy${i ? i : ''}.deno.dev`
         );
 
-    const API_DOMAINS = generateApiUrls(16);
+    const API_DOMAINS = generateApiUrls(17);
 
     const headers = {
         "accept": "application/json, text/plain, */*",
@@ -34,20 +37,117 @@ export async function generateSuno(prompt) {
         "Referrer-Policy": "strict-origin-when-cross-origin"
     };
 
-    function getRandomDomain() {
-        const randomIndex = Math.floor(Math.random() * API_DOMAINS.length);
-        return API_DOMAINS[randomIndex];
+    /**
+     * 检查域名是否被限制使用
+     * @param {string} domain 域名
+     * @returns {boolean} 是否可用
+     */
+    function isDomainAvailable(domain) {
+        if (!domainLimits.has(domain)) {
+            return true;
+        }
+
+        const limitInfo = domainLimits.get(domain);
+        const now = Date.now();
+
+        // 如果限制时间已过，移除限制
+        if (now > limitInfo.expireTime) {
+            domainLimits.delete(domain);
+            return true;
+        }
+
+        return false;
     }
 
-    async function makeApiRequest(endpoint, method, data = null, maxRetries = 5) {
+    /**
+     * 标记域名使用次数已用完
+     * @param {string} domain 域名
+     * @param {number} lockTimeHours 锁定时间（小时）
+     */
+    function markDomainLimited(domain, lockTimeHours = 1) {
+        const now = Date.now();
+        const expireTime = now + (lockTimeHours * 60 * 60 * 1000);
+
+        domainLimits.set(domain, {
+            limitTime: now,
+            expireTime: expireTime,
+            lockTimeHours: lockTimeHours
+        });
+
+        logger.warn(`[歌曲生成] 域名 ${domain} 已被锁定 ${lockTimeHours} 小时，直到 ${new Date(expireTime).toLocaleString()}`);
+    }
+
+    /**
+     * 获取可用的随机域名
+     * @returns {string|null} 可用的域名或null
+     */
+    function getAvailableDomain() {
+        // 过滤出所有可用的域名
+        const availableDomains = API_DOMAINS.filter(domain => isDomainAvailable(domain));
+
+        if (availableDomains.length === 0) {
+            return null;
+        }
+
+        // 随机选择一个可用域名
+        const randomIndex = Math.floor(Math.random() * availableDomains.length);
+        return availableDomains[randomIndex];
+    }
+
+    /**
+     * 获取当前可用域名数量
+     * @returns {number} 可用域名数量
+     */
+    function getAvailableDomainCount() {
+        return API_DOMAINS.filter(domain => isDomainAvailable(domain)).length;
+    }
+
+    async function makeApiRequest(endpoint, method, data = null) {
         let lastError = null;
         let usedDomains = new Set();
 
+        // 动态确定最大重试次数，基于可用域名数量
+        // 至少尝试3次，最多尝试所有可用域名数量的2倍（考虑到可能有临时错误）
+        const availableDomainCount = getAvailableDomainCount();
+        const maxRetries = Math.max(3, availableDomainCount);
+
+        logger.info(`[歌曲生成] 当前可用域名数量: ${availableDomainCount}，设置最大重试次数: ${maxRetries}`);
+
         for (let retry = 0; retry < maxRetries; retry++) {
-            let domain;
-            do {
-                domain = getRandomDomain();
-            } while (usedDomains.has(domain) && usedDomains.size < API_DOMAINS.length);
+            // 获取可用域名
+            let domain = getAvailableDomain();
+
+            // 如果没有可用域名，等待一段时间后重试
+            if (!domain) {
+                logger.error(`[歌曲生成] 所有域名都被锁定，等待 30 秒后重试...`);
+                await new Promise(resolve => setTimeout(resolve, 30000));
+
+                // 清除过期的域名限制
+                for (const [domainKey, limitInfo] of domainLimits.entries()) {
+                    if (Date.now() > limitInfo.expireTime) {
+                        domainLimits.delete(domainKey);
+                        logger.info(`[歌曲生成] 域名 ${domainKey} 锁定已过期，现在可用`);
+                    }
+                }
+
+                // 重新获取可用域名
+                domain = getAvailableDomain();
+
+                // 如果仍然没有可用域名，抛出错误
+                if (!domain) {
+                    throw new Error("所有API域名都被锁定，无法完成请求");
+                }
+            }
+
+            // 避免在同一次重试中使用相同的域名
+            if (usedDomains.has(domain)) {
+                // 如果所有可用域名都已尝试过，则清空已使用域名集合，允许重复使用
+                if (usedDomains.size >= getAvailableDomainCount()) {
+                    usedDomains.clear();
+                } else {
+                    continue;
+                }
+            }
 
             usedDomains.add(domain);
             const url = `${domain}${endpoint}`;
@@ -78,7 +178,8 @@ export async function generateSuno(prompt) {
                     response.data.status.code === 10000 &&
                     response.data.status.msg &&
                     response.data.status.msg.includes("次数已经用完")) {
-                    //logger.warn(`[歌曲生成] 域名 ${domain} 的使用次数已用完，尝试其他域名...`);
+                    logger.warn(`[歌曲生成] 域名 ${domain} 的使用次数已用完，锁定1小时`);
+                    markDomainLimited(domain, 1); // 锁定1小时
                     continue;
                 }
 
@@ -88,11 +189,17 @@ export async function generateSuno(prompt) {
                 const errorMessage = error.response?.data?.message || error.message || "未知错误";
                 logger.error(`[歌曲生成] 请求失败 (${retry + 1}/${maxRetries}): ${errorMessage}, URL: ${url}`);
 
-                // 如果已尝试所有域名，则等待一段时间后重试
-                if (usedDomains.size >= API_DOMAINS.length) {
-                    //logger.info(`[歌曲生成] 已尝试所有域名，等待 3 秒后重试...`);
-                    await new Promise(resolve => setTimeout(resolve, 3000));
-                    usedDomains.clear(); // 清空已使用域名，重新开始
+                // 如果是网络错误或超时，可能暂时锁定域名一小段时间（10分钟）
+                if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
+                    logger.warn(`[歌曲生成] 域名 ${domain} 连接问题，暂时锁定10分钟`);
+                    markDomainLimited(domain, 10 / 60); // 10分钟
+                }
+
+                // 如果已尝试多个域名但仍有可用域名，则等待一段时间后继续
+                if (usedDomains.size >= Math.min(3, getAvailableDomainCount()) && getAvailableDomainCount() > 0) {
+                    const waitTime = Math.min(3000 * (retry + 1), 10000); // 递增等待时间，最多10秒
+                    logger.info(`[歌曲生成] 已尝试多个域名，等待 ${waitTime / 1000} 秒后继续...`);
+                    await new Promise(resolve => setTimeout(resolve, waitTime));
                 }
             }
         }
@@ -158,19 +265,19 @@ export async function generateSuno(prompt) {
             const statusData = await makeApiRequest(`/suno/fetch/${taskId}`, 'GET');
 
             if (!statusData) {
-                //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回空数据，继续尝试...`);
+                logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回空数据，继续尝试...`);
                 await new Promise(resolve => setTimeout(resolve, 5000));
                 continue;
             }
 
             if (!statusData.data) {
-                //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回数据不完整，继续尝试...`);
-                //logger.debug(`[歌曲生成] 状态响应: ${JSON.stringify(statusData)}`);
+                logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回数据不完整，继续尝试...`);
+                logger.debug(`[歌曲生成] 状态响应: ${JSON.stringify(statusData)}`);
                 await new Promise(resolve => setTimeout(resolve, 5000));
                 continue;
             }
 
-            //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): ${statusData.data.progress || '未知'}, 状态: ${statusData.data.status || '未知'}`);
+            logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): ${statusData.data.progress || '未知'}, 状态: ${statusData.data.status || '未知'}`);
 
             if (statusData.data.status === "SUCCESS") {
                 result = statusData.data;
@@ -442,4 +549,42 @@ export function enqueueTask(e, prompt, keepFiles = false) {
             e.reply(`当前有任务正在处理，已将您的请求加入队列（位置：${taskQueue.length}）`);
         }
     });
+}
+
+/**
+ * 获取当前域名限制状态
+ * @returns {Object} 域名限制状态信息
+ */
+export function getDomainLimitStatus() {
+    const now = Date.now();
+    const generateApiUrls = (count) =>
+        Array.from({ length: count }, (_, i) =>
+            `https://sunoproxy${i ? i : ''}.deno.dev`
+        );
+    const API_DOMAINS = generateApiUrls(16);
+
+    const result = {
+        totalDomains: API_DOMAINS.length,
+        limitedDomains: 0,
+        availableDomains: 0,
+        limitDetails: []
+    };
+
+    // 清理过期的限制
+    for (const [domain, limitInfo] of domainLimits.entries()) {
+        if (now > limitInfo.expireTime) {
+            domainLimits.delete(domain);
+        } else {
+            result.limitedDomains++;
+            result.limitDetails.push({
+                domain,
+                limitedAt: new Date(limitInfo.limitTime).toLocaleString(),
+                expireAt: new Date(limitInfo.expireTime).toLocaleString(),
+                remainingTime: Math.round((limitInfo.expireTime - now) / 60000) + "分钟"
+            });
+        }
+    }
+
+    result.availableDomains = result.totalDomains - result.limitedDomains;
+    return result;
 }
