@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../../../node_modules/axios/index.js';
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
@@ -11,6 +11,8 @@ const taskQueue = [];
 
 // 账号使用限制管理
 const domainLimits = new Map();
+// 任务与域名的映射关系
+const taskDomainMap = new Map();
 
 /**
  * 生成中文歌曲并获取结果
@@ -24,7 +26,7 @@ export async function generateSuno(prompt) {
 
     const generateApiUrls = (count) =>
         Array.from({ length: count }, (_, i) =>
-            `https://sunoproxy${i ? i : ''}.deno.dev`
+            `https/sunoproxy${i ? i : ''}.deno.dev`
         );
 
     const API_DOMAINS = generateApiUrls(31);
@@ -33,7 +35,7 @@ export async function generateSuno(prompt) {
         "accept": "application/json, text/plain, */*",
         "accept-language": "zh-CN,zh;q=0.9",
         "content-type": "application/json",
-        "Referer": "https://zaiwen.xueban.org.cn/",
+        "Referer": "https/zaiwen.xueban.org.cn/",
         "Referrer-Policy": "strict-origin-when-cross-origin"
     };
 
@@ -74,7 +76,7 @@ export async function generateSuno(prompt) {
             lockTimeHours: lockTimeHours
         });
 
-        //logger.warn(`[歌曲生成] 账号 ${domain} 已被锁定 ${lockTimeHours} 小时，直到 ${new Date(expireTime).toLocaleString()}`);
+        console.log(`[歌曲生成] 账号 ${domain} 已被锁定 ${lockTimeHours} 小时，直到 ${new Date(expireTime).toLocaleString()}`);
     }
 
     /**
@@ -102,31 +104,40 @@ export async function generateSuno(prompt) {
         return API_DOMAINS.filter(domain => isDomainAvailable(domain)).length;
     }
 
-    async function makeApiRequest(endpoint, method, data = null) {
+    async function makeApiRequest(endpoint, method, data = null, taskId = null) {
         let lastError = null;
         let usedDomains = new Set();
+
+        // 如果有taskId且已经有关联的domain，优先使用该domain
+        let preferredDomain = null;
+        if (taskId && taskDomainMap.has(taskId)) {
+            preferredDomain = taskDomainMap.get(taskId);
+            // 确认该domain仍然可用
+            if (!isDomainAvailable(preferredDomain)) {
+                preferredDomain = null;
+                taskDomainMap.delete(taskId);
+            }
+        }
 
         // 动态确定最大重试次数，基于可用账号数量
         // 至少尝试3次，最多尝试所有可用账号数量的2倍（考虑到可能有临时错误）
         const availableDomainCount = getAvailableDomainCount();
-        const maxRetries = Math.max(3, availableDomainCount);
-
-        //logger.info(`[歌曲生成] 当前可用账号数量: ${availableDomainCount}，设置最大重试次数: ${maxRetries}`);
+        const maxRetries = Math.max(3, Math.min(availableDomainCount * 2, 15));
 
         for (let retry = 0; retry < maxRetries; retry++) {
-            // 获取可用账号
-            let domain = getAvailableDomain();
+            // 获取可用账号，优先使用preferredDomain
+            let domain = preferredDomain || getAvailableDomain();
 
             // 如果没有可用账号，等待一段时间后重试
             if (!domain) {
-                logger.error(`[歌曲生成] 所有账号都被锁定，等待 30 秒后重试...`);
+                console.log(`[歌曲生成] 所有账号都被锁定，等待 30 秒后重试...`);
                 await new Promise(resolve => setTimeout(resolve, 30000));
 
                 // 清除过期的账号限制
                 for (const [domainKey, limitInfo] of domainLimits.entries()) {
                     if (Date.now() > limitInfo.expireTime) {
                         domainLimits.delete(domainKey);
-                        logger.info(`[歌曲生成] 账号 ${domainKey} 锁定已过期，现在可用`);
+                        console.log(`[歌曲生成] 账号 ${domainKey} 锁定已过期，现在可用`);
                     }
                 }
 
@@ -139,8 +150,8 @@ export async function generateSuno(prompt) {
                 }
             }
 
-            // 避免在同一次重试中使用相同的账号
-            if (usedDomains.has(domain)) {
+            // 避免在同一次重试中使用相同的账号，但只在非preferredDomain情况下检查
+            if (!preferredDomain && usedDomains.has(domain)) {
                 // 如果所有可用账号都已尝试过，则清空已使用账号集合，允许重复使用
                 if (usedDomains.size >= getAvailableDomainCount()) {
                     usedDomains.clear();
@@ -149,11 +160,16 @@ export async function generateSuno(prompt) {
                 }
             }
 
-            usedDomains.add(domain);
+            if (!preferredDomain) {
+                usedDomains.add(domain);
+            }
+            
             const url = `${domain}${endpoint}`;
 
             try {
-                //logger.info(`[歌曲生成] 尝试请求 (${retry + 1}/${maxRetries}): ${url}`);
+                if (retry === 0 || !preferredDomain) {
+                    console.log(`[歌曲生成] 尝试请求: ${url}`);
+                }
 
                 let response;
                 if (method.toUpperCase() === 'GET') {
@@ -178,27 +194,48 @@ export async function generateSuno(prompt) {
                     response.data.status.code === 10000 &&
                     response.data.status.msg &&
                     response.data.status.msg.includes("次数已经用完")) {
-                    logger.warn(`[歌曲生成] 账号 ${domain} 的使用次数已用完，锁定1小时`);
+                    console.log(`[歌曲生成] 账号 ${domain} 的使用次数已用完，锁定1小时`);
                     markDomainLimited(domain, 1); // 锁定1小时
+                    
+                    // 如果是preferredDomain被限制，则清除关联
+                    if (preferredDomain === domain && taskId) {
+                        taskDomainMap.delete(taskId);
+                        preferredDomain = null;
+                    }
+                    
                     continue;
+                }
+
+                // 如果是首次成功请求且有taskId，记录使用的domain
+                if (taskId && !taskDomainMap.has(taskId)) {
+                    taskDomainMap.set(taskId, domain);
+                    console.log(`[歌曲生成] 任务 ${taskId} 关联到账号 ${domain}`);
                 }
 
                 return response.data;
             } catch (error) {
                 lastError = error;
                 const errorMessage = error.response?.data?.message || error.message || "未知错误";
-                logger.error(`[歌曲生成] 请求失败 (${retry + 1}/${maxRetries}): ${errorMessage}, URL: ${url}`);
+                
+                if (retry === 0 || !preferredDomain) {
+                    console.log(`[歌曲生成] 请求失败: ${errorMessage}, URL: ${url}`);
+                }
 
                 // 如果是网络错误或超时，可能暂时锁定账号一小段时间（10分钟）
                 if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
-                    logger.warn(`[歌曲生成] 账号 ${domain} 连接问题，暂时锁定10分钟`);
+                    console.log(`[歌曲生成] 账号 ${domain} 连接问题，暂时锁定10分钟`);
                     markDomainLimited(domain, 10 / 60); // 10分钟
+                    
+                    // 如果是preferredDomain出现连接问题，清除关联
+                    if (preferredDomain === domain && taskId) {
+                        taskDomainMap.delete(taskId);
+                        preferredDomain = null;
+                    }
                 }
 
                 // 如果已尝试多个账号但仍有可用账号，则等待一段时间后继续
-                if (usedDomains.size >= Math.min(3, getAvailableDomainCount()) && getAvailableDomainCount() > 0) {
+                if (!preferredDomain && usedDomains.size >= Math.min(3, getAvailableDomainCount()) && getAvailableDomainCount() > 0) {
                     const waitTime = Math.min(3000 * (retry + 1), 10000); // 递增等待时间，最多10秒
-                    logger.info(`[歌曲生成] 已尝试多个账号，等待 ${waitTime / 1000} 秒后继续...`);
                     await new Promise(resolve => setTimeout(resolve, waitTime));
                 }
             }
@@ -209,7 +246,7 @@ export async function generateSuno(prompt) {
 
     try {
         // 步骤1: 生成歌词
-        logger.info("[歌曲生成] 步骤1: 正在生成歌词...");
+        console.log("[歌曲生成] 步骤1: 正在生成歌词...");
 
         // 确保prompt有效
         const safePrompt = prompt.trim();
@@ -224,14 +261,13 @@ export async function generateSuno(prompt) {
         }
 
         if (!lyricsData.title || !lyricsData.lyrics) {
-            //logger.error(`[歌曲生成] 歌词生成返回不完整数据: ${JSON.stringify(lyricsData)}`);
             throw new Error("歌词生成失败: 返回数据不完整");
         }
 
-        logger.info(`[歌曲生成] 歌词生成成功: ${lyricsData.title}`);
+        console.log(`[歌曲生成] 歌词生成成功: ${lyricsData.title}`);
 
         // 步骤2: 提交音乐生成请求
-        logger.info("[歌曲生成] 步骤2: 正在提交音乐生成请求...");
+        console.log("[歌曲生成] 步骤2: 正在提交音乐生成请求...");
         const requestBody = {
             mv: "chirp-v4",
             tags: lyricsData.tags || "",
@@ -246,15 +282,14 @@ export async function generateSuno(prompt) {
         }
 
         if (!submitData.task_id) {
-            logger.error(`[歌曲生成] 提交响应: ${JSON.stringify(submitData, null, 2)}`);
             throw new Error("提交音乐生成请求失败: 未获取到任务ID");
         }
 
         const taskId = submitData.task_id;
-        logger.info(`[歌曲生成] 音乐生成任务已提交，任务ID: ${taskId}`);
+        console.log(`[歌曲生成] 音乐生成任务已提交，任务ID: ${taskId}`);
 
         // 步骤3: 轮询获取结果
-        logger.info("[歌曲生成] 步骤3: 正在等待音乐生成结果...");
+        console.log("[歌曲生成] 步骤3: 正在等待音乐生成结果...");
         let result = null;
         let attempts = 0;
         const maxAttempts = 60; // 最多尝试60次
@@ -262,22 +297,19 @@ export async function generateSuno(prompt) {
         while (attempts < maxAttempts) {
             attempts++;
 
-            const statusData = await makeApiRequest(`/suno/fetch/${taskId}`, 'GET');
+            const statusData = await makeApiRequest(`/suno/fetch/${taskId}`, 'GET', null, taskId);
 
             if (!statusData) {
-                //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回空数据，继续尝试...`);
                 await new Promise(resolve => setTimeout(resolve, 5000));
                 continue;
             }
 
             if (!statusData.data) {
-                //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回数据不完整，继续尝试...`);
-                //logger.debug(`[歌曲生成] 状态响应: ${JSON.stringify(statusData)}`);
                 await new Promise(resolve => setTimeout(resolve, 5000));
                 continue;
             }
 
-            logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): ${statusData.data.progress || '未知'}, 状态: ${statusData.data.status || '未知'}`);
+            console.log(`[歌曲生成] 检查进度: ${statusData.data.progress || '0%'}, 状态: ${statusData.data.status || '未知'}`);
 
             if (statusData.data.status === "SUCCESS") {
                 result = statusData.data;
@@ -290,6 +322,9 @@ export async function generateSuno(prompt) {
             await new Promise(resolve => setTimeout(resolve, 5000));
         }
 
+        // 任务完成后清理taskDomainMap
+        taskDomainMap.delete(taskId);
+
         if (!result) {
             throw new Error("达到最大尝试次数，任务可能仍在进行中");
         }
@@ -298,7 +333,6 @@ export async function generateSuno(prompt) {
         const songVersions = result.data;
 
         if (!Array.isArray(songVersions) || songVersions.length === 0) {
-            logger.error(`[歌曲生成] 未获取到歌曲版本数据: ${JSON.stringify(result)}`);
             throw new Error("未获取到歌曲版本数据");
         }
 
@@ -311,7 +345,7 @@ export async function generateSuno(prompt) {
             lyrics: song.metadata?.prompt || ""
         }));
 
-        logger.info(`[歌曲生成] 音乐生成成功！共生成 ${formattedResult.length} 个版本`);
+        console.log(`[歌曲生成] 音乐生成成功！共生成 ${formattedResult.length} 个版本`);
         return {
             title: lyricsData.title,
             tags: lyricsData.tags || "",
@@ -319,7 +353,7 @@ export async function generateSuno(prompt) {
         };
 
     } catch (error) {
-        logger.error(`[歌曲生成] 生成过程中出错: ${error.message}`);
+        console.error(`[歌曲生成] 生成过程中出错: ${error.message}`);
         throw error;
     }
 }
@@ -339,7 +373,7 @@ export async function downloadFile(url, destPath, maxRetries = 3) {
 
     for (let retry = 0; retry < maxRetries; retry++) {
         try {
-            logger.info(`[歌曲生成] 尝试下载文件 (${retry + 1}/${maxRetries}): ${url}`);
+            console.log(`[歌曲生成] 正在下载文件: ${url}`);
 
             const response = await axios({
                 method: 'GET',
@@ -355,16 +389,15 @@ export async function downloadFile(url, destPath, maxRetries = 3) {
             }
 
             await pipeline(response.data, fs.createWriteStream(destPath));
-            logger.info(`[歌曲生成] 文件已下载到: ${destPath}`);
+            console.log(`[歌曲生成] 文件已下载到: ${destPath}`);
             return destPath;
         } catch (error) {
             lastError = error;
-            logger.error(`[歌曲生成] 下载文件失败 (${retry + 1}/${maxRetries}): ${error.message}`);
+            console.error(`[歌曲生成] 下载文件失败 (${retry + 1}/${maxRetries}): ${error.message}`);
 
             // 如果不是最后一次尝试，等待后重试
             if (retry < maxRetries - 1) {
                 const waitTime = (retry + 1) * 2000; // 递增等待时间
-                logger.info(`[歌曲生成] 等待 ${waitTime / 1000} 秒后重试下载...`);
                 await new Promise(resolve => setTimeout(resolve, waitTime));
             }
         }
@@ -420,7 +453,7 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
 
             // 检查版本数据是否完整
             if (!version.audio_url) {
-                logger.warn(`[歌曲生成] 版本 ${versionNumber} 缺少音频URL，跳过`);
+                console.warn(`[歌曲生成] 版本 ${versionNumber} 缺少音频URL，跳过`);
                 await e.reply(`版本 ${versionNumber} 缺少音频URL，跳过`);
                 continue;
             }
@@ -469,7 +502,7 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
                     version
                 });
             } catch (error) {
-                logger.error(`[歌曲生成] 处理版本 ${versionNumber} 失败: ${error.message}`);
+                console.error(`[歌曲生成] 处理版本 ${versionNumber} 失败: ${error.message}`);
                 await e.reply(`版本 ${versionNumber} 处理失败: ${error.message}`);
             }
         }
@@ -485,13 +518,11 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
                     try {
                         if (fs.existsSync(filePath)) {
                             fs.unlinkSync(filePath);
-                            logger.info(`[歌曲生成] 已删除文件: ${filePath}`);
                         }
                     } catch (err) {
-                        logger.error(`[歌曲生成] 删除文件失败: ${filePath}, 错误: ${err.message}`);
+                        console.error(`[歌曲生成] 删除文件失败: ${filePath}, 错误: ${err.message}`);
                     }
                 }
-                logger.info(`[歌曲生成] 清理完成，共删除 ${filesToDelete.length} 个文件`);
             }, 5000);
         }
 
@@ -504,8 +535,8 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
         };
     } catch (error) {
         const errorMessage = error?.message || "未知错误";
-        logger.error(`[歌曲生成] 生成歌曲失败: ${errorMessage}`);
-        logger.error(error.stack || "无堆栈信息");
+        console.error(`[歌曲生成] 生成歌曲失败: ${errorMessage}`);
+        console.error(error.stack || "无堆栈信息");
         await e.reply(`生成歌曲失败: ${errorMessage}`);
         return null;
     } finally {
@@ -514,7 +545,7 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
         if (taskQueue.length > 0) {
             const nextTask = taskQueue.shift();
             isProcessing = true;
-            logger.info(`[歌曲生成] 开始处理队列中的下一个任务: ${nextTask.prompt}`);
+            console.log(`[歌曲生成] 开始处理队列中的下一个任务: ${nextTask.prompt}`);
             nextTask.resolve(await generateAndSendSong(nextTask.e, nextTask.prompt, nextTask.keepFiles));
         }
     }
@@ -540,11 +571,11 @@ export function enqueueTask(e, prompt, keepFiles = false) {
         if (!isProcessing) {
             // 如果当前没有任务在处理，直接执行
             isProcessing = true;
-            logger.info(`[歌曲生成] 开始处理任务: ${prompt}`);
+            console.log(`[歌曲生成] 开始处理任务: ${prompt}`);
             resolve(generateAndSendSong(e, prompt, keepFiles));
         } else {
             // 如果有任务在处理，加入队列
-            logger.info(`[歌曲生成] 任务加入队列: ${prompt}, 当前队列长度: ${taskQueue.length + 1}`);
+            console.log(`[歌曲生成] 任务加入队列: ${prompt}, 当前队列长度: ${taskQueue.length + 1}`);
             taskQueue.push({ e, prompt, keepFiles, resolve });
             e.reply(`当前有任务正在处理，已将您的请求加入队列（位置：${taskQueue.length}）`);
         }
@@ -559,9 +590,9 @@ export function getDomainLimitStatus() {
     const now = Date.now();
     const generateApiUrls = (count) =>
         Array.from({ length: count }, (_, i) =>
-            `https://sunoproxy${i ? i : ''}.deno.dev`
+            `https/sunoproxy${i ? i : ''}.deno.dev`
         );
-    const API_DOMAINS = generateApiUrls(16);
+    const API_DOMAINS = generateApiUrls(31);
 
     const result = {
         totalDomains: API_DOMAINS.length,
