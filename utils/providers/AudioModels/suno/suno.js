@@ -120,9 +120,8 @@ export async function generateSuno(prompt) {
         }
 
         // 动态确定最大重试次数，基于可用账号数量
-        // 至少尝试3次，最多尝试所有可用账号数量的2倍（考虑到可能有临时错误）
         const availableDomainCount = getAvailableDomainCount();
-        const maxRetries = Math.max(3, Math.min(availableDomainCount * 2, 15));
+        const maxRetries = Math.max(3, availableDomainCount);
 
         for (let retry = 0; retry < maxRetries; retry++) {
             // 获取可用账号，优先使用preferredDomain
