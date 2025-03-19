@@ -26,7 +26,7 @@ export async function generateSuno(prompt) {
 
     const generateApiUrls = (count) =>
         Array.from({ length: count }, (_, i) =>
-            `https/sunoproxy${i ? i : ''}.deno.dev`
+            `https://sunoproxy${i ? i : ''}.deno.dev`
         );
 
     const API_DOMAINS = generateApiUrls(31);
