@@ -15,6 +15,10 @@ const taskQueue = [];
  * @returns {Promise<Object>} 包含歌曲信息的对象
  */
 export async function generateSuno(prompt) {
+    if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
+        throw new Error("歌曲描述不能为空");
+    }
+
     const generateApiUrls = (count) =>
         Array.from({ length: count }, (_, i) =>
             `https://sunoproxy${i ? i : ''}.deno.dev`
@@ -49,18 +53,30 @@ export async function generateSuno(prompt) {
             const url = `${domain}${endpoint}`;
 
             try {
-                //logger.info(`[歌曲生成] 尝试请求 (${retry + 1}/${maxRetries}): ${url}`);
+                logger.info(`[歌曲生成] 尝试请求 (${retry + 1}/${maxRetries}): ${url}`);
 
                 let response;
                 if (method.toUpperCase() === 'GET') {
-                    response = await axios.get(url, { headers });
+                    response = await axios.get(url, {
+                        headers,
+                        timeout: 30000 // 30秒超时
+                    });
                 } else {
-                    response = await axios.post(url, data, { headers });
+                    response = await axios.post(url, data, {
+                        headers,
+                        timeout: 30000 // 30秒超时
+                    });
+                }
+
+                // 检查响应是否有效
+                if (!response || !response.data) {
+                    throw new Error("API返回空响应");
                 }
 
                 // 检查是否有使用次数限制的错误
                 if (response.data && response.data.status &&
                     response.data.status.code === 10000 &&
+                    response.data.status.msg &&
                     response.data.status.msg.includes("次数已经用完")) {
                     //logger.warn(`[歌曲生成] 域名 ${domain} 的使用次数已用完，尝试其他域名...`);
                     continue;
@@ -69,7 +85,8 @@ export async function generateSuno(prompt) {
                 return response.data;
             } catch (error) {
                 lastError = error;
-                //logger.error(`[歌曲生成] 请求失败 (${retry + 1}/${maxRetries}): ${error.message}`);
+                const errorMessage = error.response?.data?.message || error.message || "未知错误";
+                logger.error(`[歌曲生成] 请求失败 (${retry + 1}/${maxRetries}): ${errorMessage}, URL: ${url}`);
 
                 // 如果已尝试所有域名，则等待一段时间后重试
                 if (usedDomains.size >= API_DOMAINS.length) {
@@ -80,15 +97,27 @@ export async function generateSuno(prompt) {
             }
         }
 
-        throw new Error(`达到最大重试次数 (${maxRetries})，最后错误: ${lastError.message}`);
+        throw new Error(`达到最大重试次数 (${maxRetries})，最后错误: ${lastError?.message || "未知错误"}`);
     }
 
     try {
         // 步骤1: 生成歌词
         logger.info("[歌曲生成] 步骤1: 正在生成歌词...");
-        const lyricsData = await makeApiRequest('/suno_lyric_generate', 'POST', { message: prompt });
 
-        if (!lyricsData || !lyricsData.title || !lyricsData.lyrics) {
+        // 确保prompt有效
+        const safePrompt = prompt.trim();
+        if (!safePrompt) {
+            throw new Error("歌曲描述不能为空");
+        }
+
+        const lyricsData = await makeApiRequest('/suno_lyric_generate', 'POST', { message: safePrompt });
+
+        if (!lyricsData) {
+            throw new Error("歌词生成失败: 服务器返回空数据");
+        }
+
+        if (!lyricsData.title || !lyricsData.lyrics) {
+            logger.error(`[歌曲生成] 歌词生成返回不完整数据: ${JSON.stringify(lyricsData)}`);
             throw new Error("歌词生成失败: 返回数据不完整");
         }
 
@@ -105,7 +134,11 @@ export async function generateSuno(prompt) {
 
         const submitData = await makeApiRequest('/suno/submit/music', 'POST', requestBody);
 
-        if (!submitData || !submitData.task_id) {
+        if (!submitData) {
+            throw new Error("提交音乐生成请求失败: 服务器返回空数据");
+        }
+
+        if (!submitData.task_id) {
             logger.error(`[歌曲生成] 提交响应: ${JSON.stringify(submitData, null, 2)}`);
             throw new Error("提交音乐生成请求失败: 未获取到任务ID");
         }
@@ -124,13 +157,20 @@ export async function generateSuno(prompt) {
 
             const statusData = await makeApiRequest(`/suno/fetch/${taskId}`, 'GET');
 
-            if (!statusData || !statusData.data) {
-                //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回数据不完整，继续尝试...`);
+            if (!statusData) {
+                //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回空数据，继续尝试...`);
                 await new Promise(resolve => setTimeout(resolve, 5000));
                 continue;
             }
 
-            // logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): ${statusData.data.progress || '未知'}, 状态: ${statusData.data.status || '未知'}`);
+            if (!statusData.data) {
+                //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): 返回数据不完整，继续尝试...`);
+                //logger.debug(`[歌曲生成] 状态响应: ${JSON.stringify(statusData)}`);
+                await new Promise(resolve => setTimeout(resolve, 5000));
+                continue;
+            }
+
+            //logger.info(`[歌曲生成] 检查进度 (${attempts}/${maxAttempts}): ${statusData.data.progress || '未知'}, 状态: ${statusData.data.status || '未知'}`);
 
             if (statusData.data.status === "SUCCESS") {
                 result = statusData.data;
@@ -151,6 +191,7 @@ export async function generateSuno(prompt) {
         const songVersions = result.data;
 
         if (!Array.isArray(songVersions) || songVersions.length === 0) {
+            logger.error(`[歌曲生成] 未获取到歌曲版本数据: ${JSON.stringify(result)}`);
             throw new Error("未获取到歌曲版本数据");
         }
 
@@ -166,7 +207,7 @@ export async function generateSuno(prompt) {
         logger.info(`[歌曲生成] 音乐生成成功！共生成 ${formattedResult.length} 个版本`);
         return {
             title: lyricsData.title,
-            tags: lyricsData.tags,
+            tags: lyricsData.tags || "",
             versions: formattedResult
         };
 
@@ -182,27 +223,47 @@ export async function generateSuno(prompt) {
  * @param {string} destPath 目标路径
  * @returns {Promise<string>} 文件保存路径
  */
-export async function downloadFile(url, destPath) {
-    try {
-        const response = await axios({
-            method: 'GET',
-            url: url,
-            responseType: 'stream'
-        });
-
-        // 确保目录存在
-        const dir = path.dirname(destPath);
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
-
-        await pipeline(response.data, fs.createWriteStream(destPath));
-        logger.info(`[歌曲生成] 文件已下载到: ${destPath}`);
-        return destPath;
-    } catch (error) {
-        logger.error(`[歌曲生成] 下载文件失败: ${error.message}`);
-        throw error;
+export async function downloadFile(url, destPath, maxRetries = 3) {
+    if (!url) {
+        throw new Error("下载失败: URL不能为空");
     }
+
+    let lastError = null;
+
+    for (let retry = 0; retry < maxRetries; retry++) {
+        try {
+            logger.info(`[歌曲生成] 尝试下载文件 (${retry + 1}/${maxRetries}): ${url}`);
+
+            const response = await axios({
+                method: 'GET',
+                url: url,
+                responseType: 'stream',
+                timeout: 60000 // 60秒超时
+            });
+
+            // 确保目录存在
+            const dir = path.dirname(destPath);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+
+            await pipeline(response.data, fs.createWriteStream(destPath));
+            logger.info(`[歌曲生成] 文件已下载到: ${destPath}`);
+            return destPath;
+        } catch (error) {
+            lastError = error;
+            logger.error(`[歌曲生成] 下载文件失败 (${retry + 1}/${maxRetries}): ${error.message}`);
+
+            // 如果不是最后一次尝试，等待后重试
+            if (retry < maxRetries - 1) {
+                const waitTime = (retry + 1) * 2000; // 递增等待时间
+                logger.info(`[歌曲生成] 等待 ${waitTime / 1000} 秒后重试下载...`);
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+            }
+        }
+    }
+
+    throw new Error(`下载文件失败，达到最大重试次数 (${maxRetries})，最后错误: ${lastError?.message || "未知错误"}`);
 }
 
 /**
@@ -213,12 +274,25 @@ export async function downloadFile(url, destPath) {
  * @returns {Promise<Object>} 生成结果
  */
 export async function generateAndSendSong(e, prompt, keepFiles = false) {
+    if (!e) {
+        throw new Error("消息事件对象不能为空");
+    }
+
+    if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
+        await e.reply("请提供有效的歌曲描述");
+        return null;
+    }
+
     try {
         // 发送等待消息
         await e.reply(`正在生成歌曲: "${prompt}"，请稍等...`);
 
         // 生成歌曲
         const result = await generateSuno(prompt);
+
+        if (!result) {
+            throw new Error("生成结果为空");
+        }
 
         // 创建保存目录
         const saveDir = path.join(process.cwd(), 'resources/suno_songs');
@@ -227,7 +301,7 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
         }
 
         // 发送歌曲总体信息
-        await e.reply(`🎵 歌曲《${result.title}》生成成功！\n标签: ${result.tags}\n共生成 ${result.versions.length} 个版本`);
+        await e.reply(`🎵 歌曲《${result.title}》生成成功！\n标签: ${result.tags || "无"}\n共生成 ${result.versions.length} 个版本`);
 
         // 处理每个版本
         const downloadResults = [];
@@ -237,35 +311,52 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
             const version = result.versions[i];
             const versionNumber = i + 1;
 
+            // 检查版本数据是否完整
+            if (!version.audio_url) {
+                logger.warn(`[歌曲生成] 版本 ${versionNumber} 缺少音频URL，跳过`);
+                await e.reply(`版本 ${versionNumber} 缺少音频URL，跳过`);
+                continue;
+            }
+
             const timestamp = Date.now();
-            const coverPath = path.join(saveDir, `${result.title}_v${versionNumber}_${timestamp}.jpg`);
-            const audioPath = path.join(saveDir, `${result.title}_v${versionNumber}_${timestamp}.mp3`);
+            const safeTitle = result.title.replace(/[\\/:*?"<>|]/g, '_'); // 安全的文件名
+            const coverPath = path.join(saveDir, `${safeTitle}_v${versionNumber}_${timestamp}.jpg`);
+            const audioPath = path.join(saveDir, `${safeTitle}_v${versionNumber}_${timestamp}.mp3`);
 
             filesToDelete.push(coverPath, audioPath);
 
             try {
-                await downloadFile(version.image_url, coverPath);
-                await downloadFile(version.audio_url, audioPath);
+                // 下载封面图片（如果有）
+                if (version.image_url) {
+                    await downloadFile(version.image_url, coverPath);
+                    await e.reply([
+                        segment.image(coverPath),
+                        `时长: ${Math.floor(version.duration / 60)}分${Math.round(version.duration % 60)}秒`
+                    ]);
+                } else {
+                    await e.reply(`版本 ${versionNumber} 时长: ${Math.floor(version.duration / 60)}分${Math.round(version.duration % 60)}秒`);
+                }
 
+                // 处理歌词
                 let lyricsText = `《${result.title}》(版本 ${versionNumber})\n\n`;
-                const lyricsLines = version.lyrics.split('\n');
-                lyricsLines.forEach(line => {
-                    if (!line.startsWith('[') && line.trim()) {
-                        lyricsText += line + '\n';
-                    }
-                });
+                if (version.lyrics) {
+                    const lyricsLines = version.lyrics.split('\n');
+                    lyricsLines.forEach(line => {
+                        if (!line.startsWith('[') && line.trim()) {
+                            lyricsText += line + '\n';
+                        }
+                    });
+                    await e.reply(lyricsText);
+                }
 
-                await e.reply([
-                    segment.image(coverPath),
-                    `时长: ${Math.floor(version.duration / 60)}分${Math.round(version.duration % 60)}秒`
-                ]);
-                await e.reply(lyricsText);
+                // 下载并发送音频
+                await downloadFile(version.audio_url, audioPath);
                 await e.reply(segment.record(audioPath));
 
                 downloadResults.push({
                     versionNumber,
                     title: result.title,
-                    coverPath,
+                    coverPath: version.image_url ? coverPath : null,
                     audioPath,
                     lyrics: lyricsText,
                     version
@@ -276,6 +367,11 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
             }
         }
 
+        if (downloadResults.length === 0) {
+            throw new Error("所有版本处理失败");
+        }
+
+        // 清理文件
         if (!keepFiles) {
             setTimeout(() => {
                 for (const filePath of filesToDelete) {
@@ -294,14 +390,16 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
 
         return {
             title: result.title,
-            tags: result.tags,
+            tags: result.tags || "",
             versionCount: result.versions.length,
             versions: downloadResults,
             filesDeleted: !keepFiles
         };
     } catch (error) {
-        await e.reply(`生成歌曲失败: ${error.message}`);
-        logger.error(`[歌曲生成] 生成歌曲失败: ${error}`);
+        const errorMessage = error?.message || "未知错误";
+        logger.error(`[歌曲生成] 生成歌曲失败: ${errorMessage}`);
+        logger.error(error.stack || "无堆栈信息");
+        await e.reply(`生成歌曲失败: ${errorMessage}`);
         return null;
     } finally {
         // 任务完成后处理队列
@@ -322,7 +420,15 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
  * @param {boolean} keepFiles 是否保留文件
  * @returns {Promise<Object>} 生成结果
  */
-function enqueueTask(e, prompt, keepFiles = false) {
+export function enqueueTask(e, prompt, keepFiles = false) {
+    if (!e) {
+        return Promise.reject(new Error("消息事件对象不能为空"));
+    }
+
+    if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
+        return Promise.reject(new Error("歌曲描述不能为空"));
+    }
+
     return new Promise((resolve) => {
         if (!isProcessing) {
             // 如果当前没有任务在处理，直接执行
