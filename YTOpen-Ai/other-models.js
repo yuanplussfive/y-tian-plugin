@@ -1861,5 +1861,13 @@ export const other_models = [
     "token": 1000000,
     "features": ['conversation', 'internet', 'code', 'image_recognition'],
     "quota": 0
+  },
+  {
+    "id": 228,
+    "model": "suno-v4-vip",
+    "points": "Suno",
+    "token": 1000000,
+    "features": ['music'],
+    "quota": 0
   }
 ]  

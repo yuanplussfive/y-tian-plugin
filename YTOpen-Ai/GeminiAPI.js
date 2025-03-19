@@ -232,7 +232,7 @@ export async function callGeminiAPI(input, imageUrls = [], options = {}) {
 
       const data = await response.json();
 
-      console.log(JSON.stringify(data, null, 2))
+      console.log(data)
       // 如果设置了返回原始响应，直接返回
       if (finalOptions.returnRawResponse) {
         return data;
