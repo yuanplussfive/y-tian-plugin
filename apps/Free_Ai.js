@@ -1,5 +1,5 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const { fs, _path, common, replyBasedOnStyle, puppeteer, NXModelResponse } = dependencies;
+const { fs, _path, replyBasedOnStyle, NXModelResponse } = dependencies;
 import { getFileInfo } from '../utils/fileUtils.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { Chatru_gemini } from '../utils/providers/VisionModels/chatru/gemini.js';
@@ -105,7 +105,7 @@ export class YTFreeAi extends plugin {
     if (images && images.length > 0) {
       const answer = await Chatru_gemini([{ role: 'user', content: userMsg }], images);
       if (answer) {
-        await replyBasedOnStyle(styles, answer, e, modellist[model] || model, puppeteer, fs, _path, userMsg, common);
+        await replyBasedOnStyle(answer, e, modellist[model] || model, userMsg);
       } else {
         e.reply("未能获取到有效的图片回复，请稍后再试");
       }
@@ -118,7 +118,7 @@ export class YTFreeAi extends plugin {
 
     const answer = await this.getModelResponse(model, history);
     if (answer) {
-      await replyBasedOnStyle(styles, answer, e, modellist[model] || model, puppeteer, fs, _path, userMsg, common);
+      await replyBasedOnStyle(answer, e, modellist[model] || model, userMsg);
       history.push({ role: "assistant", content: answer });
       await this.saveHistory(userId, model, history);
     } else {
