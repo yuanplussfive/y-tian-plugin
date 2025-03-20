@@ -995,7 +995,7 @@ export const chat_models = {
       "id": "141",
       "name": "claude-3-7-sonnet-thinking",
       "token_count": 32000,
-      "Magnification": 3,
+      "Magnification": 2,
       "features": ['conversation', 'code', 'image_recognition', 'file']
     },
     {
