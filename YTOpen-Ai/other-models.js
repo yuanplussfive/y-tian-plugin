@@ -1869,5 +1869,13 @@ export const other_models = [
     "token": 1000000,
     "features": ['music'],
     "quota": 0
+  },
+  {
+    "id": 229,
+    "model": "Noobai",
+    "points": "y-tian-plugin",
+    "token": 1000000,
+    "features": ['drawing'],
+    "quota": "0.05/次"
   }
 ]  
