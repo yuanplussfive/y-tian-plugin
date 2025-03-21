@@ -56,7 +56,7 @@ export async function zaiwen(messages, model) {
                 "我们聊的太多了": null,
                 "zaiwen": null,
                 "Server Error": null,
-                "Server Error": null,
+                "此模型暂时无法处理你的请求": null,
                 '{"detail":"模型返回出错，可能是文档类型不支持、网络波动、输入文字过长"}': null
             };
 
@@ -98,7 +98,7 @@ export async function zaiwen(messages, model) {
             "我们聊的太多了": null,
             "zaiwen": null,
             "Server Error": null,
-            "暂时无法处理": null,
+            "暂时无法处理你的请求": null,
             '{"detail":"模型返回出错，可能是文档类型不支持、网络波动、输入文字过长"}': null
         };
 

@@ -162,7 +162,7 @@ export async function generateSuno(prompt) {
             if (!preferredDomain) {
                 usedDomains.add(domain);
             }
-            
+
             const url = `${domain}${endpoint}`;
 
             try {
@@ -195,13 +195,13 @@ export async function generateSuno(prompt) {
                     response.data.status.msg.includes("次数已经用完")) {
                     console.log(`[歌曲生成] 账号 ${domain} 的使用次数已用完，锁定1小时`);
                     markDomainLimited(domain, 1); // 锁定1小时
-                    
+
                     // 如果是preferredDomain被限制，则清除关联
                     if (preferredDomain === domain && taskId) {
                         taskDomainMap.delete(taskId);
                         preferredDomain = null;
                     }
-                    
+
                     continue;
                 }
 
@@ -215,7 +215,7 @@ export async function generateSuno(prompt) {
             } catch (error) {
                 lastError = error;
                 const errorMessage = error.response?.data?.message || error.message || "未知错误";
-                
+
                 if (retry === 0 || !preferredDomain) {
                     console.log(`[歌曲生成] 请求失败: ${errorMessage}, URL: ${url}`);
                 }
@@ -224,7 +224,7 @@ export async function generateSuno(prompt) {
                 if (error.code === 'ECONNREFUSED' || error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
                     console.log(`[歌曲生成] 账号 ${domain} 连接问题，暂时锁定10分钟`);
                     markDomainLimited(domain, 10 / 60); // 10分钟
-                    
+
                     // 如果是preferredDomain出现连接问题，清除关联
                     if (preferredDomain === domain && taskId) {
                         taskDomainMap.delete(taskId);
@@ -461,20 +461,11 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
             const safeTitle = result.title.replace(/[\\/:*?"<>|]/g, '_'); // 安全的文件名
             const coverPath = path.join(saveDir, `${safeTitle}_v${versionNumber}_${timestamp}.jpg`);
             const audioPath = path.join(saveDir, `${safeTitle}_v${versionNumber}_${timestamp}.mp3`);
+            const videoPath = path.join(saveDir, `${safeTitle}_v${versionNumber}_${timestamp}.mp4`);
 
-            filesToDelete.push(coverPath, audioPath);
+            filesToDelete.push(coverPath, audioPath, videoPath);
 
             try {
-                // 下载封面图片（如果有）
-                if (version.image_url) {
-                    await downloadFile(version.image_url, coverPath);
-                    await e.reply([
-                        segment.image(coverPath),
-                        `时长: ${Math.floor(version.duration / 60)}分${Math.round(version.duration % 60)}秒`
-                    ]);
-                } else {
-                    await e.reply(`版本 ${versionNumber} 时长: ${Math.floor(version.duration / 60)}分${Math.round(version.duration % 60)}秒`);
-                }
 
                 // 处理歌词
                 let lyricsText = `《${result.title}》(版本 ${versionNumber})\n\n`;
@@ -488,8 +479,9 @@ export async function generateAndSendSong(e, prompt, keepFiles = false) {
                     await e.reply(lyricsText);
                 }
 
-                // 下载并发送音频
+                await downloadFile(version.video_url, videoPath);
                 await downloadFile(version.audio_url, audioPath);
+                await e.reply(segment.video(videoPath));
                 await e.reply(segment.record(audioPath));
 
                 downloadResults.push({
