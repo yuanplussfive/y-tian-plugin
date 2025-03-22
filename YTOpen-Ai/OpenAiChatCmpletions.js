@@ -25,8 +25,8 @@ function createOpenAIClient(baseUrl, apiKey, defaultHeaders = { 'Content-Type': 
 async function getChatCompletion(openaiClient, model, messages) {
   // 定义不同模型的超时时间（毫秒）
   const timeoutSettings = {
-    'claude': 120000, 
-    'gemini': 120000, 
+    'claude': 300000,
+    'gemini': 180000,
     'all': 300000,
     'mj': 300000,
     'ideogram': 300000,

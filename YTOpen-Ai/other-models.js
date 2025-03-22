@@ -1877,5 +1877,13 @@ export const other_models = [
     "token": 1000000,
     "features": ['drawing'],
     "quota": "0.05/次"
+  },
+  {
+    "id": 230,
+    "model": "luma-dream-machine-v2",
+    "points": "y-tian-plugin",
+    "token": 2000,
+    "features": ['video'],
+    "quota": "2.5/次"
   }
 ]  

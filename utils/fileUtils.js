@@ -115,40 +115,56 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
 }
 
 /**
- * 解析文本中的链接
- * @param {string} inputString - 输入字符串
- * @returns {Promise<Array>} - 链接数组
+ * 解析文本中的各种格式链接
+ * @param {string} inputString - 需要解析的输入字符串
+ * @returns {Promise<Array>} - 解析出的链接数组
  */
 export async function get_address(inputString) {
+  // 定义已支持的域名正则表达式
   const filesystemSiteRegex = `filesystem\\.site\/cdn\/\\d{8}\/[a-zA-Z0-9]+?\\.[a-z]{2,4}`;
   const yuanplussOnlineRegex = `yuanpluss\\.online:\\d+\/files\/[a-zA-Z0-9_\\/]+?\\.[a-z]{2,4}`;
   const openaiYuanplusChatRegex = `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/]+?\\.[a-z]{2,4}`;
-
-  const exclamationMarkRegex = `!\\[([^\\]]*?)\\]\\((https:\\\/\\\/(${filesystemSiteRegex}|${yuanplussOnlineRegex}|${openaiYuanplusChatRegex}))\\)`;
-  const noExclamationMarkRegex = `\\[([^\\]]*?)\\]\\((https:\\\/\\\/(${filesystemSiteRegex}|${yuanplussOnlineRegex}|${openaiYuanplusChatRegex}))\\)`;
-
+  // 新增支持的域名正则表达式
+  const falMediaRegex = `v3\\.fal\\.media\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z0-9]{2,4}`;
+  
+  // 合并所有支持的域名模式
+  const supportedDomains = [
+    filesystemSiteRegex,
+    yuanplussOnlineRegex,
+    openaiYuanplusChatRegex,
+    falMediaRegex
+  ].join('|');
+  
+  // 定义不同链接格式的正则表达式
+  const patterns = [
+    // Markdown 图片链接: ![alt](url)
+    `!\\[([^\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\)`,
+    // Markdown 普通链接: [text](url)
+    `\\[([^\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\)`,
+    // 带有表情符号的链接格式: ▶️ [text](url)
+    `[\\p{Emoji}\\s]*\\[([^\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\)`
+  ];
+  
   let links = [];
-
-  const exclamationRegex = new RegExp(exclamationMarkRegex, "g");
-  let exclamationMatch;
-  while ((exclamationMatch = exclamationRegex.exec(inputString)) !== null) {
-    const link = exclamationMatch[2];
-    links.push(link);
+  
+  // 遍历每种模式进行匹配
+  for (const pattern of patterns) {
+    // 使用u标志支持Unicode字符(如表情符号)
+    const regex = new RegExp(pattern, "gu");
+    let match;
+    
+    while ((match = regex.exec(inputString)) !== null) {
+      // 提取链接部分 (通常是第2个捕获组)
+      const link = match[2];
+      // 避免重复添加相同链接
+      if (!links.includes(link)) {
+        links.push(link);
+      }
+    }
   }
-
-  if (links.length >= 1) {
-    console.log(links);
-    return links;
-  }
-
-  const noExclamationRegex = new RegExp(noExclamationMarkRegex, "g");
-  let noExclamationMatch;
-  while ((noExclamationMatch = noExclamationRegex.exec(inputString)) !== null) {
-    const link = noExclamationMatch[2];
-    links.push(link);
-  }
-
-  console.log(links);
+  
+  // 输出调试信息
+  console.log('解析到的链接:', links);
   return links;
 }
 
