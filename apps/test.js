@@ -18,6 +18,7 @@ import { AiPPTTool } from '../YTOpen-Ai/functions_tools/AiPPTTool.js';
 import { FluxTool } from '../YTOpen-Ai/functions_tools/FluxTool.js';
 import { RecraftTool } from '../YTOpen-Ai/functions_tools/RecraftTool.js';
 import { IdeogramTool } from '../YTOpen-Ai/functions_tools/IdeogramTool.js';
+import { NoobaiTool } from '../YTOpen-Ai/functions_tools/NoobaiTool.js';
 import { WebParserTool } from '../YTOpen-Ai/functions_tools/webParserTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
@@ -81,8 +82,14 @@ export class ExamplePlugin extends plugin {
     this.fluxTool = new FluxTool();
     this.ideogramTool = new IdeogramTool();
     this.recraftTool = new RecraftTool();
+    this.noobaiTool = new NoobaiTool();
     // 工具定义部分
     this.functions = [
+      {
+        name: this.noobaiTool.name,
+        description: this.noobaiTool.description,
+        parameters: this.noobaiTool.parameters
+      },
       {
         name: this.recraftTool.name,
         description: this.recraftTool.description,
@@ -1001,6 +1008,10 @@ export class ExamplePlugin extends plugin {
                   result = await executeTool(this.recraftTool, params, e);
                   break;
 
+                  case this.noobaiTool.name:
+                    result = await executeTool(this.noobaiTool, params, e);
+                    break;
+
                 case this.emojiSearchTool.name:
                   result = await executeTool(this.emojiSearchTool, params, e);
                   break;
@@ -1533,6 +1544,10 @@ export class ExamplePlugin extends plugin {
             result = await executeTool(this.recraftTool, params, e);
             break;
 
+            case this.noobaiTool.name:
+              result = await executeTool(this.noobaiTool, params, e);
+              break;
+
           case this.emojiSearchTool.name:
             result = await executeTool(this.emojiSearchTool, params, e);
             break;
@@ -1943,6 +1958,7 @@ export class ExamplePlugin extends plugin {
       case 'jimengTool':
       case 'aiMindMapTool':
       case 'aiPPTTool':
+      case 'noobaiTool':
         output = output.replace(/!?\[([^\]]*)\]\((.*?example.*?)\)/g, '$1');
         output = output.replace(/\[([^\]]+)\]\((https?:\/\/.*?example.*?)\)/g, '');
         output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
