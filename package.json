@@ -21,6 +21,8 @@
   "author": "Hello World && yuanpluss",
   "license": "MIT",
   "dependencies": {
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "@google/generative-ai": "^0.24.0",
     "openai": "^4.87.3",
     "crypto-js": "^4.2.0",
