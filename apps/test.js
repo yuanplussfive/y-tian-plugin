@@ -220,9 +220,9 @@ export class ExamplePlugin extends plugin {
       openai: this.config.openai_tools,
       oneapi: this.config.oneapi_tools,
     };
- 
+
     this.tools = this.getToolsByName(toolConfig[provider] || this.config.openai_tools);
- 
+
     //console.log(this.tools); // 输出选定的工具
 
     // 初始化消息历史管理，使用 Redis 和本地文件
@@ -781,6 +781,30 @@ export class ExamplePlugin extends plugin {
         tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
       }
 
+      const toolConfigs = [
+        { name: 'noobaiTool', keyword: 'noob' },
+        { name: 'recraftTool', keyword: 'recraft' },
+        { name: 'ideogramTool', keyword: 'ideogram' },
+        { name: 'fluxTool', keyword: 'flux' },
+        { name: 'jimengTool', keyword: 'jimeng' }
+      ];
+
+      // 检查是否包含绘图相关词汇
+      const isDrawingRequest = msg.includes("绘图") || msg.includes("画图") || msg.includes("画个") || msg.includes("绘个");
+
+      if (isDrawingRequest) {
+        toolConfigs.some(config => {
+          if (msg.includes(config.keyword)) {
+            this.tools = this.getToolsByName([config.name]);
+            if (this.tools && this.tools.length > 0) {
+              tool_choice = { type: 'function', function: { name: config.name } };
+              return true; // 中断 some() 循环
+            }
+          }
+          return false;
+        });
+      }
+
       console.log(tool_choice)
       // 修改初始请求体的构建
       const requestData = {
@@ -1012,9 +1036,9 @@ export class ExamplePlugin extends plugin {
                   result = await executeTool(this.recraftTool, params, e);
                   break;
 
-                  case this.noobaiTool.name:
-                    result = await executeTool(this.noobaiTool, params, e);
-                    break;
+                case this.noobaiTool.name:
+                  result = await executeTool(this.noobaiTool, params, e);
+                  break;
 
                 case this.emojiSearchTool.name:
                   result = await executeTool(this.emojiSearchTool, params, e);
@@ -1176,9 +1200,9 @@ export class ExamplePlugin extends plugin {
 
           //console.log(groupUserMessages);
           // 最终检查逻辑
-          if (!this.config.UseTools || this.config.providers == 'oneapi') {
-            return false;
-          }
+          //if (!this.config.UseTools || this.config.providers == 'oneapi') {
+          //  return false;
+          //}
           try {
             const finalCheckResponse = await YTapi(FinalRequest, this.config);
 
@@ -1548,9 +1572,9 @@ export class ExamplePlugin extends plugin {
             result = await executeTool(this.recraftTool, params, e);
             break;
 
-            case this.noobaiTool.name:
-              result = await executeTool(this.noobaiTool, params, e);
-              break;
+          case this.noobaiTool.name:
+            result = await executeTool(this.noobaiTool, params, e);
+            break;
 
           case this.emojiSearchTool.name:
             result = await executeTool(this.emojiSearchTool, params, e);
@@ -1959,38 +1983,36 @@ export class ExamplePlugin extends plugin {
 
     switch (toolName) {
       case 'dalleTool':
-        case 'jimengTool':
-        case 'aiMindMapTool':
-        case 'aiPPTTool':
-        case 'noobaiTool':
-            // 调用 get_address 获取所有需要删除的链接
-            const linksToRemove = await get_address(output);
-  
-            // 删除 Markdown 链接
-            output = output.replace(/!?\[([^\]]*)\]\((.*?example.*?)\)/g, '$1'); // 移除 example 链接
-            output = output.replace(/\[([^\]]+)\]\((https?:\/\/.*?example.*?)\)/g, ''); // 移除 example 链接
-  
-            // 移除 get_address 识别出的链接
-            for (const link of linksToRemove) {
-                // 创建动态正则表达式，注意对特殊字符进行转义
-                // 对链接进行转义，防止链接中的特殊字符影响正则表达式
-                let escapedLink = link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  
-                // 兼容更多格式的正则表达式
-                const regexToRemove = new RegExp(
-                    `(?:!?\\[([^\\]]*?)\\]\\(${escapedLink}\\))|` + // 匹配标准的 Markdown 链接
-                    `(?:!?\\(${escapedLink}\\))|` +          // 匹配  !(链接) 或 (链接)
-                    `(?:!?\\[${escapedLink}\\])|` +            // 匹配  [链接] 或 ![链接]
-                    `(?:<image\\s+url="${escapedLink.replace(/"/g, '&quot;')}"\\s*\\/>)`, // 匹配 <image url="xxx"/> 格式
-                    'g'
-                );
-  
-                output = output.replace(regexToRemove, '').trim(); // 移除链接
-            }
-  
-            output = output.trim(); // 清理首尾空格
-            //output = convertImageMd(output);
-            break;
+      case 'jimengTool':
+      case 'aiMindMapTool':
+      case 'aiPPTTool':
+      case 'noobaiTool':
+        // 先处理图片标记，因为它们通常包含 "!" 前缀
+        // 处理 ![alt](url) 格式的图片
+        output = output.replace(/!\[([^\]]*)\]\([^)]*\)/g, '');
+
+        // 处理 <image url="xxx"/> 格式
+        output = output.replace(/<image\s+url="[^"]*"\s*\/?>/g, '');
+
+        // 处理 ![url] 格式的图片
+        output = output.replace(/!\[[^\]]+\]/g, '');
+
+        // 处理 !(url) 格式的图片
+        output = output.replace(/!\([^)]+\)/g, '');
+
+        // 然后处理普通链接
+        // 处理 [text](url) 格式的链接，保留文本部分
+        output = output.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1');
+
+        // 处理 [url] 格式
+        output = output.replace(/\[[^\]]+\]/g, '');
+
+        // 处理 (url) 格式
+        output = output.replace(/\([^)]+\)/g, '');
+
+        // 移除可能出现的连续空格、制表符和换行符
+        output = output.replace(/\s+/g, ' ').trim();
+        break;
 
       case 'searchVideoTool':
         break;
