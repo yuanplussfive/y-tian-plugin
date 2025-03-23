@@ -20,7 +20,7 @@ import { RecraftTool } from '../YTOpen-Ai/functions_tools/RecraftTool.js';
 import { IdeogramTool } from '../YTOpen-Ai/functions_tools/IdeogramTool.js';
 import { NoobaiTool } from '../YTOpen-Ai/functions_tools/NoobaiTool.js';
 import { WebParserTool } from '../YTOpen-Ai/functions_tools/webParserTool.js';
-import { TakeImages } from '../utils/fileUtils.js';
+import { TakeImages, get_address } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
 import { dependencies } from '../YTdependence/dependencies.js';
@@ -215,11 +215,14 @@ export class ExamplePlugin extends plugin {
     };
 
     const provider = this.config.providers.toLowerCase();
-    this.tools = this.getToolsByName(provider === 'gemini'
-      ? this.config.gemini_tools
-      : this.config.openai_tools
-    );
-
+    const toolConfig = {
+      gemini: this.config.gemini_tools,
+      openai: this.config.openai_tools,
+      oneapi: this.config.oneapi_tools,
+    };
+ 
+    this.tools = this.getToolsByName(toolConfig[provider] || this.config.openai_tools);
+ 
     //console.log(this.tools); // 输出选定的工具
 
     // 初始化消息历史管理，使用 Redis 和本地文件
@@ -273,7 +276,8 @@ export class ExamplePlugin extends plugin {
           'https://gemini-proxy-2.deno.dev',
           'https://gemini-proxy-3.deno.dev',
         ],
-        VegaStoken: 'uuid'
+        VegaStoken: 'uuid',
+        ClashProxy: 'http://127.0.0.1:7890'
       }
     }
 
@@ -717,7 +721,7 @@ export class ExamplePlugin extends plugin {
         // 格式化最后一条消息
         const lastMessage = await buildMessageContent(
           { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
-          '我已经读取了上述群聊的聊天记录，我会优先关注你的最新消息',
+          '我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 如果想要发送图片等等, 我会使用markdown语法, 比如![image](链接)',
           [],
           [],
           e.group
@@ -1955,15 +1959,38 @@ export class ExamplePlugin extends plugin {
 
     switch (toolName) {
       case 'dalleTool':
-      case 'jimengTool':
-      case 'aiMindMapTool':
-      case 'aiPPTTool':
-      case 'noobaiTool':
-        output = output.replace(/!?\[([^\]]*)\]\((.*?example.*?)\)/g, '$1');
-        output = output.replace(/\[([^\]]+)\]\((https?:\/\/.*?example.*?)\)/g, '');
-        output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '').trim();
-        //output = convertImageMd(output);
-        break;
+        case 'jimengTool':
+        case 'aiMindMapTool':
+        case 'aiPPTTool':
+        case 'noobaiTool':
+            // 调用 get_address 获取所有需要删除的链接
+            const linksToRemove = await get_address(output);
+  
+            // 删除 Markdown 链接
+            output = output.replace(/!?\[([^\]]*)\]\((.*?example.*?)\)/g, '$1'); // 移除 example 链接
+            output = output.replace(/\[([^\]]+)\]\((https?:\/\/.*?example.*?)\)/g, ''); // 移除 example 链接
+  
+            // 移除 get_address 识别出的链接
+            for (const link of linksToRemove) {
+                // 创建动态正则表达式，注意对特殊字符进行转义
+                // 对链接进行转义，防止链接中的特殊字符影响正则表达式
+                let escapedLink = link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  
+                // 兼容更多格式的正则表达式
+                const regexToRemove = new RegExp(
+                    `(?:!?\\[([^\\]]*?)\\]\\(${escapedLink}\\))|` + // 匹配标准的 Markdown 链接
+                    `(?:!?\\(${escapedLink}\\))|` +          // 匹配  !(链接) 或 (链接)
+                    `(?:!?\\[${escapedLink}\\])|` +            // 匹配  [链接] 或 ![链接]
+                    `(?:<image\\s+url="${escapedLink.replace(/"/g, '&quot;')}"\\s*\\/>)`, // 匹配 <image url="xxx"/> 格式
+                    'g'
+                );
+  
+                output = output.replace(regexToRemove, '').trim(); // 移除链接
+            }
+  
+            output = output.trim(); // 清理首尾空格
+            //output = convertImageMd(output);
+            break;
 
       case 'searchVideoTool':
         break;

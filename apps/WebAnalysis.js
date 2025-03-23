@@ -2,6 +2,10 @@ import WebParser from '../YTOpen-Ai/functions_tools/puppeteer/WebParser.js';
 import { YTOtherModels } from '../utils/fileUtils.js';
 import fs from 'fs';
 import path from 'path';
+import YAML from 'yaml';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * 网页解析插件
@@ -25,8 +29,21 @@ export class WebParserPlugin extends plugin {
         }
       ]
     });
-    
-    this.parser = new WebParser();
+    const configPath = path.join(__dirname, '../config/message.yaml');
+    console.log(configPath)
+    let config = {};
+    if (fs.existsSync(configPath)) {
+        const file = fs.readFileSync(configPath, 'utf8');
+        const configs = YAML.parse(file);
+        config = configs.pluginSettings;
+    }
+    const proxy = config?.ClashProxy;
+    this.parser = new WebParser({
+      proxy: proxy,
+      timeout: 35000,
+      maxRetries: 2,
+      retryDelay: 2000
+    });
     
     // 创建临时目录用于保存截图
     this.tempDir = path.join('./data/webparser');
