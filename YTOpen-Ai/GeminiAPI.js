@@ -294,6 +294,135 @@ export async function callGeminiAPI(input, imageUrls = [], options = {}) {
  * @param {Object} e - 消息事件对象，用于回复
  * @param {Object} options - 处理选项
  * @param {Boolean} options.includeRawOutput - 是否包含原始输出信息
+ * @returns {Object} 包含处理结果的对象 { hasImages: boolean, textContent: string | null }
+ */
+export async function handleGeminiImage(result, e, options = { includeRawOutput: false }) {
+  // 错误处理
+  if (result.error) {
+    //e.reply(result.isNetworkError ? '网络出现问题，请稍后再试' : `处理请求时发生错误: ${result.error}`);
+    return { hasImages: false, textContent: null };
+  }
+
+  // 确保存储目录存在
+  const resourceDir = './resources';
+  if (!fs.existsSync(resourceDir)) {
+    fs.mkdirSync(resourceDir, { recursive: true });
+  }
+
+  const timestamp = Date.now();
+  const textParts = [];
+  const imageParts = [];
+  let hasContent = false;
+
+  // 处理函数：处理单个响应部分
+  const processPart = (part, index, isRaw = false) => {
+    if (part.text !== undefined && part.text.trim()) {
+      textParts.push(part.text.trim());
+      hasContent = true;
+    } else if (part.inlineData?.data) {
+      const outputPath = `${resourceDir}/Gemini_${timestamp}_${isRaw ? 'raw_' : ''}${index}.png`;
+      try {
+        fs.writeFileSync(outputPath, Buffer.from(part.inlineData.data, 'base64'));
+        imageParts.push(segment.image(outputPath));
+        hasContent = true;
+      } catch (error) {
+        console.error('处理图像时出错:', error);
+        textParts.push('[图像处理失败]');
+      }
+    }
+  };
+
+  // 处理API响应
+  if (result.candidates && Array.isArray(result.candidates)) {
+    const candidate = result.candidates[0];
+    if (candidate?.content?.parts) {
+      candidate.content.parts.forEach((part, index) => processPart(part, index));
+    }
+
+    // 处理grounding和token信息
+    if (options.includeRawOutput) {
+      if (candidate.groundingMetadata) {
+        const metadata = candidate.groundingMetadata;
+        if (metadata.webSearchQueries?.length) {
+          textParts.push(`\n搜索查询: ${metadata.webSearchQueries.join(', ')}`);
+        }
+        if (metadata.groundingChunks?.length) {
+          textParts.push("\n参考来源:");
+          metadata.groundingChunks.forEach((chunk, index) => {
+            if (chunk.web?.title && chunk.web?.uri) {
+              textParts.push(`${index + 1}. ${chunk.web.title} (${chunk.web.uri})`);
+            }
+          });
+        }
+      }
+      if (result.usageMetadata) {
+        textParts.push(`\n总计使用: ${result.usageMetadata.totalTokenCount || 0} tokens`);
+      }
+    }
+  } else if (result.parts?.length > 0) {
+    // 处理标准响应
+    result.parts.forEach((part, index) => processPart(part, index));
+  } else if (result.raw?.candidates?.[0]?.content?.parts) {
+    // 处理原始响应
+    result.raw.candidates[0].content.parts.forEach((part, index) => processPart(part, index, true));
+  }
+
+  // 处理工具结果
+  if (result.toolResults?.length) {
+    textParts.push("工具调用结果:");
+    result.toolResults.forEach(toolResult => {
+      if (toolResult.name) {
+        textParts.push(`工具: ${toolResult.name}`);
+      }
+      if (toolResult.result) {
+        textParts.push(JSON.stringify(toolResult.result, null, 2));
+      }
+    });
+  }
+
+  // 处理grounding信息
+  if (options.includeRawOutput && result.groundingMetadata) {
+    const metadata = result.groundingMetadata;
+    if (metadata.webSearchQueries?.length) {
+      textParts.push(`\n搜索查询: ${metadata.webSearchQueries.join(', ')}`);
+    }
+    if (metadata.groundingChunks?.length) {
+      textParts.push("\n参考来源:");
+      metadata.groundingChunks.forEach((chunk, index) => {
+        if (chunk.web?.title && chunk.web?.uri) {
+          textParts.push(`${index + 1}. ${chunk.web.title} (${chunk.web.uri})`);
+        }
+      });
+    }
+  }
+
+  if (hasContent) {
+    const textContent = textParts.length > 0 ? textParts.join('\n') : null;
+    
+    // 如果有图片，单独发送图片
+    if (imageParts.length > 0) {
+      e.reply(imageParts);
+    }
+    
+    return { 
+      hasImages: imageParts.length > 0, 
+      textContent 
+    };
+  }
+
+  // 处理失败情况
+  console.error('无有效响应内容，原始数据:', JSON.stringify(result, null, 2));
+  //e.reply('生成内容失败，没有有效的响应内容');
+  return { hasImages: false, textContent: null };
+}
+
+
+/**
+ * 处理Gemini返回的结果
+ * @param {Object} result - Gemini API返回的结果
+ * @param {Object} e - 消息事件对象，用于回复
+ * @param {Object} options - 处理选项
+ * @param {Boolean} options.includeRawOutput - 是否包含原始输出信息
  * @returns {Boolean} 处理是否成功
  */
 export async function handleGeminiResult(result, e, options = { includeRawOutput: false }) {

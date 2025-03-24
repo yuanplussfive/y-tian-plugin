@@ -1,5 +1,5 @@
 import { AbstractTool } from './AbstractTool.js';
-import { callGeminiAPI, handleGeminiResult } from "../../YTOpen-Ai/GeminiAPI.js";
+import { callGeminiAPI, handleGeminiResult, handleGeminiImage } from "../../YTOpen-Ai/GeminiAPI.js";
 
 /**
  * 图片编辑工具类，用于处理用户的图片相关请求
@@ -49,15 +49,13 @@ export class GoogleImageEditTool extends AbstractTool {
                 }
             });
             console.log(result);
-            await handleGeminiResult(result, e);
+            const output = await handleGeminiImage(result, e);
 
-            return {
-                success: true
-            };
+            return output;
 
         } catch (error) {
             console.error('图片编辑过程发生错误:', error);
-            return { error: `图片编辑失败: ${error.message}` };
+            return { error: `失败了: ${error.message}` };
         }
     }
 }
