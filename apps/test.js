@@ -19,6 +19,7 @@ import { FluxTool } from '../YTOpen-Ai/functions_tools/FluxTool.js';
 import { RecraftTool } from '../YTOpen-Ai/functions_tools/RecraftTool.js';
 import { IdeogramTool } from '../YTOpen-Ai/functions_tools/IdeogramTool.js';
 import { NoobaiTool } from '../YTOpen-Ai/functions_tools/NoobaiTool.js';
+import { GoogleImageEditTool } from '../YTOpen-Ai/functions_tools/GoogleImageEditTool.js';
 import { WebParserTool } from '../YTOpen-Ai/functions_tools/webParserTool.js';
 import { TakeImages, get_address } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
@@ -85,8 +86,14 @@ export class ExamplePlugin extends plugin {
     this.ideogramTool = new IdeogramTool();
     this.recraftTool = new RecraftTool();
     this.noobaiTool = new NoobaiTool();
+    this.googleImageEditTool = new GoogleImageEditTool();
     // 工具定义部分
     this.functions = [
+      {
+        name: this.googleImageEditTool.name,
+        description: this.googleImageEditTool.description,
+        parameters: this.googleImageEditTool.parameters
+      },
       {
         name: this.noobaiTool.name,
         description: this.noobaiTool.description,
@@ -747,48 +754,60 @@ export class ExamplePlugin extends plugin {
       session.groupUserMessages = groupUserMessages;
       await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
 
-      const imageCount = images?.length;
-      let tool_choice = "auto";
-      if (imageCount >= 1) {
-        let fixedToolName = null;
-        session.tools = this.getToolsByName(['googleImageAnalysisTool']);
-        if (session.tools && session.tools.length > 0) {
-          fixedToolName = 'googleImageAnalysisTool';
+      const imageCount = images?.length; // 获取图片数量，可能为 undefined
+      let tool_choice = "auto"; // 默认工具选择为 "auto"
+      
+      if (imageCount >= 1) { // 如果至少有一张图片
+        let fixedToolName = null; // 初始化固定工具名称为空
+        
+        // 优先检查 googleImageEditTool
+        session.tools = this.getToolsByName(['googleImageEditTool']); // 获取 googleImageEditTool 工具
+        if (session.tools?.length > 0) { // 如果工具存在且数量大于 0
+          fixedToolName = 'googleImageEditTool'; // 设置为 googleImageEditTool
         } else {
-          session.tools = this.getToolsByName(['OpenAiImageAnalysisTool']);
-          if (session.tools && session.tools.length > 0) {
-            fixedToolName = 'OpenAiImageAnalysisTool';
-          }
-        }
-        tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
-      }
-
-      if(this.config.ForcedDrawingMode) {
-      const toolConfigs = [
-        { name: 'noobaiTool', keyword: 'noob' },
-        { name: 'recraftTool', keyword: 'recraft' },
-        { name: 'ideogramTool', keyword: 'ideogram' },
-        { name: 'fluxTool', keyword: 'flux' },
-        { name: 'jimengTool', keyword: 'jimeng' }
-      ];
-
-      const drawingRegex = /绘(?:[图制作]|.*个)|画(?:[图个张幅]|.*个)|制图|生成[图片图像]|创建图[表形]|做(?:[个一张]图|.*个)|作(?:[个一张]图|.*个)/i;
-      const isDrawingRequest = drawingRegex.test(msg);
-      console.log(4, isDrawingRequest)
-      if (isDrawingRequest) {
-        toolConfigs.some(config => {
-          if (msg.includes(config.keyword)) {
-            session.tools = this.getToolsByName([config.name]);
-            console.log(`工具 ${config.name} 的 session.tools: `, session.tools);
-            if (session.tools && session.tools.length > 0) {
-              tool_choice = { type: 'function', function: { name: config.name } };
-              return true;
+          // 然后检查 googleImageAnalysisTool
+          session.tools = this.getToolsByName(['googleImageAnalysisTool']); // 获取 googleImageAnalysisTool 工具
+          if (session.tools?.length > 0) { // 如果工具存在且数量大于 0
+            fixedToolName = 'googleImageAnalysisTool'; // 设置为 googleImageAnalysisTool
+          } else {
+            // 最后检查 OpenAiImageAnalysisTool
+            session.tools = this.getToolsByName(['OpenAiImageAnalysisTool']); // 获取 OpenAiImageAnalysisTool 工具
+            if (session.tools?.length > 0) { // 如果工具存在且数量大于 0
+              fixedToolName = 'OpenAiImageAnalysisTool'; // 设置为 OpenAiImageAnalysisTool
             }
           }
-          return false;
-        });
+        }
+        
+        // 根据 fixedToolName 是否存在设置 tool_choice
+        tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
+      }      
+
+      if (this.config.ForcedDrawingMode) {
+        const toolConfigs = [
+          { name: 'noobaiTool', keyword: 'noob' },
+          { name: 'recraftTool', keyword: 'recraft' },
+          { name: 'ideogramTool', keyword: 'ideogram' },
+          { name: 'fluxTool', keyword: 'flux' },
+          { name: 'jimengTool', keyword: 'jimeng' }
+        ];
+
+        const drawingRegex = /绘(?:[图制作]|.*个)|画(?:[图个张幅]|.*个)|制图|生成[图片图像]|创建图[表形]|做(?:[个一张]图|.*个)|作(?:[个一张]图|.*个)/i;
+        const isDrawingRequest = drawingRegex.test(msg);
+        console.log(4, isDrawingRequest)
+        if (isDrawingRequest) {
+          toolConfigs.some(config => {
+            if (msg.includes(config.keyword)) {
+              session.tools = this.getToolsByName([config.name]);
+              console.log(`工具 ${config.name} 的 session.tools: `, session.tools);
+              if (session.tools && session.tools.length > 0) {
+                tool_choice = { type: 'function', function: { name: config.name } };
+                return true;
+              }
+            }
+            return false;
+          });
+        }
       }
-    }
 
       console.log(tool_choice);
       const requestData = {
@@ -951,6 +970,9 @@ export class ExamplePlugin extends plugin {
                 break;
               case this.noobaiTool.name:
                 result = await executeTool(this.noobaiTool, params, e);
+                break;
+              case this.googleImageEditTool.name:
+                result = await executeTool(this.googleImageEditTool, params, e);
                 break;
               case this.emojiSearchTool.name:
                 result = await executeTool(this.emojiSearchTool, params, e);
@@ -1417,6 +1439,10 @@ export class ExamplePlugin extends plugin {
 
           case this.noobaiTool.name:
             result = await executeTool(this.noobaiTool, params, e);
+            break;
+
+          case this.googleImageEditTool.name:
+            result = await executeTool(this.googleImageEditTool, params, e);
             break;
 
           case this.emojiSearchTool.name:

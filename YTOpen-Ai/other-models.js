@@ -1885,5 +1885,13 @@ export const other_models = [
     "token": 2000,
     "features": ['video'],
     "quota": "2.5/次"
+  },
+  {
+    "id": 231,
+    "model": "bria-background-remove",
+    "points": "y-tian-plugin",
+    "token": 2000,
+    "features": ['image_recognition'],
+    "quota": "0.2/次"
   }
 ]  
