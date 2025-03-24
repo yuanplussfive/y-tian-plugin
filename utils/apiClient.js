@@ -7,12 +7,6 @@ const { _path, fetch, fs, path } = dependencies;
  * @param {Object} config - 配置对象
  * @returns {Object|null} - 返回 OpenAI 的响应数据
  */
-/**
- * 发送请求到 OpenAI API 或 OneAPI API 并处理响应
- * @param {Object} requestData - 请求体数据
- * @param {Object} config - 配置对象
- * @returns {Object|null} - 返回 API 的响应数据
- */
 export async function YTapi(requestData, config) {
     const dirpath = `${_path}/data/YTotherai`;
     const dataPath = dirpath + "/data.json";
@@ -35,7 +29,7 @@ export async function YTapi(requestData, config) {
             // Gemini API 请求逻辑
             const urls = config.GeminiProxyList;
             const currentUrl = urls?.[Math.floor(Math.random() * urls.length)]
-            url = `${currentUrl}/v1beta/chat/completions`;            
+            url = `${currentUrl}/v1beta/chat/completions`;
             if (!config.geminiApikey || config.geminiApikey.length === 0) {
                 return { error: "未配置 Gemini API Key" };
             }
@@ -49,7 +43,6 @@ export async function YTapi(requestData, config) {
                 ...requestData
             };
         } else if (provider === 'oneapi') {
-            // OneAPI 请求逻辑
             if (config.UseTools) {
                 // UseTools 开启，先使用 OpenAI 请求
                 const openaiUrl = 'https://yuanpluss.online:3000/api/v1/4o/fc';
@@ -71,7 +64,7 @@ export async function YTapi(requestData, config) {
 
                     if (!openaiResponse.ok) {
                         try {
-                            const errorText = await openaiResponse.text(); // 尝试获取服务器返回的错误信息
+                            const errorText = await openaiResponse.text();
                             const errorMessage = `OpenAI API请求失败: ${openaiResponse.status} ${openaiResponse.statusText} - ${errorText}`;
                             return { error: errorMessage };
                         } catch (textError) {
@@ -86,60 +79,69 @@ export async function YTapi(requestData, config) {
                 let openaiData;
                 try {
                     openaiData = await openaiResponse.json();
+                    console.log('OpenAI 结果', openaiData);
                 } catch (openaiJsonError) {
                     console.error("解析 OpenAI 响应 JSON 失败:", openaiJsonError);
                     return { error: `解析 OpenAI 响应 JSON 失败: ${openaiJsonError.message}` };
                 }
 
-                console.log(openaiData);
-                // 检查 finish_reason
-                if (openaiData?.choices?.[0]?.finish_reason === 'stop') {
-                    // 如果是 'stop'，使用 OneAPI 进行请求
-                    if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey || config.OneApiKey.length === 0) {
-                        return { error: "未配置 OneAPI URL, Model 或 API Key" };
+                // 检查 OneAPI 配置
+                if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey || config.OneApiKey.length === 0) {
+                    return { error: "未配置 OneAPI URL, Model 或 API Key" };
+                }
+                url = `${config.OneApiUrl}/v1/chat/completions`;
+                const randomIndex = Math.floor(Math.random() * config.OneApiKey.length);
+                const oneApiKey = config.OneApiKey[randomIndex];
+                headers = {
+                    'Authorization': `Bearer ${oneApiKey}`,
+                    'Content-Type': 'application/json'
+                };
+
+                // 处理 messages
+                const processedMessages = requestData.messages.map(msg => {
+                    if (msg.role === 'assistant' && msg.tool_calls) {
+                        return null; // 跳过含 tool_calls 的 assistant 消息
+                    } else if (msg.role === 'tool') {
+                        const analysisContent = msg.content;
+                        const prefix = "我正在使用工具处理反馈的结果，以下是分析结果：\n";
+                        const suffix = "\n我会使用中文进行回复。";
+                        return {
+                            role: 'assistant',
+                            content: prefix + analysisContent + suffix
+                        };
                     }
-                    url = `${config.OneApiUrl}/v1/chat/completions`;
-                    const randomIndex = Math.floor(Math.random() * config.OneApiKey.length);
-                    const oneApiKey = config.OneApiKey[randomIndex];
-                    headers = {
-                        'Authorization': `Bearer ${oneApiKey}`,
-                        'Content-Type': 'application/json'
-                    };
+                    return msg;
+                }).filter(Boolean);
 
-                    // 处理messages中的工具调用消息
-                    const processedMessages = requestData.messages.map(msg => {
-                        if (msg.role === 'assistant' && msg.tool_calls) {
-                            // 跳过 assistant 且包含 tool_calls 的消息
-                            return null;
-                        } else if (msg.role === 'tool') {
-                            // 将 tool 消息转换为 assistant 消息，并添加前缀
-                            const analysisContent = msg.content;
-                            const prefix = "我正在使用工具处理反馈的结果，以下是分析结果：\n";
-                            const suffix = "\n我会使用中文进行回复。";
-                            return {
-                                role: 'assistant',
-                                content: prefix + analysisContent + suffix
-                            };
-                        }
-                        return msg;
-                    }).filter(Boolean);
-
-                    console.log(processedMessages)
-                    finalRequestData = {
-                        model: config.OneApiModel,
-                        messages: processedMessages,
-                        stream: false
-                    };
-                } else if (openaiData?.choices?.[0]?.finish_reason === 'tool_calls') {
-                    // 如果是 'tool_calls'，替换 model 并返回
+                // 根据 finish_reason 处理
+                const finishReason = openaiData?.choices?.[0]?.finish_reason;
+                if (finishReason === 'tool_calls') {
+                    // tool_calls 直接返回，但替换 model
                     openaiData.model = config.OneApiModel;
                     return processResponse(openaiData);
                 } else {
-                    // 将整个 OpenAI 响应传递给 processResponse 进行处理
-                    return processResponse(openaiData);
+                    // stop 或其他 finish_reason，触发 OneAPI 请求
+                    let oneApiContent = '';
+                    if (finishReason === 'stop') {
+                        oneApiContent = "OpenAI 已完成生成，以下为优化结果：\n";
+                    } else {
+                        oneApiContent = `OpenAI 返回未知 finish_reason: ${finishReason}，以下为重新处理结果：\n`;
+                    }
+
+                    finalRequestData = {
+                        model: config.OneApiModel,
+                        messages: [
+                            ...processedMessages,
+                            {
+                                role: 'assistant',
+                                content: oneApiContent + (openaiData.choices?.[0]?.message?.content || '')
+                            }
+                        ],
+                        stream: false
+                    };
                 }
             } else {
-                // UseTools 关闭，直接使用 OneAPI 请求
+                // UseTools 关闭，直接使用 OneAPI 请求（保持不变）
                 if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey || config.OneApiKey.length === 0) {
                     return { error: "未配置 OneAPI URL, Model 或 API Key" };
                 }
