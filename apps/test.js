@@ -275,7 +275,7 @@ export class ExamplePlugin extends plugin {
         providers: 'OpenAi',
         geminiApikey: ['AIzaxxxxxxx'],
         systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
-
+        ForcedDrawingMode: true,
         bilibiliSessData: 'a16804xxxxxx',
         jimengsessionid: '12345xxxxxx',
         geminiModel: 'gemini-2.0-flash-exp',
@@ -763,6 +763,7 @@ export class ExamplePlugin extends plugin {
         tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
       }
 
+      if(this.config.ForcedDrawingMode) {
       const toolConfigs = [
         { name: 'noobaiTool', keyword: 'noob' },
         { name: 'recraftTool', keyword: 'recraft' },
@@ -787,6 +788,7 @@ export class ExamplePlugin extends plugin {
           return false;
         });
       }
+    }
 
       console.log(tool_choice);
       const requestData = {
