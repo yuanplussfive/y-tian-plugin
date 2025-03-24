@@ -225,8 +225,6 @@ export class ExamplePlugin extends plugin {
 
     this.tools = this.getToolsByName(toolConfig[provider] || this.config.openai_tools);
 
-    //console.log(this.tools); // 输出选定的工具
-
     // 初始化消息历史管理，使用 Redis 和本地文件
     this.messageHistoriesRedisKey = 'group_user_message_history'; // Redis 中存储消息历史的键前缀，包含群组和用户
     this.messageHistoriesDir = path.join(process.cwd(), 'data/YTtools/user_history'); // 本地文件存储路径
@@ -243,10 +241,10 @@ export class ExamplePlugin extends plugin {
   * @param {string} sessionId - 会话 ID
   * @returns {Object} 会话对象
   */
-  getOrCreateSession(sessionId) {
+  getOrCreateSession(sessionId, tools) {
     if (!this.sessionMap.has(sessionId)) {
       this.sessionMap.set(sessionId, {
-        tools: [],
+        tools: tools,
         groupUserMessages: [],
       });
     }
@@ -596,7 +594,7 @@ export class ExamplePlugin extends plugin {
     const sessionId = randomUUID(); // 使用 crypto.randomUUID() 生成唯一会话 ID
     e.sessionId = sessionId; // 将 sessionId 附加到事件对象
 
-    const session = this.getOrCreateSession(sessionId);
+    const session = this.getOrCreateSession(sessionId, this.tools);
 
     try {
       // 构建发送者信息对象
@@ -773,13 +771,14 @@ export class ExamplePlugin extends plugin {
         { name: 'jimengTool', keyword: 'jimeng' }
       ];
 
-      const drawingRegex = /绘[图制作]|画[图个张幅]|制图|生成[图片图像]|创建图[表形]|做[个一张]图|作[个一张]图/i;
+      const drawingRegex = /绘(?:[图制作]|.*个)|画(?:[图个张幅]|.*个)|制图|生成[图片图像]|创建图[表形]|做(?:[个一张]图|.*个)|作(?:[个一张]图|.*个)/i;
       const isDrawingRequest = drawingRegex.test(msg);
-
+      console.log(4, isDrawingRequest)
       if (isDrawingRequest) {
         toolConfigs.some(config => {
           if (msg.includes(config.keyword)) {
             session.tools = this.getToolsByName([config.name]);
+            console.log(`工具 ${config.name} 的 session.tools: `, session.tools);
             if (session.tools && session.tools.length > 0) {
               tool_choice = { type: 'function', function: { name: config.name } };
               return true;
@@ -800,7 +799,7 @@ export class ExamplePlugin extends plugin {
         ...(this.config.UseTools && { tools: session.tools, tool_choice }),
       };
 
-      console.log(requestData);
+      //console.log(requestData);
       if (this.config?.providers?.toLowerCase() === 'gemini') {
         if (this.config.geminiModel) {
           requestData.model = this.config.geminiModel;
@@ -821,7 +820,7 @@ export class ExamplePlugin extends plugin {
         retries--;
       }
 
-      console.log('tools', response);
+      //console.log('tools', response);
       if (!response || (response.error && Object.keys(response.error).length > 0)) {
         await e.reply(response?.error ? response.error : '抱歉,请求失败,请稍后重试');
         await this.resetGroupUserMessages(groupId, userId);
