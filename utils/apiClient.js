@@ -120,22 +120,10 @@ export async function YTapi(requestData, config) {
                     openaiData.model = config.OneApiModel;
                     return processResponse(openaiData);
                 } else {
-                    // stop 或其他 finish_reason，触发 OneAPI 请求
-                    let oneApiContent = '';
-                    if (finishReason === 'stop') {
-                        oneApiContent = "OpenAI 已完成生成，以下为优化结果：\n";
-                    } else {
-                        oneApiContent = `OpenAI 返回未知 finish_reason: ${finishReason}，以下为重新处理结果：\n`;
-                    }
-
                     finalRequestData = {
                         model: config.OneApiModel,
                         messages: [
-                            ...processedMessages,
-                            {
-                                role: 'assistant',
-                                content: oneApiContent + (openaiData.choices?.[0]?.message?.content || '')
-                            }
+                            ...processedMessages
                         ],
                         stream: false
                     };

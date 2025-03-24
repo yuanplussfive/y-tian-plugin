@@ -8,7 +8,7 @@ export class GoogleImageEditTool extends AbstractTool {
     constructor() {
         super();
         this.name = 'googleImageEditTool';
-        this.description = '使用Google的Gemini进行图像编辑处理, 当用户需要编辑/识别图片内容时，使用此工具。支持多图片分析，可提取图片中的文字信息并进行理解分析。注意：所有图片URL必须保持完整原始形式，不得修改或简化URL参数。';
+        this.description = '使用Google的Gemini进行图像编辑处理或者凸显识别, 当用户需要编辑/识别图片内容时，使用此工具。支持多图片分析, 注意：所有图片URL必须保持完整原始形式，不得修改或简化URL参数。';
         this.parameters = {
             type: "object",
             properties: {
@@ -48,9 +48,8 @@ export class GoogleImageEditTool extends AbstractTool {
                     temperature: 0.8
                 }
             });
-            console.log(result);
             const output = await handleGeminiImage(result, e);
-
+            console.log(output);
             return output;
 
         } catch (error) {

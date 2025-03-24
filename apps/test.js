@@ -39,7 +39,7 @@ export class ExamplePlugin extends plugin {
       name: '全局方案-test',
       dsc: '全局方案测试版',
       event: 'message',
-      priority: -111111111,
+      priority: -Number.MAX_VALUE,
       rule: [
         {
           reg: "^#tool\\s*(.*)",
@@ -548,7 +548,7 @@ export class ExamplePlugin extends plugin {
  * @returns {Promise<boolean>}
  */
   async handleRandomReply(e) {
-    //console.log(e)
+    //console.log(Bot)
     if (!this.config.enabled) return false;
     if (!this.checkGroupPermission(e)) {
       return false;
@@ -791,9 +791,9 @@ export class ExamplePlugin extends plugin {
           { name: 'jimengTool', keyword: 'jimeng' }
         ];
 
-        const drawingRegex = /绘(?:[图制作]|.*个)|画(?:[图个张幅]|.*个)|制图|生成[图片图像]|创建图[表形]|做(?:[个一张]图|.*个)|作(?:[个一张]图|.*个)/i;
-        const isDrawingRequest = drawingRegex.test(msg);
-        console.log(4, isDrawingRequest)
+        const drawingRegex = /绘.*[图制作个]|画.*[图个张幅]|制图|生成.*[图片图像]|创建.*图[表形]|做.*[个一张图]|作.*[个一张图]/i;
+        const isDrawingRequest = drawingRegex.test(msg);     
+        console.log(4, isDrawingRequest)   
         if (isDrawingRequest) {
           toolConfigs.some(config => {
             if (msg.includes(config.keyword)) {
