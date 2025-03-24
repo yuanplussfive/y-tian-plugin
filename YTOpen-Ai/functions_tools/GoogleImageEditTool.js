@@ -33,7 +33,7 @@ export class GoogleImageEditTool extends AbstractTool {
                     }
                 }
             },
-            required: ['images'],
+            required: ['prompt', 'images'],
             additionalProperties: false
         };
     }
