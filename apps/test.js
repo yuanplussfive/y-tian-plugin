@@ -802,6 +802,9 @@ export class ExamplePlugin extends plugin {
 
       console.log(requestData);
       if (this.config?.providers?.toLowerCase() === 'gemini') {
+        if (this.config.geminiModel) {
+          requestData.model = this.config.geminiModel;
+        }
         delete requestData.frequency_penalty;
         delete requestData.presence_penalty;
       }
