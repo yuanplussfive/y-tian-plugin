@@ -151,12 +151,12 @@ export class SearchVideoTool extends AbstractTool {
         await e.reply([segment.image(coverUrl), textInfo.trim()]);
         // 发送视频链接
         await sendvideos(result, e);
-        return result;
+        return { result: result };
       }
 
       // 如果没有封面链接，直接发送结果
       await e.reply(result);
-      return result;
+      return { result: result };
 
     } catch (err) {
       console.error(err);

@@ -21,14 +21,16 @@ import { IdeogramTool } from '../YTOpen-Ai/functions_tools/IdeogramTool.js';
 import { NoobaiTool } from '../YTOpen-Ai/functions_tools/NoobaiTool.js';
 import { GoogleImageEditTool } from '../YTOpen-Ai/functions_tools/GoogleImageEditTool.js';
 import { WebParserTool } from '../YTOpen-Ai/functions_tools/webParserTool.js';
-import { TakeImages, get_address } from '../utils/fileUtils.js';
+import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
-import { dependencies } from '../YTdependence/dependencies.js';
 import { ThinkingProcessor } from '../utils/providers/ThinkingProcessor.js';
 import { TotalTokens } from '../YTOpen-Ai/tools/CalculateToken.js';
-const { fs, YAML, path } = dependencies;
+import fs from 'fs';
+import YAML from 'yaml';
+import path from 'path';
 import { randomUUID } from 'crypto';
+import pLimit from 'p-limit';
 
 /**
  * 示例插件类
@@ -274,6 +276,7 @@ export class ExamplePlugin extends plugin {
         groupHistory: true,
         UseTools: true,
         replyChance: 0.015,
+        ConcurrentLimit: 5,
         triggerPrefixes: ['芙宁娜', '芙芙'],
         excludeMessageTypes: ['file', 'video'],
         allowedGroups: [782312429],
@@ -369,18 +372,21 @@ export class ExamplePlugin extends plugin {
   }
 
   /**
- * 检查群聊权限
- * @param {Object} e - 事件对象
- * @returns {boolean}
- */
+   * 检查群聊权限
+   * @param {Object} e - 事件对象
+   * @returns {boolean}
+   */
   checkGroupPermission(e) {
     // 如果未启用白名单，则都允许
     if (!this.config.enableGroupWhitelist) {
       return true;
     }
 
-    // 检查是否在允许的群聊列表中
-    return this.config.allowedGroups.includes(Number(e.group_id));
+    // 获取群聊ID并确保为字符串形式以统一比较
+    const groupId = String(e.group_id);
+
+    // 检查是否在允许的群聊列表中，支持string和number形式
+    return this.config.allowedGroups.some(id => String(id) === groupId);
   }
   /**
    * 获取群组中指定用户的消息历史
@@ -603,6 +609,9 @@ export class ExamplePlugin extends plugin {
 
     const session = this.getOrCreateSession(sessionId, this.tools);
 
+    const limitCount = this.config.ConcurrentLimit || 5;
+    const limit = pLimit(limitCount);
+
     try {
       // 构建发送者信息对象
       const { sender, group_id, msg } = e;
@@ -617,18 +626,20 @@ export class ExamplePlugin extends plugin {
       let groupUserMessages = session.groupUserMessages;
 
       let memberInfo = {};
-      try {
-        memberInfo = group_id ? await e.bot.pickGroup(group_id).pickMember(sender.user_id).info : {};
-      } catch (error) {
-        console.error(`获取成员信息失败: ${error}`);
-      }
+      await limit(async () => {
+        try {
+          memberInfo = group_id ? await e.bot.pickGroup(group_id).pickMember(sender.user_id).info : {};
+        } catch (error) {
+          console.error(`获取成员信息失败: ${error}`);
+        }
+      });
       const { role: senderRole } = memberInfo || {};
 
       let userContent = '';
       const atQq = e.message
         .filter(item => item.type === 'at' && item.qq !== Bot.uin)
         .map(item => item.qq);
-      const images = await TakeImages(e);
+      const images = await limit(() => TakeImages(e));
       console.log(images);
 
       // 格式化时间的辅助函数
@@ -646,7 +657,7 @@ export class ExamplePlugin extends plugin {
 
         let atContent = '';
         if (atQq.length > 0) {
-          const memberMap = await group.getMemberMap();
+          const memberMap = await limit(() => group.getMemberMap());
           const atUsers = atQq.map(qq => {
             const memberInfo = memberMap.get(Number(qq));
             if (!memberInfo) return `未知用户(qq号: ${qq})`;
@@ -670,70 +681,78 @@ export class ExamplePlugin extends plugin {
       };
 
       if (e.group_id) {
-        userContent = await buildMessageContent(sender, args, images, atQq, e.group);
+        userContent = await limit(() => buildMessageContent(sender, args, images, atQq, e.group));
       }
-      //console.log(userContent);
 
       let targetRole = 'member';
       if (atQq.length > 0) {
         const targetUserId = atQq[0];
-        try {
-          const memberMap = await e.bot.pickGroup(groupId).getMemberMap();
-          const memberInfo = memberMap.get(Number(targetUserId));
-          targetRole = roleMap[memberInfo.role] || 'member';
-        } catch (error) {
-          console.error(`获取目标成员信息失败: ${error}`);
-        }
+        await limit(async () => {
+          try {
+            const memberMap = await e.bot.pickGroup(groupId).getMemberMap();
+            const memberInfo = memberMap.get(Number(targetUserId));
+            targetRole = roleMap[memberInfo.role] || 'member';
+          } catch (error) {
+            console.error(`获取目标成员信息失败: ${error}`);
+          }
+        });
       }
 
       const getHighLevelMembers = async (group) => {
-        const memberMap = await group.getMemberMap();
+        const memberMap = await limit(() => group.getMemberMap());
         return Array.from(memberMap.values())
           .filter(member => ['admin', 'owner'].includes(member.role))
           .map(member => `${member.nickname}(QQ号: ${member.user_id})[群身份: ${roleMap[member.role]}]`)
           .join('\n');
       };
 
-      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await getHighLevelMembers(e.group)}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'`;
-      //console.log(systemContent);
+      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await limit(() => getHighLevelMembers(e.group))}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'`;
 
       const getHistory = async () => {
-        const chatHistory = await this.messageManager.getMessages(
-          e.message_type,
-          e.message_type === 'group' ? e.group_id : e.user_id
+        const chatHistory = await limit(() =>
+          this.messageManager.getMessages(
+            e.message_type,
+            e.message_type === 'group' ? e.group_id : e.user_id
+          )
         );
 
         if (!chatHistory || chatHistory.length === 0) {
           return [];
         }
 
-        const memberMap = await e.bot.pickGroup(groupId).getMemberMap();
-        const formattedHistory = await Promise.all(chatHistory.reverse().map(async msg => {
-          const isSenderBot = msg.sender.user_id === e.bot.uin;
-          const senderRole = isSenderBot
-            ? (roleMap[memberMap.get(e.bot.uin)?.role] ?? roleMap[msg.sender.role] ?? 'member')
-            : (roleMap[msg.sender.role] ?? 'member');
-          const senderInfo = `${msg.sender.nickname}(QQ号:${msg.sender.user_id})[群身份: ${senderRole}]`;
-          return {
-            role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
-            content: `[${msg.time}] ${senderInfo}: ${msg.content}`
-          };
-        }));
+        const memberMap = await limit(() => e.bot.pickGroup(groupId).getMemberMap());
+        const formattedHistory = await Promise.all(
+          chatHistory.reverse().map(async msg => {
+            const isSenderBot = msg.sender.user_id === e.bot.uin;
+            const senderRole = isSenderBot
+              ? (roleMap[memberMap.get(e.bot.uin)?.role] ?? roleMap[msg.sender.role] ?? 'member')
+              : (roleMap[msg.sender.role] ?? 'member');
+            const senderInfo = `${msg.sender.nickname}(QQ号:${msg.sender.user_id})[群身份: ${senderRole}]`;
+            return {
+              role: msg.sender.user_id === Bot.uin ? 'assistant' : 'user',
+              content: `[${msg.time}] ${senderInfo}: ${msg.content}`
+            };
+          })
+        );
 
         let botRole = 'member';
-        try {
-          const botMemberInfo = memberMap.get(Bot.uin);
-          botRole = roleMap[botMemberInfo?.role] || 'member';
-        } catch (error) {
-          console.error(`获取bot群角色失败: ${error}`);
-        }
+        await limit(async () => {
+          try {
+            const botMemberInfo = memberMap.get(Bot.uin);
+            botRole = roleMap[botMemberInfo?.role] || 'member';
+          } catch (error) {
+            console.error(`获取bot群角色失败: ${error}`);
+          }
+        });
 
-        const lastMessage = await buildMessageContent(
-          { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
-          `我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: xxx'的格式`,
-          [],
-          [],
-          e.group
+        const lastMessage = await limit(() =>
+          buildMessageContent(
+            { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
+            `我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: xxx'的格式`,
+            [],
+            [],
+            e.group
+          )
         );
 
         return [
@@ -743,7 +762,7 @@ export class ExamplePlugin extends plugin {
       };
 
       if (this.config.groupHistory) {
-        groupUserMessages = await getHistory();
+        groupUserMessages = await limit(() => getHistory());
       }
 
       groupUserMessages = groupUserMessages.filter(msg => msg.role !== 'system');
@@ -752,35 +771,35 @@ export class ExamplePlugin extends plugin {
 
       groupUserMessages = this.trimMessageHistory(groupUserMessages);
       session.groupUserMessages = groupUserMessages;
-      await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
+      await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
 
       const imageCount = images?.length; // 获取图片数量，可能为 undefined
       let tool_choice = "auto"; // 默认工具选择为 "auto"
-      
+
       if (imageCount >= 1) { // 如果至少有一张图片
         let fixedToolName = null; // 初始化固定工具名称为空
-        
+
         // 优先检查 googleImageEditTool
-        session.tools = this.getToolsByName(['googleImageEditTool']); // 获取 googleImageEditTool 工具
-        if (session.tools?.length > 0) { // 如果工具存在且数量大于 0
-          fixedToolName = 'googleImageEditTool'; // 设置为 googleImageEditTool
+        session.tools = this.getToolsByName(['googleImageEditTool']);
+        if (session.tools?.length > 0) {
+          fixedToolName = 'googleImageEditTool';
         } else {
           // 然后检查 googleImageAnalysisTool
-          session.tools = this.getToolsByName(['googleImageAnalysisTool']); // 获取 googleImageAnalysisTool 工具
-          if (session.tools?.length > 0) { // 如果工具存在且数量大于 0
-            fixedToolName = 'googleImageAnalysisTool'; // 设置为 googleImageAnalysisTool
+          session.tools = this.getToolsByName(['googleImageAnalysisTool']);
+          if (session.tools?.length > 0) {
+            fixedToolName = 'googleImageAnalysisTool';
           } else {
             // 最后检查 OpenAiImageAnalysisTool
-            session.tools = this.getToolsByName(['OpenAiImageAnalysisTool']); // 获取 OpenAiImageAnalysisTool 工具
-            if (session.tools?.length > 0) { // 如果工具存在且数量大于 0
-              fixedToolName = 'OpenAiImageAnalysisTool'; // 设置为 OpenAiImageAnalysisTool
+            session.tools = this.getToolsByName(['OpenAiImageAnalysisTool']);
+            if (session.tools?.length > 0) {
+              fixedToolName = 'OpenAiImageAnalysisTool';
             }
           }
         }
-        
+
         // 根据 fixedToolName 是否存在设置 tool_choice
         tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
-      }      
+      }
 
       if (this.config.ForcedDrawingMode) {
         const toolConfigs = [
@@ -792,8 +811,8 @@ export class ExamplePlugin extends plugin {
         ];
 
         const drawingRegex = /绘.*[图制作个]|画.*[图个张幅]|制图|生成.*[图片图像]|创建.*图[表形]|做.*[个一张图]|作.*[个一张图]/i;
-        const isDrawingRequest = drawingRegex.test(msg);     
-        console.log(4, isDrawingRequest)   
+        const isDrawingRequest = drawingRegex.test(msg);
+        console.log(4, isDrawingRequest);
         if (isDrawingRequest) {
           toolConfigs.some(config => {
             if (msg.includes(config.keyword)) {
@@ -820,7 +839,6 @@ export class ExamplePlugin extends plugin {
         ...(this.config.UseTools && { tools: session.tools, tool_choice }),
       };
 
-      //console.log(requestData);
       if (this.config?.providers?.toLowerCase() === 'gemini') {
         if (this.config.geminiModel) {
           requestData.model = this.config.geminiModel;
@@ -833,7 +851,7 @@ export class ExamplePlugin extends plugin {
       let response = null;
       while (retries >= 0) {
         try {
-          response = await YTapi(requestData, this.config);
+          response = await limit(() => YTapi(requestData, this.config));
           if (response) break;
         } catch (error) {
           console.error(`API请求失败(${retries}): ${error}`);
@@ -841,10 +859,9 @@ export class ExamplePlugin extends plugin {
         retries--;
       }
 
-      //console.log('tools', response);
       if (!response || (response.error && Object.keys(response.error).length > 0)) {
-        await e.reply(response?.error ? response.error : '抱歉,请求失败,请稍后重试');
-        await this.resetGroupUserMessages(groupId, userId);
+        await limit(() => e.reply(response?.error ? response.error : '抱歉,请求失败,请稍后重试'));
+        await limit(() => this.resetGroupUserMessages(groupId, userId));
         this.clearSession(sessionId);
         return true;
       }
@@ -855,7 +872,7 @@ export class ExamplePlugin extends plugin {
 
       const executeTool = async (tool, params, e, isRetry = false) => {
         try {
-          return await tool.execute(params, e);
+          return await limit(() => tool.execute(params, e));
         } catch (error) {
           console.error(`工具执行错误 (${isRetry ? '重试' : '首次尝试'})：`, error);
           if (!isRetry) {
@@ -867,7 +884,6 @@ export class ExamplePlugin extends plugin {
       };
 
       if (message.tool_calls) {
-        //console.log(message.tool_calls);
         if (!message || (message.choices?.[0]?.finish_reason === 'content_filter' && message.choices[0]?.message === null)) {
           this.clearSession(sessionId);
           return false;
@@ -1008,7 +1024,6 @@ export class ExamplePlugin extends plugin {
                 content: JSON.stringify(result)
               });
 
-              //console.log(currentMessages);
               const toolRequest = {
                 model: 'gpt-4o-fc',
                 messages: currentMessages,
@@ -1030,7 +1045,7 @@ export class ExamplePlugin extends plugin {
               let toolResponse = null;
               while (retryCount >= 0) {
                 try {
-                  toolResponse = await YTapi(toolRequest, this.config);
+                  toolResponse = await limit(() => YTapi(toolRequest, this.config));
                   if (toolResponse) break;
                 } catch (error) {
                   console.error(`API请求失败(${retryCount}): ${error}`);
@@ -1041,8 +1056,8 @@ export class ExamplePlugin extends plugin {
               if (toolResponse?.choices?.[0]?.message?.content) {
                 aicallback = true;
                 const toolReply = toolResponse.choices[0].message.content;
-                const output = await this.processToolSpecificMessage(toolReply, functionName);
-                await this.sendSegmentedMessage(e, output);
+                const output = await limit(() => this.processToolSpecificMessage(toolReply, functionName));
+                await limit(() => this.sendSegmentedMessage(e, output));
 
                 try {
                   const messageObj = {
@@ -1059,7 +1074,7 @@ export class ExamplePlugin extends plugin {
                       role: 'member'
                     }
                   };
-                  await this.messageManager.recordMessage(messageObj);
+                  await limit(() => this.messageManager.recordMessage(messageObj));
                 } catch (error) {
                   logger.error('[MessageRecord] 记录Bot工具响应消息失败：', error);
                 }
@@ -1081,10 +1096,10 @@ export class ExamplePlugin extends plugin {
           messages: [...groupUserMessages, {
             role: 'system',
             content: `请检查用户的原始请求是否已全部完成。只有在以下情况才需要调用工具：
-            1. 之前的工具调用失败需要重试
-            2. 确实有未完成的必要任务
-            3. 用户明确要求的功能尚未实现
-            请不要调用与用户需求无关的工具。已执行过的工具调用：${Array.from(executedTools.keys()).join(', ')}`
+          1. 之前的工具调用失败需要重试
+          2. 确实有未完成的必要任务
+          3. 用户明确要求的功能尚未实现
+          请不要调用与用户需求无关的工具。已执行过的工具调用：${Array.from(executedTools.keys()).join(', ')}`
           }],
           temperature: 0.1,
           top_p: 0.9,
@@ -1102,9 +1117,9 @@ export class ExamplePlugin extends plugin {
 
         if (this.config.UseTools && this.config.providers !== 'oneapi') {
           try {
-            const finalCheckResponse = await YTapi(FinalRequest, this.config);
+            const finalCheckResponse = await limit(() => YTapi(FinalRequest, this.config));
             if (!finalCheckResponse || finalCheckResponse.error) {
-              await e.reply(finalCheckResponse?.error ? JSON.stringify(finalCheckResponse.error, null, 2) : '抱歉,请求失败,请稍后重试');
+              await limit(() => e.reply(finalCheckResponse?.error ? JSON.stringify(finalCheckResponse.error, null, 2) : '抱歉,请求失败,请稍后重试'));
             }
 
             if (finalCheckResponse?.choices?.[0]?.message?.tool_calls) {
@@ -1118,7 +1133,7 @@ export class ExamplePlugin extends plugin {
                   ...finalCheckResponse.choices[0].message,
                   tool_calls: newToolCalls
                 };
-                await this.handleToolCalls(newMessage, e, groupUserMessages, atQq, senderRole, targetRole);
+                await limit(() => this.handleToolCalls(newMessage, e, groupUserMessages, atQq, senderRole, targetRole));
               }
             }
           } catch (error) {
@@ -1127,13 +1142,13 @@ export class ExamplePlugin extends plugin {
         }
 
         session.groupUserMessages = groupUserMessages;
-        await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
+        await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
         this.clearSession(sessionId);
         return true;
       } else if (message.content) {
         if (!hasHandledFunctionCall) {
-          const output = await this.processToolSpecificMessage(message.content);
-          await this.sendSegmentedMessage(e, output);
+          const output = await limit(() => this.processToolSpecificMessage(message.content));
+          await limit(() => this.sendSegmentedMessage(e, output));
 
           try {
             const messageObj = {
@@ -1150,7 +1165,7 @@ export class ExamplePlugin extends plugin {
                 role: 'member'
               }
             };
-            await this.messageManager.recordMessage(messageObj);
+            await limit(() => this.messageManager.recordMessage(messageObj));
           } catch (error) {
             logger.error('[MessageRecord] 记录Bot消息失败：', error);
           }
@@ -1158,14 +1173,14 @@ export class ExamplePlugin extends plugin {
           groupUserMessages.push({ role: 'assistant', content: message.content });
           groupUserMessages = this.trimMessageHistory(groupUserMessages);
           session.groupUserMessages = groupUserMessages;
-          await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
+          await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
         }
 
-        await this.resetGroupUserMessages(groupId, userId);
+        await limit(() => this.resetGroupUserMessages(groupId, userId));
         this.clearSession(sessionId);
         return true;
       } else {
-        await this.resetGroupUserMessages(groupId, userId);
+        await limit(() => this.resetGroupUserMessages(groupId, userId));
         this.clearSession(sessionId);
         return true;
       }
@@ -1175,7 +1190,7 @@ export class ExamplePlugin extends plugin {
       groupUserMessages.push({ role: 'assistant', content: errorMessage });
       groupUserMessages = this.trimMessageHistory(groupUserMessages);
       session.groupUserMessages = groupUserMessages;
-      await this.saveGroupUserMessages(groupId, userId, groupUserMessages);
+      await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
 
       const errorRequestData = {
         model: 'gpt-4o-fc',
@@ -1194,16 +1209,16 @@ export class ExamplePlugin extends plugin {
         delete errorRequestData.presence_penalty;
       }
 
-      const errorResponse = await YTapi(errorRequestData, this.config);
+      const errorResponse = await limit(() => YTapi(errorRequestData, this.config));
       if (errorResponse?.choices?.[0]?.message?.content) {
         const finalErrorReply = errorResponse.choices[0].message.content;
-        const output = await this.processToolSpecificMessage(finalErrorReply);
-        await this.sendSegmentedMessage(e, output);
+        const output = await limit(() => this.processToolSpecificMessage(finalErrorReply));
+        await limit(() => this.sendSegmentedMessage(e, output));
       } else {
-        await e.reply(errorMessage);
+        await limit(() => e.reply(errorMessage));
       }
 
-      await this.resetGroupUserMessages(groupId, userId);
+      await limit(() => this.resetGroupUserMessages(groupId, userId));
       this.clearSession(sessionId);
       return true;
     }
@@ -1798,6 +1813,7 @@ export class ExamplePlugin extends plugin {
 
   async processToolSpecificMessage(content, toolName) {
     let output = content;
+    console.log(output)
     output = output.replace(/\\n/g, '\n');
     // 删除基础模式
     const basePatterns = [

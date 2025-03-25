@@ -98,6 +98,7 @@ export async function YTapi(requestData, config) {
                 };
 
                 // 处理 messages
+                //console.log(requestData.messages);
                 const processedMessages = requestData.messages.map(msg => {
                     if (msg.role === 'assistant' && msg.tool_calls) {
                         return null; // 跳过含 tool_calls 的 assistant 消息

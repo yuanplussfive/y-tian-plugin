@@ -21,6 +21,7 @@
   "author": "Hello World && yuanpluss",
   "license": "MIT",
   "dependencies": {
+    "p-limit": "^6.2.0",
     "https-proxy-agent": "^7.0.4",
     "puppeteer": "^19.7.3",
     "puppeteer-extra": "^3.3.6",
