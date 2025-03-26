@@ -27,13 +27,13 @@ async function getChatCompletion(openaiClient, model, messages) {
   const timeoutSettings = {
     'claude': 300000,
     'gemini': 180000,
-    'all': 300000,
+    'all': 600000,
     'mj': 300000,
     'ideogram': 300000,
     'r1': 900000,
     'o1': 900000,
     'o3': 900000,
-    'default': 180000
+    'default': 600000
   };
 
   // 根据模型名称选择合适的超时时间

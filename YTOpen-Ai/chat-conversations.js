@@ -229,7 +229,7 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
             }
           } catch (error) {
             const errorMessage = error.message || '';
-            if (errorMessage.toLowerCase().includes('socket hang up') || 
+            if (errorMessage.toLowerCase().includes('socket hang up') ||
               errorMessage.toLowerCase().includes('request to') ||
               errorMessage.toLowerCase().includes('failed to fetch')) {
               e.reply('与服务器连接失败，请检查网络连接或尝试更改方案代理！');
@@ -375,34 +375,51 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
         console.log(imgUrl);
         await replyBasedOnStyle(output, e, model, msg)
         const downloadAndSendImages = async (imgUrls, basePath) => {
-          try {
-            for (const [index, url] of imgUrls.entries()) {
-              if (!url?.trim()) {
-                continue;
-              }
-              const filePath = `${basePath}/resources/other_drawing_${index}_chat.png`;
+          if (!imgUrls || imgUrls.length === 0) {
+            return;
+          }
+
+          const downloadPromises = imgUrls
+            .filter(url => url?.trim())
+            .map(async (url, index) => {
               try {
+                const filePath = `${basePath}/resources/other_drawing_${index}_chat.png`;
                 const response = await fetch(url.trim());
+
                 if (!response.ok) {
                   throw new Error(`HTTP error! status: ${response.status}`);
                 }
+
                 const buffer = Buffer.from(await response.arrayBuffer());
                 fs.writeFileSync(filePath, buffer, {
                   encoding: null,
                   flag: 'w',
                   mode: 0o666
                 });
-                await e.reply(segment.image(filePath));
+
+                return filePath;
               } catch (downloadError) {
                 console.error(`下载图片失败 [${url}]:`, downloadError);
-                await e.reply(`第${index + 1}张图片下载失败: ${downloadError.message}`);
+                return null;
               }
+            });
+
+          try {
+            const downloadedFiles = await Promise.all(downloadPromises);
+            const validFiles = downloadedFiles.filter(file => file !== null);
+
+            if (validFiles.length > 0) {
+              const imageSegments = validFiles.map(filePath => segment.image(filePath));
+              await e.reply(imageSegments);
+            } else {
+              await e.reply('所有图片下载失败');
             }
           } catch (error) {
             console.error('处理图片时发生错误:', error);
             await e.reply('处理图片时发生错误: ' + error.message);
           }
         };
+
         await downloadAndSendImages(imgUrl, _path);
       }
     } catch (error) {
@@ -686,27 +703,58 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
   }
 
   async function handleImages(urls, _path) {
-    // 创建存储图片信息的数组
-    const imageResults = ["预览:"];
-
-    // 为每个URL创建唯一的文件路径
-    for (let i = 0; i < urls.length; i++) {
-      const filePath = path.join(_path, 'resources', `dall_e_chat_${i}.png`);
-      try {
-        const result = await downloadImage(path, urls[i], filePath);
-        if (result.success) {
-          await e.reply(segment.image(filePath));
-          //imageResults.push(segment.image(filePath));
-        } else {
-          imageResults.push(urls[i].trim());
-        }
-      } catch (error) {
-        imageResults.push(urls[i].trim());
-        console.error(`下载失败: ${urls[i]}`, error);
-      }
+    // 如果没有URLs，直接返回
+    if (!urls || urls.length === 0) {
+      return ["预览:"];
     }
 
-    return imageResults;
+    // 并行下载所有图片
+    const downloadPromises = urls.map(async (url, index) => {
+      const filePath = path.join(_path, 'resources', `dall_e_chat_${index}.png`);
+      try {
+        const result = await downloadImage(path, url, filePath);
+        if (result.success) {
+          // 下载成功返回文件路径
+          return { success: true, path: filePath };
+        } else {
+          // 下载失败返回URL
+          return { success: false, url: url.trim() };
+        }
+      } catch (error) {
+        console.error(`下载失败: ${url}`, error);
+        return { success: false, url: url.trim() };
+      }
+    });
+
+    try {
+      // 等待所有下载完成
+      const results = await Promise.all(downloadPromises);
+
+      // 初始化结果数组
+      const imageResults = ["预览:"];
+
+      // 收集所有成功下载的图片
+      const successfulImages = results
+        .filter(result => result.success)
+        .map(result => segment.image(result.path));
+
+      // 如果有成功下载的图片，一次性发送
+      if (successfulImages.length > 0) {
+        await e.reply(successfulImages);
+      }
+
+      // 将失败的URL添加到结果数组
+      results.forEach(result => {
+        if (!result.success) {
+          imageResults.push(result.url);
+        }
+      });
+
+      return imageResults;
+    } catch (error) {
+      console.error('处理图片时发生错误:', error);
+      return ["预览:", "处理图片时发生错误"];
+    }
   }
 
   async function downloadImage(path, url, filePath) {
