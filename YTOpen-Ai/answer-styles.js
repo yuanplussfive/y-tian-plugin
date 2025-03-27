@@ -202,7 +202,7 @@ async function replyBasedOnStyle(answer, e, model, msg) {
         const { completion_tokens: words } = await TotalTokens(answer);
         console.log(`token: ${words}`);
         //console.log(answer);
-        answer = await processSource(answer);
+        //answer = await processSource(answer);
         msg = await processSource(msg);
         //console.log("\n\n",answer);
         switch (styles) {

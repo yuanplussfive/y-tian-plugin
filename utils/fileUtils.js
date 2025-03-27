@@ -115,19 +115,17 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
 }
 
 /**
- * 解析文本中的各种格式链接
+ * 解析文本中的各种格式链接并按进度百分比排序
  * @param {string} inputString - 需要解析的输入字符串
- * @returns {Promise<Array>} - 解析出的链接数组
+ * @returns {Promise<Array>} - 按进度排序的链接数组
  */
 export async function get_address(inputString) {
-  // 定义已支持的域名正则表达式
-  const filesystemSiteRegex = `filesystem\\.site\/cdn\/\\d{8}\/[a-zA-Z0-9]+?\\.[a-z]{2,4}`;
-  const yuanplussOnlineRegex = `yuanpluss\\.online:\\d+\/files\/[a-zA-Z0-9_\\/]+?\\.[a-z]{2,4}`;
-  const openaiYuanplusChatRegex = `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/]+?\\.[a-z]{2,4}`;
-  // 新增支持的域名正则表达式
+  // 支持的域名正则表达式
+  const filesystemSiteRegex = `filesystem\\.site\/cdn\/\\d{8}\/[a-zA-Z0-9\\-]+?\\.[a-z]{2,4}`;
+  const yuanplussOnlineRegex = `yuanpluss\\.online:\\d+\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`;
+  const openaiYuanplusChatRegex = `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`;
   const falMediaRegex = `v3\\.fal\\.media\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z0-9]{2,4}`;
   
-  // 合并所有支持的域名模式
   const supportedDomains = [
     filesystemSiteRegex,
     yuanplussOnlineRegex,
@@ -135,37 +133,76 @@ export async function get_address(inputString) {
     falMediaRegex
   ].join('|');
   
-  // 定义不同链接格式的正则表达式
+  // 定义链接模式及其对应的进度提取规则
   const patterns = [
-    // Markdown 图片链接: ![alt](url)
-    `!\\[([^\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\)`,
-    // Markdown 普通链接: [text](url)
-    `\\[([^\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\)`,
-    // 带有表情符号的链接格式: ▶️ [text](url)
-    `[\\p{Emoji}\\s]*\\[([^\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\)`
+    {
+      // Markdown带进度的链接: > [进度 xx%](url)
+      regex: `>[\\s]*\\[进度\\s*(\\d+)%\\]\\((https:\\/\\/(${supportedDomains}))\\)`,
+      progressGroup: 1,
+      linkGroup: 2
+    },
+    {
+      // Markdown图片链接 ![alt](url) 或普通链接 [text](url)
+      regex: `(?:!?\\[([^进度\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\))`,
+      progressGroup: null,
+      linkGroup: 2
+    },
+    {
+      // 带有表情符号的链接: ▶️ [text](url)
+      regex: `[\\p{Emoji}\\s]*\\[([^进度\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\)`,
+      progressGroup: null,
+      linkGroup: 2
+    }
   ];
   
-  let links = [];
+  // 存储链接及其进度信息
+  const linkData = [];
+  const seenLinks = new Set();  // 用于去重
   
   // 遍历每种模式进行匹配
   for (const pattern of patterns) {
-    // 使用u标志支持Unicode字符(如表情符号)
-    const regex = new RegExp(pattern, "gu");
+    const regex = new RegExp(pattern.regex, "gu");
     let match;
     
     while ((match = regex.exec(inputString)) !== null) {
-      // 提取链接部分 (通常是第2个捕获组)
-      const link = match[2];
-      // 避免重复添加相同链接
-      if (!links.includes(link)) {
-        links.push(link);
+      const link = match[pattern.linkGroup];
+      if (!seenLinks.has(link)) {
+        seenLinks.add(link);
+        const progress = pattern.progressGroup !== null 
+          ? parseInt(match[pattern.progressGroup]) 
+          : null;
+        
+        linkData.push({
+          link: link,
+          progress: progress,
+          originalText: match[0]  // 保存原始匹配文本
+        });
       }
     }
   }
   
+  // 按进度排序：有进度的按数字升序，无进度的排在后面
+  linkData.sort((a, b) => {
+    // 两个都有进度，比较进度值
+    if (a.progress !== null && b.progress !== null) {
+      return a.progress - b.progress;
+    }
+    // a有进度，b没有，a排前面
+    if (a.progress !== null) return -1;
+    // b有进度，a没有，b排前面
+    if (b.progress !== null) return 1;
+    // 两个都没有进度，保持原序
+    return 0;
+  });
+  
+  // 提取排序后的链接数组
+  const sortedLinks = linkData.map(item => item.link);
+  
   // 输出调试信息
-  console.log('解析到的链接:', links);
-  return links;
+  console.log('解析并排序后的链接数据:', linkData);
+  console.log('最终链接数组:', sortedLinks);
+  
+  return sortedLinks;
 }
 
 /**
