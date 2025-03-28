@@ -420,7 +420,6 @@ class KimiClient {
                 }
                 return content += `${message.role === 'user' ? this.wrapUrlsToTags(message.content) : message.content}\n`;
             }, '');
-            logger.info(`\n透传内容：\n${content}`);
         } else {
             let latestMessage = messages[messages.length - 1];
             let hasFileOrImage = Array.isArray(latestMessage.content) &&
@@ -737,7 +736,7 @@ class KimiClient {
             return !!(access_token && refresh_token);
         } catch (err) {
             return false;
-        }
+        }''
     }
 }
 

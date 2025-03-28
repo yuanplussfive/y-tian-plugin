@@ -7,7 +7,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export async function KimiCompletion(messages, model) {
+export async function KimiCompletion(messages, refreshToken, refConvId) {
     try {
         const configPath = path.join(__dirname, '../../../../config/message.yaml');
         console.log(configPath)
@@ -19,19 +19,32 @@ export async function KimiCompletion(messages, model) {
             config = configs.pluginSettings;
         }
 
-        const refreshTokens = config?.KimtRefreshTokens || [];
+        const refreshTokens = config?.KimiRefreshTokens || [];
+        const RefreshToken = refreshToken || refreshTokens[Math.floor(Math.random() * refreshTokens.length)];
         const KimiModel = config?.KimiModel || 'kimi';
-        const refreshToken = refreshTokens[Math.floor(Math.random() * refreshTokens.length)];
+        if (!refConvId) {
+            const conversationName = "11451411";
+            refConvId = await kimiAPI.createConversation(KimiModel, conversationName, RefreshToken);
+        }
         const response = await kimiAPI.createCompletion({
             model: KimiModel,
             messages,
-            refreshToken,
+            refreshToken: RefreshToken,
+            refConvId: refConvId,
             skipPreN2s: true
         });
         console.log('回答:', response.choices[0].message.content);
-        return response.choices[0].message.content;
+        return {
+            output: response.choices[0].message.content,
+            refreshToken: RefreshToken,
+            convId: refConvId
+        };
     } catch (error) {
         console.error('错误:', error.message);
-        return null;
+        return {
+            output: null,
+            refreshToken: null,
+            convId: null
+        };
     }
 }

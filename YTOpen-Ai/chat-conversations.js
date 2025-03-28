@@ -964,56 +964,92 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
     return Array.from(imageLinks, (match) => match[1]);
   }
 
-  async function processArray(arr, numbers) {
-    const userCount = arr.reduce((count, obj) => {
-      if (obj.role === "user") {
-        if (Array.isArray(obj.content)) {
-          return count + obj.content.reduce((acc, item) => item.type === "text" ? acc + 1 : acc, 0);
+  async function processArray(arr, limit) {
+    if (!arr?.length || limit <= 1) return [];
+    
+    // 提取system消息
+    const systemMsg = arr.find(item => item.role === 'system');
+    
+    // 从数组末尾开始处理对话组
+    const processedGroups = [];
+    let currentGroup = {
+      assistant: null,
+      user: null
+    };
+    
+    // 处理content数组，保留原始结构
+    const processContent = (content) => {
+      if (!Array.isArray(content)) return content;
+      
+      // 分离text类型和非text类型的内容
+      const textItems = content.filter(item => item.type === 'text');
+      const nonTextItems = content.filter(item => item.type !== 'text');
+      
+      // 如果没有text类型，直接返回原内容
+      if (textItems.length === 0) return content;
+      
+      // 合并所有text类型项
+      const mergedTextItem = {
+        type: 'text',
+        text: textItems.map(item => item.text).join(' ')
+      };
+      
+      // 返回合并后的数组，保持原有顺序
+      return [mergedTextItem, ...nonTextItems];
+    };
+  
+    // 从后向前遍历数组
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const current = arr[i];
+      
+      if (current.role === 'system') continue;
+      
+      if (current.role === 'assistant') {
+        if (!currentGroup.assistant) {
+          currentGroup.assistant = {
+            ...current,
+            content: processContent(current.content)
+          };
+        } else {
+          // 合并assistant消息，保持content结构
+          const mergedContent = Array.isArray(current.content) && Array.isArray(currentGroup.assistant.content)
+            ? [...processContent(current.content), ...currentGroup.assistant.content]
+            : current.content;
+          currentGroup.assistant.content = mergedContent;
         }
-        return count + 1;
       }
-      return count;
-    }, 0);
-    const systemIndex = arr.findIndex(obj => obj.role === "system");
-    if (userCount >= numbers) {
-      let newArr = [];
-      if (systemIndex !== -1) {
-        newArr.push(arr[systemIndex]);
-      }
-      for (let i = arr.length - 1; i >= 0; i--) {
-        const obj = arr[i];
-        if (obj.role !== "user" && obj.role !== "assistant") {
-          if (newArr.length < numbers) { // 检查长度
-            newArr.unshift(obj);
-          }
-        } else if (newArr.length < numbers) { // 检查长度
-          if (obj.role === "user") {
-            if (Array.isArray(obj.content)) {
-              let validContent = obj.content.filter(item => item.type === "text");
-              if (validContent.length > 0) {
-                newArr.unshift({
-                  ...obj,
-                  content: validContent
-                });
-              }
-            } else {
-              newArr.unshift(obj);
-            }
-            if (arr[i + 1]?.role === "assistant" && newArr.length < numbers) { // 再次检查长度
-              newArr.unshift(arr[i + 1]);
-              i--;
-            }
-          } else {
-            newArr.unshift(obj);
-          }
+      
+      if (current.role === 'user') {
+        if (!currentGroup.user) {
+          currentGroup.user = {
+            ...current,
+            content: processContent(current.content)
+          };
+        } else {
+          // 合并user消息，保持content结构
+          const mergedContent = Array.isArray(current.content) && Array.isArray(currentGroup.user.content)
+            ? [...processContent(current.content), ...currentGroup.user.content]
+            : current.content;
+          currentGroup.user.content = mergedContent;
         }
-        if (newArr.length >= numbers) { // 提前退出循环
-          break;
+        
+        if (currentGroup.assistant) {
+          processedGroups.push([currentGroup.user, currentGroup.assistant]);
+          if (processedGroups.length >= limit) break;
+          currentGroup = { assistant: null, user: null };
         }
       }
-      return newArr;
     }
-    return arr;
+  
+    // 构建最终结果数组
+    const result = [];
+    if (systemMsg) result.push(systemMsg);
+    
+    processedGroups.reverse().forEach(group => {
+      result.push(...group);
+    });
+  
+    return result;
   }
 }
 

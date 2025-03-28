@@ -17,7 +17,7 @@ function createOpenAIClient(baseUrl, apiKey, defaultHeaders = { 'Content-Type': 
     baseURL: baseUrl,
     defaultHeaders: defaultHeaders,
     timeout: 600000,
-    maxRetries: 2,
+    maxRetries: 1,
     httpAgent: new HttpAgent({
       keepAlive: true,
       timeout: 600000,
