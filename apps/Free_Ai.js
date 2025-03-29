@@ -1,8 +1,9 @@
 import { dependencies } from "../YTdependence/dependencies.js";
-const { replyBasedOnStyle, NXModelResponse, mimeTypes } = dependencies;
-import { getFileInfo, TakeImages, getBase64File } from '../utils/fileUtils.js';
+const { replyBasedOnStyle, NXModelResponse, mimeTypes, path, _path, fs, axios } = dependencies;
+import { getFileInfo, TakeImages, getBase64File, get_address, downloadAndSaveFile } from '../utils/fileUtils.js';
 import { processUploadedFile } from '../YTOpen-Ai/tools/processUploadedFile.js';
 import { KimiCompletion } from '../utils/providers/ChatModels/kimi/kimiClient.js';
+import { GlmCompletion } from '../utils/providers/ChatModels/chatglm/glmClient.js';
 import { free_models } from "../YTOpen-Ai/free-models.js";
 import { callGeminiAPI, handleGeminiImage, processGeminiResult } from "../YTOpen-Ai/GeminiAPI.js";
 
@@ -27,9 +28,9 @@ const modellist = {
   "claude": "claude-3.5-sonnet-poe",
   "grok": "grok-v2",
   "qwq": "qwen-qwq-32b-preview",
-  "zp": "glm-4-flash",
-  "glm4": "glm-4-flash",
-  "智谱": "glm-4-flash",
+  "zp": "glm-4-plus",
+  "glm4": "glm-4-plus",
+  "智谱": "glm-4-plus",
   "星火": "spark-max",
   "xh": "spark-max",
   "yi": "yi-lightning",
@@ -182,6 +183,7 @@ export class YTFreeAi extends plugin {
     const modelName = modellist[model];
     if (!modelName) return null;
     const isKimi = model.toLowerCase().includes('kimi');
+    const isGlm = model.toLowerCase().includes('glm');
     const isGemini = model.toLowerCase().includes('gemini');
     if (isGemini) {
       const openAIFormat = {
@@ -223,6 +225,38 @@ export class YTFreeAi extends plugin {
       console.log(output);
       return output;
     }
+    if (isGlm) {
+      try {
+        const GlmConfig = config.modelSpecific.Glm || {};
+        const GlmParams = {
+          messages: config.history.slice(-1),
+          refreshToken: GlmConfig.refreshToken,
+          refConvId: GlmConfig.convId
+        };
+
+        console.log(GlmParams)
+        const GlmResponse = await GlmCompletion(GlmParams.messages, GlmParams.refreshToken, GlmParams.refConvId);
+        if (GlmResponse) {
+          config.modelSpecific.Glm = {
+            refreshToken: GlmResponse.refreshToken || GlmParams.refreshToken,
+            convId: GlmResponse.convId || GlmParams.refConvId
+          };
+            let urls = await get_address(GlmResponse.output);
+            console.log('glm', urls)
+            if (urls.length > 0) {
+            await handleImages(urls, e);
+            urls.forEach(async (url) => {
+              await downloadAndSaveFile(url, path.basename(url), e);
+            });
+          }
+          return GlmResponse.output;
+        }
+        return `GlmCompletion 错误: 通讯失败`;
+      } catch (error) {
+        this.logger.error(`GlmCompletion 错误: ${error.message}`);
+        return `GlmCompletion 错误: ${error.message}`;
+      }
+    }
     if (isKimi) {
       try {
         const kimiConfig = config.modelSpecific.kimi || {};
@@ -236,14 +270,13 @@ export class YTFreeAi extends plugin {
         console.log(kimiParams)
         const kimiResponse = await KimiCompletion(kimiParams.messages, kimiParams.refreshToken, kimiParams.refConvId);
         if (kimiResponse) {
-          // 更新 Kimi 特定配置
           config.modelSpecific.kimi = {
             refreshToken: kimiResponse.refreshToken || kimiParams.refreshToken,
             convId: kimiResponse.convId || kimiParams.refConvId
           };
           return kimiResponse.output;
         }
-        this.logger.warn(`KimiCompletion 失败，切换到备用服务: ${modelName}`);
+        return `KimiCompletion 错误: 通讯失败`;
       } catch (error) {
         this.logger.error(`KimiCompletion 错误: ${error.message}`);
         return `KimiCompletion 错误: ${error.message}`;
@@ -251,5 +284,116 @@ export class YTFreeAi extends plugin {
     }
 
     return await NXModelResponse(config.history, modelName);
+  }
+}
+
+async function handleImages(urls, e) {
+  // 如果没有URLs，直接返回
+  if (!urls || urls.length === 0) {
+    return ["预览:"];
+  }
+
+  // 并行下载所有图片
+  const downloadPromises = urls.map(async (url, index) => {
+    const filePath = path.join(_path, 'resources', `dall_e_chat_${index}.png`);
+    try {
+      const result = await downloadImage(path, url, filePath);
+      if (result.success) {
+        // 下载成功返回文件路径
+        return { success: true, path: filePath };
+      } else {
+        // 下载失败返回URL
+        return { success: false, url: url.trim() };
+      }
+    } catch (error) {
+      console.error(`下载失败: ${url}`, error);
+      return { success: false, url: url.trim() };
+    }
+  });
+
+  try {
+    // 等待所有下载完成
+    const results = await Promise.all(downloadPromises);
+
+    // 初始化结果数组
+    const imageResults = ["预览:"];
+
+    // 收集所有成功下载的图片
+    const successfulImages = results
+      .filter(result => result.success)
+      .map(result => segment.image(result.path));
+
+    // 如果有成功下载的图片，一次性发送
+    if (successfulImages.length > 0) {
+      await e.reply(successfulImages);
+    }
+
+    // 将失败的URL添加到结果数组
+    results.forEach(result => {
+      if (!result.success) {
+        imageResults.push(result.url);
+      }
+    });
+
+    return imageResults;
+  } catch (error) {
+    console.error('处理图片时发生错误:', error);
+    return ["预览:", "处理图片时发生错误"];
+  }
+}
+
+async function downloadImage(path, url, filePath) {
+  const fileExtension = path.extname(url).toLowerCase();
+  if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
+    return { success: false };
+  }
+
+  const downloadTimeout = 40000;
+  let downloadAborted = false;
+
+  const downloadPromise = async () => {
+    try {
+      const response = await axios({
+        url: url.trim(),
+        method: 'GET',
+        responseType: 'stream'
+      });
+
+      if (response.status >= 400) {
+        throw new Error(`Failed to download ${url}: ${response.status}`);
+      }
+
+      const file = fs.createWriteStream(filePath);
+      response.data.pipe(file);
+
+      await new Promise((resolve, reject) => {
+        file.on('finish', resolve);
+        file.on('error', reject);
+      });
+
+      if (!downloadAborted) {
+        return { success: true };
+      }
+      return { success: false };
+
+    } catch (err) {
+      console.error(err);
+      return { success: false };
+    }
+  };
+
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => {
+      downloadAborted = true;
+      reject(new Error('Download timed out'));
+    }, downloadTimeout)
+  );
+
+  try {
+    const result = await Promise.race([downloadPromise(), timeoutPromise]);
+    return result;
+  } catch (err) {
+    console.error(err);
+    return { success: false };
   }
 }

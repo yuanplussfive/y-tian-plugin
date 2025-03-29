@@ -1876,7 +1876,7 @@ export const other_models = [
     "points": "y-tian-plugin",
     "token": 1000000,
     "features": ['drawing'],
-    "quota": "0.05/次"
+    "quota": "0.04/次"
   },
   {
     "id": 230,
@@ -1888,10 +1888,10 @@ export const other_models = [
   },
   {
     "id": 231,
-    "model": "bria-background-remove",
+    "model": "ltx-video",
     "points": "y-tian-plugin",
     "token": 2000,
-    "features": ['image_recognition'],
-    "quota": "0.2/次"
+    "features": ['video'],
+    "quota": "0.5/次"
   }
 ]  

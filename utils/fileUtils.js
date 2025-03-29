@@ -10,6 +10,7 @@ const mimeTypesPath = join(__dirname, '../node_modules/mime-types');
 const mimeTypes = require(mimeTypesPath);
 import fs from "fs";
 import path from "path";
+import crypto from 'crypto';
 
 /**
  * 获取文件扩展名
@@ -115,93 +116,122 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
 }
 
 /**
- * 解析文本中的各种格式链接并按进度百分比排序
+ * 获取链接内容的 SHA256 哈希值
+ * @param {string} url - 链接地址
+ * @returns {Promise<string|null>} - 内容的哈希值，失败时返回 null
+ */
+async function getContentHash(url) {
+  try {
+    const response = await fetch(url);
+    const buffer = await response.arrayBuffer();
+    const hash = crypto.createHash('sha256').update(Buffer.from(buffer)).digest('hex');
+    return hash;
+  } catch (error) {
+    console.error(`获取 ${url} 内容失败:`, error);
+    return null;
+  }
+}
+
+/**
+ * 解析文本中的各种格式链接并按进度百分比排序，同时基于内容去重
  * @param {string} inputString - 需要解析的输入字符串
- * @returns {Promise<Array>} - 按进度排序的链接数组
+ * @returns {Promise<Array>} - 按进度排序的去重链接数组
  */
 export async function get_address(inputString) {
   // 支持的域名正则表达式
-  const filesystemSiteRegex = `filesystem\\.site\/cdn\/\\d{8}\/[a-zA-Z0-9\\-]+?\\.[a-z]{2,4}`;
-  const yuanplussOnlineRegex = `yuanpluss\\.online:\\d+\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`;
-  const openaiYuanplusChatRegex = `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`;
-  const falMediaRegex = `v3\\.fal\\.media\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z0-9]{2,4}`;
-  
   const supportedDomains = [
-    filesystemSiteRegex,
-    yuanplussOnlineRegex,
-    openaiYuanplusChatRegex,
-    falMediaRegex
+    `filesystem\\.site\/cdn\/\\d{8}\/[a-zA-Z0-9\\-]+?\\.[a-z]{2,4}`,
+    `yuanpluss\\.online:\\d+\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`,
+    `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`,
+    `v3\\.fal\\.media\/files\/(?:[a-zA-Z0-9_\\-]+\/)*[a-zA-Z0-9_\\-]+\\.[a-zA-Z0-9]+`,
+    `sfile\\.chatglm\\.cn\/(?:[a-zA-Z0-9_\\-]+(?:-[a-zA-Z0-9_]+)*\\/)*[a-zA-Z0-9_\\-]+(?:-[a-zA-Z0-9_]+)*\\.[a-z]{2,4}`
   ].join('|');
-  
+
   // 定义链接模式及其对应的进度提取规则
   const patterns = [
     {
-      // Markdown带进度的链接: > [进度 xx%](url)
       regex: `>[\\s]*\\[进度\\s*(\\d+)%\\]\\((https:\\/\\/(${supportedDomains}))\\)`,
       progressGroup: 1,
       linkGroup: 2
     },
     {
-      // Markdown图片链接 ![alt](url) 或普通链接 [text](url)
       regex: `(?:!?\\[([^进度\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\))`,
       progressGroup: null,
       linkGroup: 2
     },
     {
-      // 带有表情符号的链接: ▶️ [text](url)
       regex: `[\\p{Emoji}\\s]*\\[([^进度\\]]*?)\\]\\((https:\\/\\/(${supportedDomains}))\\)`,
       progressGroup: null,
       linkGroup: 2
     }
   ];
-  
-  // 存储链接及其进度信息
+
+  // 提取并存储链接数据
   const linkData = [];
-  const seenLinks = new Set();  // 用于去重
-  
-  // 遍历每种模式进行匹配
+  const seenLinks = new Set();
+
   for (const pattern of patterns) {
-    const regex = new RegExp(pattern.regex, "gu");
+    const regex = new RegExp(pattern.regex, 'gu');
     let match;
-    
     while ((match = regex.exec(inputString)) !== null) {
       const link = match[pattern.linkGroup];
       if (!seenLinks.has(link)) {
         seenLinks.add(link);
-        const progress = pattern.progressGroup !== null 
-          ? parseInt(match[pattern.progressGroup]) 
+        const progress = pattern.progressGroup !== null
+          ? parseInt(match[pattern.progressGroup])
           : null;
-        
-        linkData.push({
-          link: link,
-          progress: progress,
-          originalText: match[0]  // 保存原始匹配文本
-        });
+        linkData.push({ link, progress, originalText: match[0] });
       }
     }
   }
-  
-  // 按进度排序：有进度的按数字升序，无进度的排在后面
-  linkData.sort((a, b) => {
-    // 两个都有进度，比较进度值
-    if (a.progress !== null && b.progress !== null) {
-      return a.progress - b.progress;
+
+  // 如果数组长度小于 2，直接返回
+  if (linkData.length < 2) {
+    const sortedLinks = linkData.map(item => item.link);
+    console.log('链接数量少于 2，无需处理:', linkData);
+    return sortedLinks;
+  }
+
+  // 使用 Promise.all 进行内容去重
+  const contentHashMap = new Map();
+  const hashPromises = linkData.map(async (item) => {
+    const hash = await getContentHash(item.link);
+    if (hash) contentHashMap.set(item.link, hash);
+    return { ...item, hash }; // 添加哈希值到每个项
+  });
+
+  const hashedLinkData = await Promise.all(hashPromises);
+
+  // 基于内容去重
+  const uniqueLinkData = [];
+  const seenHashes = new Set();
+
+  for (const item of hashedLinkData) {
+    const hash = item.hash;
+    if (hash && !seenHashes.has(hash)) {
+      seenHashes.add(hash);
+      uniqueLinkData.push({ link: item.link, progress: item.progress, originalText: item.originalText });
+    } else if (!hash) {
+      // 如果获取哈希失败，保留该链接
+      uniqueLinkData.push({ link: item.link, progress: item.progress, originalText: item.originalText });
     }
-    // a有进度，b没有，a排前面
+  }
+
+  // 按进度排序
+  uniqueLinkData.sort((a, b) => {
+    if (a.progress !== null && b.progress !== null) return a.progress - b.progress;
     if (a.progress !== null) return -1;
-    // b有进度，a没有，b排前面
     if (b.progress !== null) return 1;
-    // 两个都没有进度，保持原序
     return 0;
   });
-  
+
   // 提取排序后的链接数组
-  const sortedLinks = linkData.map(item => item.link);
-  
+  const sortedLinks = uniqueLinkData.map(item => item.link);
+
   // 输出调试信息
-  console.log('解析并排序后的链接数据:', linkData);
+  console.log('解析并排序后的链接数据（内容去重后）:', uniqueLinkData);
   console.log('最终链接数组:', sortedLinks);
-  
+
   return sortedLinks;
 }
 

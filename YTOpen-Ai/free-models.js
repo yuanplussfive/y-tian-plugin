@@ -12,5 +12,12 @@ export const free_models = [
     "provider": "Moonshot",
     "token": 128000,
     "features": ['conversation', 'code', 'internet', 'file'],
+  },
+  {
+    "id": 3,
+    "model": "glm4",
+    "provider": "ChatGLM",
+    "token": 128000,
+    "features": ['conversation', 'code', 'internet', 'image_recognition', 'file'],
   }
 ]  
