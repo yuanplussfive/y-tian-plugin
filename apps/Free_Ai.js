@@ -1,11 +1,16 @@
-import { dependencies } from "../YTdependence/dependencies.js";
-const { replyBasedOnStyle, NXModelResponse, mimeTypes, path, _path, fs, axios } = dependencies;
+const _path = process.cwd();
 import { getFileInfo, TakeImages, getBase64File, get_address, downloadAndSaveFile } from '../utils/fileUtils.js';
 import { processUploadedFile } from '../YTOpen-Ai/tools/processUploadedFile.js';
 import { KimiCompletion } from '../utils/providers/ChatModels/kimi/kimiClient.js';
 import { GlmCompletion } from '../utils/providers/ChatModels/chatglm/glmClient.js';
 import { free_models } from "../YTOpen-Ai/free-models.js";
 import { callGeminiAPI, handleGeminiImage, processGeminiResult } from "../YTOpen-Ai/GeminiAPI.js";
+import { replyBasedOnStyle } from "../YTOpen-Ai/answer-styles.js";
+import { NXModelResponse } from "../utils/providers/ChooseModels.js";
+import axios from "axios";
+import mimeTypes from "mime-types";
+import path from "path";
+import fs from "fs";
 
 const modellist = {
   "hunyuan": "hunyuan-lite",

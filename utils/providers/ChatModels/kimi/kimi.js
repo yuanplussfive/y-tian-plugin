@@ -1,16 +1,9 @@
-import { createRequire } from 'module';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 import { PassThrough } from "stream";
 import crypto from 'crypto';
 import path from 'path';
 import _ from 'lodash';
-import axios from '../../../../node_modules/axios/index.js';
-const require = createRequire(import.meta.url);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const mimeTypesPath = join(__dirname, '../../../../node_modules/mime-types');
-const mimeTypes = require(mimeTypesPath);
+import axios from 'axios';
+import mimeTypes from 'mime-types';
 
 // 日志工具
 const logger = {
