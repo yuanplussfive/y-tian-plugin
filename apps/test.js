@@ -252,6 +252,15 @@ export class ExamplePlugin extends plugin {
     }
   }
 
+  filterChatByQQ(chatArray, qqNumber) {
+    const datePattern = /\[\d{2}-\d{2} \d{2}:\d{2}:\d{2}\]/;
+    const lastIndex = chatArray.reduce((last, current, index) => {
+      const hasQQ = current.content.includes(`(qq号: ${qqNumber})`);
+      const hasValidDate = datePattern.test(current.content);
+      return hasQQ && hasValidDate ? index : last;
+    }, -1);
+    return lastIndex === -1 ? chatArray : chatArray.slice(0, lastIndex + 1);
+  }
   /**
   * 获取或创建会话
   * @param {string} sessionId - 会话 ID
@@ -780,6 +789,8 @@ export class ExamplePlugin extends plugin {
       groupUserMessages.push({ role: 'user', content: userContent });
 
       groupUserMessages = this.trimMessageHistory(groupUserMessages);
+      groupUserMessages = this.filterChatByQQ(groupUserMessages, e.user_id);
+      //console.log(groupUserMessages);
       session.groupUserMessages = groupUserMessages;
       await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
 
