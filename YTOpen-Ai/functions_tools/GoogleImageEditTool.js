@@ -8,28 +8,23 @@ export class GoogleImageEditTool extends AbstractTool {
     constructor() {
         super();
         this.name = 'googleImageEditTool';
-        this.description = '使用Google的Gemini进行图像编辑处理或者凸显识别, 当用户需要编辑/识别图片内容时，使用此工具。支持多图片分析, 注意：所有图片URL必须保持完整原始形式，不得修改或简化URL参数。';
+        this.description = '使用Google Gemini处理用户的任意图片（非群聊头像），支持编辑、识别或分析图片内容。当用户请求处理非头像类图片或识别图片细节时调用此工具，例如“识别这张图片的内容”或“编辑这张风景照”。';
         this.parameters = {
-            type: "object",
+            type: 'object',
             properties: {
                 prompt: {
                     type: 'string',
-                    description: '用户的图片处理需求描述',
+                    description: '用户对图片的处理或识别需求，例如“识别图片中的物体”“将图片转为黑白”“分析这张照片的内容”',
+                    examples: ['把这张图片调亮', '告诉我这张图片里有什么']
                 },
                 images: {
                     type: 'array',
-                    description: '需要处理的图片链接数组。重要：必须保持原始URL的完整性，包括所有查询参数。示例链接：\n' +
-                        '1. 示例1: "https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhSpon0PNM0ysZkSasHTTFhNhPkn2xiM9ogCIP8KKPTzyfGXgYsDMgRwcm9kUIC9owFaELWsiGLkylkWILRwFGxE3cQ&spec=0&rkey=CAQSOAB6JWENi5LM1F9SWC-_lnNTz6V9r7O2ev3HX_QmYpr_odrwSXfUpXfNIyIowntqLF3KoE8inPMs"\n' +
-                        '2. 示例2: "https://gchat.qpic.cn/gchatpic_new/2119611465/782312429-2903731874-87B79F5B839EA2F3AD0AD48DD539D946/0?term=2&is_origin=0"\n' +
-                        '以上链接中的所有参数（特别是rkey、fileid等）都必须完整保留，不得简化或修改',
+                    description: '用户提供的任意图片链接数组（非群聊头像）。必须保留原始URL完整性，包括所有查询参数。示例：\n' +
+                        '1. "https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhSpon0PNM0ysZkSasHTTFhNhPkn2xiM9ogCIP8KKPTzyfGXgYsDMgRwcm9kUIC9owFaELWsiGLkylkWILRwFGxE3cQ&spec=0&rkey=CAQSOAB6JWENi5LM1F9SWC-_lnNTz6V9r7O2ev3HX_QmYpr_odrwSXfUpXfNIyIowntqLF3KoE8inPMs"\n' +
+                        '2. "https://gchat.qpic.cn/gchatpic_new/2119611465/782312429-2903731874-87B79F5B839EA2F3AD0AD48DD539D946/0?term=2&is_origin=0"',
                     items: {
                         type: 'string',
-                        description: '完整的图片URL，必须与原始输入完全一致。示例：\n' +
-                            '"https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhSpon0PNM0ysZkSasHTTFhNhPkn2xiM9ogCIP8KKPTzyfGXgYsDMgRwcm9kUIC9owFaELWsiGLkylkWILRwFGxE3cQ&spec=0&rkey=CAQSOAB6JWENi5LM1F9SWC-_lnNTz6V9r7O2ev3HX_QmYpr_odrwSXfUpXfNIyIowntqLF3KoE8inPMs"',
-                        examples: [
-                            "https://gchat.qpic.cn/gchatpic_new/2119611465/782312429-2903731874-87B79F5B839EA2F3AD0AD48DD539D946/0?term=2&is_origin=0",
-                            "https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhSpon0PNM0ysZkSasHTTFhNhPkn2xiM9ogCIP8KKPTzyfGXgYsDMgRwcm9kUIC9owFaELWsiGLkylkWILRwFGxE3cQ&spec=0&rkey=CAQSOAB6JWENi5LM1F9SWC-_lnNTz6V9r7O2ev3HX_QmYpr_odrwSXfUpXfNIyIowntqLF3KoE8inPMs"
-                        ]
+                        description: '完整的图片URL，必须与用户输入一致'
                     }
                 }
             },

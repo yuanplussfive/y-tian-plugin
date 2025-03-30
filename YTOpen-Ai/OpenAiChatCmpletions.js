@@ -11,26 +11,31 @@ const { fetch } = globalThis;
  * @returns {OpenAI} OpenAI客户端实例
  */
 function createOpenAIClient(baseUrl, apiKey, defaultHeaders = { 'Content-Type': 'application/json' }) {
-  // 创建新的OpenAI实例用于API调用
+  const TIMEOUT = 900000; // 15分钟
+
   return new OpenAI({
     apiKey: apiKey,
     baseURL: baseUrl,
     defaultHeaders: defaultHeaders,
-    timeout: 600000,
+    timeout: TIMEOUT,
     maxRetries: 1,
     httpAgent: new HttpAgent({
       keepAlive: true,
-      timeout: 600000,
+      timeout: TIMEOUT,
+      scheduling: 'fifo',
+      maxSockets: Infinity
     }),
     httpsAgent: new HttpsAgent({
       keepAlive: true,
-      timeout: 600000,
+      timeout: TIMEOUT,
+      scheduling: 'fifo',
+      maxSockets: Infinity
     }),
     fetch: (url, init) => {
       console.log(`[${new Date().toISOString()}] 开始请求: ${url}`);
       return fetch(url, {
         ...init,
-        signal: AbortSignal.timeout(600000),
+        signal: AbortSignal.timeout(TIMEOUT),
       }).then(response => {
         console.log(`[${new Date().toISOString()}] 收到响应状态: ${response.status}`);
         return response;

@@ -21,6 +21,7 @@ import { IdeogramTool } from '../YTOpen-Ai/functions_tools/IdeogramTool.js';
 import { NoobaiTool } from '../YTOpen-Ai/functions_tools/NoobaiTool.js';
 import { GoogleImageEditTool } from '../YTOpen-Ai/functions_tools/GoogleImageEditTool.js';
 import { WebParserTool } from '../YTOpen-Ai/functions_tools/webParserTool.js';
+import { AvatarProcessTool } from '../YTOpen-Ai/functions_tools/AvatarProcessTool.js'
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
@@ -89,8 +90,14 @@ export class ExamplePlugin extends plugin {
     this.recraftTool = new RecraftTool();
     this.noobaiTool = new NoobaiTool();
     this.googleImageEditTool = new GoogleImageEditTool();
+    this.avatarProcessTool = new AvatarProcessTool();
     // 工具定义部分
     this.functions = [
+      {
+        name: this.avatarProcessTool.name,
+        description: this.avatarProcessTool.description,
+        parameters: this.avatarProcessTool.parameters
+      },
       {
         name: this.googleImageEditTool.name,
         description: this.googleImageEditTool.description,
@@ -286,6 +293,7 @@ export class ExamplePlugin extends plugin {
         geminiApikey: ['AIzaxxxxxxx'],
         systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
         ForcedDrawingMode: true,
+        ForcedAvatarMode: true,
         bilibiliSessData: 'a16804xxxxxx',
         jimengsessionid: '12345xxxxxx',
         geminiModel: 'gemini-2.0-flash-exp',
@@ -778,6 +786,7 @@ export class ExamplePlugin extends plugin {
       const imageCount = images?.length; // 获取图片数量，可能为 undefined
       let tool_choice = "auto"; // 默认工具选择为 "auto"
 
+      /*
       if (imageCount >= 1) { // 如果至少有一张图片
         let fixedToolName = null; // 初始化固定工具名称为空
 
@@ -801,6 +810,14 @@ export class ExamplePlugin extends plugin {
 
         // 根据 fixedToolName 是否存在设置 tool_choice
         tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
+      }
+      */
+      if (this.config.ForcedAvatarMode && ['头像'].some(k => msg.includes(k)) && ['修改', '处理', '生成'].some(k => msg.includes(k))) {
+        session.tools = this.getToolsByName(['avatarProcessTool']);
+        console.log('工具 avatarProcessTool 的 session.tools: ', session.tools);
+        if (session.tools?.length) {
+          tool_choice = { type: 'function', function: { name: 'avatarProcessTool' } };
+        }
       }
 
       if (this.config.ForcedDrawingMode) {
@@ -991,6 +1008,9 @@ export class ExamplePlugin extends plugin {
                 break;
               case this.googleImageEditTool.name:
                 result = await executeTool(this.googleImageEditTool, params, e);
+                break;
+              case this.avatarProcessTool.name:
+                result = await executeTool(this.avatarProcessTool, params, e);
                 break;
               case this.emojiSearchTool.name:
                 result = await executeTool(this.emojiSearchTool, params, e);
@@ -1460,6 +1480,10 @@ export class ExamplePlugin extends plugin {
 
           case this.googleImageEditTool.name:
             result = await executeTool(this.googleImageEditTool, params, e);
+            break;
+
+          case this.avatarProcessTool.name:
+            result = await executeTool(this.avatarProcessTool, params, e);
             break;
 
           case this.emojiSearchTool.name:
