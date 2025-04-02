@@ -144,7 +144,8 @@ export async function get_address(inputString) {
     `yuanpluss\\.online:\\d+\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`,
     `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`,
     `v3\\.fal\\.media\/files\/(?:[a-zA-Z0-9_\\-]+\/)*[a-zA-Z0-9_\\-]+\\.[a-zA-Z0-9]+`,
-    `sfile\\.chatglm\\.cn\/(?:[a-zA-Z0-9_\\-]+(?:-[a-zA-Z0-9_]+)*\\/)*[a-zA-Z0-9_\\-]+(?:-[a-zA-Z0-9_]+)*\\.[a-z]{2,4}`
+    `sfile\\.chatglm\\.cn\/(?:[a-zA-Z0-9_\\-]+(?:-[a-zA-Z0-9_]+)*\\/)*[a-zA-Z0-9_\\-]+(?:-[a-zA-Z0-9_]+)*\\.[a-z]{2,4}`,
+    `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.oaiusercontent\\.[a-zA-Z0-9\\-.]+/files/[a-zA-Z0-9\\-/]+(?:\\?.*)?`
   ].join('|');
 
   // 定义链接模式及其对应的进度提取规则

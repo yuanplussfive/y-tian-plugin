@@ -690,18 +690,6 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
     return null;
   }
 
-  async function removeDuplicates(array) {
-    const result = array.filter((item, index) => {
-      if (item.indexOf('/cdn/download/') == -1) {
-        return true;
-      } else {
-        const nonDownloadUrl = item.replace('/cdn/download/', '/cdn/');
-        return array.indexOf(nonDownloadUrl) == -1;
-      }
-    });
-    return result;
-  }
-
   async function handleImages(urls, _path) {
     // 如果没有URLs，直接返回
     if (!urls || urls.length === 0) {
@@ -759,7 +747,7 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
 
   async function downloadImage(path, url, filePath) {
     const fileExtension = path.extname(url).toLowerCase();
-    if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
+    if (!['.webp', '.png', '.jpg'].includes(fileExtension) && fileExtension) {
       return { success: false };
     }
 

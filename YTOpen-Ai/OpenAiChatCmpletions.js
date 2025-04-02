@@ -20,15 +20,11 @@ function createOpenAIClient(baseUrl, apiKey, defaultHeaders = { 'Content-Type': 
     timeout: TIMEOUT,
     maxRetries: 1,
     httpAgent: new HttpAgent({
-      keepAlive: true,
-      timeout: TIMEOUT,
-      scheduling: 'fifo',
+      keepAlive: false,
       maxSockets: Infinity
     }),
     httpsAgent: new HttpsAgent({
-      keepAlive: true,
-      timeout: TIMEOUT,
-      scheduling: 'fifo',
+      keepAlive: false,
       maxSockets: Infinity
     }),
     fetch: (url, init) => {

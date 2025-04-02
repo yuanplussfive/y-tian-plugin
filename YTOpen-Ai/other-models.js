@@ -1893,5 +1893,13 @@ export const other_models = [
     "token": 2000,
     "features": ['video'],
     "quota": "0.5/次"
+  },
+  {
+    "id": 232,
+    "model": "gpt-4o-image",
+    "points": "OpenAi-Free/Plus",
+    "token": 8000,
+    "features": ['drawing'],
+    "quota": 0
   }
 ]  
