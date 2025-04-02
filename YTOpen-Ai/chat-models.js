@@ -1073,7 +1073,7 @@ export const chat_models = {
       "name": "gpt-4o-image",
       "token_count": 2000,
       "Magnification": "0.04/次",
-      "features": ['drawing']
+      "features": ['drawing', 'image_recognition']
     }
   ]
 }
