@@ -1,6 +1,7 @@
 import { dependencies } from "../YTdependence/dependencies.js";
 const { fetch, _path, fs, path, YAML } = dependencies;
 import { ZaiwenDrawing } from "../utils/providers/DrawingModels/zaiwen/zaiwen.js";
+import { jimengClient } from "../utils/providers/ChatModels/jimeng/jimengClient.js";
 let ratio = "9:16";
 let lastUsedTimestamps = 0;
 let dalle_size = '1024x1792';
@@ -26,6 +27,10 @@ export class FreeDrawing extends plugin {
           fnc: 'handleJimengCommand'
         },
         {
+          reg: "^#(激萌|即梦|jimeng)视频(.*)",
+          fnc: 'handleJimengVideoCommand'
+        },
+        {
           reg: "^#免费绘图切换(长|宽|方)图",
           fnc: 'handleSizeCommand'
         }
@@ -33,12 +38,35 @@ export class FreeDrawing extends plugin {
     })
   }
 
+  async handleJimengVideoCommand(e) {
+    try {
+      const prompt = e.msg.replace(/#(激萌|即梦|jimeng)视频/g, "")?.trim()
+      const imageArray = await jimengClient([{ role: "user", content: prompt }], "jimeng-video-2.0", "video");
+      let imageUrls = [];
+      console.log(imageArray);
+      if (!imageArray) {
+        e.reply('生成失败了，可能服务器无响应，请稍后再试！');
+      } else {
+        imageUrls = await extractImageUrls(imageArray);
+        if (imageUrls && imageUrls.length > 0) {
+          const images = imageUrls.map(imgurl => segment.video(imgurl.trim()));
+          await e.reply(images);
+        } else {
+          e.reply('生成失败了，无法发送，请稍后再试！');
+        }
+      }
+    } catch (error) {
+      console.log('处理错误:', error);
+      e.reply('生成失败了，请稍后再试！');
+    }
+  }
+
   async handleJimengCommand(e) {
     try {
       const prompt = e.msg.replace(/#(激萌|即梦|jimeng)绘图/g, "")?.trim()
-      const imageArray = await JimengProxy(prompt);
+      const imageArray = await jimengClient([{ role: "user", content: prompt }], "jimeng-2.1");
       let imageUrls = [];
-      console.log(imageArray)
+      console.log(imageArray);
       if (!imageArray) {
         e.reply('生成失败了，可能服务器无响应，请稍后再试！');
       } else if (imageArray.includes("提示词违规")) {
@@ -46,11 +74,10 @@ export class FreeDrawing extends plugin {
       } else {
         imageUrls = await extractImageUrls(imageArray);
         if (imageUrls && imageUrls.length > 0) {
-          e.reply('图片生成成功，我已经发送图片给你了');
           const images = imageUrls.map(imgurl => segment.image(imgurl.trim()));
           await e.reply(images); // 发送图片
         } else {
-          e.reply('生成失败了，没有提取到图片链接，无法发送，请稍后再试！');
+          e.reply('生成失败了，无法发送，请稍后再试！');
         }
       }
     } catch (error) {
@@ -213,52 +240,7 @@ async function dalle(prompt, model, stream, n, size, quality) {
   }
 }
 
- /**
-  * jimeng API调用函数
-  * @param {string} prompt - 绘图的描述提示词
-  * @returns {Promise<string|null>} - 返回图片链接或null
-  */
- async function JimengProxy(prompt) {
-  try {
-    const configPath = path.join(process.cwd(), 'plugins/y-tian-plugin/config/message.yaml')
-
-    let Authorization = null
-    try {
-      if (fs.existsSync(configPath)) {
-        const file = fs.readFileSync(configPath, 'utf8')
-        const config = YAML.parse(file)
-        Authorization = config.pluginSettings?.jimengsessionid;
-      }
-    } catch(err) {
-      console.log(err);
-    }
-
-    const url = 'https://yuanpluss.online:3000/v1/images/jimeng/generations';
-    const data = {
-      prompt,
-      quality: 'best'
-    };
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': Authorization
-      },
-      body: JSON.stringify(data)
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-    const responseData = await response.text();
-    return responseData && responseData.length > 0 ? responseData.trim() : null;
-  } catch (error) {
-    console.log('JimengProxy API错误:', error);
-    return null;
-  }
-}
-
- /**
+/**
 * 从文本中提取图片链接
 * @param {string} text - 包含图片链接的文本
 * @returns {string[]} - 提取的图片链接数组

@@ -145,7 +145,9 @@ export async function get_address(inputString) {
     `openai\\.yuanplus\\.chat\/files\/[a-zA-Z0-9_\\/\\-]+?\\.[a-z]{2,4}`,
     `v3\\.fal\\.media\/files\/(?:[a-zA-Z0-9_\\-]+\/)*[a-zA-Z0-9_\\-]+\\.[a-zA-Z0-9]+`,
     `sfile\\.chatglm\\.cn\/(?:[a-zA-Z0-9_\\-]+(?:-[a-zA-Z0-9_]+)*\\/)*[a-zA-Z0-9_\\-]+(?:-[a-zA-Z0-9_]+)*\\.[a-z]{2,4}`,
-    `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.oaiusercontent\\.[a-zA-Z0-9\\-.]+/files/[a-zA-Z0-9\\-/]+(?:\\?.*)?`
+    `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.oaiusercontent\\.[a-zA-Z0-9\\-.]+/files/[a-zA-Z0-9\\-/]+(?:\\?.*)?`,
+    `[a-zA-Z0-9_\\-.]+\\.byteimg\\.com/[^/]+/[^~]+~tplv-[a-zA-Z0-9_\\-:.]*\\.[a-z]{2,6}(?:\\?.*)?`,
+    `[a-zA-Z0-9_\\-.]+\\.vlabvod\\.com(?:/[^?#]+)?(?:\\?.*)?`
   ].join('|');
 
   // 定义链接模式及其对应的进度提取规则

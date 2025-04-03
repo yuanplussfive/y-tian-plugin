@@ -3,7 +3,6 @@ const { _path, fetch, fs, path } = dependencies;
 
 /**
  * 发送请求到 OpenAI API 并处理响应
- * 
  * @param {Object} requestData - 请求体数据
  * @param {Object} config - 配置对象
  * @returns {Object|null} - 返回 OpenAI 的响应数据
