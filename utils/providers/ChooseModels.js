@@ -19,7 +19,7 @@ import { SlackAi } from "../providers/ChatModels/slack/slack.js";
 import { cursor } from "../providers/ChatModels/cursor/cursor.js";
 import { ddg } from "../providers/ChatModels/ddg/ddg.js";
 import { PromPlateAi } from "../providers/ChatModels/PromPlateAi/PromPlateAi.js";
-import { genspark } from "../providers/ChatModels/genspark/genspark.js";
+//import { genspark } from "../providers/ChatModels/genspark/genspark.js";
 import { openai } from "../providers/ChatModels/openai/openai.js";
 import { deepseek_thinking } from "./config.js";
 import { ThinkingProcessor } from "./ThinkingProcessor.js";
@@ -57,7 +57,7 @@ const providerStats = {
   PromPlateAi: { success: 0, failure: 0, weight: 90 },
   cursor: { success: 0, failure: 0, weight: 100 },
   ddg: { success: 0, failure: 0, weight: 100 },
-  genspark: { success: 0, failure: 0, weight: 65 },
+  //genspark: { success: 0, failure: 0, weight: 65 },
   grok: { success: 0, failure: 0, weight: 100 },
   openai: { success: 0, failure: 0, weight: 100 }
 };
@@ -144,7 +144,7 @@ const providerApis = {
   PromPlateAi: PromPlateAi,
   cursor: cursor,
   ddg: ddg,
-  genspark: genspark,
+  //genspark: genspark,
   grok: grok,
   openai: openai
 };

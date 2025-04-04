@@ -1,5 +1,11 @@
 {
   "models": {
+    "deepseek-v3-0324": {
+      "providerModelName": "deepseekv3",
+      "aliases": [
+        "deepseek-v3-0324"
+      ]
+    },
     "doubao-pro": {
       "providerModelName": "doubao",
       "aliases": [
