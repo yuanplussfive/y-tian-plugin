@@ -806,56 +806,56 @@ export const chat_models = {
       "id": "114",
       "name": "sora-1:1-480p-5s",
       "token_count": 2000,
-      "Magnification": "2.0/次",
+      "Magnification": "1.0/次",
       "features": ['video']
     },
     {
       "id": "115",
       "name": "sora-1:1-720p-5s",
       "token_count": 2000,
-      "Magnification": "3.0/次",
+      "Magnification": "1.5/次",
       "features": ['video']
     },
     {
       "id": "116",
       "name": "sora-1:1-480p-10s",
       "token_count": 2000,
-      "Magnification": "4.0/次",
+      "Magnification": "2.0/次",
       "features": ['video']
     },
     {
       "id": "117",
       "name": "sora-16:9-480p-5s",
       "token_count": 2000,
-      "Magnification": "2.5/次",
+      "Magnification": "1.25/次",
       "features": ['video']
     },
     {
       "id": "118",
       "name": "sora-16:9-720p-5s",
       "token_count": 2000,
-      "Magnification": "6.0/次",
+      "Magnification": "3.0/次",
       "features": ['video']
     },
     {
       "id": "119",
       "name": "sora-16:9-480p-10s",
       "token_count": 2000,
-      "Magnification": "5.0/次",
+      "Magnification": "2.5/次",
       "features": ['video']
     },
     {
       "id": "120",
       "name": "sora-9:16-480p-5s",
       "token_count": 2000,
-      "Magnification": "5.0/次",
+      "Magnification": "2.5/次",
       "features": ['video']
     },
     {
       "id": "121",
       "name": "sora-9:16-720p-5s",
       "token_count": 2000,
-      "Magnification": "6.0/次",
+      "Magnification": "3.0/次",
       "features": ['video']
     },
     {
