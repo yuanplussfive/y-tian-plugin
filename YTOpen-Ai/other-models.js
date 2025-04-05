@@ -2020,7 +2020,7 @@ export const other_models = [
     "points": "y-tian-plugin",
     "token": 100000,
     "features": ['conversation'],
-    "quota": "0.006/次"
+    "quota": "0.025/次"
   },
   {
     "id": 247,
@@ -2028,7 +2028,7 @@ export const other_models = [
     "points": "y-tian-plugin",
     "token": 100000,
     "features": ['conversation'],
-    "quota": "0.012/次"
+    "quota": "0.05/次"
   },
   {
     "id": 248,
@@ -2036,7 +2036,7 @@ export const other_models = [
     "points": "y-tian-plugin",
     "token": 100000,
     "features": ['conversation'],
-    "quota": "0.012/次"
+    "quota": "0.05/次"
   },
   {
     "id": 249,
