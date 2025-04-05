@@ -122,7 +122,8 @@ export class example extends plugin {
     const img_4 = await screen(25, puppeteer)
     const img_5 = await screen(28, puppeteer)
     const img_6 = await screen(31, puppeteer)
-    const forwardMsg = [img_1, img_2, img_3, img_4, img_5, img_6]
+    const img_7 = await screen(33, puppeteer)
+    const forwardMsg = [img_1, img_2, img_3, img_4, img_5, img_6, img_7]
     const JsonPart = await common.makeForwardMsg(e, forwardMsg, '附加模型大全');
     e.reply(JsonPart)
   }

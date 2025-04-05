@@ -1981,5 +1981,69 @@ export const other_models = [
     "token": 8000,
     "features": ['drawing'],
     "quota": "0.1/次"
+  },
+  {
+    "id": 242,
+    "model": "gpt-4o-image-vip",
+    "points": "OpenAi-Free/Plus",
+    "token": 8000,
+    "features": ['drawing'],
+    "quota": "0.1/次"
+  },
+  {
+    "id": 243,
+    "model": "gemini-1.5-flash-fast",
+    "points": "y-tian-plugin",
+    "token": 100000,
+    "features": ['conversation'],
+    "quota": "0.004/次"
+  },
+  {
+    "id": 244,
+    "model": "gemini-2.0-flash-fast",
+    "points": "y-tian-plugin",
+    "token": 100000,
+    "features": ['conversation'],
+    "quota": "0.008/次"
+  },
+  {
+    "id": 245,
+    "model": "gemini-2.5-pro-fast",
+    "points": "y-tian-plugin",
+    "token": 100000,
+    "features": ['conversation'],
+    "quota": "0.01/次"
+  },
+  {
+    "id": 246,
+    "model": "claude-3.5-haiku-fast",
+    "points": "y-tian-plugin",
+    "token": 100000,
+    "features": ['conversation'],
+    "quota": "0.006/次"
+  },
+  {
+    "id": 247,
+    "model": "claude-3.5-sonnet-fast",
+    "points": "y-tian-plugin",
+    "token": 100000,
+    "features": ['conversation'],
+    "quota": "0.012/次"
+  },
+  {
+    "id": 248,
+    "model": "claude-3.7-sonnet-fast",
+    "points": "y-tian-plugin",
+    "token": 100000,
+    "features": ['conversation'],
+    "quota": "0.012/次"
+  },
+  {
+    "id": 249,
+    "model": "deepseek-r1-fast",
+    "points": "y-tian-plugin",
+    "token": 100000,
+    "features": ['conversation'],
+    "quota": "0.01/次"
   }
 ]  

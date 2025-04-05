@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <link rel="stylesheet" href="{{all_min_css}}">
+  <link rel="stylesheet" href="{{all_css_src}}">
+</head>
+
+<body>
+
+
+
+  <table>
+    <tr>
+      <th>ID:</th>
+      <th>模型名称:</th>
+      <th>来源:</th>
+      <th>最大token:</th>
+      <th>模型倍率:</th>
+    </tr>
+    <script>
+      let model =
+      {
+        models: [
+          {
+            "id": 237,
+            "model": "jimeng-xl-pro",
+            "points": "即梦XL-pro",
+            "token": 8000,
+            "features": ["drawing"],
+            "quota": 0
+          },
+          {
+            "id": 238,
+            "model": "jimeng-video-1.2",
+            "points": "即梦视频1.2",
+            "token": 8000,
+            "features": ["video"],
+            "quota": 0
+          },
+          {
+            "id": 239,
+            "model": "jimeng-video-s2.0",
+            "points": "即梦视频S2.0",
+            "token": 8000,
+            "features": ["video"],
+            "quota": 0
+          },
+          {
+            "id": 240,
+            "model": "jimeng-video-p2.0-pro",
+            "points": "即梦视频P2.0-pro",
+            "token": 8000,
+            "features": ["video"],
+            "quota": 0
+          },
+          {
+            "id": 241,
+            "model": "jimeng-video-s2.0-pro",
+            "points": "即梦视频S2.0-pro",
+            "token": 8000,
+            "features": ["video"],
+            "quota": 0
+          },
+          {
+            "id": 242,
+            "model": "gpt-4o-image-vip",
+            "points": "OpenAi-Free/Plus",
+            "token": 8000,
+            "features": ['drawing'],
+            "quota": "0.1/次"
+          },
+          {
+            "id": 243,
+            "model": "gemini-1.5-flash-fast",
+            "points": "y-tian-plugin",
+            "token": 100000,
+            "features": ['conversation'],
+            "quota": "0.004/次"
+          },
+          {
+            "id": 244,
+            "model": "gemini-2.0-flash-fast",
+            "points": "y-tian-plugin",
+            "token": 100000,
+            "features": ['conversation'],
+            "quota": "0.008/次"
+          },
+          {
+            "id": 245,
+            "model": "gemini-2.5-pro-fast",
+            "points": "y-tian-plugin",
+            "token": 100000,
+            "features": ['conversation'],
+            "quota": "0.01/次"
+          },
+          {
+            "id": 246,
+            "model": "claude-3.5-haiku-fast",
+            "points": "y-tian-plugin",
+            "token": 100000,
+            "features": ['conversation'],
+            "quota": "0.006/次"
+          },
+          {
+            "id": 247,
+            "model": "claude-3.5-sonnet-fast",
+            "points": "y-tian-plugin",
+            "token": 100000,
+            "features": ['conversation'],
+            "quota": "0.012/次"
+          },
+          {
+            "id": 248,
+            "model": "claude-3.7-sonnet-fast",
+            "points": "y-tian-plugin",
+            "token": 100000,
+            "features": ['conversation'],
+            "quota": "0.012/次"
+          },
+          {
+            "id": 249,
+            "model": "deepseek-r1-fast",
+            "points": "y-tian-plugin",
+            "token": 100000,
+            "features": ['conversation'],
+            "quota": "0.01/次"
+          }
+        ]
+      }
+      model.models.forEach(item => {
+        let features = '';
+        if (item.features.includes('internet')) {
+          features += ' <i class="fas fa-globe"></i>';
+        }
+        if (item.features.includes('drawing')) {
+          features += ' <i class="fas fa-paint-brush"></i>';
+        }
+        if (item.features.includes('code')) {
+          features += ' <i class="fas fa-code"></i>';
+        }
+        if (item.features.includes('image_recognition')) {
+          features += ' <i class="fas fa-image"></i>';
+        }
+        if (item.features.includes('conversation')) {
+          features += ' <i class="fas fa-comments"></i>';
+        }
+        if (item.features.includes('file')) {
+          features += ' <i class="fas fa-file-alt"></i>';
+        }
+        if (item.features.includes('music')) {
+          features += ' <i class="fas fa-music"></i>';
+        }
+        if (item.features.includes('video')) {
+          features += ' <i class="fas fa-video"></i>';
+        }
+        document.write(`
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.model}${features}</td>
+            <td>${item.points}</td>
+            <td>${item.token}</td>
+            <td>${item.quota}</td>
+          </tr>
+        `);
+      });
+    </script>
+  </table>
+</body>
+
+</html>
