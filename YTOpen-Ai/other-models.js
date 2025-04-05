@@ -1983,14 +1983,6 @@ export const other_models = [
     "quota": "0.1/次"
   },
   {
-    "id": 242,
-    "model": "gpt-4o-image-vip",
-    "points": "OpenAi-Free/Plus",
-    "token": 8000,
-    "features": ['drawing'],
-    "quota": "0.1/次"
-  },
-  {
     "id": 243,
     "model": "gemini-1.5-flash-fast",
     "points": "y-tian-plugin",
