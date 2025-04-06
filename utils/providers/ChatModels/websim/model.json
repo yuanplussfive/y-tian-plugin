@@ -1,0 +1,22 @@
+{
+  "models": {
+    "gemini-1.5-pro": {
+      "providerModelName": "gemini-1.5-pro",
+      "aliases": [
+        "gemini-1.5-pro"
+      ]
+    },
+    "gemini-1.5-flash": {
+      "providerModelName": "gemini-1.5-flash",
+      "aliases": [
+        "gemini-1.5-flash"
+      ]
+    },
+    "flux-sch": {
+      "providerModelName": "flux",
+      "aliases": [
+        "flux-sch"
+      ]
+    }
+  }
+}

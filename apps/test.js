@@ -307,6 +307,9 @@ export class ExamplePlugin extends plugin {
         jimengsessionid: '12345xxxxxx',
         geminiModel: 'gemini-2.0-flash-exp',
         gemini_tool_choice: 'auto',
+        OpenAiUrl: 'https://yuanpluss.online:3000/api/v1/4o/fc',
+        OpenAiModel: 'gpt-4o-mini',
+        OpenAiApikey: 'sk-xxx',
         OneApiUrl: 'https://chutes-deepseek-ai-deepseek-r1.chutes.ai',
         OneApiModel: 'deepseek-ai/DeepSeek-R1',
         OneApiKey: ['cpk_8f29ba06571f4a3a9f8543f8e2eafa9b.cf973b9dc97952c0bb0b8f6ee6f9340d.e5YL7A2Sw20BBPdEg2ntoWdsQXNCBSWm'],
@@ -327,6 +330,7 @@ export class ExamplePlugin extends plugin {
         VegaStoken: 'uuid',
         ClashProxy: 'http://127.0.0.1:7890',
         KimiModel: 'kimi',
+        KimiModels: ['cu52bqh7l5gqdkncdtnk(探索版)', 'conpgbgt7lagcavlq340(塔罗师)', 'conpdjgt7lag4rq67pt0(爆款网文生成器)', 'conph28t7lagf3d1bhq0(学术搜索)', 'conpg00t7lagbbsfqkq0(提示词专家)', 'conpdi8t7lag4rq67pqg(小红书爆款生成器)'],
         KimiRefreshTokens: ['eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1c2VyLWNlbnRlciIsImV4cCI6MTc0NTkyOTQyMSwiaWF0IjoxNzM4MTUzNDIxLCJqdGkiOiJjdWQxcmo4MWdlbTdkbHVzdmgyZyIsInR5cCI6InJlZnJlc2giLCJhcHBfaWQiOiJraW1pIiwic3ViIjoiY3VkMXJqODFnZW03ZGx1c3ZoMWciLCJzcGFjZV9pZCI6ImN1NnJ0bzdmdGFlYWRhcjExMW0wIiwiYWJzdHJhY3RfdXNlcl9pZCI6ImN1NnJ0bzdmdGFlYWRhcjExMWxnIiwic3NpZCI6IjE3MzAzMDM2NDc2Njk0NjU5NzQiLCJkZXZpY2VfaWQiOiI3MzU0MzU3NDk4MzQzNTk5MzYwIn0.CuplPF_7HaP8OR6Q9LkRImmBriATgYwNq8Xxy0PSG17qlO_TNmAcG_xkkLPwpmqaWGwBU_1Zq06pBtTtEu76Uw'],
         GlmModel: 'glm-4-plus',
         GlmRefreshTokens: ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZmViYzYyN2QzODI0Mjg4OTVlOWIxNDZhOWUzYTU5OSIsImV4cCI6MTc1NDQ4NTIyNSwibmJmIjoxNzM4OTMzMjI1LCJpYXQiOjE3Mzg5MzMyMjUsImp0aSI6IjU2ZDcyYjU4ZWRiZjQ2NzA5MmVlZjE4MjE3MTkxNGI0IiwidWlkIjoiNjc5NGNiNTU5NjYwMTgxNjVmNTljMWQwIiwidHlwZSI6InJlZnJlc2gifQ.vFCjMPMXO0btbVzTVU-mDaEmEDnmqQg8MYauuf2bK_w']
@@ -725,7 +729,7 @@ export class ExamplePlugin extends plugin {
           .join('\n');
       };
 
-      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await limit(() => getHighLevelMembers(e.group))}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'`;
+      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await limit(() => getHighLevelMembers(e.group))}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'这种格式，并且, 每次只发送一条消息，千万不能多！模仿正常网友交互形式`;
 
       const getHistory = async () => {
         const chatHistory = await limit(() =>
@@ -767,7 +771,7 @@ export class ExamplePlugin extends plugin {
         const lastMessage = await limit(() =>
           buildMessageContent(
             { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
-            `我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: xxx'的格式`,
+            `我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: xxx'的格式, 每次只发送一条消息`,
             [],
             [],
             e.group
@@ -859,8 +863,15 @@ export class ExamplePlugin extends plugin {
       }
 
       console.log(tool_choice);
+      const modelMap = {
+        'gemini': this.config.geminiModel,
+        'openai': this.config.OpenAiModel,
+        'oneapi': this.config.OneApiModel,
+      };
+
+      const provider = this.config?.providers?.toLowerCase();
       const requestData = {
-        model: 'gpt-4o-fc',
+        model: modelMap[provider],
         messages: groupUserMessages,
         temperature: 1,
         top_p: 0.1,
@@ -869,10 +880,7 @@ export class ExamplePlugin extends plugin {
         ...(this.config.UseTools && { tools: session.tools, tool_choice }),
       };
 
-      if (this.config?.providers?.toLowerCase() === 'gemini') {
-        if (this.config.geminiModel) {
-          requestData.model = this.config.geminiModel;
-        }
+      if (provider !== 'openai') {
         delete requestData.frequency_penalty;
         delete requestData.presence_penalty;
       }
@@ -1057,19 +1065,24 @@ export class ExamplePlugin extends plugin {
                 content: JSON.stringify(result)
               });
 
+              const modelMap = {
+                'gemini': this.config.geminiModel,
+                'openai': this.config.OpenAiModel,
+                'oneapi': this.config.OneApiModel,
+              };
+
+              const provider = this.config?.providers?.toLowerCase();
               const toolRequest = {
-                model: 'gpt-4o-fc',
+                model: modelMap[provider],
                 messages: currentMessages,
                 temperature: 0.1,
                 top_p: 0.9,
                 frequency_penalty: 0.1,
-                presence_penalty: 0.1
+                presence_penalty: 0.1,
+                ...(this.config.UseTools && this.config.providers.toLowerCase() !== 'oneapi' && { tools: session.tools, tool_choice: "auto" }),
               };
 
-              if (this.config?.providers?.toLowerCase() === 'gemini') {
-                if (this.config.geminiModel) {
-                  toolRequest.model = this.config.geminiModel;
-                }
+              if (provider !== 'openai') {
                 delete toolRequest.frequency_penalty;
                 delete toolRequest.presence_penalty;
               }
@@ -1123,8 +1136,15 @@ export class ExamplePlugin extends plugin {
           }
         }
 
+        const modelMap = {
+          'gemini': this.config.geminiModel,
+          'openai': this.config.OpenAiModel,
+          'oneapi': this.config.OneApiModel,
+        };
+
+        const provider = this.config?.providers?.toLowerCase();
         const FinalRequest = {
-          model: 'gpt-4o-fc',
+          model: modelMap[provider],
           ...(this.config.UseTools && { tools: session.tools, tool_choice: "auto" }),
           messages: [...groupUserMessages, {
             role: 'system',
@@ -1140,10 +1160,7 @@ export class ExamplePlugin extends plugin {
           presence_penalty: 0.1
         };
 
-        if (this.config?.providers?.toLowerCase() === 'gemini') {
-          if (this.config.geminiModel) {
-            FinalRequest.model = this.config.geminiModel;
-          }
+        if (provider !== 'openai') {
           delete FinalRequest.frequency_penalty;
           delete FinalRequest.presence_penalty;
         }
@@ -1225,8 +1242,15 @@ export class ExamplePlugin extends plugin {
       session.groupUserMessages = groupUserMessages;
       await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
 
+      const modelMap = {
+        'gemini': this.config.geminiModel,
+        'openai': this.config.OpenAiModel,
+        'oneapi': this.config.OneApiModel,
+      };
+
+      const provider = this.config?.providers?.toLowerCase();
       const errorRequestData = {
-        model: 'gpt-4o-fc',
+        model: modelMap[provider],
         messages: groupUserMessages,
         temperature: 0.8,
         top_p: 0.9,
@@ -1234,10 +1258,7 @@ export class ExamplePlugin extends plugin {
         presence_penalty: 0.6
       };
 
-      if (this.config?.providers?.toLowerCase() === 'gemini') {
-        if (this.config.geminiModel) {
-          errorRequestData.model = this.config.geminiModel;
-        }
+      if (provider !== 'gemini') {
         delete errorRequestData.frequency_penalty;
         delete errorRequestData.presence_penalty;
       }
@@ -1533,7 +1554,6 @@ export class ExamplePlugin extends plugin {
         if (result) {
           toolResults.push(result);
 
-          // 添加工具执行结果到当前上下文
           currentMessages.push({
             role: 'tool',
             tool_call_id: id,
@@ -1541,25 +1561,25 @@ export class ExamplePlugin extends plugin {
             content: JSON.stringify(result)
           });
 
+          const modelMap = {
+            'gemini': this.config.geminiModel,
+            'openai': this.config.OpenAiModel,
+            'oneapi': this.config.OneApiModel,
+          };
+
+          const provider = this.config?.providers?.toLowerCase();
           // 构建工具的请求体
           const toolRequest = {
-            model: 'gpt-4o-fc',
+            model: modelMap[provider],
             messages: currentMessages,
             temperature: 0.1,
             top_p: 0.9,
             frequency_penalty: 0.1,
-            presence_penalty: 0.1
+            presence_penalty: 0.1,
+            ...(this.config.UseTools && this.config.providers.toLowerCase() !== 'oneapi' && { tools: session.tools, tool_choice: "auto" }),
           }
 
-          // 检查 providers 是否为 gemini (不区分大小写)
-          if (this.config && this.config.providers && this.config.providers.toLowerCase() === 'gemini') {
-            // 修改模型
-            if (this.config.geminiModel) {
-              toolRequest.model = this.config.geminiModel;
-            }
-
-
-            // 删除 frequency_penalty 和 presence_penalty 属性
+          if (provider !== 'openai') {
             delete toolRequest.frequency_penalty;
             delete toolRequest.presence_penalty;
           }

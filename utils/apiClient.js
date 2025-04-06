@@ -147,14 +147,16 @@ export async function YTapi(requestData, config) {
                     stream: false
                 };
             }
-        } else {
-            // 默认 OpenAI 请求逻辑 (保持不变)
-            url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
-            if (!data.chatgpt?.stoken) {
-                return { error: "未配置 OpenAI stoken" };
+        } else if (provider === 'openai') {
+            url = config.OpenAiUrl;
+            const OpenAiApikey = url === 'https://yuanpluss.online:3000/api/v1/4o/fc' 
+            ? data.chatgpt.stoken 
+            : config.OpenAiApikey;          
+            if (!config.OpenAiApikey) {
+                return { error: "未配置 OpenAI apikey" };
             }
             headers = {
-                'Authorization': `Bearer ${data.chatgpt.stoken}`,
+                'Authorization': `Bearer ${OpenAiApikey}`,
                 'Content-Type': 'application/json'
             };
             finalRequestData = requestData;

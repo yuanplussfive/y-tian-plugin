@@ -21,6 +21,8 @@ import { ddg } from "../providers/ChatModels/ddg/ddg.js";
 import { PromPlateAi } from "../providers/ChatModels/PromPlateAi/PromPlateAi.js";
 //import { genspark } from "../providers/ChatModels/genspark/genspark.js";
 import { openai } from "../providers/ChatModels/openai/openai.js";
+import { websim } from "../providers/ChatModels/websim/websim.js";
+import { imagelabs } from "../providers/ChatModels/imagelabs/imagelabs.js";
 import { deepseek_thinking } from "./config.js";
 import { ThinkingProcessor } from "./ThinkingProcessor.js";
 import fs from 'fs';
@@ -59,7 +61,9 @@ const providerStats = {
   ddg: { success: 0, failure: 0, weight: 100 },
   //genspark: { success: 0, failure: 0, weight: 65 },
   grok: { success: 0, failure: 0, weight: 100 },
-  openai: { success: 0, failure: 0, weight: 100 }
+  openai: { success: 0, failure: 0, weight: 100 },
+  websim: { success: 0, failure: 0, weight: 100 },
+  imagelabs: { success: 0, failure: 0, weight: 100 },
 };
 
 // 获取当前文件所在的目录
@@ -146,7 +150,9 @@ const providerApis = {
   ddg: ddg,
   //genspark: genspark,
   grok: grok,
-  openai: openai
+  openai: openai,
+  websim: websim,
+  imagelabs: imagelabs,
 };
 
 // 默认超时时间 (3分钟)
