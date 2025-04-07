@@ -2,22 +2,24 @@ import { dependencies } from "../YTdependence/dependencies.js";
 const { _path, fetch, fs, path } = dependencies;
 
 /**
- * 发送请求到 OpenAI API 并处理响应
+ * 发送请求到 OpenAI API 或其他提供者并处理响应
  * @param {Object} requestData - 请求体数据
  * @param {Object} config - 配置对象
- * @returns {Object|null} - 返回 OpenAI 的响应数据
+ * @returns {Object|null} - 返回处理后的响应数据或错误信息
  */
 export async function YTapi(requestData, config) {
+    console.log('Request Data:', requestData);
     const dirpath = `${_path}/data/YTotherai`;
-    const dataPath = dirpath + "/data.json";
+    const dataPath = path.join(dirpath, "data.json");
 
+    // 读取配置文件
     let data;
     try {
         const dataString = await fs.promises.readFile(dataPath, "utf-8");
         data = JSON.parse(dataString);
     } catch (readError) {
-        console.error("读取 data.json 失败:", readError);
-        return { error: `读取配置文件失败: ${readError.message}` };
+        console.error("Failed to read data.json:", readError);
+        return { error: `Failed to read config file: ${readError.message}` };
     }
 
     const provider = config.providers?.toLowerCase();
@@ -28,27 +30,23 @@ export async function YTapi(requestData, config) {
         if (provider === 'gemini') {
             // Gemini API 请求逻辑
             const urls = config.GeminiProxyList;
-            const currentUrl = urls?.[Math.floor(Math.random() * urls.length)]
+            if (!urls?.length) return { error: "Gemini proxy list is not configured" };
+            const currentUrl = urls[Math.floor(Math.random() * urls.length)];
             url = `${currentUrl}/v1beta/chat/completions`;
-            if (!config.geminiApikey || config.geminiApikey.length === 0) {
-                return { error: "未配置 Gemini API Key" };
-            }
-            const randomIndex = Math.floor(Math.random() * config.geminiApikey.length);
-            const apiKey = config.geminiApikey[randomIndex];
+            if (!config.geminiApikey?.length) return { error: "Gemini API Key is not configured" };
+
+            const apiKey = config.geminiApikey[Math.floor(Math.random() * config.geminiApikey.length)];
             headers = {
                 'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json'
             };
-            finalRequestData = {
-                ...requestData
-            };
+            finalRequestData = { ...requestData };
         } else if (provider === 'oneapi') {
             if (config.UseTools) {
-                // UseTools 开启，先使用 OpenAI 请求
+                // UseTools 开启，先调用 OpenAI API
                 const openaiUrl = 'https://yuanpluss.online:3000/api/v1/4o/fc';
-                if (!data.chatgpt?.stoken) {
-                    return { error: "未配置 OpenAI stoken" };
-                }
+                if (!data.chatgpt?.stoken) return { error: "OpenAI stoken is not configured" };
+
                 const openaiHeaders = {
                     'Authorization': `Bearer ${data.chatgpt.stoken}`,
                     'Content-Type': 'application/json'
@@ -63,80 +61,71 @@ export async function YTapi(requestData, config) {
                     });
 
                     if (!openaiResponse.ok) {
-                        try {
-                            const errorText = await openaiResponse.text();
-                            const errorMessage = `OpenAI API请求失败: ${openaiResponse.status} ${openaiResponse.statusText} - ${errorText}`;
-                            return { error: errorMessage };
-                        } catch (textError) {
-                            return { error: `OpenAI API请求失败: ${openaiResponse.status} ${openaiResponse.statusText}，无法读取错误文本` };
-                        }
+                        const errorText = await openaiResponse.text().catch(() => 'Unable to read error text');
+                        return { error: `OpenAI API request failed: ${openaiResponse.status} ${openaiResponse.statusText} - ${errorText}` };
                     }
                 } catch (openaiFetchError) {
-                    console.error("OpenAI API 请求失败:", openaiFetchError);
-                    return { error: `OpenAI API 请求失败: ${openaiFetchError.message}` };
+                    console.error("OpenAI API request failed:", openaiFetchError);
+                    return { error: `OpenAI API request failed: ${openaiFetchError.message}` };
                 }
 
                 let openaiData;
                 try {
                     openaiData = await openaiResponse.json();
-                    console.log('OpenAI 结果', openaiData);
+                    console.log('OpenAI Response:', JSON.stringify(openaiData, null, 2));
                 } catch (openaiJsonError) {
-                    console.error("解析 OpenAI 响应 JSON 失败:", openaiJsonError);
-                    return { error: `解析 OpenAI 响应 JSON 失败: ${openaiJsonError.message}` };
+                    console.error("Failed to parse OpenAI response JSON:", openaiJsonError);
+                    return { error: `Failed to parse OpenAI response JSON: ${openaiJsonError.message}` };
+                }
+
+                // 检查是否包含 tool_calls，无论 finish_reason 是什么
+                const hasToolCalls = openaiData?.choices?.[0]?.message?.tool_calls?.length > 0;
+                if (hasToolCalls) {
+                    // 直接返回 tool_calls 响应，替换 model
+                    openaiData.model = config.OneApiModel;
+                    return processResponse(openaiData);
                 }
 
                 // 检查 OneAPI 配置
-                if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey || config.OneApiKey.length === 0) {
-                    return { error: "未配置 OneAPI URL, Model 或 API Key" };
+                if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey?.length) {
+                    return { error: "OneAPI URL, Model, or API Key is not configured" };
                 }
                 url = `${config.OneApiUrl}/v1/chat/completions`;
-                const randomIndex = Math.floor(Math.random() * config.OneApiKey.length);
-                const oneApiKey = config.OneApiKey[randomIndex];
+                const oneApiKey = config.OneApiKey[Math.floor(Math.random() * config.OneApiKey.length)];
                 headers = {
                     'Authorization': `Bearer ${oneApiKey}`,
                     'Content-Type': 'application/json'
                 };
 
-                // 处理 messages
-                //console.log(requestData.messages);
-                const processedMessages = requestData.messages.map(msg => {
-                    if (msg.role === 'assistant' && msg.tool_calls) {
-                        return null; // 跳过含 tool_calls 的 assistant 消息
-                    } else if (msg.role === 'tool') {
-                        const analysisContent = msg.content;
-                        const prefix = "我正在使用工具处理反馈的结果，以下是分析结果：\n";
-                        const suffix = "\n我会使用中文进行回复。";
-                        return {
-                            role: 'assistant',
-                            content: prefix + analysisContent + suffix
-                        };
-                    }
-                    return msg;
-                }).filter(Boolean);
+                // 处理消息，过滤并转换 tool_calls 相关内容
+                const processedMessages = requestData.messages
+                    .map(msg => {
+                        if (msg.role === 'assistant' && msg.tool_calls) {
+                            return null; // 跳过含 tool_calls 的 assistant 消息
+                        } else if (msg.role === 'tool') {
+                            const prefix = "调用工具成功, 这是使用工具处理反馈的结果：\n";
+                            const suffix = "\n我会工具处理的结果继续反馈, 并且优先使用中文作答。";
+                            return {
+                                role: 'assistant',
+                                content: prefix + msg.content + suffix
+                            };
+                        }
+                        return msg;
+                    })
+                    .filter(Boolean);
 
-                // 根据 finish_reason 处理
-                const finishReason = openaiData?.choices?.[0]?.finish_reason;
-                if (finishReason === 'tool_calls') {
-                    // tool_calls 直接返回，但替换 model
-                    openaiData.model = config.OneApiModel;
-                    return processResponse(openaiData);
-                } else {
-                    finalRequestData = {
-                        model: config.OneApiModel,
-                        messages: [
-                            ...processedMessages
-                        ],
-                        stream: false
-                    };
-                }
+                finalRequestData = {
+                    model: config.OneApiModel,
+                    messages: processedMessages,
+                    stream: false
+                };
             } else {
-                // UseTools 关闭，直接使用 OneAPI 请求（保持不变）
-                if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey || config.OneApiKey.length === 0) {
-                    return { error: "未配置 OneAPI URL, Model 或 API Key" };
+                // UseTools 关闭，直接使用 OneAPI
+                if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey?.length) {
+                    return { error: "OneAPI URL, Model, or API Key is not configured" };
                 }
                 url = `${config.OneApiUrl}/v1/chat/completions`;
-                const randomIndex = Math.floor(Math.random() * config.OneApiKey.length);
-                const oneApiKey = config.OneApiKey[randomIndex];
+                const oneApiKey = config.OneApiKey[Math.floor(Math.random() * config.OneApiKey.length)];
                 headers = {
                     'Authorization': `Bearer ${oneApiKey}`,
                     'Content-Type': 'application/json'
@@ -149,115 +138,84 @@ export async function YTapi(requestData, config) {
             }
         } else if (provider === 'openai') {
             url = config.OpenAiUrl;
-            const OpenAiApikey = url === 'https://yuanpluss.online:3000/api/v1/4o/fc' 
-            ? data.chatgpt.stoken 
-            : config.OpenAiApikey;          
-            if (!config.OpenAiApikey) {
-                return { error: "未配置 OpenAI apikey" };
-            }
+            const openAiApiKey = url === 'https://yuanpluss.online:3000/api/v1/4o/fc'
+                ? data.chatgpt.stoken
+                : config.OpenAiApikey;
+            if (!openAiApiKey) return { error: "OpenAI API Key is not configured" };
+
             headers = {
-                'Authorization': `Bearer ${OpenAiApikey}`,
+                'Authorization': `Bearer ${openAiApiKey}`,
                 'Content-Type': 'application/json'
             };
             finalRequestData = requestData;
-        }
-
-        // 只有在需要发送新请求时才执行
-        if (url && headers && finalRequestData) {
-            let response;
-            try {
-                response = await fetch(url, {
-                    method: 'POST',
-                    headers,
-                    body: JSON.stringify(finalRequestData)
-                });
-
-                if (!response.ok) {
-                    try {
-                        const errorText = await response.text(); // 尝试获取服务器返回的错误信息
-                        const errorMessage = `API请求失败: ${response.status} ${response.statusText} - ${errorText}`;
-                        return { error: errorMessage };
-                    } catch (textError) {
-                        return { error: `API请求失败: ${response.status} ${response.statusText}，无法读取错误文本` };
-                    }
-                }
-            } catch (fetchError) {
-                console.error(`${provider || 'OpenAI'} API 请求失败:`, fetchError);
-                return { error: `${provider || 'OpenAI'} API 请求失败: ${fetchError.message}` };
-            }
-
-            let responseData;
-            try {
-                responseData = await response.json();
-            } catch (jsonError) {
-                console.error(`解析 ${provider || 'OpenAI'} 响应 JSON 失败:`, jsonError);
-                return { error: `解析 ${provider || 'OpenAI'} 响应 JSON 失败: ${jsonError.message}` };
-            }
-
-            console.log(`${provider || 'OpenAI'} 响应:`, responseData);
-            return processResponse(responseData);
         } else {
-            return { error: "未满足发送请求的条件（URL, Headers 或 RequestData 缺失）" };
+            return { error: `Unsupported provider: ${provider}` };
         }
+
+        // 发送 API 请求
+        console.log('Final Request Data:', finalRequestData);
+        if (!url || !headers || !finalRequestData) {
+            return { error: "Missing required request parameters (URL, headers, or request data)" };
+        }
+
+        let response;
+        try {
+            response = await fetch(url, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify(finalRequestData)
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text().catch(() => 'Unable to read error text');
+                return { error: `API request failed: ${response.status} ${response.statusText} - ${errorText}` };
+            }
+        } catch (fetchError) {
+            console.error(`${provider || 'API'} request failed:`, fetchError);
+            return { error: `${provider || 'API'} request failed: ${fetchError.message}` };
+        }
+
+        let responseData;
+        try {
+            responseData = await response.json();
+            console.log(`${provider || 'API'} Response:`, JSON.stringify(responseData, null, 2));
+        } catch (jsonError) {
+            console.error(`Failed to parse ${provider || 'API'} response JSON:`, jsonError);
+            return { error: `Failed to parse ${provider || 'API'} response JSON: ${jsonError.message}` };
+        }
+
+        return processResponse(responseData);
 
     } catch (error) {
-        console.error('YTapi 错误:', error);
-        return { error: error?.message };
+        console.error('YTapi Error:', error);
+        return { error: `Unexpected error: ${error.message}` };
     }
 }
-
-
-function processResponse(responseData) {
-    if (Array.isArray(responseData) && responseData.length > 0) {
-        return responseData[0];
-    } else if (typeof responseData === 'object') {
-        if (responseData?.detail) {
-            return { error: responseData.detail };
-        } else if (responseData?.error && Object.keys(responseData.error).length > 0) {
-            // 如果 responseData.error 存在且为空对象，直接返回 responseData
-            return responseData;
-        } else {
-            return responseData?.detail || responseData;
-        }
-    } else {
-        return responseData;
-    }
-}
-
 
 /**
- * 第二个API调用函数
- * @param {Array} messages - 消息数组
- * @param {string} model - 模型名称
- * @returns {Promise<string|null>} - 返回响应内容或null
+ * 处理 API 响应数据
+ * @param {Object|Array} responseData - API 响应数据
+ * @returns {Object} - 处理后的响应数据
  */
-export async function YTapi2(messages, model) {
-    let dirpath = `${_path}/data/YTotherai`;
-    const dataPath = path.join(dirpath, "data.json");
-    const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
-    const token = data.chatgpt.stoken;
-    try {
-        const url = 'https://yuanpluss.online:3000/api/v1/chat/completions';
-        const data = {
-            model,
-            messages
-        };
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        const responseData = await response.json();
-        if (responseData?.error && Object.keys(responseData.error).length > 0) {
-            return responseData.error;
-        }
-        console.log(responseData);
-        return responseData?.choices[0]?.message?.content;
-    } catch (error) {
-        console.log(error);
-        return null;
+function processResponse(responseData) {
+    // 处理数组响应（兼容某些 API 返回数组的情况）
+    if (Array.isArray(responseData) && responseData.length > 0) {
+        return processResponse(responseData[0]);
     }
+
+    // 处理对象响应
+    if (typeof responseData === 'object' && responseData !== null) {
+        // 错误响应
+        if (responseData.detail) {
+            return { error: responseData.detail };
+        }
+        if (responseData.error && Object.keys(responseData.error).length > 0) {
+            return { error: responseData.error.message || JSON.stringify(responseData.error) };
+        }
+        // 正常响应
+        return responseData;
+    }
+
+    // 其他类型直接返回
+    return { error: `Invalid response format: ${JSON.stringify(responseData)}` };
 }

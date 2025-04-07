@@ -8,7 +8,7 @@ export class GoogleImageEditTool extends AbstractTool {
     constructor() {
         super();
         this.name = 'googleImageEditTool';
-        this.description = '使用Google Gemini处理用户的任意图片（非群聊头像），支持编辑、识别或分析图片内容。当用户请求处理非头像类图片或识别图片细节时调用此工具，例如“识别这张图片的内容”或“编辑这张风景照”。';
+        this.description = '使用Google Gemini处理用户的任意图片（或用户的群聊头像），支持编辑、识别或分析图片内容。当用户请求处理图片/头像或识别图片细节时调用此工具，例如“识别这张图片的内容”或“编辑这张风景照”，“把我的头像改成红色”。';
         this.parameters = {
             type: 'object',
             properties: {
@@ -19,9 +19,10 @@ export class GoogleImageEditTool extends AbstractTool {
                 },
                 images: {
                     type: 'array',
-                    description: '用户提供的任意图片链接数组（非群聊头像）。必须保留原始URL完整性，包括所有查询参数。示例：\n' +
+                    description: '用户提供的任意图片链接数组。必须保留原始URL完整性，包括所有查询参数。对于QQ头像，需要拼接反馈标准化链接如"https://q1.qlogo.cn/g?b=qq&nk=用户QQ号&s=640"。示例：\n' +
                         '1. "https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhSpon0PNM0ysZkSasHTTFhNhPkn2xiM9ogCIP8KKPTzyfGXgYsDMgRwcm9kUIC9owFaELWsiGLkylkWILRwFGxE3cQ&spec=0&rkey=CAQSOAB6JWENi5LM1F9SWC-_lnNTz6V9r7O2ev3HX_QmYpr_odrwSXfUpXfNIyIowntqLF3KoE8inPMs"\n' +
-                        '2. "https://gchat.qpic.cn/gchatpic_new/2119611465/782312429-2903731874-87B79F5B839EA2F3AD0AD48DD539D946/0?term=2&is_origin=0"',
+                        '2. "https://gchat.qpic.cn/gchatpic_new/2119611465/782312429-2903731874-87B79F5B839EA2F3AD0AD48DD539D946/0?term=2&is_origin=0"' +
+                        '3. "https://q1.qlogo.cn/g?b=qq&nk=116789034&s=640"',
                     items: {
                         type: 'string',
                         description: '完整的图片URL，必须与用户输入一致'

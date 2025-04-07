@@ -32,6 +32,7 @@ import YAML from 'yaml';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import pLimit from 'p-limit';
+const _path = process.cwd();
 
 /**
  * 示例插件类
@@ -303,6 +304,7 @@ export class ExamplePlugin extends plugin {
         systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
         ForcedDrawingMode: true,
         ForcedAvatarMode: true,
+        ForceformatMessage: true,
         bilibiliSessData: 'a16804xxxxxx',
         jimengsessionid: '12345xxxxxx',
         geminiModel: 'gemini-2.0-flash-exp',
@@ -729,7 +731,7 @@ export class ExamplePlugin extends plugin {
           .join('\n');
       };
 
-      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await limit(() => getHighLevelMembers(e.group))}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'这种格式，并且, 每次只发送一条消息，千万不能多！模仿正常网友交互形式`;
+      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await limit(() => getHighLevelMembers(e.group))}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'这种格式, 并且, 每次只发送一条消息，千万不能多！模仿正常网友交互形式`;
 
       const getHistory = async () => {
         const chatHistory = await limit(() =>
@@ -794,7 +796,7 @@ export class ExamplePlugin extends plugin {
 
       groupUserMessages = this.trimMessageHistory(groupUserMessages);
       groupUserMessages = this.filterChatByQQ(groupUserMessages, e.user_id);
-      //console.log(groupUserMessages);
+      console.log(groupUserMessages);
       session.groupUserMessages = groupUserMessages;
       await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
 
@@ -827,6 +829,7 @@ export class ExamplePlugin extends plugin {
         tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
       }
       */
+      /*
       if (this.config.ForcedAvatarMode && ['头像'].some(k => msg.includes(k)) && ['修改', '处理', '生成'].some(k => msg.includes(k))) {
         session.tools = this.getToolsByName(['avatarProcessTool']);
         console.log('工具 avatarProcessTool 的 session.tools: ', session.tools);
@@ -834,7 +837,7 @@ export class ExamplePlugin extends plugin {
           tool_choice = { type: 'function', function: { name: 'avatarProcessTool' } };
         }
       }
-
+      */
       if (this.config.ForcedDrawingMode) {
         const toolConfigs = [
           { name: 'noobaiTool', keyword: 'noob' },
@@ -880,6 +883,7 @@ export class ExamplePlugin extends plugin {
         ...(this.config.UseTools && { tools: session.tools, tool_choice }),
       };
 
+      console.log(22, requestData)
       if (provider !== 'openai') {
         delete requestData.frequency_penalty;
         delete requestData.presence_penalty;
@@ -1102,7 +1106,10 @@ export class ExamplePlugin extends plugin {
               if (toolResponse?.choices?.[0]?.message?.content) {
                 aicallback = true;
                 const toolReply = toolResponse.choices[0].message.content;
-                const output = await limit(() => this.processToolSpecificMessage(toolReply, functionName));
+                const output = this.config.ForceformatMessage
+                  ? await limit(() => this.formatMessage(toolReply) || this.processToolSpecificMessage(toolReply))
+                  : await this.processToolSpecificMessage(toolReply);
+
                 await limit(() => this.sendSegmentedMessage(e, output));
 
                 try {
@@ -1197,7 +1204,10 @@ export class ExamplePlugin extends plugin {
         return true;
       } else if (message.content) {
         if (!hasHandledFunctionCall) {
-          const output = await limit(() => this.processToolSpecificMessage(message.content));
+          const output = this.config.ForceformatMessage
+            ? await limit(() => this.formatMessage(message.content) || this.processToolSpecificMessage(message.content))
+            : await this.processToolSpecificMessage(message.content);
+
           await limit(() => this.sendSegmentedMessage(e, output));
 
           try {
@@ -1266,7 +1276,10 @@ export class ExamplePlugin extends plugin {
       const errorResponse = await limit(() => YTapi(errorRequestData, this.config));
       if (errorResponse?.choices?.[0]?.message?.content) {
         const finalErrorReply = errorResponse.choices[0].message.content;
-        const output = await limit(() => this.processToolSpecificMessage(finalErrorReply));
+        const output = this.config.ForceformatMessage
+          ? await limit(() => this.formatMessage(finalErrorReply) || this.processToolSpecificMessage(finalErrorReply))
+          : await this.processToolSpecificMessage(finalErrorReply);
+
         await limit(() => this.sendSegmentedMessage(e, output));
       } else {
         await limit(() => e.reply(errorMessage));
@@ -1590,7 +1603,10 @@ export class ExamplePlugin extends plugin {
           if (toolResponse?.choices?.[0]?.message?.content) {
             const toolReply = toolResponse.choices[0].message.content;
 
-            const output = await this.processToolSpecificMessage(toolReply, functionName)
+            const output = this.config.ForceformatMessage
+              ? (await this.formatMessage(toolReply) || await this.processToolSpecificMessage(toolReply, functionName))
+              : await this.processToolSpecificMessage(toolReply, functionName);
+
             await this.sendSegmentedMessage(e, output)
 
             // 记录工具调用的回复消息
@@ -1653,7 +1669,7 @@ export class ExamplePlugin extends plugin {
       const { total_tokens } = await TotalTokens(output);
 
       // 如果文本较短（token 数小于等于 20），则直接发送
-      if (total_tokens <= 20) {
+      if (total_tokens <= 10) {
         return await e.reply(output);
       }
 
@@ -1988,5 +2004,118 @@ export class ExamplePlugin extends plugin {
     }
 
     return output.trim();
+  }
+
+  async formatMessage(content) {
+    const jsonSchema = {
+      type: "object",
+      properties: {
+        time: {
+          type: "string",
+          description: "时间，格式为 'MM-DD HH:MM:SS'，例如 '04-07 07:55:41'，若缺失则返回 '未知时间'"
+        },
+        qq: {
+          type: "string",
+          description: "QQ 号，例如 '1167890'，若缺失则返回 '未知QQ'"
+        },
+        name: {
+          type: "string",
+          description: "名称，例如 'yiyi'，若缺失则返回 '未知用户'"
+        },
+        group_role: {
+          type: "string",
+          description: "群身份，例如 'owner'、'admin' 或 'member'，若缺失则返回 'member'"
+        },
+        main_content: {
+          type: "string",
+          description: "消息的全部主要内容，仅提取 '在群里说:' 后面的文本，不包含 '在群里说:' 本身，例如 '芙芙在么'。必须自动去除所有占位符（如 '[图片]'、'[http://xxxx]'、'httpxxxx' 等）及其相关描述文本，只保留实际消息文本。若无有效内容或不需要回复，则返回 null。"
+        }
+      },
+      required: ["time", "qq", "name", "group_role", "main_content"],
+      additionalProperties: false
+    };
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+
+    const dirpath = `${_path}/data/YTotherai`;
+    const dataPath = path.join(dirpath, "data.json");
+
+    let data;
+    try {
+      const dataString = await fs.promises.readFile(dataPath, "utf-8");
+      data = JSON.parse(dataString);
+    } catch (readError) {
+      return null;
+    }
+
+    const openAiApiKey = this.config.OpenAiUrl === 'https://yuanpluss.online:3000/api/v1/4o/fc'
+      ? data.chatgpt.stoken
+      : this.config.OpenAiApikey;
+    if (!openAiApiKey) return false;
+    try {
+      const response = await fetch(this.config.OpenAiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openAiApiKey}`
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: this.config.OpenAiModel,
+          messages: [
+            {
+              role: "system",
+              content: "你是一个数据提取助手，请从用户输入中提取结构化信息。'main_content' 必须仅提取 '在群里说:' 后面的内容，不包含 '在群里说:' 本身。必须自动去除所有占位符（如 '[图片]'、'[http://xxxx]'、'httpxxxx' 等）及其相关文本，只保留实际消息文本。若 '在群里说:' 后无有效内容或不需要回复，则返回 null。其他字段若缺失，需提供以下默认值：time 为 '未知时间'，qq 为 '未知QQ'，name 为 '未知用户'，group_role 为 'member'。所有处理由你自行完成，不依赖外部正则表达式或手动逻辑。"
+            },
+            {
+              role: "user",
+              content: "[04-07 12:26:49] 251(QQ号:123456666)[群身份: member]: 在群里说: 这样我更好理解一点！- http://examplexxxx"
+            },
+            {
+              role: "assistant",
+              content: "{\"time\": \"04-07 12:26:49\", \"qq\": \"123456666\", \"name\": \"25\", \"group_role\": \"member\", \"main_content\": \"这样我更好理解一点！\"}"
+            },
+            {
+              role: "user",
+              content: "[04-07 12:26:49] 251(QQ号:123456666)[群身份: member]: 在群里说: [图片]"
+            },
+            {
+              role: "assistant",
+              content: "{\"time\": \"04-07 12:26:49\", \"qq\": \"123456666\", \"name\": \"25\", \"group_role\": \"member\", \"main_content\": null}"
+            },
+            {
+              role: "user",
+              content: content
+            }
+          ],
+          response_format: {
+            type: "json_schema",
+            json_schema: {
+              name: "group_message",
+              schema: jsonSchema,
+              strict: true
+            }
+          },
+          temperature: 0.3
+        })
+      });
+
+      clearTimeout(timeout);
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = await response.json();
+      const result = JSON.parse(data.choices[0].message.content);
+      console.log(result)
+      return result?.main_content;
+    } catch (error) {
+      clearTimeout(timeout);
+      if (error.name === 'AbortError') {
+        return null;
+      }
+      return null;
+    }
   }
 }
