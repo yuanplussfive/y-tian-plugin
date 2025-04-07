@@ -829,15 +829,15 @@ export class ExamplePlugin extends plugin {
         tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
       }
       */
-      /*
-      if (this.config.ForcedAvatarMode && ['头像'].some(k => msg.includes(k)) && ['修改', '处理', '生成'].some(k => msg.includes(k))) {
-        session.tools = this.getToolsByName(['avatarProcessTool']);
-        console.log('工具 avatarProcessTool 的 session.tools: ', session.tools);
+
+      if (this.config.ForcedAvatarMode && ['头像'].some(k => msg.includes(k))) {
+        session.tools = this.getToolsByName(['googleImageEditTool']);
+        console.log('工具 googleImageEditTool 的 session.tools: ', session.tools);
         if (session.tools?.length) {
-          tool_choice = { type: 'function', function: { name: 'avatarProcessTool' } };
+          tool_choice = { type: 'function', function: { name: 'googleImageEditTool' } };
         }
+        session.groupUserMessages.at(-1).content += `[用户头像链接: (https://q1.qlogo.cn/g?b=qq&nk=${e.user_id}&s=640)]`;
       }
-      */
       if (this.config.ForcedDrawingMode) {
         const toolConfigs = [
           { name: 'noobaiTool', keyword: 'noob' },
