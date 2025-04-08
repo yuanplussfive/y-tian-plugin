@@ -68,15 +68,14 @@ export class ExamplePlugin extends plugin {
     this.initConfig();
     this.sessionMap = new Map(); // 会话状态存储
     this.messageManager = new MessageManager();
-    // 初始化各个工具实例
     this.jinyanTool = new JinyanTool();
     this.dalleTool = new DalleTool();
     this.freeSearchTool = new FreeSearchTool();
-    this.searchVideoTool = new SearchVideoTool(); // 新增 SearchVideo 工具
-    this.searchMusicTool = new SearchMusicTool(); // 新增 SearchMusic 工具
-    this.aiALLTool = new AiALLTool(); // 新增 AiALL 工具
-    this.emojiSearchTool = new EmojiSearchTool(); // 新增 EmojiSearch 工具
-    this.bingImageSearchTool = new BingImageSearchTool(); // 新增 BingImageSearch 工具
+    this.searchVideoTool = new SearchVideoTool();
+    this.searchMusicTool = new SearchMusicTool();
+    this.aiALLTool = new AiALLTool(); 
+    this.emojiSearchTool = new EmojiSearchTool(); 
+    this.bingImageSearchTool = new BingImageSearchTool(); 
     this.OpenAiimageAnalysisTool = new OpenAiImageAnalysisTool();
     this.googleImageAnalysisTool = new GoogleImageAnalysisTool();
     this.pokeTool = new PokeTool();
@@ -92,7 +91,6 @@ export class ExamplePlugin extends plugin {
     this.noobaiTool = new NoobaiTool();
     this.googleImageEditTool = new GoogleImageEditTool();
     this.avatarProcessTool = new AvatarProcessTool();
-    // 工具定义部分
     this.functions = [
       {
         name: this.avatarProcessTool.name,
@@ -241,6 +239,20 @@ export class ExamplePlugin extends plugin {
     };
 
     this.tools = this.getToolsByName(toolConfig[provider] || this.config.openai_tools);
+
+    // 将 tools 转换为字符串形式，只包含名称和介绍
+this.getToolsDescriptionString = function () {
+  if (!this.tools || this.tools.length === 0) {
+    return "当前没有可用的工具。";
+  }
+  
+  const toolDescriptions = this.tools.map(tool => {
+    const { name, description } = tool.function;
+    return `${name}: ${description}`;
+  });
+  
+  return "当前可用工具：\n" + toolDescriptions.join("\n");
+};
 
     // 初始化消息历史管理，使用 Redis 和本地文件
     this.messageHistoriesRedisKey = 'group_user_message_history'; // Redis 中存储消息历史的键前缀，包含群组和用户
@@ -731,7 +743,7 @@ export class ExamplePlugin extends plugin {
           .join('\n');
       };
 
-      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await limit(() => getHighLevelMembers(e.group))}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'这种格式, 并且, 每次只发送一条消息，千万不能多！模仿正常网友交互形式`;
+      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await limit(() => getHighLevelMembers(e.group))}\n\n\n${await limit(() => this.getToolsDescriptionString())}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'这种格式, 并且, 每次只发送一条消息，千万不能多！模仿正常网友交互形式`;
 
       const getHistory = async () => {
         const chatHistory = await limit(() =>
@@ -836,7 +848,7 @@ export class ExamplePlugin extends plugin {
         // 根据 fixedToolName 是否存在设置 tool_choice
         tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
       }
-      
+
       if (this.config.ForcedDrawingMode) {
         const toolConfigs = [
           { name: 'noobaiTool', keyword: 'noob' },
