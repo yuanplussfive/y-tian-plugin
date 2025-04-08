@@ -73,9 +73,9 @@ export class ExamplePlugin extends plugin {
     this.freeSearchTool = new FreeSearchTool();
     this.searchVideoTool = new SearchVideoTool();
     this.searchMusicTool = new SearchMusicTool();
-    this.aiALLTool = new AiALLTool(); 
-    this.emojiSearchTool = new EmojiSearchTool(); 
-    this.bingImageSearchTool = new BingImageSearchTool(); 
+    this.aiALLTool = new AiALLTool();
+    this.emojiSearchTool = new EmojiSearchTool();
+    this.bingImageSearchTool = new BingImageSearchTool();
     this.OpenAiimageAnalysisTool = new OpenAiImageAnalysisTool();
     this.googleImageAnalysisTool = new GoogleImageAnalysisTool();
     this.pokeTool = new PokeTool();
@@ -241,18 +241,18 @@ export class ExamplePlugin extends plugin {
     this.tools = this.getToolsByName(toolConfig[provider] || this.config.openai_tools);
 
     // 将 tools 转换为字符串形式，只包含名称和介绍
-this.getToolsDescriptionString = function () {
-  if (!this.tools || this.tools.length === 0) {
-    return "当前没有可用的工具。";
-  }
-  
-  const toolDescriptions = this.tools.map(tool => {
-    const { name, description } = tool.function;
-    return `${name}: ${description}`;
-  });
-  
-  return "当前可用工具：\n" + toolDescriptions.join("\n");
-};
+    this.getToolsDescriptionString = function () {
+      if (!this.tools || this.tools.length === 0) {
+        return "当前没有可用的工具。";
+      }
+
+      const toolDescriptions = this.tools.map(tool => {
+        const { name, description } = tool.function;
+        return `${name}: ${description}`;
+      });
+
+      return "当前可用工具：\n" + toolDescriptions.join("\n");
+    };
 
     // 初始化消息历史管理，使用 Redis 和本地文件
     this.messageHistoriesRedisKey = 'group_user_message_history'; // Redis 中存储消息历史的键前缀，包含群组和用户
@@ -649,6 +649,9 @@ this.getToolsDescriptionString = function () {
     const limitCount = this.config.ConcurrentLimit || 5;
     const limit = pLimit(limitCount);
 
+    // 获取群组中指定用户的消息历史（基于会话隔离）
+    let groupUserMessages = session.groupUserMessages;
+
     try {
       // 构建发送者信息对象
       const { sender, group_id, msg } = e;
@@ -658,9 +661,6 @@ this.getToolsDescriptionString = function () {
         admin: 'admin',
         member: 'member'
       };
-
-      // 获取群组中指定用户的消息历史（基于会话隔离）
-      let groupUserMessages = session.groupUserMessages;
 
       let memberInfo = {};
       await limit(async () => {
