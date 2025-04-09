@@ -1,5 +1,8 @@
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import common from '../../../lib/common/common.js'
+import { reverse_models } from '../YTOpen-Ai/reverse-models.js'
+import { other_models } from '../YTOpen-Ai/other-models.js'
+import { chat_models } from '../YTOpen-Ai/chat-models.js'
 const _path = process.cwd()
 import fs from 'fs'
 let src = _path + "/plugins/y-tian-plugin/resources/css/jty.OTF"
@@ -53,8 +56,20 @@ export class example extends plugin {
           fnc: "others"
         },
         {
+          reg: "^(/|#)chat模型大全$",
+          fnc: "chat"
+        },
+        {
+          reg: "^(/|#)逆向模型大全$",
+          fnc: "reverse"
+        },
+        {
           reg: "^(/|#)(AI|Ai|ai)附加版帮助$",
           fnc: "otherhelp"
+        },
+        {
+          reg: "^(/|#)(AI|Ai|ai)逆向版帮助$",
+          fnc: "reversehelp"
         },
         {
           reg: "^(/|#)图视帮助$",
@@ -110,22 +125,26 @@ export class example extends plugin {
     e.reply(img)
   }
 
+  async reversehelp(e) {
+    const img = await screen('reverse', puppeteer)
+    e.reply(img)
+  }
+
   async otherhelp(e) {
     const img = await screen(16, puppeteer)
     e.reply(img)
   }
 
+  async reverse(e) {
+    await getModelScreen(reverse_models, 'reverse', e)
+  }
+
+  async chat(e) {
+    await getModelScreen(chat_models.models, 'chat', e)
+  }
+
   async others(e) {
-    const img_1 = await screen(14, puppeteer)
-    const img_2 = await screen(20, puppeteer)
-    const img_3 = await screen(21, puppeteer)
-    const img_4 = await screen(25, puppeteer)
-    const img_5 = await screen(28, puppeteer)
-    const img_6 = await screen(31, puppeteer)
-    const img_7 = await screen(33, puppeteer)
-    const forwardMsg = [img_1, img_2, img_3, img_4, img_5, img_6, img_7]
-    const JsonPart = await common.makeForwardMsg(e, forwardMsg, '附加模型大全');
-    e.reply(JsonPart)
+    await getModelScreen(other_models, 'others', e)
   }
 
   async ChineseAI(e) {
@@ -216,4 +235,96 @@ async function screen(num, puppeteer) {
     ...data,
   })
   return img
+}
+
+async function getModelScreen(models, type, e) {
+  const chunkSize = 35;
+  const forwardMsg = [];
+  const BASE_LOGO_PATH = `${_path}/plugins/y-tian-plugin/YTfreeai/config/logos`;
+  const logoRules = [
+    { prefix: ['command'], file: 'command.jpg' },
+    { prefix: ['claude'], file: 'claude.jpeg' },
+    { prefix: ['suno'], file: 'suno.png' },
+    { prefix: ['luma'], file: 'luma.png' },
+    { prefix: ['llava'], file: 'llava.png' },
+    { prefix: ['mj', 'midjourney', 'nijidjourney'], file: 'mj.png' },
+    { prefix: ['glm-'], file: 'chatglm.png' },
+    { prefix: ['ernie', 'qianfan'], file: 'qianfan.png' },
+    { prefix: ['grok'], file: 'grok.jpg' },
+    { prefix: ['gemini', 'gemma', 'learnlm'], file: 'gemini.jpg' },
+    { prefix: ['deepseek-'], file: 'deepseek.jpeg' },
+    { prefix: ['qwen', 'qwq-', 'internlm-'], file: 'qwen.png' },
+    { prefix: ['yi-'], file: '01.jpg' },
+    { prefix: ['spark-'], file: 'spark.png' },
+    { prefix: ['dalle','dall-e','gpt', 'o1', 'o3', 'sora-', 'advanced-voice', 'generate-pptx'], file: 'chatgpt.jpg' },
+    { prefix: ['llama'], file: 'llama.jpg' },
+    { prefix: ['doubao'], file: 'doubao.png' },
+    { prefix: ['hunyuan'], file: 'hunyuan.png' },
+    { prefix: ['kimi'], file: 'kimi.jpeg' },
+    { prefix: ['minimax'], file: 'hailuo.png' },
+    { prefix: ['step'], file: 'step.png' },
+    { prefix: ['mistral-', 'mixtral-', 'ministral-', 'pixtral-', 'codestral-'], file: 'mixtral.png' },
+    { prefix: ['sd-', 'sd3', 'stable-diffusion', 'sdxl'], file: 'sd.png' },
+    { prefix: ['moonshot'], file: 'moonshot.png' },
+    { prefix: ['ideogram'], file: 'ideogram.png' },
+    { prefix: ['flux'], file: 'flux.jpg' },
+    { prefix: ['runway'], file: 'runway.jpg' },
+    { prefix: ['playground'], file: 'playground.jpg' },
+    { prefix: ['mita'], file: 'mita.jpg' },
+    { prefix: ['jimeng'], file: 'jimeng.png' },
+    { prefix: ['recraft-'], file: 'recraft.png' },
+    { prefix: ['ltx-'], file: 'ltx.png' },
+    { prefix: ['sana'], file: 'sana.png' },
+    { prefix: ['noobai'], file: 'Noob.png' },
+  ];
+
+  // 默认 logo 路径
+  const DEFAULT_LOGO = `${BASE_LOGO_PATH}/default.jpg`;
+
+  // 动态生成 logoMap
+  const createLogoMap = () => {
+    const map = {};
+    logoRules.forEach(({ prefix, file }) => {
+      prefix.forEach(key => {
+        map[key] = `${BASE_LOGO_PATH}/${file}`;
+      });
+    });
+    return map;
+  };
+
+  const logoMap = createLogoMap();
+
+  const baseData = {
+    quality: 100,
+    imgType: 'jpeg',
+    tplFile: `${_path}/plugins/y-tian-plugin/YTfreeai/config/html/${type}.html`,
+    all_min_css: `${_path}/plugins/y-tian-plugin/resources/css/fontawesome-free-6.6.0-web/css/all.min.css`,
+    all_css_src: `${_path}/plugins/y-tian-plugin/resources/css/all_help.css`,
+  };
+
+  for (let i = 0; i < models.length; i += chunkSize) {
+    const currentChunk = Math.floor(i / chunkSize) + 1;
+    const chunk = models.slice(i, i + chunkSize).map(model => {
+      const modelNameLower = (model.model || model.name).toLowerCase();
+      const logoPath = Object.keys(logoMap).find(key => modelNameLower.includes(key))
+        ? logoMap[Object.keys(logoMap).find(key => modelNameLower.includes(key))]
+        : DEFAULT_LOGO;
+      return {
+        ...model,
+        logo_path: logoPath,
+      };
+    });
+
+    const data = {
+      ...baseData,
+      models: chunk,
+      currentChunk,
+    };
+
+    const img = await puppeteer.screenshot('777', data);
+    forwardMsg.push(img);
+  }
+
+  const JsonPart = await common.makeForwardMsg(e, forwardMsg, `${type}模型大全`);
+  e.reply(JsonPart);
 }

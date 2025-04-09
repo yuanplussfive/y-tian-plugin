@@ -11,7 +11,7 @@ if (!fs.existsSync(dirpath + "/" + "data.json")) {
             "ai_chat": "godgpt",
             "ai_chat_at": false,
             "ai_chat_style": "word",
-            "ai_name_sess": "#sess",
+            "ai_name_reverse": "#nx",
             "ai_name_godgpt": "#godgpt",
             "ai_name_chat": "#chat",
             "ai_name_others": "#bot",
@@ -57,7 +57,7 @@ export class example extends plugin {
                     permission: 'master'
                 },
                 {
-                    reg: "^#更改(sess|chat|god|附加)触发名(.*)",
+                    reg: "^#更改(逆向|chat|god|附加)触发名(.*)",
                     fnc: 'renameTrigger',
                     permission: 'master'
                 },
@@ -72,12 +72,12 @@ export class example extends plugin {
                     permission: 'master'
                 },
                 {
-                    reg: "^#(艾特|at)回复使用(god|chat|sess|附加)$",
+                    reg: "^#(艾特|at)回复使用(god|chat|逆向|附加)$",
                     fnc: 'changeAiChat',
                     permission: 'master'
                 },
                 {
-                    reg: "^#私聊回复使用(god|chat|sess|附加)$",
+                    reg: "^#私聊回复使用(god|chat|逆向|附加)$",
                     fnc: 'changeAiChat_private',
                     permission: 'master'
                 },
@@ -101,7 +101,7 @@ export class example extends plugin {
                     fnc: 'totalTtsRole'
                 },
                 {
-                    reg: "^#(禁用|解禁)方案(god|chat|附加|sess)$",
+                    reg: "^#(禁用|解禁)方案(god|chat|附加|逆向)$",
                     fnc: 'ban_plans',
                     permission: 'master'
                 },
@@ -431,7 +431,7 @@ export class example extends plugin {
             "god": "godgpt",
             "chat": "chat",
             "附加": "others",
-            "sess": "sess"
+            "逆向": "reverse"
         };
 
         const foundKey = Object.keys(responseMap).find(key => e.msg.includes(key));
@@ -486,15 +486,15 @@ export class example extends plugin {
             BotImage_src: Bot.uin,
             Bot_Nickname: Bot.nickname,
             pictureStyles: response.chatgpt['pictureStyles'] ? 'Mathjax' : 'Markdown',
-            ai_chat: response.chatgpt['ai_chat'] == 'godgpt' ? 'god方案' : response.chatgpt['ai_chat'] == 'chat' ? '专业版方案' : response.chatgpt['ai_chat'] == 'sess' ? 'sess方案' : response.chatgpt['ai_chat'] == 'others' ? '附加方案' : '未知',
+            ai_chat: response.chatgpt['ai_chat'] == 'godgpt' ? 'god方案' : response.chatgpt['ai_chat'] == 'chat' ? '专业版方案' : response.chatgpt['ai_chat'] == 'reverse' ? '逆向方案' : response.chatgpt['ai_chat'] == 'others' ? '附加方案' : '未知',
             ai_chat_at: response.chatgpt['ai_chat_at'] ? '已开启' : '已关闭',
             ai_chat_style: response.chatgpt['ai_chat_style'] == 'picture' ? '图片模式' : response.chatgpt['ai_chat_style'] == 'similar' ? '拟人模式' : response.chatgpt['ai_chat_style'] == 'tts' ? '语音模式' : response.chatgpt['ai_chat_style'] == 'forward' ? '转发文本' : response.chatgpt['ai_chat_style'] == 'pictures' ? '图片模式2' : response.chatgpt['ai_chat_style'] == 'words' ? '引用文本' : response.chatgpt['ai_chat_style'] == 'word' ? '文本模式' : '未知',
-            ai_name_sess: response.chatgpt['ai_name_sess'],
+            ai_name_reverse: response.chatgpt['ai_name_reverse'],
             ai_name_godgpt: response.chatgpt['ai_name_godgpt'],
             ai_name_chat: response.chatgpt['ai_name_chat'],
             ai_name_others: response.chatgpt['ai_name_others'],
             ai_private_open: response.chatgpt['ai_private_open'] ? '已开启' : '已关闭',
-            ai_private_plan: response.chatgpt['ai_private_plan'] == 'godgpt' ? 'god方案' : response.chatgpt['ai_private_plan'] == 'chat' ? '专业版方案' : response.chatgpt['ai_private_plan'] == 'sess' ? 'sess方案' : response.chatgpt['ai_private_plan'] == 'others' ? '附加方案' : '未知',
+            ai_private_plan: response.chatgpt['ai_private_plan'] == 'godgpt' ? 'god方案' : response.chatgpt['ai_private_plan'] == 'chat' ? '专业版方案' : response.chatgpt['ai_private_plan'] == 'reverse' ? '逆向方案' : response.chatgpt['ai_private_plan'] == 'others' ? '附加方案' : '未知',
             ai_moment_open: response.chatgpt['ai_moment_open'] ? '已开启' : '已关闭',
             ai_moment_numbers: response.chatgpt['ai_moment_numbers'],
             ai_tts: response.chatgpt['ai_tts_open'] ? '已开启' : '已关闭',
@@ -563,7 +563,7 @@ export class example extends plugin {
             "god": "godgpt",
             "chat": "chat",
             "附加": "others",
-            "sess": "sess"
+            "逆向": "reverse"
         };
 
         const foundKey = Object.keys(responseMap).find(key => e.msg.includes(key));
@@ -617,7 +617,7 @@ export class example extends plugin {
             "god": "godgpt",
             "chat": "chat",
             "附加": "others",
-            "sess": "sess"
+            "逆向": "reverse"
         };
 
         const foundKey = Object.keys(responseMap).find(key => e.msg.includes(key));
@@ -638,7 +638,7 @@ export class example extends plugin {
     }
 
     async renameTrigger(e) {
-        const regex = /#更改(sess|chat|god|附加)触发名(.+)/;
+        const regex = /#更改(逆向|chat|god|附加)触发名(.+)/;
         const match = e.msg.match(regex);
 
         if (!match) {
@@ -664,7 +664,7 @@ export class example extends plugin {
             "god": "ai_name_godgpt",
             "chat": "ai_name_chat",
             "附加": "ai_name_others",
-            "sess": "ai_name_sess"
+            "逆向": "ai_name_reverse"
         };
 
         if (modelMap[modelType]) {
