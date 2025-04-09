@@ -12,12 +12,13 @@ import { pollinations } from "../providers/ChatModels/pollinations/pollinations.
 import { glider } from "../providers/ChatModels/glider/glider.js";
 import { gizai } from "../providers/ChatModels/gizai/gizai.js";
 import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
-import { grok } from "../providers/ChatModels/grok/grok.js";
+import { e11chat } from "../providers/ChatModels/e11chat/e11chat.js";
+//import { grok } from "../providers/ChatModels/grok/grok.js";
 import { AnthropicDoc } from "../providers/ChatModels/AnthropicDoc/AnthropicDoc.js";
 import { reka } from "../providers/ChatModels/reka/reka.js";
 import { SlackAi } from "../providers/ChatModels/slack/slack.js";
-import { cursor } from "../providers/ChatModels/cursor/cursor.js";
-import { ddg } from "../providers/ChatModels/ddg/ddg.js";
+//import { cursor } from "../providers/ChatModels/cursor/cursor.js";
+//import { ddg } from "../providers/ChatModels/ddg/ddg.js";
 import { PromPlateAi } from "../providers/ChatModels/PromPlateAi/PromPlateAi.js";
 //import { genspark } from "../providers/ChatModels/genspark/genspark.js";
 import { openai } from "../providers/ChatModels/openai/openai.js";
@@ -57,10 +58,11 @@ const providerStats = {
   reka: { success: 0, failure: 0, weight: 100 },
   slack: { success: 0, failure: 0, weight: 100 },
   PromPlateAi: { success: 0, failure: 0, weight: 90 },
-  cursor: { success: 0, failure: 0, weight: 100 },
-  ddg: { success: 0, failure: 0, weight: 100 },
+  //cursor: { success: 0, failure: 0, weight: 100 },
+  //ddg: { success: 0, failure: 0, weight: 100 },
   //genspark: { success: 0, failure: 0, weight: 65 },
-  grok: { success: 0, failure: 0, weight: 100 },
+  //grok: { success: 0, failure: 0, weight: 100 },
+  e11chat: { success: 0, failure: 0, weight: 100 },
   openai: { success: 0, failure: 0, weight: 100 },
   websim: { success: 0, failure: 0, weight: 100 },
   imagelabs: { success: 0, failure: 0, weight: 100 },
@@ -146,10 +148,11 @@ const providerApis = {
   reka: reka,
   slack: SlackAi,
   PromPlateAi: PromPlateAi,
-  cursor: cursor,
-  ddg: ddg,
+  //cursor: cursor,
+  //ddg: ddg,
   //genspark: genspark,
-  grok: grok,
+  //grok: grok,
+  e11chat: e11chat,
   openai: openai,
   websim: websim,
   imagelabs: imagelabs,

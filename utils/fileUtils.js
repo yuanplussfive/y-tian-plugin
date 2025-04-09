@@ -11,6 +11,7 @@ const mimeTypes = require(mimeTypesPath);
 import fs from "fs";
 import path from "path";
 import crypto from 'crypto';
+import common from '../../../lib/common/common.js';
 
 /**
  * 获取文件扩展名
@@ -148,7 +149,9 @@ export async function get_address(inputString) {
     `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.oaiusercontent\\.[a-zA-Z0-9\\-.]+/files/[a-zA-Z0-9\\-/]+(?:\\?.*)?`,
     `[a-zA-Z0-9_\\-.]+\\.byteimg\\.com/[^/]+/[^~]+~tplv-[a-zA-Z0-9_\\-:.]*\\.[a-z]{2,6}(?:\\?.*)?`,
     `[a-zA-Z0-9_\\-.]+\\.vlabvod\\.com(?:/[^?#]+)?(?:\\?.*)?`,
-    `[a-zA-Z0-9\\-.]+\\.filesystem\\.site\/files\/[a-zA-Z0-9\\-]+(?:\/[a-zA-Z0-9\\-]+)*(?:\\?.*)?`
+    `[a-zA-Z0-9\\-.]+\\.filesystem\\.site\/files\/[a-zA-Z0-9\\-]+(?:\/[a-zA-Z0-9\\-]+)*(?:\\?.*)?`,
+    `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.zaiwen\\.top/images/[a-zA-Z0-9\\-]+\\.[a-z]{2,4}(?:\\?.*)?`,
+    `[a-zA-Z0-9\\-]+\\.s3(?:-[a-z0-9\\-]+)?\\.amazonaws\\.com/[a-zA-Z0-9\\-./]+\\.[a-z]{2,4}(?:\\?.*)?`
   ].join('|');
 
   // 定义链接模式及其对应的进度提取规则
@@ -758,4 +761,340 @@ async function getReplyMsg(e) {
 async function extractFileExtension(filename) {
   const match = filename.match(/\.([a-zA-Z0-9]+)$/);
   return match ? match[1] : null;
+}
+
+/**
+ * 保存用户历史记录
+ * 优先保存到 Redis，然后同步保存到本地 JSON 文件
+ * 即使 Redis 保存成功，也会同步保存到本地
+ * 如果 Redis 保存失败，仍然会保存到本地文件
+ * @param {string} userId - 用户 ID
+ * @param {string} dirpath - 本地存储目录路径
+ * @param {Array} history - 用户历史记录数组
+ */
+export async function saveUserHistory(userId, dirpath, history, type) {
+  const redisKey = `YTUSER_${type}:${userId}`;
+  const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
+  try {
+    const lastSystemMessage = history.filter(item => item.role === 'system').pop();
+    if (lastSystemMessage) {
+      history = history.filter(item => item.role !== 'system');
+      history.unshift(lastSystemMessage);
+    }
+    const historyJson = JSON.stringify(history, null, 2);
+    try {
+      await redis.set(redisKey, historyJson);
+      console.log(`用户历史已保存到 Redis: ${userId}`);
+    } catch (redisErr) {
+      console.error(`保存用户历史到 Redis 失败: ${redisErr}`);
+    }
+    const dir = path.dirname(historyPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(historyPath, historyJson, { encoding: 'utf-8' });
+    console.log(`用户历史已保存到本地文件: ${historyPath}`);
+  } catch (err) {
+    console.error(`保存用户历史失败: ${err}`);
+  }
+}
+
+export async function handleImages(e, urls, _path) {
+  // 如果没有URLs，直接返回
+  if (!urls || urls.length === 0) {
+    return ["预览"];
+  }
+
+  // 并行下载所有图片
+  const downloadPromises = urls.map(async (url, index) => {
+    const filePath = path.join(_path, 'resources', `dall_e_chat_${index}.png`);
+    try {
+      const result = await downloadImage(url, filePath);
+      if (result.success) {
+        // 下载成功返回文件路径
+        return { success: true, path: filePath };
+      } else {
+        // 下载失败返回URL
+        return { success: false, url: url.trim() };
+      }
+    } catch (error) {
+      console.error(`下载失败: ${url}`, error);
+      return { success: false, url: url.trim() };
+    }
+  });
+
+  try {
+    // 等待所有下载完成
+    const results = await Promise.all(downloadPromises);
+
+    // 初始化结果数组
+    const imageResults = ["预览"];
+
+    // 收集所有成功下载的图片
+    const successfulImages = results
+      .filter(result => result.success)
+      .map(result => segment.image(result.path));
+
+    // 如果有成功下载的图片，一次性发送
+    if (successfulImages.length > 0) {
+      await e.reply(successfulImages);
+    }
+
+    // 将失败的URL添加到结果数组
+    results.forEach(result => {
+      if (!result.success) {
+        imageResults.push(result.url);
+      }
+    });
+
+    return imageResults;
+  } catch (error) {
+    console.error('处理图片时发生错误:', error);
+    return ["预览", "处理图片时发生错误"];
+  }
+}
+
+/**
+* 将长文本消息分段添加到转发消息数组
+* @param {Object} e 事件对象
+* @param {String|Array} messages 要发送的消息
+* @param {Number} maxLength 单段最大长度，默认1000字符
+*/
+export async function sendLongMessage(e, messages, forwardMsg, maxLength = 1000) {
+  // 如果是字符串，转换为数组处理
+  const msgArray = typeof messages === 'string' ? [messages] : messages;
+
+  try {
+    // 先尝试直接将所有消息添加到转发消息中
+    const directForwardMsg = [...forwardMsg];
+    msgArray.forEach(msg => directForwardMsg.push(msg));
+
+    // 尝试一次性发送所有消息
+    const jsonPart = await common.makeForwardMsg(e, directForwardMsg, 'Preview');
+    await e.reply(jsonPart);
+    logger.info('消息已成功一次性发送');
+
+  } catch (error) {
+    logger.warn(`一次性发送失败，将尝试分段发送: ${error.message}`);
+
+    try {
+      // 创建新的转发消息数组
+      const segmentedForwardMsg = [...forwardMsg];
+
+      // 对每条消息进行处理
+      for (let msg of msgArray) {
+        if (typeof msg === 'string' && msg.length > maxLength) {
+          // 计算需要分成几段
+          const segmentCount = Math.ceil(msg.length / maxLength);
+          logger.info(`消息长度为${msg.length}，将分为${segmentCount}段发送`);
+
+          // 分段处理文本
+          for (let i = 0; i < segmentCount; i++) {
+            const start = i * maxLength;
+            const end = Math.min(start + maxLength, msg.length);
+            const segment = msg.substring(start, end);
+
+            if (segment.trim()) {
+              segmentedForwardMsg.push(segment);
+            }
+          }
+        } else {
+          segmentedForwardMsg.push(msg);
+        }
+      }
+
+      // 生成转发消息并发送
+      const jsonPart = await common.makeForwardMsg(e, segmentedForwardMsg, 'Preview');
+      await e.reply(jsonPart);
+      logger.info('消息已成功分段发送');
+
+    } catch (secondError) {
+      logger.error(`分段发送也失败了: ${secondError.message}`);
+      await e.reply('消息发送失败，请稍后重试');
+    }
+  }
+}
+
+/**
+ * 从 Redis 加载数据，如果失败则从本地文件读取
+ * @param {string} redisKey - Redis 的键
+ * @param {string} filePath - 本地文件路径
+ * @returns {Array} 加载的数据
+ */
+export async function loadData(redisKey, filePath) {
+  try {
+    const data = await redis.get(redisKey);
+    if (data) {
+      console.log(`从 Redis 加载数据成功: ${redisKey}`);
+      return JSON.parse(data);
+    } else {
+      console.log(`Redis 中没有数据，尝试从本地文件加载: ${filePath}`);
+      if (fs.existsSync(filePath)) {
+        const fileData = await fs.promises.readFile(filePath, 'utf-8');
+        const parsedData = JSON.parse(fileData);
+        try {
+          // 将本地数据缓存到 Redis
+          await redis.set(redisKey, JSON.stringify(parsedData));
+          console.log(`将本地数据缓存到 Redis 成功: ${redisKey}`);
+        } catch (err) {
+          console.error(`将本地数据缓存到 Redis 失败: ${err}`);
+        }
+        return parsedData;
+      } else {
+        console.log(`本地文件不存在: ${filePath}`);
+        return [];
+      }
+    }
+  } catch (err) {
+    console.error(`从 Redis 加载数据失败: ${err}，尝试从本地文件加载`);
+    try {
+      if (fs.existsSync(filePath)) {
+        const fileData = await fs.promises.readFile(filePath, 'utf-8');
+        return JSON.parse(fileData);
+      } else {
+        console.log(`本地文件不存在: ${filePath}`);
+        return [];
+      }
+    } catch (fileErr) {
+      console.error(`从本地文件加载数据失败: ${fileErr}`);
+      return [];
+    }
+  }
+}
+
+/**
+ * 加载用户历史记录
+ * 优先从 Redis 获取，如果失败则从本地 JSON 文件读取
+ * @param {string} userId - 用户 ID
+ * @param {string} dirpath - 本地存储目录路径
+ * @returns {Array} 用户历史记录数组
+ */
+export async function loadUserHistory(userId, dirpath, type) {
+  const redisKey = `YTUSER_${type}:${userId}`;
+  const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
+  try {
+    const data = await redis.get(redisKey);
+    if (data) {
+      console.log(`从 Redis 加载用户历史成功: ${userId}`);
+      return JSON.parse(data);
+    } else {
+      console.log(`Redis 中没有数据，尝试从本地文件加载: ${historyPath}`);
+      if (fs.existsSync(historyPath)) {
+        const fileData = fs.readFileSync(historyPath, 'utf-8');
+        const parsedData = JSON.parse(fileData);
+        try {
+          await redis.set(redisKey, JSON.stringify(parsedData));
+          console.log(`将本地数据缓存到 Redis 成功: ${userId}`);
+        } catch (err) {
+          console.error(`将本地数据缓存到 Redis 失败: ${err}`);
+        }
+        return parsedData;
+      } else {
+        console.log(`本地文件不存在: ${historyPath}`);
+        return [];
+      }
+    }
+  } catch (err) {
+    console.error(`从 Redis 加载用户历史失败: ${err}，尝试从本地文件加载`);
+    try {
+      if (fs.existsSync(historyPath)) {
+        const fileData = fs.readFileSync(historyPath, 'utf-8');
+        return JSON.parse(fileData);
+      } else {
+        console.log(`本地文件不存在: ${historyPath}`);
+        return [];
+      }
+    } catch (fileErr) {
+      console.error(`从本地文件加载用户历史失败: ${fileErr}`);
+      return [];
+    }
+  }
+}
+
+/**
+ * 保存数据到 Redis，并同步保存到本地文件
+ * @param {string} redisKey - Redis 的键
+ * @param {string} filePath - 本地文件路径
+ * @param {Array} data - 要保存的数据
+ * @returns {Object} 保存结果
+ */
+export async function saveData(redisKey, filePath, data) {
+  const dataJson = JSON.stringify(data, null, 2);
+  try {
+    // 尝试保存到 Redis
+    await redis.set(redisKey, dataJson);
+    console.log(`数据已保存到 Redis: ${redisKey}`);
+  } catch (redisErr) {
+    console.error(`保存数据到 Redis 失败: ${redisErr}`);
+  }
+
+  try {
+    // 同步保存到本地文件
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    await fs.promises.writeFile(filePath, dataJson, 'utf-8');
+    console.log(`数据已保存到本地文件: ${filePath}`);
+  } catch (fileErr) {
+    console.error(`保存数据到本地文件失败: ${fileErr}`);
+  }
+
+  return { success: true };
+}
+
+export async function downloadImage(url, filePath) {
+  const fileExtension = path.extname(url).toLowerCase();
+  if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
+    return { success: false };
+  }
+
+  const downloadTimeout = 40000;
+  let downloadAborted = false;
+
+  const downloadPromise = async () => {
+    try {
+      const response = await axios({
+        url: url.trim(),
+        method: 'GET',
+        responseType: 'stream'
+      });
+
+      if (response.status >= 400) {
+        throw new Error(`Failed to download ${url}: ${response.status}`);
+      }
+
+      const file = fs.createWriteStream(filePath);
+      response.data.pipe(file);
+
+      await new Promise((resolve, reject) => {
+        file.on('finish', resolve);
+        file.on('error', reject);
+      });
+
+      if (!downloadAborted) {
+        return { success: true };
+      }
+      return { success: false };
+
+    } catch (err) {
+      console.error(err);
+      return { success: false };
+    }
+  };
+
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => {
+      downloadAborted = true;
+      reject(new Error('Download timed out'));
+    }, downloadTimeout)
+  );
+
+  try {
+    const result = await Promise.race([downloadPromise(), timeoutPromise]);
+    return result;
+  } catch (err) {
+    console.error(err);
+    return { success: false };
+  }
 }

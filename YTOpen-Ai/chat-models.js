@@ -1,6 +1,5 @@
 export const chat_models = {
   "models": [
-    // OpenAI GPT Models
     {
       "id": "1",
       "name": "gpt-3.5-turbo",
@@ -509,14 +508,14 @@ export const chat_models = {
       "id": "72",
       "name": "suno-v3",
       "token_count": "2000",
-      "Magnification": '0.15$/次',
+      "Magnification": '0.15/次',
       "features": ['music']
     },
     {
       "id": "73",
       "name": "suno-v3.5",
       "token_count": "2000",
-      "Magnification": '0.15$/次',
+      "Magnification": '0.15/次',
       "features": ['music']
     },
     // LLaVA Models
@@ -554,92 +553,92 @@ export const chat_models = {
       "id": "78",
       "name": "o1-mini",
       "token_count": "128000",
-      "Magnification": "1.5*10 or 0.15$/次",
-      "features": ['conversation', 'code', 'image_recognition']
+      "Magnification": "1.5*10 or 0.15/次",
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "79",
       "name": "o1-mini-20240912",
       "token_count": "128000",
-      "Magnification": "1.5*10 or 0.15$/次",
-      "features": ['conversation', 'code', 'image_recognition']
+      "Magnification": "1.5*10 or 0.15/次",
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "80",
       "name": "o1-mini-all",
       "token_count": "128000",
-      "Magnification": "0.15$/次",
-      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+      "Magnification": "0.15/次",
+      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file', 'thinking']
     },
     {
       "id": "81",
       "name": "o1-preview",
       "token_count": "128000",
-      "Magnification": "7.5*10 or 0.3$/次",
-      "features": ['conversation', 'code', 'image_recognition']
+      "Magnification": "7.5*10 or 0.3/次",
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "82",
       "name": "o1-preview-20240912",
       "token_count": "128000",
-      "Magnification": "7.5*10 or 0.3$/次",
-      "features": ['conversation', 'code', 'image_recognition']
+      "Magnification": "7.5*10 or 0.3/次",
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "83",
       "name": "o1-preview-all",
       "token_count": "128000",
-      "Magnification": "0.3$/次",
-      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file']
+      "Magnification": "0.3/次",
+      "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file', 'thinking']
     },
     {
       "id": "84",
       "name": "mj-chat",
       "token_count": "32768",
-      "Magnification": "0.5$/次",
+      "Magnification": "0.5/次",
       "features": ['drawing']
     },
     {
       "id": "85",
       "name": "luma-video",
       "token_count": "28000",
-      "Magnification": '0.1$/次',
+      "Magnification": '0.1/次',
       "features": ['video']
     },
     {
       "id": "86",
       "name": "stable-diffusion-3-2b",
       "token_count": "800",
-      "Magnification": '0.007$/次',
+      "Magnification": '0.007/次',
       "features": ['drawing']
     },
     {
       "id": "87",
       "name": "playground-v2.5",
       "token_count": "800",
-      "Magnification": '0.007$/次',
+      "Magnification": '0.007/次',
       "features": ['drawing']
     },
     {
       "id": "88",
       "name": "runway-video",
       "token_count": "800",
-      "Magnification": '0.2$/次',
+      "Magnification": '0.2/次',
       "features": ['video']
     },
     {
       "id": "89",
       "name": "ideogram",
       "token_count": "800",
-      "Magnification": '0.03$/次',
+      "Magnification": '0.03/次',
       "features": ['drawing']
     },
     {
       "id": "90",
       "name": "advanced-voice",
       "token_count": "1500",
-      "Magnification": '2.0$/次',
-      "features": []
+      "Magnification": '2.0/次',
+      "features": ['realtime']
     },
     {
       "id": "91",
@@ -695,112 +694,112 @@ export const chat_models = {
       "name": "flux-1-dev-fp8",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing']
+      "features": ['drawing']
     },
     {
       "id": "99",
       "name": "flux-1-schnell-fp8",
       "token_count": 28000,
       "Magnification": "0.005/次",
-      "features": ['conversation', 'drawing']
+      "features": ['drawing']
     },
     {
       "id": "100",
       "name": "flux-1-schnell",
       "token_count": 28000,
       "Magnification": "0.005/次",
-      "features": ['conversation', 'drawing']
+      "features": ['drawing']
     },
     {
       "id": "101",
       "name": "flux-1-dev",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing']
+      "features": ['drawing']
     },
     {
       "id": "102",
       "name": "sd3.5-medium",
       "token_count": 28000,
       "Magnification": "0.005/次",
-      "features": ['conversation', 'drawing']
+      "features": ['drawing']
     },
     {
       "id": "103",
       "name": "sd3.5-large",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing']
+      "features": ['drawing']
     },
     {
       "id": "104",
       "name": "sd3.5-large-turbo",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing']
+      "features": ['drawing']
     },
     {
       "id": "105",
       "name": "ssd-1b",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing', 'image_recognition']
+      "features": ['drawing']
     },
     {
       "id": "106",
       "name": "stable-diffusion-xl-1024-v1-0",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing', 'image_recognition']
+      "features": ['drawing']
     },
     {
       "id": "107",
       "name": "playground-v2-1024px-aesthetic",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing', 'image_recognition']
+      "features": ['drawing']
     },
     {
       "id": "108",
       "name": "playground-v2-5-1024px-aesthetic",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing', 'image_recognition']
+      "features": ['drawing']
     },
     {
       "id": "109",
       "name": "japanese-stable-diffusion-xl",
       "token_count": 28000,
       "Magnification": "0.01/次",
-      "features": ['conversation', 'drawing', 'image_recognition']
+      "features": ['drawing']
     },
     {
       "id": "110",
       "name": "o1",
       "token_count": 200000,
-      "Magnification": "0.3/次",
-      "features": ['conversation', 'code', 'image_recognition']
+      "Magnification": "0.6/次",
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "111",
       "name": "o1-all",
       "token_count": 200000,
-      "Magnification": "0.3/次",
-      "features": ['conversation', 'code', 'image_recognition']
+      "Magnification": "0.6/次",
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "112",
       "name": "o1-pro",
       "token_count": 200000,
-      "Magnification": "0.6/次",
-      "features": ['conversation', 'code', 'image_recognition']
+      "Magnification": "1.2/次",
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "113",
       "name": "o1-pro-all",
       "token_count": 200000,
-      "Magnification": "0.6/次",
-      "features": ['conversation', 'code', 'image_recognition']
+      "Magnification": "1.2/次",
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "114",
@@ -870,56 +869,56 @@ export const chat_models = {
       "name": "gemini-2.0-flash-thinking-exp-1219",
       "token_count": 1000000,
       "Magnification": 0.6,
-      "features": ['conversation', 'code', 'image_recognition']
+      "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
       "id": "124",
       "name": "o3-mini",
       "token_count": 128000,
       "Magnification": 0.5,
-      "features": ['conversation', 'code', "internet"]
+      "features": ['conversation', 'code', "internet", 'thinking']
     },
     {
       "id": "125",
       "name": "o3-mini-all",
       "token_count": 128000,
       "Magnification": 0.5,
-      "features": ['conversation', 'code', "internet"]
+      "features": ['conversation', 'code', "internet", 'thinking']
     },
     {
       "id": "126",
       "name": "o3-mini-high",
       "token_count": 128000,
       "Magnification": '0.15/次',
-      "features": ['conversation', 'code', "internet"]
+      "features": ['conversation', 'code', "internet", 'thinking']
     },
     {
       "id": "127",
       "name": "o3-mini-high-all",
       "token_count": 128000,
       "Magnification": '0.15/次',
-      "features": ['conversation', 'code', "internet"]
+      "features": ['conversation', 'code', "internet", 'thinking']
     },
     {
       "id": "128",
       "name": "deepseek-v3",
       "token_count": 64000,
       "Magnification": 0.27,
-      "features": ['conversation', 'code']
+      "features": ['conversation', 'code', 'thinking']
     },
     {
       "id": "129",
       "name": "deepseek-reasoner",
       "token_count": 64000,
       "Magnification": 5,
-      "features": ['conversation', 'code']
+      "features": ['conversation', 'code', 'thinking']
     },
     {
       "id": "130",
       "name": "deepseek-r1",
       "token_count": 64000,
       "Magnification": 0.5,
-      "features": ['conversation', 'code']
+      "features": ['conversation', 'code', 'thinking']
     },
     {
       "id": "131",
@@ -996,14 +995,14 @@ export const chat_models = {
       "name": "claude-3-7-sonnet-thinking",
       "token_count": 32000,
       "Magnification": 3,
-      "features": ['conversation', 'code', 'image_recognition', 'file']
+      "features": ['conversation', 'code', 'image_recognition', 'file', 'thinking']
     },
     {
       "id": "142",
       "name": "deepseek-reasoner-all",
       "token_count": 64000,
       "Magnification": 0.875,
-      "features": ['conversation', 'code', 'file', 'internet']
+      "features": ['conversation', 'code', 'file', 'internet', 'thinking']
     },
     {
       "id": "143",

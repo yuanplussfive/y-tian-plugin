@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI模型介绍</title>
+  <link rel="stylesheet" href="{{all_min_css}}">
+  <link rel="stylesheet" href="{{all_css_src}}">
+  <style>
+    .model-logo {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 6px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    td {
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  
+  <h1>逆向模型大全 P{{currentChunk}}</h1>
+
+  <div class="legend">
+    <div><i class="fas fa-globe"></i> 联网</div>
+    <div><i class="fas fa-paint-brush"></i> 绘图</div>
+    <div><i class="fas fa-code"></i> 代码</div>
+    <div><i class="fas fa-image"></i> 识图</div>
+    <div><i class="fas fa-comments"></i> 对话</div>
+    <div><i class="fas fa-file-alt"></i> 文件</div>
+    <div><i class="fas fa-music"></i> 作曲</div>
+    <div><i class="fas fa-video"></i> 视频</div>
+    <div><i class="fas fa-lightbulb"></i> 思考</div>
+    <div><i class="fas fa-circle-check"></i> 实时通讯</div>
+  </div>
+
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>模型名称</th>
+      <th>供应商数量</th>
+      <th>最大Token</th>
+      <th>模型特性</th>
+      <th>额外配置</th>
+    </tr>
+    
+    {{each models item}}
+    <tr>
+      <td>{{item.id}}</td>
+      <td>
+        {{if item.logo_path}}
+          <img src="{{item.logo_path}}" alt="logo" class="model-logo">
+        {{/if}}
+        {{item.model}}
+      </td>
+      <td>{{item.providers}}</td>
+      <td>{{item.token}}</td>
+      <td>
+        {{if item.features.includes('internet')}}<i class="fas fa-globe icon"></i>{{/if}}
+        {{if item.features.includes('drawing')}}<i class="fas fa-paint-brush icon"></i>{{/if}}
+        {{if item.features.includes('code')}}<i class="fas fa-code icon"></i>{{/if}}
+        {{if item.features.includes('image_recognition')}}<i class="fas fa-image icon"></i>{{/if}}
+        {{if item.features.includes('conversation')}}<i class="fas fa-comments icon"></i>{{/if}}
+        {{if item.features.includes('file')}}<i class="fas fa-file-alt icon"></i>{{/if}}
+        {{if item.features.includes('music')}}<i class="fas fa-music icon"></i>{{/if}}
+        {{if item.features.includes('video')}}<i class="fas fa-video icon"></i>{{/if}}
+        {{if item.features.includes('thinking')}}<i class="fas fa-lightbulb"></i>{{/if}}
+        {{if item.features.includes('realtime')}}<i class="fas fa-circle-check"></i>{{/if}}
+      </td>
+      <td>{{item.auth}}</td>
+    </tr>
+    {{/each}}
+  </table>
+</body>
+</html>
