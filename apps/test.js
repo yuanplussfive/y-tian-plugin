@@ -319,6 +319,8 @@ export class ExamplePlugin extends plugin {
         ForceformatMessage: true,
         bilibiliSessData: 'a16804xxxxxx',
         jimengsessionid: '12345xxxxxx',
+        jimengSize_height: 1024,
+        jimengSize_width: 1024,
         geminiModel: 'gemini-2.0-flash-exp',
         gemini_tool_choice: 'auto',
         OpenAiUrl: 'https://yuanpluss.online:3000/api/v1/4o/fc',
