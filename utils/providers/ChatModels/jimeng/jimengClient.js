@@ -16,8 +16,13 @@ export async function jimengClient(messages, model, type = 'image') {
         config = configs.pluginSettings;
     }
     const sessionId = config?.jimengsessionid || '';
+    const width = config?.jimengSize_width || 1024;
+    const height = config?.jimengSize_height || 1024;
     try {
-        const result = await createCompletion(messages, sessionId, model, type);
+        const result = await createCompletion(messages, sessionId, model, type, {
+            width: width,
+            height: height
+        });
         console.log(result);
         return result;
     } catch (err) {

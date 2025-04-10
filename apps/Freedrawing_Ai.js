@@ -64,7 +64,7 @@ export class FreeDrawing extends plugin {
   async handleJimengCommand(e) {
     try {
       const prompt = e.msg.replace(/#(激萌|即梦|jimeng)绘图/g, "")?.trim()
-      const imageArray = await jimengClient([{ role: "user", content: prompt }], "jimeng-2.1");
+      const imageArray = await jimengClient([{ role: "user", content: prompt }], "jimeng-3.0", "image");
       let imageUrls = [];
       console.log(imageArray);
       if (!imageArray) {

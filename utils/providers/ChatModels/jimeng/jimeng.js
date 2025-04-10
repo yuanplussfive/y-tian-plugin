@@ -35,7 +35,7 @@ const DRAFT_VERSION = "3.0.2";
 
 // 模型映射
 const MODEL_MAP = {
-    "jimeng-3.0": "high_aes_general_v30_L:general_v3.0_L",
+    "jimeng-3.0": "high_aes_general_v30l:general_v3.0_18b",
     "jimeng-2.1": "high_aes_general_v21_L:general_v2.1_L",
     "jimeng-2.0-pro": "high_aes_general_v20_L:general_v2.0_L",
     "jimeng-2.0": "high_aes_general_v20:general_v2.0",
@@ -253,10 +253,16 @@ async function uploadFile(fileUrl, sessionId, isVideoImage = false) {
 }
 
 // 模型解析
-function parseModel(model) {
+function parseModel(model, customWidth, customHeight) {
     const [_model, size] = model.split(":");
     const [_, width, height] = /(\d+)[\W\w](\d+)/.exec(size) ?? [];
-    const parsed = { model: _model, width: size ? Math.ceil(parseInt(width) / 2) * 2 : 1024, height: size ? Math.ceil(parseInt(height) / 2) * 2 : 1024 };
+    
+    const parsed = { 
+        model: _model, 
+        width: customWidth || (size ? Math.ceil(parseInt(width) / 2) * 2 : 1024), 
+        height: customHeight || (size ? Math.ceil(parseInt(height) / 2) * 2 : 1024) 
+    };
+    
     log.info(`解析模型: ${model} -> ${JSON.stringify(parsed)}`);
     return parsed;
 }
@@ -481,21 +487,21 @@ async function generateVideo(model, prompt, { aspectRatio = "16:9", fps = 24, du
 }
 
 // 对话补全
-async function createCompletion(messages, sessionId, model = DEFAULT_IMAGE_MODEL, type = "image") {
-    log.info('开始对话补全:', { messages, model, type });
+async function createCompletion(messages, sessionId, model = DEFAULT_IMAGE_MODEL, type = "image", options = {}) {
+    log.info('开始对话补全:', { messages, model, type, options });
     if (!messages.length) {
         log.error('消息不能为空');
         throw new Error("消息不能为空");
     }
     const prompt = messages[messages.length - 1].content;
     if (type === "image") {
-        const { model: parsedModel, width, height } = parseModel(model);
+        const { model: parsedModel, width, height } = parseModel(model, options.width, options.height);
         const imageUrls = await generateImages(parsedModel, prompt, { width, height }, sessionId);
         const result = imageUrls.reduce((acc, url, i) => acc + `![image_${i}](${url})\n`, "");
         log.info('图像对话补全完成:', result);
         return result;
     } else if (type === "video") {
-        const videoUrl = await generateVideo(model, prompt, {}, sessionId);
+        const videoUrl = await generateVideo(model, prompt, options, sessionId);
         const result = `![video](${videoUrl})`;
         log.info('视频对话补全完成:', result);
         return result;
