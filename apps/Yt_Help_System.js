@@ -1,6 +1,7 @@
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import common from '../../../lib/common/common.js'
 import { reverse_models } from '../YTOpen-Ai/reverse-models.js'
+import { god_models } from '../YTOpen-Ai/god-models.js'
 import { other_models } from '../YTOpen-Ai/other-models.js'
 import { chat_models } from '../YTOpen-Ai/chat-models.js'
 const _path = process.cwd()
@@ -52,6 +53,10 @@ export class example extends plugin {
           fnc: 'chatgpt'
         },
         {
+          reg: "^(/|#)?(ai|AI|Ai)积分版帮助$",
+          fnc: 'godgpt'
+        },
+        {
           reg: "^(/|#)附加模型大全$",
           fnc: "others"
         },
@@ -62,6 +67,10 @@ export class example extends plugin {
         {
           reg: "^(/|#)逆向模型大全$",
           fnc: "reverse"
+        },
+        {
+          reg: "^(/|#)god模型大全$",
+          fnc: "god"
         },
         {
           reg: "^(/|#)(AI|Ai|ai)附加版帮助$",
@@ -131,12 +140,16 @@ export class example extends plugin {
   }
 
   async otherhelp(e) {
-    const img = await screen(16, puppeteer)
+    const img = await screen('others', puppeteer)
     e.reply(img)
   }
 
   async reverse(e) {
     await getModelScreen(reverse_models, 'reverse', e)
+  }
+
+  async god(e) {
+    await getModelScreen(god_models, 'god', e)
   }
 
   async chat(e) {
@@ -163,7 +176,12 @@ export class example extends plugin {
   }
 
   async chatgpt(e) {
-    const img = await screen(7, puppeteer)
+    const img = await screen('chat', puppeteer)
+    e.reply(img)
+  }
+
+  async godgpt(e) {
+    const img = await screen('god', puppeteer)
     e.reply(img)
   }
 
@@ -251,9 +269,9 @@ async function getModelScreen(models, type, e) {
     { prefix: ['glm-'], file: 'chatglm.png' },
     { prefix: ['ernie', 'qianfan'], file: 'qianfan.png' },
     { prefix: ['grok'], file: 'grok.jpg' },
-    { prefix: ['gemini', 'gemma', 'learnlm'], file: 'gemini.jpg' },
+    { prefix: ['gemini', 'gemma', 'learnlm', 'google'], file: 'gemini.jpg' },
     { prefix: ['deepseek-'], file: 'deepseek.jpeg' },
-    { prefix: ['qwen', 'qwq-', 'internlm-'], file: 'qwen.png' },
+    { prefix: ['qwen', 'qwq-', 'internlm-', 'dbrx-'], file: 'qwen.png' },
     { prefix: ['yi-'], file: '01.jpg' },
     { prefix: ['spark-'], file: 'spark.png' },
     { prefix: ['dalle','dall-e','gpt', 'o1', 'o3', 'sora-', 'advanced-voice', 'generate-pptx'], file: 'chatgpt.jpg' },

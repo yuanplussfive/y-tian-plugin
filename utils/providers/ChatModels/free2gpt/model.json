@@ -1,0 +1,16 @@
+{
+  "models": {
+    "gemini-2.0-flash-exp": {
+      "providerModelName": "gemini",
+      "aliases": [
+        "gemini-2.0-flash-exp"
+      ]
+    },
+    "deepseek-r1": {
+      "providerModelName": "deepseek",
+      "aliases": [
+        "deepseek-r1"
+      ]
+    }
+  }
+}
