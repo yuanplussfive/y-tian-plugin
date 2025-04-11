@@ -7,8 +7,7 @@ const { _path, fetch, fs, path } = dependencies;
  * @param {Object} config - 配置对象
  * @returns {Object|null} - 返回处理后的响应数据或错误信息
  */
-export async function YTapi(requestData, config) {
-    console.log('Request Data:', requestData);
+export async function YTapi(requestData, config, toolContent, toolName) {
     const dirpath = `${_path}/data/YTotherai`;
     const dataPath = path.join(dirpath, "data.json");
 
@@ -103,11 +102,10 @@ export async function YTapi(requestData, config) {
                         if (msg.role === 'assistant' && msg.tool_calls) {
                             return null; // 跳过含 tool_calls 的 assistant 消息
                         } else if (msg.role === 'tool') {
-                            const prefix = "调用工具成功, 这是使用工具处理反馈的结果：\n";
-                            const suffix = "\n我会工具处理的结果继续反馈, 并且优先使用中文作答。";
+                            const prefix = `我来调用工具 ${toolName} 看看\n`;
                             return {
                                 role: 'assistant',
-                                content: prefix + msg.content + suffix
+                                content: toolContent + "在群里说: " + prefix + msg.content
                             };
                         }
                         return msg;

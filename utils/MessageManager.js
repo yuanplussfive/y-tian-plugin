@@ -160,7 +160,7 @@ export class MessageManager {
                       action = `发送了表情 [${msg.text || msg.id}]`;
                       break;
                   case 'at':
-                      action = `@了 ${msg.text}`;
+                      action = `艾特了 ${msg.text || msg.qq || '某人'}`;
                       break;
                   case 'video':
                       action = '发送了一个视频';

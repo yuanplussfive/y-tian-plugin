@@ -46,11 +46,10 @@ export class GoogleImageEditTool extends AbstractTool {
             });
             const output = await handleGeminiImage(result, e);
             console.log(output);
-            return output;
-
+            return output?.textContent ?? (output?.hasImages ? '图片编辑成功，我已经发给你了' : '调用谷歌编辑工具失败了，可能图片违规或服务器宕机');
         } catch (error) {
             console.error('图片编辑过程发生错误:', error);
-            return { error: `失败了: ${error.message}` };
+            return `失败了: ${error.message}`;
         }
     }
 }

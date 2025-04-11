@@ -745,7 +745,53 @@ export class ExamplePlugin extends plugin {
           .join('\n');
       };
 
-      const systemContent = `${this.config.systemContent}\n\n群管理概括一览:\n${await limit(() => getHighLevelMembers(e.group))}\n\n\n${await limit(() => this.getToolsDescriptionString())}\n\n注意: 从现在起，你的回复严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: 你好'这种格式, 并且, 每次只发送一条消息，千万不能多！模仿正常网友交互形式`;
+      const systemContent = `
+【认知系统初始化】
+你需要模拟一个高效且自然的群聊成员，${this.config.systemContent}, \n\n以下是你的核心认知框架：
+
+【核心身份原则】 
+1. 实时数据视角
+   ${JSON.stringify({
+        group_info: {
+          administrators: await limit(() => getHighLevelMembers(e.group))
+        },
+        environmental_factors: {
+          local_time: "北京时间: " + new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
+        }
+      }, null, 2)}
+   
+2.【消息生成约束】 [优先级:最高]
+   ====================
+   |* 格式模板必须严格遵循：
+   | [MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: (群主/管理员/普通成员)]: 在群里说: {message}
+   
+   |* 规则集 (带因果逻辑):
+   | 1⃣ 单次响应仅生成一条消息 → 避免消息刷屏
+   | 2⃣ 风格需保持人类对话特征 → 包含适当的口语化表达、错别字比例＜5%
+   | 3⃣ 消息长度梯度控制 → 普通消息20-50字，知识分享类可达100字
+
+3.【工具认知矩阵】
+   ${JSON.stringify({
+        tools: await limit(() => this.getToolsDescriptionString()),
+        selection_rules: [
+          "当涉及实时数据查询时优先使用API查询工具",
+          "专业知识类问题启用知识库工具(置信度>85%)",
+          "模糊需求时先启动clarify工具请求用户明确需求"
+        ]
+      }, null, 2)}
+
+4.【强化认知机制】
+   通过对比正误示例实现深度模式识别：
+   ✅ 正确示例： 
+   [04-11 00:02:34] 阳光(QQ号:123456)[群身份: 普通成员]: 在群里说: 这个方案是不是应该考虑下成本呀？
+
+   ❌ 错误示例： 
+   [2024/04/11 00:02] 阳光(QQ123456)[管理员]: 说：考虑成本 → (日期格式错误/身份不符/用词机械)
+
+\n\n【下面是聊天群的消息记录】
+`;
+
+
 
       const getHistory = async () => {
         const chatHistory = await limit(() =>
@@ -760,6 +806,15 @@ export class ExamplePlugin extends plugin {
         }
 
         const memberMap = await limit(() => e.bot.pickGroup(groupId).getMemberMap());
+        let botRole = 'member';
+        await limit(async () => {
+          try {
+            const botMemberInfo = memberMap.get(Bot.uin);
+            botRole = roleMap[botMemberInfo?.role] || 'member';
+          } catch (error) {
+            console.error(`获取bot群角色失败: ${error}`);
+          }
+        });
         const formattedHistory = await Promise.all(
           chatHistory.reverse().map(async msg => {
             const isSenderBot = msg.sender.user_id === e.bot.uin;
@@ -773,16 +828,6 @@ export class ExamplePlugin extends plugin {
             };
           })
         );
-
-        let botRole = 'member';
-        await limit(async () => {
-          try {
-            const botMemberInfo = memberMap.get(Bot.uin);
-            botRole = roleMap[botMemberInfo?.role] || 'member';
-          } catch (error) {
-            console.error(`获取bot群角色失败: ${error}`);
-          }
-        });
 
         const lastMessage = await limit(() =>
           buildMessageContent(
@@ -904,9 +949,27 @@ export class ExamplePlugin extends plugin {
 
       let retries = 1;
       let response = null;
+      const memberMap = await limit(() => e.bot.pickGroup(groupId).getMemberMap());
+      let botRole = 'member';
+      await limit(async () => {
+        try {
+          const botMemberInfo = memberMap.get(Bot.uin);
+          botRole = roleMap[botMemberInfo?.role] || 'member';
+        } catch (error) {
+          console.error(`获取bot群角色失败: ${error}`);
+        }
+      });
+      session.toolContent = await limit(() => buildMessageContent(
+        { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
+        '',
+        [],
+        [],
+        e.group
+      ));
+
       while (retries >= 0) {
         try {
-          response = await limit(() => YTapi(requestData, this.config));
+          response = await limit(() => YTapi(requestData, this.config, session.toolContent));
           if (response) break;
         } catch (error) {
           console.error(`API请求失败(${retries}): ${error}`);
@@ -1075,6 +1138,7 @@ export class ExamplePlugin extends plugin {
 
             if (result) {
               toolResults.push(result);
+              session.toolName = functionName;
               currentMessages.push({
                 role: 'tool',
                 tool_call_id: id,
@@ -1108,7 +1172,7 @@ export class ExamplePlugin extends plugin {
               let toolResponse = null;
               while (retryCount >= 0) {
                 try {
-                  toolResponse = await limit(() => YTapi(toolRequest, this.config));
+                  toolResponse = await limit(() => YTapi(toolRequest, this.config, session.toolContent, session.toolName));
                   if (toolResponse) break;
                 } catch (error) {
                   console.error(`API请求失败(${retryCount}): ${error}`);
@@ -1187,7 +1251,7 @@ export class ExamplePlugin extends plugin {
 
         if (this.config.UseTools && this.config.providers !== 'oneapi') {
           try {
-            const finalCheckResponse = await limit(() => YTapi(FinalRequest, this.config));
+            const finalCheckResponse = await limit(() => YTapi(FinalRequest, this.config, session.toolContent, session.toolName));
             if (!finalCheckResponse || finalCheckResponse.error) {
               await limit(() => e.reply(finalCheckResponse?.error ? JSON.stringify(finalCheckResponse.error, null, 2) : '抱歉,请求失败,请稍后重试'));
             }
@@ -1203,7 +1267,7 @@ export class ExamplePlugin extends plugin {
                   ...finalCheckResponse.choices[0].message,
                   tool_calls: newToolCalls
                 };
-                await limit(() => this.handleToolCalls(newMessage, e, groupUserMessages, atQq, senderRole, targetRole));
+                await limit(() => this.handleToolCalls(newMessage, e, groupUserMessages, atQq, senderRole, targetRole, session.toolContent));
               }
             }
           } catch (error) {
@@ -1286,7 +1350,7 @@ export class ExamplePlugin extends plugin {
         delete errorRequestData.presence_penalty;
       }
 
-      const errorResponse = await limit(() => YTapi(errorRequestData, this.config));
+      const errorResponse = await limit(() => YTapi(errorRequestData, this.config, session.toolContent, session.toolName));
       if (errorResponse?.choices?.[0]?.message?.content) {
         const finalErrorReply = errorResponse.choices[0].message.content;
         const output = this.config.ForceformatMessage
@@ -1392,7 +1456,7 @@ export class ExamplePlugin extends plugin {
  * @param {string} senderRole - 发送者角色
  * @param {string} targetRole - 目标角色
  */
-  async handleToolCalls(message, e, groupUserMessages, atQq = [], senderRole = null, targetRole = null) {
+  async handleToolCalls(message, e, groupUserMessages, atQq = [], senderRole = null, targetRole = null, toolContent, toolName) {
     if (!message ||
       (message.choices &&
         message.choices[0]?.finish_reason === 'content_filter' &&
@@ -1611,7 +1675,7 @@ export class ExamplePlugin extends plugin {
           }
 
           // 获取当前工具的响应
-          const toolResponse = await YTapi(toolRequest, this.config);
+          const toolResponse = await YTapi(toolRequest, this.config, toolContent, toolName);
 
           if (toolResponse?.choices?.[0]?.message?.content) {
             const toolReply = toolResponse.choices[0].message.content;
@@ -1806,7 +1870,50 @@ export class ExamplePlugin extends plugin {
         const segment = segments[i]; // 获取当前分段
         // 如果分段不为空
         if (segment?.trim()) {
-          await e.reply(segment.trim()); // 发送分段
+          // 如果只有一个分段，尝试按标点符号再分段
+          if (segments.length === 1 && segment.trim().length > 10) {
+            const punctuations = ['。', '！', '？', '；', '!', '?', ';'];
+            let punctSegments = [];
+
+            // 按标点符号分段
+            let lastIndex = 0;
+            for (let j = 0; j < segment.length; j++) {
+              if (punctuations.includes(segment[j])) {
+                // 找到标点，添加到分段中（包含标点）
+                punctSegments.push(segment.substring(lastIndex, j + 1).trim());
+                lastIndex = j + 1;
+              }
+            }
+
+            // 如果有剩余部分，添加到分段中
+            if (lastIndex < segment.length) {
+              punctSegments.push(segment.substring(lastIndex).trim());
+            }
+
+            // 如果按标点分段后超过3段，则使用原方法
+            if (punctSegments.length > 0 && punctSegments.length <= 3) {
+              // 发送按标点分段的消息
+              for (let k = 0; k < punctSegments.length; k++) {
+                const punctSegment = punctSegments[k];
+                if (punctSegment) {
+                  await e.reply(punctSegment);
+
+                  // 如果不是最后一个分段，则添加延迟
+                  if (k < punctSegments.length - 1) {
+                    const baseDelay = 800; // 略微缩短基础延迟
+                    const charDelay = punctSegment.length * 5; // 每字符延迟 5 毫秒
+                    const randomDelay = Math.random() * 400; // 随机延迟 0-400 毫秒
+                    const delay = Math.min(baseDelay + charDelay + randomDelay, 2500); // 总延迟，但不超过 2.5 秒
+                    await new Promise(resolve => setTimeout(resolve, delay)); // 延迟
+                  }
+                }
+              }
+              continue; // 跳过原始分段处理
+            }
+          }
+
+          // 使用原始方法发送
+          await e.reply(segment.trim());
 
           // 如果不是最后一个分段，则添加延迟
           if (i < segments.length - 1) {

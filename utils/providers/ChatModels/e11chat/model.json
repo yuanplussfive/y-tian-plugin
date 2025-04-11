@@ -24,6 +24,12 @@
         "gemini-2.0-flash"
       ]
     },
+    "gemini-2.0-flash-exp": {
+      "providerModelName": "gemini-2.0-flash-lite",
+      "aliases": [
+        "gemini-2.0-flash-exp"
+      ]
+    },
     "grok-2-1212": {
       "providerModelName": "grok-2-1212",
       "aliases": [
