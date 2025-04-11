@@ -1183,9 +1183,20 @@ export class ExamplePlugin extends plugin {
               if (toolResponse?.choices?.[0]?.message?.content) {
                 aicallback = true;
                 const toolReply = toolResponse.choices[0].message.content;
-                const output = this.config.ForceformatMessage
-                  ? await limit(() => this.formatMessage(toolReply) || this.processToolSpecificMessage(toolReply))
-                  : await this.processToolSpecificMessage(toolReply);
+                let output;
+                if (this.config.ForceformatMessage) {
+                  try {
+                    output = await limit(() => this.formatMessage(toolReply));
+                    if (!output) {
+                      output = await this.processToolSpecificMessage(toolReply, functionName);
+                    }
+                  } catch (error) {
+                    console.error('failed:', error);
+                    output = await this.processToolSpecificMessage(toolReply, functionName);
+                  }
+                } else {
+                  output = await this.processToolSpecificMessage(toolReply, functionName);
+                }
 
                 await limit(() => this.sendSegmentedMessage(e, output));
 
@@ -1281,10 +1292,21 @@ export class ExamplePlugin extends plugin {
         return true;
       } else if (message.content) {
         if (!hasHandledFunctionCall) {
-          const output = this.config.ForceformatMessage
-            ? await limit(() => this.formatMessage(message.content) || this.processToolSpecificMessage(message.content))
-            : await this.processToolSpecificMessage(message.content);
-
+          let output;
+          if (this.config.ForceformatMessage) {
+            try {
+              output = await limit(() => this.formatMessage(message.content));
+              if (!output) {
+                output = await this.processToolSpecificMessage(message.content);
+              }
+            } catch (error) {
+              console.error('failed:', error);
+              output = await this.processToolSpecificMessage(message.content);
+            }
+          } else {
+            output = await this.processToolSpecificMessage(message.content);
+          }
+          console.log(2223, output)
           await limit(() => this.sendSegmentedMessage(e, output));
 
           try {
@@ -1353,9 +1375,20 @@ export class ExamplePlugin extends plugin {
       const errorResponse = await limit(() => YTapi(errorRequestData, this.config, session.toolContent, session.toolName));
       if (errorResponse?.choices?.[0]?.message?.content) {
         const finalErrorReply = errorResponse.choices[0].message.content;
-        const output = this.config.ForceformatMessage
-          ? await limit(() => this.formatMessage(finalErrorReply) || this.processToolSpecificMessage(finalErrorReply))
-          : await this.processToolSpecificMessage(finalErrorReply);
+        let output;
+        if (this.config.ForceformatMessage) {
+          try {
+            output = await limit(() => this.formatMessage(finalErrorReply));
+            if (!output) {
+              output = await this.processToolSpecificMessage(finalErrorReply);
+            }
+          } catch (error) {
+            console.error('failed:', error);
+            output = await this.processToolSpecificMessage(finalErrorReply);
+          }
+        } else {
+          output = await this.processToolSpecificMessage(finalErrorReply);
+        }
 
         await limit(() => this.sendSegmentedMessage(e, output));
       } else {
@@ -1679,10 +1712,20 @@ export class ExamplePlugin extends plugin {
 
           if (toolResponse?.choices?.[0]?.message?.content) {
             const toolReply = toolResponse.choices[0].message.content;
-
-            const output = this.config.ForceformatMessage
-              ? (await this.formatMessage(toolReply) || await this.processToolSpecificMessage(toolReply, functionName))
-              : await this.processToolSpecificMessage(toolReply, functionName);
+            let output;
+            if (this.config.ForceformatMessage) {
+              try {
+                output = await limit(() => this.formatMessage(toolReply));
+                if (!output) {
+                  output = await this.processToolSpecificMessage(toolReply, functionName);
+                }
+              } catch (error) {
+                console.error('failed:', error);
+                output = await this.processToolSpecificMessage(toolReply, functionName);
+              }
+            } else {
+              output = await this.processToolSpecificMessage(toolReply, functionName);
+            }
 
             await this.sendSegmentedMessage(e, output)
 
@@ -2227,15 +2270,13 @@ export class ExamplePlugin extends plugin {
       }
 
       const data = await response.json();
+      console.log(data);
       const result = JSON.parse(data.choices[0].message.content);
-      console.log(result)
-      return result?.main_content;
+      return result?.main_content ?? null;
     } catch (error) {
-      clearTimeout(timeout);
-      if (error.name === 'AbortError') {
-        return null;
-      }
       return null;
+    } finally {
+      clearTimeout(timeout);
     }
   }
 }
