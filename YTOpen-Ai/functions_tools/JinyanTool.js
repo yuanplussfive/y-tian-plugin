@@ -12,20 +12,11 @@ export class JinyanTool extends AbstractTool {
       type: "object",
       properties: {
         target: {
-          oneOf: [
-            {
-              type: 'string',
-              description: '单个目标用户的QQ号或群名片/昵称'
-            },
-            {
-              type: 'array',
-              items: {
-                type: 'string'
-              },
-              description: '多个目标用户的QQ号或群名片/昵称数组'
-            }
-          ],
-          description: '目标用户，可以是QQ号、群名片或昵称，支持单个或数组，留空则随机选择'
+          type: 'array',
+          items: {
+            type: 'string'
+          },
+          description: '目标用户的QQ号、群名片或昵称数组，支持单个或多个用户'
         },
         time: {
           type: 'number',

@@ -24,7 +24,7 @@ export class EmojiSearchTool extends AbstractTool {
           default: 1
         }
       },
-      required: ['keyword'],
+      required: ['keyword', 'count'],
       additionalProperties: false
     };
   }

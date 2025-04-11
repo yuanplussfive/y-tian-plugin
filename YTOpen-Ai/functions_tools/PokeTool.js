@@ -7,32 +7,26 @@ export class PokeTool extends AbstractTool {
   constructor() {
     super();
     this.name = 'pokeTool';
-    this.description = '对群聊中的用户进行戳一戳操作';
+    this.description = '对群聊中的用户进行戳一戳操作，支持指定用户或随机选择';
     this.parameters = {
-      type: "object",
+      type: 'object',
       properties: {
         target: {
-          oneOf: [
-            { 
-              type: 'string', 
-              description: '目标用户的QQ号或群名片/昵称' 
-            },
-            { 
-              type: 'array', 
-              items: { type: 'string' }, 
-              description: '可同时指定多个目标，支持QQ号或群名片/昵称' 
-            }
-          ],
-          description: '目标用户。可以是QQ号、群名片或昵称，支持单个或数组。留空则随机选择'
-        },
+          type: 'array',
+          items: {
+            type: 'string'
+          },
+          description: '目标用户的QQ号（如 "1245934"）或群名片/昵称（如 "叶杨"）数组，支持单个或多个用户。每个元素只能是QQ号或名称，不能混合格式（如 "叶杨(QQ号:1245934)" 无效）。'
+        },        
         times: {
           type: 'number',
-          description: '每个目标的戳一戳次数。默认1次，最多10次',
-          default: 1
+          description: '每个目标的戳一戳次数，默认 1 次，最大 10 次',
+          default: 1,
+          maximum: 10
         },
         random: {
           type: 'boolean',
-          description: '是否随机选择群成员戳一戳',
+          description: '是否随机选择群成员进行戳一戳，默认为 false。启用时忽略 target 参数',
           default: false
         }
       }
