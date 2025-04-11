@@ -274,6 +274,7 @@ export class ExamplePlugin extends plugin {
     }, -1);
     return lastIndex === -1 ? chatArray : chatArray.slice(0, lastIndex + 1);
   }
+
   /**
   * 获取或创建会话
   * @param {string} sessionId - 会话 ID
@@ -872,7 +873,7 @@ export class ExamplePlugin extends plugin {
         session.groupUserMessages.at(-1).content += `[用户头像链接: (https://q1.qlogo.cn/g?b=qq&nk=${e.user_id}&s=640)]`;
       }
       */
-     
+
       if (imageCount >= 1) { // 如果至少有一张图片
         let fixedToolName = null; // 初始化固定工具名称为空
 
@@ -1347,7 +1348,7 @@ export class ExamplePlugin extends plugin {
       }
     } catch (error) {
       console.error(`[工具插件] 会话 ${sessionId} 执行异常：`, error);
-      const errorMessage = `执行工具调用操作时发生错误：${error.message}`;
+const errorMessage = `发生错误：${error.message}\n详细错误信息：${error.stack}`;
       groupUserMessages.push({ role: 'assistant', content: errorMessage });
       groupUserMessages = this.trimMessageHistory(groupUserMessages);
       session.groupUserMessages = groupUserMessages;
