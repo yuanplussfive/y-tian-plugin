@@ -46,7 +46,7 @@ export class IdeogramTool extends AbstractTool {
         if (imageUrls && imageUrls.length > 0) {
           const images = imageUrls.map(imgurl => segment.image(imgurl.trim()));
           await e.reply(images); // 发送图片
-          return `绘图提示词：${prompt}，成功了，我已生成并发送图片到群里了，图片在线链接: ${imageUrls[0]}`;
+          return `好的，${prompt}，成功了，我已生成并发送图片到群里了`;
         } else {
           return "绘图生成失败了，可能负载过高或提示词违规，请稍后再试。";
         }

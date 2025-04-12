@@ -34,9 +34,9 @@ import chalk from 'chalk';
 
 // 重试机制的配置参数
 const RETRY_CONFIG = {
-    maxRetries: 1, // 最大重试次数
-    retryDelay: 1000, // 重试延迟（毫秒）
-    maxTotalAttempts: 6, // 最大总尝试次数
+    maxRetries: 2, // 最大重试次数
+    retryDelay: 100, // 重试延迟（毫秒）
+    maxTotalAttempts: 8, // 最大总尝试次数
 };
 
 // 存储服务商的成功/失败统计和权重配置

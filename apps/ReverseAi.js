@@ -4,7 +4,6 @@ import mimeTypes from "mime-types";
 import _ from "lodash";
 import path from "path";
 import fs from "fs";
-import fetch from "node-fetch";
 import { fs_reverse } from "../YTdependence/fs_reverse_makes.js";
 import { handleImages, loadData, sendLongMessage, saveUserHistory, TakeImages, saveData, loadUserHistory, getBase64File, get_address, downloadAndSaveFile, removeDuplicates } from "../utils/fileUtils.js";
 import { getFileInfo } from '../utils/fileUtils.js';
@@ -18,7 +17,6 @@ import { processArray } from '../YTOpen-Ai/tools/messageGenerator.js';
 import { isPluginCommand } from "../YTOpen-Ai/ask-ban.js";
 import { replyBasedOnStyle } from "../YTOpen-Ai/answer-styles.js";
 import { handleTTS } from "../model/Anime_tts.js";
-import { Anime_tts_roles } from "../model/Anime_tts_roles.js";
 let Bot_Name;
 let dirpath = `${_path}/data/YTreverseai`;
 await setName();
@@ -745,12 +743,7 @@ export class reverseAi extends plugin {
       history.push({ role: "assistant", content: result });
       await saveUserHistory(userid, dirpath, history, 'reverse');
       if (aiSettings.chatgpt.ai_tts_open) {
-        const speakers = aiSettings.chatgpt.ai_tts_role;
-        console.log(aiSettings.chatgpt.ai_tts_role);
-        const roles = Anime_tts_roles(speakers);
-        if (roles) {
-          await handleTTS(e, roles, result, fetch, _path);
-        }
+        await handleTTS(e, result);
       }
     }
     return false;

@@ -153,7 +153,7 @@ export class example extends plugin {
   }
 
   async chat(e) {
-    await getModelScreen(chat_models.models, 'chat', e)
+    await getModelScreen(chat_models, 'chat', e)
   }
 
   async others(e) {

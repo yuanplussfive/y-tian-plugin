@@ -1,10 +1,12 @@
-export const chat_models = {
-  "models": [
+export const getOptimizedModels = () => {
+  // 原始模型数据
+  const originalModels = [
     {
       "id": "1",
       "name": "gpt-3.5-turbo",
       "token_count": "4k",
       "Magnification": 0.75,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -12,6 +14,7 @@ export const chat_models = {
       "name": "gpt-3.5-turbo-0301",
       "token_count": "4k",
       "Magnification": 0.75,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -19,6 +22,7 @@ export const chat_models = {
       "name": "gpt-3.5-turbo-0613",
       "token_count": "4k",
       "Magnification": 0.75,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -26,6 +30,7 @@ export const chat_models = {
       "name": "gpt-3.5-turbo-1106",
       "token_count": "4k",
       "Magnification": 0.75,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -33,6 +38,7 @@ export const chat_models = {
       "name": "gpt-3.5-turbo-instruct",
       "token_count": "4k",
       "Magnification": 0.75,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -40,6 +46,7 @@ export const chat_models = {
       "name": "gpt-3.5-turbo-16k",
       "token_count": "16k",
       "Magnification": 1.5,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -47,6 +54,7 @@ export const chat_models = {
       "name": "gpt-3.5-turbo-16k-0613",
       "token_count": "16k",
       "Magnification": 1.5,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -54,6 +62,7 @@ export const chat_models = {
       "name": "gpt-4",
       "token_count": "8k",
       "Magnification": 15,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -61,6 +70,7 @@ export const chat_models = {
       "name": "gpt-4-0314",
       "token_count": "8k",
       "Magnification": 15,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -68,6 +78,7 @@ export const chat_models = {
       "name": "gpt-4-0613",
       "token_count": "8k",
       "Magnification": 15,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -75,6 +86,7 @@ export const chat_models = {
       "name": "gpt-4-32k",
       "token_count": "32k",
       "Magnification": 30,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -82,6 +94,7 @@ export const chat_models = {
       "name": "gpt-4-32k-0314",
       "token_count": "32k",
       "Magnification": 30,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -89,6 +102,7 @@ export const chat_models = {
       "name": "gpt-4-32k-0613",
       "token_count": "32k",
       "Magnification": 30,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -96,6 +110,7 @@ export const chat_models = {
       "name": "gpt-4-1106-preview",
       "token_count": "128k",
       "Magnification": 5,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -103,6 +118,7 @@ export const chat_models = {
       "name": "gpt-4-0125-preview",
       "token_count": "128k",
       "Magnification": 5,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -110,6 +126,7 @@ export const chat_models = {
       "name": "gpt-4-turbo-preview",
       "token_count": "128k",
       "Magnification": 5,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -117,6 +134,7 @@ export const chat_models = {
       "name": "gpt-4-turbo-2024-04-09",
       "token_count": "128k",
       "Magnification": 5,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -124,6 +142,7 @@ export const chat_models = {
       "name": "gpt-4o-mini",
       "token_count": "128k",
       "Magnification": 0.07,
+      "provider": "OpenAi",
       "features": ['conversation']
     },
     {
@@ -131,6 +150,7 @@ export const chat_models = {
       "name": "gpt-4-all",
       "token_count": "128k",
       "Magnification": 15,
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'drawing', 'internet', 'file', 'image_recognition']
     },
     {
@@ -138,6 +158,7 @@ export const chat_models = {
       "name": "gpt-4o",
       "token_count": "128k",
       "Magnification": 2.5,
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'internet', 'image_recognition']
     },
     {
@@ -145,6 +166,7 @@ export const chat_models = {
       "name": "gpt-4o-2024-05-13",
       "token_count": "128k",
       "Magnification": 2.5,
+      "provider": "OpenAi",
       "features": ['conversation', 'code']
     },
     {
@@ -152,6 +174,7 @@ export const chat_models = {
       "name": "gpt-4o-2024-08-06",
       "token_count": "128k",
       "Magnification": 1.25,
+      "provider": "OpenAi",
       "features": ['conversation', 'code']
     },
     {
@@ -159,6 +182,7 @@ export const chat_models = {
       "name": "chatgpt-4o-latest",
       "token_count": "128k",
       "Magnification": 1.25,
+      "provider": "OpenAi",
       "features": ['conversation', 'code']
     },
     {
@@ -166,6 +190,7 @@ export const chat_models = {
       "name": "gpt-4o-all",
       "token_count": "128k",
       "Magnification": 2.5,
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'drawing', 'internet', 'file', 'image_recognition']
     },
     {
@@ -173,6 +198,7 @@ export const chat_models = {
       "name": "gpt-4-dalle",
       "token_count": "128k",
       "Magnification": 15,
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'drawing', 'internet', 'file', 'image_recognition']
     },
     {
@@ -180,6 +206,7 @@ export const chat_models = {
       "name": "gpt-4-v",
       "token_count": "128k",
       "Magnification": 15,
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'drawing', 'internet', 'file', 'image_recognition']
     },
     {
@@ -187,6 +214,7 @@ export const chat_models = {
       "name": "gpt-4-search",
       "token_count": "4k",
       "Magnification": 15,
+      "provider": "OpenAi",
       "features": ['conversation', 'internet', 'image_recognition']
     },
     {
@@ -194,6 +222,7 @@ export const chat_models = {
       "name": "gpt-4o-search",
       "token_count": "4k",
       "Magnification": 2.5,
+      "provider": "OpenAi",
       "features": ['conversation', 'internet', 'image_recognition']
     },
     // Anthropic Claude Models
@@ -202,6 +231,7 @@ export const chat_models = {
       "name": "claude-1-100k",
       "token_count": "100k",
       "Magnification": 1,
+      "provider": "Anthropic",
       "features": ['conversation']
     },
     {
@@ -209,6 +239,7 @@ export const chat_models = {
       "name": "claude-2",
       "token_count": "200k",
       "Magnification": 5,
+      "provider": "Anthropic",
       "features": ['conversation']
     },
     {
@@ -216,6 +247,7 @@ export const chat_models = {
       "name": "claude-3-haiku-20240307",
       "token_count": "200k",
       "Magnification": 0.5,
+      "provider": "Anthropic",
       "features": ['conversation']
     },
     {
@@ -223,6 +255,7 @@ export const chat_models = {
       "name": "claude-3-sonnet-20240229",
       "token_count": "200k",
       "Magnification": 1.5,
+      "provider": "Anthropic",
       "features": ['conversation']
     },
     {
@@ -230,6 +263,7 @@ export const chat_models = {
       "name": "claude-3-opus-20240229",
       "token_count": "200k",
       "Magnification": 7.5,
+      "provider": "Anthropic",
       "features": ['conversation', 'code', 'image_recognition']
     },
     {
@@ -237,6 +271,7 @@ export const chat_models = {
       "name": "claude-3-5-sonnet-20240620",
       "token_count": "200k",
       "Magnification": 2.5,
+      "provider": "Anthropic",
       "features": ['conversation', 'code', 'image_recognition']
     },
     {
@@ -244,6 +279,7 @@ export const chat_models = {
       "name": "claude-3-5-sonnet-all",
       "token_count": "200k",
       "Magnification": '0.2/次',
+      "provider": "Anthropic",
       "features": ['conversation', 'code', 'image_recognition', 'file']
     },
     {
@@ -251,6 +287,7 @@ export const chat_models = {
       "name": "claude-3-5-sonnet-20241022",
       "token_count": "200k",
       "Magnification": 12,
+      "provider": "Anthropic",
       "features": ['conversation', 'code', 'image_recognition']
     },
     // Meta LLaMA Models
@@ -259,6 +296,7 @@ export const chat_models = {
       "name": "llama-2-7b",
       "token_count": "7k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -266,6 +304,7 @@ export const chat_models = {
       "name": "llama-2-13b",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -273,6 +312,7 @@ export const chat_models = {
       "name": "llama-2-70b",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -280,6 +320,7 @@ export const chat_models = {
       "name": "llama-3-sonar-small-online",
       "token_count": "8k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -287,6 +328,7 @@ export const chat_models = {
       "name": "llama-3-sonar-medium-online",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -294,6 +336,7 @@ export const chat_models = {
       "name": "llama-3-sonar-small-chat",
       "token_count": "8k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -301,6 +344,7 @@ export const chat_models = {
       "name": "llama-3-sonar-medium-chat",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -308,6 +352,7 @@ export const chat_models = {
       "name": "llama-3-8b",
       "token_count": "8k",
       "Magnification": 2,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -315,6 +360,7 @@ export const chat_models = {
       "name": "llama-3-70b",
       "token_count": "32k",
       "Magnification": 2,
+      "provider": "meta",
       "features": ['conversation']
     },
     {
@@ -322,6 +368,7 @@ export const chat_models = {
       "name": "llama-3.2-1b-instruct",
       "token_count": "32k",
       "Magnification": 0.25,
+      "provider": "meta",
       "features": ['conversation', 'code']
     },
     {
@@ -329,6 +376,7 @@ export const chat_models = {
       "name": "llama-3.2-3b-instruct",
       "token_count": "32k",
       "Magnification": 0.5,
+      "provider": "meta",
       "features": ['conversation', 'code']
     },
     {
@@ -336,6 +384,7 @@ export const chat_models = {
       "name": "llama-3.2-11b-vision-instruct",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation', 'code', 'image_recognition']
     },
     {
@@ -343,6 +392,7 @@ export const chat_models = {
       "name": "llama-3.2-90b-vision-instruct",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation', 'code', 'image_recognition']
     },
     // Code LLaMA Models
@@ -351,6 +401,7 @@ export const chat_models = {
       "name": "code-llama-7b",
       "token_count": "7k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation', 'code']
     },
     {
@@ -358,6 +409,7 @@ export const chat_models = {
       "name": "code-llama-13b",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation', 'code']
     },
     {
@@ -365,6 +417,7 @@ export const chat_models = {
       "name": "code-llama-34b",
       "token_count": "34k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation', 'code']
     },
     {
@@ -372,6 +425,7 @@ export const chat_models = {
       "name": "codellama-70b-instruct",
       "token_count": "7k",
       "Magnification": 1,
+      "provider": "meta",
       "features": ['conversation', 'code']
     },
     // Mixtral Models
@@ -380,6 +434,7 @@ export const chat_models = {
       "name": "mixtral-8x7b",
       "token_count": "200k",
       "Magnification": 1.5,
+      "provider": "mistral",
       "features": ['conversation']
     },
     {
@@ -387,6 +442,7 @@ export const chat_models = {
       "name": "mixtral-8x7b-instruct",
       "token_count": "8k",
       "Magnification": 1,
+      "provider": "mistral",
       "features": ['conversation']
     },
     {
@@ -394,6 +450,7 @@ export const chat_models = {
       "name": "mixtral-8x22b",
       "token_count": "8k",
       "Magnification": 1,
+      "provider": "mistral",
       "features": ['conversation']
     },
     // Gemini Models
@@ -402,6 +459,7 @@ export const chat_models = {
       "name": "gemini-pro",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -409,6 +467,7 @@ export const chat_models = {
       "name": "gemini-pro-vision",
       "token_count": "32k",
       "Magnification": 2,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -416,6 +475,7 @@ export const chat_models = {
       "name": "gemini-1.5-pro",
       "token_count": "1000k",
       "Magnification": 3.5,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -423,6 +483,7 @@ export const chat_models = {
       "name": "gemini-1.5-flash",
       "token_count": "1000k",
       "Magnification": 0.35,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -430,6 +491,7 @@ export const chat_models = {
       "name": "gemini-1.5-pro-exp-0801",
       "token_count": "1000k",
       "Magnification": 1.75,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -437,6 +499,7 @@ export const chat_models = {
       "name": "gemini-1.5-pro-exp-0827",
       "token_count": "1000k",
       "Magnification": 1.75,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -444,6 +507,7 @@ export const chat_models = {
       "name": "gemini-1.5-pro-001",
       "token_count": "1000k",
       "Magnification": 2,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -451,6 +515,7 @@ export const chat_models = {
       "name": "gemini-1.5-pro-002",
       "token_count": "1000k",
       "Magnification": 2,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     // GLM Models
@@ -459,6 +524,7 @@ export const chat_models = {
       "name": "glm-3-turbo",
       "token_count": "128k",
       "Magnification": 0.75,
+      "provider": "chatglm",
       "features": ['conversation']
     },
     {
@@ -466,6 +532,7 @@ export const chat_models = {
       "name": "glm-4",
       "token_count": "128k",
       "Magnification": 15,
+      "provider": "chatglm",
       "features": ['conversation']
     },
     {
@@ -473,6 +540,7 @@ export const chat_models = {
       "name": "glm-4v",
       "token_count": "2k",
       "Magnification": 7.1,
+      "provider": "chatglm",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -480,6 +548,7 @@ export const chat_models = {
       "name": "glm-4-0520",
       "token_count": "128k",
       "Magnification": 15,
+      "provider": "chatglm",
       "features": ['conversation', 'code']
     },
     {
@@ -487,6 +556,7 @@ export const chat_models = {
       "name": "glm-4-air",
       "token_count": "128k",
       "Magnification": 1.5,
+      "provider": "chatglm",
       "features": ['conversation', 'code']
     },
     {
@@ -494,6 +564,7 @@ export const chat_models = {
       "name": "glm-4-airx",
       "token_count": "128k",
       "Magnification": 0.15,
+      "provider": "chatglm",
       "features": ['conversation', 'code']
     },
     {
@@ -501,6 +572,7 @@ export const chat_models = {
       "name": "glm-4-flash",
       "token_count": "128k",
       "Magnification": 0.01,
+      "provider": "chatglm",
       "features": ['conversation', 'code']
     },
     // Suno Models
@@ -509,6 +581,7 @@ export const chat_models = {
       "name": "suno-v3",
       "token_count": "2k",
       "Magnification": '0.15/次',
+      "provider": "suno",
       "features": ['music']
     },
     {
@@ -516,6 +589,7 @@ export const chat_models = {
       "name": "suno-v3.5",
       "token_count": "2k",
       "Magnification": '0.15/次',
+      "provider": "suno",
       "features": ['music']
     },
     // LLaVA Models
@@ -524,6 +598,7 @@ export const chat_models = {
       "name": "llava-v1.5-7b-wrapper",
       "token_count": "7k",
       "Magnification": 1,
+      "provider": "llava",
       "features": ['conversation']
     },
     {
@@ -531,6 +606,7 @@ export const chat_models = {
       "name": "llava-v1.6-34b",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "llava",
       "features": ['conversation']
     },
     // Gemini All Models
@@ -539,6 +615,7 @@ export const chat_models = {
       "name": "gemma-2b-it",
       "token_count": "4k",
       "Magnification": 1,
+      "provider": "Google",
       "features": ['conversation']
     },
     {
@@ -546,6 +623,7 @@ export const chat_models = {
       "name": "gemma-7b-it",
       "token_count": "7k",
       "Magnification": 1,
+      "provider": "Google",
       "features": ['conversation']
     },
     // Other Models
@@ -554,6 +632,7 @@ export const chat_models = {
       "name": "o1-mini",
       "token_count": "128k",
       "Magnification": "0.15/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -561,6 +640,7 @@ export const chat_models = {
       "name": "o1-mini-20240912",
       "token_count": "128k",
       "Magnification": "0.15/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -568,6 +648,7 @@ export const chat_models = {
       "name": "o1-mini-all",
       "token_count": "128k",
       "Magnification": "0.15/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file', 'thinking']
     },
     {
@@ -575,6 +656,7 @@ export const chat_models = {
       "name": "o1-preview",
       "token_count": "128k",
       "Magnification": "0.6/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -582,6 +664,7 @@ export const chat_models = {
       "name": "o1-preview-20240912",
       "token_count": "128k",
       "Magnification": "0.6/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -589,6 +672,7 @@ export const chat_models = {
       "name": "o1-preview-all",
       "token_count": "128k",
       "Magnification": "0.6/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'drawing', 'image_recognition', 'file', 'thinking']
     },
     {
@@ -596,6 +680,7 @@ export const chat_models = {
       "name": "mj-chat",
       "token_count": "32k",
       "Magnification": "0.5/次",
+      "provider": "midjourney",
       "features": ['drawing']
     },
     {
@@ -603,6 +688,7 @@ export const chat_models = {
       "name": "luma-video",
       "token_count": "28k",
       "Magnification": '0.1/次',
+      "provider": "luma",
       "features": ['video']
     },
     {
@@ -610,6 +696,7 @@ export const chat_models = {
       "name": "stable-diffusion-3-2b",
       "token_count": "0.8k",
       "Magnification": '0.007/次',
+      "provider": "stable-diffusion",
       "features": ['drawing']
     },
     {
@@ -617,6 +704,7 @@ export const chat_models = {
       "name": "playground-v2.5",
       "token_count": "0.8k",
       "Magnification": '0.007/次',
+      "provider": "playground",
       "features": ['drawing']
     },
     {
@@ -624,6 +712,7 @@ export const chat_models = {
       "name": "runway-video",
       "token_count": "0.8k",
       "Magnification": '0.2/次',
+      "provider": "runway",
       "features": ['video']
     },
     {
@@ -631,6 +720,7 @@ export const chat_models = {
       "name": "ideogram",
       "token_count": "0.8k",
       "Magnification": '0.03/次',
+      "provider": "ideogram",
       "features": ['drawing']
     },
     {
@@ -638,6 +728,7 @@ export const chat_models = {
       "name": "advanced-voice",
       "token_count": "32k",
       "Magnification": '2.0/次',
+      "provider": "OpenAi",
       "features": ['realtime']
     },
     {
@@ -645,6 +736,7 @@ export const chat_models = {
       "name": "gemini-pro",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -652,6 +744,7 @@ export const chat_models = {
       "name": "gemini-pro-vision",
       "token_count": "32k",
       "Magnification": 2,
+      "provider": "Google",
       "features": ['conversation', 'image_recognition']
     },
     {
@@ -659,6 +752,7 @@ export const chat_models = {
       "name": "yi-large",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "零一万物",
       "features": ['conversation', 'internet']
     },
     {
@@ -666,6 +760,7 @@ export const chat_models = {
       "name": "qwen2.5-72b-instruct",
       "token_count": "32k",
       "Magnification": 0.45,
+      "provider": "通义千问",
       "features": ['conversation', 'internet']
     },
     {
@@ -673,6 +768,7 @@ export const chat_models = {
       "name": "mixtral-moe-8x7b-instruct",
       "token_count": "32k",
       "Magnification": 0.45,
+      "provider": "mistral",
       "features": ['conversation', 'internet']
     },
     {
@@ -680,6 +776,7 @@ export const chat_models = {
       "name": "mixtral-moe-8x7b-instruct-hf",
       "token_count": "32k",
       "Magnification": 0.45,
+      "provider": "mistral",
       "features": ['conversation', 'internet']
     },
     {
@@ -687,6 +784,7 @@ export const chat_models = {
       "name": "mixtral-moe-8x22b-instruct",
       "token_count": "32k",
       "Magnification": 1,
+      "provider": "mistral",
       "features": ['conversation', 'internet']
     },
     {
@@ -694,6 +792,7 @@ export const chat_models = {
       "name": "flux-1-dev-fp8",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "BlackForestLabs",
       "features": ['drawing']
     },
     {
@@ -701,6 +800,7 @@ export const chat_models = {
       "name": "flux-1-schnell-fp8",
       "token_count": "0.8k",
       "Magnification": "0.005/次",
+      "provider": "BlackForestLabs",
       "features": ['drawing']
     },
     {
@@ -708,6 +808,7 @@ export const chat_models = {
       "name": "flux-1-schnell",
       "token_count": "0.8k",
       "Magnification": "0.005/次",
+      "provider": "BlackForestLabs",
       "features": ['drawing']
     },
     {
@@ -715,6 +816,7 @@ export const chat_models = {
       "name": "flux-1-dev",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "BlackForestLabs",
       "features": ['drawing']
     },
     {
@@ -722,6 +824,7 @@ export const chat_models = {
       "name": "sd3.5-medium",
       "token_count": "0.8k",
       "Magnification": "0.005/次",
+      "provider": "stable-diffusion",
       "features": ['drawing']
     },
     {
@@ -729,6 +832,7 @@ export const chat_models = {
       "name": "sd3.5-large",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "stable-diffusion",
       "features": ['drawing']
     },
     {
@@ -736,6 +840,7 @@ export const chat_models = {
       "name": "sd3.5-large-turbo",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "stable-diffusion",
       "features": ['drawing']
     },
     {
@@ -743,6 +848,7 @@ export const chat_models = {
       "name": "ssd-1b",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "stable-diffusion",
       "features": ['drawing']
     },
     {
@@ -750,6 +856,7 @@ export const chat_models = {
       "name": "stable-diffusion-xl-1024-v1-0",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "stable-diffusion",
       "features": ['drawing']
     },
     {
@@ -757,6 +864,7 @@ export const chat_models = {
       "name": "playground-v2-1024px-aesthetic",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "playground",
       "features": ['drawing']
     },
     {
@@ -764,6 +872,7 @@ export const chat_models = {
       "name": "playground-v2-5-1024px-aesthetic",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "playground",
       "features": ['drawing']
     },
     {
@@ -771,6 +880,7 @@ export const chat_models = {
       "name": "japanese-stable-diffusion-xl",
       "token_count": "0.8k",
       "Magnification": "0.01/次",
+      "provider": "stable-diffusion",
       "features": ['drawing']
     },
     {
@@ -778,6 +888,7 @@ export const chat_models = {
       "name": "o1",
       "token_count": "128k",
       "Magnification": "0.6/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -785,6 +896,7 @@ export const chat_models = {
       "name": "o1-all",
       "token_count": "128k",
       "Magnification": "0.6/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -792,6 +904,7 @@ export const chat_models = {
       "name": "o1-pro",
       "token_count": "128k",
       "Magnification": "1.2/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -799,6 +912,7 @@ export const chat_models = {
       "name": "o1-pro-all",
       "token_count": "128k",
       "Magnification": "1.2/次",
+      "provider": "OpenAi",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -806,6 +920,7 @@ export const chat_models = {
       "name": "sora-1:1-480p-5s",
       "token_count": "2k",
       "Magnification": "1.0/次",
+      "provider": "OpenAi",
       "features": ['video']
     },
     {
@@ -813,6 +928,7 @@ export const chat_models = {
       "name": "sora-1:1-720p-5s",
       "token_count": "2k",
       "Magnification": "1.5/次",
+      "provider": "OpenAi",
       "features": ['video']
     },
     {
@@ -820,6 +936,7 @@ export const chat_models = {
       "name": "sora-1:1-480p-10s",
       "token_count": "2k",
       "Magnification": "2.0/次",
+      "provider": "OpenAi",
       "features": ['video']
     },
     {
@@ -827,6 +944,7 @@ export const chat_models = {
       "name": "sora-16:9-480p-5s",
       "token_count": "2k",
       "Magnification": "1.25/次",
+      "provider": "OpenAi",
       "features": ['video']
     },
     {
@@ -834,6 +952,7 @@ export const chat_models = {
       "name": "sora-16:9-720p-5s",
       "token_count": "2k",
       "Magnification": "3.0/次",
+      "provider": "OpenAi",
       "features": ['video']
     },
     {
@@ -841,6 +960,7 @@ export const chat_models = {
       "name": "sora-16:9-480p-10s",
       "token_count": "2k",
       "Magnification": "2.5/次",
+      "provider": "OpenAi",
       "features": ['video']
     },
     {
@@ -848,6 +968,7 @@ export const chat_models = {
       "name": "sora-9:16-480p-5s",
       "token_count": "2k",
       "Magnification": "2.5/次",
+      "provider": "OpenAi",
       "features": ['video']
     },
     {
@@ -855,6 +976,7 @@ export const chat_models = {
       "name": "sora-9:16-720p-5s",
       "token_count": "2k",
       "Magnification": "3.0/次",
+      "provider": "OpenAi",
       "features": ['video']
     },
     {
@@ -862,6 +984,7 @@ export const chat_models = {
       "name": "gemini-2.0-flash-exp",
       "token_count": "1000k",
       "Magnification": 0.6,
+      "provider": "Google",
       "features": ['conversation', 'code', 'image_recognition']
     },
     {
@@ -869,6 +992,7 @@ export const chat_models = {
       "name": "gemini-2.0-flash-thinking-exp-1219",
       "token_count": "1000k",
       "Magnification": 0.6,
+      "provider": "Google",
       "features": ['conversation', 'code', 'image_recognition', 'thinking']
     },
     {
@@ -876,6 +1000,7 @@ export const chat_models = {
       "name": "o3-mini",
       "token_count": "128k",
       "Magnification": 0.5,
+      "provider": "OpenAi",
       "features": ['conversation', 'code', "internet", 'thinking']
     },
     {
@@ -883,6 +1008,7 @@ export const chat_models = {
       "name": "o3-mini-all",
       "token_count": "128k",
       "Magnification": 0.5,
+      "provider": "OpenAi",
       "features": ['conversation', 'code', "internet", 'thinking']
     },
     {
@@ -890,6 +1016,7 @@ export const chat_models = {
       "name": "o3-mini-high",
       "token_count": "128k",
       "Magnification": '0.15/次',
+      "provider": "OpenAi",
       "features": ['conversation', 'code', "internet", 'thinking']
     },
     {
@@ -897,6 +1024,7 @@ export const chat_models = {
       "name": "o3-mini-high-all",
       "token_count": "128k",
       "Magnification": '0.15/次',
+      "provider": "OpenAi",
       "features": ['conversation', 'code', "internet", 'thinking']
     },
     {
@@ -904,6 +1032,7 @@ export const chat_models = {
       "name": "deepseek-v3",
       "token_count": "64k",
       "Magnification": 0.27,
+      "provider": "deepseek",
       "features": ['conversation', 'code', 'thinking']
     },
     {
@@ -911,6 +1040,7 @@ export const chat_models = {
       "name": "deepseek-reasoner",
       "token_count": "64k",
       "Magnification": 5,
+      "provider": "deepseek",
       "features": ['conversation', 'code', 'thinking']
     },
     {
@@ -918,6 +1048,7 @@ export const chat_models = {
       "name": "deepseek-r1",
       "token_count": "64k",
       "Magnification": 0.5,
+      "provider": "deepseek",
       "features": ['conversation', 'code', 'thinking']
     },
     {
@@ -925,6 +1056,7 @@ export const chat_models = {
       "name": "moonshot-v1-8k",
       "token_count": "8k",
       "Magnification": 0.85,
+      "provider": "moonshot",
       "features": ['conversation', 'code']
     },
     {
@@ -932,6 +1064,7 @@ export const chat_models = {
       "name": "moonshot-v1-32k",
       "token_count": "32k",
       "Magnification": 1.7,
+      "provider": "moonshot",
       "features": ['conversation', 'code']
     },
     {
@@ -939,6 +1072,7 @@ export const chat_models = {
       "name": "moonshot-v1-128k",
       "token_count": "128k",
       "Magnification": 4.2,
+      "provider": "moonshot",
       "features": ['conversation', 'code']
     },
     {
@@ -946,6 +1080,7 @@ export const chat_models = {
       "name": "claude-3-5-sonnet-all",
       "token_count": "200k",
       "Magnification": 1.5,
+      "provider": "Anthropic",
       "features": ['conversation', 'code', 'image_recognition', 'file']
     },
     {
@@ -953,6 +1088,7 @@ export const chat_models = {
       "name": "claude-3-5-haiku-20241022",
       "token_count": "200k",
       "Magnification": 0.5,
+      "provider": "Anthropic",
       "features": ['conversation', 'code']
     },
     {
@@ -960,6 +1096,7 @@ export const chat_models = {
       "name": "grok-2-1212",
       "token_count": "128k",
       "Magnification": 1,
+      "provider": "Xai",
       "features": ['conversation', 'code']
     },
     {
@@ -967,6 +1104,7 @@ export const chat_models = {
       "name": "grok-3",
       "token_count": "128k",
       "Magnification": 2.5,
+      "provider": "Xai",
       "features": ['conversation', 'code', 'image_recognition', 'drawing']
     },
     {
@@ -974,6 +1112,7 @@ export const chat_models = {
       "name": "grok-3-deepsearch",
       "token_count": "128k",
       "Magnification": 1,
+      "provider": "Xai",
       "features": ['conversation', 'code', 'image_recognition', 'internet']
     },
     {
@@ -981,20 +1120,23 @@ export const chat_models = {
       "name": "grok-3-reasoner",
       "token_count": "128k",
       "Magnification": 10,
+      "provider": "Xai",
       "features": ['conversation', 'code', 'image_recognition', 'internet']
     },
     {
       "id": "140",
       "name": "claude-3-7-sonnet-20250219",
-      "token_count": "32k",
+      "token_count": "200k",
       "Magnification": 2,
+      "provider": "Anthropic",
       "features": ['conversation', 'code', 'image_recognition', 'file']
     },
     {
       "id": "141",
       "name": "claude-3-7-sonnet-thinking",
-      "token_count": "32k",
+      "token_count": "200k",
       "Magnification": 3,
+      "provider": "Anthropic",
       "features": ['conversation', 'code', 'image_recognition', 'file', 'thinking']
     },
     {
@@ -1002,6 +1144,7 @@ export const chat_models = {
       "name": "deepseek-reasoner-all",
       "token_count": "64k",
       "Magnification": 0.875,
+      "provider": "deepseek",
       "features": ['conversation', 'code', 'file', 'internet', 'thinking']
     },
     {
@@ -1009,6 +1152,7 @@ export const chat_models = {
       "name": "gemini-2.0-flash-exp-image-generation",
       "token_count": "1000k",
       "Magnification": 1.25,
+      "provider": "Google",
       "features": ['conversation', 'code', 'file', 'drawing', 'image_recognition']
     },
     {
@@ -1016,6 +1160,7 @@ export const chat_models = {
       "name": "gemini-2.0-pro-exp-02-05",
       "token_count": "1000k",
       "Magnification": 2.5,
+      "provider": "Google",
       "features": ['conversation', 'code', 'file', 'image_recognition']
     },
     {
@@ -1023,6 +1168,7 @@ export const chat_models = {
       "name": "gemini-2.5-pro-exp-03-25",
       "token_count": "1000k",
       "Magnification": 0.63,
+      "provider": "Google",
       "features": ['conversation', 'code', 'file', 'image_recognition']
     },
     {
@@ -1030,6 +1176,7 @@ export const chat_models = {
       "name": "qwq-32b-preview",
       "token_count": "128k",
       "Magnification": 0.73,
+      "provider": "通义千问",
       "features": ['conversation', 'code']
     },
     {
@@ -1037,6 +1184,7 @@ export const chat_models = {
       "name": "qwq-32b",
       "token_count": "128k",
       "Magnification": 0.73,
+      "provider": "通义千问",
       "features": ['conversation', 'code']
     },
     {
@@ -1044,6 +1192,7 @@ export const chat_models = {
       "name": "Doubao-1.5-lite-32k",
       "token_count": "32k",
       "Magnification": 0.15,
+      "provider": "字节豆包",
       "features": ['conversation', 'code']
     },
     {
@@ -1051,6 +1200,7 @@ export const chat_models = {
       "name": "Doubao-1.5-pro-32k",
       "token_count": "32k",
       "Magnification": 0.4,
+      "provider": "字节豆包",
       "features": ['conversation', 'code']
     },
     {
@@ -1058,6 +1208,7 @@ export const chat_models = {
       "name": "Doubao-1.5-vision-pro-32k",
       "token_count": "32k",
       "Magnification": 1.5,
+      "provider": "字节豆包",
       "features": ['conversation', 'code', 'image_recognition']
     },
     {
@@ -1065,6 +1216,7 @@ export const chat_models = {
       "name": "Doubao-1.5-pro-256k",
       "token_count": "256k",
       "Magnification": 2.5,
+      "provider": "字节豆包",
       "features": ['conversation', 'code']
     },
     {
@@ -1072,6 +1224,7 @@ export const chat_models = {
       "name": "gpt-4o-image",
       "token_count": "2k",
       "Magnification": "0.04/次",
+      "provider": "OpenAi",
       "features": ['drawing', 'image_recognition']
     },
     {
@@ -1079,7 +1232,33 @@ export const chat_models = {
       "name": "gpt-4o-image-vip",
       "token_count": "2k",
       "Magnification": "0.1/次",
+      "provider": "OpenAi",
       "features": ['drawing', 'image_recognition']
     }
   ]
-}
+
+  const groupedByprovider = {};
+  originalModels.forEach(model => {
+    if (!groupedByprovider[model.provider]) {
+      groupedByprovider[model.provider] = [];
+    }
+    groupedByprovider[model.provider].push(model);
+  });
+
+  let newId = 1;
+  const optimizedModels = [];
+
+  Object.keys(groupedByprovider).forEach(provider => {
+    const modelsInGroup = groupedByprovider[provider];
+    modelsInGroup.forEach(model => {
+      optimizedModels.push({
+        ...model,
+        id: newId++
+      });
+    });
+  });
+
+  return optimizedModels;
+};
+
+export const chat_models = getOptimizedModels();

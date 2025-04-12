@@ -1,56 +1,46 @@
+import { GPTSoVITS } from '../utils/providers/TTsModels/GPTSoVITS/GPTSoVITS.js';
+import YAML from 'yaml';
 import fs from 'fs';
-import { TTSCreate } from '../utils/providers/TTsModels/acgnai/tts.js';
+import path from 'path';
+import axios from 'axios';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-async function handleTTS(e, speakers, answer, fetch, _path) {
+async function downloadAudioFile(url, destination) {
+  const writer = fs.createWriteStream(destination);
+  const response = await axios({
+    url,
+    method: 'GET',
+    responseType: 'stream',
+  });
+
+  return new Promise((resolve, reject) => {
+    response.data.pipe(writer);
+    writer.on('finish', resolve);
+    writer.on('error', reject);
+  });
+}
+
+async function handleTTS(e, answer) {
   try {
-    let record_url = await TTSCreate(answer);
+    const configPath = path.join(__dirname, '../config/message.yaml');
+    console.log(configPath)
+    let config = {};
+    if (fs.existsSync(configPath)) {
+      const file = fs.readFileSync(configPath, 'utf8');
+      const configs = YAML.parse(file);
+      config = configs.pluginSettings;
+    }
+    const HgGPTSovitsUrl = config?.HgGPTSovitsUrl;
+    const voiceExamplePath = path.join(__dirname, '../resources/tts/generated.wav');
+    let record_url = await GPTSoVITS(answer, HgGPTSovitsUrl, voiceExamplePath);
+    const downloadPath = './resources/SoVits.mp3';
     if (!record_url) return;
-    /*
-        console.log(record_url)
-    
-        let savePath = `./resources/${Date.now()}.mp3`;
-    
-        const response = await fetch(record_url);
-        const buffer = await response.arrayBuffer();
-    
-        fs.writeFileSync(savePath, Buffer.from(buffer));
-    
-        await e.reply(segment.record(savePath));
-    
-        // 延迟删除临时文件
-        setTimeout(() => {
-          fs.unlink(savePath, (err) => {
-            if (err) console.log('删除临时音频文件失败:', err);
-          });
-        }, 5000);
-    */
-    await e.reply(segment.record(record_url));
+    await downloadAudioFile(record_url, downloadPath);
+    await e.reply(segment.record(downloadPath));
   } catch (error) {
     console.log('TTS处理错误:', error);
-  }
-
-  async function AnimeTTS(speakers, text) {
-    const url = 'https://yuanpluss.online:3000/v1/tts/create';
-    try {
-      const response = await fetch(url, {
-        method: 'post',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          text,
-          referenceId: speakers
-        })
-      });
-      if (!response.ok) {
-        return null;
-      }
-      const data = await response.text();
-      return data.trim();
-    } catch (error) {
-      console.error('Error:', error);
-      return null;
-    }
   }
 }
 

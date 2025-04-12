@@ -641,12 +641,7 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {
-        const speakers = aiSettings.chatgpt.ai_tts_role;
-        console.log(aiSettings.chatgpt.ai_tts_role);
-        const roles = Anime_tts_roles(speakers);
-        if (roles) {
-          await handleTTS(e, roles, Messages, fetch, _path);
-        }
+        await handleTTS(e, Messages);
       }
       const isDrawModel = (() => {
         try {

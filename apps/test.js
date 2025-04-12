@@ -350,7 +350,8 @@ export class ExamplePlugin extends plugin {
         KimiModels: ['cu52bqh7l5gqdkncdtnk(探索版)', 'conpgbgt7lagcavlq340(塔罗师)', 'conpdjgt7lag4rq67pt0(爆款网文生成器)', 'conph28t7lagf3d1bhq0(学术搜索)', 'conpg00t7lagbbsfqkq0(提示词专家)', 'conpdi8t7lag4rq67pqg(小红书爆款生成器)'],
         KimiRefreshTokens: ['eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1c2VyLWNlbnRlciIsImV4cCI6MTc0NTkyOTQyMSwiaWF0IjoxNzM4MTUzNDIxLCJqdGkiOiJjdWQxcmo4MWdlbTdkbHVzdmgyZyIsInR5cCI6InJlZnJlc2giLCJhcHBfaWQiOiJraW1pIiwic3ViIjoiY3VkMXJqODFnZW03ZGx1c3ZoMWciLCJzcGFjZV9pZCI6ImN1NnJ0bzdmdGFlYWRhcjExMW0wIiwiYWJzdHJhY3RfdXNlcl9pZCI6ImN1NnJ0bzdmdGFlYWRhcjExMWxnIiwic3NpZCI6IjE3MzAzMDM2NDc2Njk0NjU5NzQiLCJkZXZpY2VfaWQiOiI3MzU0MzU3NDk4MzQzNTk5MzYwIn0.CuplPF_7HaP8OR6Q9LkRImmBriATgYwNq8Xxy0PSG17qlO_TNmAcG_xkkLPwpmqaWGwBU_1Zq06pBtTtEu76Uw'],
         GlmModel: 'glm-4-plus',
-        GlmRefreshTokens: ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZmViYzYyN2QzODI0Mjg4OTVlOWIxNDZhOWUzYTU5OSIsImV4cCI6MTc1NDQ4NTIyNSwibmJmIjoxNzM4OTMzMjI1LCJpYXQiOjE3Mzg5MzMyMjUsImp0aSI6IjU2ZDcyYjU4ZWRiZjQ2NzA5MmVlZjE4MjE3MTkxNGI0IiwidWlkIjoiNjc5NGNiNTU5NjYwMTgxNjVmNTljMWQwIiwidHlwZSI6InJlZnJlc2gifQ.vFCjMPMXO0btbVzTVU-mDaEmEDnmqQg8MYauuf2bK_w']
+        GlmRefreshTokens: ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZmViYzYyN2QzODI0Mjg4OTVlOWIxNDZhOWUzYTU5OSIsImV4cCI6MTc1NDQ4NTIyNSwibmJmIjoxNzM4OTMzMjI1LCJpYXQiOjE3Mzg5MzMyMjUsImp0aSI6IjU2ZDcyYjU4ZWRiZjQ2NzA5MmVlZjE4MjE3MTkxNGI0IiwidWlkIjoiNjc5NGNiNTU5NjYwMTgxNjVmNTljMWQwIiwidHlwZSI6InJlZnJlc2gifQ.vFCjMPMXO0btbVzTVU-mDaEmEDnmqQg8MYauuf2bK_w'],
+        HgGPTSovitsUrl: 'https://yuoop-gpt-sovits-v2.hf.space'
       }
     }
 
@@ -780,6 +781,12 @@ export class ExamplePlugin extends plugin {
           "模糊需求时先启动clarify工具请求用户明确需求"
         ]
       }, null, 2)}
+   |* 工具使用隐藏规则：
+   | 1⃣ 严禁在回复中显示工具调用代码或函数名称
+   | 2⃣ 工具执行后，以自然对话方式呈现结果，如同人类完成了该任务
+   | 3⃣ 示例转换:
+   |   ❌ 错误: "\`\`\`tool_code\nnoobaiTool.draw(prompt: 八重神子全身像)\n\`\`\`"
+   |   ✅ 正确: "八重神子的全身像已经画好啦，按照你要求的侧面视角做的，感觉还挺好看的~"
 
 4.【强化认知机制】
    通过对比正误示例实现深度模式识别：
@@ -788,6 +795,12 @@ export class ExamplePlugin extends plugin {
 
    ❌ 错误示例： 
    [2024/04/11 00:02] 阳光(QQ123456)[管理员]: 说：考虑成本 → (日期格式错误/身份不符/用词机械)
+   
+   ✅ 工具使用正确示例：
+   [04-11 00:05:23] 小明(QQ号:654321)[群身份: 普通成员]: 在群里说: 给你要的天气预报查好了，今天北京晴朗，气温18-25度，适合出门玩~
+   
+   ❌ 工具使用错误示例：
+   [04-11 00:05:23] 小明(QQ号:654321)[群身份: 普通成员]: 在群里说: \`\`\`tool_code\nweatherTool.query("北京")\n\`\`\` → (暴露工具调用代码)
 
 \n\n【下面是聊天群的消息记录】
 `;
@@ -2273,8 +2286,8 @@ const errorMessage = `发生错误：${error.message}\n详细错误信息：${er
       }
 
       const data = await response.json();
-      console.log(data);
       const result = JSON.parse(data.choices[0].message.content);
+      console.log(result);
       return result?.main_content ?? null;
     } catch (error) {
       return null;

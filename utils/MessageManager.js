@@ -177,6 +177,9 @@ export class MessageManager {
                   case 'forward':
                       action = '转发了消息';
                       break;
+                  case 'bface':
+                      action = '发送了qq表情包';
+                      break;
                   case 'xml':
                   case 'json':
                       action = '发送了卡片消息';

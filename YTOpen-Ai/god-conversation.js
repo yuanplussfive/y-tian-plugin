@@ -497,12 +497,7 @@ async function god_conversation(UploadFiles, extractCodeBlocks, extractAndRender
       let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
       let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
       if (aiSettings.chatgpt.ai_tts_open) {
-        const speakers = aiSettings.chatgpt.ai_tts_role;
-        console.log(aiSettings.chatgpt.ai_tts_role);
-        const roles = Anime_tts_roles(speakers);
-        if (roles) {
-          await handleTTS(e, roles, Messages, fetch, _path);
-        }
+        await handleTTS(e, Messages);
       }
       if (model == "gpt-4-dalle") {
         let result = await extractImageLinks2(answer)
