@@ -37,8 +37,8 @@ async function handleTTS(e, answer) {
     let record_url = await GPTSoVITS(answer, HgGPTSovitsUrl, voiceExamplePath);
     const downloadPath = './resources/SoVits.mp3';
     if (!record_url) return;
-    await downloadAudioFile(record_url, downloadPath);
-    await e.reply(segment.record(downloadPath));
+    //await downloadAudioFile(record_url, downloadPath);
+    await e.reply(segment.record(record_url));
   } catch (error) {
     console.log('TTS处理错误:', error);
   }
