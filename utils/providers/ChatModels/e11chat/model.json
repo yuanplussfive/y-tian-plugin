@@ -1,5 +1,11 @@
 {
   "models": {
+    "grok-3": {
+      "providerModelName": "grok-3-beta",
+      "aliases": [
+        "grok-3"
+      ]
+    },
     "llama-4-scout": {
       "providerModelName": "meta-llama/llama-4-scout-17b-16e-instruct",
       "aliases": [

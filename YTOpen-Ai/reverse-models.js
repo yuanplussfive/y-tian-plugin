@@ -260,7 +260,7 @@ export const getOptimizedModels = () => {
     model: "llama-3.3-70b",
     providers: 3,
     token: "32k",
-    provider: "meta",
+    provider: "Meta",
     features: ["conversation", "code"],
     auth: "无需"
   },
@@ -269,7 +269,7 @@ export const getOptimizedModels = () => {
     model: "llama-3.1-405b",
     providers: 1,
     token: "32k",
-    provider: "meta",
+    provider: "Meta",
     features: ["conversation", "code"],
     auth: "无需"
   },
@@ -278,7 +278,7 @@ export const getOptimizedModels = () => {
     model: "llama-3.2-3b",
     providers: 1,
     token: "8k",
-    provider: "meta",
+    provider: "Meta",
     features: ["conversation", "code"],
     auth: "无需"
   },
@@ -287,7 +287,7 @@ export const getOptimizedModels = () => {
     model: "llama-3.1-8b",
     providers: 1,
     token: "8k",
-    provider: "meta",
+    provider: "Meta",
     features: ["conversation", "code"],
     auth: "无需"
   },
@@ -296,7 +296,7 @@ export const getOptimizedModels = () => {
     model: "llama-3.3-70B",
     providers: 1,
     token: "32k",
-    provider: "meta",
+    provider: "Meta",
     features: ["conversation", "code"],
     auth: "无需"
   },
@@ -305,7 +305,7 @@ export const getOptimizedModels = () => {
     model: "llama-4-scout",
     providers: 1,
     token: "1000k",
-    provider: "meta",
+    provider: "Meta",
     features: ["conversation", "code"],
     auth: "无需"
   },
@@ -528,6 +528,24 @@ export const getOptimizedModels = () => {
     providers: 1,
     token: "64k",
     provider: "Google",
+    features: ["conversation", "code"],
+    auth: "无需"
+  },
+  {
+    id: 58,
+    model: "grok-3",
+    providers: 1,
+    token: "128k",
+    provider: "Xai",
+    features: ["conversation", "code"],
+    auth: "无需"
+  },
+  {
+    id: 59,
+    model: "llama-4-maverick",
+    providers: 1,
+    token: "1000k",
+    provider: "Meta",
     features: ["conversation", "code"],
     auth: "无需"
   }

@@ -846,7 +846,7 @@ export class ExamplePlugin extends plugin {
         const lastMessage = await limit(() =>
           buildMessageContent(
             { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
-            `我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: xxx'的格式, 每次只发送一条消息`,
+            `看了看你们的聊天记录, 我会优先关注最新的消息`,
             [],
             [],
             e.group

@@ -1,5 +1,17 @@
 {
   "models": {
+    "llama-4-scout": {
+      "providerModelName": "llama4scoutt",
+      "aliases": [
+        "llama-4-scout"
+      ]
+    },
+    "llama-4-maverick": {
+      "providerModelName": "llama4maverick",
+      "aliases": [
+        "llama-4-maverick"
+      ]
+    },
     "deepseek-v3-0324": {
       "providerModelName": "deepseekv3",
       "aliases": [
