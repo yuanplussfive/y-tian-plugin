@@ -900,3 +900,55 @@ body {
   display: block;
   margin: 1em auto;
 }
+
+/* 图标样式 */
+.model-container i {
+  font-size: 2rem;
+  /* 图标大小适中 */
+  color: #a892a8;
+  /* 浅灰紫色，更柔和 */
+  margin-right: 0.5rem;
+  /* 略微减少间距 */
+  vertical-align: middle;
+  /* 垂直居中图标 */
+}
+
+/* 标题样式 */
+.model-container h1 {
+  font-size: 1.5rem;
+  /* 略微减小字体 */
+  color: #555;
+  /* 深灰色，更接近信笺墨色 */
+  margin: 0;
+  /* 清除默认外边距 */
+  font-weight: normal;
+  /* 正常字体粗细，更显轻盈 */
+  line-height: 1.4;
+  /* 增加行高，更舒适 */
+}
+
+/* 模型名称的样式 */
+.model-container span {
+  color: #e91e63;
+  /* 浪漫的粉色 */
+  font-weight: bold;
+  /* 加粗，更突出 */
+  font-style: normal;
+  /* 取消斜体，更正式 */
+  border-bottom: 1px dotted #e91e63;
+  /* 粉色虚线下划线，增加可爱感 */
+}
+
+/* 整体容器样式 */
+.model-container {
+  padding: 1rem;
+  /* 增加内边距 */
+  border: 1px solid #ddd;
+  /* 浅灰色边框，模拟信笺 */
+  border-radius: 5px;
+  /* 圆角边框，更柔和 */
+  background-color: #f9f9f9;
+  /* 浅灰色背景，增加层次感 */
+  font-family: sans-serif;
+  /* 使用通用字体 */
+}

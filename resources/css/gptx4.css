@@ -1,0 +1,794 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+@import url('fontawesome-free-6.6.0-web/css/all.min.css');
+
+/* 全局样式 */
+* {
+ box-sizing: border-box;
+}
+
+body {
+ margin: 0;
+ font-family: "RuanMengKeAiShouXieZi", sans-serif;
+ font-weight: 700;
+ background-color: #f8f9fd;
+ color: #000000;
+ line-height: 1.6;
+ font-size: 24px;
+ background-image: url('樱花.png');
+ background-size: cover;
+ background-attachment: fixed;
+}
+
+/* Markdown内容容器 */
+.markdown-content {
+ font-family: "RuanMengKeAiShouXieZi", sans-serif;
+ font-weight: 400;
+ font-size: 22px;
+ padding: 5px;
+ border-radius: 8px;
+ color: #000000;
+ overflow-wrap: break-word;
+}
+
+/* 标题样式 */
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+ font-family: 'jty', sans-serif;
+ color: #5b6af0;
+ margin-top: 24px;
+ margin-bottom: 16px;
+ line-height: 1.3;
+ text-shadow: none;
+}
+
+.markdown-content h1 {
+ font-size: 32px;
+}
+
+.markdown-content h2 {
+ font-size: 28px;
+}
+
+.markdown-content h3 {
+ font-size: 25px;
+}
+
+.markdown-content h4 {
+ font-size: 22px;
+}
+
+.markdown-content h5 {
+ font-size: 20px;
+}
+
+.markdown-content h6 {
+ font-size: 18px;
+}
+
+/* 段落样式 */
+.markdown-content p {
+ font-family: "RuanMengKeAiShouXieZi", sans-serif;
+ color: #000000;
+ font-size: 20px;
+ text-indent: 2em;
+ margin-bottom: 16px;
+ transition: color 0.3s ease;
+ white-space: pre-wrap;
+ font-weight: 500;
+}
+
+.markdown-content p:hover {
+ color: #2c3e50;
+}
+
+.markdown-content a {
+ color: #00c3ff;
+ font-family: "JetBrains Mono", "Fira Code", "Inconsolata", monospace;
+ text-decoration: none;
+ position: relative;
+ padding: 2px 4px;
+ transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+ background: linear-gradient(90deg, rgba(0, 195, 255, 0.1) 0%, rgba(0, 195, 255, 0) 100%);
+ border-radius: 3px;
+}
+
+.markdown-content a::before {
+ content: '';
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ width: 100%;
+ height: 1px;
+ background: linear-gradient(90deg, #00c3ff 0%, #00ffd5 100%);
+ transform: scaleX(0);
+ transform-origin: left;
+ transition: transform 0.3s ease;
+}
+
+.markdown-content a:hover {
+ color: #00ffd5;
+ text-shadow: 0 0 8px rgba(0, 195, 255, 0.4);
+ background: linear-gradient(90deg, rgba(0, 195, 255, 0.15) 0%, rgba(0, 255, 213, 0.05) 100%);
+}
+
+.markdown-content a:hover::before {
+ transform: scaleX(1);
+}
+
+.markdown-content a:active {
+ transform: translateY(1px);
+}
+
+/* 添加小图标 */
+.markdown-content a::after {
+ content: '↗';
+ font-size: 0.85em;
+ margin-left: 3px;
+ opacity: 0;
+ transform: translateX(-5px);
+ transition: all 0.2s ease;
+}
+
+.markdown-content a:hover::after {
+ opacity: 1;
+ transform: translateX(0);
+}
+
+/* 列表样式 */
+.markdown-content ol,
+.markdown-content ul {
+ padding-left: 40px;
+ margin-bottom: 16px;
+}
+
+.markdown-content ol li,
+.markdown-content ul li {
+ margin-bottom: 8px;
+}
+
+/* 内联代码样式 */
+.markdown-content code {
+ font-size: 20px;
+ background-color: #f1f2fd;
+ padding: 2px 4px;
+ border-radius: 4px;
+ color: #e74c3c;
+ font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
+ white-space: pre-wrap;
+ word-break: break-word;
+}
+
+/* 代码块样式 */
+.markdown-content pre {
+ padding-left: 40px; /* 调整以适应行号宽度 */
+ position: relative;
+ /* 相对定位以便伪元素定位 */
+ background-color: #2f3136;
+ /* 更深的背景色，模仿Discord终端 */
+ color: #dcddde;
+ padding: 40px 20px 20px 20px;
+ /* 增加顶部内边距以容纳终端圆点 */
+ border-radius: 8px;
+ box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+ overflow-x: auto;
+ font-size: 20px;
+ font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
+ white-space: pre-wrap;
+ word-break: break-word;
+ overflow-wrap: break-word;
+ text-indent: 0;
+ text-shadow: none;
+ border: 1px solid #444444;
+ /* 边框颜色调整 */
+}
+
+/* 代码块顶部语言标签 */
+.markdown-content pre[data-lang]::after {
+ content: attr(data-lang);
+ position: absolute;
+ top: 8px;
+ right: 8px;
+ background-color: #7289da;
+ color: #ffffff;
+ padding: 2px 6px;
+ border-radius: 3px;
+ font-size: 1em;
+ line-height: 1.5;
+ text-transform: uppercase;
+ pointer-events: none;
+ height: auto;
+ max-height: 24px;
+ /* 限制最大高度 */
+ display: inline-block;
+ /* 使元素的宽度自适应内容 */
+ white-space: nowrap;
+ /* 防止文本换行 */
+}
+
+.markdown-content pre[data-lang]:not([data-lang=""])::before {
+ display: block;
+}
+
+/* 代码块顶部的红绿黄圆点 */
+.markdown-content pre::before {
+ content: '';
+ position: absolute;
+ top: 12px;
+ left: 20px;
+ width: 17px;
+ height: 17px;
+ border-radius: 50%;
+ background-color: #ff5f56;
+ /* 红色圆点 */
+ box-shadow: 30px 0 0 #ffbd2e, 60px 0 0 #27c93f;
+ /* 黄、绿色圆点 */
+}
+
+/* 高亮样式 */
+.markdown-content .hljs {
+ background-color: transparent;
+ color: #dcddde;
+ padding: 0;
+ border-radius: 0;
+ font-size: 20px;
+ font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
+ white-space: pre-wrap;
+ word-break: break-word;
+ overflow-wrap: break-word;
+ text-indent: 0;
+ text-shadow: none;
+}
+
+.markdown-content .hljs-comment,
+.markdown-content .hljs-quote {
+ color: #859900;
+ font-style: italic;
+}
+
+.markdown-content .hljs-keyword,
+.markdown-content .hljs-selector-tag,
+.markdown-content .hljs-subst {
+ color: #7289da;
+ font-weight: bold;
+}
+
+.markdown-content .hljs-literal,
+.markdown-content .hljs-number,
+.markdown-content .hljs-tag .hljs-attr {
+ color: #b58900;
+}
+
+.markdown-content .hljs-string,
+.markdown-content .hljs-doctag {
+ color: #2aa198;
+}
+
+.markdown-content .hljs-title,
+.markdown-content .hljs-section,
+.markdown-content .hljs-selector-id {
+ color: #cb4b16;
+ font-weight: bold;
+}
+
+.markdown-content .hljs-type,
+.markdown-content .hljs-class .hljs-title {
+ color: #dc322f;
+}
+
+.markdown-content .hljs-tag,
+.markdown-content .hljs-name,
+.markdown-content .hljs-attribute {
+ color: #268bd2;
+}
+
+.markdown-content .hljs-regexp,
+.markdown-content .hljs-link {
+ color: #d33682;
+}
+
+.markdown-content .hljs-symbol,
+.markdown-content .hljs-bullet {
+ color: #ffc83d;
+}
+
+.markdown-content .hljs-built_in,
+.markdown-content .hljs-builtin-name {
+ color: #6c71c4;
+}
+
+.markdown-content .hljs-meta {
+ color: #ff79c6;
+ font-weight: bold;
+}
+
+.markdown-content .hljs-deletion {
+ background: #f44747;
+ color: #ffffff;
+ text-decoration: none;
+}
+
+.markdown-content .hljs-addition {
+ background: #4ec9b0;
+ color: #ffffff;
+ text-decoration: none;
+}
+
+.markdown-content .hljs-emphasis {
+ font-style: italic;
+}
+
+.markdown-content .hljs-strong {
+ font-weight: bold;
+}
+
+/* 为所有 code 块提供基本样式 */
+.markdown-content pre code {
+ display: block;
+ padding: 20px;
+ background-color: #2f3136;
+ color: #dcddde;
+ border-radius: 8px;
+ overflow-x: auto;
+ font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
+ font-size: 20px;
+ white-space: pre-wrap;
+ word-break: break-word;
+}
+
+/* 如果没有特定的语言类，应用默认样式 */
+.markdown-content pre:not([data-lang]) {
+ background-color: #2f3136;
+ color: #dcddde;
+}
+
+/* 特定语言的代码块样式 */
+.markdown-content pre code.html,
+.markdown-content pre code.python,
+.markdown-content pre code.css,
+.markdown-content pre code.javascript,
+.markdown-content pre code.java,
+.markdown-content pre code.php,
+.markdown-content pre code.ruby,
+.markdown-content pre code.swift,
+.markdown-content pre code.csharp,
+.markdown-content pre code.go,
+.markdown-content pre code.vue {
+ color: inherit;
+ background: none;
+}
+
+/* 滚动条样式 */
+.markdown-content pre::-webkit-scrollbar {
+ width: 8px;
+ height: 8px;
+ background-color: #2f3136;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb {
+ background-color: #7289da;
+ border-radius: 10px;
+}
+
+.markdown-content pre::-webkit-scrollbar-thumb:hover {
+ background-color: #5865f2;
+}
+
+.markdown-content pre::-webkit-scrollbar-track {
+ background-color: #36393f;
+ border-radius: 10px;
+}
+
+/* 引用块样式 */
+.markdown-content blockquote {
+ border-left: 4px solid #7289da;
+ padding-left: 16px;
+ margin-left: 0;
+ font-style: italic;
+ color: #72767d;
+ background-color: #f6f7fc;
+ border-radius: 4px;
+ padding: 10px 16px;
+}
+
+/* 图片样式 */
+.markdown-content img {
+ max-width: 100%;
+ height: auto;
+ display: block;
+ margin: 1em auto;
+ border-radius: 8px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 用户头像样式 */
+.user img,
+.user2 img {
+ max-width: 100%;
+ height: auto;
+ display: block;
+ margin: 0;
+ box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+ border-radius: 50%;
+ width: 50px;
+ height: 50px;
+ object-fit: cover;
+}
+
+/* 容器样式 */
+.container {
+ max-width: 1000px;
+ margin: 20px auto;
+ box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+ display: flex;
+ flex-direction: column;
+ flex-wrap: wrap;
+ justify-content: space-evenly;
+ padding: 20px;
+ background-color: rgba(255, 255, 255, 0.95);
+ border-radius: 16px;
+ border: 1px solid #e3e5e8;
+}
+
+/* 用户消息气泡样式 */
+.user,
+.user2 {
+ background-color: #ffffff;
+ display: flex;
+ flex-direction: column;
+ width: 100%;
+ margin-bottom: 24px;
+ position: relative;
+ overflow: visible;
+}
+
+.user {
+ align-items: flex-start;
+}
+
+.user2 {
+ align-items: flex-end;
+}
+
+/* 头部样式 */
+.header {
+ font-family: "NZBZ", sans-serif;
+ text-align: center;
+ margin: 0 auto 24px;
+ padding: 16px;
+ width: 100%;
+ position: relative;
+ background: #5865f2;
+ border-radius: 12px;
+ color: white;
+ box-shadow: 0 4px 8px rgba(88, 101, 242, 0.2);
+}
+
+.header .model-container {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+
+.header h1 {
+ font-family: 'Chinese', sans-serif;
+ font-weight: 600;
+ font-size: 24px;
+ margin: 0;
+ color: white;
+}
+
+.header h1 span {
+ background-color: #4752c4;
+ padding: 4px 8px;
+ border-radius: 4px;
+ margin-left: 8px;
+ font-size: 20px;
+}
+
+/* 头部下方的渐变条 */
+.header-bar {
+ height: 4px;
+ background: linear-gradient(90deg, #5865f2, #99aab5, #5865f2);
+ background-size: 200% 200%;
+ animation: gradient 8s ease infinite;
+ border-radius: 2px;
+ margin: 16px auto 0;
+ width: 90%;
+}
+
+@keyframes gradient {
+ 0% {
+   background-position: 0% 50%;
+ }
+ 50% {
+   background-position: 100% 50%;
+ }
+ 100% {
+   background-position: 0% 50%;
+ }
+}
+
+/* 用户头像和名称容器 */
+#title {
+ display: flex;
+ align-items: center;
+ margin-bottom: 8px;
+}
+
+/* 用户名样式 */
+.user .name,
+.user2 .name {
+ font-size: 20px;
+ font-family: "RuanMengKeAiShouXieZi", sans-serif;
+ margin-left: 12px;
+}
+
+.user .name {
+ color: #5865f2;
+}
+
+.user2 .name {
+ color: #eb459e;
+ margin-right: 12px;
+}
+
+/* 消息气泡样式 */
+.user .message,
+.user2 .message {
+ position: relative;
+ padding: 12px 16px;
+ border-radius: 16px;
+ box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+ line-height: 1.6;
+ max-width: 80%;
+ word-wrap: break-word;
+ margin-top: 4px;
+}
+
+.user .message {
+ background-color: #f2f3f5;
+ border-radius: 0 16px 16px 16px;
+ align-self: flex-start;
+ margin-left: 64px;
+}
+
+.user2 .message {
+ background-color: #5865f2;
+ color: white;
+ border-radius: 16px 0 16px 16px;
+ align-self: flex-end;
+ margin-right: 64px;
+}
+
+.user2 .markdown-content {
+ color: white;
+}
+
+.user2 .markdown-content p {
+ color: white;
+}
+
+.user2 .markdown-content h1,
+.user2 .markdown-content h2,
+.user2 .markdown-content h3,
+.user2 .markdown-content h4,
+.user2 .markdown-content h5,
+.user2 .markdown-content h6 {
+ color: #ffffff;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+ .container {
+   padding: 16px;
+ }
+ 
+ .user .message,
+ .user2 .message {
+   max-width: 90%;
+ }
+ 
+ .header h1 {
+   font-size: 20px;
+ }
+}
+
+@media (max-width: 480px) {
+ .user .message,
+ .user2 .message {
+   max-width: 95%;
+ }
+ 
+ .content {
+   font-size: 16px;
+ }
+ 
+ .header h1 {
+   font-size: 18px;
+ }
+}
+
+/* 对话形式的文本 */
+.markdown-content q {
+ font-family: "RuanMengKeAiShouXieZi", sans-serif;
+ font-size: 20px;
+ color: #7289da;
+ background-color: #f6f7fc;
+ padding: 2px 6px;
+ border-radius: 4px;
+ border: 1px solid #e3e5e8;
+ position: relative;
+}
+
+.markdown-content q::before {
+ content: '"';
+ font-size: 24px;
+ color: #7289da;
+ position: absolute;
+ left: -8px;
+ top: -6px;
+}
+
+.markdown-content q::after {
+ content: '"';
+ font-size: 24px;
+ color: #7289da;
+ position: absolute;
+ right: -8px;
+ bottom: -6px;
+}
+
+/* 增强的引用块样式 */
+.markdown-content blockquote {
+ border-left: 4px solid #7289da;
+ background-color: #f6f7fc;
+ color: #4f5660;
+ padding: 12px 16px;
+ border-radius: 8px;
+ font-style: normal;
+ position: relative;
+ margin: 16px 0;
+}
+
+/* 强调文本样式 */
+.markdown-content .highlight {
+ background-color: #ffeaa7;
+ color: #e84393;
+ padding: 2px 4px;
+ border-radius: 4px;
+}
+
+/* 特定符号包裹的文本样式 */
+.markdown-content .double-star {
+ color: #7289da;
+ font-weight: bold;
+}
+
+.markdown-content .single-underline {
+ text-decoration: underline;
+ color: #43b581;
+}
+
+.markdown-content .angle-bracket {
+ background-color: #f6f7fc;
+ color: #7289da;
+ padding: 2px 4px;
+ border-radius: 4px;
+}
+
+/* 图片文本样式 */
+.markdown-content .image-text {
+ text-align: center;
+ font-style: italic;
+ color: #72767d;
+ margin-top: 8px;
+ font-size: 16px;
+}
+
+/* 表格样式优化 */
+.markdown-content table {
+ width: 100%;
+ border-collapse: collapse;
+ margin-bottom: 16px;
+ border-radius: 8px;
+ overflow: hidden;
+ border: 1px solid #e3e5e8;
+}
+
+.markdown-content th,
+.markdown-content td {
+ border: 1px solid #e3e5e8;
+ text-align: left;
+ padding: 10px;
+}
+
+.markdown-content th {
+ background-color: #5865f2;
+ color: white;
+}
+
+.markdown-content tr:nth-child(even) {
+ background-color: #f6f7fc;
+}
+
+.markdown-content tr:hover {
+ background-color: #ebedf0;
+}
+
+/* KaTeX 样式 */
+.katex {
+ font-family: "KaTeX_Caligraphic", "KaTeX_Main", "KaTeX_AMS", Arial !important;
+ font-size: 1em !important;
+ white-space: normal;
+ display: inline-block !important;
+ max-width: 100%;
+ min-width: 0;
+}
+
+/* 字体引入 */
+@font-face {
+ font-family: "jty";
+ src: url("jty.OTF");
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: "Inconsolata";
+ src: url("Inconsolata-VariableFont_wdth,wght.ttf");
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: "NZBZ";
+ src: url("NZBZ.ttf");
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: "RuanMengKeAiShouXieZi";
+ src: url("TengXiangJiaLiDaYuanJian-1.ttf");
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: "TengXiangJiaLiZhongYuanJian";
+ src: url("SanJiYuanTiJian-Zhong-2.ttf");
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: "Chinese";
+ src: url("ZCOOLQingKeHuangYou-Regular.ttf");
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: "SourceCodePro-Italic-VariableFont_wght";
+ src: url("SourceCodePro-Italic-VariableFont_wght.ttf");
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: "KaTeX_Main";
+ src: url("KaTeX_Main-Regular.ttf") format("truetype");
+ font-weight: normal;
+ font-style: normal;
+}
+
+@font-face {
+ font-family: "KaTeX_Caligraphic";
+ src: url("KaTeX_Caligraphic-Bold.ttf") format("truetype");
+ font-weight: normal;
+ font-style: normal;
+}

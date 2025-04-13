@@ -47,7 +47,7 @@ export class example extends plugin {
                     permission: 'master'
                 },
                 {
-                    reg: "^#图片渲染使用(markdown|mathjax)$",
+                    reg: "^#图片渲染使用(1|2|3|4)$",
                     fnc: 'pictureStyles',
                     permission: 'master'
                 },
@@ -319,9 +319,23 @@ export class example extends plugin {
 
     async pictureStyles(e) {
         let data = readJsonFile(dataFilePath);
-        data.chatgpt.pictureStyles = e.msg.includes("mathjax");
+        const renderModes = {
+            "1": "default",
+            "2": "cute",
+            "3": "chatroom",
+            "4": "simple"
+        };
+        const reg = /^#图片渲染使用(1|2|3|4)$/;
+        let userInput = e.msg;
+        const match = userInput.match(reg);
+        if (match) {
+            const mode = match[1];
+            data.chatgpt.viewStyles = renderModes[mode] || "default";
+        } else {
+            console.log("输入不合法，未匹配到有效的渲染模式");
+        }
         writeJsonFile(dataFilePath, data);
-        e.reply(`AI图片回复方式已使用${data.chatgpt.pictureStyles ? 'mathjax' : 'markdown'}`);
+        e.reply(`AI图片回复方式已使用 ${data.chatgpt.viewStyles} 模式`);
     }
 
     async delete_prompts(e) {

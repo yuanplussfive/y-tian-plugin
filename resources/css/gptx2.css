@@ -1,49 +1,8 @@
-/* 引入字体 */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 @import url('fontawesome-free-6.6.0-web/css/all.min.css');
 
-/* 字体定义 */
-@font-face {
-    font-family: "jty";
-    src: url("jty.OTF");
-}
-@font-face {
-    font-family: "Inconsolata";
-    src: url("Inconsolata-VariableFont_wdth,wght.ttf");
-}
-@font-face {
-    font-family: "NZBZ";
-    src: url("NZBZ.ttf");
-}
-@font-face {
-    font-family: "RuanMengKeAiShouXieZi";
-    src: url("JingNanMaiYuanTi-2.otf");
-}
-@font-face {
-    font-family: "TengXiangJiaLiZhongYuanJian";
-    src: url("SanJiYuanTiJian-Zhong-2.ttf");
-}
-@font-face {
-    font-family: "Chinese";
-    src: url("ZCOOLQingKeHuangYou-Regular.ttf");
-}
-@font-face {
-    font-family: "SourceCodePro-Italic-VariableFont_wght";
-    src: url("SourceCodePro-Italic-VariableFont_wght.ttf");
-}
-@font-face {
-    font-family: "KaTeX_Main";
-    src: url("KaTeX_Main-Regular.ttf") format("truetype");
-}
-@font-face {
-    font-family: "KaTeX_Caligraphic";
-    src: url("KaTeX_Caligraphic-Bold.ttf") format("truetype");
-}
-
 /* 全局样式 */
-*,
-*::before,
-*::after {
+* {
     box-sizing: border-box;
 }
 
@@ -51,285 +10,246 @@ body {
     margin: 0;
     font-family: "RuanMengKeAiShouXieZi", sans-serif;
     font-weight: 700;
-    background-color: #f5f5f5;
-    color: #000;
+    background-color: #f5e9ff;
+    background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="3" fill="%23ffb6c1"/><circle cx="60" cy="40" r="4" fill="%23add8e6"/><circle cx="80" cy="70" r="5" fill="%23ffb6c1"/></svg>');
+    color: #5a3e5a;
     line-height: 1.6;
     font-size: 24px;
 }
 
-/* 容器样式 */
-.container {
-    max-width: 1000px;
-    margin: 20px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-}
-
-/* 头部样式 */
-.header {
-    position: relative;
-    text-align: center;
-    padding: 15px;
-    background: #f0f8ff;
-    border: 3px solid #daeeff;
-    border-radius: 50% 20% 50% 20% / 20% 50% 20% 50%;
-    font-family: "NZBZ", sans-serif;
-}
-
-.header h1 {
-    font-family: "Chinese", sans-serif;
-    font-weight: 600;
-    font-size: 28px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: #2c3e50;
-    margin: 0;
-    text-shadow: 2px 2px 0 rgba(194, 228, 255, 0.758);
-    transform: translateX(25px);
-}
-
-.header::before,
-.header::after {
-    content: "";
-    position: absolute;
-    background: #f0f8ff;
-    border: 3px solid #dbefff;
-    border-radius: 50%;
-}
-
-.header::before {
-    top: -15px;
-    left: 20%;
-    width: 100px;
-    height: 50px;
-}
-
-.header::after {
-    bottom: -15px;
-    right: 20%;
-    width: 80px;
-    height: 40px;
-}
-
-/* 头部下方的动态渐变条 */
-.header-bar {
-    height: 6px;
-    background: linear-gradient(135deg, #4682b4, #87ceeb, #4682b4);
-    background-size: 200% 200%;
-    animation: gradient 8s ease infinite;
-    border-radius: 3px;
-    width: 70%;
-    margin: 15px auto 0;
-}
-
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* 用户头像样式 */
-.user img,
-.user2 img {
-    width: 75px;
-    height: 75px;
-    object-fit: cover;
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(89, 124, 124, 0.6);
-    margin: 20px auto;
-}
-
-.user img {
-    box-shadow: 0 2px 8px rgba(87, 85, 85, 0.8);
-}
-
-/* 用户名样式 */
-.user .name,
-.user2 .name {
-    font-size: 26px;
-    padding-bottom: 10px;
+/* Markdown内容容器 */
+.markdown-content {
     font-family: "RuanMengKeAiShouXieZi", sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    padding: 5px;
+    border-radius: 18px;
+    color: #5a3e5a;
+    overflow-wrap: break-word;
+    background-color: #fff;
+    text-rendering: optimizeLegibility; /* 或 geometricPrecision */
+    -webkit-font-smoothing: antialiased; /* 针对 WebKit 浏览器 */
+    -moz-osx-font-smoothing: grayscale; /* 针对 Firefox */
 }
-
-.user .name {
-    color: #ff8fae;
-}
-
-.user2 .name {
-    text-align: right;
-    color: #60fcf4;
-}
-
-/* 消息气泡通用样式 */
-.user,
-.user2 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.75);
-    border: 1px solid #e0e0e0;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
-                0 2px 6px rgba(0, 0, 0, 0.06);
-    position: relative;
-    overflow: visible;
-    transition: all 0.3s ease;
-}
-
-.user2 {
-    align-items: flex-end;
-    background: rgba(240, 248, 255, 0.5) linear-gradient(135deg, #f0f8ff 25%, #e6f2ff 25%, #e6f2ff 50%, #f0f8ff 50%, #f0f8ff 75%, #e6f2ff 75%, #e6f2ff);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-    border-color: #b0c4de;
-}
-
-.user2:hover {
-    border-color: #87cefa;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
-                0 2px 6px rgba(0, 0, 0, 0.1),
-                inset 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* 消息内容样式 */
-.message {
-    position: relative;
-    padding: 12px 15px;
-    border-radius: 12px;
-    background-color: #ecfffe;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    line-height: 1.6;
-    margin-top: 10px;
-    max-width: 100%;
-    word-wrap: break-word;
-}
-
-.user2 .message {
-    background-color: #fedde6;
-}
-
-/* 消息气泡指示箭头 */
-.message::after {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-    border: 10px solid transparent;
-}
-
-.user .message::after {
-    left: -18px;
-    top: 10px;
-    border-right-color: #ecfffe;
-}
-
-.user2 .message::after {
-    right: -18px;
-    top: 10px;
-    border-left-color: #fedde6;
-}
-
-/* 消息文本样式 */
-.message p {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-}
-
-
 
 /* 标题样式 */
-.markdown-content h1, 
-.markdown-content h2, 
-.markdown-content h3, 
-.markdown-content h4, 
-.markdown-content h5, 
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
 .markdown-content h6 {
     font-family: 'jty', sans-serif;
-    color: #2c3e50;
-    margin: 24px 0 16px;
+    color: #9370db;
+    margin-top: 24px;
+    margin-bottom: 16px;
     line-height: 1.3;
+    text-shadow: 1px 1px 2px rgba(147, 112, 219, 0.2);
+    position: relative;
+    padding-left: 15px;
+    border-bottom: 2px dashed #ffb6c1;
+    padding-bottom: 5px;
 }
 
-.markdown-content h1 { font-size: 32px; }
-.markdown-content h2 { font-size: 28px; }
-.markdown-content h3 { font-size: 25px; }
-.markdown-content h4 { font-size: 22px; }
-.markdown-content h5 { font-size: 20px; }
-.markdown-content h6 { font-size: 18px; }
+.markdown-content h1::before,
+.markdown-content h2::before,
+.markdown-content h3::before {
+    content: '♡';
+    position: absolute;
+    left: 0;
+    color: #ff6b9d;
+}
+
+.markdown-content h1 {
+    font-size: 32px;
+}
+
+.markdown-content h2 {
+    font-size: 28px;
+}
+
+.markdown-content h3 {
+    font-size: 25px;
+}
+
+.markdown-content h4 {
+    font-size: 22px;
+}
+
+.markdown-content h5 {
+    font-size: 20px;
+}
+
+.markdown-content h6 {
+    font-size: 18px;
+}
 
 /* 段落样式 */
 .markdown-content p {
+    font-family: "RuanMengKeAiShouXieZi", sans-serif;
+    color: #5a3e5a;
     font-size: 20px;
     text-indent: 2em;
     margin-bottom: 16px;
-    font-weight: 500;
     transition: color 0.3s ease;
+    white-space: pre-wrap;
+    font-weight: 500;
+    line-height: 1.8;
+    background-image: linear-gradient(#ffe6ee 1px, transparent 1px);
+    background-size: 100% 32px;
+    background-position: 0 28px;
 }
 
 .markdown-content p:hover {
-    color: #2c3e50;
+    color: #9370db;
 }
 
-/* 链接样式 */
 .markdown-content a {
-    color: #31b3ff;
+    color: #ff6b9d;
+    font-family: "JetBrains Mono", "Fira Code", "Inconsolata", monospace;
     text-decoration: none;
-    transition: color 0.3s, text-shadow 0.3s;
+    position: relative;
+    padding: 2px 4px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #ffe6ee;
+    border-radius: 8px;
+    border-bottom: 2px solid #ffb6c1;
+}
+
+.markdown-content a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #ff6b9d;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
 }
 
 .markdown-content a:hover {
-    color: #1abc9c;
-    text-decoration: underline;
-    text-shadow: 0 0 5px rgba(26, 188, 156, 0.6);
+    color: #ff8fae;
+    background-color: #fff0f5;
+}
+
+.markdown-content a:hover::before {
+    transform: scaleX(1);
+}
+
+.markdown-content a:active {
+    transform: translateY(1px);
+}
+
+/* 添加小图标 */
+.markdown-content a::after {
+    content: '♥';
+    font-size: 0.85em;
+    margin-left: 3px;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.2s ease;
+}
+
+.markdown-content a:hover::after {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 /* 列表样式 */
-.markdown-content ul,
-.markdown-content ol {
+.markdown-content ol,
+.markdown-content ul {
     padding-left: 40px;
     margin-bottom: 16px;
 }
 
-.markdown-content li {
+.markdown-content ol li,
+.markdown-content ul li {
     margin-bottom: 8px;
+    position: relative;
+    background-color: #fff;
+}
+
+.markdown-content ul li::marker {
+    content: "★ ";
+    color: #ff6b9d;
+}
+
+.markdown-content ol li::marker {
+    color: #9370db;
+    font-weight: bold;
+}
+
+/* 内联代码样式 */
+.markdown-content code {
+    font-size: 20px;
+    background-color: #f8e6ff;
+    padding: 2px 8px;
+    border-radius: 8px;
+    color: #9370db;
+    font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border: 1px dashed #d8b5ff;
 }
 
 /* 代码块样式 */
 .markdown-content pre {
+    padding-left: 40px;
+    /* 调整以适应行号宽度 */
     position: relative;
-    background-color: #2d2d2d;
-    color: #d4d4d4;
-    padding: 20px;
-    border-radius: 8px;
+    /* 相对定位以便伪元素定位 */
+    background-color: #2a1a2a;
+    /* 更深的背景色，模仿终端 */
+    color: #f8e6ff;
+    padding: 40px 20px 20px 20px;
+    /* 增加顶部内边距以容纳终端圆点 */
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(147, 112, 219, 0.2);
     overflow-x: auto;
-    font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
     font-size: 20px;
+    font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
     white-space: pre-wrap;
     word-break: break-word;
-    border: 1px solid #444;
+    overflow-wrap: break-word;
+    text-indent: 0;
+    text-shadow: none;
+    border: 2px solid #9370db;
+    /* 边框颜色调整 */
+    margin: 20px 0;
 }
 
+/* 代码块顶部语言标签 */
 .markdown-content pre[data-lang]::after {
     content: attr(data-lang);
     position: absolute;
     top: 8px;
     right: 8px;
-    background-color: #000;
-    color: #fff;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 1em;
+    background-color: #9370db;
+    color: #ffffff;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    line-height: 1.5;
     text-transform: uppercase;
     pointer-events: none;
+    height: auto;
+    max-height: 24px;
+    /* 限制最大高度 */
+    display: inline-block;
+    /* 使元素的宽度自适应内容 */
+    white-space: nowrap;
+    /* 防止文本换行 */
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(147, 112, 219, 0.3);
 }
 
+.markdown-content pre[data-lang]:not([data-lang=""])::before {
+    display: block;
+}
+
+/* 代码块顶部的红绿黄圆点 */
 .markdown-content pre::before {
     content: '';
     position: absolute;
@@ -338,130 +258,392 @@ body {
     width: 17px;
     height: 17px;
     border-radius: 50%;
-    background-color: #ff5f56;
-    box-shadow: 30px 0 0 #ffbd2e, 60px 0 0 #27c93f;
+    background-color: #ff6b9d;
+    /* 粉色圆点 */
+    box-shadow: 30px 0 0 #ffbd2e, 60px 0 0 #9370db;
+    /* 黄、紫色圆点 */
 }
 
-/* 高亮代码样式 */
-.hljs {
-    background: transparent;
-    color: #d4d4d4;
+/* 高亮样式 */
+.markdown-content .hljs {
+    background-color: transparent;
+    color: #f8e6ff;
+    padding: 0;
+    border-radius: 0;
     font-size: 20px;
     font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    text-indent: 0;
+    text-shadow: none;
 }
 
-.hljs-comment,
-.hljs-quote {
-    color: #6a9955;
+.markdown-content .hljs-comment,
+.markdown-content .hljs-quote {
+    color: #d8b5ff;
     font-style: italic;
 }
 
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-subst {
-    color: #569cd6;
+.markdown-content .hljs-keyword,
+.markdown-content .hljs-selector-tag,
+.markdown-content .hljs-subst {
+    color: #ff8fae;
     font-weight: bold;
 }
 
-.hljs-literal,
-.hljs-number,
-.hljs-attr {
-    color: #b5cea8;
+.markdown-content .hljs-literal,
+.markdown-content .hljs-number,
+.markdown-content .hljs-tag .hljs-attr {
+    color: #b5e8ff;
 }
 
-.hljs-string,
-.hljs-doctag {
-    color: #ce9178;
+.markdown-content .hljs-string,
+.markdown-content .hljs-doctag {
+    color: #ffb6c1;
 }
 
-.hljs-title,
-.hljs-section,
-.hljs-selector-id {
-    color: #dcdcaa;
+.markdown-content .hljs-title,
+.markdown-content .hljs-section,
+.markdown-content .hljs-selector-id {
+    color: #ffe4b5;
     font-weight: bold;
 }
 
-.hljs-type,
-.hljs-class .hljs-title {
-    color: #4ec9b0;
+.markdown-content .hljs-type,
+.markdown-content .hljs-class .hljs-title {
+    color: #b5e8ff;
 }
 
-.hljs-tag,
-.hljs-name,
-.hljs-attribute {
-    color: #9cdcfe;
+.markdown-content .hljs-tag,
+.markdown-content .hljs-name,
+.markdown-content .hljs-attribute {
+    color: #d8b5ff;
 }
 
-.hljs-regexp,
-.hljs-link {
-    color: #d16969;
+.markdown-content .hljs-regexp,
+.markdown-content .hljs-link {
+    color: #ff8fae;
 }
 
-.hljs-symbol,
-.hljs-bullet {
-    color: #d7ba7d;
+.markdown-content .hljs-symbol,
+.markdown-content .hljs-bullet {
+    color: #ffe4b5;
 }
 
-.hljs-built_in,
-.hljs-builtin-name {
-    color: #569cd6;
+.markdown-content .hljs-built_in,
+.markdown-content .hljs-builtin-name {
+    color: #b5e8ff;
 }
 
-.hljs-meta {
-    color: #c586c0;
+.markdown-content .hljs-meta {
+    color: #d8b5ff;
     font-weight: bold;
 }
 
-.hljs-deletion {
-    background: #f44747;
-    color: #fff;
+.markdown-content .hljs-deletion {
+    background: #ff6b9d;
+    color: #ffffff;
+    text-decoration: none;
 }
 
-.hljs-addition {
-    background: #4ec9b0;
-    color: #fff;
+.markdown-content .hljs-addition {
+    background: #9370db;
+    color: #ffffff;
+    text-decoration: none;
 }
 
-.hljs-emphasis {
+.markdown-content .hljs-emphasis {
     font-style: italic;
 }
 
-.hljs-strong {
+.markdown-content .hljs-strong {
     font-weight: bold;
+}
+
+/* 为所有 code 块提供基本样式 */
+.markdown-content pre code {
+    display: block;
+    padding: 20px;
+    background-color: transparent;
+    color: #f8e6ff;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: "SourceCodePro-Italic-VariableFont_wght", "Inconsolata", sans-serif;
+    font-size: 20px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    border: none;
+}
+
+/* 如果没有特定的语言类，应用默认样式 */
+.markdown-content pre:not([data-lang]) {
+    background-color: #2a1a2a;
+    color: #f8e6ff;
+}
+
+/* 特定语言的代码块样式 */
+.markdown-content pre code.html,
+.markdown-content pre code.python,
+.markdown-content pre code.css,
+.markdown-content pre code.javascript,
+.markdown-content pre code.java,
+.markdown-content pre code.php,
+.markdown-content pre code.ruby,
+.markdown-content pre code.swift,
+.markdown-content pre code.csharp,
+.markdown-content pre code.go,
+.markdown-content pre code.vue {
+    color: inherit;
+    background: none;
 }
 
 /* 滚动条样式 */
 .markdown-content pre::-webkit-scrollbar {
     width: 8px;
-    background-color: #2d2d2d;
+    height: 8px;
+    background-color: #2a1a2a;
 }
 
 .markdown-content pre::-webkit-scrollbar-thumb {
-    background-color: #3c3c3c;
-    border-radius: 4px;
+    background-color: #9370db;
+    border-radius: 10px;
 }
 
 .markdown-content pre::-webkit-scrollbar-thumb:hover {
-    background-color: #555555;
+    background-color: #ff6b9d;
 }
 
 .markdown-content pre::-webkit-scrollbar-track {
-    background-color: #2d2d2d;
+    background-color: #2a1a2a;
+    border-radius: 10px;
 }
 
 /* 引用块样式 */
 .markdown-content blockquote {
-    border-left: 4px solid #2980b9;
-    padding-left: 12px;
-    margin: 0;
+    border-left: 4px solid #ff6b9d;
+    padding: 15px;
+    margin-left: 0;
     font-style: italic;
-    color: #7f8c8d;
-    background-color: #ecf0f1;
-    border-radius: 4px;
+    color: #9370db;
+    background-color: #fff0f5;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(255, 107, 157, 0.1);
+    position: relative;
+    border: 1px solid #ffb6c1;
+    border-left: 4px solid #ff6b9d;
+}
+
+.markdown-content blockquote::before {
+    content: '❝';
+    position: absolute;
+    top: -15px;
+    left: 10px;
+    font-size: 30px;
+    color: #ff6b9d;
+}
+
+.markdown-content blockquote::after {
+    content: '❞';
+    position: absolute;
+    bottom: -25px;
+    right: 10px;
+    font-size: 30px;
+    color: #ff6b9d;
+}
+
+/* 图片样式 */
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(147, 112, 219, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid #fff;
+    padding: 5px;
+    background-color: #fff;
+}
+
+.markdown-content img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 24px rgba(147, 112, 219, 0.3);
+}
+
+/* 用户头像样式 */
+.user img,
+.user2 img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    box-shadow: 0 8px 16px rgba(147, 112, 219, 0.2);
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+    border: 3px solid #fff;
+    padding: 5px;
+    background-color: #fff;
+}
+
+.user img:hover,
+.user2 img:hover {
+    transform: scale(1.05);
+}
+
+/* 容器样式 - 信笺风格 */
+.container {
+    background-image: url('樱花.png');
+    background-size: contain;
+    max-width: 1000px;
+    margin: 20px auto;
+    box-shadow: 0 15px 30px rgba(147, 112, 219, 0.2);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 24px;
+    border: 3px solid #ffb6c1;
+    position: relative;
+    overflow: hidden;
+    background-image:
+        linear-gradient(#ffe6ee 1px, transparent 1px),
+        linear-gradient(90deg, #ffe6ee 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #ff6b9d, #9370db, #ff6b9d);
+    background-size: 200% 200%;
+    animation: gradient 5s ease infinite;
+}
+
+/* 用户消息气泡样式 - 信笺风格 */
+.user,
+.user2 {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 20px;
+    border-radius: 24px;
+    box-shadow: 0 8px 16px rgba(147, 112, 219, 0.15);
+    margin-bottom: 40px;
+    position: relative;
+    overflow: visible;
+    border: 2px solid #ffb6c1;
+    animation: message-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-image:
+        linear-gradient(#ffe6ee 1px, transparent 1px),
+        linear-gradient(90deg, #ffe6ee 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+@keyframes message-pop {
+
+}
+
+.user:hover,
+.user2:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(147, 112, 219, 0.2);
+}
+
+.user2 {
+    align-items: flex-end;
+    background-color: #f8e6ff;
+    border: 2px solid #d8b5ff;
+    background-image:
+        linear-gradient(#e6d6ff 1px, transparent 1px),
+        linear-gradient(90deg, #e6d6ff 1px, transparent 1px);
+    background-size: 20px 20px;
+    box-shadow: inset 0 2px 4px rgba(147, 112, 219, 0.1);
+    transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.user2:hover {
+    border: 2px solid #9370db;
+    box-shadow: 0 12px 24px rgba(147, 112, 219, 0.2), inset 0 2px 4px rgba(147, 112, 219, 0.1);
+}
+
+/* 内容区域样式 */
+.content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-family: "Inconsolata", 'Chinese';
+    font-size: 18px;
+    color: #5a3e5a;
+}
+
+/* 信笺装饰元素 */
+.user::before,
+.user2::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    width: 40px;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #ffb6c1;
+    border-bottom: none;
+    border-radius: 20px 20px 0 0;
+}
+
+.user::before {
+    left: 30px;
+}
+
+.user2::before {
+    right: 30px;
+    background-color: #f8e6ff;
+    border-color: #d8b5ff;
+}
+
+/* 信封邮戳装饰 */
+.user::after,
+.user2::after {
+    content: '♥';
+    position: absolute;
+    top: 10px;
+    font-size: 24px;
+    color: #ff6b9d;
+    background-color: #fff0f5;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px dashed #ffb6c1;
+}
+
+.user::after {
+    right: 20px;
+}
+
+.user2::after {
+    left: 20px;
+    content: '♡';
+    color: #9370db;
+    background-color: #f8e6ff;
+    border-color: #d8b5ff;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+
     .user,
     .user2 {
         padding: 15px;
@@ -474,6 +656,7 @@ body {
 }
 
 @media (max-width: 480px) {
+
     .user,
     .user2 {
         padding: 10px;
@@ -485,26 +668,933 @@ body {
     }
 }
 
-/* 气泡装饰 */
-.user::before,
-.user2::before,
-.user::after,
-.user2::after {
+/* 用户头像样式调整 */
+.user2 #title img,
+.user #title img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+    box-shadow: 0 4px 8px rgba(147, 112, 219, 0.4);
+    border: 3px solid #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    padding: 3px;
+}
+
+.user #title img:hover,
+.user2 #title img:hover {
+    transform: rotate(10deg) scale(1.1);
+    box-shadow: 0 8px 16px rgba(147, 112, 219, 0.6);
+}
+
+.user #title img {
+    box-shadow: 0 4px 8px rgba(255, 107, 157, 0.4);
+}
+
+/* 用户名样式 */
+.user .name,
+.user2 .name {
+    font-size: 26px;
+    padding-bottom: 10px;
+    font-family: "RuanMengKeAiShouXieZi", sans-serif;
+    position: relative;
+    display: inline-block;
+}
+
+.user .name {
+    color: #ff6b9d;
+}
+
+.user .name::after {
     content: '';
     position: absolute;
-    height: 20px;
+    bottom: 5px;
+    left: 0;
     width: 100%;
-    background-image: linear-gradient(45deg, transparent 25%, #ffffff 25%, #ffffff 50%, transparent 50%, transparent 75%, #ffffff 75%, #ffffff),
-                      radial-gradient(circle at 10px 10px, rgba(255, 255, 255, 0.3) 0%, transparent 80%);
-    background-size: 40px 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #ff6b9d, transparent);
 }
 
-.user::before,
-.user2::before {
+.user2 .name {
+    text-align: right;
+    color: #9370db;
+}
+
+.user2 .name::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #9370db);
+}
+
+/* 消息气泡样式 - 信笺风格 */
+.user .message,
+.user2 .message {
+    position: relative;
+    padding: 15px 20px;
+    border-radius: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    line-height: 1.6;
+    margin-top: 10px;
+    max-width: 100%;
+    word-wrap: break-word;
+    animation: message-bounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: #fff;
+    border: 1px solid #ffb6c1;
+}
+
+@keyframes message-bounce {
+
+}
+
+.user .message {
+    background-color: #fff0f5;
+    border: 1px solid #ffb6c1;
+    background-image:
+        linear-gradient(#ffe6ee 1px, transparent 1px),
+        linear-gradient(90deg, #ffe6ee 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.user2 .message {
+    background-color: #f8e6ff;
+    border: 1px solid #d8b5ff;
+    background-image:
+        linear-gradient(#e6d6ff 1px, transparent 1px),
+        linear-gradient(90deg, #e6d6ff 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* 消息气泡三角形指示 */
+.user .message::after,
+.user2 .message::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+}
+
+.user .message::after {
+    left: -18px;
+    top: 10px;
+    border-right-color: #fff0f5;
+}
+
+.user2 .message::after {
+    right: -18px;
+    top: 10px;
+    border-left-color: #f8e6ff;
+}
+
+.user .message p,
+.user2 .message p {
+    font-size: 24px;
+    margin: 0;
+}
+
+/* 头部样式 - 信笺风格 */
+.header {
+    font-family: "NZBZ", sans-serif;
+    text-align: center;
+    margin: 15px auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    background: #fff;
+    border: 3px solid #ffb6c1;
+    border-radius: 24px;
+    box-shadow: 0 8px 16px rgba(255, 107, 157, 0.15);
+    animation: header-pulse 3s infinite alternate;
+    background-image:
+        linear-gradient(#ffe6ee 1px, transparent 1px),
+        linear-gradient(90deg, #ffe6ee 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+@keyframes header-pulse {
+    from {
+        box-shadow: 0 8px 16px rgba(255, 107, 157, 0.15);
+    }
+
+    to {
+        box-shadow: 0 12px 24px rgba(255, 107, 157, 0.25);
+    }
+}
+
+/* 信笺邮票装饰 */
+.header::before,
+.header::after {
+    content: "";
+    position: absolute;
+    background: #fff0f5;
+    border: 2px solid #ffb6c1;
+    border-radius: 8px;
+}
+
+.header::before {
+    top: -15px;
+    right: 30px;
+    width: 60px;
+    height: 70px;
+    background-image: url('data:image/svg+xml;utf8,<svg width="60" height="70" viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg"><path d="M30 15 L45 30 L30 45 L15 30 Z" fill="%23ff6b9d" stroke="%23ffb6c1" stroke-width="2"/><text x="30" y="33" text-anchor="middle" font-size="12" fill="%23fff">♥</text></svg>');
+    background-repeat: no-repeat;
+    animation: float 4s ease-in-out infinite;
+}
+
+.header::after {
+    bottom: -15px;
+    left: 30px;
+    width: 50px;
+    height: 30px;
+    background-image: url('data:image/svg+xml;utf8,<svg width="50" height="30" viewBox="0 0 50 30" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="40" height="20" rx="5" ry="5" fill="%23f8e6ff" stroke="%23d8b5ff" stroke-width="2"/><text x="25" y="20" text-anchor="middle" font-size="12" fill="%239370db">♡</text></svg>');
+    background-repeat: no-repeat;
+    animation: float 5s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+.header h1 {
+    font-family: 'Chinese', sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #9370db;
+    margin: 0;
+    text-shadow: 2px 2px 0 rgba(255, 107, 157, 0.3);
+    position: relative;
+    z-index: 1;
+    transform: translateX(25px);
+}
+
+/* 头部下方的装饰线 */
+.header-bar {
+    height: 6px;
+    background: #ff6b9d;
+    border-radius: 3px;
+    margin: 15px auto;
+    width: 70%;
+    position: relative;
+    z-index: 1;
+    border: 1px dashed #ffb6c1;
+}
+
+.header-bar::before {
+    content: '✉';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: #ff6b9d;
+}
+
+/* 像素化边角样式 */
+.pixel-corners {
+    clip-path:
+        polygon(0 10px, 10px 10px, 10px 0,
+            calc(100% - 10px) 0, calc(100% - 10px) 10px, 100% 10px,
+            100% calc(100% - 10px), calc(100% - 10px) calc(100% - 10px), calc(100% - 10px) 100%,
+            10px 100%, 10px calc(100% - 10px), 0 calc(100% - 10px));
+}
+
+.katex {
+    font-family: "KaTeX_Caligraphic", "KaTeX_Main", "KaTeX_AMS", Arial !important;
+    font-size: 1em !important;
+    white-space: normal;
+    display: inline-block !important;
+    max-width: 100%;
+    min-width: 0;
+}
+
+/* 字体引入 */
+@font-face {
+    font-family: "jty";
+    src: url("jty.OTF");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Inconsolata";
+    src: url("Inconsolata-VariableFont_wdth,wght.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "NZBZ";
+    src: url("NZBZ.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "RuanMengKeAiShouXieZi";
+    src: url("TengXiangJiaLiDaYuanJian-1.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "TengXiangJiaLiZhongYuanJian";
+    src: url("SanJiYuanTiJian-Zhong-2.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Chinese";
+    src: url("ZCOOLQingKeHuangYou-Regular.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "SourceCodePro-Italic-VariableFont_wght";
+    src: url("SourceCodePro-Italic-VariableFont_wght.ttf");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "KaTeX_Main";
+    src: url("KaTeX_Main-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "KaTeX_Caligraphic";
+    src: url("KaTeX_Caligraphic-Bold.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 新增部分 - 信笺风格 */
+
+/* 对话形式的文本，使用 <q> 标签，应用信笺风格 */
+.markdown-content q {
+    font-family: "RuanMengKeAiShouXieZi", sans-serif;
+    font-size: 20px;
+    color: #9370db;
+    background-color: #fff;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid #ffb6c1;
+    position: relative;
+    display: inline-block;
+    margin: 0 10px;
+    background-image:
+        linear-gradient(#ffe6ee 1px, transparent 1px),
+        linear-gradient(90deg, #ffe6ee 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.markdown-content q::before {
+    content: '❝';
+    font-size: 24px;
+    color: #ff6b9d;
+    position: absolute;
+    left: -10px;
+    top: -15px;
+}
+
+.markdown-content q::after {
+    content: '❞';
+    font-size: 24px;
+    color: #ff6b9d;
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+}
+
+/* 引用块样式增强，适用于对话框等特殊引用 */
+.markdown-content blockquote {
+    border-left: 4px solid #ff6b9d;
+    background-color: #fff;
+    color: #5a3e5a;
+    padding: 15px 20px;
+    border-radius: 16px;
+    font-style: normal;
+    position: relative;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(255, 107, 157, 0.1);
+    border: 1px solid #ffb6c1;
+    background-image:
+        linear-gradient(#ffe6ee 1px, transparent 1px),
+        linear-gradient(90deg, #ffe6ee 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* 引用块顶部添加装饰性图标 */
+.markdown-content blockquote::before {
+    content: '💌';
+    font-size: 24px;
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: #fff;
+    border-radius: 50%;
+    padding: 2px;
+    color: #ff6b9d;
+}
+
+/* 强调文本样式，适用于特殊标注 */
+.markdown-content .highlight {
+    background-color: #fff;
+    color: #ff6b9d;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(255, 107, 157, 0.2);
+    border: 1px dashed #ffb6c1;
+}
+
+.markdown-content .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #ff6b9d;
+}
+
+/* 特定符号包裹的文本样式 */
+/* 使用自定义的 span 标签包裹不同符号的文本 */
+/* 例如，使用双星号 **text** 表示重点文本 */
+.markdown-content .double-star {
+    color: #ff6b9d;
+    padding: 2px 4px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: #fff0f5;
+    border-bottom: 2px solid #ffb6c1;
+}
+
+/* 使用单下划线 _text_ 表示强调文本 */
+.markdown-content .single-underline {
+    text-decoration: none;
+    color: #9370db;
+    position: relative;
+    padding: 0 2px;
+    border-bottom: 2px dotted #d8b5ff;
+}
+
+/* 使用尖括号 <text> 表示提示文本 */
+.markdown-content .angle-bracket {
+    background-color: #f8e6ff;
+    color: #9370db;
+    padding: 2px 8px;
+    border-radius: 8px;
+    position: relative;
+    display: inline-block;
+    border: 1px solid #d8b5ff;
+}
+
+.markdown-content .angle-bracket::before {
+    content: '✨';
+    margin-right: 4px;
+    font-size: 0.9em;
+}
+
+/* 图片文本样式 */
+.markdown-content .image-text {
+    text-align: center;
+    font-style: italic;
+    color: #9370db;
+    margin-top: 10px;
+    font-size: 0.9em;
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 8px;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px dashed #d8b5ff;
+}
+
+/* 表格样式优化 - 信笺风格 */
+.markdown-content table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(147, 112, 219, 0.15);
+    border: 2px solid #d8b5ff;
+    background-color: #fff;
+}
+
+.markdown-content th,
+.markdown-content td {
+    border: 1px solid #d8b5ff;
+    text-align: left;
+    padding: 12px;
+}
+
+.markdown-content th {
+    background-color: #f8e6ff;
+    color: #9370db;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+.markdown-content tr:nth-child(even) {
+    background-color: #fff0f5;
+}
+
+.markdown-content tr:hover {
+    background-color: #ffebf3;
+}
+
+/* 添加可爱的滚动条样式 */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #ffb6c1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff6b9d;
+    border-radius: 10px;
+    border: 2px solid #fff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff8fae;
+}
+
+/* 添加可爱的选择文本样式 */
+::selection {
+    background-color: #ff6b9d;
+    color: white;
+}
+
+/* 添加页面加载动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* 添加消息发送时的打字机效果 */
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+.typing-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 1.5s steps(40, end);
+}
+
+/* 添加可爱的按钮样式 - 信笺风格 */
+.cute-button {
+    background: #fff;
+    color: #ff6b9d;
+    border: 2px solid #ffb6c1;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: "RuanMengKeAiShouXieZi", sans-serif;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(147, 112, 219, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cute-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(147, 112, 219, 0.4);
+    background-color: #fff0f5;
+}
+
+.cute-button:active {
+    transform: translateY(1px);
+}
+
+.cute-button::after {
+    content: '♥';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cute-button:hover::after {
+    opacity: 1;
+}
+
+/* 添加消息通知样式 - 信笺风格 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #fff;
+    border: 2px solid #ff6b9d;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(255, 107, 157, 0.2);
+    z-index: 1000;
+    animation: notification-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-image:
+        linear-gradient(#ffe6ee 1px, transparent 1px),
+        linear-gradient(90deg, #ffe6ee 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+@keyframes notification-pop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 添加心形光标 */
+.heart-cursor {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23ff6b9d'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>") 12 12, auto;
+}
+
+/* 添加彩虹文本效果 */
+.rainbow-text {
+    background-image: linear-gradient(45deg, #ff6b9d, #ffb6c1, #d8b5ff, #9370db, #b5e8ff);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: rainbow 5s linear infinite;
+}
+
+@keyframes rainbow {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* 添加信封折痕效果 */
+.envelope-fold {
+    position: relative;
+}
+
+.envelope-fold::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        linear-gradient(135deg, transparent 49.5%, #ffb6c1 49.5%, #ffb6c1 50.5%, transparent 50.5%),
+        linear-gradient(45deg, transparent 49.5%, #ffb6c1 49.5%, #ffb6c1 50.5%, transparent 50.5%);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+/* 添加信笺装饰元素 */
+.letter-decoration {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #fff0f5;
+    border: 1px dashed #ffb6c1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #ff6b9d;
+}
+
+.letter-decoration.top-left {
+    top: -15px;
+    left: -15px;
+}
+
+.letter-decoration.top-right {
+    top: -15px;
+    right: -15px;
+}
+
+.letter-decoration.bottom-left {
+    bottom: -15px;
+    left: -15px;
+}
+
+.letter-decoration.bottom-right {
+    bottom: -15px;
+    right: -15px;
+}
+
+/* 添加可爱的邮票效果 */
+.stamp {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px;
+    height: 60px;
+    background-color: #fff;
+    border: 1px dashed #ffb6c1;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #ff6b9d;
+    transform: rotate(5deg);
+    box-shadow: 0 2px 4px rgba(255, 107, 157, 0.2);
+}
+
+.stamp::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 10px 10px, #ffb6c1 1px, transparent 1px),
+        radial-gradient(circle at 20px 20px, #ffb6c1 1px, transparent 1px),
+        radial-gradient(circle at 30px 30px, #ffb6c1 1px, transparent 1px),
+        radial-gradient(circle at 40px 40px, #ffb6c1 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* 添加信封封口效果 */
+.envelope-seal {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: #ff6b9d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(255, 107, 157, 0.3);
+}
+
+/* 添加信笺页脚 */
+.letter-footer {
+    text-align: right;
+    font-style: italic;
+    color: #9370db;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px dashed #d8b5ff;
+}
+
+/* 添加信笺日期样式 */
+.letter-date {
+    text-align: right;
+    color: #9370db;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+/* 添加信笺签名样式 */
+.letter-signature {
+    font-family: "RuanMengKeAiShouXieZi", sans-serif;
+    color: #ff6b9d;
+    font-size: 1.2em;
+    margin-top: 20px;
+    text-align: right;
+}
+
+/* 添加信笺装饰线 */
+.letter-divider {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, #ffb6c1, #ffb6c1 10px, transparent 10px, transparent 20px);
+    margin: 20px 0;
+}
+
+/* 添加可爱的纸张折角效果 */
+.paper-fold {
+    position: relative;
+}
+
+.paper-fold::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, transparent 50%, #ffb6c1 50%);
+}
+
+/* 添加信笺回形针效果 */
+.paper-clip {
+    position: absolute;
     top: -10px;
+    left: 20px;
+    width: 20px;
+    height: 40px;
+    border: 3px solid #9370db;
+    border-radius: 10px 10px 0 0;
+    border-bottom: none;
+    transform: rotate(-10deg);
+    z-index: 10;
 }
 
-.user::after,
-.user2::after {
-    bottom: -10px;
+.paper-clip::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 14px;
+    height: 10px;
+    border-left: 3px solid #9370db;
+    border-bottom: 3px solid #9370db;
+    border-radius: 0 0 0 10px;
+}
+
+/* 添加可爱的贴纸效果 */
+.sticker {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: #fff0f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    transform: rotate(-15deg);
+    box-shadow: 0 2px 4px rgba(255, 107, 157, 0.2);
+    z-index: 5;
+}
+
+.sticker.heart {
+    top: -20px;
+    right: 30px;
+    color: #ff6b9d;
+}
+
+.sticker.star {
+    bottom: -20px;
+    left: 30px;
+    color: #9370db;
+}
+
+/* 图标样式 */
+.model-container i {
+    font-size: 2rem;
+    /* 图标大小适中 */
+    color: #a892a8;
+    /* 浅灰紫色，更柔和 */
+    margin-right: 0.5rem;
+    /* 略微减少间距 */
+    vertical-align: middle;
+    /* 垂直居中图标 */
+}
+
+/* 标题样式 */
+.model-container h1 {
+    font-size: 1.5rem;
+    /* 略微减小字体 */
+    color: #555;
+    /* 深灰色，更接近信笺墨色 */
+    margin: 0;
+    /* 清除默认外边距 */
+    font-weight: normal;
+    /* 正常字体粗细，更显轻盈 */
+    line-height: 1.4;
+    /* 增加行高，更舒适 */
+}
+
+/* 模型名称的样式 */
+.model-container span {
+    color: #e91e63;
+    /* 浪漫的粉色 */
+    font-weight: bold;
+    /* 加粗，更突出 */
+    font-style: normal;
+    /* 取消斜体，更正式 */
+    border-bottom: 1px dotted #e91e63;
+    /* 粉色虚线下划线，增加可爱感 */
+}
+
+/* 整体容器样式 */
+.model-container {
+    padding: 1rem;
+    /* 增加内边距 */
+    border: 1px solid #ddd;
+    /* 浅灰色边框，模拟信笺 */
+    border-radius: 5px;
+    /* 圆角边框，更柔和 */
+    background-color: #f9f9f9;
+    /* 浅灰色背景，增加层次感 */
+    font-family: sans-serif;
+    /* 使用通用字体 */
 }

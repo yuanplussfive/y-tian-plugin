@@ -48,8 +48,8 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
 
     const isValidModel = (() => {
       try {
-        if (!chat_models?.models) return false;
-        const CurrentModel = chat_models.models.find(m => m?.name === model);
+        if (!chat_models) return false;
+        const CurrentModel = chat_models.find(m => m?.name === model);
         if (!CurrentModel?.features) return false;
         return CurrentModel.features.includes('image_recognition') || CurrentModel.features.includes('file');
       } catch {
@@ -645,8 +645,8 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
       }
       const isDrawModel = (() => {
         try {
-          if (!chat_models?.models) return false;
-          const CurrentModel = chat_models.models.find(m => m?.name === model);
+          if (!chat_models) return false;
+          const CurrentModel = chat_models.find(m => m?.name === model);
           if (!CurrentModel?.features) return false;
           return CurrentModel.features.includes('drawing');
         } catch {
@@ -949,44 +949,44 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
 
   async function processArray(arr, limit) {
     if (!arr?.length || limit <= 1) return [];
-    
+
     // 提取system消息
     const systemMsg = arr.find(item => item.role === 'system');
-    
+
     // 从数组末尾开始处理对话组
     const processedGroups = [];
     let currentGroup = {
       assistant: null,
       user: null
     };
-    
+
     // 处理content数组，保留原始结构
     const processContent = (content) => {
       if (!Array.isArray(content)) return content;
-      
+
       // 分离text类型和非text类型的内容
       const textItems = content.filter(item => item.type === 'text');
       const nonTextItems = content.filter(item => item.type !== 'text');
-      
+
       // 如果没有text类型，直接返回原内容
       if (textItems.length === 0) return content;
-      
+
       // 合并所有text类型项
       const mergedTextItem = {
         type: 'text',
         text: textItems.map(item => item.text).join(' ')
       };
-      
+
       // 返回合并后的数组，保持原有顺序
       return [mergedTextItem, ...nonTextItems];
     };
-  
+
     // 从后向前遍历数组
     for (let i = arr.length - 1; i >= 0; i--) {
       const current = arr[i];
-      
+
       if (current.role === 'system') continue;
-      
+
       if (current.role === 'assistant') {
         if (!currentGroup.assistant) {
           currentGroup.assistant = {
@@ -1001,7 +1001,7 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
           currentGroup.assistant.content = mergedContent;
         }
       }
-      
+
       if (current.role === 'user') {
         if (!currentGroup.user) {
           currentGroup.user = {
@@ -1015,7 +1015,7 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
             : current.content;
           currentGroup.user.content = mergedContent;
         }
-        
+
         if (currentGroup.assistant) {
           processedGroups.push([currentGroup.user, currentGroup.assistant]);
           if (processedGroups.length >= limit) break;
@@ -1023,15 +1023,15 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
         }
       }
     }
-  
+
     // 构建最终结果数组
     const result = [];
     if (systemMsg) result.push(systemMsg);
-    
+
     processedGroups.reverse().forEach(group => {
       result.push(...group);
     });
-  
+
     return result;
   }
 }

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>聊天对话</title>
+   <link rel="stylesheet" href="{{dz}}">
+   <link rel="stylesheet" href="{{atom_one_dark_min_css}}">
+   <link rel="stylesheet" href="{{katex_css}}">
+   <style>
+       body {
+           overflow: auto !important;
+           height: auto !important;
+           margin: 0;
+           padding: 0;
+       }
+       
+       .chat-container {
+           height: auto !important;
+           min-height: auto !important;
+           overflow: visible !important;
+           display: flex;
+           flex-direction: column;
+       }
+       
+       .chat-messages {
+           flex: 0 0 auto !important;
+           overflow: visible !important;
+           height: auto !important;
+       }
+       
+       .chat-header {
+           position: relative !important;
+           top: auto !important;
+           z-index: 1;
+       }
+       
+       .chat-input-container {
+           position: relative !important;
+           bottom: auto !important;
+           z-index: 1;
+       }
+       
+       .send-button {
+           background-color: #5865f2;
+           color: white;
+           border: none;
+           border-radius: 4px;
+           padding: 8px 16px;
+           margin-left: 8px;
+           cursor: pointer;
+           font-size: 14px;
+           font-weight: 500;
+       }
+       
+       .chat-toolbar {
+           display: flex;
+           align-items: center;
+           justify-content: space-around;
+           padding: 8px 16px;
+           background-color: #18191c;
+           border-top: 1px solid #2c2f33;
+       }
+       
+       .toolbar-icon {
+           color: #ffffff;
+           font-size: 22px;
+           cursor: pointer;
+       }
+   </style>
+</head>
+
+<body>
+   <div class="chat-container">
+       <!-- 聊天头部 -->
+       <div class="chat-header">
+           <div class="header-left">
+               <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id2}}&spec=640&img_type=jpg" alt="Bot Avatar" class="bot-avatar">
+               <div class="bot-name">{{model}}<span class="online-status"></span></div>
+           </div>
+           <div class="header-right">
+               <i class="fas fa-phone-alt header-icon"></i>
+               <i class="fas fa-video header-icon"></i>
+               <i class="fas fa-desktop header-icon"></i>
+               <i class="fas fa-ellipsis-v header-icon"></i>
+           </div>
+       </div>
+       
+       <!-- 聊天内容区域 -->
+       <div class="chat-messages">
+           <!-- 用户消息 -->
+           <div class="message self">
+               <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id1}}&spec=640&img_type=jpg" alt="User Avatar" class="message-avatar">
+               <div class="message-content">
+                   <div class="message-text">
+                       <div class="markdown-content">{{MSG}}</div>
+                   </div>
+               </div>
+           </div>
+           
+           <!-- 机器人消息 -->
+           <div class="message">
+               <img src="http://q.qlogo.cn/headimg_dl?dst_uin={{id2}}&spec=640&img_type=jpg" alt="Bot Avatar" class="message-avatar">
+               <div class="message-content">
+                   <div class="message-text">
+                       <div class="markdown-content">{{CONTENT}}</div>
+                   </div>
+               </div>
+           </div>
+       </div>
+       
+       <!-- 聊天输入区域 -->
+       <div class="chat-input-container">
+           <input type="text" class="chat-input" placeholder="发送消息..." disabled>
+           <button class="send-button" disabled>发送</button>
+       </div>
+       
+       <!-- 工具栏图标 -->
+       <div class="chat-toolbar">
+           <i class="fas fa-microphone toolbar-icon"></i>
+           <i class="far fa-image toolbar-icon"></i>
+           <i class="fas fa-camera toolbar-icon"></i>
+           <i class="far fa-envelope toolbar-icon"></i>
+           <i class="far fa-smile toolbar-icon"></i>
+           <i class="fas fa-plus toolbar-icon"></i>
+       </div>
+   </div>
+
+   <!-- 引入必要的脚本库 -->
+   <script src="{{marked_min_js}}" defer></script>
+   <script src="{{highlight_min_js}}" defer></script>
+   <script src="{{katex_js}}" defer></script>
+   <script src="{{auto_render_js}}" defer></script>
+   <script src="{{purify_min_js}}" defer></script>
+
+   <script defer>
+       /**
+        * 预处理LaTeX公式，仅处理非代码块内容
+        * @param {string} content - 原始Markdown内容
+        * @returns {string} - 处理后的内容
+        */
+       const preHandleLaTeX = (content) => {
+           if (!content || typeof content !== 'string') {
+               return content;
+           }
+
+           // 使用更严格的正则匹配代码块
+           const codeBlockRegex = /```(?:\w+)?\n[\s\S]*?\n```/g;
+           const codeBlocks = [];
+           const placeholderPrefix = '__CODE_BLOCK_PLACEHOLDER_';
+           let processedContent = content.replace(codeBlockRegex, (match) => {
+               codeBlocks.push(match);
+               return `\n${placeholderPrefix}${codeBlocks.length - 1}__\n`;
+           });
+
+           // 处理 LaTeX，仅针对非代码块部分
+           processedContent = processedContent.replace(
+               /(^|\n)\s*\$\$([\s\S]*?)\$\$\s*($|\n)/g,
+               (match, start, equation, end) => {
+                   return `${start}§§${equation}§§${end}`;
+               }
+           );
+
+           // 处理不同的LaTeX语法
+           processedContent = processedContent.replace(
+               /\\\[([\s\S]*?)\\\]/g,
+               (match, equation) => {
+                   equation = equation.trim();
+                   return '\n$$' + equation + '$$\n';
+               }
+           );
+
+           processedContent = processedContent.replace(
+               /\\\(([\s\S]*?)\\\)/g,
+               (match, equation) => {
+                   equation = equation.trim();
+                   return '$' + equation + '$';
+               }
+           );
+
+           // 恢复 $$...$$ 的内容
+           processedContent = processedContent.replace(
+               /\$\$([\s\S]*?)\$\$/g,
+               (match, equation) => {
+                   if (!match.includes('§§')) {
+                       equation = equation.trim();
+                       return '\n$$' + equation + '$$\n';
+                   }
+                   return match;
+               }
+           );
+
+           // 替换 §§...§§ 为 $$...$$
+           processedContent = processedContent.replace(
+               /§§([\s\S]*?)§§/g,
+               (match, equation) => {
+                   return '$$' + equation + '$$';
+               }
+           );
+
+           // 仅处理 \,，其他 \ 保持不变
+           processedContent = processedContent.replace(
+               /\\,/g,
+               '\\,'
+           );
+
+           // 合并多个换行符
+           processedContent = processedContent.replace(/\n{3,}/g, '\n\n');
+
+           // 恢复代码块
+           const finalContent = processedContent.replace(new RegExp(`${placeholderPrefix}(\\d+)__`, 'g'), (match, index) => {
+               return codeBlocks[index];
+           });
+
+           return finalContent;
+       };
+
+       /**
+        * 为每个代码块添加 data-lang 属性，用于指示代码的语言类型
+        */
+       const addDataLangAttributes = () => {
+           document.querySelectorAll('.markdown-content pre code').forEach(code => {
+               const classes = Array.from(code.classList);
+               const languageClass = classes.find(cls => cls.startsWith('language-'));
+               if (languageClass) {
+                   const language = languageClass.replace('language-', '').toUpperCase();
+                   const pre = code.parentElement;
+                   if (pre) {
+                       pre.setAttribute('data-lang', language);
+                   }
+               }
+           });
+       };
+
+       /**
+        * 处理并渲染Markdown内容，包括高亮代码和数学公式
+        */
+       const renderMarkdownContent = () => {
+           const markdownElements = document.querySelectorAll('.markdown-content');
+           markdownElements.forEach(element => {
+               try {
+                   // 获取原始Markdown文本
+                   let markdownText = element.textContent;
+                   // 预处理LaTeX公式
+                   let processedContent = preHandleLaTeX(markdownText);
+
+                   // 将处理后的内容传递给marked解析器
+                   let htmlContent = marked.parse(processedContent);
+
+                   // 使用DOMPurify清理HTML，防止XSS攻击
+                   htmlContent = DOMPurify.sanitize(htmlContent);
+
+                   // 创建一个临时容器来操作HTML
+                   const tempDiv = document.createElement('div');
+                   tempDiv.innerHTML = htmlContent;
+
+                   // 仅对非代码块内的元素进行替换，避免影响代码块
+                   // 替换双星号 **text** -> <span class="double-star">text</span>
+                   tempDiv.querySelectorAll('strong').forEach(elem => {
+                       const span = document.createElement('span');
+                       span.className = 'double-star';
+                       span.innerHTML = elem.innerHTML;
+                       elem.parentNode.replaceChild(span, elem);
+                   });
+
+                   // 替换单下划线 _text_ -> <span class="single-underline">text</span>
+                   tempDiv.querySelectorAll('em').forEach(elem => {
+                       const span = document.createElement('span');
+                       span.className = 'single-underline';
+                       span.innerHTML = elem.innerHTML;
+                       elem.parentNode.replaceChild(span, elem);
+                   });
+
+                   // 替换尖括号 <<text>> -> <span class="angle-bracket">text</span>
+                   tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;(.*?)&gt;&gt;/g, (match, p1) => {
+                       return `<span class="angle-bracket">${p1}</span>`;
+                   });
+
+                   // 替换高亮文本 ==text== -> <span class="highlight">text</span>
+                   tempDiv.innerHTML = tempDiv.innerHTML.replace(/==(.+?)==/g, (match, p1) => {
+                       return `<span class="highlight">${p1}</span>`;
+                   });
+
+                   // 替换图片描述 <<ImageDisplayed>>text<< -> <span class="image-text">text</span>
+                   tempDiv.innerHTML = tempDiv.innerHTML.replace(/&lt;&lt;ImageDisplayed&gt;&gt;(.*?)&lt;&lt;/g, (match, p1) => {
+                       return `<span class="image-text">${p1}</span>`;
+                   });
+
+                   // 将处理后的HTML插入元素
+                   element.innerHTML = tempDiv.innerHTML;
+               } catch (error) {
+                   console.error('Markdown渲染错误:', error);
+               }
+           });
+       };
+
+       /**
+        * 初始化所有功能，包括渲染Markdown、添加data-lang属性、代码高亮和数学公式渲染
+        */
+       const initialize = () => {
+           renderMarkdownContent();
+           addDataLangAttributes();
+
+           // 使用 Highlight.js 高亮代码块
+           document.querySelectorAll('.markdown-content pre code').forEach((block) => {
+               try {
+                   hljs.highlightElement(block);
+               } catch (error) {
+                   console.error('代码高亮错误:', error);
+               }
+           });
+
+           // 使用 KaTeX 渲染数学公式
+           try {
+               renderMathInElement(document.body, {
+                   delimiters: [
+                       { left: "$$", right: "$$", display: true },
+                       { left: "$", right: "$", display: false }
+                   ],
+                   throwOnError: false,
+                   strict: false,
+                   trust: true,
+                   macros: {
+                       "\\eqref": "\\href{#1}{}",   // 处理 \eqref 命令
+                       "\\label": "\\href{#1}{}"    // 处理 \label 命令
+                   },
+                   displayMode: true,
+                   output: 'html',
+                   maxSize: 500,
+                   maxExpand: 1000,
+                   fleqn: false
+               });
+           } catch (error) {
+               console.error('数学公式渲染错误:', error);
+           }
+       };
+
+       // 确保所有资源加载完毕后初始化
+       window.addEventListener('DOMContentLoaded', () => {
+           // 检查所有必要的库是否已加载
+           if (typeof marked === 'undefined') {
+               console.error('marked库未加载');
+               return;
+           }
+           if (typeof hljs === 'undefined') {
+               console.error('highlight.js库未加载');
+               return;
+           }
+           if (typeof katex === 'undefined') {
+               console.error('KaTeX库未加载');
+               return;
+           }
+           if (typeof renderMathInElement === 'undefined') {
+               console.error('auto_render库未加载');
+               return;
+           }
+           if (typeof DOMPurify === 'undefined') {
+               console.error('DOMPurify库未加载');
+               return;
+           }
+
+           initialize();
+       });
+   </script>
+</body>
+
+</html>
