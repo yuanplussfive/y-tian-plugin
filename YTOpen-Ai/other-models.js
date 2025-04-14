@@ -1481,6 +1481,14 @@ export const getOptimizedModels = () => {
       "token": "100k",
       "features": ['conversation'],
       "quota": "0.05/次"
+    },
+    {
+      "id": 179,
+      "model": "wai-illustrious",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.03/次"
     }
   ]
 

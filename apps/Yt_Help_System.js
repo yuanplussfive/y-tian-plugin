@@ -293,7 +293,7 @@ async function getModelScreen(models, type, e) {
     { prefix: ['recraft-'], file: 'recraft.png' },
     { prefix: ['ltx-'], file: 'ltx.png' },
     { prefix: ['sana'], file: 'sana.png' },
-    { prefix: ['noobai'], file: 'Noob.png' },
+    { prefix: ['noobai', 'wai-'], file: 'Noob.png' },
   ];
 
   // 默认 logo 路径
