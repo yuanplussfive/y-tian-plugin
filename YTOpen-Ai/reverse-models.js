@@ -548,6 +548,15 @@ export const getOptimizedModels = () => {
     provider: "Meta",
     features: ["conversation", "code"],
     auth: "无需"
+  },
+  {
+    id: 60,
+    model: "noobai-xl-v1.1",
+    providers: 1,
+    token: "8k",
+    provider: "Noobai",
+    features: ["drawing"],
+    auth: "无需"
   }
 ];
 

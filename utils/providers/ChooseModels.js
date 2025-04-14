@@ -15,6 +15,7 @@ import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
 import { e11chat } from "../providers/ChatModels/e11chat/e11chat.js";
 //import { grok } from "../providers/ChatModels/grok/grok.js";
 import { AnthropicDoc } from "../providers/ChatModels/AnthropicDoc/AnthropicDoc.js";
+import { NoobxL } from "../providers/ChatModels/huggingface/noobxl.js";
 import { reka } from "../providers/ChatModels/reka/reka.js";
 import { SlackAi } from "../providers/ChatModels/slack/slack.js";
 //import { cursor } from "../providers/ChatModels/cursor/cursor.js";
@@ -68,6 +69,7 @@ const providerStats = {
     websim: { success: 0, failure: 0, weight: 100 },
     imagelabs: { success: 0, failure: 0, weight: 100 },
     jimeng: { success: 0, failure: 0, weight: 100 },
+    huggingface: { success: 0, failure: 0, weight: 100 },
 };
 
 // 获取当前文件所在的目录
@@ -158,7 +160,8 @@ const providerApis = {
     openai: openai,
     websim: websim,
     imagelabs: imagelabs,
-    jimeng: jimengClient
+    jimeng: jimengClient,
+    huggingface: NoobxL
 };
 
 // 默认超时时间 (3分钟)

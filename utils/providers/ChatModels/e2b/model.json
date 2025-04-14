@@ -1,5 +1,17 @@
 {
   "models": {
+    "gpt-4.5-preview": {
+      "providerModelName": "gpt-4.5-preview",
+      "aliases": [
+        "gpt-4.5-preview"
+      ]
+    },
+    "gemini-2.5-pro-exp-03-25": {
+      "providerModelName": "gemini-2.5-pro-exp-03-25",
+      "aliases": [
+        "gemini-2.5-pro-exp-03-25"
+      ]
+    },
     "claude-3.5-sonnet-20241022": {
       "providerModelName": "claude-3.5-sonnet-20241022",
       "aliases": [

@@ -151,7 +151,9 @@ export async function get_address(inputString) {
     `[a-zA-Z0-9_\\-.]+\\.vlabvod\\.com(?:/[^?#]+)?(?:\\?.*)?`,
     `[a-zA-Z0-9\\-.]+\\.filesystem\\.site\/files\/[a-zA-Z0-9\\-]+(?:\/[a-zA-Z0-9\\-]+)*(?:\\?.*)?`,
     `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.zaiwen\\.top/images/[a-zA-Z0-9\\-]+\\.[a-z]{2,4}(?:\\?.*)?`,
-    `[a-zA-Z0-9\\-]+\\.s3(?:-[a-z0-9\\-]+)?\\.amazonaws\\.com/[a-zA-Z0-9\\-./]+\\.[a-z]{2,4}(?:\\?.*)?`
+    `[a-zA-Z0-9\\-]+\\.s3(?:-[a-z0-9\\-]+)?\\.amazonaws\\.com/[a-zA-Z0-9\\-./]+\\.[a-z]{2,4}(?:\\?.*)?`,
+    `[a-zA-Z0-9_\\-.]+\\.hf\\.space/gradio_api/file=[^?#]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`,
+    `[a-zA-Z0-9_\\-.]+\\.hf\\.space/file=[^?#]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`
   ].join('|');
 
   // 定义链接模式及其对应的进度提取规则

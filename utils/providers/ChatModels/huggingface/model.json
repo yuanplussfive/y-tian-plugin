@@ -1,0 +1,8 @@
+{
+  "models": {
+    "noobai-xl-v1.1": {
+      "providerModelName": "noobai-xl-v1.1",
+      "aliases": ["noobai-xl-v1.1"]
+    }
+  }
+}
