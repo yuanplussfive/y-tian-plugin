@@ -398,15 +398,15 @@ export async function handleGeminiImage(result, e, options = { includeRawOutput:
 
   if (hasContent) {
     const textContent = textParts.length > 0 ? textParts.join('\n') : null;
-    
+
     // 如果有图片，单独发送图片
     if (imageParts.length > 0) {
       e.reply(imageParts);
     }
-    
-    return { 
-      hasImages: imageParts.length > 0, 
-      textContent 
+
+    return {
+      hasImages: imageParts.length > 0,
+      textContent
     };
   }
 

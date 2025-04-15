@@ -1489,6 +1489,14 @@ export const getOptimizedModels = () => {
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.03/次"
+    },
+    {
+      "id": 180,
+      "model": "noobai-xl-v1.1",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.03/次"
     }
   ]
 

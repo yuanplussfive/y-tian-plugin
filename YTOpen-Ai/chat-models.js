@@ -1234,6 +1234,30 @@ export const getOptimizedModels = () => {
       "Magnification": "0.1/次",
       "provider": "OpenAi",
       "features": ['drawing', 'image_recognition']
+    },
+    {
+      "id": "154",
+      "name": "gpt-4.1",
+      "token_count": "128k",
+      "Magnification": 1,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'file']
+    },
+    {
+      "id": "155",
+      "name": "gpt-4.1-mini",
+      "token_count": "128k",
+      "Magnification": 0.2,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'file']
+    },
+    {
+      "id": "156",
+      "name": "gpt-4.1-nano",
+      "token_count": "128k",
+      "Magnification": 0.05,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'file']
     }
   ]
 
