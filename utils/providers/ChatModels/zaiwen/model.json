@@ -1,5 +1,17 @@
 {
   "models": {
+    "gpt-4.1-mini": {
+      "providerModelName": "gpt4_1_mini",
+      "aliases": [
+        "gpt-4.1-mini"
+      ]
+    },
+    "gpt-4.1-nano": {
+      "providerModelName": "gpt4_1_nano",
+      "aliases": [
+        "gpt-4.1-nano"
+      ]
+    },
     "llama-4-scout": {
       "providerModelName": "llama4scoutt",
       "aliases": [

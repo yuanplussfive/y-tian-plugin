@@ -1492,11 +1492,11 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 180,
-      "model": "noobai-xl-v1.1",
+      "model": "wai-illustrious-sdxl",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.03/次"
+      "quota": "0.1/次"
     }
   ]
 

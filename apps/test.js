@@ -351,7 +351,9 @@ export class ExamplePlugin extends plugin {
         KimiRefreshTokens: ['eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ1c2VyLWNlbnRlciIsImV4cCI6MTc0NTkyOTQyMSwiaWF0IjoxNzM4MTUzNDIxLCJqdGkiOiJjdWQxcmo4MWdlbTdkbHVzdmgyZyIsInR5cCI6InJlZnJlc2giLCJhcHBfaWQiOiJraW1pIiwic3ViIjoiY3VkMXJqODFnZW03ZGx1c3ZoMWciLCJzcGFjZV9pZCI6ImN1NnJ0bzdmdGFlYWRhcjExMW0wIiwiYWJzdHJhY3RfdXNlcl9pZCI6ImN1NnJ0bzdmdGFlYWRhcjExMWxnIiwic3NpZCI6IjE3MzAzMDM2NDc2Njk0NjU5NzQiLCJkZXZpY2VfaWQiOiI3MzU0MzU3NDk4MzQzNTk5MzYwIn0.CuplPF_7HaP8OR6Q9LkRImmBriATgYwNq8Xxy0PSG17qlO_TNmAcG_xkkLPwpmqaWGwBU_1Zq06pBtTtEu76Uw'],
         GlmModel: 'glm-4-plus',
         GlmRefreshTokens: ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZmViYzYyN2QzODI0Mjg4OTVlOWIxNDZhOWUzYTU5OSIsImV4cCI6MTc1NDQ4NTIyNSwibmJmIjoxNzM4OTMzMjI1LCJpYXQiOjE3Mzg5MzMyMjUsImp0aSI6IjU2ZDcyYjU4ZWRiZjQ2NzA5MmVlZjE4MjE3MTkxNGI0IiwidWlkIjoiNjc5NGNiNTU5NjYwMTgxNjVmNTljMWQwIiwidHlwZSI6InJlZnJlc2gifQ.vFCjMPMXO0btbVzTVU-mDaEmEDnmqQg8MYauuf2bK_w'],
-        HgGPTSovitsUrl: 'https://yuoop-gpt-sovits-v2.hf.space'
+        HgGPTSovitsUrl: 'https://yuoop-gpt-sovits-v2.hf.space',
+        liblibtoken: '',
+        liblibcheckpointId: 18572023,
       }
     }
 

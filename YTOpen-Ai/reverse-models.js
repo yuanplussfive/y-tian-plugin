@@ -557,6 +557,24 @@ export const getOptimizedModels = () => {
     provider: "Noobai",
     features: ["drawing"],
     auth: "无需"
+  },
+  {
+    id: 61,
+    model: "gpt-4.1-mini",
+    providers: 1,
+    token: "1000k",
+    provider: "OpenAi",
+    features: ["conversation", "code"],
+    auth: "无需"
+  },
+  {
+    id: 62,
+    model: "gpt-4.1-nano",
+    providers: 1,
+    token: "1000k",
+    provider: "OpenAi",
+    features: ["conversation", "code"],
+    auth: "无需"
   }
 ];
 
