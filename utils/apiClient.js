@@ -105,7 +105,7 @@ export async function YTapi(requestData, config, toolContent, toolName) {
                             const prefix = `我来调用工具 ${toolName} 看看\n`;
                             return {
                                 role: 'assistant',
-                                content: toolContent + "在群里说: " + prefix + msg.content
+                                content: toolContent + "在群里说: 我试试，" + msg.content
                             };
                         }
                         return msg;
