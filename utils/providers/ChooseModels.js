@@ -12,7 +12,6 @@ import { pollinations } from "../providers/ChatModels/pollinations/pollinations.
 import { glider } from "../providers/ChatModels/glider/glider.js";
 import { gizai } from "../providers/ChatModels/gizai/gizai.js";
 import { jmuz } from "../providers/ChatModels/jmuz/jmuz.js";
-//import { e11chat } from "../providers/ChatModels/e11chat/e11chat.js";
 //import { grok } from "../providers/ChatModels/grok/grok.js";
 import { AnthropicDoc } from "../providers/ChatModels/AnthropicDoc/AnthropicDoc.js";
 import { NoobxL } from "../providers/ChatModels/huggingface/noobxl.js";
@@ -65,7 +64,6 @@ const providerStats = {
     //ddg: { success: 0, failure: 0, weight: 100 },
     //genspark: { success: 0, failure: 0, weight: 65 },
     //grok: { success: 0, failure: 0, weight: 100 },
-    //e11chat: { success: 0, failure: 0, weight: 100 },
     openai: { success: 0, failure: 0, weight: 100 },
     websim: { success: 0, failure: 0, weight: 100 },
     imagelabs: { success: 0, failure: 0, weight: 100 },
@@ -158,7 +156,6 @@ const providerApis = {
     //ddg: ddg,
     //genspark: genspark,
     //grok: grok,
-    //e11chat: e11chat,
     openai: openai,
     websim: websim,
     imagelabs: imagelabs,

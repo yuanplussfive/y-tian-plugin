@@ -1505,6 +1505,14 @@ export const getOptimizedModels = () => {
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.08/次"
+    },
+    {
+      "id": 182,
+      "model": "anishadow-v10",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.12/次"
     }
   ]
 

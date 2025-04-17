@@ -6,6 +6,12 @@
         "gpt-4o-all-re"
       ]
     },
+    "grok-3": {
+      "providerModelName": "grok-3-office-re",
+      "aliases": [
+        "grok-3"
+      ]
+    },
     "grok-3-office-re": {
       "providerModelName": "grok-3-office-re",
       "aliases": [
