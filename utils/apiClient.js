@@ -89,7 +89,7 @@ export async function YTapi(requestData, config, toolContent, toolName) {
                 if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey?.length) {
                     return { error: "OneAPI URL, Model, or API Key is not configured" };
                 }
-                url = `${config.OneApiUrl}/v1/chat/completions`;
+                url = config.OneApiUrl.endsWith('completions') ? config.OneApiUrl : `${config.OneApiUrl}/v1/chat/completions`;
                 const oneApiKey = config.OneApiKey[Math.floor(Math.random() * config.OneApiKey.length)];
                 headers = {
                     'Authorization': `Bearer ${oneApiKey}`,
@@ -122,7 +122,7 @@ export async function YTapi(requestData, config, toolContent, toolName) {
                 if (!config.OneApiUrl || !config.OneApiModel || !config.OneApiKey?.length) {
                     return { error: "OneAPI URL, Model, or API Key is not configured" };
                 }
-                url = `${config.OneApiUrl}/v1/chat/completions`;
+                url = config.OneApiUrl.endsWith('completions') ? config.OneApiUrl : `${config.OneApiUrl}/v1/chat/completions`;
                 const oneApiKey = config.OneApiKey[Math.floor(Math.random() * config.OneApiKey.length)];
                 headers = {
                     'Authorization': `Bearer ${oneApiKey}`,
@@ -157,6 +157,10 @@ export async function YTapi(requestData, config, toolContent, toolName) {
         }
 
         let response;
+        if (url.includes('v1beta/chat/completions') && typeof finalRequestData === 'object' && finalRequestData !== null) {
+            delete finalRequestData.tools;
+            delete finalRequestData.tool_choice;
+        }
         try {
             response = await fetch(url, {
                 method: 'POST',
