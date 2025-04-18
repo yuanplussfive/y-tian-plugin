@@ -354,6 +354,9 @@ export class ExamplePlugin extends plugin {
         HgGPTSovitsUrl: 'https://yuoop-gpt-sovits-v2.hf.space',
         liblibtoken: '',
         liblibcheckpointId: 18572023,
+        YuanbaoModel: 'deep_seek',
+        YuanbaoDeepSearch: false,
+        YuanbaoCK: ['']
       }
     }
 

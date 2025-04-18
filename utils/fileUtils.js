@@ -42,17 +42,6 @@ export function chunk(array, size) {
   );
 }
 
-/**
- * 下载并保存文件
- * @param {string} url - 文件URL
- * @param {string} originalFileName - 原始文件名
- * @param {object} path - path模块
- * @param {function} fetch - fetch函数
- * @param {string} _path - 基础路径
- * @param {object} fs - fs模块
- * @param {object} e - 事件对象
- * @returns {Promise<Object>} - 下载结果
- */
 export async function downloadAndSaveFile(url, originalFileName, e) {
   try {
     const response = await fetch(url.trim());
@@ -63,19 +52,22 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
     let finalFileName = '';
     let fileExtension = '';
 
-    // 尝试从原始文件名获取扩展名
-    if (originalFileName) {
-      fileExtension = path.extname(originalFileName);
-      // 如果原始文件名有效，使用原始文件名
+    // 清理原始文件名中的查询字符串
+    let cleanOriginalFileName = originalFileName ? originalFileName.split('?')[0] : '';
+
+    // 尝试从清理后的原始文件名获取扩展名
+    if (cleanOriginalFileName) {
+      fileExtension = path.extname(cleanOriginalFileName);
       if (fileExtension) {
-        const baseName = path.basename(originalFileName, fileExtension);
+        const baseName = path.basename(cleanOriginalFileName, fileExtension);
         finalFileName = `${baseName}_${timestamp}${fileExtension}`;
       }
     }
 
-    // 如果没有有效的原始文件名，尝试从URL获取
+    // 如果没有有效的原始文件名，尝试从 URL 获取
     if (!finalFileName) {
-      fileExtension = path.extname(url) || await getFileExtensionFromUrl(url);
+      const cleanUrl = url.split('?')[0]; // 清理 URL 查询字符串
+      fileExtension = path.extname(cleanUrl) || (await getFileExtensionFromUrl(cleanUrl));
       if (!fileExtension || fileExtension === '无法识别的文件类型') {
         fileExtension = '.unknown';
       }
@@ -104,14 +96,13 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
     return {
       success: true,
       filePath,
-      fileName: finalFileName
+      fileName: finalFileName,
     };
-
   } catch (error) {
     console.error(`文件下载保存失败: ${url}:`, error);
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }
@@ -153,7 +144,8 @@ export async function get_address(inputString) {
     `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.zaiwen\\.top/images/[a-zA-Z0-9\\-]+\\.[a-z]{2,4}(?:\\?.*)?`,
     `[a-zA-Z0-9\\-]+\\.s3(?:-[a-z0-9\\-]+)?\\.amazonaws\\.com/[a-zA-Z0-9\\-./]+\\.[a-z]{2,4}(?:\\?.*)?`,
     `[a-zA-Z0-9_\\-.]+\\.hf\\.space/gradio_api/file=[^?#]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`,
-    `[a-zA-Z0-9_\\-.]+\\.hf\\.space/file=[^?#]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`
+    `[a-zA-Z0-9_\\-.]+\\.hf\\.space/file=[^?#]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`,
+    `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.myqcloud\\.com(?:/[a-zA-Z0-9\\-_/]+)*\\.[a-z]{2,4}(?:\\?.*)?`
   ].join('|');
 
   // 定义链接模式及其对应的进度提取规则
@@ -801,27 +793,112 @@ export async function saveUserHistory(userId, dirpath, history, type) {
   }
 }
 
+/**
+ * 下载图片并保存到指定路径
+ * @param {string} url - 图片 URL
+ * @param {string} filePath - 保存文件路径
+ * @returns {Promise<{ success: boolean, error?: string }>} - 下载结果
+ */
+export async function downloadImage(url, filePath) {
+  // 清理 URL 中的查询字符串
+  const cleanUrl = url.split('?')[0];
+  const fileExtension = path.extname(cleanUrl).toLowerCase();
+
+  // 检查文件扩展名，默认支持常见图片格式
+  const validExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif'];
+  if (!fileExtension || !validExtensions.includes(fileExtension)) {
+    console.warn(`无效的文件扩展名: ${fileExtension} for URL: ${url}`);
+    return { success: false, error: `无效的文件扩展名: ${fileExtension}` };
+  }
+
+  const downloadTimeout = 40000; // 40 秒超时
+  let downloadAborted = false;
+
+  const downloadPromise = async () => {
+    try {
+      // 发起请求
+      const response = await axios({
+        url: url.trim(), // 使用原始 URL 下载，包含查询字符串（可能需要认证）
+        method: 'GET',
+        responseType: 'stream',
+      });
+
+      if (response.status >= 400) {
+        throw new Error(`HTTP 错误: ${response.status}`);
+      }
+
+      // 确保目录存在
+      const dir = path.dirname(filePath);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
+      // 保存文件
+      const file = fs.createWriteStream(filePath);
+      response.data.pipe(file);
+
+      await new Promise((resolve, reject) => {
+        file.on('finish', resolve);
+        file.on('error', reject);
+      });
+
+      if (!downloadAborted) {
+        return { success: true };
+      }
+      return { success: false, error: '下载被中止' };
+    } catch (err) {
+      console.error(`下载失败: ${url}`, err.message);
+      return { success: false, error: err.message };
+    }
+  };
+
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => {
+      downloadAborted = true;
+      reject(new Error('下载超时'));
+    }, downloadTimeout)
+  );
+
+  try {
+    const result = await Promise.race([downloadPromise(), timeoutPromise]);
+    return result;
+  } catch (err) {
+    console.error(`下载错误: ${url}`, err.message);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * 处理图片下载并发送
+ * @param {object} e - 事件对象
+ * @param {string[]} urls - 图片 URL 数组
+ * @param {string} _path - 基础路径
+ * @returns {Promise<string[]>} - 处理结果
+ */
 export async function handleImages(e, urls, _path) {
-  // 如果没有URLs，直接返回
+  // 如果没有 URLs，直接返回
   if (!urls || urls.length === 0) {
-    return ["预览"];
+    return ['预览'];
   }
 
   // 并行下载所有图片
   const downloadPromises = urls.map(async (url, index) => {
-    const filePath = path.join(_path, 'resources', `dall_e_chat_${index}.png`);
+    // 清理 URL 获取文件扩展名
+    const cleanUrl = url.split('?')[0];
+    const fileExtension = path.extname(cleanUrl) || '.png'; // 默认 .png
+    const fileName = `dall_e_chat_${index}${fileExtension}`;
+    const filePath = path.join(_path, 'resources', fileName);
+
     try {
       const result = await downloadImage(url, filePath);
       if (result.success) {
-        // 下载成功返回文件路径
         return { success: true, path: filePath };
       } else {
-        // 下载失败返回URL
-        return { success: false, url: url.trim() };
+        return { success: false, url: url.trim(), error: result.error };
       }
     } catch (error) {
-      console.error(`下载失败: ${url}`, error);
-      return { success: false, url: url.trim() };
+      console.error(`下载失败: ${url}`, error.message);
+      return { success: false, url: url.trim(), error: error.message };
     }
   });
 
@@ -830,29 +907,34 @@ export async function handleImages(e, urls, _path) {
     const results = await Promise.all(downloadPromises);
 
     // 初始化结果数组
-    const imageResults = ["预览"];
+    const imageResults = ['预览'];
 
-    // 收集所有成功下载的图片
+    // 收集成功下载的图片
     const successfulImages = results
-      .filter(result => result.success)
-      .map(result => segment.image(result.path));
+      .filter((result) => result.success)
+      .map((result) => segment.image(result.path));
 
-    // 如果有成功下载的图片，一次性发送
+    // 如果有成功下载的图片，发送
     if (successfulImages.length > 0) {
-      await e.reply(successfulImages);
+      try {
+        await e.reply(successfulImages);
+      } catch (replyError) {
+        console.error('发送图片失败:', replyError.message);
+        imageResults.push('发送图片失败');
+      }
     }
 
-    // 将失败的URL添加到结果数组
-    results.forEach(result => {
+    // 添加失败的 URL 及错误信息
+    results.forEach((result) => {
       if (!result.success) {
-        imageResults.push(result.url);
+        imageResults.push(`${result.url} (错误: ${result.error || '未知错误'})`);
       }
     });
 
     return imageResults;
   } catch (error) {
-    console.error('处理图片时发生错误:', error);
-    return ["预览", "处理图片时发生错误"];
+    console.error('处理图片时发生错误:', error.message);
+    return ['预览', `处理图片时发生错误: ${error.message}`];
   }
 }
 
@@ -1043,60 +1125,4 @@ export async function saveData(redisKey, filePath, data) {
   }
 
   return { success: true };
-}
-
-export async function downloadImage(url, filePath) {
-  const fileExtension = path.extname(url).toLowerCase();
-  if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
-    return { success: false };
-  }
-
-  const downloadTimeout = 40000;
-  let downloadAborted = false;
-
-  const downloadPromise = async () => {
-    try {
-      const response = await axios({
-        url: url.trim(),
-        method: 'GET',
-        responseType: 'stream'
-      });
-
-      if (response.status >= 400) {
-        throw new Error(`Failed to download ${url}: ${response.status}`);
-      }
-
-      const file = fs.createWriteStream(filePath);
-      response.data.pipe(file);
-
-      await new Promise((resolve, reject) => {
-        file.on('finish', resolve);
-        file.on('error', reject);
-      });
-
-      if (!downloadAborted) {
-        return { success: true };
-      }
-      return { success: false };
-
-    } catch (err) {
-      console.error(err);
-      return { success: false };
-    }
-  };
-
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => {
-      downloadAborted = true;
-      reject(new Error('Download timed out'));
-    }, downloadTimeout)
-  );
-
-  try {
-    const result = await Promise.race([downloadPromise(), timeoutPromise]);
-    return result;
-  } catch (err) {
-    console.error(err);
-    return { success: false };
-  }
 }

@@ -1,20 +1,19 @@
 const _path = process.cwd();
-import { getFileInfo, TakeImages, getBase64File, get_address, downloadAndSaveFile } from '../utils/fileUtils.js';
+import { handleImages, getFileInfo, TakeImages, getBase64File, get_address, downloadAndSaveFile } from '../utils/fileUtils.js';
 import { processUploadedFile } from '../YTOpen-Ai/tools/processUploadedFile.js';
 import { KimiCompletion } from '../utils/providers/ChatModels/kimi/kimiClient.js';
 import { GlmCompletion } from '../utils/providers/ChatModels/chatglm/glmClient.js';
+import { YuanbaoCompletion } from '../utils/providers/ChatModels/Yuanbao/YuanbaoClient.js';
 import { free_models } from "../YTOpen-Ai/free-models.js";
 import { callGeminiAPI, handleGeminiImage, processGeminiResult } from "../YTOpen-Ai/GeminiAPI.js";
 import { replyBasedOnStyle } from "../YTOpen-Ai/answer-styles.js";
 import { NXModelResponse } from "../utils/providers/ChooseModels.js";
-import axios from "axios";
 import mimeTypes from "mime-types";
 import path from "path";
-import fs from "fs";
+import common from "../../../lib/common/common.js";
 
 const modellist = {
-  "hunyuan": "hunyuan-lite",
-  "混元": "hunyuan-lite",
+  "元宝": "腾讯元宝",
   "step": "step-2",
   "跃问": "step-2",
   "g4f": "gpt-4o",
@@ -174,6 +173,7 @@ export class YTFreeAi extends plugin {
     // 处理回复样式并保存配置
     try {
       await replyBasedOnStyle(answer, e, modellist[model] || model, userMsg);
+      await sendLongMessage(e, answer, [answer]);
       history.push({ role: "assistant", content: answer });
       config.history = history;
       await this.saveConfig(userId, model, config);
@@ -187,9 +187,11 @@ export class YTFreeAi extends plugin {
   async getModelResponse(model, config, e) {
     const modelName = modellist[model];
     if (!modelName) return null;
+    console.log(model)
     const isKimi = model.toLowerCase().includes('kimi');
     const isGlm = model.toLowerCase().includes('glm');
     const isGemini = model.toLowerCase().includes('gemini');
+    const isYuanbao = model.toLowerCase().includes('元宝');
     if (isGemini) {
       const openAIFormat = {
         messages: config.history
@@ -230,6 +232,39 @@ export class YTFreeAi extends plugin {
       console.log(output);
       return output;
     }
+    if (isYuanbao) {
+      console.log(2223)
+      try {
+        const YuanbaoConfig = config.modelSpecific.Yuanbao || {};
+        const YuanbaoParams = {
+          messages: config.history.slice(-1),
+          ck: YuanbaoConfig.ck,
+          refConvId: YuanbaoConfig.convId
+        };
+
+        console.log(YuanbaoParams)
+        const YuanbaoResponse = await YuanbaoCompletion(YuanbaoParams.messages, YuanbaoParams.ck, YuanbaoParams.refConvId);
+        if (YuanbaoResponse) {
+          config.modelSpecific.Yuanbao = {
+            ck: YuanbaoResponse.ck || YuanbaoParams.ck,
+            convId: YuanbaoResponse.convId || YuanbaoParams.refConvId
+          };
+          let urls = await get_address(YuanbaoResponse.output);
+          console.log('Yuanbao', urls)
+          if (urls.length > 0) {
+            await handleImages(e, urls, _path);
+            urls.forEach(async (url) => {
+              await downloadAndSaveFile(url, url, e);
+            });
+          }
+          return YuanbaoResponse.output;
+        }
+        return `YuanbaoCompletion 错误: 通讯失败`;
+      } catch (error) {
+        this.logger.error(`YuanbaoCompletion 错误: ${error.message}`);
+        return `YuanbaoCompletion 错误: ${error.message}`;
+      }
+    }
     if (isGlm) {
       try {
         const GlmConfig = config.modelSpecific.Glm || {};
@@ -246,10 +281,10 @@ export class YTFreeAi extends plugin {
             refreshToken: GlmResponse.refreshToken || GlmParams.refreshToken,
             convId: GlmResponse.convId || GlmParams.refConvId
           };
-            let urls = await get_address(GlmResponse.output);
-            console.log('glm', urls)
-            if (urls.length > 0) {
-            await handleImages(urls, e);
+          let urls = await get_address(GlmResponse.output);
+          console.log('glm', urls)
+          if (urls.length > 0) {
+            await handleImages(e, urls, _path);
             urls.forEach(async (url) => {
               await downloadAndSaveFile(url, path.basename(url), e);
             });
@@ -292,113 +327,63 @@ export class YTFreeAi extends plugin {
   }
 }
 
-async function handleImages(urls, e) {
-  // 如果没有URLs，直接返回
-  if (!urls || urls.length === 0) {
-    return ["预览:"];
-  }
-
-  // 并行下载所有图片
-  const downloadPromises = urls.map(async (url, index) => {
-    const filePath = path.join(_path, 'resources', `dall_e_chat_${index}.png`);
-    try {
-      const result = await downloadImage(path, url, filePath);
-      if (result.success) {
-        // 下载成功返回文件路径
-        return { success: true, path: filePath };
-      } else {
-        // 下载失败返回URL
-        return { success: false, url: url.trim() };
-      }
-    } catch (error) {
-      console.error(`下载失败: ${url}`, error);
-      return { success: false, url: url.trim() };
-    }
-  });
+/**
+* 将长文本消息分段添加到转发消息数组
+* @param {Object} e 事件对象
+* @param {String|Array} messages 要发送的消息
+* @param {Number} maxLength 单段最大长度，默认1000字符
+*/
+async function sendLongMessage(e, messages, forwardMsg, maxLength = 1000) {
+  // 如果是字符串，转换为数组处理
+  const msgArray = typeof messages === 'string' ? [messages] : messages;
 
   try {
-    // 等待所有下载完成
-    const results = await Promise.all(downloadPromises);
+    // 先尝试直接将所有消息添加到转发消息中
+    const directForwardMsg = [...forwardMsg];
+    msgArray.forEach(msg => directForwardMsg.push(msg));
 
-    // 初始化结果数组
-    const imageResults = ["预览:"];
+    // 尝试一次性发送所有消息
+    const jsonPart = await common.makeForwardMsg(e, directForwardMsg, 'Preview');
+    await e.reply(jsonPart);
+    logger.info('消息已成功一次性发送');
 
-    // 收集所有成功下载的图片
-    const successfulImages = results
-      .filter(result => result.success)
-      .map(result => segment.image(result.path));
-
-    // 如果有成功下载的图片，一次性发送
-    if (successfulImages.length > 0) {
-      await e.reply(successfulImages);
-    }
-
-    // 将失败的URL添加到结果数组
-    results.forEach(result => {
-      if (!result.success) {
-        imageResults.push(result.url);
-      }
-    });
-
-    return imageResults;
   } catch (error) {
-    console.error('处理图片时发生错误:', error);
-    return ["预览:", "处理图片时发生错误"];
-  }
-}
+    logger.warn(`一次性发送失败，将尝试分段发送: ${error.message}`);
 
-async function downloadImage(path, url, filePath) {
-  const fileExtension = path.extname(url).toLowerCase();
-  if (!['.webp', '.png', '.jpg'].includes(fileExtension)) {
-    return { success: false };
-  }
-
-  const downloadTimeout = 40000;
-  let downloadAborted = false;
-
-  const downloadPromise = async () => {
     try {
-      const response = await axios({
-        url: url.trim(),
-        method: 'GET',
-        responseType: 'stream'
-      });
+      // 创建新的转发消息数组
+      const segmentedForwardMsg = [...forwardMsg];
 
-      if (response.status >= 400) {
-        throw new Error(`Failed to download ${url}: ${response.status}`);
+      // 对每条消息进行处理
+      for (let msg of msgArray) {
+        if (typeof msg === 'string' && msg.length > maxLength) {
+          // 计算需要分成几段
+          const segmentCount = Math.ceil(msg.length / maxLength);
+          logger.info(`消息长度为${msg.length}，将分为${segmentCount}段发送`);
+
+          // 分段处理文本
+          for (let i = 0; i < segmentCount; i++) {
+            const start = i * maxLength;
+            const end = Math.min(start + maxLength, msg.length);
+            const segment = msg.substring(start, end);
+
+            if (segment.trim()) {
+              segmentedForwardMsg.push(segment);
+            }
+          }
+        } else {
+          segmentedForwardMsg.push(msg);
+        }
       }
 
-      const file = fs.createWriteStream(filePath);
-      response.data.pipe(file);
+      // 生成转发消息并发送
+      const jsonPart = await common.makeForwardMsg(e, segmentedForwardMsg, 'Preview');
+      await e.reply(jsonPart);
+      logger.info('消息已成功分段发送');
 
-      await new Promise((resolve, reject) => {
-        file.on('finish', resolve);
-        file.on('error', reject);
-      });
-
-      if (!downloadAborted) {
-        return { success: true };
-      }
-      return { success: false };
-
-    } catch (err) {
-      console.error(err);
-      return { success: false };
+    } catch (secondError) {
+      logger.error(`分段发送也失败了: ${secondError.message}`);
+      await e.reply('消息发送失败，请稍后重试');
     }
-  };
-
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => {
-      downloadAborted = true;
-      reject(new Error('Download timed out'));
-    }, downloadTimeout)
-  );
-
-  try {
-    const result = await Promise.race([downloadPromise(), timeoutPromise]);
-    return result;
-  } catch (err) {
-    console.error(err);
-    return { success: false };
   }
 }

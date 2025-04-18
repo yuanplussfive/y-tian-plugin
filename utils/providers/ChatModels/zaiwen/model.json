@@ -1,5 +1,11 @@
 {
   "models": {
+    "o4-mini": {
+      "providerModelName": "gpt_o4_mini",
+      "aliases": [
+        "o4-mini"
+      ]
+    },
     "gpt-4.1-mini": {
       "providerModelName": "gpt4_1_mini",
       "aliases": [
