@@ -4,6 +4,11 @@ import common from "../../../lib/common/common.js";
 import puppeteer from "../../../lib/puppeteer/puppeteer.js";
 import fs from "fs";
 
+function removeThinkTagsAndFormat(input) {
+  const cleanedText = input.replace(/<think>.*?<\/think>/gs, '');
+  return cleanedText.trim();
+}
+
 async function replyBasedOnStyle(answer, e, model, msg) {
   const styles = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_chat_style;
   const processSource = async (answer) => {
@@ -48,10 +53,6 @@ async function replyBasedOnStyle(answer, e, model, msg) {
         .replace(/\\"/g, '"');
       return `search(${quote}${decoded}${quote})`;
     });
-  }
-
-  function formatThinkContent(str) {
-    return str.replace(/<think>([\s\S]*?)<\/think>/g, '```\n$1\n```');
   }
 
   async function sendSegmentedMessage(e, output) {
@@ -235,6 +236,9 @@ async function replyBasedOnStyle(answer, e, model, msg) {
 
       case "picture":
       case "pictures":
+        if (model.includes("ds") || model.includes("deepseek") || model.includes("元宝")) {
+          answer = removeThinkTagsAndFormat(answer);
+        }
         const resourcesPath = `${_path}/plugins/y-tian-plugin/resources`;
         const htmlPath = `${resourcesPath}/html`;
         const cssPath = `${resourcesPath}/css`;
@@ -264,12 +268,6 @@ async function replyBasedOnStyle(answer, e, model, msg) {
           tplFile: `${htmlPath}/gptx1.html`,
           dz: `${cssPath}/gptx1.css`
         };
-        const isDeepseek = model.includes('deepseek');
-        const hasReasoner = model.includes('r1') || model.includes('reasoner');
-
-        if (isDeepseek && hasReasoner) {
-          answer = formatThinkContent(answer);
-        }
         const data = {
           dz,
           tplFile,
