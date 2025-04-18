@@ -1258,6 +1258,70 @@ export const getOptimizedModels = () => {
       "Magnification": 0.05,
       "provider": "OpenAi",
       "features": ['conversation', 'image_recognition', 'file']
+    },
+    {
+      "id": "157",
+      "name": "o3",
+      "token_count": "128k",
+      "Magnification": "0.6/次",
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'file', 'internet']
+    },
+    {
+      "id": "158",
+      "name": "o3-all",
+      "token_count": "128k",
+      "Magnification": "0.6/次",
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'file', 'internet']
+    },
+    {
+      "id": "159",
+      "name": "o4-mini-all",
+      "token_count": "128k",
+      "Magnification": "0.15/次",
+      "provider": "OpenAi",
+      "features": ['conversation', 'file']
+    },
+    {
+      "id": "160",
+      "name": "o4-mini-high-all",
+      "token_count": "128k",
+      "Magnification": "0.2/次",
+      "provider": "OpenAi",
+      "features": ['conversation', 'file']
+    },
+    {
+      "id": "161",
+      "name": "o4-mini-high-all",
+      "token_count": "128k",
+      "Magnification": "0.2/次",
+      "provider": "OpenAi",
+      "features": ['conversation', 'file']
+    },
+    {
+      "id": "162",
+      "name": "o4-mini",
+      "token_count": "128k",
+      "Magnification": 0.55,
+      "provider": "OpenAi",
+      "features": ['conversation', 'file']
+    },
+    {
+      "id": "163",
+      "name": "o4-mini-2025-04-16",
+      "token_count": "128k",
+      "Magnification": 0.55,
+      "provider": "OpenAi",
+      "features": ['conversation', 'file']
+    },
+    {
+      "id": "164",
+      "name": "gemini-2.5-flash-preview-04-17",
+      "token_count": "1000k",
+      "Magnification": 0.15,
+      "provider": "Google",
+      "features": ['conversation', 'image_recognition', 'file', 'internet']
     }
   ]
 

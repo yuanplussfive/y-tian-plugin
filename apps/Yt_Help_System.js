@@ -274,7 +274,7 @@ async function getModelScreen(models, type, e) {
     { prefix: ['qwen', 'qwq-', 'internlm-', 'dbrx-'], file: 'qwen.png' },
     { prefix: ['yi-'], file: '01.jpg' },
     { prefix: ['spark-'], file: 'spark.png' },
-    { prefix: ['dalle','dall-e','gpt', 'o1', 'o3', 'sora-', 'advanced-voice', 'generate-pptx'], file: 'chatgpt.jpg' },
+    { prefix: ['dalle','dall-e','gpt', 'o1', 'o3', 'o4', 'sora-', 'advanced-voice', 'generate-pptx'], file: 'chatgpt.jpg' },
     { prefix: ['llama'], file: 'llama.jpg' },
     { prefix: ['doubao'], file: 'doubao.png' },
     { prefix: ['hunyuan'], file: 'hunyuan.png' },
@@ -293,7 +293,7 @@ async function getModelScreen(models, type, e) {
     { prefix: ['recraft-'], file: 'recraft.png' },
     { prefix: ['ltx-'], file: 'ltx.png' },
     { prefix: ['sana'], file: 'sana.png' },
-    { prefix: ['noobai', 'wai-'], file: 'Noob.png' },
+    { prefix: ['noobai', 'wai-', 'anishadow-'], file: 'Noob.png' },
   ];
 
   // 默认 logo 路径
