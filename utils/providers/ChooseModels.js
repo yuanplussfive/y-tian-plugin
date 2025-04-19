@@ -22,6 +22,7 @@ import { SlackAi } from "../providers/ChatModels/slack/slack.js";
 //import { ddg } from "../providers/ChatModels/ddg/ddg.js";
 import { PromPlateAi } from "../providers/ChatModels/PromPlateAi/PromPlateAi.js";
 //import { genspark } from "../providers/ChatModels/genspark/genspark.js";
+import { YuanbaoCompletion } from "../providers/ChatModels/Yuanbao/YuanbaoApi.js";
 import { openai } from "../providers/ChatModels/openai/openai.js";
 import { websim } from "../providers/ChatModels/websim/websim.js";
 import { imagelabs } from "../providers/ChatModels/imagelabs/imagelabs.js";
@@ -70,6 +71,7 @@ const providerStats = {
     jimeng: { success: 0, failure: 0, weight: 100 },
     huggingface: { success: 0, failure: 0, weight: 100 },
     liblib: { success: 0, failure: 0, weight: 100 },
+    Yuanbao: { success: 0, failure: 0, weight: 100 },
 };
 
 // 获取当前文件所在的目录
@@ -161,7 +163,8 @@ const providerApis = {
     imagelabs: imagelabs,
     jimeng: jimengClient,
     huggingface: NoobxL,
-    liblib: liblib
+    liblib: liblib,
+    Yuanbao: YuanbaoCompletion
 };
 
 // 默认超时时间 (3分钟)

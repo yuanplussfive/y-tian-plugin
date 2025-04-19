@@ -1,8 +1,20 @@
 {
   "models": {
-    "net-gpt-4o-mini": {
-      "providerModelName": "net-gpt-4o-mini",
-      "aliases": ["net-gpt-4o-mini"]
+    "hunyuan-t1": {
+      "providerModelName": "hunyuan_t1",
+      "aliases": ["hunyuan-t1"]
+    },
+    "hunyuan-gpt-175B-0404": {
+      "providerModelName": "hunyuan_gpt_175B_0404",
+      "aliases": ["hunyuan-gpt-175B-0404"]
+    },
+    "hunyuan-deepseek-r1": {
+      "providerModelName": "deep_seek",
+      "aliases": ["hunyuan-deepseek-r1"]
+    },
+    "hunyuan-deepseek-v3": {
+      "providerModelName": "deep_seek_v3",
+      "aliases": ["hunyuan-deepseek-v3"]
     }
   }
 }
