@@ -1488,7 +1488,7 @@ export const getOptimizedModels = () => {
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.03/次"
+      "quota": "0.06/次"
     },
     {
       "id": 180,
@@ -1513,6 +1513,22 @@ export const getOptimizedModels = () => {
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.12/次"
+    },
+    {
+      "id": 183,
+      "model": "wai-illustrious-free",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.005/次"
+    },
+    {
+      "id": 184,
+      "model": "noobai-xl-free",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.005/次"
     }
   ]
 
