@@ -66,8 +66,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code'],
       "quota": 1
     },
-
-    // OpenAI GPT-4 models
     {
       "id": 9,
       "model": "gpt-4",
@@ -124,8 +122,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
       "quota": "0.5/次"
     },
-
-    // OpenAI GPT-4o models
     {
       "id": 16,
       "model": "gpt-4o-all",
@@ -174,8 +170,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code'],
       "quota": 1.25
     },
-
-    // OpenAI o1 models
     {
       "id": 22,
       "model": "o1",
@@ -240,8 +234,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": 10
     },
-
-    // OpenAI o3 models
     {
       "id": 30,
       "model": "o3-mini",
@@ -253,7 +245,7 @@ export const getOptimizedModels = () => {
     {
       "id": 31,
       "model": "o3-mini-all",
-      "points": "OpenAi Plus",
+      "points": "OpenAi",
       "token": "128k",
       "features": ["conversation", "code", "internet"],
       "quota": 6
@@ -261,7 +253,7 @@ export const getOptimizedModels = () => {
     {
       "id": 32,
       "model": "o3-mini-high",
-      "points": "OpenAi Plus",
+      "points": "OpenAi",
       "token": "128k",
       "features": ["conversation", "code", "internet"],
       "quota": 24
@@ -269,30 +261,26 @@ export const getOptimizedModels = () => {
     {
       "id": 33,
       "model": "o3-mini-high-all",
-      "points": "OpenAi Plus",
+      "points": "OpenAi",
       "token": "128k",
       "features": ["conversation", "code", "internet"],
       "quota": 24
     },
-
-    // OpenAI DALL-E
     {
       "id": 34,
       "model": "dall-e-3",
       "points": "OpenAI",
       "token": "2k",
       "features": ['drawing'],
-      "quota": 0
+      "quota": "0.1/次"
     },
-
-    // Claude models
     {
       "id": 35,
       "model": "claude-1-100k",
       "points": "Anthropic",
       "token": "100k",
       "features": ['conversation', 'image_recognition'],
-      "quota": 0
+      "quota": "0.02/次"
     },
     {
       "id": 36,
@@ -300,7 +288,7 @@ export const getOptimizedModels = () => {
       "points": "Anthropic",
       "token": "100k",
       "features": ['conversation', 'image_recognition'],
-      "quota": 0
+      "quota": "0.02/次"
     },
     {
       "id": 37,
@@ -308,7 +296,7 @@ export const getOptimizedModels = () => {
       "points": "Anthropic",
       "token": "200k",
       "features": ['conversation', 'image_recognition'],
-      "quota": 0
+      "quota": "0.02/次"
     },
     {
       "id": 38,
@@ -316,7 +304,7 @@ export const getOptimizedModels = () => {
       "points": "Anthropic",
       "token": "200k",
       "features": ['conversation', 'image_recognition'],
-      "quota": 0
+      "quota": "0.02/次"
     },
     {
       "id": 39,
@@ -324,7 +312,7 @@ export const getOptimizedModels = () => {
       "points": "Anthropic",
       "token": "200k",
       "features": ['conversation', 'image_recognition'],
-      "quota": 0
+      "quota": "0.03/次"
     },
     {
       "id": 40,
@@ -332,7 +320,7 @@ export const getOptimizedModels = () => {
       "points": "Anthropic",
       "token": "200k",
       "features": ['conversation', 'code', 'image_recognition'],
-      "quota": 0
+      "quota": "0.05/次"
     },
     {
       "id": 41,
@@ -374,8 +362,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code'],
       "quota": 5
     },
-
-    // Google Gemini models
     {
       "id": 46,
       "model": "gemini-pro",
@@ -405,7 +391,7 @@ export const getOptimizedModels = () => {
       "model": "gemini-1.5-flash-latest",
       "points": "Google",
       "token": "100k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.5
     },
     {
@@ -413,7 +399,7 @@ export const getOptimizedModels = () => {
       "model": "gemini-1.5-pro",
       "points": "Google",
       "token": "128k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 5
     },
     {
@@ -421,7 +407,7 @@ export const getOptimizedModels = () => {
       "model": "gemini-1.5-pro-exp-0801",
       "points": "Google",
       "token": "128k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 5
     },
     {
@@ -520,8 +506,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'internet', 'code', 'image_recognition'],
       "quota": 0
     },
-
-    // Cohere models
     {
       "id": 64,
       "model": "command-r",
@@ -546,15 +530,13 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code'],
       "quota": 5
     },
-
-    // Meta/Llama models
     {
       "id": 67,
       "model": "llama-2-70b-chat",
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 68,
@@ -562,7 +544,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation', 'code'],
-      "quota": 1
+      "quota": "0.01/次"
     },
     {
       "id": 69,
@@ -570,7 +552,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 70,
@@ -578,7 +560,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 71,
@@ -586,7 +568,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 72,
@@ -594,7 +576,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 73,
@@ -602,7 +584,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 74,
@@ -610,7 +592,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 75,
@@ -618,7 +600,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 76,
@@ -626,7 +608,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 77,
@@ -634,7 +616,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 78,
@@ -642,7 +624,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation', 'code'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 79,
@@ -650,7 +632,7 @@ export const getOptimizedModels = () => {
       "points": "Meta",
       "token": "32k",
       "features": ['conversation', 'code'],
-      "quota": 0
+      "quota": "0.01/次"
     },
     {
       "id": 80,
@@ -658,7 +640,7 @@ export const getOptimizedModels = () => {
       "points": "meta",
       "token": "32k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": "0.01/次"
     },
     {
       "id": 81,
@@ -668,8 +650,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.25
     },
-
-    // 中文模型: 智谱GLM系列
     {
       "id": 82,
       "model": "glm-3-turbo",
@@ -710,8 +690,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'internet', 'code', 'image_recognition'],
       "quota": 1
     },
-
-    // Moonshot models
     {
       "id": 87,
       "model": "moonshot-v1-8k",
@@ -736,15 +714,13 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code'],
       "quota": 15
     },
-
-    // Deepseek models
     {
       "id": 90,
       "model": "deepseek-chat",
       "points": "deepseek",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": 0.25
     },
     {
       "id": 91,
@@ -752,23 +728,23 @@ export const getOptimizedModels = () => {
       "points": "deepseek",
       "token": "16k",
       "features": ['code'],
-      "quota": 0
+      "quota": 0.25
     },
     {
       "id": 92,
       "model": "deepseek-v2.5",
       "points": "deepseek",
-      "token": "100k",
+      "token": "32k",
       "features": ['conversation', 'code'],
-      "quota": 0
+      "quota": 0.25
     },
     {
       "id": 93,
-      "model": "deepseek-v2.5-new",
+      "model": "deepseek-v3",
       "points": "deepseek",
       "token": "64k",
       "features": ['conversation', 'code'],
-      "quota": 0
+      "quota": 0.5
     },
     {
       "id": 94,
@@ -776,19 +752,19 @@ export const getOptimizedModels = () => {
       "points": "deepseek",
       "token": "64k",
       "features": ['conversation', 'code'],
-      "quota": 0
+      "quota": 1.5
     },
     {
       "id": 95,
-      "model": "deepseek-search",
-      "points": "deepseek",
-      "token": "64k",
-      "features": ['conversation', 'code', 'internet'],
-      "quota": 0
+      "model": "kimi-vl-a3b-thinking",
+      "points": "月之暗面",
+      "token": "128k",
+      "features": ['conversation', 'code'],
+      "quota": 0.25
     },
     {
       "id": 96,
-      "model": "deepseek-v3-chat",
+      "model": "deepseek-v3-0324",
       "points": "deepseek",
       "token": "64k",
       "features": ['conversation', 'code', 'image_recognition'],
@@ -796,11 +772,11 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 97,
-      "model": "deepseek-r1-search",
+      "model": "deepseek-r1",
       "points": "deepseek",
       "token": "64k",
-      "features": ['conversation', 'code', 'internet'],
-      "quota": 4
+      "features": ['conversation', 'code'],
+      "quota": 1
     },
     {
       "id": 98,
@@ -808,23 +784,23 @@ export const getOptimizedModels = () => {
       "points": "deepseek",
       "token": "64k",
       "features": ['conversation', 'code', 'image_recognition'],
-      "quota": 4
+      "quota": 1.5
     },
     {
       "id": 99,
-      "model": "deepseek-r1-distill-qwen-7b",
-      "points": "deepseek",
-      "token": "32k",
+      "model": "llama-4-scout",
+      "points": "meta",
+      "token": "1000k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": "0.02/次"
     },
     {
       "id": 100,
-      "model": "deepseek-r1-distill-llama-8b",
-      "points": "deepseek",
-      "token": "32k",
+      "model": "llama-4-maverick",
+      "points": "meta",
+      "token": "1000k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": "0.04/次"
     },
     {
       "id": 101,
@@ -836,51 +812,47 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 102,
-      "model": "deepseek-r1-fast",
-      "points": "deepseek",
-      "token": "100k",
+      "model": "qwq-32b-arliai-rpr-v1",
+      "points": "通义千问",
+      "token": "128k",
+      "features": ['conversation', 'code'],
+      "quota": 0.25
+    },
+    {
+      "id": 103,
+      "model": "Doubao-1.5-lite-32k",
+      "points": "字节豆包",
+      "token": "32k",
       "features": ['conversation'],
       "quota": "0.01/次"
     },
-
-    // Yi models
-    {
-      "id": 103,
-      "model": "yi-34b-chat-200k",
-      "points": "零一万物",
-      "token": "200k",
-      "features": ['conversation'],
-      "quota": 0
-    },
     {
       "id": 104,
-      "model": "yi-lightning",
-      "points": "零一万物",
-      "token": "100k",
+      "model": "Doubao-1.5-pro-32k",
+      "points": "字节豆包",
+      "token": "32k",
       "features": ['conversation', 'code'],
-      "quota": 0
+      "quota": "0.04/次"
     },
     {
       "id": 105,
-      "model": "yi-1.5-9b-chat",
-      "points": "零一万物",
-      "token": "16k",
+      "model": "Doubao-1.5-lite-256k",
+      "points": "字节豆包",
+      "token": "256k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": "0.03/次"
     },
     {
       "id": 106,
-      "model": "yi-34b",
-      "points": "零一万物",
+      "model": "Doubao-1.5-pro-256k",
+      "points": "字节豆包",
       "token": "16k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": "0.08/次"
     },
-
-    // Grok models
     {
       "id": 107,
-      "model": "grok-v2.0",
+      "model": "grok-2",
       "points": "Xai",
       "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
@@ -888,7 +860,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 108,
-      "model": "grok-v2.0-mini",
+      "model": "grok-2-mini",
       "points": "Xai",
       "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
@@ -896,7 +868,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 109,
-      "model": "grok-beta",
+      "model": "grok-2-beta",
       "points": "Xai",
       "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
@@ -923,40 +895,40 @@ export const getOptimizedModels = () => {
       "model": "mistral-7b",
       "points": "mistral",
       "token": "7k",
-      "features": ['conversation'],
-      "quota": 0
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 1
     },
     {
       "id": 113,
       "model": "mixtral-8x7b",
       "points": "mixtral",
       "token": "7k",
-      "features": ['conversation'],
-      "quota": 0
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 1
     },
     {
       "id": 114,
       "model": "mixtral-8x7b-instruct",
       "points": "mixtral",
       "token": "32k",
-      "features": ['conversation'],
-      "quota": 0
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 1
     },
     {
       "id": 115,
       "model": "mixtral-8x22b",
       "points": "mixtral",
       "token": "32k",
-      "features": ['conversation'],
-      "quota": 0
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 1
     },
     {
       "id": 116,
       "model": "dolphin-mixtral-8x7b",
       "points": "mixtral",
       "token": "8k",
-      "features": ['conversation'],
-      "quota": 0
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 1
     },
     {
       "id": 117,
@@ -1062,8 +1034,6 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code'],
       "quota": 3.5
     },
-
-    // Qwen models
     {
       "id": 130,
       "model": "qwen-2.5-7B-instruct",
@@ -1086,10 +1056,8 @@ export const getOptimizedModels = () => {
       "points": "通义千问",
       "token": "32k",
       "features": ['conversation', 'code'],
-      "quota": 0
+      "quota": 0.25
     },
-
-    // InternLM models
     {
       "id": 133,
       "model": "internlm-2.5-7b-chat",
@@ -1098,75 +1066,69 @@ export const getOptimizedModels = () => {
       "features": ['conversation', 'code'],
       "quota": 0.25
     },
-
-    // 其他模型: 腾讯混元
     {
       "id": 134,
-      "model": "hunyuan",
-      "points": "腾讯混元",
+      "model": "moonlight-16b-a3b-instruct",
+      "points": "月之暗面",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0
+      "quota": 0.25
     },
-
-    // 月之暗面 Kimi models
     {
       "id": 135,
-      "model": "kimi",
-      "points": "月之暗面",
-      "token": "200k",
-      "features": ['conversation', 'code', 'image_recognition', 'file'],
+      "model": "grok-2-1212",
+      "points": "Xai",
+      "token": "128k",
+      "features": ['conversation', 'code'],
       "quota": 0.8
     },
     {
       "id": 136,
-      "model": "kimi-search",
-      "points": "月之暗面",
-      "token": "200k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-      "quota": 0.8
+      "model": "gpt-4.1",
+      "points": "OpenAi",
+      "token": "1000k",
+      "features": ['conversation', 'code'],
+      "quota": "0.15/次"
     },
     {
       "id": 137,
-      "model": "kimi-research",
-      "points": "月之暗面",
-      "token": "200k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-      "quota": 0.8
+      "model": "gpt-4.1-mini",
+      "points": "OpenAi",
+      "token": "1000k",
+      "features": ['conversation', 'code'],
+      "quota": "0.06/次"
     },
     {
       "id": 138,
-      "model": "kimi-k1",
-      "points": "月之暗面",
-      "token": "200k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-      "quota": 0.8
+      "model": "gpt-4.1-nano",
+      "points": "OpenAi",
+      "token": "1000k",
+      "features": ['conversation', 'code'],
+      "quota": "0.02/次"
     },
     {
       "id": 139,
-      "model": "kimi-math",
-      "points": "月之暗面",
-      "token": "200k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-      "quota": 0.8
+      "model": "gemma-2-27b-it",
+      "points": "Google",
+      "token": "1000k",
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 0.25
     },
     {
       "id": 140,
-      "model": "kimi-silent",
-      "points": "月之暗面",
-      "token": "200k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition', 'file'],
-      "quota": 0.8
+      "model": "gemma-2-9b-it",
+      "points": "Google",
+      "token": "1000k",
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 0.25
     },
-
-    // 绘图和多媒体模型
     {
       "id": 141,
       "model": "generate-pptx",
       "points": "OpenAi",
       "token": "20k",
       "features": [],
-      "quota": "5.0/次"
+      "quota": "3.0/次"
     },
     {
       "id": 142,
@@ -1404,15 +1366,13 @@ export const getOptimizedModels = () => {
       "features": ['video'],
       "quota": "0.5/次"
     },
-
-    // OpenAI图像生成
     {
       "id": 171,
       "model": "gpt-4o-image",
       "points": "OpenAi",
       "token": "8k",
       "features": ['drawing'],
-      "quota": 0
+      "quota": "0.1/次"
     },
     {
       "id": 172,
@@ -1422,8 +1382,6 @@ export const getOptimizedModels = () => {
       "features": ['drawing'],
       "quota": "0.1/次"
     },
-
-    // 音乐生成
     {
       "id": 173,
       "model": "suno-v4-vip",
@@ -1432,8 +1390,6 @@ export const getOptimizedModels = () => {
       "features": ['music'],
       "quota": 0
     },
-
-    // 快速处理模型
     {
       "id": 174,
       "model": "gemini-1.5-flash-fast",
@@ -1460,11 +1416,11 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 177,
-      "model": "claude-3.5-haiku-fast",
-      "points": "Anthropic",
-      "token": "100k",
-      "features": ['conversation'],
-      "quota": "0.025/次"
+      "model": "qwq-32b",
+      "points": "通义千问",
+      "token": "128k",
+      "features": ['conversation', 'code'],
+      "quota": 0.25
     },
     {
       "id": 178,
@@ -1529,6 +1485,30 @@ export const getOptimizedModels = () => {
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.005/次"
+    },
+    {
+      "id": 185,
+      "model": "gemma-3-27b-it",
+      "points": "Google",
+      "token": "1000k",
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 0.25
+    },
+    {
+      "id": 186,
+      "model": "gemini-2.5-flash-preview-04-17",
+      "points": "Google",
+      "token": "1000k",
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 0.25
+    },
+    {
+      "id": 187,
+      "model": "gemini-2.5-pro-exp-03-25",
+      "points": "Google",
+      "token": "1000k",
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 2.5
     }
   ]
 

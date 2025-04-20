@@ -278,12 +278,12 @@ async function getModelScreen(models, type, e) {
     { prefix: ['llama'], file: 'llama.jpg' },
     { prefix: ['doubao'], file: 'doubao.png' },
     { prefix: ['hunyuan'], file: 'hunyuan.png' },
-    { prefix: ['kimi'], file: 'kimi.jpeg' },
+    { prefix: ['kimi', 'moonshot', 'moonlight'], file: 'kimi.jpeg' },
     { prefix: ['minimax'], file: 'hailuo.png' },
     { prefix: ['step'], file: 'step.png' },
     { prefix: ['mistral-', 'mixtral-', 'ministral-', 'pixtral-', 'codestral-'], file: 'mixtral.png' },
+    { prefix: ['noobai', 'wai-', 'anishadow-'], file: 'Noob.png' },
     { prefix: ['sd-', 'sd3', 'stable-diffusion', 'sdxl'], file: 'sd.png' },
-    { prefix: ['moonshot'], file: 'moonshot.png' },
     { prefix: ['ideogram'], file: 'ideogram.png' },
     { prefix: ['flux'], file: 'flux.jpg' },
     { prefix: ['runway'], file: 'runway.jpg' },
@@ -293,7 +293,6 @@ async function getModelScreen(models, type, e) {
     { prefix: ['recraft-'], file: 'recraft.png' },
     { prefix: ['ltx-'], file: 'ltx.png' },
     { prefix: ['sana'], file: 'sana.png' },
-    { prefix: ['noobai', 'wai-', 'anishadow-'], file: 'Noob.png' },
   ];
 
   // 默认 logo 路径
