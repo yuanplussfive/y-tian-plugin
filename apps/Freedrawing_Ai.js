@@ -41,6 +41,10 @@ export class FreeDrawing extends plugin {
           fnc: 'handleNoobaiCommand'
         },
         {
+          reg: "^#(nbxl|Nbxl)绘图(.*)",
+          fnc: 'handleNoobxlCommand'
+        },
+        {
           reg: "^#(Wai|wai)绘图(.*)",
           fnc: 'handleWaiCommand'
         },
@@ -49,11 +53,38 @@ export class FreeDrawing extends plugin {
           fnc: 'handleAniCommand'
         },
         {
+          reg: "^#(Af|af)绘图(.*)",
+          fnc: 'handleAfCommand'
+        },
+        {
           reg: "^#免费绘图切换(长|宽|方)图",
           fnc: 'handleSizeCommand'
         }
       ]
     })
+  }
+
+  async handleAfCommand(e) {
+    try {
+      const prompt = e.msg.replace(/#(Af|af)绘图/g, "")?.trim()
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'anishadow-v10-fast');
+      let imageUrls = [];
+      console.log(imageArray);
+      if (!imageArray) {
+        e.reply('生成失败了，可能服务器无响应，请稍后再试！');
+      } else {
+        imageUrls = await extractImageUrls(imageArray);
+        if (imageUrls && imageUrls.length > 0) {
+          const images = imageUrls.map(imgurl => segment.image(imgurl.trim()));
+          await e.reply(images);
+        } else {
+          e.reply(imageArray);
+        }
+      }
+    } catch (error) {
+      console.log('处理错误:', error);
+      e.reply('生成失败了，请稍后再试！');
+    }
   }
 
   async handleAniCommand(e) {
@@ -78,7 +109,30 @@ export class FreeDrawing extends plugin {
       e.reply('生成失败了，请稍后再试！');
     }
   }
-  
+
+  async handleNoobxlCommand(e) {
+    try {
+      const prompt = e.msg.replace(/#(nbxl|Nbxl)绘图/g, "")?.trim()
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'noobai-xl-v1.1');
+      let imageUrls = [];
+      console.log(imageArray);
+      if (!imageArray) {
+        e.reply('生成失败了，可能服务器无响应，请稍后再试！');
+      } else {
+        imageUrls = await extractImageUrls(imageArray);
+        if (imageUrls && imageUrls.length > 0) {
+          const images = imageUrls.map(imgurl => segment.image(imgurl.trim()));
+          await e.reply(images);
+        } else {
+          e.reply(imageArray);
+        }
+      }
+    } catch (error) {
+      console.log('处理错误:', error);
+      e.reply('生成失败了，请稍后再试！');
+    }
+  }
+
   async handleNoobaiCommand(e) {
     try {
       const prompt = e.msg.replace(/#(noob|Noob|noobai)绘图/g, "")?.trim()

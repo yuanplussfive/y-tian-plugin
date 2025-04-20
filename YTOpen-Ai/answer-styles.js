@@ -5,7 +5,7 @@ import puppeteer from "../../../lib/puppeteer/puppeteer.js";
 import fs from "fs";
 
 function removeThinkTagsAndFormat(input) {
-  const cleanedText = input.replace(/<think>.*?<\/think>/gs, '');
+  const cleanedText = input.replace(/<(think|reasoning|thinking)>.*?<\/(think|reasoning|thinking)>/gs, '');
   return cleanedText.trim();
 }
 

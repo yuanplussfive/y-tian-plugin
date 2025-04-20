@@ -1,7 +1,5 @@
 export const getOptimizedModels = () => {
-  // 原始模型数据
   const originalModels = [
-    // OpenAI GPT-3.5 models
     {
       "id": 1,
       "model": "gpt-3.5-turbo",
@@ -175,7 +173,7 @@ export const getOptimizedModels = () => {
       "model": "o1",
       "points": "OpenAi",
       "token": "200k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 90
     },
     {
@@ -183,7 +181,7 @@ export const getOptimizedModels = () => {
       "model": "o1-all",
       "points": "OpenAi",
       "token": "200k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 90
     },
     {
@@ -191,7 +189,7 @@ export const getOptimizedModels = () => {
       "model": "o1-pro",
       "points": "OpenAi",
       "token": "200k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 150
     },
     {
@@ -199,7 +197,7 @@ export const getOptimizedModels = () => {
       "model": "o1-pro-all",
       "points": "OpenAi",
       "token": "200k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 150
     },
     {
@@ -207,7 +205,7 @@ export const getOptimizedModels = () => {
       "model": "o1-preview-20240912",
       "points": "OpenAi",
       "token": "128k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 30
     },
     {
@@ -215,7 +213,7 @@ export const getOptimizedModels = () => {
       "model": "o1-preview-all",
       "points": "OpenAi",
       "token": "128k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 30
     },
     {
@@ -223,7 +221,7 @@ export const getOptimizedModels = () => {
       "model": "o1-mini-20240912",
       "points": "OpenAi",
       "token": "128k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 10
     },
     {
@@ -231,7 +229,7 @@ export const getOptimizedModels = () => {
       "model": "o1-mini-all",
       "points": "OpenAi",
       "token": "128k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 10
     },
     {
@@ -239,7 +237,7 @@ export const getOptimizedModels = () => {
       "model": "o3-mini",
       "points": "OpenAi",
       "token": "128k",
-      "features": ["conversation", "code", "internet"],
+      "features": ["conversation", "code", "internet", 'thinking'],
       "quota": 6
     },
     {
@@ -247,7 +245,7 @@ export const getOptimizedModels = () => {
       "model": "o3-mini-all",
       "points": "OpenAi",
       "token": "128k",
-      "features": ["conversation", "code", "internet"],
+      "features": ["conversation", "code", "internet", 'thinking'],
       "quota": 6
     },
     {
@@ -255,7 +253,7 @@ export const getOptimizedModels = () => {
       "model": "o3-mini-high",
       "points": "OpenAi",
       "token": "128k",
-      "features": ["conversation", "code", "internet"],
+      "features": ["conversation", "code", "internet", 'thinking'],
       "quota": 24
     },
     {
@@ -263,7 +261,7 @@ export const getOptimizedModels = () => {
       "model": "o3-mini-high-all",
       "points": "OpenAi",
       "token": "128k",
-      "features": ["conversation", "code", "internet"],
+      "features": ["conversation", "code", "internet", 'thinking'],
       "quota": 24
     },
     {
@@ -455,7 +453,7 @@ export const getOptimizedModels = () => {
       "model": "gemini-2.0-flash-thinking-exp",
       "points": "Google",
       "token": "1000k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 1
     },
     {
@@ -463,7 +461,7 @@ export const getOptimizedModels = () => {
       "model": "gemini-2.0-flash-thinking-exp-1219",
       "points": "Google",
       "token": "1000k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code', 'image_recognition', 'thinking'],
       "quota": 1
     },
     {
@@ -759,7 +757,7 @@ export const getOptimizedModels = () => {
       "model": "kimi-vl-a3b-thinking",
       "points": "月之暗面",
       "token": "128k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'thinking'],
       "quota": 0.25
     },
     {
@@ -815,7 +813,7 @@ export const getOptimizedModels = () => {
       "model": "qwq-32b-arliai-rpr-v1",
       "points": "通义千问",
       "token": "128k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'thinking'],
       "quota": 0.25
     },
     {
@@ -991,7 +989,7 @@ export const getOptimizedModels = () => {
       "model": "mistral-large-latest",
       "points": "mistral",
       "token": "131k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'thinking'],
       "quota": 3.5
     },
     {
@@ -1055,7 +1053,7 @@ export const getOptimizedModels = () => {
       "model": "qwq-32b-preview",
       "points": "通义千问",
       "token": "32k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'thinking'],
       "quota": 0.25
     },
     {
@@ -1111,7 +1109,7 @@ export const getOptimizedModels = () => {
       "model": "gemma-2-27b-it",
       "points": "Google",
       "token": "1000k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code'],
       "quota": 0.25
     },
     {
@@ -1119,7 +1117,7 @@ export const getOptimizedModels = () => {
       "model": "gemma-2-9b-it",
       "points": "Google",
       "token": "1000k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code'],
       "quota": 0.25
     },
     {
@@ -1316,8 +1314,6 @@ export const getOptimizedModels = () => {
       "features": ["drawing"],
       "quota": 0
     },
-
-    // 视频生成模型
     {
       "id": 165,
       "model": "jimeng-video-1.2",
@@ -1419,7 +1415,7 @@ export const getOptimizedModels = () => {
       "model": "qwq-32b",
       "points": "通义千问",
       "token": "128k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'thinking'],
       "quota": 0.25
     },
     {
@@ -1491,7 +1487,7 @@ export const getOptimizedModels = () => {
       "model": "gemma-3-27b-it",
       "points": "Google",
       "token": "1000k",
-      "features": ['conversation', 'code', 'image_recognition'],
+      "features": ['conversation', 'code'],
       "quota": 0.25
     },
     {
@@ -1509,6 +1505,22 @@ export const getOptimizedModels = () => {
       "token": "1000k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": 2.5
+    },
+    {
+      "id": 188,
+      "model": "reka-flash-3",
+      "points": "reka",
+      "token": "128k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": 0.5
+    },
+    {
+      "id": 189,
+      "model": "anishadow-v10-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.04/次"
     }
   ]
 
