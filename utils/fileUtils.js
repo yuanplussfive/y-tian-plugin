@@ -69,7 +69,7 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
       const cleanUrl = url.split('?')[0]; // 清理 URL 查询字符串
       fileExtension = path.extname(cleanUrl) || (await getFileExtensionFromUrl(cleanUrl));
       if (!fileExtension || fileExtension === '无法识别的文件类型') {
-        fileExtension = '.unknown';
+        fileExtension = '.webp';
       }
       finalFileName = `file_${timestamp}${fileExtension}`;
     }
