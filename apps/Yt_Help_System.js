@@ -282,7 +282,7 @@ async function getModelScreen(models, type, e) {
     { prefix: ['minimax'], file: 'hailuo.png' },
     { prefix: ['step'], file: 'step.png' },
     { prefix: ['mistral-', 'mixtral-', 'ministral-', 'pixtral-', 'codestral-'], file: 'mixtral.png' },
-    { prefix: ['noobai', 'wai-', 'anishadow-'], file: 'Noob.png' },
+    { prefix: ['anything-', 'noobai', 'wai-', 'anishadow-'], file: 'Noob.png' },
     { prefix: ['sd-', 'sd3', 'stable-diffusion', 'sdxl'], file: 'sd.png' },
     { prefix: ['ideogram'], file: 'ideogram.png' },
     { prefix: ['flux'], file: 'flux.jpg' },
@@ -293,6 +293,7 @@ async function getModelScreen(models, type, e) {
     { prefix: ['recraft-'], file: 'recraft.png' },
     { prefix: ['ltx-'], file: 'ltx.png' },
     { prefix: ['sana'], file: 'sana.png' },
+    { prefix: ['reka-'], file: 'reka.jpeg' },
   ];
 
   // 默认 logo 路径

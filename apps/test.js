@@ -317,7 +317,7 @@ export class ExamplePlugin extends plugin {
         systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
         ForcedDrawingMode: true,
         ForcedAvatarMode: true,
-        ForceformatMessage: true,
+        ForceformatMessage: false,
         bilibiliSessData: 'a16804xxxxxx',
         jimengsessionid: '12345xxxxxx',
         jimengSize_height: 1024,
@@ -895,21 +895,14 @@ export class ExamplePlugin extends plugin {
       if (imageCount >= 1) { // 如果至少有一张图片
         let fixedToolName = null; // 初始化固定工具名称为空
 
-        // 优先检查 googleImageEditTool
-        session.tools = this.getToolsByName(['googleImageEditTool']);
+        session.tools = this.getToolsByName(['googleImageAnalysisTool']);
         if (session.tools?.length > 0) {
-          fixedToolName = 'googleImageEditTool';
+          fixedToolName = 'googleImageAnalysisTool';
         } else {
-          // 然后检查 googleImageAnalysisTool
-          session.tools = this.getToolsByName(['googleImageAnalysisTool']);
+          // 最后检查 OpenAiImageAnalysisTool
+          session.tools = this.getToolsByName(['OpenAiImageAnalysisTool']);
           if (session.tools?.length > 0) {
-            fixedToolName = 'googleImageAnalysisTool';
-          } else {
-            // 最后检查 OpenAiImageAnalysisTool
-            session.tools = this.getToolsByName(['OpenAiImageAnalysisTool']);
-            if (session.tools?.length > 0) {
-              fixedToolName = 'OpenAiImageAnalysisTool';
-            }
+            fixedToolName = 'OpenAiImageAnalysisTool';
           }
         }
 
@@ -1366,7 +1359,7 @@ export class ExamplePlugin extends plugin {
       }
     } catch (error) {
       console.error(`[工具插件] 会话 ${sessionId} 执行异常：`, error);
-const errorMessage = `发生错误：${error.message}\n详细错误信息：${error.stack}`;
+      const errorMessage = `发生错误：${error.message}\n详细错误信息：${error.stack}`;
       groupUserMessages.push({ role: 'assistant', content: errorMessage });
       groupUserMessages = this.trimMessageHistory(groupUserMessages);
       session.groupUserMessages = groupUserMessages;

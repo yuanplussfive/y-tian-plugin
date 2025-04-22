@@ -102,10 +102,10 @@ export async function YTapi(requestData, config, toolContent, toolName) {
                         if (msg.role === 'assistant' && msg.tool_calls) {
                             return null; // 跳过含 tool_calls 的 assistant 消息
                         } else if (msg.role === 'tool') {
-                            const prefix = `我来调用工具 ${toolName} 看看\n`;
+                            const prefix = `调用工具 ${toolName} \n`;
                             return {
-                                role: 'assistant',
-                                content: toolContent + "在群里说: 我试试，" + msg.content
+                                role: 'user',
+                                content: '[工具反馈信息]: ' + prefix + msg.content
                             };
                         }
                         return msg;
