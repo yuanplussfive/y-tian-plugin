@@ -23,10 +23,10 @@ export async function getFileExtensionFromUrl(url) {
     const response = await axios.head(url);
     const contentType = response.headers['content-type'];
     const extension = mimeTypes.extensions[contentType.split(';')[0]];
-    return extension ? `.${extension[0]}` : '无法识别的文件类型';
+    return extension ? `.${extension[0]}` : '.unknow';
   } catch (error) {
     console.error('获取文件扩展名失败:', error.message);
-    return '无法识别的文件类型';
+    return '.unknow';
   }
 }
 
@@ -66,9 +66,8 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
 
     // 如果没有有效的原始文件名，尝试从 URL 获取
     if (!finalFileName) {
-      const cleanUrl = url.split('?')[0]; // 清理 URL 查询字符串
-      fileExtension = path.extname(cleanUrl) || (await getFileExtensionFromUrl(cleanUrl));
-      if (!fileExtension || fileExtension === '无法识别的文件类型') {
+      fileExtension = await getFileExtensionFromUrl(url.trim());
+      if (!fileExtension) {
         fileExtension = '.webp';
       }
       finalFileName = `file_${timestamp}${fileExtension}`;
