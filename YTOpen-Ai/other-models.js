@@ -1519,6 +1519,14 @@ export const getOptimizedModels = () => {
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.04/次"
+    },
+    {
+      "id": 190,
+      "model": "novelai-v3",
+      "points": "novelai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.1/次"
     }
   ]
 

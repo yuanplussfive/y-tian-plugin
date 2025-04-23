@@ -294,6 +294,7 @@ async function getModelScreen(models, type, e) {
     { prefix: ['ltx-'], file: 'ltx.png' },
     { prefix: ['sana'], file: 'sana.png' },
     { prefix: ['reka-'], file: 'reka.jpeg' },
+    { prefix: ['novelai-'], file: 'novelai.jpg' },
   ];
 
   // 默认 logo 路径

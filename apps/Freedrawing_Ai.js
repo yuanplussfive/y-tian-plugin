@@ -57,11 +57,34 @@ export class FreeDrawing extends plugin {
           fnc: 'handleAfCommand'
         },
         {
-          reg: "^#免费绘图切换(长|宽|方)图",
-          fnc: 'handleSizeCommand'
+          reg: "^#(Nai|nai)绘图(.*)",
+          fnc: 'handleNaiCommand'
         }
       ]
     })
+  }
+
+  async handleNaiCommand(e) {
+    try {
+      const prompt = e.msg.replace(/#(Nai|nai)绘图/g, "")?.trim()
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'novelai-v3');
+      let imageUrls = [];
+      console.log(imageArray);
+      if (!imageArray) {
+        e.reply('生成失败了，可能服务器无响应，请稍后再试！');
+      } else {
+        imageUrls = await extractImageUrls(imageArray);
+        if (imageUrls && imageUrls.length > 0) {
+          const images = imageUrls.map(imgurl => segment.image(imgurl.trim()));
+          await e.reply(images);
+        } else {
+          e.reply(imageArray);
+        }
+      }
+    } catch (error) {
+      console.log('处理错误:', error);
+      e.reply('生成失败了，请稍后再试！');
+    }
   }
 
   async handleAfCommand(e) {
@@ -289,32 +312,6 @@ export class FreeDrawing extends plugin {
         return false;
       }
     }
-  }
-
-  async handleSizeCommand(e) {
-    const modelMap = {
-      '#免费绘图切换长': "9:16",
-      '#免费绘图切换宽': "16:9",
-      '#免费绘图切换方': "1:1"
-    };
-    const FluxMap = {
-      '#免费绘图切换长': "long",
-      '#免费绘图切换宽': "short",
-      '#免费绘图切换方': "square"
-    };
-    const dalleMap = {
-      '#免费绘图切换长': '1024x1792',
-      '#免费绘图切换宽': '1792x1024',
-      '#免费绘图切换方': '1024x1024'
-    };
-    const command = e.msg.match(/^#免费绘图切换(长|宽|方)/);
-    if (!command) {
-      e.reply("错误的规格", true, { recallMsg: 8 });
-    }
-    ratio = modelMap[command[0]];
-    image_size = FluxMap[command[0]];
-    dalle_size = dalleMap[command[0]];
-    e.reply(`免费绘图已成功切换为${ratio}图`, true, { recallMsg: 8 });
   }
 
   async handleImageCommand(e) {
