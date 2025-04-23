@@ -292,7 +292,7 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
         question = `${links}\n${question}`
       }
       console.log(question);
-      const response = await fetch(apiurl, {
+      const response = await fetch(`${apiurl}chat/completions`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",

@@ -1,5 +1,11 @@
 {
   "models": {
+    "gemini-2.5-flash": {
+      "providerModelName": "gemini_2_5_flash",
+      "aliases": [
+        "gemini-2.5-flash"
+      ]
+    },
     "o4-mini": {
       "providerModelName": "gpt_o4_mini",
       "aliases": [
