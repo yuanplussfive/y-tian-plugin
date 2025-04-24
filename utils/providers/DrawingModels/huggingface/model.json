@@ -1,0 +1,10 @@
+{
+  "models": {
+    "noobxl-hg": {
+      "providerModelName": "noobxl-hg",
+      "aliases": [
+        "noobxl-hg"
+      ]
+    }
+  }
+}

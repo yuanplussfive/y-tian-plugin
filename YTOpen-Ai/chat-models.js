@@ -1322,6 +1322,22 @@ export const getOptimizedModels = () => {
       "Magnification": 0.15,
       "provider": "Google",
       "features": ['conversation', 'image_recognition', 'file', 'internet']
+    },
+    {
+      "id": "165",
+      "name": "gpt-image-1",
+      "token_count": "8k",
+      "Magnification": "0.04/次",
+      "provider": "OpenAi",
+      "features": ['drawing', 'image_recognition']
+    },
+    {
+      "id": "166",
+      "name": "gpt-image-1-vip",
+      "token_count": "8k",
+      "Magnification": "0.1/次",
+      "provider": "OpenAi",
+      "features": ['drawing', 'image_recognition']
     }
   ]
 

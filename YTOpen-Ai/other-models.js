@@ -646,7 +646,7 @@ export const getOptimizedModels = () => {
       "points": "meta",
       "token": "32k",
       "features": ['conversation', 'code', 'image_recognition'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 82,
@@ -718,7 +718,7 @@ export const getOptimizedModels = () => {
       "points": "deepseek",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 91,
@@ -726,7 +726,7 @@ export const getOptimizedModels = () => {
       "points": "deepseek",
       "token": "16k",
       "features": ['code'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 92,
@@ -734,7 +734,7 @@ export const getOptimizedModels = () => {
       "points": "deepseek",
       "token": "32k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 93,
@@ -758,7 +758,7 @@ export const getOptimizedModels = () => {
       "points": "moonshot",
       "token": "128k",
       "features": ['conversation', 'code', 'thinking'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 96,
@@ -806,7 +806,7 @@ export const getOptimizedModels = () => {
       "points": "deepseek",
       "token": "64k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 102,
@@ -814,7 +814,7 @@ export const getOptimizedModels = () => {
       "points": "alibaba",
       "token": "128k",
       "features": ['conversation', 'code', 'thinking'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 103,
@@ -1038,7 +1038,7 @@ export const getOptimizedModels = () => {
       "points": "alibaba",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 131,
@@ -1046,7 +1046,7 @@ export const getOptimizedModels = () => {
       "points": "alibaba",
       "token": "32k",
       "features": ['code'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 132,
@@ -1054,7 +1054,7 @@ export const getOptimizedModels = () => {
       "points": "alibaba",
       "token": "32k",
       "features": ['conversation', 'code', 'thinking'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 133,
@@ -1062,7 +1062,7 @@ export const getOptimizedModels = () => {
       "points": "alibaba",
       "token": "64k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 134,
@@ -1070,7 +1070,7 @@ export const getOptimizedModels = () => {
       "points": "moonshot",
       "token": "32k",
       "features": ['conversation'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 135,
@@ -1110,7 +1110,7 @@ export const getOptimizedModels = () => {
       "points": "Google",
       "token": "1000k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 140,
@@ -1118,7 +1118,7 @@ export const getOptimizedModels = () => {
       "points": "Google",
       "token": "1000k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 141,
@@ -1166,7 +1166,7 @@ export const getOptimizedModels = () => {
       "points": "alibaba",
       "token": "2k",
       "features": ['conversation', 'code', 'thinking', 'image_recognition'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 147,
@@ -1174,7 +1174,7 @@ export const getOptimizedModels = () => {
       "points": "alibaba",
       "token": "2k",
       "features": ['conversation', 'code', 'image_recognition'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 148,
@@ -1366,7 +1366,7 @@ export const getOptimizedModels = () => {
       "points": "OpenAi",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.1/次"
+      "quota": "0.2/次"
     },
     {
       "id": 172,
@@ -1374,7 +1374,7 @@ export const getOptimizedModels = () => {
       "points": "OpenAi",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.1/次"
+      "quota": "0.2/次"
     },
     {
       "id": 173,
@@ -1414,7 +1414,7 @@ export const getOptimizedModels = () => {
       "points": "alibaba",
       "token": "128k",
       "features": ['conversation', 'code', 'thinking'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 178,
@@ -1486,7 +1486,7 @@ export const getOptimizedModels = () => {
       "points": "Google",
       "token": "1000k",
       "features": ['conversation', 'code'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 186,
@@ -1494,7 +1494,7 @@ export const getOptimizedModels = () => {
       "points": "Google",
       "token": "1000k",
       "features": ['conversation', 'code', 'image_recognition'],
-      "quota": 0.25
+      "quota": 0.5
     },
     {
       "id": 187,
@@ -1527,6 +1527,14 @@ export const getOptimizedModels = () => {
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.1/次"
+    },
+    {
+      "id": 191,
+      "model": "qwen-2.5-vl-72b-instruct",
+      "points": "alibaba",
+      "token": "128k",
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": 0.5
     }
   ]
 

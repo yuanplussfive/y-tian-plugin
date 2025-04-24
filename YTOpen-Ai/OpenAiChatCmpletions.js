@@ -119,3 +119,62 @@ export async function OpenAiChatCmpletions(baseUrl, apiKey, model, messages, def
     };
   }
 }
+
+/**
+ * 调用 OpenAI 的 DALL·E 生成图像
+ * @param {string} prompt - 图像描述
+ * @param {number} n - 要生成的图像数量（最多 4）
+ * @param {string} size - 图像尺寸，如 '512x512', '1024x1024'
+ * @returns {Promise<string[]>} - 返回图像的 URL 数组
+ */
+export async function OpenAigenerateImage(baseUrl, apiKey, { model = 'dall-e-3', prompt, n = 1, size = '1024x1024'}) {
+  try {
+    const openaiClient = createOpenAIClient(baseUrl, apiKey);
+    const response = await openaiClient.images.generate({
+      model,
+      prompt,
+      size,
+      n: Math.min(n, 4),
+    });
+    return response;
+  } catch (error) {
+    console.error('图像生成失败:', error);
+    throw error;
+  }
+}
+
+/**
+ * 主函数: OpenAI聊天补全API的封装
+ * @param {string} baseUrl - API服务地址
+ * @param {string} apiKey - API密钥
+ * @param {string} model - 模型名称
+ * @param {array} messages - 消息数组
+ * @param {object} defaultHeaders - 默认请求头
+ * @returns {object} 返回处理结果
+ */
+export async function OpenAiChatCompletions(baseUrl, apiKey, model, messages, defaultHeaders) {
+  console.log(`[${new Date().toISOString()}] 开始OpenAI聊天补全流程`);
+  try {
+    // 创建客户端实例
+    const openaiClient = createOpenAIClient(baseUrl, apiKey, defaultHeaders);
+    // 执行聊天补全
+    const chatCompletion = await getChatCompletion(openaiClient, model, messages);
+
+    if (chatCompletion.error) {
+      console.log(`[${new Date().toISOString()}] 请求失败:`, chatCompletion.error);
+      return chatCompletion;
+    }
+
+    console.log(`[${new Date().toISOString()}] 请求成功完成`);
+    return chatCompletion;
+
+  } catch (error) {
+    // 捕获意外错误
+    console.error(`[${new Date().toISOString()}] 发生意外错误:`, error);
+    return {
+      error: {
+        message: "遇到了错误: " + error.message
+      }
+    };
+  }
+}

@@ -16,6 +16,10 @@ import {
     NXModelResponse,
     getAllModelsWithProviders
 } from "../utils/providers/ChooseModels.js";
+import {
+    NXDrawingModelResponse,
+    getAllDrawingModelsWithProviders
+} from "../utils/providers/DrawingModels.js";
 import serve from 'koa-static';
 import WebSocket from 'ws';
 import { publicIpv4 } from 'public-ip';
@@ -92,16 +96,6 @@ async function validateAccessKeyForConfigPage(ctx, next) {
     }
 }
 
-// 获取模型响应函数
-async function getModelResponse(model, history) {
-    try {
-        return await NXModelResponse(history, model);
-    } catch (error) {
-        console.error('获取模型响应失败:', error);
-        return null;
-    }
-}
-
 // 读取配置文件的辅助函数
 async function readConfigFile(filename) {
     const filePath = path.join(__dirname, '../../../data/', filename);
@@ -143,43 +137,156 @@ async function writeConfigFile(filename, data) {
     }
 }
 
-// 获取所有模型列表
+/**
+ * 异步地获取所有可用模型列表（对话和绘图），并按类型分类、排序。
+ *
+ * @param {Object} ctx - Koa 的上下文对象。
+ */
 router.get('/v1/models', validateApiKey, async (ctx) => {
     try {
-        const models = getAllModelsWithProviders();
- 
-        // 优化数据结构，方便前端展示
-        const modelList = Object.entries(models).map(([modelName, providers]) => ({
-            modelName,
-            providers
-        }));
- 
-        // 计算统计数据
-        const totalModels = Object.keys(models).length;
-        const allProviders = new Set();
-        Object.values(models).forEach(providers => {
-            providers.forEach(provider => allProviders.add(provider));
+        // 1. 获取原始模型数据
+        // 假设这两个函数返回 { "modelName": ["provider1", "provider2"], ... }
+        const chatModelsObject = getAllModelsWithProviders();
+        const drawingModelsObject = getAllDrawingModelsWithProviders();
+
+        // 2. 转换并排序对话模型列表
+        const chatModelList = Object.entries(chatModelsObject)
+            .map(([modelName, providers]) => ({
+                modelName,
+                providers: providers.sort() // 对提供商列表也进行排序
+            }))
+            .sort((a, b) => a.modelName.localeCompare(b.modelName)); // 按模型名称字母排序
+
+        // 3. 转换并排序绘图模型列表
+        const drawingModelList = Object.entries(drawingModelsObject)
+            .map(([modelName, providers]) => ({
+                modelName,
+                providers: providers.sort() // 对提供商列表也进行排序
+            }))
+            .sort((a, b) => a.modelName.localeCompare(b.modelName)); // 按模型名称字母排序
+
+        // 4. 计算统计数据
+        const totalChatModels = chatModelList.length;
+        const totalDrawingModels = drawingModelList.length;
+        const totalModels = totalChatModels + totalDrawingModels;
+
+        // 收集所有唯一的提供商并排序
+        const allProvidersSet = new Set();
+        // 遍历对话模型和绘图模型的提供商
+        [...Object.values(chatModelsObject), ...Object.values(drawingModelsObject)].forEach(providersArray => {
+            providersArray.forEach(provider => allProvidersSet.add(provider));
         });
-        const totalProviders = allProviders.size;
-        const providerList = Array.from(allProviders).sort(); // 排序，保持一致性
- 
+        const providerList = Array.from(allProvidersSet).sort(); // 转换为数组并按字母排序
+        const totalProviders = providerList.length;
+
+        // 5. 构建结构化的响应对象
         const response = {
-            models: modelList,
-            totalModels,
-            totalProviders,
-            providerList
+            chatModels: chatModelList,
+            drawingModels: drawingModelList,
+            statistics: {
+                totalChatModels,
+                totalDrawingModels,
+                totalModels,
+                totalProviders,
+                providerList // 包含所有唯一提供商的排序列表
+            }
         };
- 
+
+        // 6. 设置响应体
         ctx.body = response;
+
     } catch (error) {
         console.error("Koa 路由: 获取模型列表失败:", error);
-        ctx.status = 500;
+        ctx.status = 500; // 设置 HTTP 状态码为 500 Internal Server Error
         ctx.body = {
-            error: error.message,
+            error: "获取模型列表失败",
+            details: error.message,
             stack: error.stack
         };
     }
- }); 
+});
+
+/**
+ * 从包含文本和链接的字符串中提取所有 URL，并格式化为 { url: "..." } 对象的数组。
+ *
+ * @param {string} textString - 包含潜在 URL 的字符串。
+ * @returns {{data: Array<{url: string}>}} - 包含提取的 URL 对象的数组，包裹在 data 属性中。
+ */
+function extractLinks(textString) {
+    const links = [];
+    // 匹配 http 或 https 开头的 URL
+    // 稍微改进正则表达式以更好地处理括号等字符
+    const regex = /https?:\/\/[^\s()<>\[\]{}]+(?:\([^)]*\)|[^[:punct:]\s<>\[\]{}])/g;
+    let match;
+    while ((match = regex.exec(textString)) !== null) {
+        links.push(match[0]); // match[0] 是整个匹配到的字符串
+    }
+    const formattedData = links.map(url => {
+        return { "url": url };
+    });
+    return { "data": formattedData };
+}
+
+// 处理绘图请求
+router.post('/v1/images/generations', validateApiKey, async (ctx) => {
+    try {
+        const { prompt, model, n = 1, size } = ctx.request.body;
+        
+        // 输入验证
+        if (typeof prompt !== 'string') {
+            ctx.throw(400, 'prompt必须是字符串');
+        }
+        if (typeof model !== 'string') {
+            ctx.throw(400, 'model必须是字符串');
+        }
+        if (typeof size !== 'string') {
+            ctx.throw(400, 'size必须是字符串');
+        }
+        if (typeof n !== 'number' || n < 1) {
+            ctx.throw(400, 'n必须是大于0的数字');
+        }
+
+        // 提取链接的函数
+        function extractLinks(textString) {
+            const links = [];
+            const regex = /(https?:\/\/[^\s()]+)/g;
+            let match;
+            while ((match = regex.exec(textString)) !== null) {
+                links.push(match[1]);
+            }
+            return links.map(url => ({ "url": url }));
+        }
+        
+        // 执行n次绘图请求并收集结果
+        const allLinks = [];
+        let lastCreatedTime = 0;
+        
+        for (let i = 0; i < n; i++) {
+            const response = await NXDrawingModelResponse(prompt, model);
+            const links = extractLinks(response);
+            allLinks.push(...links);
+            lastCreatedTime = Math.floor(Date.now() / 1000);
+        }
+
+        // 返回结果
+        ctx.body = {
+            created: lastCreatedTime,
+            data: allLinks,
+            model: model,
+            prompt: prompt,
+            n: n,
+        };
+    } catch (error) {
+        console.error('请求处理失败:', error);
+        ctx.status = error.status || 500;
+        ctx.body = {
+            error: {
+                message: error.message,
+                code: error.code || 'internal_error'
+            }
+        };
+    }
+});
 
 // 处理聊天请求
 router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
@@ -267,7 +374,7 @@ router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
             }
         } else {
             // 非流式响应保持不变
-            const response = await getModelResponse(model, messages);
+            const response = await NXModelResponse(messages, model);
             const usage = await TotalTokens(response, messages);
 
             ctx.body = {
@@ -299,7 +406,7 @@ router.post('/v1/chat/completions', validateApiKey, async (ctx) => {
 
 // 优化的流式响应生成器
 async function* getStreamingModelResponse(model, messages) {
-    const response = await getModelResponse(model, messages);
+    const response = await NXModelResponse(messages, model);
 
     if (!response || typeof response !== 'string') {
         throw new Error('无效的模型响应');

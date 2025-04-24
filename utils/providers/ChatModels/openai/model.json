@@ -6,10 +6,10 @@
         "gemini-2.5-flash"
       ]
     },
-    "gpt-4o-all-re": {
+    "gpt-4o-all": {
       "providerModelName": "gpt-4o-all-re",
       "aliases": [
-        "gpt-4o-all-re"
+        "gpt-4o-all"
       ]
     },
     "grok-3": {
@@ -18,22 +18,16 @@
         "grok-3"
       ]
     },
-    "grok-3-office-re": {
-      "providerModelName": "grok-3-office-re",
-      "aliases": [
-        "grok-3-office-re"
-      ]
-    },
-    "gpt-4o-all-lite-re": {
+    "gpt-4o-all-lite": {
       "providerModelName": "gpt-4o-all-lite-re",
       "aliases": [
-        "gpt-4o-all-lite-re"
+        "gpt-4o-all-lite"
       ]
     },
-    "gemini-2.0-flash-re": {
+    "gemini-2.0-flash": {
       "providerModelName": "gemini-2.0-flash-re",
       "aliases": [
-        "gemini-2.0-flash-re"
+        "gemini-2.0-flash"
       ]
     }
   }

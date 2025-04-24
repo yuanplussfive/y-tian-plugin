@@ -1,0 +1,52 @@
+{
+  "models": {
+    "flux-schnell": {
+      "providerModelName": "poe_model_fluxschnell",
+      "aliases": [
+        "flux-schnell"
+      ]
+    },
+    "playground-v2.5": {
+      "providerModelName": "poe_model_playgroundv25",
+      "aliases": [
+        "playground-v2.5"
+      ]
+    },
+    "stable-diffusion-v3.5-turbo": {
+      "providerModelName": "poe_model_stablediffusion35t",
+      "aliases": [
+        "stable-diffusion-v3.5-turbo"
+      ]
+    },
+    "playground-v3": {
+      "providerModelName": "poe_model_playgroundv3",
+      "aliases": [
+        "playground-v3"
+      ]
+    },
+    "flux-dev": {
+      "providerModelName": "poe_model_fluxdev",
+      "aliases": [
+        "flux-dev"
+      ]
+    },
+    "imagen-v3": {
+      "providerModelName": "poe_model_imagen3",
+      "aliases": [
+        "imagen-v3"
+      ]
+    },
+    "recraft-v3": {
+      "providerModelName": "poe_model_recraftv3",
+      "aliases": [
+        "recraft-v3"
+      ]
+    },
+    "anything-xl": {
+      "providerModelName": "tongyi",
+      "aliases": [
+        "anything-xl"
+      ]
+    }
+  }
+}

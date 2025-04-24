@@ -4,19 +4,20 @@ import mimeTypes from "mime-types";
 import _ from "lodash";
 import path from "path";
 import fs from "fs";
+import { OpenAiChatCompletions, OpenAigenerateImage } from "../YTOpen-Ai/OpenAiChatCmpletions.js";
 import { fs_reverse } from "../YTdependence/fs_reverse_makes.js";
 import { handleImages, loadData, sendLongMessage, saveUserHistory, TakeImages, saveData, loadUserHistory, getBase64File, get_address, downloadAndSaveFile, removeDuplicates } from "../utils/fileUtils.js";
 import { getFileInfo } from '../utils/fileUtils.js';
 import { processUploadedFile } from '../YTOpen-Ai/tools/processUploadedFile.js';
-import { generateAndSendSong } from "../utils/providers/AudioModels/suno/suno.js";
-import { jimengClient } from "../utils/providers/ChatModels/jimeng/jimengClient.js";
 import { reverse_models } from "../YTOpen-Ai/reverse-models.js";
-import { NXModelResponse } from "../utils/providers/ChooseModels.js";
 import { extractAndRender } from '../YTOpen-Ai/tools/preview.js';
 import { processArray } from '../YTOpen-Ai/tools/messageGenerator.js';
 import { isPluginCommand } from "../YTOpen-Ai/ask-ban.js";
 import { replyBasedOnStyle } from "../YTOpen-Ai/answer-styles.js";
 import { handleTTS } from "../model/Anime_tts.js";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import dotenv from 'dotenv';
 let Bot_Name;
 let dirpath = `${_path}/data/YTreverseai`;
 await setName();
@@ -55,7 +56,6 @@ export class reverseAi extends plugin {
         {
           reg: "^[\s\S]*",
           fnc: 'reverse_chat',
-          log: false
         }
       ]
     })
@@ -702,8 +702,13 @@ export class reverseAi extends plugin {
         }
       }
       history.push({ role: "user", content: LastMeg });
-      console.log(history)
+      //console.log(history)
       let result = await getResponse(history, model, e);
+      const { features = [] } = reverse_models.find(m => m.model === model) ?? {};
+      const isDrawingOnly = features.length === 1 && features[0] === 'drawing';
+      if (isDrawingOnly) {
+        result = await generateOptimizedMarkdown(result);
+      }
       if (!result) {
         e.reply("无有效回复，请稍后再试!");
         history.pop();
@@ -771,31 +776,58 @@ async function setName() {
   }
 }
 
-async function getResponse(history, model, e) {
-  const specialCases = new Map([
-    [
-      () => model.includes("jimeng"),
-      async () => {
-        e.reply("我开始制作了，稍等哦...");
-        try {
-          const feature = model.toLowerCase().includes("video") ? "video" : "image";
-          const lastHistoryItem = [history[history.length - 1]];
-          return await jimengClient(lastHistoryItem, model, feature);
-        } catch {
-          return '生成失败了，可能提示词违规，请稍后再试！';
-        }
-      }
-    ],
-    [
-      () => model === 'suno-v4-vip',
-      async () => {
-        await generateAndSendSong(e, msg);
-        return false;
-      }
-    ]
-  ]);
-  for (const [condition, handler] of specialCases) {
-    if (condition()) return await handler();
+async function getResponse(messages, model) {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+
+  const pluginPath = path.join(__dirname, '../');
+
+  dotenv.config({ path: path.join(pluginPath, '.env') });
+
+  const config = {
+    apiBaseUrl: process.env.API_BASE_URL || 'http://localhost',
+    port: process.env.PORT || 7799,
+    apikey: process.env.DEFAULT_API_KEY
+  };
+
+  const apiBaseUrl = `${config.apiBaseUrl}:${config.port}/v1/`
+  console.log(config)
+  const { features = [] } = reverse_models.find(m => m.model === model) ?? {};
+  const isDrawingOnly = features.length === 1 && features[0] === 'drawing';
+  if (isDrawingOnly) {
+    const prompt = messages.at(-1)?.content ?? '';
+    const options = {
+      model,
+      size: '1024x1024',
+      prompt: prompt.replace(/\d+n/g, ''),
+      n: extractN(prompt),
+    };
+    return await OpenAigenerateImage(apiBaseUrl, config.apikey, options);
   }
-  return await NXModelResponse(history, model);
+  const result = await OpenAiChatCompletions(apiBaseUrl, config.apikey, model, messages);
+  return result?.choices?.[0]?.message?.content;
+}
+
+function extractN(input) {
+  const match = input.match(/(\d+)n/);
+  if (match && match[1]) {
+    const n = parseInt(match[1], 10);
+    return isNaN(n) ? 1 : n;
+  }
+  return 1;
+}
+
+// 将数据转换为格式化的 Markdown
+function generateOptimizedMarkdown(data) {
+  const { prompt, model, n, data: images } = data;
+  let markdown = `# 🎨 **生成图片展示**\n\n`;
+  markdown += `## 🔢 **生成图片数量：** ${n}\n\n`;
+  markdown += `### 📝 **提示词：**\n\`\`\`text\n${prompt}\n\`\`\`\n\n`;
+  markdown += `---\n`;
+  images.forEach((image, index) => {
+    markdown += `### 🖼️ 图片 ${index + 1}：\n`;
+    markdown += `![Image ${index + 1}](${image.url})\n\n`;
+  });
+  markdown += `---\n\n`;
+  return markdown;
 }

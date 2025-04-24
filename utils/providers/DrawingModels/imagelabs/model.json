@@ -1,0 +1,8 @@
+{
+  "models": {
+    "sdxl-turbo": {
+      "providerModelName": "sdxl-turbo",
+      "aliases": ["sdxl-turbo"]
+    }
+  }
+}

@@ -1,17 +1,11 @@
 const _path = process.cwd()
-import { createRequire } from 'module'
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const require = createRequire(import.meta.url);
-import axios from "../node_modules/axios/index.js";
-const mimeTypesPath = join(__dirname, '../node_modules/mime-types');
-const mimeTypes = require(mimeTypesPath);
+import axios from "axios";
+import mimeTypes from 'mime-types';
 import fs from "fs";
 import path from "path";
 import crypto from 'crypto';
 import common from '../../../lib/common/common.js';
+const validImageExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif', '.bmp', '.svg'];
 
 /**
  * 获取文件扩展名
@@ -23,10 +17,10 @@ export async function getFileExtensionFromUrl(url) {
     const response = await axios.head(url);
     const contentType = response.headers['content-type'];
     const extension = mimeTypes.extensions[contentType.split(';')[0]];
-    return extension ? `.${extension[0]}` : '.unknow';
+    return extension ? `.${extension[0]}` : '无法识别的文件类型';
   } catch (error) {
     console.error('获取文件扩展名失败:', error.message);
-    return '.unknow';
+    return '无法识别的文件类型';
   }
 }
 
@@ -42,63 +36,129 @@ export function chunk(array, size) {
   );
 }
 
+/**
+ * 下载文件，根据 Content-Type 或 URL/文件名确定扩展名，保存文件，并根据类型发送。
+ * @param {string} url - 文件 URL
+ * @param {string} [originalFileName] - 可选的原始文件名参数，作为命名的参考
+ * @param {object} e - 消息事件对象，用于发送文件 (假设包含 group_id, group, friend 属性)
+ * @returns {Promise<{success: boolean, filePath?: string, fileName?: string, error?: string}>} - 返回操作结果
+ */
 export async function downloadAndSaveFile(url, originalFileName, e) {
   try {
+    // 1. 发起 fetch 请求并获取响应
     const response = await fetch(url.trim());
+
+    // 检查响应状态是否成功
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file from ${url}: ${response.status} ${response.statusText}`);
+    }
+
+    // 获取文件数据
     const fileBuffer = await response.arrayBuffer();
 
-    // 文件名称处理
+    // 2. 确定文件扩展名 (优先级: Content-Type (通过 mime-types) -> URL Path -> originalFileName -> Default)
+    let fileExtension = '.unknown'; // 默认未知扩展名
+
+    // 尝试从 Content-Type header 获取扩展名 (最可靠，使用 mime-types)
+    const contentType = response.headers.get('content-type');
+    if (contentType) {
+      const mimeExt = mimeTypes.extension(contentType.split(';')[0].trim());
+      if (mimeExt) {
+        fileExtension = `.${mimeExt}`; // mime-types 返回不带点的扩展名，需要加上点
+      }
+    }
+
+    // 如果 Content-Type 没有提供明确的扩展名，尝试从 URL 路径获取
+    // 只有当 Content-Type 没有给出有效扩展名时才尝试 URL
+    if (fileExtension === '.unknown') {
+      const cleanUrl = url.split('?')[0]; // 移除查询字符串
+      const urlExt = path.extname(cleanUrl);
+      // 确保获取到的扩展名不是空的或者只有 '.'
+      if (urlExt && urlExt.length > 1) {
+        fileExtension = urlExt;
+      }
+    }
+
+    // 作为最后的备选，如果 Content-Type 和 URL 都没能确定扩展名，
+    // 尝试从提供的 originalFileName 参数获取 (可靠性最低)
+    // 只有当 Content-Type 和 URL 都失败，并且 originalFileName 提供了才尝试
+    if (fileExtension === '.unknown' && originalFileName) {
+      const cleanOriginalFileName = originalFileName.split('?')[0]; // 移除查询字符串
+      const originalExt = path.extname(cleanOriginalFileName);
+      if (originalExt && originalExt.length > 1) {
+        fileExtension = originalExt;
+      }
+    }
+
+    // 如果经过所有尝试仍然是未知类型，给一个通用的默认值 .bin
+    if (fileExtension === '.unknown') {
+      console.warn(`Could not determine file extension for ${url}. Using .bin`);
+      fileExtension = '.bin';
+    }
+
+
+    // 3. 生成最终的文件名
     const timestamp = new Date().getTime();
-    let finalFileName = '';
-    let fileExtension = '';
+    let baseName = 'downloaded_file'; // 默认的基础文件名
 
-    // 清理原始文件名中的查询字符串
-    let cleanOriginalFileName = originalFileName ? originalFileName.split('?')[0] : '';
-
-    // 尝试从清理后的原始文件名获取扩展名
-    if (cleanOriginalFileName) {
-      fileExtension = path.extname(cleanOriginalFileName);
-      if (fileExtension) {
-        const baseName = path.basename(cleanOriginalFileName, fileExtension);
-        finalFileName = `${baseName}_${timestamp}${fileExtension}`;
+    // 优先使用 originalFileName 的基础名
+    if (originalFileName) {
+      const cleanOriginalFileName = originalFileName.split('?')[0];
+      // 获取不带扩展名的文件名部分
+      const nameWithoutExt = path.basename(cleanOriginalFileName, path.extname(cleanOriginalFileName));
+      // 如果获取到的基础名不是空的，就使用它
+      if (nameWithoutExt) {
+        baseName = nameWithoutExt;
+      } else {
+        // 如果 originalFileName 清理后只剩下扩展名或为空，则使用默认基础名
+        baseName = 'downloaded_file';
+      }
+    } else {
+      // 如果没有提供 originalFileName，尝试从 URL 路径中获取基础名
+      const cleanUrl = url.split('?')[0];
+      const urlBaseName = path.basename(cleanUrl, path.extname(cleanUrl));
+      // 确保获取到的基础名不是空的或者只是 '/'
+      if (urlBaseName && urlBaseName !== '/') {
+        baseName = urlBaseName;
       }
     }
 
-    // 如果没有有效的原始文件名，尝试从 URL 获取
-    if (!finalFileName) {
-      fileExtension = await getFileExtensionFromUrl(url.trim());
-      if (!fileExtension) {
-        fileExtension = '.webp';
-      }
-      finalFileName = `file_${timestamp}${fileExtension}`;
-    }
+    // 组合最终文件名: 基础名_时间戳.扩展名
+    const finalFileName = `${baseName}_${timestamp}${fileExtension}`;
 
-    // 确保目录存在
-    const saveDir = path.join(_path, 'resources/YT_alltools');
+    // 4. 保存文件
+    const saveDir = path.join(_path, 'resources/YT_alltools'); // 使用外部定义的 _path
     if (!fs.existsSync(saveDir)) {
       fs.mkdirSync(saveDir, { recursive: true });
     }
 
     const filePath = path.join(saveDir, finalFileName);
+    // 将 ArrayBuffer 转换为 Node.js Buffer
     fs.writeFileSync(filePath, Buffer.from(fileBuffer));
 
-    // 发送非图片文件
-    const imageExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif'];
-    if (!imageExtensions.includes(fileExtension.toLowerCase())) {
-      if (e.group_id) {
-        await e.group.sendFile(filePath);
+    if (!validImageExtensions.includes(fileExtension.toLowerCase())) {
+      console.log(`Detected non-image file (${fileExtension}), attempting to send: ${filePath}`);
+      if (e && e.group && e.group_id) { // 检查 e 对象和群组信息是否存在
+        await e.group.sendFile(filePath, finalFileName); // 发送文件，可以指定文件名
+        console.log(`Sent file to group ${e.group_id}`);
+      } else if (e && e.friend) { // 检查 e 对象和好友信息是否存在
+        await e.friend.sendFile(filePath, finalFileName); // 发送文件，可以指定文件名
+        console.log(`Sent file to friend`);
       } else {
-        await e.friend.sendFile(filePath);
+        console.warn('Could not send file: Invalid or missing event object (e)');
       }
+    } else {
+      console.log(`Detected image file (${fileExtension}), not sending automatically.`);
     }
-
     return {
       success: true,
       filePath,
       fileName: finalFileName,
     };
+
   } catch (error) {
-    console.error(`文件下载保存失败: ${url}:`, error);
+    // 7. 捕获并处理错误
+    console.error(`文件下载保存或处理失败: ${url}:`, error);
     return {
       success: false,
       error: error.message,
@@ -144,7 +204,8 @@ export async function get_address(inputString) {
     `[a-zA-Z0-9\\-]+\\.s3(?:-[a-z0-9\\-]+)?\\.amazonaws\\.com/[a-zA-Z0-9\\-./]+\\.[a-z]{2,4}(?:\\?.*)?`,
     `[a-zA-Z0-9_\\-.]+\\.hf\\.space/gradio_api/file=[^?#]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`,
     `[a-zA-Z0-9_\\-.]+\\.hf\\.space/file=[^?#]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`,
-    `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.myqcloud\\.com(?:/[a-zA-Z0-9\\-_/]+)*\\.[a-z]{2,4}(?:\\?.*)?`
+    `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.myqcloud\\.com(?:/[a-zA-Z0-9\\-_/]+)*\\.[a-z]{2,4}(?:\\?.*)?`,
+    `[a-zA-Z0-9\\-]+\\.liblib\\.cloud(?:/[a-zA-Z0-9_\\-]+)*(?:/[a-zA-Z0-9_\\-]+)*\\.[a-z]{2,6}(?:\\?.*)?`
   ].join('|');
 
   // 定义链接模式及其对应的进度提取规则
@@ -364,7 +425,7 @@ export async function getBase64File(fileUrl, filename, type = 'file') {
     return base64;
 
   } catch (error) {
-    console.error('校验失败:', error.message);
+    console.error('校验失败:lookup', error.message);
     return type === 'img' ? "无效的图片下载链接" : "无效的文件下载链接";
   }
 }
@@ -793,147 +854,225 @@ export async function saveUserHistory(userId, dirpath, history, type) {
 }
 
 /**
- * 下载图片并保存到指定路径
+ * 下载图片并保存到指定目录，根据 Content-Type 确定扩展名。
  * @param {string} url - 图片 URL
- * @param {string} filePath - 保存文件路径
- * @returns {Promise<{ success: boolean, error?: string }>} - 下载结果
+ * @param {string} saveDir - 保存文件的目录路径
+ * @param {string} baseNamePrefix - 文件名的基础前缀 (例如 'dall_e_chat_0')
+ * @param {number} timeout - 下载超时时间 (毫秒)
+ * @returns {Promise<{ success: boolean, filePath?: string, fileExtension?: string, error?: string, url: string }>} - 下载结果
  */
-export async function downloadImage(url, filePath) {
-  // 清理 URL 中的查询字符串
-  const cleanUrl = url.split('?')[0];
-  const fileExtension = path.extname(cleanUrl).toLowerCase();
+export async function downloadImage(url, saveDir, baseNamePrefix, timeout = 40000) {
+  const sourceUrl = url.trim(); // 保留原始 URL 用于下载和错误报告
+  const controller = new AbortController();
+  const signal = controller.signal;
+  let timeoutId = null;
 
-  // 检查文件扩展名，默认支持常见图片格式
-  const validExtensions = ['.webp', '.png', '.jpg', '.jpeg', '.gif'];
-  if (!fileExtension || !validExtensions.includes(fileExtension)) {
-    console.warn(`无效的文件扩展名: ${fileExtension} for URL: ${url}`);
-    return { success: false, error: `无效的文件扩展名: ${fileExtension}` };
-  }
-
-  const downloadTimeout = 40000; // 40 秒超时
-  let downloadAborted = false;
-
-  const downloadPromise = async () => {
-    try {
-      // 发起请求
-      const response = await axios({
-        url: url.trim(), // 使用原始 URL 下载，包含查询字符串（可能需要认证）
-        method: 'GET',
-        responseType: 'stream',
-      });
-
-      if (response.status >= 400) {
-        throw new Error(`HTTP 错误: ${response.status}`);
-      }
-
-      // 确保目录存在
-      const dir = path.dirname(filePath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-
-      // 保存文件
-      const file = fs.createWriteStream(filePath);
-      response.data.pipe(file);
-
-      await new Promise((resolve, reject) => {
-        file.on('finish', resolve);
-        file.on('error', reject);
-      });
-
-      if (!downloadAborted) {
-        return { success: true };
-      }
-      return { success: false, error: '下载被中止' };
-    } catch (err) {
-      console.error(`下载失败: ${url}`, err.message);
-      return { success: false, error: err.message };
-    }
-  };
-
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => {
-      downloadAborted = true;
-      reject(new Error('下载超时'));
-    }, downloadTimeout)
-  );
+  // 设置下载超时
+  timeoutId = setTimeout(() => {
+    controller.abort();
+    console.warn(`下载超时中止: ${sourceUrl}`);
+  }, timeout);
 
   try {
-    const result = await Promise.race([downloadPromise(), timeoutPromise]);
-    return result;
+    // 1. 发起请求，使用 axios 且带 AbortController 信号
+    const response = await axios({
+      url: sourceUrl,
+      method: 'GET',
+      responseType: 'stream',
+      signal: signal,
+    });
+
+    // 检查响应状态
+    if (response.status >= 400) {
+      throw new Error(`HTTP 错误: ${response.status} ${response.statusText}`);
+    }
+
+    // 2. 确定文件扩展名 (优先级: Content-Type (通过 mime-types) -> URL Path -> Default)
+    let fileExtension = '.unknown'; // 默认未知扩展名
+
+    // 尝试从 Content-Type header 获取扩展名 (最可靠，使用 mime-types)
+    const contentType = response.headers.get('content-type');
+    if (contentType) {
+      const mimeExt = mimeTypes.extension(contentType.split(';')[0].trim());
+      if (mimeExt) {
+        fileExtension = `.${mimeExt}`; // mime-types 返回不带点的扩展名，需要加上点
+      }
+    }
+
+    // 如果 Content-Type 没有提供明确的扩展名，尝试从 URL 路径获取
+    // 只有当 Content-Type 没有给出有效扩展名时才尝试 URL
+    if (fileExtension === '.unknown') {
+      const cleanUrl = sourceUrl.split('?')[0]; // 移除查询字符串
+      const urlExt = path.extname(cleanUrl);
+      // 确保获取到的扩展名不是空的或者只有 '.'
+      if (urlExt && urlExt.length > 1) {
+        fileExtension = urlExt.toLowerCase(); // 转换为小写以便后续检查
+      }
+    }
+
+    // 如果经过所有尝试仍然是未知类型，给一个通用的默认值 .bin
+    if (fileExtension === '.unknown') {
+      console.warn(`无法确定文件扩展名，URL: ${sourceUrl}. 使用 .bin`);
+      fileExtension = '.bin';
+    }
+
+    // 3. 检查确定的扩展名是否是允许的图片格式
+    if (!validImageExtensions.includes(fileExtension)) {
+      // 如果不是图片，中止下载并返回错误
+      controller.abort(); // 确保中止进行中的流
+      throw new Error(`文件类型不受支持 (${fileExtension})`);
+    }
+
+    // 4. 确保保存目录存在
+    if (!fs.existsSync(saveDir)) {
+      fs.mkdirSync(saveDir, { recursive: true });
+    }
+
+    // 5. 构建最终保存路径 (包含确定的扩展名)
+    const timestamp = new Date().getTime();
+    const finalFileName = `${baseNamePrefix}_${timestamp}${fileExtension}`;
+    const filePath = path.join(saveDir, finalFileName);
+
+    // 6. 保存文件流
+    const writer = fs.createWriteStream(filePath);
+
+    // 监听写入流的错误事件
+    writer.on('error', (err) => {
+      console.error(`文件写入错误: ${filePath}`, err);
+      // 如果写入出错，也需要中止下载流
+      controller.abort();
+    });
+
+    // 监听下载流的错误事件 (例如网络错误)
+    response.data.on('error', (err) => {
+      console.error(`下载流错误: ${sourceUrl}`, err);
+      // 如果下载流出错，也需要中止写入流
+      writer.destroy(err); // 销毁写入流并触发其 error 事件
+    });
+
+
+    // 将下载流导向写入流
+    response.data.pipe(writer);
+
+    // 等待写入完成
+    await new Promise((resolve, reject) => {
+      writer.on('finish', resolve);
+      writer.on('error', reject); // writer error will also reject this promise
+      signal.onabort = () => reject(new Error('下载被中止或超时')); // AbortController signal
+    });
+
+    // 清除超时定时器
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    console.log(`图片下载成功: ${filePath}`);
+    return {
+      success: true,
+      filePath,
+      fileExtension, // 返回实际确定的扩展名
+      url: sourceUrl // 返回原始 URL
+    };
+
   } catch (err) {
-    console.error(`下载错误: ${url}`, err.message);
-    return { success: false, error: err.message };
+    // 清除超时定时器 (如果在超时前发生了其他错误)
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    // 处理 AbortError (超时或手动中止)
+    if (err.name === 'AbortError') {
+      return { success: false, error: '下载超时或被中止', url: sourceUrl };
+    }
+
+    console.error(`下载图片失败: ${sourceUrl}:`, err.message);
+    return { success: false, error: err.message, url: sourceUrl };
   }
 }
 
 /**
- * 处理图片下载并发送
- * @param {object} e - 事件对象
- * @param {string[]} urls - 图片 URL 数组
- * @param {string} _path - 基础路径
- * @returns {Promise<string[]>} - 处理结果
- */
+* 处理图片下载并发送
+* @param {object} e - 事件对象 (假设包含 reply 方法和 segment 对象)
+* @param {string[]} urls - 图片 URL 数组
+* @param {string} _path - 基础路径 (用于构建保存目录)
+* @returns {Promise<string[]>} - 处理结果字符串数组
+*/
 export async function handleImages(e, urls, _path) {
   // 如果没有 URLs，直接返回
   if (!urls || urls.length === 0) {
-    return ['预览'];
+    return ['未提供图片 URL'];
   }
+
+  const saveDir = path.join(_path, 'resources', 'downloaded_images'); // 统一的保存目录
+  const downloadTimeout = 40000; // 下载超时时间 (毫秒)
 
   // 并行下载所有图片
   const downloadPromises = urls.map(async (url, index) => {
-    // 清理 URL 获取文件扩展名
-    const cleanUrl = url.split('?')[0];
-    const fileExtension = path.extname(cleanUrl) || '.png'; // 默认 .png
-    const fileName = `dall_e_chat_${index}${fileExtension}`;
-    const filePath = path.join(_path, 'resources', fileName);
-
-    try {
-      const result = await downloadImage(url, filePath);
-      if (result.success) {
-        return { success: true, path: filePath };
-      } else {
-        return { success: false, url: url.trim(), error: result.error };
-      }
-    } catch (error) {
-      console.error(`下载失败: ${url}`, error.message);
-      return { success: false, url: url.trim(), error: error.message };
-    }
+    // 为每个下载任务生成一个基础文件名前缀
+    const baseNamePrefix = `image_${index}`;
+    // 调用优化后的 downloadImage 函数
+    return downloadImage(url, saveDir, baseNamePrefix, downloadTimeout);
   });
 
   try {
     // 等待所有下载完成
     const results = await Promise.all(downloadPromises);
 
-    // 初始化结果数组
-    const imageResults = ['预览'];
+    // 初始化结果数组，用于返回给用户或日志
+    const processResults = ['概况:'];
 
-    // 收集成功下载的图片
-    const successfulImages = results
-      .filter((result) => result.success)
-      .map((result) => segment.image(result.path));
+    // 收集成功下载的图片路径，用于发送
+    const successfulSegments = [];
 
-    // 如果有成功下载的图片，发送
-    if (successfulImages.length > 0) {
-      try {
-        await e.reply(successfulImages);
-      } catch (replyError) {
-        console.error('发送图片失败:', replyError.message);
-        imageResults.push('发送图片失败');
-      }
-    }
+    // 遍历处理结果
+    results.forEach(result => {
+      if (result.success) {
+        // 如果下载成功，添加到成功列表和消息段列表
+        processResults.push(`✅ 成功下载: ${result.filePath}`);
+        try {
+          // 确保 segment 对象可用
+          if (e && typeof e.reply === 'function' && typeof segment !== 'undefined' && typeof segment.image === 'function') {
+            successfulSegments.push(segment.image(`file://${result.filePath}`)); // 使用 file:// 协议或直接路径，取决于你的框架
+          } else {
+            processResults.push(`⚠️ 警告: 无法创建图片消息段，可能缺少 'segment' 或 'e.reply'`);
+          }
+        } catch (segmentError) {
+          console.error(`创建图片消息段失败: ${result.filePath}`, segmentError);
+          processResults.push(`❌ 创建图片消息段失败: ${result.filePath} (错误: ${segmentError.message})`);
+        }
 
-    // 添加失败的 URL 及错误信息
-    results.forEach((result) => {
-      if (!result.success) {
-        imageResults.push(`${result.url} (错误: ${result.error || '未知错误'})`);
+      } else {
+        // 如果下载失败，记录失败信息
+        processResults.push(`❌ 下载失败: ${result.url} (错误: ${result.error || '未知错误'})`);
       }
     });
 
-    return imageResults;
+    // 如果有成功下载的图片，尝试发送
+    if (successfulSegments.length > 0) {
+      try {
+        // 假设 e.reply 方法用于回复消息，可以接受一个消息段数组
+        if (e && typeof e.reply === 'function') {
+          await e.reply(successfulSegments);
+          processResults.push(`➡️ 已发送 ${successfulSegments.length} 张图片。`);
+        } else {
+          processResults.push(`⚠️ 警告: 无法发送图片，事件对象 'e' 或其 'reply' 方法无效。`);
+        }
+      } catch (replyError) {
+        console.error('发送图片消息失败:', replyError);
+        processResults.push(`❌ 发送图片消息失败: ${replyError.message}`);
+      }
+    } else {
+      processResults.push(`ℹ️ 没有成功下载的图片可供发送。`);
+    }
+
+    // 返回处理结果字符串数组
+    return processResults;
+
   } catch (error) {
-    console.error('处理图片时发生错误:', error.message);
-    return ['预览', `处理图片时发生错误: ${error.message}`];
+    // 捕获 Promise.all 或其他同步错误
+    console.error('处理图片下载时发生错误:', error);
+    // 返回包含错误信息的处理结果
+    return ['图片处理时发生意外错误:', `❌ 错误: ${error.message}`];
   }
 }
 

@@ -1,0 +1,10 @@
+{
+  "models": {
+    "liblib-imagen": {
+      "providerModelName": "liblib-imagen",
+      "aliases": [
+        "liblib-imagen"
+      ]
+    }
+  }
+}

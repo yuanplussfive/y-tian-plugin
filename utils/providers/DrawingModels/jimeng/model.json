@@ -1,0 +1,34 @@
+{
+  "models": {
+    "jimeng-3.0": {
+      "providerModelName": "jimeng-3.0",
+      "aliases": [
+        "jimeng-3.0"
+      ]
+    },
+    "jimeng-2.1": {
+      "providerModelName": "jimeng-2.1",
+      "aliases": [
+        "jimeng-2.1"
+      ]
+    },
+    "jimeng-2.0-pro": {
+      "providerModelName": "jimeng-2.0-pro",
+      "aliases": [
+        "jimeng-2.0-pro"
+      ]
+    },
+    "jimeng-2.0": {
+      "providerModelName": "jimeng-2.0",
+      "aliases": [
+        "jimeng-2.0"
+      ]
+    },
+    "jimeng-xl-pro": {
+      "providerModelName": "jimeng-xl-pro",
+      "aliases": [
+        "jimeng-xl-pro"
+      ]
+    }
+  }
+}
