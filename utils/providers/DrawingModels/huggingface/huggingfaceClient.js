@@ -1,4 +1,4 @@
-import { NoobxL } from './NoobxL.js';
+import { NoobxL } from './noobxl.js';
 
 export async function huggingfaceClient(prompt) {
   try {
