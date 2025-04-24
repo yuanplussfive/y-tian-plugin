@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-dotenv.config()
 import os from 'os';
 import Koa from 'koa';
 import Router from '@koa/router';
@@ -24,13 +23,20 @@ import serve from 'koa-static';
 import WebSocket from 'ws';
 import { publicIpv4 } from 'public-ip';
 import jwt from 'jsonwebtoken';
-
 const app = new Koa();
 const router = new Router();
 
 // 获取当前文件所在目录
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const pluginPath = path.join(__dirname, '../');
+dotenv.config({ path: path.join(pluginPath, '.env') });
+const config = {
+    apiBaseUrl: process.env.API_BASE_URL || 'http://localhost',
+    port: process.env.PORT || 7799,
+    apikey: process.env.DEFAULT_API_KEY,
+    accesskey: process.env.ACCESS_KEY
+};
 
 // 静态文件服务 (确保在所有路由之前)
 app.use(serve(path.join(__dirname, 'public')));
@@ -50,14 +56,10 @@ app.use(cors({
     keepHeadersOnError: true
 }));
 
-// OpenAI API 配置
-const DEFAULT_API_KEY = process.env.DEFAULT_API_KEY || 'sk-123456';
-const OPENAI_API_BASE = process.env.OPENAI_API_BASE;
-const ACCESS_KEY = process.env.ACCESS_KEY; // 从 .env 文件中读取访问密钥
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key'; // Secret key for JWT
-
-// 用户身份信息存储 (示例，实际应用中可以使用数据库)
-//const userSessions = new Map(); // Remove the in-memory session store
+// 配置
+const DEFAULT_API_KEY = config.apikey || 'sk-123456';
+const ACCESS_KEY = config.accesskey || '114514';
+const JWT_SECRET = config.JWT_SECRET || 'your-secret-key';
 
 // API 密钥验证中间件
 async function validateApiKey(ctx, next) {
@@ -231,7 +233,7 @@ function extractLinks(textString) {
 router.post('/v1/images/generations', validateApiKey, async (ctx) => {
     try {
         const { prompt, model, n = 1, size } = ctx.request.body;
-        
+
         // 输入验证
         if (typeof prompt !== 'string') {
             ctx.throw(400, 'prompt必须是字符串');
@@ -256,11 +258,11 @@ router.post('/v1/images/generations', validateApiKey, async (ctx) => {
             }
             return links.map(url => ({ "url": url }));
         }
-        
+
         // 执行n次绘图请求并收集结果
         const allLinks = [];
         let lastCreatedTime = 0;
-        
+
         for (let i = 0; i < n; i++) {
             const response = await NXDrawingModelResponse(prompt, model);
             const links = extractLinks(response);
@@ -563,11 +565,11 @@ app.use(router.routes()).use(router.allowedMethods());
 
 // API 端点，提供端口号
 router.get('/api/port', async (ctx) => {
-    ctx.body = { port: process.env.PORT || 7799 };
+    ctx.body = { port: config.port || 7799 };
 });
 
 router.get('/api/server-info', async (ctx) => {
-    const port = process.env.PORT || 7799;
+    const port = config.port || 7799;
 
     const [internalIp, publicIpAddress] = await Promise.all([
         getInternalIp(),
@@ -653,7 +655,7 @@ console.error = function (...args) {
 };
 
 // 启动服务器
-const PORT = process.env.PORT || 7799;
+const PORT = config.port || 7799;
 const server = app.listen(PORT, () => {
     console.log(`服务器已启动,监听端口 ${PORT}`);
 });
