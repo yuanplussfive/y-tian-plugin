@@ -248,6 +248,13 @@ async function screen(num, puppeteer) {
     MinimaxLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/hailuo.png",
     StepLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/step.png",
     MitaLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/mita.jpg",
+    novelaiLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/novelai.jpg",
+    sdLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/sd.png",
+    recraftLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/recraft.png",
+    NoobLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/Noob.png",
+    fluxLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/flux.jpg",
+    jimengLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/jimeng.png",
+    playgroundLogo: _path + "/plugins/y-tian-plugin/YTfreeai/config/logos/playground.jpg",
   }
   const img = await puppeteer.screenshot('777', {
     ...data,

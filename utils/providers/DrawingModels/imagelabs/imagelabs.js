@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
+import { random_safe } from '../../../requests/safeurl.js';
 
 class ImageLabs {
-    #url = 'https://editor.imagelabs.net';
+    #url = random_safe('aHR0cHM6Ly9lZGl0b3IuaW1hZ2VsYWJzLm5ldA==');
     #apiEndpoint = `${this.#url}/txt2img`;
     #progressEndpoint = `${this.#url}/progress`;
 

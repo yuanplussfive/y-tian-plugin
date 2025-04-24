@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
+import { random_safe } from '../../../requests/safeurl.js';
 
 /**
- * 异步地向 Zaiwen API 发送图像生成任务，具有域名重试机制。
+ * 异步地发送图像生成任务，具有域名重试机制。
  *
  * @param {string} model - 要使用的图像生成模型的名称。
  * @param {string} prompt - 图像生成的文本提示。
@@ -11,28 +12,24 @@ import fetch from 'node-fetch';
  */
 async function sendImageTask(model, prompt, ratio) {
     const API_DOMAINS = [
-        'https://aliyun.zaiwen.top'
-        // 如果有其他备用域名，可以在这里添加
+        random_safe('aHR0cHM6Ly9hbGl5dW4uemFpd2VuLnRvcA==')
     ];
-    // const DEFAULT_API_DOMAIN = 'https://aliyun.zaiwen.top'; // 实际上在当前逻辑中未被使用
     const MAX_ATTEMPTS = 3;
     let attempts = 0;
     let currentDomain = null;
-    let lastError = null; // 保留用于记录最后一次错误
+    let lastError = null;
 
     while (attempts < MAX_ATTEMPTS) {
         attempts++;
-        // 域名选择逻辑：第一次随机选择，之后选择一个与上次不同的域名（如果存在）
-        if (!currentDomain || attempts > 1) { // 第一次或重试时选择域名
+        if (!currentDomain || attempts > 1) {
             const availableDomains = API_DOMAINS.filter(domain => domain !== currentDomain);
             if (availableDomains.length > 0) {
                 currentDomain = availableDomains[Math.floor(Math.random() * availableDomains.length)];
             } else if (API_DOMAINS.length > 0) {
-                // 如果没有其他域名可选，就只能用回唯一的那个（如果只有一个域名）
                 currentDomain = API_DOMAINS[0];
             } else {
                 console.error('未配置任何API域名。');
-                return null; // 没有域名可用
+                return null;
             }
         }
 
@@ -43,8 +40,7 @@ async function sendImageTask(model, prompt, ratio) {
             headers: {
                 'accept': 'application/json, text/plain, */*',
                 'content-type': 'application/json',
-                // 移除一些不必要的浏览器特有头
-                'Referer': 'https://zaiwen.xueban.org.cn/', // 保留 Referer，API可能检查
+                'Referer': random_safe('aHR0cHM6Ly96YWl3ZW4ueHVlYmFuLm9yZy5jbi8='),
             },
             body: JSON.stringify({
                 model_name: model,
@@ -115,8 +111,7 @@ async function checkTaskStatus(taskId, domain, maxAttempts = 60, interval = 5000
             headers: {
                 'accept': 'application/json, text/plain, */*',
                 'content-type': 'application/json',
-                // 移除一些不必要的浏览器特有头
-                'Referer': 'https://zaiwen.xueban.org.cn/', // 保留 Referer
+                'Referer': random_safe('aHR0cHM6Ly96YWl3ZW4ueHVlYmFuLm9yZy5jbi8='),
             },
             body: JSON.stringify({ task_id: taskId })
         };
@@ -124,56 +119,38 @@ async function checkTaskStatus(taskId, domain, maxAttempts = 60, interval = 5000
         try {
             const response = await fetch(url, options);
             const result = await response.json();
-
-            // console.log(`任务状态API返回 (尝试 ${attempt}):`, JSON.stringify(result, null, 2)); // 检查状态时频繁打印可能很吵，按需开启
-
-            // 根据你提供的示例，成功的状态码在 status.code 中
             if (result?.status?.code === 0) {
                 const taskStatus = result?.info?.status;
 
                 switch (taskStatus) {
                     case 'SUCCESS':
                         const imageUrl = result?.info?.imageUrl?.[0];
-                        // 检查是否存在图片URL且不是被禁止的图片
-                        if (imageUrl && typeof imageUrl === 'string' && !imageUrl.startsWith('https://zaiwen.superatmas.com/images/refer_images/banedMessage.jpg')) {
+                        if (imageUrl && typeof imageUrl === 'string' && !imageUrl.startsWith(random_safe('aHR0cHM6Ly96YWl3ZW4uc3VwZXJhdG1hcy5jb20vaW1hZ2VzL3JlZmVyX2ltYWdlcy9iYW5lZE1lc3NhZ2UuanBn'))) {
                             console.log('任务已成功完成!');
                             console.log('图像 URL:', imageUrl);
-                            return imageUrl; // 任务成功，返回URL
+                            return imageUrl;
                         } else {
                             console.warn('任务已完成，但返回了被禁止的图像或没有有效的图像URL。');
-                            return null; // 任务完成但结果无效
+                            return null;
                         }
                     case 'PENDING':
                         console.log('任务仍在进行中。');
-                        // 任务进行中，继续循环等待
-                        break; // 退出 switch，继续 while 循环
+                        break;
                     case undefined:
-                        // API返回状态码0，但info.status字段缺失，可能是API临时问题，继续重试
                         console.warn('API返回状态码0，但info.status字段缺失。正在重试...');
-                        break; // 退出 switch，继续 while 循环
-                    // 可以添加其他可能的失败状态，例如 'FAILED', 'CANCELLED' 等
-                    // case 'FAILED':
-                    // case 'CANCELLED':
-                    //     console.error(`任务状态为 ${taskStatus}，任务失败。`);
-                    //     return null; // 明确的任务失败状态
+                        break;
                     default:
-                        // 遇到其他未知状态，认为可能是失败，记录并退出
                         console.error(`任务状态为意外值: ${taskStatus}. 认为任务失败。`);
                         return null;
                 }
             } else {
-                // API返回非零状态码，记录错误并继续重试
                 console.error(`获取任务状态时API返回非零状态码 ${result?.status?.code}: ${result?.status?.msg || '未知错误'}. 正在重试...`);
-                // 继续循环等待
             }
 
         } catch (error) {
-            // 请求检查状态时出错（网络问题等），记录错误并继续重试
             console.error(`请求检查任务状态时出错 (尝试 ${attempt}/${maxAttempts}):`, error);
-            // 继续循环等待
         }
 
-        // 如果不是最后一次尝试，等待指定间隔
         if (attempt < maxAttempts) {
             await new Promise(resolve => setTimeout(resolve, interval));
         }
@@ -185,7 +162,7 @@ async function checkTaskStatus(taskId, domain, maxAttempts = 60, interval = 5000
 }
 
 /**
- * 异步地使用 Zaiwen API 生成图像。
+ * 异步地生成图像。
  *
  * @param {string} model - 要使用的图像生成模型的名称。
  * @param {string} prompt - 图像生成的文本提示。
@@ -220,7 +197,7 @@ async function zaiwen_drawing(model, prompt, ratio) {
 }
 
 /**
- * 异步地使用 Zaiwen API 生成图像 (导出函数)。
+ * 异步地生成图像 (导出函数)。
  *
  * @param {string} prompt - 图像生成的文本提示。
  * @param {string} model - 要使用的图像生成模型的名称。

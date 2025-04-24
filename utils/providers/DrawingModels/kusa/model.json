@@ -1,0 +1,10 @@
+{
+  "models": {
+    "kusa-imagen": {
+      "providerModelName": "kusa-imagen",
+      "aliases": [
+        "kusa-imagen"
+      ]
+    }
+  }
+}

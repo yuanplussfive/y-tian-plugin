@@ -2,6 +2,7 @@ import axios from 'axios';
 import path from 'path';
 import mime from 'mime-types';
 import { randomUUID } from 'crypto';
+import { random_safe } from '../../../requests/safeurl.js';
 
 const log = {
     info: (...args) => console.log('[INFO]', ...args),
@@ -55,10 +56,10 @@ const FAKE_HEADERS = {
     "Last-Event-Id": "undefined",
     Appid: DEFAULT_ASSISTANT_ID,
     Appvr: VERSION_CODE,
-    Origin: "https://jimeng.jianying.com",
+    Origin: random_safe('aHR0cHM6Ly9qaW1lbmcuamlhbnlpbmcuY29t'),
     Pragma: "no-cache",
     Priority: "u=1, i",
-    Referer: "https://jimeng.jianying.com",
+    Referer: random_safe('aHR0cHM6Ly9qaW1lbmcuamlhbnlpbmcuY29t'),
     Pf: PLATFORM_CODE,
     "Sec-Ch-Ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
     "Sec-Ch-Ua-Mobile": "?0",
@@ -128,7 +129,7 @@ async function request(method, uri, sessionId, options = {}) {
     try {
         const response = await axios.request({
             method,
-            url: `https://jimeng.jianying.com${uri}`,
+            url: `${random_safe('aHR0cHM6Ly9qaW1lbmcuamlhbnlpbmcuY29t')}${uri}`,
             params: { aid: DEFAULT_ASSISTANT_ID, device_platform: "web", region: "CN", web_id: WEB_ID, ...options.params },
             headers: { ...FAKE_HEADERS, Cookie: generateCookie(token), "Device-Time": deviceTime, Sign: sign, "Sign-Ver": "1", ...options.headers },
             data: options.data,
@@ -206,7 +207,7 @@ async function receiveCredit(sessionId) {
     log.info('接收今日积分');
     const { cur_total_credits } = await request("POST", "/commerce/v1/benefits/credit_receive", sessionId, {
         data: { time_zone: "Asia/Shanghai" },
-        headers: { Referer: "https://jimeng.jianying.com/ai-tool/image/generate" },
+        headers: { Referer: random_safe('aHR0cHM6Ly9qaW1lbmcuamlhbnlpbmcuY29tL2FpLXRvb2wvaW1hZ2UvZ2VuZXJhdGU=') },
     });
     log.info(`今日积分接收成功，剩余积分: ${cur_total_credits}`);
     return cur_total_credits;

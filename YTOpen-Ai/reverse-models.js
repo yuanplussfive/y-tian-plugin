@@ -710,9 +710,17 @@ export const getOptimizedModels = () => {
       provider: "OpenAi",
       features: ["conversation", "code"],
       auth: "否"
+    },
+    {
+      id: 80,
+      model: "kusa-imagen",
+      providers: 1,
+      token: "8k",
+      provider: "kusa",
+      features: ["drawing"],
+      auth: "否"
     }
   ];
-
   const groupedByprovider = {};
   originalModels.forEach(model => {
     if (!groupedByprovider[model.provider]) {

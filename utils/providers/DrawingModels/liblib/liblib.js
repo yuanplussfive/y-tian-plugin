@@ -6,6 +6,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import { random_safe } from '../../../../utils/requests/safeurl.js';
 
 class ImageGenerator {
   constructor(token, payload) {
@@ -34,7 +35,7 @@ class ImageGenerator {
       'sec-fetch-mode': 'cors',
       'sec-fetch-site': 'same-site',
       'token': this.token,
-      'Referer': 'https://www.liblib.art/',
+      'Referer': random_safe('aHR0cHM6Ly93d3cubGlibGliLmFydC8='),
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'User-Agent': userAgent,
     };
@@ -47,7 +48,7 @@ class ImageGenerator {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 秒超时
 
-      const response = await fetch('https://bridge.liblib.art/gateway/sd-api/generate/image', {
+      const response = await fetch(random_safe('aHR0cHM6Ly9icmlkZ2UubGlibGliLmFydC9nYXRld2F5L3NkLWFwaS9nZW5lcmF0ZS9pbWFnZQ=='), {
         method: 'POST',
         headers: this.generateHeaders(),
         body: JSON.stringify(this.payload),
@@ -83,7 +84,7 @@ class ImageGenerator {
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 秒超时
 
         const response = await fetch(
-          `https://bridge.liblib.art/gateway/sd-api/generate/progress/msg/v3/${generateId}`,
+          `${random_safe('aHR0cHM6Ly9icmlkZ2UubGlibGliLmFydC9nYXRld2F5L3NkLWFwaS9nZW5lcmF0ZS9wcm9ncmVzcy9tc2cvdjMv')}${generateId}`,
           {
             method: 'POST',
             headers: this.generateHeaders(),

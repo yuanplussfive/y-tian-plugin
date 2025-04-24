@@ -4,22 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>阴天免费绘图帮助</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>阴天绘图帮助</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
 
         :root {
             --primary-color: #ff6b6b;
+            /* Soft Red */
             --secondary-color: #4ecdc4;
+            /* Teal */
             --accent-color: #7f5af0;
+            /* Purple */
             --background-start: #0f0e17;
+            /* Dark Navy */
             --background-end: #232946;
+            /* Darker Blue */
             --card-bg: rgba(16, 18, 27, 0.8);
+            /* Semi-transparent Dark */
             --card-border: rgba(255, 255, 255, 0.08);
+            /* Subtle White Border */
             --text-primary: #fffffe;
+            /* Off-White */
             --text-secondary: #b8c1ec;
+            /* Light Blue-Gray */
             --text-accent: #ff8906;
+            /* Orange */
         }
 
         * {
@@ -33,9 +42,14 @@
             background: linear-gradient(135deg, var(--background-start), var(--background-end));
             color: var(--text-primary);
             min-height: 100vh;
-            padding: 30px 20px;
+            padding: 60px 30px;
+            /* 增加整体内边距 */
             position: relative;
             overflow-x: hidden;
+            font-size: 18px;
+            /* 放大所有文本基础大小 */
+            line-height: 1.6;
+            /* 增加行高 */
         }
 
         body::before {
@@ -45,6 +59,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            /* 示例背景图，请替换为实际路径 */
             background-image: url('/api/placeholder/1600/900');
             background-size: cover;
             background-position: center;
@@ -53,20 +68,25 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
+            /* 调整最大宽度 */
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
         .glass-container {
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            /* 增强模糊效果 */
             background: var(--card-bg);
-            border-radius: 24px;
+            border-radius: 28px;
+            /* 增大圆角 */
             border: 1px solid var(--card-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            padding: 40px;
-            margin-bottom: 40px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            /* 增强阴影 */
+            padding: 50px;
+            /* 增加内边距 */
+            margin-bottom: 50px;
             overflow: hidden;
             position: relative;
         }
@@ -74,28 +94,31 @@
         .glass-container::before {
             content: "";
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 80%);
-            opacity: 0.4;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+            /* 调整径向渐变 */
+            opacity: 0.5;
+            pointer-events: none;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
+            /* 增加外边距 */
             position: relative;
         }
 
         .logo {
-            font-size: 42px;
+            font-size: 56px;
             font-weight: 700;
             background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
             position: relative;
             display: inline-block;
         }
@@ -103,55 +126,61 @@
         .logo::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
+            width: 150px;
+            height: 5px;
             background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 300;
-            margin-top: 15px;
+            margin-top: 25px;
         }
 
         .section-title {
             display: flex;
             align-items: center;
-            font-size: 28px;
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 45px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
             color: var(--text-accent);
         }
 
-        .section-title i {
-            margin-right: 15px;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .models-grid {
+        .models-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
             margin-bottom: 40px;
         }
 
         .model-card {
-            background: rgba(30, 30, 46, 0.6);
-            border-radius: 16px;
+            background: rgba(30, 30, 46, 0.7);
+            /* 调整背景透明度 */
+            border-radius: 20px;
+            /* 增大圆角 */
             border: 1px solid var(--card-border);
-            padding: 25px;
-            transition: all 0.3s ease;
+            padding: 35px;
+            /* 增加内边距 */
+            transition: all 0.4s ease;
+            /* 调整过渡时间 */
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .model-card:hover {
+            transform: translateY(-8px);
+            /* 更明显的悬停效果 */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            /* 更明显的阴影 */
         }
 
         .model-card::before {
@@ -160,16 +189,13 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
+            height: 6px;
+            /* 增大高亮条厚度 */
             background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .model-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease;
+            /* 调整过渡时间 */
         }
 
         .model-card:hover::before {
@@ -179,26 +205,35 @@
         .model-name {
             display: flex;
             align-items: center;
-            font-size: 18px;
+            font-size: 22px;
+            /* 增大字体 */
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
+            /* 增加外边距 */
             color: var(--secondary-color);
         }
 
-        .model-name i {
-            font-size: 20px;
-            margin-right: 10px;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .model-name img {
+            width: 30px;
+            /* 设置本地图标大小 */
+            height: 30px;
+            /* 设置本地图标大小 */
+            margin-right: 15px;
+            /* 增加图标与文本间距 */
+            object-fit: contain;
+            /* 保持图片比例 */
         }
 
         .model-index {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 30px;
-            height: 30px;
+            top: 25px;
+            /* 调整位置 */
+            right: 25px;
+            /* 调整位置 */
+            width: 40px;
+            /* 增大尺寸 */
+            height: 40px;
+            /* 增大尺寸 */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -206,123 +241,247 @@
             color: #111;
             border-radius: 50%;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 18px;
+            /* 增大字体 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            /* 添加阴影 */
         }
 
         .command {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            /* 增加外边距 */
             position: relative;
+        }
+
+        .command:last-child {
+            margin-bottom: 0;
         }
 
         .command-text {
             display: inline-block;
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
+            padding: 12px 20px;
+            /* 增加内边距 */
+            background: rgba(255, 255, 255, 0.1);
+            /* 调整背景透明度 */
+            border-radius: 10px;
+            /* 增大圆角 */
+            font-family: 'Noto Sans SC', sans-serif;
             font-weight: 500;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            /* 增加外边距 */
             color: var(--text-secondary);
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
-            border-left: 3px solid var(--accent-color);
+            border-left: 5px solid var(--accent-color);
+            /* 增大边框厚度 */
+            word-break: break-word;
+            font-size: 16px;
+            /* 增大字体 */
         }
 
         .command-text:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
+            /* 更明显的悬停背景 */
             color: var(--secondary-color);
-            transform: translateX(5px);
+            transform: translateX(10px);
+            /* 更明显的悬停效果 */
         }
 
         .command-description {
-            font-size: 14px;
+            font-size: 16px;
+            /* 增大字体 */
             color: var(--text-secondary);
-            margin-left: 5px;
-        }
-
-        .size-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .size-option {
-            background: rgba(30, 30, 46, 0.6);
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .size-option:hover {
-            background: rgba(40, 40, 60, 0.8);
-            transform: translateY(-3px);
-        }
-
-        .size-icon {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: var(--secondary-color);
-        }
-
-        .size-command {
-            font-family: 'Courier New', monospace;
-            font-weight: 500;
-            font-size: 15px;
-            color: var(--text-secondary);
+            margin-left: 15px;
+            /* 调整外边距 */
+            display: block;
+            font-style: italic;
+            /* 将详细介绍语句改为斜体 */
         }
 
         .footer {
             text-align: center;
-            margin-top: 40px;
-            padding: 20px 0;
+            margin-top: 60px;
+            /* 增加外边距 */
+            padding: 25px 0;
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 16px;
+            /* 增大字体 */
         }
 
         .glow {
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 300px;
+            /* 增大光晕尺寸 */
+            height: 300px;
+            /* 增大光晕尺寸 */
             border-radius: 50%;
             background: radial-gradient(circle, var(--accent-color) 0%, rgba(0, 0, 0, 0) 70%);
-            opacity: 0.1;
+            opacity: 0.12;
+            /* 调整透明度 */
             z-index: -1;
+            pointer-events: none;
         }
 
         .glow-1 {
-            top: -100px;
-            left: -100px;
+            top: -150px;
+            /* 调整位置 */
+            left: -150px;
+            /* 调整位置 */
         }
 
         .glow-2 {
-            bottom: -100px;
-            right: -100px;
+            bottom: -150px;
+            /* 调整位置 */
+            right: -150px;
+            /* 调整位置 */
             background: radial-gradient(circle, var(--primary-color) 0%, rgba(0, 0, 0, 0) 70%);
         }
 
-        @media (max-width: 768px) {
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .models-list {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                /* 调整列宽 */
+                gap: 25px;
+                /* 调整间距 */
+            }
+
             .glass-container {
-                padding: 25px;
-            }
-
-            .models-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .size-options {
-                grid-template-columns: 1fr;
+                padding: 40px;
             }
 
             .logo {
-                font-size: 32px;
+                font-size: 48px;
+            }
+
+            .subtitle {
+                font-size: 18px;
             }
 
             .section-title {
-                font-size: 24px;
+                font-size: 32px;
+            }
+
+            .model-card {
+                padding: 30px;
+            }
+
+            .model-name {
+                font-size: 20px;
+            }
+
+            .model-name img {
+                width: 28px;
+                height: 28px;
+            }
+
+            .model-index {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .command-text {
+                font-size: 15px;
+            }
+
+            .command-description {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px 15px;
+                font-size: 16px;
+            }
+
+            .glass-container {
+                padding: 30px;
+            }
+
+            .logo {
+                font-size: 40px;
+                margin-bottom: 15px;
+            }
+
+            .logo::after {
+                bottom: -10px;
+                width: 100px;
+                height: 3px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 35px;
+            }
+
+            .models-list {
+                grid-template-columns: 1fr;
+                /* 单列布局 */
+                gap: 20px;
+            }
+
+            .model-card {
+                padding: 25px;
+            }
+
+            .model-name {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+
+            .model-name img {
+                width: 24px;
+                height: 24px;
+                margin-right: 10px;
+            }
+
+            .model-index {
+                top: 20px;
+                right: 20px;
+                width: 32px;
+                height: 32px;
+                font-size: 15px;
+            }
+
+            .command {
+                margin-bottom: 15px;
+            }
+
+            .command-text {
+                padding: 10px 15px;
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .command-description {
+                font-size: 14px;
+                margin-left: 10px;
+            }
+
+            .footer {
+                margin-top: 40px;
+                font-size: 14px;
+            }
+
+            .glow {
+                width: 200px;
+                height: 200px;
+            }
+
+            .glow-1 {
+                top: -100px;
+                left: -100px;
+            }
+
+            .glow-2 {
+                bottom: -100px;
+                right: -100px;
             }
         }
     </style>
@@ -335,19 +494,20 @@
             <div class="glow glow-2"></div>
 
             <div class="header">
-                <div class="logo">阴天免费绘图帮助</div>
+                <div class="logo">阴天绘图帮助</div>
                 <div class="subtitle">部分模型请按要求配置相关</div>
             </div>
 
             <div class="section-title">
-                <i class="fas fa-paint-brush"></i>绘图模型指令
+                绘图模型指令
             </div>
 
-            <div class="models-grid">
+            <div class="models-list">
                 <div class="model-card">
                     <div class="model-index">1</div>
                     <div class="model-name">
-                        <i class="fas fa-bolt"></i>Flux系列
+
+                        <img src="{{fluxLogo}}" alt="Flux Icon">Flux
                     </div>
                     <div class="command">
                         <div class="command-text">#sch绘图 xxx</div>
@@ -362,7 +522,8 @@
                 <div class="model-card">
                     <div class="model-index">2</div>
                     <div class="model-name">
-                        <i class="fas fa-gamepad"></i>Playground
+
+                        <img src="{{playgroundLogo}}" alt="Playground Icon">Playground
                     </div>
                     <div class="command">
                         <div class="command-text">#play绘图 xxx</div>
@@ -377,18 +538,8 @@
                 <div class="model-card">
                     <div class="model-index">3</div>
                     <div class="model-name">
-                        <i class="fas fa-magic"></i>Pixart
-                    </div>
-                    <div class="command">
-                        <div class="command-text">#pix绘图 xxx</div>
-                        <div class="command-description">使用 pixart</div>
-                    </div>
-                </div>
 
-                <div class="model-card">
-                    <div class="model-index">4</div>
-                    <div class="model-name">
-                        <i class="fas fa-rocket"></i>Imagen-v3-fast
+                        <img src="{{GeminiLogo}}" alt="Imagen Icon">Imagen-v3-fast
                     </div>
                     <div class="command">
                         <div class="command-text">#gen3绘图 xxx</div>
@@ -397,9 +548,22 @@
                 </div>
 
                 <div class="model-card">
+                    <div class="model-index">4</div>
+                    <div class="model-name">
+
+                        <img src="{{sdLogo}}" alt="SDXL Icon">SDXL
+                    </div>
+                    <div class="command">
+                        <div class="command-text">#sdxl绘图 xxx</div>
+                        <div class="command-description">使用 Stable Diffusion XL-v1.0</div>
+                    </div>
+                </div>
+
+                <div class="model-card">
                     <div class="model-index">5</div>
                     <div class="model-name">
-                        <i class="fas fa-brain"></i>Plus DALL-E-3
+
+                        <img src="{{ChatGptLogo}}" alt="DALL-E Icon">DALL-E-3
                     </div>
                     <div class="command">
                         <div class="command-text">#dalle绘图 xxx</div>
@@ -414,18 +578,8 @@
                 <div class="model-card">
                     <div class="model-index">6</div>
                     <div class="model-name">
-                        <i class="fas fa-cubes"></i>Stable Diffusion XL
-                    </div>
-                    <div class="command">
-                        <div class="command-text">#sdxl绘图 xxx</div>
-                        <div class="command-description">使用 Stable Diffusion XL-v1.0</div>
-                    </div>
-                </div>
 
-                <div class="model-card">
-                    <div class="model-index">7</div>
-                    <div class="model-name">
-                        <i class="fas fa-layer-group"></i>Stable Diffusion
+                        <img src="{{sdLogo}}" alt="SD Icon">Stable Diffusion
                     </div>
                     <div class="command">
                         <div class="command-text">#sd3绘图 xxx</div>
@@ -438,20 +592,10 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-index">8</div>
+                    <div class="model-index">7</div>
                     <div class="model-name">
-                        <i class="fas fa-star"></i>Vega
-                    </div>
-                    <div class="command">
-                        <div class="command-text">#vega绘图 xxx</div>
-                        <div class="command-description">使用Vega平台, 需填写stoken</div>
-                    </div>
-                </div>
 
-                <div class="model-card">
-                    <div class="model-index">9</div>
-                    <div class="model-name">
-                        <i class="fas fa-palette"></i>Recraft-V3
+                        <img src="{{recraftLogo}}" alt="Recraft Icon">Recraft-V3
                     </div>
                     <div class="command">
                         <div class="command-text">#recraft绘图 xxx</div>
@@ -460,9 +604,10 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-index">10</div>
+                    <div class="model-index">8</div>
                     <div class="model-name">
-                        <i class="fas fa-cloud"></i>Jimeng-V3
+
+                        <img src="{{jimengLogo}}" alt="Jimeng Icon">Jimeng-V3
                     </div>
                     <div class="command">
                         <div class="command-text">#即梦绘图 xxx</div>
@@ -471,9 +616,10 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-index">11</div>
+                    <div class="model-index">9</div>
                     <div class="model-name">
-                        <i class="fas fa-cloud"></i>liblib
+
+                        <img src="{{NoobLogo}}" alt="Liblib Icon">liblib
                     </div>
                     <div class="command">
                         <div class="command-text">#liblib绘图 xxx</div>
@@ -482,9 +628,10 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-index">12</div>
+                    <div class="model-index">10</div>
                     <div class="model-name">
-                        <i class="fas fa-cloud"></i>wai-illustrious
+
+                        <img src="{{NoobLogo}}" alt="Wai Icon">wai-illustrious
                     </div>
                     <div class="command">
                         <div class="command-text">#wai绘图 xxx</div>
@@ -493,9 +640,10 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-index">13</div>
+                    <div class="model-index">11</div>
                     <div class="model-name">
-                        <i class="fas fa-cloud"></i>Noobai
+
+                        <img src="{{NoobLogo}}" alt="Noobai Icon">Noobai
                     </div>
                     <div class="command">
                         <div class="command-text">#noob绘图 xxx</div>
@@ -504,9 +652,10 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-index">14</div>
+                    <div class="model-index">12</div>
                     <div class="model-name">
-                        <i class="fas fa-cloud"></i>Anishadow
+
+                        <img src="{{NoobLogo}}" alt="Anishadow Icon">Anishadow
                     </div>
                     <div class="command">
                         <div class="command-text">#ani绘图 xxx</div>
@@ -515,9 +664,10 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-index">15</div>
+                    <div class="model-index">13</div>
                     <div class="model-name">
-                        <i class="fas fa-cloud"></i>AniFast
+
+                        <img src="{{NoobLogo}}" alt="AniFast Icon">AniFast
                     </div>
                     <div class="command">
                         <div class="command-text">#af绘图 xxx</div>
@@ -526,9 +676,9 @@
                 </div>
 
                 <div class="model-card">
-                    <div class="model-index">16</div>
+                    <div class="model-index">14</div>
                     <div class="model-name">
-                        <i class="fas fa-cloud"></i>Novelai
+                        <img src="{{novelaiLogo}}" alt="Novelai Icon">Novelai
                     </div>
                     <div class="command">
                         <div class="command-text">#nai绘图 xxx</div>

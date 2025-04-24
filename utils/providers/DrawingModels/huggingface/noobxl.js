@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import fetch from 'node-fetch';
 
-async function generateImage(prompt, apiUrl = 'https://menyu-noobxl.hf.space', retries = 2) {
+async function generateImage(prompt, apiUrl = random_safe('aHR0cHM6Ly9tZW55dS1ub29ieGwuaGYuc3BhY2U='), retries = 2) {
   const sessionHash = randomBytes(10).toString('hex');
   const headers = {
     accept: '*/*',
@@ -94,9 +94,9 @@ async function generateImage(prompt, apiUrl = 'https://menyu-noobxl.hf.space', r
 
     } catch (error) {
       console.error(`Attempt ${attempt + 1} failed:`, error.message);
-      if (attempt === retries - 1 && apiUrl !== 'https://menyu-noobxl.hf.space') {
+      if (attempt === retries - 1 && apiUrl !== random_safe('aHR0cHM6Ly9tZW55dS1ub29ieGwuaGYuc3BhY2U=')) {
         console.log('Switching to default API...');
-        return generateImage(prompt, 'https://menyu-noobxl.hf.space', 1); 
+        return generateImage(prompt, random_safe('aHR0cHM6Ly9tZW55dS1ub29ieGwuaGYuc3BhY2U='), 1);
       }
       if (attempt === retries) throw error;
     }
@@ -105,7 +105,7 @@ async function generateImage(prompt, apiUrl = 'https://menyu-noobxl.hf.space', r
 
 export async function NoobxL(messages) {
   try {
-    const arr = ['https://noobai.deno.dev'];
+    const arr = [random_safe('aHR0cHM6Ly9ub29iYWkuZGVuby5kZXY=')];
     const randomIndex = Math.floor(Math.random() * arr.length);
     const apiUrl = arr[randomIndex];
     const prompt = messages[messages.length - 1].content;
