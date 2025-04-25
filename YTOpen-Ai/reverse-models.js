@@ -719,6 +719,78 @@ export const getOptimizedModels = () => {
       provider: "kusa",
       features: ["drawing"],
       auth: "否"
+    },
+    {
+      id: 81,
+      model: "wai-illustrious-sdxl",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
+    },
+    {
+      id: 82,
+      model: "anything-xl",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
+    },
+    {
+      id: 83,
+      model: "animagine-xl-v4.0",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
+    },
+    {
+      id: 84,
+      model: "noobai-v1.1-xl",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
+    },
+    {
+      id: 85,
+      model: "illustrious-v1.1-xl",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
+    },
+    {
+      id: 86,
+      model: "test2-pony",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
+    },
+    {
+      id: 87,
+      model: "pixel-v1.0",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
+    },
+    {
+      id: 88,
+      model: "wai-ani-wanni",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
     }
   ];
   const groupedByprovider = {};

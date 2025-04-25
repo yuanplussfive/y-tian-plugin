@@ -1,0 +1,52 @@
+{
+  "models": {
+    "wai-illustrious-sdxl": {
+      "providerModelName": "WAI-illustrious-SDXL_v13.0",
+      "aliases": [
+        "wai-illustrious-sdxl"
+      ]
+    },
+    "anything-xl": {
+      "providerModelName": "万象熔炉 | Anything XL_XL",
+      "aliases": [
+        "anything-xl"
+      ]
+    },
+    "animagine-xl-v4.0": {
+      "providerModelName": "Animagine XL 4.0_v4-opt",
+      "aliases": [
+        "animagine-xl-v4.0"
+      ]
+    },
+    "noobai-v1.1-xl": {
+      "providerModelName": "NoobAI-XL(NAI-XL)_epsilon1.1",
+      "aliases": [
+        "noobai-v1.1-xl"
+      ]
+    },
+    "illustrious-v1.1-xl": {
+      "providerModelName": "ModelE/Illustrious-XL_v1.1",
+      "aliases": [
+        "illustrious-v1.1-xl"
+      ]
+    },
+    "test2-pony": {
+      "providerModelName": "JKCCCC/test2_pony",
+      "aliases": [
+        "test2-pony"
+      ]
+    },
+    "pixel-v1.0": {
+      "providerModelName": "menyudada/MiaoMiaoPixel_v1.0",
+      "aliases": [
+        "pixel-v1.0"
+      ]
+    },
+    "wai-ani-wanni": {
+      "providerModelName": "JKCCCC/WAI-ANI_WANNI",
+      "aliases": [
+        "wai-ani-wanni"
+      ]
+    }
+  }
+}

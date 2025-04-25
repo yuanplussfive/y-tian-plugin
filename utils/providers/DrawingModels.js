@@ -4,6 +4,7 @@ import { huggingfaceClient } from "../providers/DrawingModels/huggingface/huggin
 import { jimengClient } from "../providers/DrawingModels/jimeng/jimengClient.js";
 import { imagelabs } from "../providers/DrawingModels/imagelabs/imagelabs.js";
 import { kusa } from "../providers/DrawingModels/kusa/kusa.js";
+import { waiIll } from "../providers/DrawingModels/modelscope/modelscope.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -23,6 +24,7 @@ const providerStats = {
     jimeng: { success: 0, failure: 0, weight: 100 },
     imagelabs: { success: 0, failure: 0, weight: 100 },
     kusa: { success: 0, failure: 0, weight: 100 },
+    modelscope: { success: 0, failure: 0, weight: 100 },
 };
 
 // 获取当前文件所在的目录
@@ -92,7 +94,8 @@ const providerApis = {
     huggingface: huggingfaceClient,
     jimeng: jimengClient,
     imagelabs: imagelabs,
-    kusa: kusa
+    kusa: kusa,
+    modelscope: waiIll,
 };
 
 // 默认超时时间 (3分钟)
