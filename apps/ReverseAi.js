@@ -56,6 +56,7 @@ export class reverseAi extends plugin {
         {
           reg: "^[\s\S]*",
           fnc: 'reverse_chat',
+          log: false
         }
       ]
     })
