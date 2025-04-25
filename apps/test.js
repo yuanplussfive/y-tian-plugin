@@ -356,7 +356,8 @@ export class ExamplePlugin extends plugin {
         liblibcheckpointId: 18572023,
         YuanbaoModel: 'deep_seek',
         YuanbaoDeepSearch: false,
-        YuanbaoCK: ['']
+        YuanbaoCK: [''],
+        modelscope_m_session_id: '',
       }
     }
 
