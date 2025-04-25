@@ -47,6 +47,12 @@
       "aliases": [
         "wai-ani-wanni"
       ]
+    },
+    "anishadow-v10": {
+      "providerModelName": "动漫光影_v2.safetensors",
+      "aliases": [
+        "anishadow-v10"
+      ]
     }
   }
 }

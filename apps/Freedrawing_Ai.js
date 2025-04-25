@@ -4,6 +4,10 @@ import { ZaiwenDrawing } from "../utils/providers/DrawingModels/zaiwen/zaiwen.js
 import { jimengClient } from "../utils/providers/ChatModels/jimeng/jimengClient.js";
 import { liblib } from "../utils/providers/ChatModels/liblib/liblib.js";
 import { YTOtherModels } from "../utils/fileUtils.js";
+import { OpenAigenerateImage } from "../YTOpen-Ai/OpenAiChatCmpletions.js";
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
+import dotenv from 'dotenv';
 let ratio = "9:16";
 let lastUsedTimestamps = 0;
 let dalle_size = '1024x1792';
@@ -57,6 +61,10 @@ export class FreeDrawing extends plugin {
           fnc: 'handleAfCommand'
         },
         {
+          reg: "^#(md|Md|Ms|ms)绘图(.*)",
+          fnc: 'handleMdCommand'
+        },
+        {
           reg: "^#(Nai|nai)绘图(.*)",
           fnc: 'handleNaiCommand'
         }
@@ -85,6 +93,31 @@ export class FreeDrawing extends plugin {
       console.log('处理错误:', error);
       e.reply('生成失败了，请稍后再试！');
     }
+  }
+
+  async handleMdCommand(e) {
+    const prompt = e.msg.replace(/#(Md|md|ms|Ms)绘图/g, "")?.trim()
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const pluginPath = path.join(__dirname, '../');
+    dotenv.config({ path: path.join(pluginPath, '.env') });
+    const config = {
+      apiBaseUrl: process.env.API_BASE_URL || 'http://localhost',
+      port: process.env.PORT || 7799,
+      apikey: process.env.DEFAULT_API_KEY
+    };
+    const options = {
+      model: "anishadow-v10",
+      size: '1024x1024',
+      prompt: prompt,
+      n: 1,
+    };
+    const apiBaseUrl = `${config.apiBaseUrl}:${config.port}/v1/`
+    const result = await OpenAigenerateImage(apiBaseUrl, config.apikey, options);
+    if (result.error) {
+      e.reply(result.error);
+    }
+    e.reply(segment.image(result.data[0].url))
   }
 
   async handleAfCommand(e) {

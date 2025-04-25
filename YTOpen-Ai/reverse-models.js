@@ -791,6 +791,15 @@ export const getOptimizedModels = () => {
       provider: "modelscope",
       features: ["drawing"],
       auth: "是"
+    },
+    {
+      id: 89,
+      model: "anishadow-v10",
+      providers: 1,
+      token: "8k",
+      provider: "modelscope",
+      features: ["drawing"],
+      auth: "是"
     }
   ];
   const groupedByprovider = {};

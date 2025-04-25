@@ -3,9 +3,107 @@ import path from 'path';
 import YAML from 'yaml';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { randomUUID } from 'crypto';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { random_safe } from '../../../../utils/requests/safeurl.js';
+import readline from 'readline';
+
+function containsChinese(str) {
+    return /\p{Script=Han}/u.test(str);
+}
+
+/**
+ * 流式优化提示词
+ * @param {string} prompt 
+ * @param {string} m_session_id 
+ * @returns {Promise<string>}
+ */
+async function streamPromptText(prompt, m_session_id) {
+    const headers = {
+        'accept': 'application/json, text/plain, */*',
+        'content-type': 'application/json',
+        'cookie': `m_session_id=${m_session_id}`,
+        'x-modelscope-accept-language': 'zh_CN',
+        'Referer': random_safe('aHR0cHM6Ly9tb2RlbHNjb3BlLmNuL2FpZ2MvaW1hZ2VHZW5lcmF0aW9uP3RhYj1hZHZhbmNlZA=='),
+        'Referrer-Policy': 'strict-origin-when-cross-origin'
+    };
+
+    let result = '';
+
+    try {
+        const res = await fetch(`${random_safe('aHR0cHM6Ly9tb2RlbHNjb3BlLmNuL2FwaS92MS9tdXNlL3Rvb2wvb3B0aW1pemVQcm9tcHRTdHJlYW0/cG9zaXRpdmU9dHJ1ZSZwcm9tcHQ9')}${encodeURIComponent(prompt)}&stableDiffusionVersion=SD_XL`, { headers });
+
+        if (!res.ok) {
+            console.warn(`请求失败: HTTP ${res.status}`);
+            return prompt;
+        }
+
+        const rl = readline.createInterface({
+            input: res.body,
+            crlfDelay: Infinity
+        });
+
+        for await (const line of rl) {
+            if (line.startsWith('data:')) {
+                try {
+                    const payload = JSON.parse(line.slice(5).trim());
+                    if (payload.text) {
+                        result += payload.text;
+                    }
+                } catch (err) {
+                    // 忽略单行解析错误
+                }
+            }
+        }
+    } catch (error) {
+        console.warn('流处理异常:', error.message);
+        return prompt;
+    }
+    return result.trim() ? result : prompt;
+}
+
+async function enhancement(prompt) {
+    const headers = {
+        "accept": "*/*",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+        "content-type": "application/json",
+        "x-anonymous-id": randomUUID(),
+        "Referer": random_safe('aHR0cHM6Ly9rdXNhLnBpY3Mv'),
+        "Referrer-Policy": "strict-origin-when-cross-origin"
+    };
+
+    try {
+        const response = await fetch(random_safe('aHR0cHM6Ly9rdXNhLnBpY3MvYXBpL3Byb21wdC1lbmhhbmNlbWVudA=='), {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+                prompt: prompt
+            })
+        });
+
+        if (!response.ok) {
+            console.error(`HTTP 错误！状态码: ${response.status}`);
+            try {
+                const errorBodyText = await response.text();
+                console.error("错误响应体:", errorBodyText);
+            } catch (e) {
+                console.error("无法读取错误响应体:", e);
+            }
+            return prompt;
+        }
+
+        const responseData = await response.json();
+        if (responseData?.enhanced_prompt) {
+            return responseData.enhanced_prompt;
+        } else {
+            return prompt;
+        }
+
+    } catch (error) {
+        return prompt;
+    }
+}
 
 export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
     try {
@@ -57,6 +155,12 @@ export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
                 sampler: 'Euler',
                 guidanceScale: 6,
                 modelName: 'Ultrasharp 4x'
+            },
+            "动漫光影_v2.safetensors": {
+                checkpointModelVersionId: 118586,
+                sampler: 'Euler',
+                guidanceScale: 5.5,
+                modelName: 'R-ESRGAN 4x+ Anime 6B'
             }
         };
         const configPath = path.join(__dirname, '../../../../config/message.yaml');
@@ -69,6 +173,11 @@ export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
         }
 
         const m_session_id = config?.modelscope_m_session_id || '';
+        if (containsChinese(prompt)) {
+            prompt = await enhancement(prompt) || await streamPromptText(`safe, ${prompt}`, m_session_id);
+        }
+        console.log('优化提示词：', prompt);
+
         const submitResponse = await fetch(random_safe('aHR0cHM6Ly9tb2RlbHNjb3BlLmNuL2FwaS92MS9tdXNlL3ByZWRpY3QvdGFzay9zdWJtaXQ='), {
             method: 'POST',
             headers: {
@@ -95,12 +204,12 @@ export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
                     seed: -1,
                     numInferenceSteps: 30,
                     numImagesPerPrompt: 1,
-                    width: 1080,
-                    height: 1440
+                    width: 1320,
+                    height: 1800
                 },
                 adetailerArgsMap: {
                     adetailerHand: {
-                        adModel: "hand_yolov8s.pt",
+                        adModel: "hand_yolov8n.pt",
                         adInpaintingArgs: {}
                     }
                 },
