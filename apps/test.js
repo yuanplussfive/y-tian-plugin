@@ -358,6 +358,9 @@ export class ExamplePlugin extends plugin {
         YuanbaoDeepSearch: false,
         YuanbaoCK: [''],
         modelscope_m_session_id: '',
+        modelscope_lora_enable: false,
+        modelscope_lora_id: 119032,
+        modelscope_lora_scale: 1
       }
     }
 

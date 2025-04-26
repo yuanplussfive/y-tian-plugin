@@ -172,12 +172,22 @@ export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
             config = configs.pluginSettings;
         }
 
-        const m_session_id = config?.modelscope_m_session_id || '';
+        const m_session_id = config?.modelscope_m_session_id || null;
+        const loramodelVersionId = config?.modelscope_lora_id || null;
+        const loramodelscale = config?.modelscope_lora_scale || 0.8;
+        const loramodelenable = config?.modelscope_lora_enable || false;
         if (containsChinese(prompt)) {
             prompt = await enhancement(prompt) || await streamPromptText(`safe, ${prompt}`, m_session_id);
         }
         console.log('优化提示词：', prompt);
 
+        const loraArgs = (loramodelenable === true && loramodelVersionId && loramodelscale) ? [
+            {
+                modelVersionId: loramodelVersionId,
+                scale: loramodelscale
+            }
+        ] : [];          
+        console.log('使用lora：', loraArgs);
         const submitResponse = await fetch(random_safe('aHR0cHM6Ly9tb2RlbHNjb3BlLmNuL2FwaS92MS9tdXNlL3ByZWRpY3QvdGFzay9zdWJtaXQ='), {
             method: 'POST',
             headers: {
@@ -191,7 +201,7 @@ export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
             body: JSON.stringify({
                 modelArgs: {
                     checkpointModelVersionId: modelMapping[model].checkpointModelVersionId,
-                    loraArgs: [],
+                    loraArgs: loraArgs,
                     checkpointShowInfo: model
                 },
                 promptArgs: {
@@ -204,8 +214,8 @@ export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
                     seed: -1,
                     numInferenceSteps: 30,
                     numImagesPerPrompt: 1,
-                    width: 1320,
-                    height: 1800
+                    width: 1024,
+                    height: 1440
                 },
                 adetailerArgsMap: {
                     adetailerHand: {
