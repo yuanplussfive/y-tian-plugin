@@ -138,14 +138,12 @@ export async function downloadAndSaveFile(url, originalFileName, e) {
 
     if (!validImageExtensions.includes(fileExtension.toLowerCase())) {
       console.log(`Detected non-image file (${fileExtension}), attempting to send: ${filePath}`);
-      if (e && e.group && e.group_id) { // 检查 e 对象和群组信息是否存在
-        await e.group.sendFile(filePath, finalFileName); // 发送文件，可以指定文件名
+      if (e.group_id) {
+        await e.group.sendFile(filePath);
         console.log(`Sent file to group ${e.group_id}`);
-      } else if (e && e.friend) { // 检查 e 对象和好友信息是否存在
-        await e.friend.sendFile(filePath, finalFileName); // 发送文件，可以指定文件名
-        console.log(`Sent file to friend`);
       } else {
-        console.warn('Could not send file: Invalid or missing event object (e)');
+        await e.friend.sendFile(filePath);
+        console.log(`Sent file to friend`);
       }
     } else {
       console.log(`Detected image file (${fileExtension}), not sending automatically.`);
