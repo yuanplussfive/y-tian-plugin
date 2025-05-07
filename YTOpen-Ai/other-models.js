@@ -1196,7 +1196,7 @@ export const getOptimizedModels = () => {
       "id": 150,
       "model": "ideogram-v2a",
       "points": "ideogram",
-      "token": "0.8k",
+      "token": "8k",
       "features": ['drawing'],
       "quota": "0.4/次"
     },
@@ -1204,7 +1204,7 @@ export const getOptimizedModels = () => {
       "id": 151,
       "model": "sana",
       "points": "sana",
-      "token": "0.8k",
+      "token": "8k",
       "features": ['drawing'],
       "quota": "0.08/次"
     },
@@ -1236,7 +1236,7 @@ export const getOptimizedModels = () => {
       "id": 155,
       "model": "ideogram-v2",
       "points": "ideogram",
-      "token": "0.8k",
+      "token": "8k",
       "features": ['drawing'],
       "quota": "0.8/次"
     },
@@ -1244,7 +1244,7 @@ export const getOptimizedModels = () => {
       "id": 156,
       "model": "minimax-Genimage",
       "points": "minimax",
-      "token": "0.8k",
+      "token": "8k",
       "features": ['drawing'],
       "quota": "0.2/次"
     },
@@ -1252,7 +1252,7 @@ export const getOptimizedModels = () => {
       "id": 157,
       "model": "juggernaut-flux",
       "points": "BlackForestLabs",
-      "token": "0.8k",
+      "token": "8k",
       "features": ['drawing'],
       "quota": "0.15/次"
     },
@@ -1260,7 +1260,7 @@ export const getOptimizedModels = () => {
       "id": 158,
       "model": "recraft-v3",
       "points": "recraft",
-      "token": "0.8k",
+      "token": "8k",
       "features": ['drawing'],
       "quota": "0.3/次"
     },
@@ -1268,7 +1268,7 @@ export const getOptimizedModels = () => {
       "id": 159,
       "model": "Noobai",
       "points": "Noobai",
-      "token": "0.8k",
+      "token": "8k",
       "features": ['drawing'],
       "quota": "0.04/次"
     },
@@ -1433,55 +1433,7 @@ export const getOptimizedModels = () => {
       "quota": "0.05/次"
     },
     {
-      "id": 179,
-      "model": "wai-illustrious",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.06/次"
-    },
-    {
       "id": 180,
-      "model": "wai-illustrious-sdxl",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.1/次"
-    },
-    {
-      "id": 181,
-      "model": "noobai-xl-v1.1",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.08/次"
-    },
-    {
-      "id": 182,
-      "model": "anishadow-v10",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.12/次"
-    },
-    {
-      "id": 183,
-      "model": "wai-illustrious-free",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.005/次"
-    },
-    {
-      "id": 184,
-      "model": "noobai-xl-free",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.005/次"
-    },
-    {
-      "id": 185,
       "model": "gemma-3-27b-it",
       "points": "Google",
       "token": "1000k",
@@ -1489,7 +1441,7 @@ export const getOptimizedModels = () => {
       "quota": 0.5
     },
     {
-      "id": 186,
+      "id": 181,
       "model": "gemini-2.5-flash-preview-04-17",
       "points": "Google",
       "token": "1000k",
@@ -1497,7 +1449,7 @@ export const getOptimizedModels = () => {
       "quota": 0.5
     },
     {
-      "id": 187,
+      "id": 182,
       "model": "gemini-2.5-pro-exp-03-25",
       "points": "Google",
       "token": "1000k",
@@ -1505,7 +1457,7 @@ export const getOptimizedModels = () => {
       "quota": 2.5
     },
     {
-      "id": 188,
+      "id": 183,
       "model": "reka-flash-3",
       "points": "reka",
       "token": "128k",
@@ -1513,28 +1465,132 @@ export const getOptimizedModels = () => {
       "quota": 0.5
     },
     {
-      "id": 189,
-      "model": "anishadow-v10-fast",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.04/次"
-    },
-    {
-      "id": 190,
-      "model": "novelai-v3",
-      "points": "novelai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.1/次"
-    },
-    {
-      "id": 191,
+      "id": 184,
       "model": "qwen-2.5-vl-72b-instruct",
       "points": "alibaba",
       "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.5
+    },
+    {
+      "id": 185,
+      "model": "wai-illustrious-free",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.005/次"
+    },
+    {
+      "id": 186,
+      "model": "noobai-xl-free",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.005/次"
+    },
+    {
+      "id": 187,
+      "model": "anishadow-v10-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.06/次"
+    },
+    {
+      "id": 188,
+      "model": "anishadow-v10-chaomo",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.06/次"
+    },
+    {
+      "id": 189,
+      "model": "anishadow-v10",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.09/次"
+    },
+    {
+      "id": 190,
+      "model": "wai-illustrious-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.06/次"
+    },
+    {
+      "id": 191,
+      "model": "wai-illustrious-sdxl",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.09/次"
+    },
+    {
+      "id": 192,
+      "model": "wai-noobai-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.06/次"
+    },
+    {
+      "id": 193,
+      "model": "wai-noobai",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.09/次"
+    },
+    {
+      "id": 194,
+      "model": "noobai-xl-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.06/次"
+    },
+    {
+      "id": 195,
+      "model": "noobai-xl",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.09/次"
+    },
+    {
+      "id": 196,
+      "model": "noobai-xl-v",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.075/次"
+    },
+    {
+      "id": 197,
+      "model": "nai-xl",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.075/次"
+    },
+    {
+      "id": 198,
+      "model": "novelai-v3-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.06/次"
+    },
+    {
+      "id": 199,
+      "model": "novelai-v3",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.075/次"
     }
   ]
 
