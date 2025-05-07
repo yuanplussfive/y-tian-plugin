@@ -75,7 +75,7 @@ export class FreeDrawing extends plugin {
   async handleNaiCommand(e) {
     try {
       const prompt = e.msg.replace(/#(Nai|nai)绘图/g, "")?.trim()
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'novelai-v3');
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'novelai-v3-fast');
       let imageUrls = [];
       console.log(imageArray);
       if (!imageArray) {
@@ -123,7 +123,7 @@ export class FreeDrawing extends plugin {
   async handleAfCommand(e) {
     try {
       const prompt = e.msg.replace(/#(Af|af)绘图/g, "")?.trim()
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'anishadow-v10-fast');
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'wai-noobai-fast');
       let imageUrls = [];
       console.log(imageArray);
       if (!imageArray) {
@@ -146,7 +146,7 @@ export class FreeDrawing extends plugin {
   async handleAniCommand(e) {
     try {
       const prompt = e.msg.replace(/#(Ani|ani)绘图/g, "")?.trim()
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'anishadow-v10');
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'anishadow-v10-fast');
       let imageUrls = [];
       console.log(imageArray);
       if (!imageArray) {
@@ -169,7 +169,7 @@ export class FreeDrawing extends plugin {
   async handleNoobxlCommand(e) {
     try {
       const prompt = e.msg.replace(/#(nbxl|Nbxl)绘图/g, "")?.trim()
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'noobai-xl-v1.1');
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'noobai-xl-fast');
       let imageUrls = [];
       console.log(imageArray);
       if (!imageArray) {
@@ -215,7 +215,7 @@ export class FreeDrawing extends plugin {
   async handleWaiCommand(e) {
     try {
       const prompt = e.msg.replace(/#(Wai|wai)绘图/g, "")?.trim()
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'wai-illustrious-sdxl');
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'wai-illustrious-fast');
       let imageUrls = [];
       console.log(imageArray);
       if (!imageArray) {
