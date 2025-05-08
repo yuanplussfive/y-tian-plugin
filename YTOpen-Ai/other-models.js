@@ -1494,7 +1494,7 @@ export const getOptimizedModels = () => {
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.06/次"
+      "quota": "0.03/次"
     },
     {
       "id": 188,
@@ -1510,27 +1510,27 @@ export const getOptimizedModels = () => {
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.09/次"
+      "quota": "0.06/次"
     },
     {
       "id": 190,
+      "model": "anishadow-v10-best",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.09/次"
+    },
+    {
+      "id": 191,
       "model": "wai-illustrious-fast",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.06/次"
-    },
-    {
-      "id": 191,
-      "model": "wai-illustrious-sdxl",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.09/次"
+      "quota": "0.03/次"
     },
     {
       "id": 192,
-      "model": "wai-noobai-fast",
+      "model": "wai-illustrious-sdxl",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1538,7 +1538,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 193,
-      "model": "wai-noobai",
+      "model": "wai-illustrious-best",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1546,39 +1546,39 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 194,
-      "model": "noobai-xl-fast",
+      "model": "wai-noobai-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.03/次"
+    },
+    {
+      "id": 195,
+      "model": "wai-noobai",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.06/次"
     },
     {
-      "id": 195,
-      "model": "noobai-xl",
+      "id": 196,
+      "model": "wai-noobai-best",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.09/次"
     },
     {
-      "id": 196,
-      "model": "noobai-xl-v",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.075/次"
-    },
-    {
       "id": 197,
-      "model": "nai-xl",
+      "model": "noobai-xl-fast",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.075/次"
+      "quota": "0.03/次"
     },
     {
       "id": 198,
-      "model": "novelai-v3-fast",
+      "model": "noobai-xl",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1586,6 +1586,38 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 199,
+      "model": "noobai-xl-best",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.09/次"
+    },
+    {
+      "id": 200,
+      "model": "noobai-xl-v",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.075/次"
+    },
+    {
+      "id": 201,
+      "model": "nai-xl",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.075/次"
+    },
+    {
+      "id": 202,
+      "model": "novelai-v3-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.06/次"
+    },
+    {
+      "id": 203,
       "model": "novelai-v3",
       "points": "Noobai",
       "token": "8k",
