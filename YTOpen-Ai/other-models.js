@@ -1085,7 +1085,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4.1",
       "points": "OpenAi",
       "token": "1000k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": "0.15/次"
     },
     {
@@ -1093,7 +1093,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4.1-mini",
       "points": "OpenAi",
       "token": "1000k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": "0.06/次"
     },
     {
@@ -1101,7 +1101,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4.1-nano",
       "points": "OpenAi",
       "token": "1000k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": "0.02/次"
     },
     {
