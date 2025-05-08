@@ -27,8 +27,7 @@ import { openai } from "../providers/ChatModels/openai/openai.js";
 import { websim } from "../providers/ChatModels/websim/websim.js";
 import { imagelabs } from "../providers/ChatModels/imagelabs/imagelabs.js";
 import { jimengClient } from "../providers/ChatModels/jimeng/jimengClient.js";
-import { deepseek_thinking } from "./config.js";
-import { ThinkingProcessor } from "./ThinkingProcessor.js";
+import { qwen3 } from "../providers/ChatModels/qwen3/qwen3.js";
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -72,6 +71,7 @@ const providerStats = {
     huggingface: { success: 0, failure: 0, weight: 100 },
     liblib: { success: 0, failure: 0, weight: 100 },
     Yuanbao: { success: 0, failure: 0, weight: 100 },
+    qwen3: { success: 0, failure: 0, weight: 100 },
 };
 
 // 获取当前文件所在的目录
@@ -164,11 +164,12 @@ const providerApis = {
     jimeng: jimengClient,
     huggingface: NoobxL,
     liblib: liblib,
-    Yuanbao: YuanbaoCompletion
+    Yuanbao: YuanbaoCompletion,
+    qwen3: qwen3
 };
 
-// 默认超时时间 (3分钟)
-const DEFAULT_TIMEOUT = 180000;
+// 默认超时时间 (4分钟)
+const DEFAULT_TIMEOUT = 240000;
 
 // 模型超时时间配置
 const modelTimeouts = {
@@ -531,13 +532,6 @@ export const NXModelResponse = async (messages, model, options = {}) => {
         // 如果原始模型调用成功，直接返回结果
         if (response && !(/失败|逆向/.test(response))) {
             logger.info(`成功使用模型 ${chalk.yellow(normalizedModel)} 获取响应，总耗时 ${chalk.magenta(duration / 1000)} s`);
-
-            // 添加deepseek处理逻辑
-            if (normalizedModel.includes('deepseek') && !deepseek_thinking) {
-                response = ThinkingProcessor.removeThinking(response);
-                logger.info(`使用 deleteBeforeThink 处理 deepseek 模型 ${chalk.yellow(normalizedModel)} 的响应`);
-            }
-
             return response;
         }
 
@@ -563,14 +557,6 @@ export const NXModelResponse = async (messages, model, options = {}) => {
                     const durationSimilar = endTimeSimilar - startTimeSimilar; // 计算相似模型请求耗时
                     if (fallbackResponse && fallbackResponse !== '所有逆向服务均失败') {
                         logger.info(`成功使用相似模型 ${chalk.yellow(similarModel)} 获取响应，耗时 ${chalk.magenta(durationSimilar / 1000)} s`);
-
-                        // 添加deepseek处理逻辑
-                        if (similarModel.includes('deepseek') && !deepseek_thinking) {
-                            fallbackResponse = ThinkingProcessor.removeThinking(fallbackResponse);
-                            logger.info(`使用 deleteBeforeThink 处理 deepseek 模型 ${chalk.yellow(similarModel)} 的响应`);
-                        }
-
-
                         return fallbackResponse;
                     }
                 } catch (fallbackError) {

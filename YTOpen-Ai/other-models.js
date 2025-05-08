@@ -5,7 +5,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-3.5-turbo",
       "points": "OpenAI",
       "token": "4k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.5
     },
     {
@@ -13,7 +13,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-3.5-turbo-0125",
       "points": "OpenAI",
       "token": "4k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.5
     },
     {
@@ -21,7 +21,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-3.5-turbo-0613",
       "points": "OpenAI",
       "token": "4k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.5
     },
     {
@@ -29,7 +29,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-3.5-turbo-1106",
       "points": "OpenAI",
       "token": "4k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.5
     },
     {
@@ -37,7 +37,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-3.5-turbo-16k",
       "points": "OpenAI",
       "token": "16k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 1
     },
     {
@@ -45,7 +45,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-3.5-turbo-16k-0125",
       "points": "OpenAI",
       "token": "16k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 1
     },
     {
@@ -53,7 +53,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-3.5-turbo-16k-0613",
       "points": "OpenAI",
       "token": "16k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 1
     },
     {
@@ -61,7 +61,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-3.5-turbo-16k-1106",
       "points": "OpenAI",
       "token": "16k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 1
     },
     {
@@ -69,7 +69,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4",
       "points": "OpenAI",
       "token": "8k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 15
     },
     {
@@ -77,7 +77,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4-32k",
       "points": "OpenAI",
       "token": "32k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 30
     },
     {
@@ -85,7 +85,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4-turbo",
       "points": "OpenAI",
       "token": "128k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 7.5
     },
     {
@@ -93,7 +93,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4-0125-preview",
       "points": "OpenAI",
       "token": "131k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 5
     },
     {
@@ -101,7 +101,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4-1106-preview",
       "points": "OpenAI",
       "token": "131k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 7.5
     },
     {
@@ -141,7 +141,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4o-mini",
       "points": "OpenAI",
       "token": "128k",
-      "features": ['conversation'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.07
     },
     {
@@ -149,7 +149,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4o-mini-2024-07-18",
       "points": "OpenAI",
       "token": "32k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.07
     },
     {
@@ -157,7 +157,7 @@ export const getOptimizedModels = () => {
       "model": "chatgpt-4o-latest",
       "points": "OpenAI",
       "token": "128k",
-      "features": ['conversation'],
+      "features": ['conversation', 'image_recognition'],
       "quota": 2.5
     },
     {
@@ -165,7 +165,7 @@ export const getOptimizedModels = () => {
       "model": "gpt-4o-2024-11-20",
       "points": "OpenAI",
       "token": "128k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": 1.25
     },
     {

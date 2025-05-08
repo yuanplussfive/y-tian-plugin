@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import { Readable } from 'stream';
 import { randomUUID } from 'crypto';
+import { random_safe } from '../../../../utils/requests/safeurl.js';
 
 /**
  * 调用Zaiwen平台的模型接口，使用流式处理响应
@@ -9,12 +10,7 @@ import { randomUUID } from 'crypto';
  * @returns {Promise<string|null>} - 模型回复或null
  */
 export async function zaiwen(messages, model) {
-    const generateApiUrls = (count) =>
-        Array.from({ length: count }, (_, i) => `https://sunoproxy${i ? i : ''}.deno.dev`);
-
-    const API_DOMAINS = generateApiUrls(31);
-    const DEFAULT_API_DOMAIN = 'https://aliyun.zaiwen.top';
-    const MAX_ATTEMPTS = 3;
+    const MAX_ATTEMPTS = 1;
     const banMessages = [
         /您的内容中有不良信息/i,
         /Message too long/i,
@@ -38,7 +34,7 @@ export async function zaiwen(messages, model) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Referer': 'https://www.zaiwen.org.cn/',
+                    'Referer': random_safe("aHR0cHM6Ly93d3cuemFpd2VuLm9yZy5jbi8="),
                     'Token': randomUUID(),
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
                     'Accept': 'application/json, text/plain, */*',
@@ -46,7 +42,7 @@ export async function zaiwen(messages, model) {
                     'Cache-Control': 'no-cache',
                     'Pragma': 'no-cache',
                     'Connection': 'keep-alive',
-                    'Origin': 'https://www.zaiwen.org.cn/',
+                    'Origin': random_safe("aHR0cHM6Ly93d3cuemFpd2VuLm9yZy5jbi8="),
                     'Sec-Fetch-Dest': 'empty',
                     'Sec-Fetch-Mode': 'cors',
                     'Sec-Fetch-Site': 'same-origin',
@@ -84,16 +80,12 @@ export async function zaiwen(messages, model) {
         }
     }
 
-    // 随机选择域名并尝试
     let attempts = 0;
     let usedDomains = new Set();
 
     while (attempts < MAX_ATTEMPTS) {
         attempts++;
-        const availableDomains = API_DOMAINS.filter(domain => !usedDomains.has(domain));
-        const currentDomain = availableDomains.length > 0
-            ? availableDomains[Math.floor(Math.random() * availableDomains.length)]
-            : DEFAULT_API_DOMAIN;
+        const currentDomain = random_safe("aHR0cHM6Ly9hbGl5dW4uemFpd2VuLnRvcA==");
 
         usedDomains.add(currentDomain);
 
@@ -107,9 +99,8 @@ export async function zaiwen(messages, model) {
         }
     }
 
-    // 回退到默认域名
-    if (!usedDomains.has(DEFAULT_API_DOMAIN)) {
-        return await fetchResponse(DEFAULT_API_DOMAIN);
+    if (!usedDomains.has(random_safe("aHR0cHM6Ly9hbGl5dW4uemFpd2VuLnRvcA=="))) {
+        return await fetchResponse(random_safe("aHR0cHM6Ly9hbGl5dW4uemFpd2VuLnRvcA=="));
     }
 
     return null;

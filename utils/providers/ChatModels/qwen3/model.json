@@ -1,0 +1,52 @@
+{
+  "models": {
+    "qwen3-0.6b": {
+      "providerModelName": "qwen3-0.6b",
+      "aliases": [
+        "qwen3-0.6b"
+      ]
+    },
+    "qwen3-1.7b": {
+      "providerModelName": "qwen3-1.7b",
+      "aliases": [
+        "qwen3-1.7b"
+      ]
+    },
+    "qwen3-4b": {
+      "providerModelName": "qwen3-4b",
+      "aliases": [
+        "qwen3-4b"
+      ]
+    },
+    "qwen3-8b": {
+      "providerModelName": "qwen3-8b",
+      "aliases": [
+        "qwen3-8b"
+      ]
+    },
+    "qwen3-14b": {
+      "providerModelName": "qwen3-14b",
+      "aliases": [
+        "qwen3-14b"
+      ]
+    },
+    "qwen3-30b-a3b": {
+      "providerModelName": "qwen3-30b-a3b",
+      "aliases": [
+        "qwen3-30b-a3b"
+      ]
+    },
+    "qwen3-32b": {
+      "providerModelName": "qwen3-32b",
+      "aliases": [
+        "qwen3-32b"
+      ]
+    },
+    "qwen3-235b-a22b": {
+      "providerModelName": "qwen3-235b-a22b",
+      "aliases": [
+        "qwen3-235b-a22b"
+      ]
+    }
+  }
+}

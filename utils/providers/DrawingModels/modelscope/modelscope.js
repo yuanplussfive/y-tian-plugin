@@ -186,7 +186,7 @@ export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
                 modelVersionId: loramodelVersionId,
                 scale: loramodelscale
             }
-        ] : [];          
+        ] : [];
         console.log('使用lora：', loraArgs);
         const submitResponse = await fetch(random_safe('aHR0cHM6Ly9tb2RlbHNjb3BlLmNuL2FwaS92MS9tdXNlL3ByZWRpY3QvdGFzay9zdWJtaXQ='), {
             method: 'POST',
@@ -218,10 +218,6 @@ export async function waiIll(prompt, model = 'WAI-illustrious-SDXL_v13.0') {
                     height: 1440
                 },
                 adetailerArgsMap: {
-                    adetailerHand: {
-                        adModel: "hand_yolov8n.pt",
-                        adInpaintingArgs: {}
-                    }
                 },
                 hiresFixFrontArgs: {
                     modelName: modelMapping[model].modelName,

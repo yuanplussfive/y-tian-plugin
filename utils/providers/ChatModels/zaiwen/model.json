@@ -1,5 +1,17 @@
 {
   "models": {
+    "grok-3-mini": {
+      "providerModelName": "grok3mini",
+      "aliases": [
+        "grok-3-mini"
+      ]
+    },
+    "qwen3-235b-a22b": {
+      "providerModelName": "qwen3235ba22bfw",
+      "aliases": [
+        "qwen3-235b-a22b"
+      ]
+    },
     "gemini-2.5-flash": {
       "providerModelName": "gemini_2_5_flash",
       "aliases": [
