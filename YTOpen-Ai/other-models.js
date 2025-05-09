@@ -1506,7 +1506,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 189,
-      "model": "anishadow-v10",
+      "model": "anishadow-v10-turbo",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1514,7 +1514,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 190,
-      "model": "anishadow-v10-best",
+      "model": "anishadow-v10-plus",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1530,7 +1530,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 192,
-      "model": "wai-illustrious-sdxl",
+      "model": "wai-illustrious-turbo",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1538,7 +1538,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 193,
-      "model": "wai-illustrious-best",
+      "model": "wai-illustrious-plus",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1554,7 +1554,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 195,
-      "model": "wai-noobai",
+      "model": "wai-noobai-turbo",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1562,7 +1562,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 196,
-      "model": "wai-noobai-best",
+      "model": "wai-noobai-plus",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1578,7 +1578,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 198,
-      "model": "noobai-xl",
+      "model": "noobai-xl-turbo",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1586,7 +1586,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 199,
-      "model": "noobai-xl-best",
+      "model": "noobai-xl-plus",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1618,7 +1618,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 203,
-      "model": "novelai-v3",
+      "model": "novelai-v3-turbo",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
