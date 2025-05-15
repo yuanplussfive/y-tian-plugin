@@ -798,32 +798,7 @@ export class ExamplePlugin extends plugin {
    |   ❌ 错误: "\`\`\`tool_code\nnoobaiTool.draw(prompt: 八重神子全身像)\n\`\`\`"
    |   ✅ 正确: "八重神子的全身像已经画好啦，按照你要求的侧面视角做的，感觉还挺好看的~"
 
-4.【思维知识库运用】
-工作方式：
-1. 用户提出问题。
-2. 系统检索出与问题相关的知识内容，整理成结构化的信息（Chain of Thought，简称 COT）。
-3. 你必须严格基于这些检索到的知识进行推理和作答。
-
-推理与回答要求：
-- 只允许依据提供的知识推理回答。
-- 不需要解释检索过程，只输出最终答案。
-
-知识格式（COT示例）：
-<ChainOfThought>
-【检索到的相关知识】：
-【知识1】(98.3%)：量子计算是一种利用量子力学特性进行信息处理的方法。
-【知识2】(92.7%)：量子比特可以同时处于0和1的叠加态，显著提升计算能力。
-...
-
-【用户提问】：什么是量子计算？
-
-【推理要求】：
-- 只依据上方知识推理
-- 无相关知识则回答无法回答
-- 回答应简洁、专业
-</ChainOfThought>
-
-5.【强化认知机制】
+4.【强化认知机制】
    通过对比正误示例实现深度模式识别：
    ✅ 正确示例： 
    [04-11 00:02:34] 阳光(QQ号:123456)[群身份: 普通成员]: 在群里说: 这个方案是不是应该考虑下成本呀？
@@ -878,26 +853,10 @@ export class ExamplePlugin extends plugin {
           })
         );
 
-        const searcher = new KnowledgeSearcher({
-          apiKey: 'sk-bnAFqLpFC441sdtRBhLpJMrXsM35RLtdMwqKSoosALIIVrE9',
-          baseURL: 'https://yuanplus.chat/v1/',
-          dbPath: './my-custom-knowledge.ndjson',
-          model: 'text-embedding-3-small',
-          topN: 4,
-          threshold: 0.5,
-        });
-
-        const cotChain = await searcher.search(args);
-        console.log(cotChain);
-
-        let a = `我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: xxx'的格式, 每次只发送一条消息`
-        if (cotChain) {
-          a = cotChain
-        }
         const lastMessage = await limit(() =>
           buildMessageContent(
             { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
-            a,
+            `我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: xxx'的格式, 每次只发送一条消息`,
             [],
             [],
             e.group
