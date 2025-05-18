@@ -735,7 +735,7 @@ async function getFileUrl(e) {
   for (const msg of messages) {
     if (msg.type === 'file') {
       const file_id = msg.data?.file_id;
-
+      const file = msg.data?.file;
       // 判断是群聊还是私聊
       if (e.group_id) {
         // 群聊文件
@@ -743,10 +743,9 @@ async function getFileUrl(e) {
           group_id: e.group_id,
           file_id
         });
-        const filename = await extractFileExtension(file_id);
         return {
-          fileUrl: `${url}file.${filename}`,
-          fileName: `file.${filename}`
+          fileUrl: `${url}${file}`,
+          fileName: file
         };
       } else {
         // 私聊文件
@@ -754,10 +753,9 @@ async function getFileUrl(e) {
           user_id: e.user_id,
           file_id
         });
-        const filename = await extractFileExtension(file_id);
         return {
-          fileUrl: `${url}file.${filename}`,
-          fileName: `file.${filename}`
+          fileUrl: `${url}${file}`,
+          fileName: file
         };
       }
     }
