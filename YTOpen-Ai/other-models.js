@@ -1623,6 +1623,14 @@ export const getOptimizedModels = () => {
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.075/次"
+    },
+    {
+      "id": 204,
+      "model": "claude-sonnet-4-20250514",
+      "points": "Anthropic",
+      "token": "100k",
+      "features": ['conversation'],
+      "quota": 0.5
     }
   ]
 

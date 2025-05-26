@@ -1338,6 +1338,70 @@ export const getOptimizedModels = () => {
       "Magnification": "0.1/次",
       "provider": "OpenAi",
       "features": ['drawing', 'image_recognition']
+    },
+    {
+      "id": "167",
+      "name": "gemini-2.5-pro-preview-05-06",
+      "token_count": "1000k",
+      "Magnification": 1.5,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'internet']
+    },
+    {
+      "id": "168",
+      "name": "claude-sonnet-4-20250514",
+      "token_count": "100k",
+      "Magnification": 1.5,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'internet', 'file']
+    },
+    {
+      "id": "169",
+      "name": "claude-sonnet-4-20250514-thinking",
+      "token_count": "100k",
+      "Magnification": 1.5,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'internet', 'file']
+    },
+    {
+      "id": "170",
+      "name": "claude-sonnet-4-thinking",
+      "token_count": "100k",
+      "Magnification": 1.5,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'internet', 'file']
+    },
+    {
+      "id": "171",
+      "name": "claude-opus-4",
+      "token_count": "100k",
+      "Magnification": 7.5,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'internet', 'file']
+    },
+    {
+      "id": "172",
+      "name": "claude-opus-4-20250514",
+      "token_count": "100k",
+      "Magnification": 7.5,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'internet', 'file']
+    },
+    {
+      "id": "173",
+      "name": "claude-opus-4-20250514-thinking",
+      "token_count": "100k",
+      "Magnification": 7.5,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'internet', 'file']
+    },
+    {
+      "id": "174",
+      "name": "claude-opus-4-thinking",
+      "token_count": "100k",
+      "Magnification": 7.5,
+      "provider": "OpenAi",
+      "features": ['conversation', 'image_recognition', 'internet', 'file']
     }
   ]
 

@@ -479,7 +479,6 @@ async function run_conversation(e, apiurl, group, Bot_Name, Apikey, imgurl, Anim
         const response = await OpenAiChatCmpletions(apiurl, Apikey, model, history);
         console.log(response);
         const errorMessage = response?.error?.message;
-
         if (errorMessage) {
           if (errorMessage.includes('无效的令牌')) {
             e.reply('无效的令牌，请填写正确的阴天密钥后使用!');

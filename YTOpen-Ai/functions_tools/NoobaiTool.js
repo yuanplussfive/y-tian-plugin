@@ -36,7 +36,7 @@ export class NoobaiTool extends AbstractTool {
     }
 
     try {
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], "Noobai");
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], "anishadow-v10-fast");
 
       console.log(imageArray)
       if (!imageArray) {
