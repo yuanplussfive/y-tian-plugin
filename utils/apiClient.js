@@ -44,6 +44,7 @@ export async function YTapi(requestData, config, toolContent, toolName) {
             if (config.UseTools) {
                 // UseTools 开启，先调用 OpenAI API
                 const openaiUrl = 'https://yuanplus.cloud/v1/chat/completions';
+                // 确保使用OpenAiModel的模型
                 if (!data.chatgpt?.stoken) return { error: "OpenAI stoken is not configured" };
 
                 const openaiHeaders = {
@@ -53,10 +54,15 @@ export async function YTapi(requestData, config, toolContent, toolName) {
 
                 let openaiResponse;
                 try {
+                    // 使用config.OpenAiModel替换请求中的模型
+                    const openaiRequestData = {
+                        ...requestData,
+                        model: config.OpenAiModel
+                    };
                     openaiResponse = await fetch(openaiUrl, {
                         method: 'POST',
                         headers: openaiHeaders,
-                        body: JSON.stringify(requestData)
+                        body: JSON.stringify(openaiRequestData)
                     });
 
                     if (!openaiResponse.ok) {
@@ -80,8 +86,8 @@ export async function YTapi(requestData, config, toolContent, toolName) {
                 // 检查是否包含 tool_calls，无论 finish_reason 是什么
                 const hasToolCalls = openaiData?.choices?.[0]?.message?.tool_calls?.length > 0;
                 if (hasToolCalls) {
-                    // 直接返回 tool_calls 响应，替换 model
-                    openaiData.model = config.OneApiModel;
+                    // 直接返回 tool_calls 响应，保持 OpenAI 模型
+                    // 不修改模型名称，保持使用 OpenAiModel
                     return processResponse(openaiData);
                 }
 
