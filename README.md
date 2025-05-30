@@ -108,7 +108,7 @@
  API 端点:
 
 ```
- https://yuanpluss.online:3000/api/v1/chat/completions
+ https://yuanplus.cloud/v1/chat/completions
 ```
 
 请求参数需要通过 `JSON` 格式的请求体传递。主要参数如下:
@@ -151,7 +151,7 @@ var requestOptions = {
    redirect: 'follow'
 };
 
-fetch("https://yuanpluss.online:3000/api/v1/chat/completions", requestOptions)
+fetch("https://yuanplus.cloud/v1/chat/completions", requestOptions)
    .then(response => response.text())
    .then(result => console.log(result))
    .catch(error => console.log('error', error));

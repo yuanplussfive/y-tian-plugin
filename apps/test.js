@@ -324,7 +324,7 @@ export class ExamplePlugin extends plugin {
         jimengSize_width: 1024,
         geminiModel: 'gemini-2.0-flash-exp',
         gemini_tool_choice: 'auto',
-        OpenAiUrl: 'https://yuanpluss.online:3000/api/v1/4o/fc',
+        OpenAiUrl: 'https://yuanplus.cloud/v1/chat/completions',
         OpenAiModel: 'gpt-4o-mini',
         OpenAiApikey: 'sk-xxx',
         OneApiUrl: 'https://chutes-deepseek-ai-deepseek-r1.chutes.ai',
@@ -2230,9 +2230,7 @@ export class ExamplePlugin extends plugin {
       return null;
     }
 
-    const openAiApiKey = this.config.OpenAiUrl === 'https://yuanpluss.online:3000/api/v1/4o/fc'
-      ? data.chatgpt.stoken
-      : this.config.OpenAiApikey;
+    const openAiApiKey = this.config.OpenAiApikey;
     if (!openAiApiKey) return false;
     try {
       const response = await fetch(this.config.OpenAiUrl, {

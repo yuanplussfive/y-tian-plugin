@@ -265,14 +265,6 @@ export const getOptimizedModels = () => {
       "quota": 24
     },
     {
-      "id": 34,
-      "model": "dall-e-3",
-      "points": "OpenAI",
-      "token": "2k",
-      "features": ['drawing'],
-      "quota": "0.1/次"
-    },
-    {
       "id": 35,
       "model": "claude-1-100k",
       "points": "Anthropic",
@@ -647,46 +639,6 @@ export const getOptimizedModels = () => {
       "token": "32k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.5
-    },
-    {
-      "id": 82,
-      "model": "glm-3-turbo",
-      "points": "chatglm",
-      "token": "128k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition'],
-      "quota": 1
-    },
-    {
-      "id": 83,
-      "model": "glm-4",
-      "points": "chatglm",
-      "token": "128k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition'],
-      "quota": 1
-    },
-    {
-      "id": 84,
-      "model": "glm-4-flash",
-      "points": "chatglm",
-      "token": "128k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition'],
-      "quota": 1
-    },
-    {
-      "id": 85,
-      "model": "glm-4-all",
-      "points": "chatglm",
-      "token": "128k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition'],
-      "quota": 1
-    },
-    {
-      "id": 86,
-      "model": "glm-4-flash-new",
-      "points": "chatglm",
-      "token": "8k",
-      "features": ['conversation', 'internet', 'code', 'image_recognition'],
-      "quota": 1
     },
     {
       "id": 87,
@@ -1121,14 +1073,6 @@ export const getOptimizedModels = () => {
       "quota": 0.5
     },
     {
-      "id": 141,
-      "model": "generate-pptx",
-      "points": "OpenAi",
-      "token": "20k",
-      "features": [],
-      "quota": "3.0/次"
-    },
-    {
       "id": 142,
       "model": "command-light-nightly",
       "points": "Cohere",
@@ -1151,14 +1095,6 @@ export const getOptimizedModels = () => {
       "token": "4k",
       "features": ['conversation', 'code'],
       "quota": 0.5
-    },
-    {
-      "id": 145,
-      "model": "flux-sch",
-      "points": "BlackForestLabs",
-      "token": "2k",
-      "features": ['drawing'],
-      "quota": "0.01/次"
     },
     {
       "id": 146,
@@ -1185,88 +1121,8 @@ export const getOptimizedModels = () => {
       "quota": 0.5
     },
     {
-      "id": 149,
-      "model": "flux-dev",
-      "points": "BlackForestLabs",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.04/次"
-    },
-    {
-      "id": 150,
-      "model": "ideogram-v2a",
-      "points": "ideogram",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.4/次"
-    },
-    {
-      "id": 151,
-      "model": "sana",
-      "points": "sana",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.08/次"
-    },
-    {
-      "id": 152,
-      "model": "flux-real",
-      "points": "BlackForestLabs",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.04/次"
-    },
-    {
-      "id": 153,
-      "model": "flux-anishadow",
-      "points": "BlackForestLabs",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.04/次"
-    },
-    {
-      "id": 154,
-      "model": "anything-xl",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.04/次"
-    },
-    {
-      "id": 155,
-      "model": "ideogram-v2",
-      "points": "ideogram",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.8/次"
-    },
-    {
-      "id": 156,
-      "model": "minimax-Genimage",
-      "points": "minimax",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.2/次"
-    },
-    {
-      "id": 157,
-      "model": "juggernaut-flux",
-      "points": "BlackForestLabs",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.15/次"
-    },
-    {
-      "id": 158,
-      "model": "recraft-v3",
-      "points": "recraft",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.3/次"
-    },
-    {
       "id": 159,
-      "model": "Noobai",
+      "model": "noobai-fast",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1345,38 +1201,6 @@ export const getOptimizedModels = () => {
       "quota": 0
     },
     {
-      "id": 169,
-      "model": "luma-dream-machine-v2",
-      "points": "luma",
-      "token": "2k",
-      "features": ['video'],
-      "quota": "2.5/次"
-    },
-    {
-      "id": 170,
-      "model": "ltx-video",
-      "points": "ltx",
-      "token": "2k",
-      "features": ['video'],
-      "quota": "0.5/次"
-    },
-    {
-      "id": 171,
-      "model": "gpt-4o-image",
-      "points": "OpenAi",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.2/次"
-    },
-    {
-      "id": 172,
-      "model": "gpt-4o-image-vip",
-      "points": "OpenAi",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.2/次"
-    },
-    {
       "id": 173,
       "model": "suno-v4-vip",
       "points": "Suno",
@@ -1386,7 +1210,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 174,
-      "model": "gemini-1.5-flash-fast",
+      "model": "gemini-1.5-flash-re",
       "points": "Google",
       "token": "100k",
       "features": ['conversation'],
@@ -1394,7 +1218,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 175,
-      "model": "gemini-2.0-flash-fast",
+      "model": "gemini-2.0-flash-re",
       "points": "Google",
       "token": "100k",
       "features": ['conversation'],
@@ -1402,7 +1226,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 176,
-      "model": "gemini-2.5-pro-fast",
+      "model": "gemini-2.5-pro-re",
       "points": "Google",
       "token": "100k",
       "features": ['conversation'],
@@ -1418,7 +1242,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 178,
-      "model": "claude-3.5-sonnet-fast",
+      "model": "claude-3.5-sonnet-re",
       "points": "Anthropic",
       "token": "100k",
       "features": ['conversation', 'code'],
@@ -1426,7 +1250,7 @@ export const getOptimizedModels = () => {
     },
     {
       "id": 179,
-      "model": "claude-3.7-sonnet-fast",
+      "model": "claude-3.7-sonnet-re",
       "points": "Anthropic",
       "token": "100k",
       "features": ['conversation', 'code'],
@@ -1471,22 +1295,6 @@ export const getOptimizedModels = () => {
       "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": 0.5
-    },
-    {
-      "id": 185,
-      "model": "wai-illustrious-free",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.005/次"
-    },
-    {
-      "id": 186,
-      "model": "noobai-xl-free",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.005/次"
     },
     {
       "id": 187,

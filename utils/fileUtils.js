@@ -566,7 +566,7 @@ export async function YTOtherModels(messages, model) {
   const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
   const token = data.chatgpt.stoken;
   try {
-    const url = 'https://yuanpluss.online:3000/api/v1/chat/completions';
+    const url = 'https://yuanplus.cloud/v1/chat/completions';
     const data = {
       model,
       messages
@@ -599,7 +599,7 @@ export async function YTalltools(messages) {
   const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
   const token = data.chatgpt.stoken;
   try {
-    const url = 'https://yuanpluss.online:3000/api/v1/chat/completions';
+    const url = 'https://yuanplus.cloud/v1/chat/completions';
     const data = {
       model: 'gpt-4o-all',
       messages
@@ -750,7 +750,7 @@ async function getFileUrl(e) {
       } else {
         // 私聊文件
         const { data: { url } } = await e.bot.sendApi("get_private_file_url", {
-          user_id: e.user_id,
+          //user_id: e.user_id,
           file_id
         });
         return {

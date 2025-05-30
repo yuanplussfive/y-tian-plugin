@@ -36,7 +36,7 @@ export class AiPPTTool extends AbstractTool {
     const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
     const token = data.chatgpt.stoken;
     try {
-      const url = 'https://yuanpluss.online:3000/api/v1/chat/completions';
+      const url = 'https://yuanplus.cloud/v1/chat/completions';
       const data = {
         model: 'generate-pptx',
         messages

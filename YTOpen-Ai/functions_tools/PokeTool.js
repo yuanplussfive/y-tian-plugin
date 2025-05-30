@@ -84,6 +84,10 @@ export class PokeTool extends AbstractTool {
       // 执行指定次数的戳一戳
       for (let i = 0; i < pokeCount; i++) {
         await group.pokeMember(targetQQ);
+        await e.bot.sendApi("group_poke", {
+          group_id: e.group_id,
+          user_id: targetQQ,
+        });
         // 多次戳一戳时添加延迟
         if (i < pokeCount - 1) {
           await new Promise(resolve => setTimeout(resolve, 1500));
