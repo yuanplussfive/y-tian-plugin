@@ -29,10 +29,6 @@ export class FreeDrawing extends plugin {
           fnc: 'handleDalleCommand'
         },
         {
-          reg: "^#(liblib|哩布哩布)绘图(.*)",
-          fnc: 'handleliblibCommand'
-        },
-        {
           reg: "^#(激萌|即梦|jimeng)绘图(.*)",
           fnc: 'handleJimengCommand'
         },
@@ -192,7 +188,7 @@ export class FreeDrawing extends plugin {
   async handleNoobaiCommand(e) {
     try {
       const prompt = e.msg.replace(/#(noob|Noob|noobai)绘图/g, "")?.trim()
-      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'Noobai');
+      const imageArray = await YTOtherModels([{ role: "user", content: prompt }], 'noobai-fast');
       let imageUrls = [];
       console.log(imageArray);
       if (!imageArray) {
@@ -227,29 +223,6 @@ export class FreeDrawing extends plugin {
           await e.reply(images);
         } else {
           e.reply(imageArray);
-        }
-      }
-    } catch (error) {
-      console.log('处理错误:', error);
-      e.reply('生成失败了，请稍后再试！');
-    }
-  }
-
-  async handleliblibCommand(e) {
-    try {
-      const prompt = e.msg.replace(/#(liblib|哩布哩布)绘图/g, "")?.trim()
-      const imageArray = await liblib([{ role: "user", content: prompt }]);
-      let imageUrls = [];
-      console.log(imageArray);
-      if (!imageArray) {
-        e.reply('生成失败了，可能服务器无响应，请稍后再试！');
-      } else {
-        imageUrls = await extractImageUrls(imageArray);
-        if (imageUrls && imageUrls.length > 0) {
-          const images = imageUrls.map(imgurl => segment.image(imgurl.trim()));
-          await e.reply(images);
-        } else {
-          e.reply('生成失败了，无法发送，请稍后再试！');
         }
       }
     } catch (error) {

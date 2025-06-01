@@ -336,7 +336,7 @@ export class ExamplePlugin extends plugin {
         oneapi_tools: ['likeTool', 'pokeTool', 'googleImageAnalysisTool', 'OpenAiimageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'aiALLTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'aiMindMapTool', 'aiPPTTool', 'jinyanTool', 'webParserTool', 'dalleTool', 'fluxTool', 'ideogramTool', 'recraftTool', 'freeSearchTool'],
         GrokUrl: 'https://grok33.deno.dev/v1/chat/completions',
         GrokSso: ['123456xxx'],
-        CursorUrl: 'https://yuanplus.chat:2443/v1/chat/completions',
+        CursorUrl: 'https://cursor.yuanplus.chat/v1/chat/completions',
         WorkosCursorSessionToken: ['user_xxxx'],
         OpenAiProxy: 'https://openai.yuanplus.chat/v1/chat/completions',
         OpenAiAuthToken: 'sk-y-tian-plugin',
@@ -886,33 +886,31 @@ export class ExamplePlugin extends plugin {
       const imageCount = images?.length; // 获取图片数量，可能为 undefined
       let tool_choice = "auto"; // 默认工具选择为 "auto"
 
-      /*
-      if (this.config.ForcedAvatarMode && ['头像'].some(k => msg.includes(k))) {
+      if (imageCount >= 1) { // 如果至少有一张图片
+        let fixedToolName = null; // 初始化固定工具名称为空
+
+        session.tools = this.getToolsByName(['googleImageEditTool']);
+        if (session.tools?.length > 0) {
+          fixedToolName = 'googleImageEditTool';
+        } else {
+          // 最后检查 googleImageAnalysisTool
+          session.tools = this.getToolsByName(['googleImageAnalysisTool']);
+          if (session.tools?.length > 0) {
+            fixedToolName = 'googleImageAnalysisTool';
+          }
+        }
+
+        // 根据 fixedToolName 是否存在设置 tool_choice
+        tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
+      }
+
+      if (this.config.ForcedAvatarMode && ['头像编辑'].some(k => msg.includes(k))) {
         session.tools = this.getToolsByName(['googleImageEditTool']);
         console.log('工具 googleImageEditTool 的 session.tools: ', session.tools);
         if (session.tools?.length) {
           tool_choice = { type: 'function', function: { name: 'googleImageEditTool' } };
         }
         session.groupUserMessages.at(-1).content += `[用户头像链接: (https://q1.qlogo.cn/g?b=qq&nk=${e.user_id}&s=640)]`;
-      }
-      */
-
-      if (imageCount >= 1) { // 如果至少有一张图片
-        let fixedToolName = null; // 初始化固定工具名称为空
-
-        session.tools = this.getToolsByName(['googleImageAnalysisTool']);
-        if (session.tools?.length > 0) {
-          fixedToolName = 'googleImageAnalysisTool';
-        } else {
-          // 最后检查 OpenAiImageAnalysisTool
-          session.tools = this.getToolsByName(['OpenAiImageAnalysisTool']);
-          if (session.tools?.length > 0) {
-            fixedToolName = 'OpenAiImageAnalysisTool';
-          }
-        }
-
-        // 根据 fixedToolName 是否存在设置 tool_choice
-        tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
       }
 
       if (this.config.ForcedDrawingMode) {
