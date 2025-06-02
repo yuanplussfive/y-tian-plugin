@@ -1142,21 +1142,21 @@ export const getOptimizedModels = () => {
       "quota": "0.03/次"
     },
     {
-      "model": "luminaArchitect-v1-fast",
+      "model": "lumensculptor-v1-fast",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.05/次"
     },
     {
-      "model": "luminaArchitect-v1-turbo",
+      "model": "lumensculptor-v1-turbo",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.08/次"
     },
     {
-      "model": "luminaArchitect-v1-plus",
+      "model": "lumensculptor-v1-plus",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],

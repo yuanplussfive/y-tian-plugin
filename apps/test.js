@@ -904,7 +904,7 @@ export class ExamplePlugin extends plugin {
         tool_choice = fixedToolName ? { type: 'function', function: { name: fixedToolName } } : "auto";
       }
 
-      if (this.config.ForcedAvatarMode && ['头像编辑'].some(k => msg.includes(k))) {
+      if (this.config.ForcedAvatarMode && ['头像编辑'].some(k => msg?.includes(k))) {
         session.tools = this.getToolsByName(['googleImageEditTool']);
         console.log('工具 googleImageEditTool 的 session.tools: ', session.tools);
         if (session.tools?.length) {

@@ -1,5 +1,5 @@
 import { AbstractTool } from './AbstractTool.js';
-import fetch from 'node-fetch';
+import { YTOtherModels } from "../../utils/fileUtils.js";
 
 /**
  * Search 工具类，用于自由搜索
@@ -8,7 +8,7 @@ export class FreeSearchTool extends AbstractTool {
   constructor() {
     super();
     this.name = 'freeSearchTool';
-    this.description = '请求外部 API 进行自由搜索';
+    this.description = '请求外部 API 进行自由搜索，检索结果，对于需要进行搜索的时候使用';
     this.parameters = {
       type: "object",
       properties: {
@@ -20,27 +20,6 @@ export class FreeSearchTool extends AbstractTool {
       required: ['query']
     };
   }
-
-  async FreeSearch(query) {
-    const url = 'https://yuanpluss.online:3000/v1/search';
-    const data = { q: query };
-
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        return null;
-      }
-
-      return await response.json();
-    } catch (error) {
-      return null;
-    }
-  };
 
   /**
    * 处理搜索操作并返回结构化结果
@@ -59,9 +38,8 @@ export class FreeSearchTool extends AbstractTool {
       };
     }
 
-    const result = await this.FreeSearch(query);
+    const result = await YTOtherModels([{ role: "user", content: query }], 'llm-search');
 
-    console.log(result);
     if (!result) {
       return {
         status: 'error',

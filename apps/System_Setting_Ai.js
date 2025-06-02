@@ -121,12 +121,12 @@ export class example extends plugin {
                     permission: 'master'
                 },
                 {
-                    reg: "^#(开启|关闭)(chat|god)方案记忆限制$",
+                    reg: "^#(开启|关闭)(chat|god|附加|逆向)方案记忆限制$",
                     fnc: 'moment_limit',
                     permission: 'master'
                 },
                 {
-                    reg: "^#设置(chat|god)记忆条数(.*?)$",
+                    reg: "^#设置(chat|god|附加|逆向)记忆条数(.*?)$",
                     fnc: 'moment_numbers',
                     permission: 'master'
                 },
@@ -415,7 +415,17 @@ export class example extends plugin {
         if (e.msg.includes("chat") && nums[0] >= 1) {
             data.chatgpt.chat_moment_numbers = nums[0];
             await writeJsonFile(dataFilePath, data);
-            e.reply(`已将所有对话记忆限制为: ${nums[0]} 条,仅专业版方案生效`);
+            e.reply(`已将所有对话记忆限制为: ${nums[0]} 条,仅chat方案生效`);
+        }
+         if (e.msg.includes("附加") && nums[0] >= 1) {
+            data.chatgpt.others_moment_numbers = nums[0];
+            await writeJsonFile(dataFilePath, data);
+            e.reply(`已将所有对话记忆限制为: ${nums[0]} 条,仅附加方案生效`);
+        }
+         if (e.msg.includes("逆向") && nums[0] >= 1) {
+            data.chatgpt.reverse_moment_numbers = nums[0];
+            await writeJsonFile(dataFilePath, data);
+            e.reply(`已将所有对话记忆限制为: ${nums[0]} 条,仅逆向方案生效`);
         }
     }
 
@@ -429,7 +439,15 @@ export class example extends plugin {
             data.chatgpt.chat_moment_open = e.msg.includes("开启");
             writeJsonFile(dataFilePath, data);
             e.reply(`chat方案记忆限制已${data.chatgpt.chat_moment_open ? '开启' : '关闭'}`);
-        }
+        } else if (e.msg.includes("附加")) {
+            data.chatgpt.others_moment_open = e.msg.includes("开启");
+            writeJsonFile(dataFilePath, data);
+            e.reply(`附加方案记忆限制已${data.chatgpt.others_moment_open ? '开启' : '关闭'}`);
+        } else if (e.msg.includes("逆向")) {
+            data.chatgpt.reverse_moment_open = e.msg.includes("开启");
+            writeJsonFile(dataFilePath, data);
+            e.reply(`逆向方案记忆限制已${data.chatgpt.reverse_moment_open ? '开启' : '关闭'}`);
+        } 
     }
 
     async toggleAi_private(e) {

@@ -5,106 +5,170 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>菜单</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="{{all_min_css}}">
   <style>
+    :root {
+      --bg-color: #121212;
+      --primary-surface: #1e1e1e;
+      --secondary-surface: #2a2a2a;
+      --primary-text: #e0e0e0;
+      --secondary-text: #b0b0b0;
+      --accent-color-1: #bb86fc;
+      --accent-color-2: #03dac6;
+      --accent-color-2-rgb: 3, 218, 198;
+      --accent-color-3: #cf6679;
+      --code-bg: #161616;
+      --border-color: rgba(255, 255, 255, 0.1);
+
+      --font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-family-code: 'Consolas', 'Courier New', 'monospace';
+
+      --border-radius-main: 16px;
+      --border-radius-card: 12px;
+      --border-radius-code: 8px;
+
+      --shadow-depth-1: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-depth-2: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+      --container-padding: 30px;
+      --section-gap: 30px;
+      --card-padding: 25px;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      font-family: var(--font-family);
+      background-color: var(--bg-color);
+      color: var(--primary-text);
       margin: 0;
-      padding: 0;
-      color: #ffffff;
+      padding: 20px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      box-sizing: border-box;
     }
 
     .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 40px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      background-color: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      max-width: 900px;
+      margin: 30px auto;
+      padding: var(--container-padding);
+      background-color: var(--primary-surface);
+      border-radius: var(--border-radius-main);
+      box-shadow: var(--shadow-depth-2);
+      border: 1px solid var(--border-color);
     }
 
     .title-container {
       text-align: center;
-      margin-bottom: 40px;
-      position: relative;
-    }
-
-    .title-container:before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120px;
-      height: 120px;
-      background-color: rgba(44, 83, 100, 0.8);
-      border-radius: 50%;
-      z-index: -1;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      margin-bottom: 50px;
     }
 
     .title {
-      font-size: 40px;
-      font-weight: bold;
-      color: #ffffff;
-      text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-      position: relative;
-      z-index: 1;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent-color-1);
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
 
     .sections {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 20px;
+      flex-direction: column;
+      gap: var(--section-gap);
     }
 
     .section {
-      flex: 0 0 48%;
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 20px;
-      transition: transform 0.3s, box-shadow 0.3s;
+      background-color: var(--secondary-surface);
+      border-radius: var(--border-radius-card);
+      padding: var(--card-padding);
+      box-shadow: var(--shadow-depth-1);
+      transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+      border: 1px solid transparent;
     }
 
     .section:hover {
       transform: translateY(-5px);
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+      box-shadow: var(--shadow-depth-2), 0 0 25px rgba(var(--accent-color-2-rgb), 0.35);
+      border-color: rgba(var(--accent-color-2-rgb), 0.7);
     }
 
     .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #D9D9F3;
-      background-color: rgba(44, 83, 100, 0.8);
-      padding: 10px 15px;
-      border-radius: 20px;
-      position: relative;
-      text-transform: uppercase;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--accent-color-2);
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
     }
 
     .section-title i {
-      margin-right: 10px;
-      color: #00d9ff;
+      margin-right: 12px;
+      font-size: 1.15em;
+      color: var(--accent-color-2);
+      opacity: 0.85;
     }
 
-    .section-title:before {
-      content: none;
+    .section-content pre {
+      background-color: var(--code-bg);
+      border: 1px solid rgba(var(--accent-color-2-rgb), 0.2);
+      border-radius: var(--border-radius-code);
+      padding: 15px;
+      margin: 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
 
-    .section-content {
-      font-size: 15px;
-      color: #ffffff;
-      background-color: rgba(44, 83, 100, 0.7);
-      padding: 15px 20px;
-      border-radius: 10px;
-      margin-top: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    .section-content code {
+      font-family: var(--font-family-code);
+      font-size: 0.9rem;
+      color: var(--primary-text);
+      line-height: 1.75;
+    }
+
+
+    .hl-char {
+      color: #E57373;
+    }
+
+    .hl-paren {
+      color: #81D4FA;
+    }
+
+    .hl-keyword {
+      color: #CE9178;
+    }
+
+    .hl-command {
+      color: #c586c0;
+    }
+
+    .hl-variable {
+      color: #9CDCFE;
+    }
+
+    .hl-string {
+      color: #A5D6A7;
+    }
+
+    .hl-comment {
+      color: #757575;
+      font-style: italic;
+    }
+
+    .hl-separator {
+      color: var(--secondary-text);
+    }
+
+    .section-content code br {
+      display: block;
+      margin-bottom: 0.3em;
+      content: "";
     }
   </style>
 </head>
@@ -117,84 +181,113 @@
     <div class="sections">
       <div class="section">
         <div class="section-title"><i class="fas fa-cog"></i>管理预设</div>
-        <div class="section-content">#(删除|查看)预设+序号,例如:#查看预设1,删除同理</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">删除</span><span class="hl-char">|</span><span class="hl-keyword">查看</span><span class="hl-paren">)</span>预设<span class="hl-char">+</span><span class="hl-variable">序号</span><span class="hl-separator">,</span><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">查看</span>预设<span class="hl-variable">1</span><span class="hl-separator">,</span><span class="hl-keyword">删除</span>同理</code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-at"></i>艾特回复</div>
-        <div class="section-content">#AI(开启|关闭)艾特,是否启用ai的at回复<br>例如:#AI开启艾特</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-command">AI</span><span class="hl-paren">(</span><span class="hl-keyword">开启</span><span class="hl-char">|</span><span class="hl-keyword">关闭</span><span class="hl-paren">)</span>艾特<span class="hl-separator">,</span><span class="hl-comment">是否启用ai的at回复</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-command">AI</span><span class="hl-keyword">开启</span>艾特</code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-ban"></i>设置违禁词</div>
-        <div class="section-content">#新增AI违禁词+xxx,设置Ai违禁词,例如：#新增AI违禁词原图<br>#删除AI违禁词+xxx, 例如：#删除AI违禁词原图</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-keyword">新增</span><span class="hl-command">AI</span>违禁词<span class="hl-char">+</span><span class="hl-variable">xxx</span><span class="hl-separator">,</span><span class="hl-comment">设置Ai违禁词</span><span class="hl-separator">,</span><span class="hl-keyword">例如：</span><span class="hl-char">#</span><span class="hl-keyword">新增</span><span class="hl-command">AI</span>违禁词<span class="hl-string">瑟瑟</span><br><span class="hl-char">#</span><span class="hl-keyword">删除</span><span class="hl-command">AI</span>违禁词<span class="hl-char">+</span><span class="hl-variable">xxx</span><span class="hl-separator">,</span> <span class="hl-keyword">例如：</span><span class="hl-char">#</span><span class="hl-keyword">删除</span><span class="hl-command">AI</span>违禁词<span class="hl-string">瑟瑟</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-volume-up"></i>TTS语音</div>
-        <div class="section-content">#(开启|关闭)tts回复,是否tts语音回复,例如:#开启tts回复<br>#切换tts角色+角色名,例如:
-          #切换tts角色丁真<br>#tts角色大全,查看所有tts角色</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">开启</span><span class="hl-char">|</span><span class="hl-keyword">关闭</span><span class="hl-paren">)</span><span class="hl-command">tts</span>回复<span class="hl-separator">,</span><span class="hl-comment">是否tts语音回复</span><span class="hl-separator">,</span><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">开启</span><span class="hl-command">tts</span>回复<br><span class="hl-char">#</span><span class="hl-keyword">切换</span><span class="hl-command">tts</span>角色<span class="hl-char">+</span><span class="hl-variable">角色名</span><span class="hl-separator">,</span><span class="hl-keyword">例如:</span>
+          <span class="hl-char">#</span><span class="hl-keyword">切换</span><span class="hl-command">tts</span>角色<span class="hl-variable">丁真</span><br><span class="hl-char">#</span><span class="hl-command">tts</span>角色大全<span class="hl-separator">,</span><span class="hl-comment">查看所有tts角色</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-comment-dots"></i>回复提示</div>
-        <div class="section-content">#更改回复提示词+xxx,设置Ai思考回复词<br>#(开启|关闭)提示回复,开启或关闭ai思考回复词</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span>更改回复提示词<span class="hl-char">+</span><span class="hl-variable">xxx</span><span class="hl-separator">,</span><span class="hl-comment">设置Ai思考回复词</span><br><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">开启</span><span class="hl-char">|</span><span class="hl-keyword">关闭</span><span class="hl-paren">)</span>提示回复<span class="hl-separator">,</span><span class="hl-comment">开启或关闭ai思考回复词</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-lightbulb"></i>艾特方案</div>
-        <div class="section-content">#艾特回复使用(god|chat|逆向|附加),更改at回复的方案<br>例如:#艾特回复使用chat</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span>艾特回复使用<span class="hl-paren">(</span><span class="hl-command">god</span><span class="hl-char">|</span><span class="hl-command">chat</span><span class="hl-char">|</span><span class="hl-command">逆向</span><span class="hl-char">|</span><span class="hl-command">附加</span><span class="hl-paren">)</span><span class="hl-separator">,</span><span class="hl-comment">更改at回复的方案</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span>艾特回复使用<span class="hl-command">chat</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-bolt"></i>方案触发</div>
-        <div class="section-content">#更改(逆向|chat|god|附加)触发名+名称,更改不同方案的名称触发<br>例如:#更改附加触发名neko,则可以直接neko+问题触发</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span>更改<span class="hl-paren">(</span><span class="hl-command">逆向</span><span class="hl-char">|</span><span class="hl-command">chat</span><span class="hl-char">|</span><span class="hl-command">god</span><span class="hl-char">|</span><span class="hl-command">附加</span><span class="hl-paren">)</span>触发名<span class="hl-char">+</span><span class="hl-variable">名称</span><span class="hl-separator">,</span><span class="hl-comment">更改不同方案的名称触发</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span>更改<span class="hl-command">附加</span>触发名<span class="hl-variable">neko</span><span class="hl-separator">,</span><span class="hl-comment">则可以直接</span><span class="hl-variable">neko</span><span class="hl-char">+</span><span class="hl-comment">问题触发</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-comments"></i>私聊回复</div>
         <div class="section-content">
-          #(开启|关闭)私聊回复,是否允ai私聊,例如:#开启私聊回复<br>#私聊回复使用(god|chat|逆向|附加),更改私聊bot的方案,例如:#私聊回复使用逆向</div>
+          <pre><code><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">开启</span><span class="hl-char">|</span><span class="hl-keyword">关闭</span><span class="hl-paren">)</span>私聊回复<span class="hl-separator">,</span><span class="hl-comment">是否允ai私聊</span><span class="hl-separator">,</span><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">开启</span>私聊回复<br><span class="hl-char">#</span>私聊回复使用<span class="hl-paren">(</span><span class="hl-command">god</span><span class="hl-char">|</span><span class="hl-command">chat</span><span class="hl-char">|</span><span class="hl-command">逆向</span><span class="hl-char">|</span><span class="hl-command">附加</span><span class="hl-paren">)</span><span class="hl-separator">,</span><span class="hl-comment">更改私聊bot的方案</span><span class="hl-separator">,</span><span class="hl-keyword">例如:</span><span class="hl-char">#</span>私聊回复使用<span class="hl-command">逆向</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-exchange-alt"></i>对话方式</div>
         <div class="section-content">
-          #AI对话方式(文本|图片|图片2|引用|转发|语音|拟人),
-          例如:#AI对话方式图片<br>PS：方式为图片时，有指令：#图片渲染使用(1|2|3|4)，#图片渲染使用2(cute风格)<br>两图片模式区别即有无转发文本<br>使用语音模式时优先开启tts回复
+          <pre><code><span class="hl-char">#</span><span class="hl-command">AI</span>对话方式<span class="hl-paren">(</span><span class="hl-string">文本</span><span class="hl-char">|</span><span class="hl-string">图片</span><span class="hl-char">|</span><span class="hl-string">图片2</span><span class="hl-char">|</span><span class="hl-string">引用</span><span class="hl-char">|</span><span class="hl-string">转发</span><span class="hl-char">|</span><span class="hl-string">语音</span><span class="hl-char">|</span><span class="hl-string">拟人</span><span class="hl-paren">)</span><span class="hl-separator">,</span>
+          <span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-command">AI</span>对话方式<span class="hl-string">图片</span><br><span class="hl-keyword">PS：</span><span class="hl-comment">方式为图片时，有指令：</span><span class="hl-char">#</span>图片渲染使用<span class="hl-paren">(</span><span class="hl-variable">1</span><span class="hl-char">|</span><span class="hl-variable">2</span><span class="hl-char">|</span><span class="hl-variable">3</span><span class="hl-char">|</span><span class="hl-variable">4</span><span class="hl-paren">)</span><span class="hl-separator">,</span><span class="hl-char">#</span>图片渲染使用<span class="hl-variable">2</span><span class="hl-paren">(</span><span class="hl-string">cute风格</span><span class="hl-paren">)</span><br><span class="hl-comment">两图片模式区别即有无转发文本</span><br><span class="hl-comment">使用语音模式时优先开启tts回复</span></code></pre>
         </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-user-slash"></i>禁用Ai</div>
         <div class="section-content">
-          #(禁用|解禁)方案(god|chat|附加|逆向)<br>禁用当前Ai方案(主人不影响)<br>例如:#禁用方案god,解禁同理<br>#AI(禁用|解禁)该群,禁用当前群ai<br>例如:#AI禁用该群,解禁同理<br>#(禁用|解禁)AI@xxxx,禁止艾特的群员使用ai,例如:#禁用AI@张三,解禁同理
+          <pre><code><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">禁用</span><span class="hl-char">|</span><span class="hl-keyword">解禁</span><span class="hl-paren">)</span>方案<span class="hl-paren">(</span><span class="hl-command">god</span><span class="hl-char">|</span><span class="hl-command">chat</span><span class="hl-char">|</span><span class="hl-command">附加</span><span class="hl-char">|</span><span class="hl-command">逆向</span><span class="hl-paren">)</span><br><span class="hl-comment">禁用当前Ai方案(主人不影响)</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">禁用</span>方案<span class="hl-command">god</span><span class="hl-separator">,</span><span class="hl-keyword">解禁</span>同理<br><span class="hl-char">#</span><span class="hl-command">AI</span><span class="hl-paren">(</span><span class="hl-keyword">禁用</span><span class="hl-char">|</span><span class="hl-keyword">解禁</span><span class="hl-paren">)</span>该群<span class="hl-separator">,</span><span class="hl-comment">禁用当前群ai</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-command">AI</span><span class="hl-keyword">禁用</span>该群<span class="hl-separator">,</span><span class="hl-keyword">解禁</span>同理<br><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">禁用</span><span class="hl-char">|</span><span class="hl-keyword">解禁</span><span class="hl-paren">)</span><span class="hl-command">AI</span><span class="hl-char">@</span><span class="hl-variable">xxxx</span><span class="hl-separator">,</span><span class="hl-comment">禁止艾特的群员使用ai</span><span class="hl-separator">,</span><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">禁用</span><span class="hl-command">AI</span><span class="hl-char">@</span><span class="hl-variable">张三</span><span class="hl-separator">,</span><span class="hl-keyword">解禁</span>同理</code></pre>
         </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-plus-circle"></i>添加预设</div>
         <div class="section-content">
-          #(开启|关闭)预设添加<br>例如:#开启预设添加,关闭同理<br>用法：直接把txt格式的文件私聊丢给你的bot(如果适配器添加失败，则手动添加txt文件到根目录data/阴天预设)</div>
+          <pre><code><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">开启</span><span class="hl-char">|</span><span class="hl-keyword">关闭</span><span class="hl-paren">)</span>预设添加<br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">开启</span>预设添加<span class="hl-separator">,</span><span class="hl-keyword">关闭</span>同理<br><span class="hl-keyword">用法：</span><span class="hl-comment">直接把txt格式的文件私聊丢给你的bot(如果适配器添加失败，则手动添加txt文件到根目录data/阴天预设)</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-globe"></i>全局预设</div>
         <div class="section-content">
-          #切换(附加|chat|god)全局预设<br>例如:#切换附加全局预设1<br>切换方案的全局预设<br>全局预设优先级>群聊=个人</div>
+          <pre><code><span class="hl-char">#</span><span class="hl-keyword">切换</span><span class="hl-paren">(</span><span class="hl-command">附加</span><span class="hl-char">|</span><span class="hl-command">chat</span><span class="hl-char">|</span><span class="hl-command">god</span><span class="hl-paren">)</span>全局预设<br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">切换</span><span class="hl-command">附加</span>全局预设<span class="hl-variable">1</span><br><span class="hl-comment">切换方案的全局预设</span><br><span class="hl-comment">全局预设仅在未设置预设时生效</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-memory"></i>记忆条数</div>
-        <div class="section-content">#设置(chat|god)记忆条数+数量<br>限制不同方案的ai记忆条数<br>例如:#设置chat记忆条数15,god同理</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-keyword">设置</span><span class="hl-paren">(</span><span class="hl-command">chat</span><span class="hl-char">|</span><span class="hl-command">god</span><span class="hl-char">|</span><span class="hl-command">附加</span><span class="hl-char">|</span><span class="hl-command">逆向</span><span class="hl-paren">)</span>记忆条数<span class="hl-char">+</span><span class="hl-variable">数量</span><br><span class="hl-comment">限制不同方案的ai记忆条数</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">设置</span><span class="hl-command">chat</span>记忆条数<span class="hl-variable">15</span><span class="hl-separator">,</span><span class="hl-command">god</span>同理</code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-brain"></i>记忆限制</div>
-        <div class="section-content">#(开启|关闭)(chat|god)方案记忆限制,限制方案的ai记忆,可极大减少金额消耗<br>例如:#开启god方案记忆限制,chat方案同理</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">开启</span><span class="hl-char">|</span><span class="hl-keyword">关闭</span><span class="hl-paren">)</span><span class="hl-paren">(</span><span class="hl-command">chat</span><span class="hl-char">|</span><span class="hl-command">附加</span><span class="hl-char">|</span><span class="hl-command">逆向</span><span class="hl-paren">)</span>方案记忆限制<span class="hl-separator">,</span><span class="hl-comment">限制方案的ai记忆,可极大减少金额消耗</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">开启</span><span class="hl-command">chat</span>方案记忆限制<span class="hl-separator">,</span><span class="hl-command">其他</span>方案同理</code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-key"></i>密钥管理</div>
-        <div class="section-content">#删除chatsk+序号,删除chat方案的key<br>例如:#删除chatsk 2<br>god方案同理,例如:/删除godsk+序号</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-keyword">删除</span><span class="hl-command">chatsk</span><span class="hl-char">+</span><span class="hl-variable">序号</span><span class="hl-separator">,</span><span class="hl-comment">删除chat方案的key</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">删除</span><span class="hl-command">chatsk</span> <span class="hl-variable">2</span><br><span class="hl-command">god</span>方案同理<span class="hl-separator">,</span><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">删除</span><span class="hl-command">godsk</span><span class="hl-char">+</span><span class="hl-variable">序号</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-book"></i>群上下文</div>
-        <div class="section-content">#(开启|关闭)群记录携带,Ai携带群聊相关信息进行回复,增强关联性<br>例如:#开启群记录携带,关闭同理</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">开启</span><span class="hl-char">|</span><span class="hl-keyword">关闭</span><span class="hl-paren">)</span>群记录<span class="hl-keyword">携带</span><span class="hl-separator">,</span><span class="hl-comment">Ai携带群聊相关信息进行回复,增强关联性</span><br><span class="hl-keyword">例如:</span><span class="hl-char">#</span><span class="hl-keyword">开启</span>群记录<span class="hl-keyword">携带</span><span class="hl-separator">,</span><span class="hl-keyword">关闭</span>同理</code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-book"></i>Ai云预设</div>
-        <div class="section-content">#(搜索|查看)云预设,云端搜索相关预设<br>例如: #搜索云预设猫猫<br>下载预设时使用: #下载云预设+序号</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-paren">(</span><span class="hl-keyword">搜索</span><span class="hl-char">|</span><span class="hl-keyword">查看</span><span class="hl-paren">)</span>云预设<span class="hl-separator">,</span><span class="hl-comment">云端搜索相关预设</span><br><span class="hl-keyword">例如:</span> <span class="hl-char">#</span><span class="hl-keyword">搜索</span>云预设<span class="hl-string">猫猫</span><br><span class="hl-comment">下载预设时使用:</span> <span class="hl-char">#</span><span class="hl-keyword">下载</span>云预设<span class="hl-char">+</span><span class="hl-variable">序号</span></code></pre>
+        </div>
       </div>
       <div class="section">
         <div class="section-title"><i class="fas fa-sliders-h"></i>查看设置</div>
-        <div class="section-content">#查看AI总设置,查看当前ai配置</div>
+        <div class="section-content">
+          <pre><code><span class="hl-char">#</span><span class="hl-keyword">查看</span><span class="hl-command">AI</span>总<span class="hl-keyword">设置</span><span class="hl-separator">,</span><span class="hl-comment">查看当前ai配置</span></code></pre>
+        </div>
       </div>
     </div>
   </div>
