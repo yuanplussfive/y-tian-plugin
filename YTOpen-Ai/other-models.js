@@ -31,35 +31,35 @@ export const getOptimizedModels = () => {
     {
       "model": "gpt-4-turbo",
       "points": "OpenAI",
-      "token": "128k",
+      "token": "32k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "5/3"
     },
     {
       "model": "gpt-4-0125-preview",
       "points": "OpenAI",
-      "token": "131k",
+      "token": "32k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "5/2"
     },
     {
       "model": "gpt-4-1106-preview",
       "points": "OpenAI",
-      "token": "131k",
+      "token": "32k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "5/2"
     },
     {
       "model": "gpt-4-vision-preview",
       "points": "OpenAI",
-      "token": "131k",
+      "token": "32k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "7.5/2"
     },
     {
       "model": "gpt-4-all",
       "points": "OpenAI",
-      "token": "128k",
+      "token": "32k",
       "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
       "quota": "15/2"
     },
@@ -87,58 +87,128 @@ export const getOptimizedModels = () => {
     {
       "model": "gpt-4o",
       "points": "OpenAI",
-      "token": "32k",
+      "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "2.5/4"
     },
     {
       "model": "gpt-4o-2024-05-13",
       "points": "OpenAI",
-      "token": "32k",
+      "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "2.5/3"
     },
     {
       "model": "gpt-4o-2024-08-06",
       "points": "OpenAI",
-      "token": "32k",
+      "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "1.25/4"
     },
     {
       "model": "gpt-4o-2024-11-20",
       "points": "OpenAI",
-      "token": "32k",
+      "token": "128k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "1.25/4"
     },
     {
+      "model": "gpt-4.1",
+      "points": "OpenAI",
+      "token": "1000k",
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": "1/4"
+    },
+    {
+      "model": "gpt-4.1-2025-04-14",
+      "points": "OpenAI",
+      "token": "1000k",
+      "features": ['conversation', 'code', 'image_recognition'],
+      "quota": "1/4"
+    },
+    {
       "model": "gpt-4.1-mini",
       "points": "OpenAI",
-      "token": "32k",
+      "token": "1000k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "0.2/4"
     },
     {
       "model": "gpt-4.1-mini-2025-04-14",
       "points": "OpenAI",
-      "token": "32k",
+      "token": "1000k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "0.2/4"
     },
     {
       "model": "gpt-4.1-nano",
       "points": "OpenAI",
-      "token": "32k",
+      "token": "1000k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "0.05/4"
     },
     {
       "model": "gpt-4.1-nano-2025-04-14",
       "points": "OpenAI",
-      "token": "32k",
+      "token": "1000k",
       "features": ['conversation', 'code', 'image_recognition'],
       "quota": "0.05/4"
+    },
+    {
+      "model": "o1-mini",
+      "points": "OpenAI",
+      "token": "1000k",
+      "features": ['conversation', 'code'],
+      "quota": "0.15/次"
+    },
+    {
+      "model": "o1-mini-2024-09-12",
+      "points": "OpenAI",
+      "token": "1000k",
+      "features": ['conversation', 'code'],
+      "quota": "0.15/次"
+    },
+    {
+      "model": "o3-mini",
+      "points": "OpenAI",
+      "token": "1000k",
+      "features": ['conversation', 'code'],
+      "quota": "0.55/4"
+    },
+    {
+      "model": "o3-mini-2025-01-31",
+      "points": "OpenAI",
+      "token": "1000k",
+      "features": ['conversation', 'code'],
+      "quota": "0.55/4"
+    },
+    {
+      "model": "gpt-4o-image",
+      "points": "OpenAI",
+      "token": "32k",
+      "features": ['drawing', 'image_recognition'],
+      "quota": "0.2/次"
+    },
+    {
+      "model": "gpt-4o-image-vip",
+      "points": "OpenAI",
+      "token": "32k",
+      "features": ['drawing', 'image_recognition'],
+      "quota": "0.3/次"
+    },
+    {
+      "model": "gpt-image-1",
+      "points": "OpenAI",
+      "token": "32k",
+      "features": ['drawing', 'image_recognition'],
+      "quota": "0.2/次"
+    },
+    {
+      "model": "gpt-image-1-vip",
+      "points": "OpenAI",
+      "token": "32k",
+      "features": ['drawing', 'image_recognition'],
+      "quota": "0.3/次"
     },
     {
       "model": "claude-1-100k",
@@ -995,13 +1065,6 @@ export const getOptimizedModels = () => {
       "quota": "2/1"
     },
     {
-      "model": "noobai-fast",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.03/次"
-    },
-    {
       "model": "jimeng-3.0",
       "points": "Jimeng",
       "token": "8k",
@@ -1070,6 +1133,34 @@ export const getOptimizedModels = () => {
       "token": "1000k",
       "features": ['music'],
       "quota": 0
+    },
+    {
+      "model": "noobai-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.03/次"
+    },
+    {
+      "model": "luminaArchitect-v1-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.05/次"
+    },
+    {
+      "model": "luminaArchitect-v1-turbo",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.08/次"
+    },
+    {
+      "model": "luminaArchitect-v1-plus",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.1/次"
     },
     {
       "model": "anishadow-v10-fast",
