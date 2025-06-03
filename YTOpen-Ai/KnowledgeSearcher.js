@@ -46,23 +46,10 @@ class KnowledgeSearcher {
   }
 
   buildCOTChain(userQuestion, knowledgeContext) {
-    return `
-<ChainOfThought>
-【思考步骤】：
-1. 接收问题，检索知识库。
-2. 找到相关知识，基于知识推理作答。
-
-【检索到的相关知识】：
-${knowledgeContext}
-
-【用户提问】：${userQuestion}
-
-【推理要求】：
-- 只依据上方知识推理
-- 无相关知识则应回答无法回答
-- 回答应简洁、专业
-</ChainOfThought>
-    `.trim();
+    return {
+      knowledgeContext,
+      userQuestion
+    }
   }
 
   async search(userQuestion) {

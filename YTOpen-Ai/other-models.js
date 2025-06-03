@@ -68,14 +68,14 @@ export const getOptimizedModels = () => {
       "points": "OpenAI",
       "token": "128k",
       "features": ['conversation', 'internet', 'drawing', 'code', 'image_recognition'],
-      "quota": "2.5/4"
+      "quota": "7.5/5"
     },
     {
       "model": "gpt-4o-all-lite",
       "points": "OpenAI",
       "token": "8k",
       "features": ['conversation', 'internet', 'drawing', 'code'],
-      "quota": "1.5/4"
+      "quota": "2.5/4"
     },
     {
       "model": "chatgpt-4o-latest",
@@ -1266,6 +1266,62 @@ export const getOptimizedModels = () => {
       "token": "8k",
       "features": ['drawing'],
       "quota": "0.075/次"
+    },
+    {
+      "model": "flux-kontext-edit",
+      "points": "flux",
+      "token": "8k",
+      "features": ['drawing','image_recognition'],
+      "quota": "0.25/次"
+    },
+    {
+      "model": "flux-kontext-edit-pro",
+      "points": "flux",
+      "token": "8k",
+      "features": ['drawing','image_recognition'],
+      "quota": "0.4/次"
+    },
+    {
+      "model": "flux-kontext-edit-pro-max",
+      "points": "flux",
+      "token": "8k",
+      "features": ['drawing','image_recognition'],
+      "quota": "0.5/次"
+    },
+    {
+      "model": "flux-pro-kontext",
+      "points": "flux",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.25/次"
+    },
+    {
+      "model": "flux-kontext-pro-max",
+      "points": "flux",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.5/次"
+    },
+    {
+      "model": "ideogram-turbo",
+      "points": "flux",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.2/次"
+    },
+    {
+      "model": "flux-schnell",
+      "points": "flux",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.03/次"
+    },
+    {
+      "model": "google-imagen4",
+      "points": "Google",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.6/次"
     },
     {
       "model": "reka-3-flash",
