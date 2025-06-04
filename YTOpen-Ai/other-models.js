@@ -1163,6 +1163,27 @@ export const getOptimizedModels = () => {
       "quota": "0.1/次"
     },
     {
+      "model": "luminaArchitect-v1-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.05/次"
+    },
+    {
+      "model": "luminaArchitect-v1-turbo",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.08/次"
+    },
+    {
+      "model": "luminaArchitect-v1-plus",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.1/次"
+    },
+    {
       "model": "anishadow-v10-fast",
       "points": "Noobai",
       "token": "8k",
