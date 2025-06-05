@@ -17,6 +17,7 @@ if (fs.existsSync(configPath)) {
     config = configs.pluginSettings;
 }
 const agent = config?.KusaProxyUrl || '';
+const style = config?.KusaStyle || null;
 
 function containsChinese(str) {
     return /\p{Script=Han}/u.test(str);
@@ -162,7 +163,7 @@ async function generateImageFromPrompt(prompt) {
         width: 768,
         height: 1344,
         amount: 1,
-        style_id: randomInt(2, 7)
+        style_id: style || randomInt(2, 7)
     };
 
     try {

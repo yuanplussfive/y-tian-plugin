@@ -361,6 +361,7 @@ export class ExamplePlugin extends plugin {
         modelscope_lora_enable: false,
         modelscope_lora_id: 119032,
         modelscope_lora_scale: 1,
+        KusaStyle: 1,
         KusaProxyUrl: 'https://yuoop-kusa.hf.space'
       }
     }
@@ -795,7 +796,6 @@ export class ExamplePlugin extends plugin {
    | 1⃣ 严禁在回复中显示工具调用代码或函数名称
    | 2⃣ 工具执行后，以自然对话方式呈现结果，如同人类完成了该任务
    | 3⃣ 示例转换:
-   |   ❌ 错误: "\`\`\`tool_code\nnoobaiTool.draw(prompt: 八重神子全身像)\n\`\`\`"
    |   ✅ 正确: "八重神子的全身像已经画好啦，按照你要求的侧面视角做的，感觉还挺好看的~"
 
 4.【强化认知机制】
@@ -856,7 +856,7 @@ export class ExamplePlugin extends plugin {
         const lastMessage = await limit(() =>
           buildMessageContent(
             { nickname: Bot.nickname, user_id: Bot.uin, role: botRole },
-            `我已经读取了上述群聊的聊天记录, 我会优先关注你的最新消息, 我的回复格式会严格按照上述群聊历史记录的格式, 严格遵循 '[MM-DD HH:MM:SS] 昵称(QQ号: xxx)[群身份: xxx]: 在群里说: xxx'的格式, 每次只发送一条消息`,
+            `群聊记录真不少啊，我看看`,
             [],
             [],
             e.group
@@ -873,6 +873,39 @@ export class ExamplePlugin extends plugin {
         groupUserMessages = await limit(() => getHistory());
       }
 
+      function formatQQGroupMessages(messages) {
+        if (!Array.isArray(messages) || messages.length === 0) {
+          return messages;
+        }
+
+        const systemMessages = messages.filter(msg => msg.role === 'system');
+        const lastUserMessage = messages[messages.length - 1]?.role === 'user' ? [messages[messages.length - 1]] : [];
+        const middleMessages = messages.slice(
+          systemMessages.length,
+          messages.length - (lastUserMessage.length || 1)
+        );
+
+        // 格式化中间消息为 QQ 群聊记录
+        const formattedMiddleContent = middleMessages
+          .map(msg => {
+            const roleName = msg.role === 'user' ? '用户' : '我';
+            return `[${roleName}] ${msg.content}`;
+          })
+          .join('\n');
+
+        // 构造结果数组
+        const result = [
+          ...systemMessages,
+          ...(formattedMiddleContent ? [{
+            role: 'user',
+            content: `QQ群[${e.group_id}]的群聊历史记录：\n${formattedMiddleContent}`
+          }] : []),
+          ...lastUserMessage
+        ];
+
+        return result;
+      }
+
       groupUserMessages = groupUserMessages.filter(msg => msg.role !== 'system');
       groupUserMessages.unshift({ role: 'system', content: systemContent });
       groupUserMessages.push({ role: 'user', content: userContent });
@@ -880,7 +913,7 @@ export class ExamplePlugin extends plugin {
       groupUserMessages = this.trimMessageHistory(groupUserMessages);
       groupUserMessages = this.filterChatByQQ(groupUserMessages, e.user_id);
       console.log(groupUserMessages);
-      session.groupUserMessages = groupUserMessages;
+      session.groupUserMessages = formatQQGroupMessages(groupUserMessages);
       await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
 
       const imageCount = images?.length; // 获取图片数量，可能为 undefined
@@ -1259,8 +1292,8 @@ export class ExamplePlugin extends plugin {
           model: modelMap[provider],
           ...(this.config.UseTools && { tools: session.tools, tool_choice: "auto" }),
           messages: [...groupUserMessages, {
-            role: 'system',
-            content: `请检查用户的原始请求是否已全部完成。只有在以下情况才需要调用工具：
+            role: 'user',
+            content: `[系统提示]: 请检查用户的原始请求是否已全部完成。只有在以下情况才需要调用工具：
           1. 之前的工具调用失败需要重试
           2. 确实有未完成的必要任务
           3. 用户明确要求的功能尚未实现
@@ -1277,7 +1310,7 @@ export class ExamplePlugin extends plugin {
           delete FinalRequest.presence_penalty;
         }
 
-        if (this.config.UseTools && this.config.providers !== 'oneapi') {
+        if (this.config.UseTools) {
           try {
             const finalCheckResponse = await limit(() => YTapi(FinalRequest, this.config, session.toolContent, session.toolName));
             if (!finalCheckResponse || finalCheckResponse.error) {
