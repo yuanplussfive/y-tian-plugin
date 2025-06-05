@@ -106,8 +106,8 @@ async function pollTaskResult(taskId) {
             const result = await response.json();
 
             if (result.status === "success") {
-                if (result.presigned_urls && result.presigned_urls.length > 0) {
-                    return result.presigned_urls[0];
+                if (result.result.presigned_urls && result.result.presigned_urls.length > 0) {
+                    return result.result.presigned_urls[0];
                 } else {
                     console.warn("任务成功但未找到图像URL", result);
                     return null;
