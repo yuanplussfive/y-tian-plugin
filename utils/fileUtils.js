@@ -209,7 +209,8 @@ export async function get_address(inputString) {
     `[a-zA-Z0-9\\-]+(?:\\.[a-zA-Z0-9\\-]+)*\\.myqcloud\\.com(?:/[a-zA-Z0-9\\-_/]+)*\\.[a-z]{2,4}(?:\\?.*)?`,
     `[a-zA-Z0-9\\-]+\\.liblib\\.cloud(?:/[a-zA-Z0-9_\\-]+)*(?:/[a-zA-Z0-9_\\-]+)*\\.[a-z]{2,6}(?:\\?.*)?`,
     `[a-zA-Z0-9\\-_]+\\.s3(?:-[a-z0-9\\-]+)?\\.amazonaws\\.com/[^?]+\\.[a-zA-Z0-9]{2,6}(?:\\?[^\\s]*)?`,
-    `[a-zA-Z0-9\\-]+(?:-[a-zA-Z0-9]+)*\\.oss-[a-z0-9\\-]+\\.aliyuncs\\.com/[a-zA-Z0-9\\-_/]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`
+    `[a-zA-Z0-9\\-]+(?:-[a-zA-Z0-9]+)*\\.oss-[a-z0-9\\-]+\\.aliyuncs\\.com/[a-zA-Z0-9\\-_/]+\\.[a-zA-Z0-9]{2,6}(?:\\?.*)?`,
+    `[a-zA-Z0-9\\-]+\\.cloudfront\\.net/text_to_image_output/[a-zA-Z0-9\\-]+\\.[a-z]{2,4}(?:\\?.*)?`
   ].join('|');
 
   // 定义链接模式及其对应的进度提取规则
