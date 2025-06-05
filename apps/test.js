@@ -22,6 +22,7 @@ import { NoobaiTool } from '../YTOpen-Ai/functions_tools/NoobaiTool.js';
 import { GoogleImageEditTool } from '../YTOpen-Ai/functions_tools/GoogleImageEditTool.js';
 import { WebParserTool } from '../YTOpen-Ai/functions_tools/webParserTool.js';
 import { AvatarProcessTool } from '../YTOpen-Ai/functions_tools/AvatarProcessTool.js'
+import { GitHubRepoTool } from '../YTOpen-Ai/functions_tools/GithubTool.js';
 import { TakeImages } from '../utils/fileUtils.js';
 import { YTapi } from '../utils/apiClient.js';
 import { MessageManager } from '../utils/MessageManager.js';
