@@ -91,7 +91,13 @@ export class ExamplePlugin extends plugin {
     this.noobaiTool = new NoobaiTool();
     this.googleImageEditTool = new GoogleImageEditTool();
     this.avatarProcessTool = new AvatarProcessTool();
+    this.githubRepoTool = new GitHubRepoTool();
     this.functions = [
+      {
+        name: this.githubRepoTool.name,
+        description: this.githubRepoTool.description,
+        parameters: this.githubRepoTool.parameters
+      },
       {
         name: this.avatarProcessTool.name,
         description: this.avatarProcessTool.description,
@@ -362,7 +368,8 @@ export class ExamplePlugin extends plugin {
         modelscope_lora_id: 119032,
         modelscope_lora_scale: 1,
         KusaStyle: 1,
-        KusaProxyUrl: 'https://yuoop-kusa.hf.space'
+        KusaProxyUrl: 'https://yuoop-kusa.hf.space',
+        githubToken: ""
       }
     }
 
@@ -1161,6 +1168,9 @@ export class ExamplePlugin extends plugin {
               case this.avatarProcessTool.name:
                 result = await executeTool(this.avatarProcessTool, params, e);
                 break;
+              case this.githubRepoTool.name:
+                result = await executeTool(this.githubRepoTool, params, e);
+                break;
               case this.emojiSearchTool.name:
                 result = await executeTool(this.emojiSearchTool, params, e);
                 break;
@@ -1689,6 +1699,10 @@ export class ExamplePlugin extends plugin {
 
           case this.avatarProcessTool.name:
             result = await executeTool(this.avatarProcessTool, params, e);
+            break;
+
+          case this.githubRepoTool.name:
+            result = await executeTool(this.githubRepoTool, params, e);
             break;
 
           case this.emojiSearchTool.name:

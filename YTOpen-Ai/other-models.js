@@ -1289,6 +1289,27 @@ export const getOptimizedModels = () => {
       "quota": "0.075/次"
     },
     {
+      "model": "anishadow-v10-free",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.001/次"
+    },
+    {
+      "model": "wai-illustrious-free",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.001/次"
+    },
+    {
+      "model": "kusa-image-generator",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.001/次"
+    },
+    {
       "model": "flux-kontext-edit",
       "points": "flux",
       "token": "8k",
