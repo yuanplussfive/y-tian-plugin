@@ -1,13 +1,15 @@
 import { AbstractTool } from './AbstractTool.js';
-import { Octokit } from '@octokit/rest';
 import path from 'path';
 import YAML from 'yaml';
 import fs from 'fs';
+import https from 'https';
 import { fileURLToPath } from 'url';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const configPath = path.join(__dirname, '../../config/message.yaml');
-console.log(configPath)
+console.log(configPath);
+
 let config = {};
 if (fs.existsSync(configPath)) {
   const file = fs.readFileSync(configPath, 'utf8');
@@ -35,9 +37,59 @@ export class GitHubRepoTool extends AbstractTool {
       required: ['repoUrl']
     };
     
-    // 初始化Octokit客户端
-    this.octokit = new Octokit({
-      auth: githubToken
+    // 设置GitHub API请求的基本headers
+    this.headers = {
+      'User-Agent': 'GitHub-Repository-Tool',
+      'Accept': 'application/vnd.github.v3+json'
+    };
+    
+    // 如果有token，添加授权头
+    if (githubToken) {
+      this.headers['Authorization'] = `token ${githubToken}`;
+    }
+  }
+
+  /**
+   * 发送HTTP请求到GitHub API
+   * @param {string} path - API路径
+   * @returns {Promise<Object>} 解析后的JSON响应
+   */
+  fetchGitHubAPI(path) {
+    return new Promise((resolve, reject) => {
+      const options = {
+        hostname: 'api.github.com',
+        path: path,
+        method: 'GET',
+        headers: this.headers
+      };
+
+      const req = https.request(options, (res) => {
+        let data = '';
+        
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+        
+        res.on('end', () => {
+          try {
+            const jsonData = JSON.parse(data);
+            
+            if (res.statusCode >= 400) {
+              reject(new Error(`API错误 (${res.statusCode}): ${jsonData.message || '未知错误'}`));
+            } else {
+              resolve(jsonData);
+            }
+          } catch (err) {
+            reject(new Error(`解析响应失败: ${err.message}`));
+          }
+        });
+      });
+      
+      req.on('error', (err) => {
+        reject(new Error(`请求失败: ${err.message}`));
+      });
+      
+      req.end();
     });
   }
 
@@ -79,44 +131,22 @@ export class GitHubRepoTool extends AbstractTool {
       const { owner, repo } = this.parseGitHubUrl(repoUrl);
 
       // 获取仓库基本信息
-      const { data: repoData } = await this.octokit.repos.get({ owner, repo });
+      const repoData = await this.fetchGitHubAPI(`/repos/${owner}/${repo}`);
 
       // 获取最近5条提交
-      const { data: commitsData } = await this.octokit.repos.listCommits({
-        owner,
-        repo,
-        per_page: 5,
-      });
+      const commitsData = await this.fetchGitHubAPI(`/repos/${owner}/${repo}/commits?per_page=5`);
 
-      // 获取开放的issues数量
-      const { data: issuesData } = await this.octokit.issues.listForRepo({
-        owner,
-        repo,
-        state: 'open',
-        per_page: 100,
-      });
+      // 获取开放的issues
+      const issuesData = await this.fetchGitHubAPI(`/repos/${owner}/${repo}/issues?state=open&per_page=100`);
 
       // 获取开放的pull requests
-      const { data: pullsData } = await this.octokit.pulls.list({
-        owner,
-        repo,
-        state: 'open',
-        per_page: 100,
-      });
+      const pullsData = await this.fetchGitHubAPI(`/repos/${owner}/${repo}/pulls?state=open&per_page=100`);
 
       // 获取分支信息
-      const { data: branchesData } = await this.octokit.repos.listBranches({
-        owner,
-        repo,
-        per_page: 100,
-      });
+      const branchesData = await this.fetchGitHubAPI(`/repos/${owner}/${repo}/branches?per_page=100`);
 
       // 获取贡献者信息
-      const { data: contributorsData } = await this.octokit.repos.listContributors({
-        owner,
-        repo,
-        per_page: 5,
-      });
+      const contributorsData = await this.fetchGitHubAPI(`/repos/${owner}/${repo}/contributors?per_page=5`);
 
       // 格式化提交信息
       const commits = commitsData.map((commit, index) => ({
