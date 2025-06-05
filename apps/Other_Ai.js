@@ -1,1 +1,1521 @@
-var _0x13d0b0=_0x5346;(function(_0xfe6a3,_0x129c0a){var _0xaddbbd=_0x5346,_0x165f33=_0xfe6a3();while(!![]){try{var _0x31ca3d=-parseInt(_0xaddbbd(0x1bd))/0x1+parseInt(_0xaddbbd(0x15a))/0x2+-parseInt(_0xaddbbd(0x240))/0x3+parseInt(_0xaddbbd(0x179))/0x4+-parseInt(_0xaddbbd(0x1a2))/0x5+-parseInt(_0xaddbbd(0x15d))/0x6*(parseInt(_0xaddbbd(0x1e4))/0x7)+-parseInt(_0xaddbbd(0x191))/0x8*(-parseInt(_0xaddbbd(0x168))/0x9);if(_0x31ca3d===_0x129c0a)break;else _0x165f33['push'](_0x165f33['shift']());}catch(_0x2403be){_0x165f33['push'](_0x165f33['shift']());}}}(_0x4f97,0xda33c));import{dependencies as _0x2d74f1}from'\x2e\x2e\x2f\x59\x54\x64\x65\x70\x65\x6e\x64\x65\x6e\x63\x65\x2f\x64\x65\x70\x65\x6e\x64\x65\x6e\x63\x69\x65\x73\x2e\x6a\x73';import{fs_other as _0x52d5bf}from'\x2e\x2e\x2f\x59\x54\x64\x65\x70\x65\x6e\x64\x65\x6e\x63\x65\x2f\x66\x73\x5f\x6f\x74\x68\x65\x72\x5f\x6d\x61\x6b\x65\x73\x2e\x6a\x73';import{chunk as _0x131473,TakeImages as _0x5d2069,handleImages as _0x1ca913,getBase64File as _0x51b576,get_address as _0x304af6,downloadAndSaveFile as _0x4f24e9,removeDuplicates as _0x3ad2ff}from'\x2e\x2e\x2f\x75\x74\x69\x6c\x73\x2f\x66\x69\x6c\x65\x55\x74\x69\x6c\x73\x2e\x6a\x73';import{getFileInfo as _0x23e921}from'\x2e\x2e\x2f\x75\x74\x69\x6c\x73\x2f\x66\x69\x6c\x65\x55\x74\x69\x6c\x73\x2e\x6a\x73';import{processUploadedFile as _0x5404cf}from'\x2e\x2e\x2f\x59\x54\x4f\x70\x65\x6e\x2d\x41\x69\x2f\x74\x6f\x6f\x6c\x73\x2f\x70\x72\x6f\x63\x65\x73\x73\x55\x70\x6c\x6f\x61\x64\x65\x64\x46\x69\x6c\x65\x2e\x6a\x73';import{SearchMessages as _0x189c71}from'\x2e\x2e\x2f\x59\x54\x4f\x70\x65\x6e\x2d\x41\x69\x2f\x6f\x74\x68\x65\x72\x5f\x74\x6f\x6f\x6c\x73\x2f\x73\x65\x61\x72\x63\x68\x2e\x6a\x73';import{OpenAiChatCmpletions as _0x40ce27}from'\x2e\x2e\x2f\x59\x54\x4f\x70\x65\x6e\x2d\x41\x69\x2f\x4f\x70\x65\x6e\x41\x69\x43\x68\x61\x74\x43\x6d\x70\x6c\x65\x74\x69\x6f\x6e\x73\x2e\x6a\x73';import{callGeminiAPI as _0x30aac9,handleGeminiResult as _0x5d0a2f,processGeminiResult as _0x88cdd4}from'\x2e\x2e\x2f\x59\x54\x4f\x70\x65\x6e\x2d\x41\x69\x2f\x47\x65\x6d\x69\x6e\x69\x41\x50\x49\x2e\x6a\x73';import{generateAndSendSong as _0x2dadc6}from'\x2e\x2e\x2f\x75\x74\x69\x6c\x73\x2f\x70\x72\x6f\x76\x69\x64\x65\x72\x73\x2f\x41\x75\x64\x69\x6f\x4d\x6f\x64\x65\x6c\x73\x2f\x73\x75\x6e\x6f\x2f\x73\x75\x6e\x6f\x2e\x6a\x73';import{jimengClient as _0x243b34}from'\x2e\x2e\x2f\x75\x74\x69\x6c\x73\x2f\x70\x72\x6f\x76\x69\x64\x65\x72\x73\x2f\x43\x68\x61\x74\x4d\x6f\x64\x65\x6c\x73\x2f\x6a\x69\x6d\x65\x6e\x67\x2f\x6a\x69\x6d\x65\x6e\x67\x43\x6c\x69\x65\x6e\x74\x2e\x6a\x73';let {fs:_0x545ade,fetch:_0x170c74,path:_0x4fed13,_path:_0x37c284,common:_0x13a048,mimeTypes:_0x3ef4e2,handleTTS:_0x40a1ce,OtherModels:_0x348401,isPluginCommand:_0x94eb9f,replyBasedOnStyle:_0x3ee4da,processArray:_0x379ed6,extractAndRender:_0x52f489}=_0x2d74f1,_0x5d8b30={};function _0x4f97(){var _0x17ec8a=['\x79\x32\x39\x31\x42\x4e\x71','\x35\x52\x49\x66\x35\x36\x4d\x36\x35\x37\x36\x4b\x36\x69\x67\x6b\x36\x41\x6b\x65\x36\x6b\x36\x2b\x35\x41\x73\x58\x36\x6c\x73\x4c\x6f\x49\x61','\x79\x32\x39\x57\x45\x75\x7a\x50\x42\x67\x75','\x34\x34\x63\x72\x36\x6b\x2b\x33\x35\x36\x32\x6a\x35\x42\x36\x66\x69\x61','\x44\x68\x6a\x48\x79\x32\x75','\x36\x41\x51\x6d\x36\x6b\x2b\x62\x35\x4f\x49\x71\x35\x79\x51\x46\x37\x37\x59\x6d\x35\x79\x2b\x56\x35\x79\x32\x5a\x35\x79\x49\x37\x35\x6c\x32\x2f\x35\x35\x73\x4f','\x36\x7a\x4d\x65\x35\x79\x51\x47\x35\x51\x49\x48\x35\x7a\x36\x6c\x35\x42\x45\x59\x35\x79\x77\x5a\x36\x7a\x45\x54\x35\x79\x49\x67\x35\x79\x59\x36\x36\x7a\x45\x30\x6c\x6f\x77\x56\x55\x45\x49\x56\x4e\x45\x77\x66\x53\x45\x73\x36\x51\x57','\x77\x76\x72\x62\x42\x67\x58\x46\x74\x31\x72\x69\x72\x76\x69\x36\x79\x77\x58\x53','\x6d\x73\x35\x57\x42\x4d\x43','\x69\x2b\x41\x34\x48\x45\x45\x50\x55\x55\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x77\x66\x51\x6f\x77\x58\x47\x6f\x4d\x49\x48\x6f\x49\x55\x56\x47','\x42\x33\x72\x4f\x7a\x78\x6a\x46\x43\x78\x76\x56\x44\x67\x65','\x41\x4d\x39\x50\x42\x47','\x43\x32\x66\x35\x69\x64\x65','\x35\x79\x41\x7a\x35\x79\x77\x4c\x36\x41\x51\x6d\x36\x6b\x2b\x62\x35\x41\x73\x58\x36\x6c\x73\x4c','\x79\x4d\x4c\x55\x7a\x61','\x35\x6c\x2b\x44\x35\x41\x32\x79\x35\x50\x77\x57\x35\x4f\x32\x55\x35\x41\x73\x58\x36\x6c\x73\x4c\x6f\x49\x61','\x42\x68\x76\x54\x79\x73\x31\x4b\x43\x4d\x76\x48\x42\x73\x31\x54\x79\x77\x6e\x4f\x41\x77\x35\x4c\x6c\x78\x79\x59','\x43\x33\x76\x55\x42\x31\x7a\x50\x43\x61','\x35\x50\x32\x64\x36\x7a\x4d\x71\x35\x6c\x49\x6e\x35\x41\x73\x46','\x35\x37\x36\x4b\x36\x69\x67\x6b\x69\x61','\x79\x32\x66\x30\x79\x32\x47','\x42\x67\x76\x55\x7a\x33\x72\x4f','\x35\x52\x49\x66\x35\x36\x4d\x36\x35\x79\x77\x4f\x35\x42\x67\x61\x36\x41\x6b\x65\x36\x6b\x36\x2b\x35\x41\x73\x58\x36\x6c\x73\x4c\x6f\x49\x61','\x79\x78\x72\x63\x42\x33\x71','\x42\x77\x54\x4b\x41\x78\x69','\x44\x78\x6e\x4c\x43\x4c\x39\x4a\x79\x77\x6e\x4f\x7a\x71','\x42\x67\x4c\x54\x41\x78\x71','\x35\x35\x73\x46\x35\x4f\x49\x71\x35\x41\x73\x58\x36\x6c\x73\x4c\x35\x6c\x51\x67\x37\x37\x59\x6d\x35\x79\x2b\x56\x36\x69\x6f\x39\x35\x4f\x2b\x71\x35\x36\x73\x36\x36\x6b\x2b\x6e\x36\x6c\x2b\x44\x36\x6b\x45\x65\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x36\x49\x6e\x35\x7a\x63\x6f\x35\x79\x41\x6e\x36\x6b\x2b\x76\x37\x37\x59\x62','\x36\x79\x45\x6e\x35\x37\x32\x55\x35\x35\x73\x4f\x35\x4f\x49\x33\x69\x61','\x42\x77\x66\x5a\x44\x67\x76\x59','\x43\x4d\x76\x4b\x44\x77\x6e\x4c','\x63\x55\x49\x56\x54\x2b\x41\x4a\x47\x6f\x41\x46\x50\x45\x41\x78\x50\x45\x77\x2f\x4c\x2b\x73\x36\x48\x55\x49\x4e\x4f\x2b\x49\x56\x50\x55\x45\x37\x48\x55\x4d\x75\x4d\x45\x49\x56\x52\x2b\x73\x2f\x4f\x45\x41\x62\x52\x57','\x35\x6c\x32\x47\x35\x42\x63\x70\x35\x41\x32\x71\x35\x50\x51\x63\x35\x50\x45\x32\x36\x6b\x6b\x52\x79\x4d\x39\x30\x35\x6c\x49\x37\x35\x6c\x51\x36\x35\x36\x41\x62\x35\x35\x73\x4f\x79\x77\x4e\x4c\x49\x50\x2f\x4f\x47\x37\x30\x53\x35\x79\x36\x37\x35\x4f\x4d\x2b\x79\x4d\x39\x30\x35\x6c\x49\x37\x35\x6c\x51\x36\x36\x6b\x45\x4a\x35\x42\x63\x62\x69\x71','\x41\x77\x35\x30\x7a\x78\x6a\x55\x7a\x78\x71','\x44\x33\x6a\x50\x44\x67\x76\x67\x41\x77\x58\x4c','\x42\x33\x72\x4f\x7a\x78\x6a\x46\x7a\x77\x35\x4b\x79\x32\x48\x48\x44\x61','\x7a\x4d\x4c\x53\x7a\x71','\x43\x33\x76\x4a\x79\x32\x76\x5a\x43\x57','\x35\x50\x45\x47\x35\x50\x77\x69\x35\x35\x51\x65\x35\x7a\x55\x2b\x35\x34\x4d\x68\x35\x51\x63\x38\x35\x42\x59\x70\x37\x37\x59\x6d\x36\x6b\x2b\x33\x36\x79\x45\x6e\x35\x50\x41\x57\x35\x6c\x49\x6b\x35\x6c\x59\x47','\x35\x79\x2b\x72\x35\x35\x73\x46\x36\x7a\x73\x7a\x36\x6b\x2b\x56\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x36\x49\x6e\x35\x7a\x63\x6f\x35\x79\x41\x6e\x36\x6b\x2b\x76\x69\x71','\x6d\x4a\x71\x31\x6e\x64\x79\x59\x6d\x77\x50\x66\x7a\x65\x6e\x78\x43\x71','\x6c\x33\x44\x56\x43\x4d\x54\x5a\x41\x67\x39\x57\x6c\x4d\x50\x5a\x42\x32\x34','\x44\x67\x48\x4c\x42\x47','\x43\x67\x4c\x4a\x44\x68\x76\x59\x7a\x71','\x79\x77\x4c\x46\x42\x4d\x66\x54\x7a\x76\x39\x56\x44\x67\x48\x4c\x43\x4e\x6d','\x42\x77\x66\x57','\x7a\x4d\x76\x48\x44\x68\x76\x59\x7a\x78\x6d','\x69\x6f\x45\x41\x48\x6f\x4d\x49\x48\x6f\x49\x55\x56\x55\x73\x34\x4a\x45\x77\x54\x4d\x6f\x77\x43\x51\x61','\x43\x33\x72\x59\x41\x77\x35\x4e','\x6d\x74\x75\x59\x6f\x64\x6d\x31\x6d\x4b\x6a\x58\x75\x4e\x7a\x34\x76\x61','\x35\x6c\x49\x51\x63\x55\x77\x4b\x53\x45\x49\x30\x50\x74\x4f\x47','\x69\x6f\x45\x41\x48\x6f\x77\x56\x55\x45\x49\x56\x4e\x45\x77\x33\x53\x55\x4d\x68\x4a\x45\x45\x39\x52\x55\x2b\x38\x4a\x6f\x45\x4e\x55\x2b\x4d\x7a\x50\x6f\x73\x36\x48\x55\x41\x43\x47\x6f\x41\x77\x53\x63\x61','\x6f\x74\x79\x32\x73\x75\x66\x67\x77\x75\x48\x77','\x36\x6b\x2b\x4c\x35\x7a\x55\x2b\x35\x34\x4d\x68\x35\x6c\x49\x6c\x36\x6c\x32\x39\x36\x7a\x6f\x2b\x35\x4f\x36\x4c\x35\x42\x45\x59\x36\x6c\x2b\x68\x35\x50\x59\x46\x37\x37\x59\x6d\x36\x6b\x2b\x33\x36\x79\x45\x6e\x35\x50\x41\x57\x35\x6c\x49\x6b\x35\x6c\x59\x47','\x44\x78\x72\x4d\x6c\x74\x47','\x42\x77\x54\x4b\x41\x78\x6a\x74\x45\x77\x35\x4a','\x35\x41\x73\x65\x35\x35\x63\x67\x36\x6c\x2b\x68\x35\x36\x49\x6c\x35\x6c\x49\x54\x35\x79\x2b\x72\x35\x35\x73\x46\x36\x7a\x73\x7a\x36\x6b\x2b\x56\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x51\x6f\x61\x35\x50\x2b\x4c\x35\x50\x45\x4c\x35\x42\x2b\x78\x36\x69\x36\x33\x35\x79\x2b\x77\x36\x6b\x2b\x4d\x35\x37\x55\x67\x35\x6c\x2b\x48\x35\x4f\x67\x56','\x35\x35\x73\x46\x35\x4f\x49\x71\x35\x41\x73\x58\x36\x6c\x73\x4c\x35\x6c\x51\x67\x6c\x63\x64\x4f\x52\x37\x46\x4e\x51\x69\x33\x4c\x4b\x69\x37\x4c\x53\x6a\x33\x4f\x52\x35\x75\x53\x69\x6f\x77\x70\x52\x2b\x49\x64\x56\x45\x77\x54\x4d\x6f\x77\x43\x51\x6f\x49\x2f\x4e\x45\x45\x4d\x47\x45\x49\x56\x4a\x71','\x7a\x78\x48\x4c\x79\x57','\x35\x42\x32\x74\x35\x79\x4d\x6e\x35\x37\x36\x4b\x35\x50\x59\x51\x35\x41\x32\x79\x35\x7a\x59\x4f\x36\x41\x6b\x65\x36\x6b\x36\x2b','\x71\x4d\x76\x48\x43\x4d\x76\x59\x69\x61','\x36\x41\x51\x6d\x36\x6b\x2b\x62\x35\x50\x77\x57\x35\x4f\x32\x55\x35\x41\x73\x58\x36\x6c\x73\x4c\x6f\x49\x61','\x41\x77\x31\x48\x7a\x32\x75\x56','\x6f\x76\x50\x4d\x76\x65\x50\x30\x74\x71','\x69\x2b\x41\x34\x48\x45\x45\x50\x55\x55\x77\x66\x51\x6f\x4d\x64\x51\x6f\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x4d\x49\x48\x6f\x49\x55\x56\x47','\x43\x33\x72\x59\x41\x77\x35\x4e\x41\x77\x7a\x35','\x42\x33\x72\x4f\x7a\x78\x6a\x46\x44\x32\x39\x59\x41\x33\x6e\x4f\x42\x33\x61','\x44\x68\x4c\x57\x7a\x71','\x79\x77\x58\x53\x75\x32\x76\x30\x44\x67\x58\x4c\x7a\x61','\x41\x68\x72\x30\x43\x68\x6d\x36\x6c\x59\x39\x35\x44\x77\x66\x55\x43\x67\x58\x31\x43\x59\x35\x4a\x42\x67\x39\x31\x7a\x63\x39\x32\x6d\x73\x39\x4a\x41\x67\x66\x30\x6c\x32\x6e\x56\x42\x78\x62\x53\x7a\x78\x72\x50\x42\x32\x35\x5a','\x42\x67\x39\x4e','\x36\x6b\x2b\x4c\x35\x51\x49\x48\x35\x7a\x36\x6c\x35\x6c\x49\x6e\x35\x50\x73\x56\x35\x4f\x59\x62\x35\x50\x41\x68\x35\x6c\x55\x32\x35\x79\x49\x67\x35\x50\x36\x71\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x50\x55\x30\x35\x4f\x32\x49\x35\x51\x49\x48\x35\x7a\x36\x6c\x69\x71','\x36\x79\x45\x6e\x35\x37\x32\x55\x35\x41\x73\x58\x36\x6c\x73\x4c\x6f\x49\x61','\x41\x68\x72\x30\x43\x68\x6d\x36\x6c\x59\x39\x35\x44\x77\x66\x55\x43\x67\x58\x31\x43\x59\x35\x4a\x42\x67\x39\x31\x7a\x63\x39\x32\x6d\x73\x38','\x79\x77\x58\x53','\x7a\x77\x35\x4b\x43\x31\x44\x50\x44\x67\x47','\x42\x68\x72\x34\x6c\x78\x7a\x50\x7a\x67\x76\x56','\x41\x77\x31\x4e','\x77\x76\x72\x76\x75\x30\x76\x73\x78\x30\x39\x75\x73\x65\x76\x73\x6f\x47','\x35\x50\x45\x47\x35\x50\x59\x6a\x35\x50\x77\x69\x35\x7a\x55\x45\x35\x41\x73\x6e\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x36\x49\x6e\x35\x7a\x63\x6f\x35\x79\x41\x6e\x36\x6b\x2b\x76\x69\x71','\x6d\x74\x71\x32\x6e\x5a\x79\x34\x6f\x68\x62\x5a\x42\x75\x35\x4d\x72\x57','\x36\x41\x51\x6d\x36\x6b\x2b\x62\x35\x41\x73\x58\x36\x6c\x73\x4c','\x7a\x78\x6a\x59\x42\x33\x69','\x35\x79\x49\x67\x35\x51\x36\x31\x35\x79\x2b\x72\x36\x79\x63\x62\x35\x6c\x4d\x46\x35\x41\x73\x58\x36\x6c\x73\x4c\x35\x6c\x51\x67\x6f\x49\x61','\x41\x77\x31\x48\x7a\x32\x75','\x35\x50\x45\x47\x35\x50\x77\x69\x35\x35\x51\x65\x35\x7a\x55\x2b\x35\x34\x4d\x68\x35\x6c\x49\x6c\x36\x6c\x32\x39\x36\x7a\x6f\x2b\x35\x4f\x36\x4c\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x36\x67\x55\x35\x6c\x2b\x44\x36\x79\x63\x63\x36\x79\x77\x6e\x35\x7a\x4d\x4f\x35\x50\x73\x56\x35\x4f\x59\x62\x35\x6c\x49\x75\x35\x7a\x55\x2b\x35\x34\x4d\x68\x35\x50\x59\x51\x36\x6c\x2b\x68\x35\x50\x59\x46\x37\x37\x59\x6d\x35\x79\x2b\x56\x36\x79\x45\x6e\x35\x50\x41\x57\x35\x6c\x49\x6b\x35\x6c\x59\x47\x35\x42\x63\x44\x36\x6b\x2b\x76','\x75\x68\x6a\x4c\x44\x4d\x4c\x4c\x44\x57','\x79\x77\x4c\x46\x44\x68\x72\x5a\x78\x32\x39\x57\x7a\x77\x34','\x79\x32\x48\x48\x44\x67\x44\x57\x44\x61','\x41\x78\x6e\x6e\x79\x78\x6e\x30\x7a\x78\x69','\x43\x4d\x76\x48\x7a\x65\x7a\x50\x42\x67\x76\x74\x45\x77\x35\x4a','\x79\x77\x72\x4b\x78\x33\x44\x56\x43\x4d\x72\x5a','\x69\x2b\x77\x69\x48\x2b\x41\x6e\x4f\x55\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x45\x2b\x50\x6f\x4d\x49\x48\x6f\x49\x55\x56\x47','\x35\x4f\x4d\x61\x35\x50\x59\x6a\x35\x50\x6f\x6e\x35\x6c\x32\x43\x35\x7a\x32\x68\x35\x41\x73\x58\x36\x6c\x73\x4c\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x51\x6f\x61\x35\x50\x2b\x4c\x35\x50\x32\x64\x36\x7a\x4d\x71\x35\x7a\x6b\x6d\x35\x50\x41\x68\x35\x6c\x55\x32\x35\x34\x51\x32\x35\x4f\x63\x62','\x35\x51\x32\x4b\x35\x37\x36\x4b\x71\x75\x4e\x4d\x4d\x4f\x6c\x4d\x4c\x37\x42\x4f\x4f\x51\x54\x49\x42\x33\x74\x4b\x55\x6c\x56\x4b\x55\x52\x52\x4e\x50\x4f\x68\x4e\x4c\x6b\x47\x53\x35\x79\x36\x37\x35\x4f\x4d\x2b\x79\x4d\x39\x30\x35\x6c\x49\x37\x35\x6c\x51\x36\x36\x6b\x45\x4a\x35\x42\x63\x62\x69\x71','\x7a\x68\x6a\x48\x44\x32\x4c\x55\x7a\x57','\x42\x67\x39\x56\x41\x33\x76\x57','\x69\x2b\x77\x69\x48\x2b\x41\x6e\x4f\x55\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x77\x66\x51\x6f\x77\x58\x47\x6f\x4d\x49\x48\x6f\x49\x55\x56\x47','\x41\x77\x31\x48\x7a\x32\x76\x46\x44\x78\x6a\x53','\x69\x2b\x41\x34\x48\x45\x45\x50\x55\x55\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x45\x2b\x50\x6f\x4d\x49\x48\x6f\x49\x55\x56\x47','\x35\x42\x32\x74\x35\x79\x4d\x6e\x35\x37\x36\x4b\x35\x50\x59\x51\x35\x41\x32\x79\x35\x7a\x59\x4f\x35\x41\x2b\x35\x36\x6b\x2b\x44\x36\x6b\x36\x57\x35\x42\x32\x76','\x42\x33\x72\x4f\x7a\x78\x6a\x46\x79\x77\x72\x4b\x43\x32\x53','\x35\x52\x41\x69\x35\x4f\x67\x56\x35\x42\x45\x59\x35\x4f\x49\x71\x35\x79\x51\x46\x35\x6c\x49\x61\x35\x51\x59\x48\x35\x4f\x63\x4e\x35\x79\x2b\x72\x36\x79\x63\x62','\x7a\x78\x48\x50\x43\x33\x72\x5a\x75\x33\x4c\x55\x79\x57','\x6d\x4a\x69\x5a\x6d\x5a\x69\x34\x6d\x64\x48\x49\x74\x65\x50\x62\x73\x31\x75','\x42\x77\x39\x4b\x7a\x77\x57','\x7a\x67\x4c\x59\x42\x4d\x66\x54\x7a\x71','\x6c\x49\x39\x59\x7a\x78\x6e\x56\x44\x78\x6a\x4a\x7a\x78\x6d','\x69\x2b\x41\x46\x50\x45\x45\x43\x49\x2b\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x4d\x49\x48\x6f\x49\x55\x56\x47','\x35\x52\x49\x66\x35\x36\x4d\x36\x35\x41\x73\x58\x36\x6c\x73\x4c\x6f\x49\x61','\x69\x6f\x45\x41\x48\x6f\x77\x56\x55\x45\x49\x56\x4e\x45\x77\x4b\x53\x45\x49\x30\x50\x74\x4f\x47','\x42\x77\x4c\x4b\x41\x4d\x39\x31\x43\x4d\x35\x4c\x45\x73\x31\x4a\x43\x4d\x76\x48\x44\x67\x75','\x78\x49\x70\x4d\x4e\x36\x78\x4f\x52\x36\x6c\x50\x4d\x79\x74\x4c\x49\x51\x64\x50\x4f\x50\x33\x4c\x55\x51\x79\x4b','\x41\x77\x31\x48\x7a\x32\x76\x46\x43\x4d\x76\x4a\x42\x32\x44\x55\x41\x78\x72\x50\x42\x32\x34','\x42\x77\x4c\x55','\x35\x35\x73\x46\x35\x4f\x49\x71\x35\x41\x73\x58\x36\x6c\x73\x4c\x35\x6c\x51\x67\x37\x37\x59\x6d\x35\x79\x2b\x56\x36\x69\x6f\x39\x36\x6c\x73\x46\x36\x6c\x32\x39\x36\x6c\x2b\x68\x36\x41\x55\x79\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x36\x49\x6e\x35\x7a\x63\x6f\x35\x79\x41\x6e\x36\x6b\x2b\x76\x37\x37\x59\x62','\x42\x33\x72\x4f\x7a\x78\x6a\x46\x43\x33\x4c\x5a\x44\x67\x76\x54','\x7a\x4d\x4c\x55\x7a\x61','\x43\x32\x58\x50\x79\x32\x75','\x79\x78\x6e\x5a\x41\x78\x6e\x30\x79\x77\x35\x30','\x35\x35\x73\x46\x35\x4f\x49\x71\x35\x41\x73\x58\x36\x6c\x73\x4c\x35\x6c\x51\x67\x37\x37\x59\x6d\x35\x79\x2b\x56\x36\x69\x6f\x39\x35\x4f\x2b\x71\x35\x36\x73\x36\x36\x6b\x2b\x6e\x36\x6c\x2b\x44\x36\x6b\x45\x65\x35\x4f\x49\x77\x35\x42\x32\x74\x35\x79\x4d\x6e\x35\x51\x49\x48\x35\x7a\x36\x6c\x36\x41\x55\x79\x35\x42\x4d\x32\x35\x79\x2b\x72\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x36\x49\x6e\x35\x7a\x63\x6f\x35\x42\x63\x44\x36\x6b\x2b\x76','\x6e\x64\x75\x34\x6f\x64\x79\x59\x6e\x77\x76\x55\x41\x4d\x72\x77\x74\x57','\x6c\x33\x76\x5a\x7a\x78\x6a\x46\x79\x32\x66\x4a\x41\x67\x75\x56\x79\x77\x58\x53\x6c\x4d\x50\x5a\x42\x32\x34','\x43\x68\x6a\x56\x42\x77\x4c\x5a\x7a\x78\x6d','\x42\x33\x72\x4f\x7a\x78\x6a\x46\x7a\x77\x35\x4b\x43\x33\x4c\x5a\x44\x67\x76\x54','\x44\x78\x6e\x4c\x43\x47','\x43\x33\x76\x49\x43\x33\x72\x59\x41\x77\x35\x4e','\x43\x4d\x76\x30\x44\x78\x6a\x55\x69\x63\x48\x4d\x44\x77\x35\x4a\x44\x67\x4c\x56\x42\x49\x47\x50\x69\x61','\x69\x2b\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x77\x38\x47\x6f\x77\x71\x52\x2b\x77\x69\x48\x55\x77\x6d\x55\x55\x4d\x78\x54\x61','\x36\x41\x6b\x65\x36\x6b\x36\x2b\x36\x41\x32\x75\x35\x52\x6f\x76\x35\x41\x73\x4e\x35\x79\x77\x4f','\x7a\x32\x76\x54\x41\x77\x35\x50\x6c\x74\x69\x55\x6d\x63\x31\x4d\x42\x67\x66\x5a\x41\x63\x31\x55\x7a\x78\x71','\x42\x33\x72\x4f\x7a\x78\x6a\x46\x79\x32\x48\x48\x42\x4d\x44\x4c','\x6c\x32\x72\x48\x44\x67\x65\x56\x77\x76\x72\x62\x41\x76\x39\x74\x7a\x78\x72\x30\x41\x77\x35\x4e\x6c\x32\x72\x48\x44\x67\x65\x55\x41\x4e\x6e\x56\x42\x47','\x35\x6c\x49\x51\x63\x55\x77\x66\x53\x45\x41\x34\x48\x45\x4d\x7a\x50\x64\x4f\x47','\x69\x6f\x45\x41\x48\x6f\x77\x56\x55\x45\x49\x56\x4e\x45\x49\x55\x53\x6f\x77\x39\x4c\x45\x73\x34\x4a\x45\x77\x54\x4d\x6f\x77\x43\x51\x61','\x35\x6c\x2b\x44\x35\x41\x32\x79\x35\x41\x73\x58\x36\x6c\x73\x4c\x6f\x49\x61','\x35\x79\x77\x4f\x35\x42\x67\x61\x36\x41\x6b\x65\x36\x6b\x36\x2b\x35\x6c\x49\x6e\x35\x41\x32\x79\x35\x7a\x59\x4f','\x44\x78\x6e\x4c\x43\x4c\x39\x50\x7a\x61','\x7a\x78\x48\x4a\x7a\x78\x62\x30\x41\x77\x39\x55','\x79\x32\x39\x55\x43\x32\x39\x53\x7a\x71','\x35\x4f\x49\x71\x35\x79\x51\x46\x35\x79\x49\x68\x35\x4f\x32\x49\x36\x41\x6b\x65\x36\x6b\x36\x2b','\x35\x35\x73\x4f\x35\x4f\x49\x33\x69\x61','\x42\x32\x6a\x51\x7a\x77\x6e\x30','\x69\x6f\x73\x34\x51\x55\x41\x32\x49\x6f\x41\x62\x52\x57','\x36\x6c\x36\x74\x35\x79\x77\x4c\x35\x42\x51\x70\x35\x79\x2b\x33\x36\x7a\x73\x7a\x36\x6b\x2b\x56\x69\x71','\x69\x6f\x45\x41\x48\x6f\x4d\x49\x48\x6f\x49\x55\x56\x55\x77\x4b\x53\x45\x49\x30\x50\x74\x4f\x47','\x35\x52\x49\x66\x35\x36\x4d\x36\x35\x35\x73\x4f\x35\x4f\x49\x33\x69\x61','\x41\x77\x35\x4a\x42\x68\x76\x4b\x7a\x78\x6d','\x6d\x74\x61\x5a\x6e\x5a\x61\x30\x41\x30\x58\x63\x72\x4d\x66\x68','\x43\x33\x4c\x5a\x44\x67\x76\x54','\x79\x77\x58\x53\x6c\x4d\x50\x5a\x42\x32\x34','\x42\x4d\x39\x33','\x63\x55\x77\x71\x4a\x45\x45\x4e\x53\x64\x4f','\x78\x49\x70\x4e\x55\x35\x70\x4d\x4e\x7a\x38\x4f\x35\x79\x77\x4f\x36\x79\x6f\x4f\x6b\x74\x2f\x50\x4d\x79\x74\x4c\x49\x51\x61\x4f\x35\x37\x36\x4b\x6b\x74\x2f\x4c\x52\x37\x4e\x4f\x52\x35\x30\x4b','\x35\x79\x77\x4f\x35\x42\x67\x61\x36\x41\x6b\x65\x36\x6b\x36\x2b\x35\x42\x45\x59\x35\x52\x49\x66\x35\x36\x4d\x36\x37\x37\x59\x6d\x35\x36\x45\x37\x36\x7a\x4d\x4b\x35\x6c\x51\x67\x69\x61','\x42\x33\x72\x4f\x7a\x78\x6a\x46\x79\x32\x48\x48\x44\x61','\x43\x67\x66\x59\x43\x32\x75','\x6c\x4d\x6a\x48\x79\x32\x54\x31\x43\x61','\x44\x67\x66\x49\x42\x67\x75','\x43\x67\x39\x57','\x7a\x33\x6a\x56\x44\x78\x62\x46\x41\x77\x71','\x36\x7a\x4d\x65\x35\x79\x51\x47\x35\x51\x49\x48\x35\x7a\x36\x6c\x35\x4f\x49\x71\x35\x79\x51\x46\x35\x79\x49\x68\x35\x4f\x32\x49\x35\x6c\x49\x36','\x69\x2b\x41\x34\x48\x45\x45\x50\x55\x55\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x4d\x49\x48\x6f\x49\x55\x56\x47','\x44\x67\x39\x74\x44\x68\x6a\x50\x42\x4d\x43','\x43\x32\x39\x54\x7a\x71','\x44\x67\x39\x6d\x42\x33\x44\x4c\x43\x4b\x6e\x48\x43\x32\x75','\x79\x78\x62\x57\x42\x67\x4c\x4a\x79\x78\x72\x50\x42\x32\x34\x56\x42\x32\x6e\x30\x7a\x78\x71\x54\x43\x33\x72\x59\x7a\x77\x66\x54','\x43\x4d\x76\x48\x7a\x65\x7a\x50\x42\x67\x75','\x35\x4f\x49\x72\x35\x42\x59\x61\x35\x41\x45\x6c\x35\x37\x55\x79\x35\x7a\x55\x2b\x35\x6c\x51\x67\x37\x37\x59\x6d\x35\x41\x73\x4e\x35\x51\x41\x63\x36\x7a\x59\x61\x36\x6b\x41\x62\x6e\x74\x62\x5a\x6c\x74\x44\x54\x41\x77\x34','\x79\x32\x48\x56\x41\x77\x6e\x4c\x43\x57','\x69\x6f\x41\x44\x4f\x45\x41\x32\x49\x6f\x41\x62\x52\x57','\x42\x4d\x4c\x51\x41\x77\x72\x51\x42\x33\x76\x59\x42\x4d\x76\x35\x6c\x77\x6e\x59\x7a\x77\x66\x30\x7a\x71','\x7a\x32\x76\x54\x41\x77\x35\x50\x6c\x74\x69\x55\x6d\x63\x31\x4d\x42\x67\x66\x5a\x41\x61','\x76\x65\x76\x79\x76\x61','\x79\x77\x4c\x46\x79\x32\x48\x48\x44\x66\x39\x5a\x44\x68\x4c\x53\x7a\x71','\x41\x78\x6e\x62\x43\x4e\x6a\x48\x45\x71','\x69\x6f\x45\x41\x48\x6f\x4d\x49\x48\x6f\x49\x55\x56\x55\x77\x33\x53\x55\x41\x34\x48\x45\x45\x50\x55\x55\x2b\x38\x4a\x6f\x45\x4e\x55\x2b\x4d\x7a\x50\x6f\x73\x36\x48\x49\x61','\x45\x33\x30\x55\x79\x32\x39\x55\x43\x33\x72\x59\x44\x77\x6e\x30\x42\x33\x69\x4f\x69\x4e\x6a\x4c\x44\x68\x76\x59\x42\x49\x62\x30\x41\x67\x4c\x5a\x69\x49\x4b\x4f\x69\x63\x4b','\x79\x32\x39\x4e\x44\x4d\x4c\x4b\x7a\x77\x39\x34','\x74\x4d\x4c\x51\x41\x73\x31\x32\x6e\x49\x34\x58\x69\x6f\x45\x37\x4d\x6f\x77\x42\x56\x55\x41\x69\x4b\x6f\x41\x43\x52\x6f\x49\x2f\x48\x2b\x4d\x52\x4d\x6f\x2b\x38\x4a\x6f\x45\x75\x51\x6f\x41\x69\x54\x2b\x6f\x61\x4b\x61','\x36\x7a\x4d\x65\x35\x79\x51\x47\x35\x51\x49\x48\x35\x7a\x36\x6c\x35\x42\x59\x61\x35\x7a\x63\x56\x35\x79\x49\x67\x35\x79\x59\x36\x36\x7a\x45\x30\x6c\x6f\x41\x6a\x47\x6f\x41\x43\x49\x45\x77\x56\x55\x45\x49\x56\x4e\x45\x45\x6c\x52\x6f\x45\x52\x49\x57','\x35\x51\x32\x4b\x35\x50\x41\x35\x35\x51\x67\x69\x35\x50\x51\x63\x35\x50\x45\x32\x36\x6b\x6b\x52\x79\x4d\x39\x30\x35\x6c\x49\x37\x35\x6c\x51\x36\x35\x36\x41\x62\x35\x35\x73\x4f\x6c\x6f\x77\x6f\x55\x2b\x41\x6a\x56\x4d\x6a\x56\x44\x6f\x73\x34\x55\x2b\x73\x36\x55\x55\x49\x4e\x4f\x2b\x77\x57\x47\x73\x65','\x35\x4f\x49\x71\x35\x79\x51\x46\x35\x79\x49\x68\x35\x4f\x32\x49\x35\x79\x77\x4f\x35\x42\x67\x61\x36\x41\x6b\x65\x36\x6b\x36\x2b','\x36\x7a\x49\x30\x35\x41\x73\x50\x77\x32\x39\x30\x41\x67\x76\x59\x78\x32\x66\x50\x78\x71','\x35\x50\x32\x48\x36\x41\x6b\x65\x36\x6b\x36\x2b','\x79\x32\x76\x50\x42\x61','\x36\x7a\x4d\x65\x35\x79\x51\x47\x35\x41\x2b\x35\x36\x6b\x2b\x44\x35\x41\x73\x65\x35\x35\x63\x67\x35\x41\x36\x6d\x35\x4f\x49\x71\x6f\x47\x52\x4d\x49\x6a\x64\x4c\x49\x50\x38\x36\x69\x61','\x6e\x74\x65\x33\x6d\x64\x4c\x64\x71\x4b\x50\x30\x76\x78\x65','\x44\x67\x39\x52\x7a\x77\x34','\x42\x77\x66\x52\x7a\x75\x7a\x56\x43\x4e\x44\x48\x43\x4d\x72\x6e\x43\x32\x43','\x41\x4e\x6e\x56\x42\x47','\x69\x2b\x45\x37\x4b\x2b\x41\x44\x4e\x2b\x77\x66\x51\x6f\x4d\x64\x51\x6f\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x77\x56\x55\x45\x49\x56\x4e\x71','\x35\x6c\x49\x36\x35\x6c\x2b\x44\x36\x6b\x2b\x62\x35\x41\x36\x6a\x35\x79\x77\x4f\x35\x4f\x63\x4e\x37\x37\x59\x6d\x36\x6b\x2b\x33\x36\x69\x45\x51\x36\x6b\x67\x6d\x35\x6c\x51\x6f\x35\x37\x32\x72\x35\x36\x55\x7a\x35\x50\x2b\x4c\x36\x6b\x2b\x49\x35\x41\x2b\x35\x35\x42\x51\x75\x35\x41\x2b\x67\x36\x7a\x6b\x4c\x36\x41\x6b\x44\x35\x42\x51\x4d','\x41\x77\x35\x4d\x42\x57','\x43\x4d\x76\x5a\x44\x77\x58\x30','\x43\x33\x72\x56\x41\x32\x76\x55','\x7a\x32\x76\x30','\x43\x68\x76\x5a\x41\x61','\x41\x78\x6e\x71\x43\x4d\x4c\x32\x79\x78\x72\x4c','\x69\x2b\x77\x69\x48\x2b\x41\x6e\x4f\x55\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x4d\x49\x48\x6f\x49\x55\x56\x47','\x35\x4f\x36\x73\x36\x7a\x49\x46\x35\x6c\x49\x54\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x36\x49\x6e\x35\x7a\x63\x6f','\x35\x35\x73\x46\x35\x4f\x49\x71\x35\x41\x73\x58\x36\x6c\x73\x4c\x35\x6c\x51\x67\x37\x37\x59\x6d\x35\x6c\x49\x6b\x35\x6c\x59\x47\x35\x35\x51\x65\x35\x7a\x55\x2b\x35\x34\x4d\x68\x35\x6c\x49\x6e\x35\x50\x73\x56\x35\x4f\x59\x62\x35\x4f\x49\x77\x35\x42\x32\x74\x35\x79\x4d\x6e\x35\x41\x73\x65\x35\x6c\x51\x6f\x36\x41\x55\x79\x35\x42\x4d\x32\x35\x79\x2b\x72\x35\x34\x51\x32\x35\x4f\x63\x62\x37\x37\x59\x6d\x36\x6b\x2b\x33\x35\x36\x49\x6e\x35\x7a\x63\x6f\x35\x42\x63\x44\x36\x6b\x2b\x76','\x35\x4f\x49\x71\x35\x79\x51\x46\x35\x79\x49\x68\x35\x4f\x32\x49\x35\x37\x36\x4b\x36\x41\x6b\x65\x36\x6b\x36\x2b','\x42\x78\x6e\x4e','\x35\x42\x51\x70\x35\x79\x2b\x33\x6f\x47','\x43\x33\x72\x48\x43\x4e\x72\x5a\x76\x32\x4c\x30\x41\x61','\x6c\x49\x34\x55','\x69\x6f\x41\x44\x4f\x45\x4d\x49\x48\x6f\x49\x55\x56\x55\x41\x32\x49\x6f\x41\x62\x52\x57','\x43\x4d\x39\x53\x7a\x71','\x43\x4d\x76\x48\x7a\x67\x72\x50\x43\x47','\x78\x4c\x54\x5a\x75\x31\x30\x51','\x78\x31\x39\x57\x43\x4d\x39\x30\x42\x31\x39\x46','\x43\x33\x76\x55\x42\x59\x31\x32\x6e\x63\x31\x32\x41\x78\x61','\x44\x32\x39\x59\x41\x33\x6e\x4f\x42\x33\x61','\x44\x77\x35\x5a\x41\x67\x4c\x4d\x44\x61','\x44\x4d\x4c\x4b\x7a\x77\x38','\x35\x50\x55\x30\x35\x50\x73\x35\x35\x41\x73\x58\x36\x6c\x73\x4c\x35\x6c\x51\x67','\x7a\x4d\x4c\x53\x44\x67\x76\x59','\x69\x2b\x45\x37\x4b\x2b\x41\x44\x4e\x2b\x4d\x7a\x48\x6f\x77\x6b\x4f\x6f\x45\x2b\x50\x6f\x77\x56\x55\x45\x49\x56\x4e\x71','\x7a\x4d\x39\x59\x72\x77\x66\x4a\x41\x61','\x43\x4d\x76\x57\x42\x68\x4b','\x43\x32\x76\x53\x7a\x4c\x39\x50\x7a\x61','\x78\x49\x70\x50\x4d\x79\x74\x4c\x49\x51\x61\x4f\x35\x42\x59\x61\x35\x7a\x63\x56\x46\x6f\x77\x66\x53\x2b\x4d\x78\x52\x73\x4e\x4c\x49\x69\x42\x4c\x4a\x6c\x52\x50\x4c\x37\x71\x4b','\x6c\x32\x72\x48\x44\x67\x65\x55\x41\x4e\x6e\x56\x42\x47','\x42\x77\x76\x5a\x43\x32\x66\x4e\x7a\x71','\x75\x33\x76\x55\x42\x2b\x73\x39\x4e\x6f\x41\x42\x53\x55\x77\x72\x56\x45\x73\x37\x50\x6f\x41\x54\x4f\x2b\x77\x43\x51\x6f\x77\x67\x54\x2b\x77\x6e\x54\x6f\x73\x34\x52\x45\x2b\x38\x4a\x6f\x49\x56\x54\x2b\x45\x54\x49\x45\x77\x2b\x48\x73\x61','\x6c\x4d\x50\x5a\x42\x32\x34','\x43\x32\x76\x30','\x43\x4d\x76\x57\x42\x67\x66\x4a\x7a\x71','\x42\x77\x4c\x4b\x41\x4d\x39\x31\x43\x4d\x35\x4c\x45\x73\x31\x48\x42\x67\x57','\x79\x32\x39\x55\x44\x67\x76\x55\x44\x61','\x35\x41\x73\x65\x35\x35\x63\x67\x35\x79\x77\x4f\x36\x79\x6f\x4f\x35\x50\x41\x68\x35\x6c\x55\x32\x35\x50\x45\x32\x35\x79\x2b\x72\x35\x35\x73\x46\x36\x7a\x73\x7a\x36\x6b\x2b\x56','\x44\x77\x35\x53\x41\x77\x35\x52','\x42\x33\x72\x4f\x7a\x78\x6a\x5a','\x79\x78\x62\x57\x42\x67\x4c\x4a\x79\x78\x72\x50\x42\x32\x34\x56\x41\x4e\x6e\x56\x42\x47','\x42\x33\x76\x30\x43\x68\x76\x30\x75\x67\x66\x30\x41\x61','\x44\x68\x6a\x50\x42\x71','\x44\x32\x66\x59\x42\x47','\x35\x41\x73\x65\x35\x35\x63\x67\x35\x6c\x49\x6c\x36\x6c\x32\x39\x36\x6c\x2b\x68\x35\x36\x49\x6c\x35\x79\x2b\x72\x35\x35\x73\x46\x36\x7a\x73\x7a\x36\x6b\x2b\x56\x6f\x49\x61'];_0x4f97=function(){return _0x17ec8a;};return _0x4f97();}import _0x93c794 from'\x6c\x6f\x64\x61\x73\x68';let _0x5d05b4,_0x25df85=_0x37c284+'\x2f\x64\x61\x74\x61\x2f\x59\x54\x6f\x74\x68\x65\x72\x61\x69';async function _0x3bff1a(){var _0x4b7252=_0x5346,_0xf60cc2=(function(){var _0x52c0ce=!![];return function(_0x47b9fb,_0x259e8c){var _0x1f5b6e=_0x52c0ce?function(){if(_0x259e8c){var _0xeade22=_0x259e8c['\x61\x70\x70\x6c\x79'](_0x47b9fb,arguments);return _0x259e8c=null,_0xeade22;}}:function(){};return _0x52c0ce=![],_0x1f5b6e;};}()),_0x4921fb=_0xf60cc2(this,function(){var _0x46bdb4=_0x5346,_0x51eb8e;try{var _0x45d38d=Function(_0x46bdb4(0x1a8)+_0x46bdb4(0x1da)+'\x29\x3b');_0x51eb8e=_0x45d38d();}catch(_0x4638ad){_0x51eb8e=window;}var _0x4a792a=_0x51eb8e[_0x46bdb4(0x1b4)]=_0x51eb8e['\x63\x6f\x6e\x73\x6f\x6c\x65']||{},_0x4b04af=[_0x46bdb4(0x16f),_0x46bdb4(0x216),_0x46bdb4(0x1ea),_0x46bdb4(0x17b),_0x46bdb4(0x1b3),_0x46bdb4(0x1c7),_0x46bdb4(0x21c)];for(var _0x33c5b8=0x0;_0x33c5b8<_0x4b04af['\x6c\x65\x6e\x67\x74\x68'];_0x33c5b8++){var _0x47d1b4=_0xf60cc2['\x63\x6f\x6e\x73\x74\x72\x75\x63\x74\x6f\x72']['\x70\x72\x6f\x74\x6f\x74\x79\x70\x65'][_0x46bdb4(0x226)](_0xf60cc2),_0x37367e=_0x4b04af[_0x33c5b8],_0x5a28fe=_0x4a792a[_0x37367e]||_0x47d1b4;_0x47d1b4[_0x46bdb4(0x1fc)]=_0xf60cc2[_0x46bdb4(0x226)](_0xf60cc2),_0x47d1b4[_0x46bdb4(0x1cc)]=_0x5a28fe['\x74\x6f\x53\x74\x72\x69\x6e\x67']['\x62\x69\x6e\x64'](_0x5a28fe),_0x4a792a[_0x37367e]=_0x47d1b4;}});_0x4921fb(),_0x545ade[_0x4b7252(0x190)](_0x37c284+'\x2f\x64\x61\x74\x61\x2f\x59\x54\x41\x69\x5f\x53\x65\x74\x74\x69\x6e\x67\x2f\x64\x61\x74\x61\x2e\x6a\x73\x6f\x6e')&&(_0x5d05b4=JSON[_0x4b7252(0x1c5)](_0x545ade['\x72\x65\x61\x64\x46\x69\x6c\x65\x53\x79\x6e\x63'](_0x37c284+'\x2f\x64\x61\x74\x61\x2f\x59\x54\x41\x69\x5f\x53\x65\x74\x74\x69\x6e\x67\x2f\x64\x61\x74\x61\x2e\x6a\x73\x6f\x6e'))[_0x4b7252(0x181)][_0x4b7252(0x244)]);}await _0x3bff1a(),await _0x52d5bf(_0x545ade,_0x37c284);let _0x54bada=_0x348401,_0x549bb3={};class _0x1d1fff extends plugin{constructor(){var _0x319cb4=_0x5346;super({'\x6e\x61\x6d\x65':_0x319cb4(0x1e0),'\x64\x73\x63':'','\x65\x76\x65\x6e\x74':_0x319cb4(0x209),'\x70\x72\x69\x6f\x72\x69\x74\x79':0x1,'\x72\x75\x6c\x65':[{'\x72\x65\x67':'\x5e\x23\u67e5\u770b\u9644\u52a0\u9884\u8bbe\x24\x7c\x5e\x23\u5207\u6362\u9644\u52a0\x28\u7fa4\x7c\u5168\u5c40\x29\x3f\u9884\u8bbe\x28\x2e\x2a\x3f\x29\x24','\x66\x6e\x63':'\x6f\x74\x68\x65\x72\x5f\x73\x79\x73\x74\x65\x6d'},{'\x72\x65\x67':'\x5e\x23\u586b\u5199\u9644\u52a0\x28\u5bc6\u94a5\x7c\x73\x6b\x29\x28\x2e\x2a\x29','\x66\x6e\x63':_0x319cb4(0x18e),'\x70\x65\x72\x6d\x69\x73\x73\x69\x6f\x6e':_0x319cb4(0x235)},{'\x72\x65\x67':_0x319cb4(0x199),'\x66\x6e\x63':_0x319cb4(0x222)},{'\x72\x65\x67':'\x5e\x23\u5207\u6362\u9644\u52a0\u6a21\u578b\x28\x2e\x2a\x3f\x29','\x66\x6e\x63':_0x319cb4(0x1ac),'\x70\x65\x72\x6d\x69\x73\x73\x69\x6f\x6e':'\x6d\x61\x73\x74\x65\x72'},{'\x72\x65\x67':_0x319cb4(0x1c2),'\x66\x6e\x63':'\x6f\x74\x68\x65\x72\x5f\x65\x6e\x64\x63\x68\x61\x74'},{'\x72\x65\x67':'\x5e\x23\u6e05\u7a7a\x28\u5168\u90e8\x29\x3f\u9644\u52a0\x28\u7fa4\x7c\u5168\u5c40\x29\x3f\u9884\u8bbe\x24','\x66\x6e\x63':'\x6f\x74\x68\x65\x72\x5f\x65\x6e\x64\x73\x79\x73\x74\x65\x6d'},{'\x72\x65\x67':_0x319cb4(0x207),'\x66\x6e\x63':_0x319cb4(0x16b),'\x70\x65\x72\x6d\x69\x73\x73\x69\x6f\x6e':_0x319cb4(0x235)},{'\x72\x65\x67':_0x319cb4(0x1fb),'\x66\x6e\x63':_0x319cb4(0x1c4),'\x6c\x6f\x67':!0x1}]});}async[_0x13d0b0(0x18e)](_0xf24af4){var _0x5cd7da=_0x13d0b0,_0x3c7064=_0x25df85+_0x5cd7da(0x208),_0x375615=JSON[_0x5cd7da(0x1c5)](await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73'][_0x5cd7da(0x1d0)](_0x3c7064,_0x5cd7da(0x15f))),_0x412794=_0xf24af4[_0x5cd7da(0x1f4)]['\x72\x65\x70\x6c\x61\x63\x65'](/#填写附加(密钥|sk)/g,'');await _0xf24af4[_0x5cd7da(0x205)]('\u6b63\u5728\u9a8c\u8bc1\u5bc6\u94a5\u6b63\u786e\u6027\uff0c\u8bf7\u7a0d\u7b49\x2e\x2e\x2e');try{var _0x580a3f=await _0x58d29a(_0x412794);_0x580a3f[_0x5cd7da(0x17b)]?_0xf24af4[_0x5cd7da(0x205)](_0x580a3f['\x65\x72\x72\x6f\x72']?.[_0x5cd7da(0x209)]):_0x580a3f?.[_0x5cd7da(0x1d2)][0x0]?.[_0x5cd7da(0x209)]?.[_0x5cd7da(0x20f)]&&(_0x375615[_0x5cd7da(0x181)][_0x5cd7da(0x1ec)]=_0x412794,await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73']['\x77\x72\x69\x74\x65\x46\x69\x6c\x65'](_0x3c7064,JSON['\x73\x74\x72\x69\x6e\x67\x69\x66\x79'](_0x375615,null,0x2),_0x5cd7da(0x15f)),_0xf24af4[_0x5cd7da(0x205)](_0x5cd7da(0x21d)));}catch(_0x13e55c){_0xf24af4[_0x5cd7da(0x205)](_0x5cd7da(0x17a)+_0x13e55c['\x6d\x65\x73\x73\x61\x67\x65']);}}async[_0x13d0b0(0x222)](_0x27824e){var _0x17e52a=_0x13d0b0;_0x27824e[_0x17e52a(0x205)](_0x17e52a(0x1e9));}async['\x6f\x74\x68\x65\x72\x5f\x77\x6f\x72\x6b\x73\x68\x6f\x70'](_0x46f79b){var _0x13eee7=_0x13d0b0;try{var _0x20354b=_0x25df85+_0x13eee7(0x241),_0x1cc7f9=JSON[_0x13eee7(0x1c5)](await _0x545ade[_0x13eee7(0x1a4)][_0x13eee7(0x1d0)](_0x20354b,_0x13eee7(0x15f)));return _0x46f79b['\x6d\x73\x67'][_0x13eee7(0x1bc)](_0x13eee7(0x1a9))?(_0x1cc7f9['\x77\x6f\x72\x6b\x73\x68\x6f\x70']['\x6c\x69\x6d\x69\x74']=!0x1,_0x46f79b['\x72\x65\x70\x6c\x79'](_0x13eee7(0x1dd))):(_0x1cc7f9[_0x13eee7(0x1fe)][_0x13eee7(0x232)]=!0x0,_0x46f79b['\x72\x65\x70\x6c\x79'](_0x13eee7(0x21e),!0x0)),await _0x545ade[_0x13eee7(0x1a4)][_0x13eee7(0x23a)](_0x20354b,JSON['\x73\x74\x72\x69\x6e\x67\x69\x66\x79'](_0x1cc7f9),_0x13eee7(0x15f)),!0x0;}catch(_0x41937a){_0x46f79b[_0x13eee7(0x205)](_0x13eee7(0x201));}}async[_0x13d0b0(0x1a5)](_0xa6f6c4){var _0x2b4ffc=_0x13d0b0;try{let _0x425ca2=_0x4fed13[_0x2b4ffc(0x223)](_0x25df85,_0x2b4ffc(0x231)),_0xb90aef=(_0x545ade[_0x2b4ffc(0x190)](_0x425ca2)||await _0x545ade[_0x2b4ffc(0x1a4)][_0x2b4ffc(0x230)](_0x425ca2,{'\x72\x65\x63\x75\x72\x73\x69\x76\x65':!0x0}),async(_0x48c7c7,_0x58b013)=>{var _0x39dffb=_0x2b4ffc;try{let _0x5daa28=[];try{_0x5daa28=await _0x50c79e(_0x58b013,_0x48c7c7);}catch(_0x55f221){}var _0x41f0c1=(_0x5daa28=Array[_0x39dffb(0x1d8)](_0x5daa28)?_0x5daa28:[])[_0x39dffb(0x202)](_0x332383=>_0x332383&&_0x39dffb(0x1b7)==typeof _0x332383&&_0x39dffb(0x1be)!==_0x332383[_0x39dffb(0x1f9)]),_0x745b=_0x48c7c7+_0x39dffb(0x1c6);if(_0x545ade[_0x39dffb(0x190)](_0x48c7c7))try{await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73'][_0x39dffb(0x21a)](_0x48c7c7,_0x745b);}catch(_0x1dac1a){}try{await _0x47dbbd(_0x58b013,_0x48c7c7,_0x41f0c1);}catch(_0x5c02b7){return{'\x73\x75\x63\x63\x65\x73\x73':!0x1,'\x65\x72\x72\x6f\x72':'\u4fdd\u5b58\u6570\u636e\u5931\u8d25\x3a\x20'+_0x5c02b7[_0x39dffb(0x209)]};}let _0x121409=[];try{_0x121409=await _0x50c79e(_0x58b013,_0x48c7c7);}catch(_0x20a770){return{'\x73\x75\x63\x63\x65\x73\x73':!0x1,'\x65\x72\x72\x6f\x72':_0x39dffb(0x166)+_0x20a770[_0x39dffb(0x209)]};}if(JSON[_0x39dffb(0x16a)](_0x121409)===JSON[_0x39dffb(0x16a)](_0x41f0c1)){if(_0x545ade[_0x39dffb(0x190)](_0x745b))try{await _0x545ade[_0x39dffb(0x1a4)][_0x39dffb(0x211)](_0x745b);}catch(_0x3180ae){}return{'\x73\x75\x63\x63\x65\x73\x73':!0x0,'\x63\x6f\x75\x6e\x74':_0x5daa28[_0x39dffb(0x22d)]-_0x41f0c1[_0x39dffb(0x22d)]};}if(_0x545ade[_0x39dffb(0x190)](_0x745b))try{await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73']['\x63\x6f\x70\x79\x46\x69\x6c\x65'](_0x745b,_0x48c7c7),await _0x545ade[_0x39dffb(0x1a4)][_0x39dffb(0x211)](_0x745b);}catch(_0xa6c3b4){}return{'\x73\x75\x63\x63\x65\x73\x73':!0x1,'\x65\x72\x72\x6f\x72':_0x39dffb(0x225)};}catch(_0x892803){return{'\x73\x75\x63\x63\x65\x73\x73':!0x1,'\x65\x72\x72\x6f\x72':_0x892803[_0x39dffb(0x209)]};}});if(_0xa6f6c4[_0x2b4ffc(0x1f4)][_0x2b4ffc(0x1bc)](_0x2b4ffc(0x169))&&_0xa6f6c4[_0x2b4ffc(0x182)])try{var _0x477b3b=await _0x545ade[_0x2b4ffc(0x1a4)]['\x72\x65\x61\x64\x64\x69\x72'](_0x425ca2),_0x102cb9=await Promise[_0x2b4ffc(0x173)](_0x477b3b['\x6d\x61\x70'](async _0x13adce=>{var _0x1a326c=_0x2b4ffc,_0xafa82a=_0x4fed13[_0x1a326c(0x223)](_0x425ca2,_0x13adce),_0x109c56=_0x1a326c(0x177)+_0x13adce[_0x1a326c(0x20d)](_0x1a326c(0x20b),'');return{'\x66\x69\x6c\x65':_0x13adce,'\x72\x65\x73\x75\x6c\x74':await _0xb90aef(_0xafa82a,_0x109c56)};})),_0x4c6b2c=_0x102cb9[_0x2b4ffc(0x202)](_0x108aab=>_0x108aab[_0x2b4ffc(0x1eb)][_0x2b4ffc(0x23d)])['\x6c\x65\x6e\x67\x74\x68'],_0x107d4c=_0x102cb9[_0x2b4ffc(0x22d)]-_0x4c6b2c,_0x39ff2c=_0x102cb9['\x72\x65\x64\x75\x63\x65']((_0x39d520,_0x24ff77)=>_0x39d520+(_0x24ff77['\x72\x65\x73\x75\x6c\x74'][_0x2b4ffc(0x23d)]?_0x24ff77['\x72\x65\x73\x75\x6c\x74'][_0x2b4ffc(0x218)]:0x0),0x0);_0xa6f6c4[_0x2b4ffc(0x205)]('\u9644\u52a0\u9884\u8bbe\u5904\u7406\u5b8c\u6210\x3a\x0a\u6210\u529f\x3a\x20'+_0x4c6b2c+_0x2b4ffc(0x15b)+_0x107d4c+_0x2b4ffc(0x1ae)+_0x39ff2c+_0x2b4ffc(0x1e1)+(0x0<_0x107d4c?_0x2b4ffc(0x237):''));}catch(_0x4e8af8){_0xa6f6c4[_0x2b4ffc(0x205)](_0x2b4ffc(0x210));}else{if(_0xa6f6c4[_0x2b4ffc(0x1f4)][_0x2b4ffc(0x1bc)](_0x2b4ffc(0x1cb))){let _0x1868ba=_0xa6f6c4['\x6d\x65\x73\x73\x61\x67\x65']['\x66\x69\x6c\x74\x65\x72'](_0xea1db=>'\x61\x74'===_0xea1db[_0x2b4ffc(0x16c)]&&_0xea1db['\x71\x71'])[_0x2b4ffc(0x245)](_0x122634=>_0x122634['\x71\x71']);var _0x41c0be,_0x9095a9=_0xa6f6c4[_0x2b4ffc(0x1b2)],_0x4797b3=_0x4fed13[_0x2b4ffc(0x223)](_0x425ca2,_0x9095a9+'\x2e\x6a\x73\x6f\x6e'),_0x4dc581=_0x2b4ffc(0x177)+_0x9095a9;0x0===_0x1868ba['\x6c\x65\x6e\x67\x74\x68']&&(_0x1868ba=[_0xa6f6c4['\x75\x73\x65\x72\x5f\x69\x64']]),_0xa6f6c4['\x69\x73\x4d\x61\x73\x74\x65\x72']||_0x1868ba['\x69\x6e\x63\x6c\x75\x64\x65\x73'](_0xa6f6c4[_0x2b4ffc(0x1b2)])&&0x1===_0x1868ba[_0x2b4ffc(0x22d)]?(await Promise['\x61\x6c\x6c'](_0x1868ba[_0x2b4ffc(0x245)](async _0x49149f=>{var _0x3b59c2=_0x2b4ffc,_0x474fdd=_0x4fed13[_0x3b59c2(0x223)](_0x425ca2,_0x49149f+_0x3b59c2(0x20b)),_0x2752d2=_0x3b59c2(0x177)+_0x49149f;return _0x545ade[_0x3b59c2(0x190)](_0x474fdd)?((_0x474fdd=await _0xb90aef(_0x474fdd,_0x2752d2))[_0x3b59c2(0x23d)]?_0xa6f6c4[_0x3b59c2(0x205)](_0x3b59c2(0x1b6)+_0x49149f+_0x3b59c2(0x1d9)+_0x474fdd['\x63\x6f\x75\x6e\x74']+_0x3b59c2(0x1f8)):_0xa6f6c4[_0x3b59c2(0x205)](_0x3b59c2(0x1bb)+_0x49149f+_0x3b59c2(0x1ba)+_0x474fdd[_0x3b59c2(0x17b)],!0x0),_0x474fdd[_0x3b59c2(0x23d)]):(_0xa6f6c4[_0x3b59c2(0x205)](_0x3b59c2(0x1b6)+_0x49149f+_0x3b59c2(0x158),!0x0),!0x1);})))[_0x2b4ffc(0x1cd)](_0x574326=>_0x574326)||_0xa6f6c4[_0x2b4ffc(0x205)]('\u6240\u6709\u64cd\u4f5c\u5747\u5931\u8d25\uff0c\u8bf7\u68c0\u67e5\u6743\u9650\u548c\u6587\u4ef6\u72b6\u6001'):_0x545ade[_0x2b4ffc(0x190)](_0x4797b3)?(_0x41c0be=await _0xb90aef(_0x4797b3,_0x4dc581))[_0x2b4ffc(0x23d)]?_0xa6f6c4[_0x2b4ffc(0x205)](_0x2b4ffc(0x1b6)+_0x9095a9+_0x2b4ffc(0x1d9)+_0x41c0be['\x63\x6f\x75\x6e\x74']+_0x2b4ffc(0x1f8)):_0xa6f6c4['\x72\x65\x70\x6c\x79'](_0x2b4ffc(0x196)+_0x41c0be['\x65\x72\x72\x6f\x72'],!0x0):_0xa6f6c4[_0x2b4ffc(0x205)]('\u5f53\u524d\u672a\u5b58\u5728\u9884\u8bbe',!0x0);}else{var _0x138d40,_0x36b7a2,_0x1cfe1f,_0x1064bd,_0x178eb8;_0xa6f6c4['\x6d\x73\x67'][_0x2b4ffc(0x1bc)](_0x2b4ffc(0x18c))&&_0xa6f6c4[_0x2b4ffc(0x182)]&&_0xa6f6c4[_0x2b4ffc(0x1c9)]?(_0x138d40=_0x4fed13[_0x2b4ffc(0x223)](_0x425ca2,_0xa6f6c4['\x67\x72\x6f\x75\x70\x5f\x69\x64']+_0x2b4ffc(0x20b)),_0x36b7a2=_0x2b4ffc(0x177)+_0xa6f6c4[_0x2b4ffc(0x1c9)],_0x545ade[_0x2b4ffc(0x190)](_0x138d40)?(_0x1cfe1f=await _0xb90aef(_0x138d40,_0x36b7a2))['\x73\x75\x63\x63\x65\x73\x73']?_0xa6f6c4[_0x2b4ffc(0x205)]('\u7fa4\u804a\x20'+_0xa6f6c4[_0x2b4ffc(0x1c9)]+'\x20\u7684\u9884\u8bbe\u5df2\u6e05\u7a7a\uff0c\u79fb\u9664\u4e86\x20'+_0x1cfe1f[_0x2b4ffc(0x218)]+_0x2b4ffc(0x1f8)):_0xa6f6c4['\x72\x65\x70\x6c\x79'](_0x2b4ffc(0x219)+_0x1cfe1f['\x65\x72\x72\x6f\x72'],!0x0):_0xa6f6c4[_0x2b4ffc(0x205)](_0x2b4ffc(0x164),!0x0)):_0xa6f6c4[_0x2b4ffc(0x1f4)][_0x2b4ffc(0x1bc)](_0x2b4ffc(0x221))&&_0xa6f6c4[_0x2b4ffc(0x182)]&&(_0x1064bd=_0x4fed13[_0x2b4ffc(0x223)](_0x425ca2,_0x2b4ffc(0x1bf)),_0x545ade[_0x2b4ffc(0x190)](_0x1064bd)?(_0x178eb8=await _0xb90aef(_0x1064bd,_0x2b4ffc(0x21f)))[_0x2b4ffc(0x23d)]?_0xa6f6c4['\x72\x65\x70\x6c\x79'](_0x2b4ffc(0x1c3)+_0x178eb8['\x63\x6f\x75\x6e\x74']+_0x2b4ffc(0x1f8)):_0xa6f6c4[_0x2b4ffc(0x205)](_0x2b4ffc(0x22e)+_0x178eb8[_0x2b4ffc(0x17b)],!0x0):_0xa6f6c4[_0x2b4ffc(0x205)](_0x2b4ffc(0x1b1),!0x0));}}}catch(_0x2a9329){_0xa6f6c4[_0x2b4ffc(0x205)]('\u5904\u7406\u8fc7\u7a0b\u4e2d\u53d1\u751f\u9519\u8bef\uff0c\u8bf7\u68c0\u67e5\u65e5\u5fd7\u83b7\u53d6\u8be6\u7ec6\u4fe1\u606f');}}async[_0x13d0b0(0x19d)](_0x3ba8c6){var _0x34bd2a=_0x13d0b0;try{let _0x56261e=_0x4fed13['\x6a\x6f\x69\x6e'](_0x37c284,'\x64\x61\x74\x61','\u9634\u5929\u9884\u8bbe'),_0x58762c=await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73'][_0x34bd2a(0x1fa)](_0x56261e,_0x34bd2a(0x15f));var _0x672d09=async(_0x18beaa,_0x18f6b5)=>{var _0x2671ff=_0x34bd2a,_0x387862=parseInt(_0x3ba8c6[_0x2671ff(0x1f4)][_0x2671ff(0x20d)](/[^0-9]/gi,''),0xa);if(_0x58762c[_0x387862-0x1]){var _0x108750=await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73'][_0x2671ff(0x1d0)](_0x4fed13[_0x2671ff(0x223)](_0x56261e,_0x58762c[_0x387862-0x1]),'\x75\x74\x66\x2d\x38'),_0x5bc107=_0x4fed13['\x6a\x6f\x69\x6e'](_0x25df85,_0x2671ff(0x231),_0x18beaa+_0x2671ff(0x20b)),_0x18beaa=_0x2671ff(0x173)===_0x18beaa?_0x2671ff(0x21f):_0x2671ff(0x177)+_0x18beaa;let _0x4bc0f9=await _0x50c79e(_0x18beaa,_0x5bc107);(_0x4bc0f9[_0x2671ff(0x202)](_0x2bf437=>_0x2671ff(0x1be)===_0x2bf437[_0x2671ff(0x1f9)])[_0x2671ff(0x1c8)]()?_0x4bc0f9=_0x4bc0f9[_0x2671ff(0x202)](_0x462fb5=>_0x2671ff(0x1be)!==_0x462fb5[_0x2671ff(0x1f9)]):_0x4bc0f9)[_0x2671ff(0x1ff)]({'\x72\x6f\x6c\x65':_0x2671ff(0x1be),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x108750}),await _0x47dbbd(_0x18beaa,_0x5bc107,_0x4bc0f9),_0x3ba8c6[_0x2671ff(0x205)](_0x18f6b5+'\x20\u3010'+_0x58762c[_0x387862-0x1][_0x2671ff(0x20d)](/\.txt$/,'')+'\u3011');}else _0x3ba8c6[_0x2671ff(0x205)](_0x2671ff(0x1b9));};_0x3ba8c6['\x6d\x73\x67'][_0x34bd2a(0x1bc)](_0x34bd2a(0x195))?await((async()=>{var _0x17d456=_0x34bd2a;for(let _0x5a6c8d=0x0;_0x5a6c8d<_0x58762c[_0x17d456(0x22d)];_0x5a6c8d+=0x32){var _0x1aedd7=_0x58762c['\x73\x6c\x69\x63\x65'](_0x5a6c8d,_0x5a6c8d+0x32),_0x1aedd7=await Promise[_0x17d456(0x173)](_0x1aedd7[_0x17d456(0x245)](async(_0x44ab06,_0x2b7f4b)=>{var _0x5bd43e=_0x17d456,_0x255c01=_0x44ab06[_0x5bd43e(0x20d)](/\.txt$/g,''),_0x44ab06=await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73'][_0x5bd43e(0x1d0)](_0x4fed13['\x6a\x6f\x69\x6e'](_0x56261e,_0x44ab06),_0x5bd43e(0x15f))['\x74\x68\x65\x6e'](_0x1bd5fd=>_0x1bd5fd[_0x5bd43e(0x19f)](0x0,0x64));return _0x5bd43e(0x1f5)+(_0x5a6c8d+_0x2b7f4b+0x1)+_0x5bd43e(0x1c1)+_0x255c01+'\x0a\u5185\u5bb9\u7b80\u8ff0\x3a'+_0x44ab06;}));await _0x3ba8c6[_0x17d456(0x205)](await _0x13a048[_0x17d456(0x1e6)](_0x3ba8c6,_0x1aedd7,_0x17d456(0x1aa)));}})()):_0x3ba8c6[_0x34bd2a(0x1f4)][_0x34bd2a(0x1bc)](_0x34bd2a(0x1f0))?await _0x672d09(_0x3ba8c6[_0x34bd2a(0x1b2)],_0x34bd2a(0x1b5)):_0x3ba8c6[_0x34bd2a(0x1f4)]['\x69\x6e\x63\x6c\x75\x64\x65\x73'](_0x34bd2a(0x185))&&_0x3ba8c6['\x67\x72\x6f\x75\x70\x5f\x69\x64']&&_0x3ba8c6[_0x34bd2a(0x182)]?await _0x672d09(_0x3ba8c6[_0x34bd2a(0x1c9)],_0x34bd2a(0x1f3)):_0x3ba8c6[_0x34bd2a(0x1f4)][_0x34bd2a(0x1bc)](_0x34bd2a(0x18a))&&_0x3ba8c6[_0x34bd2a(0x182)]&&await _0x672d09('\x61\x6c\x6c',_0x34bd2a(0x1df));}catch(_0x242829){_0x3ba8c6['\x72\x65\x70\x6c\x79'](_0x242829[_0x34bd2a(0x209)]);}}async[_0x13d0b0(0x23b)](_0x4cce10){var _0xd2262a=_0x13d0b0;try{let _0x3fe8d6=_0x4fed13[_0xd2262a(0x223)](_0x25df85,_0xd2262a(0x231)),_0x3a68cb=(_0x545ade[_0xd2262a(0x190)](_0x3fe8d6)||await _0x545ade[_0xd2262a(0x1a4)][_0xd2262a(0x230)](_0x3fe8d6,{'\x72\x65\x63\x75\x72\x73\x69\x76\x65':!0x0}),async(_0x329456,_0x1fd1c8)=>{var _0x3569bd=_0xd2262a;try{let _0xbfe9a6=[];try{_0xbfe9a6=await _0x50c79e(_0x1fd1c8,_0x329456);}catch(_0x1f2fa6){}var _0x15a77e=(_0xbfe9a6=Array[_0x3569bd(0x1d8)](_0xbfe9a6)?_0xbfe9a6:[])[_0x3569bd(0x202)](_0x166d8e=>_0x166d8e&&_0x3569bd(0x1b7)==typeof _0x166d8e&&_0x3569bd(0x1a6)!==_0x166d8e[_0x3569bd(0x1f9)]&&_0x3569bd(0x1a0)!==_0x166d8e[_0x3569bd(0x1f9)]),_0x579bd0=_0x329456+'\x2e\x62\x61\x63\x6b\x75\x70';if(_0x545ade[_0x3569bd(0x190)](_0x329456))try{await _0x545ade[_0x3569bd(0x1a4)]['\x63\x6f\x70\x79\x46\x69\x6c\x65'](_0x329456,_0x579bd0);}catch(_0x438f69){}try{await _0x47dbbd(_0x1fd1c8,_0x329456,_0x15a77e);}catch(_0x267ed1){return{'\x73\x75\x63\x63\x65\x73\x73':!0x1,'\x65\x72\x72\x6f\x72':_0x3569bd(0x227)+_0x267ed1['\x6d\x65\x73\x73\x61\x67\x65']};}let _0x334a33=[];try{_0x334a33=await _0x50c79e(_0x1fd1c8,_0x329456);}catch(_0x30c666){return{'\x73\x75\x63\x63\x65\x73\x73':!0x1,'\x65\x72\x72\x6f\x72':_0x3569bd(0x166)+_0x30c666[_0x3569bd(0x209)]};}if(JSON[_0x3569bd(0x16a)](_0x334a33)===JSON[_0x3569bd(0x16a)](_0x15a77e)){if(_0x545ade[_0x3569bd(0x190)](_0x579bd0))try{await _0x545ade[_0x3569bd(0x1a4)][_0x3569bd(0x211)](_0x579bd0);}catch(_0x333915){}return{'\x73\x75\x63\x63\x65\x73\x73':!0x0,'\x63\x6f\x75\x6e\x74':_0xbfe9a6[_0x3569bd(0x22d)]-_0x15a77e['\x6c\x65\x6e\x67\x74\x68']};}if(_0x545ade[_0x3569bd(0x190)](_0x579bd0))try{await _0x545ade[_0x3569bd(0x1a4)][_0x3569bd(0x21a)](_0x579bd0,_0x329456),await _0x545ade[_0x3569bd(0x1a4)][_0x3569bd(0x211)](_0x579bd0);}catch(_0x174d6a){}return{'\x73\x75\x63\x63\x65\x73\x73':!0x1,'\x65\x72\x72\x6f\x72':_0x3569bd(0x225)};}catch(_0x38f76f){return{'\x73\x75\x63\x63\x65\x73\x73':!0x1,'\x65\x72\x72\x6f\x72':_0x38f76f[_0x3569bd(0x209)]};}});if(_0x4cce10[_0xd2262a(0x1f4)][_0xd2262a(0x1bc)](_0xd2262a(0x1e8))&&_0x4cce10['\x69\x73\x4d\x61\x73\x74\x65\x72'])try{var _0x38606b=await _0x545ade[_0xd2262a(0x1a4)]['\x72\x65\x61\x64\x64\x69\x72'](_0x3fe8d6),_0x4f4cf1=await Promise[_0xd2262a(0x173)](_0x38606b[_0xd2262a(0x245)](async _0x2f327c=>{var _0x471c5a=_0xd2262a,_0x388db=_0x4fed13[_0x471c5a(0x223)](_0x3fe8d6,_0x2f327c),_0x36eb52=_0x471c5a(0x177)+_0x2f327c['\x72\x65\x70\x6c\x61\x63\x65'](_0x471c5a(0x20b),'');return{'\x66\x69\x6c\x65':_0x2f327c,'\x72\x65\x73\x75\x6c\x74':await _0x3a68cb(_0x388db,_0x36eb52)};})),_0xac9c80=_0x4f4cf1[_0xd2262a(0x236)]((_0x1051de,_0x288cfb)=>void 0x0!==_0x288cfb['\x72\x65\x73\x75\x6c\x74']?.[_0xd2262a(0x218)]?_0x1051de+_0x288cfb[_0xd2262a(0x1eb)]['\x63\x6f\x75\x6e\x74']:_0x1051de,0x0),_0x2f0eb8=_0x4f4cf1[_0xd2262a(0x202)](_0x3938e8=>_0x3938e8['\x72\x65\x73\x75\x6c\x74']['\x73\x75\x63\x63\x65\x73\x73'])[_0xd2262a(0x22d)],_0x52f4e0=_0x4f4cf1[_0xd2262a(0x22d)]-_0x2f0eb8;_0x4cce10['\x72\x65\x70\x6c\x79'](_0xd2262a(0x1e3)+_0x2f0eb8+_0xd2262a(0x15b)+_0x52f4e0+'\u4e2a'+(0x0<_0x52f4e0?_0xd2262a(0x237):'')+'\x0a\u603b\u5171\u6e05\u7a7a\x20'+_0xac9c80+_0xd2262a(0x1b8));}catch(_0x553e80){_0x4cce10[_0xd2262a(0x205)](_0xd2262a(0x210));}else{if(_0x4cce10[_0xd2262a(0x1f4)][_0xd2262a(0x1bc)]('\x23\u7ed3\u675f\u9644\u52a0\u5bf9\u8bdd')){let _0x2984ad=_0x4cce10[_0xd2262a(0x209)]['\x66\x69\x6c\x74\x65\x72'](_0x959be1=>'\x61\x74'===_0x959be1[_0xd2262a(0x16c)]&&_0x959be1['\x71\x71'])[_0xd2262a(0x245)](_0x47768e=>_0x47768e['\x71\x71']);var _0x44f35f,_0x59e415=_0x4cce10['\x75\x73\x65\x72\x5f\x69\x64'],_0x28efd4=_0x4fed13[_0xd2262a(0x223)](_0x3fe8d6,_0x59e415+_0xd2262a(0x20b)),_0x77a4fa=_0xd2262a(0x177)+_0x59e415;0x0===_0x2984ad[_0xd2262a(0x22d)]&&(_0x2984ad=[_0x4cce10[_0xd2262a(0x1b2)]]),_0x4cce10[_0xd2262a(0x182)]||_0x2984ad['\x69\x6e\x63\x6c\x75\x64\x65\x73'](_0x4cce10['\x75\x73\x65\x72\x5f\x69\x64'])&&0x1===_0x2984ad[_0xd2262a(0x22d)]?(await Promise['\x61\x6c\x6c'](_0x2984ad['\x6d\x61\x70'](async _0x47f080=>{var _0x18259c=_0xd2262a,_0x165168=_0x4fed13[_0x18259c(0x223)](_0x3fe8d6,_0x47f080+_0x18259c(0x20b)),_0x5a12ff=_0x18259c(0x177)+_0x47f080;return _0x545ade[_0x18259c(0x190)](_0x165168)?((_0x165168=await _0x3a68cb(_0x165168,_0x5a12ff))[_0x18259c(0x23d)]?_0x4cce10[_0x18259c(0x205)](_0x18259c(0x1b6)+_0x47f080+_0x18259c(0x15c)+_0x165168[_0x18259c(0x218)]+'\x20\u6761\u6d88\u606f'):_0x4cce10[_0x18259c(0x205)](_0x18259c(0x234)+_0x47f080+_0x18259c(0x197)+_0x165168['\x65\x72\x72\x6f\x72'],!0x0),_0x165168[_0x18259c(0x23d)]):(_0x4cce10[_0x18259c(0x205)]('\u7528\u6237\x20'+_0x47f080+_0x18259c(0x1af),!0x0),!0x1);})))['\x73\x6f\x6d\x65'](_0x554d29=>_0x554d29)||_0x4cce10[_0xd2262a(0x205)](_0xd2262a(0x186)):_0x545ade[_0xd2262a(0x190)](_0x28efd4)?(_0x44f35f=await _0x3a68cb(_0x28efd4,_0x77a4fa))[_0xd2262a(0x23d)]?_0x4cce10[_0xd2262a(0x205)](_0xd2262a(0x1b6)+_0x59e415+'\x20\u7684\u5bf9\u8bdd\u5df2\u91cd\u7f6e\uff0c\u79fb\u9664\u4e86\u6700\u65b0\x20'+_0x44f35f[_0xd2262a(0x218)]+_0xd2262a(0x1d3)):_0x4cce10[_0xd2262a(0x205)](_0xd2262a(0x171)+_0x44f35f['\x65\x72\x72\x6f\x72'],!0x0):_0x4cce10[_0xd2262a(0x205)]('\u5f53\u524d\u672a\u5b58\u5728\u5bf9\u8bdd\u8bb0\u5f55',!0x0);}else{var _0x1bb3f8,_0x4ee766,_0x50a3c9;_0x4cce10[_0xd2262a(0x1f4)][_0xd2262a(0x1bc)](_0xd2262a(0x203))&&_0x4cce10['\x69\x73\x4d\x61\x73\x74\x65\x72']&&_0x4cce10[_0xd2262a(0x1c9)]&&(_0x1bb3f8=_0x4fed13[_0xd2262a(0x223)](_0x3fe8d6,_0x4cce10[_0xd2262a(0x1c9)]+_0xd2262a(0x20b)),_0x4ee766=_0xd2262a(0x177)+_0x4cce10['\x67\x72\x6f\x75\x70\x5f\x69\x64'],_0x545ade[_0xd2262a(0x190)](_0x1bb3f8)?(_0x50a3c9=await _0x3a68cb(_0x1bb3f8,_0x4ee766))[_0xd2262a(0x23d)]?_0x4cce10['\x72\x65\x70\x6c\x79'](_0xd2262a(0x22b)+_0x4cce10['\x67\x72\x6f\x75\x70\x5f\x69\x64']+'\x20\u7684\u5bf9\u8bdd\u5df2\u91cd\u7f6e\uff0c\x20\u79fb\u9664\u4e86\u6700\u65b0\x20'+_0x50a3c9[_0xd2262a(0x218)]+_0xd2262a(0x1d3)):_0x4cce10[_0xd2262a(0x205)]('\u91cd\u7f6e\u7fa4\u804a\u5bf9\u8bdd\u5931\u8d25\x3a\x20'+_0x50a3c9[_0xd2262a(0x17b)],!0x0):_0x4cce10[_0xd2262a(0x205)](_0xd2262a(0x18d),!0x0));}}}catch(_0x129b02){_0x4cce10[_0xd2262a(0x205)](_0xd2262a(0x161));}}async['\x6f\x74\x68\x65\x72\x5f\x63\x68\x61\x6e\x67\x65'](_0x431a98){var _0x46e36b=_0x13d0b0;if(_0x431a98['\x69\x73\x4d\x61\x73\x74\x65\x72'])try{var _0x2ab24d,_0xe9e6a6,_0x29cdc2,_0x3229b8=_0x431a98[_0x46e36b(0x1f4)][_0x46e36b(0x20d)](/[^\d]/g,'');_0x54bada[_0x3229b8-0x1]?(_0x2ab24d=_0x54bada[_0x3229b8-0x1]['\x6d\x6f\x64\x65\x6c'],_0xe9e6a6=_0x25df85+_0x46e36b(0x208),(_0x29cdc2=JSON[_0x46e36b(0x1c5)](await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73'][_0x46e36b(0x1d0)](_0xe9e6a6,_0x46e36b(0x15f))))['\x63\x68\x61\x74\x67\x70\x74'][_0x46e36b(0x192)]=_0x2ab24d,await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73'][_0x46e36b(0x23a)](_0xe9e6a6,JSON[_0x46e36b(0x16a)](_0x29cdc2),_0x46e36b(0x15f)),_0x431a98[_0x46e36b(0x205)](_0x46e36b(0x1ca)+_0x2ab24d,!0x0)):_0x431a98[_0x46e36b(0x205)]('\u6307\u5b9a\u7684\u6a21\u578b\u4e0d\u5b58\u5728\uff0c\u8bf7\u68c0\u67e5\u5e8f\u53f7\u3002');}catch(_0x1a22ff){_0x431a98['\x72\x65\x70\x6c\x79']('\u5904\u7406\u8bf7\u6c42\u65f6\u51fa\u9519\u3002');}else _0x431a98[_0x46e36b(0x205)](_0x46e36b(0x22a));}async[_0x13d0b0(0x1c4)](_0x59d82b){var _0x1bfa59=_0x13d0b0;await _0x3bff1a();var _0x29fed9=JSON[_0x1bfa59(0x1c5)](await _0x545ade[_0x1bfa59(0x1a4)][_0x1bfa59(0x1d0)](_0x25df85+_0x1bfa59(0x208),_0x1bfa59(0x15f)))[_0x1bfa59(0x181)],_0x1f1205=JSON[_0x1bfa59(0x1c5)](await _0x545ade['\x70\x72\x6f\x6d\x69\x73\x65\x73']['\x72\x65\x61\x64\x46\x69\x6c\x65'](_0x25df85+_0x1bfa59(0x241),_0x1bfa59(0x15f)))[_0x1bfa59(0x1fe)]['\x6c\x69\x6d\x69\x74'];let _0x2bcb46=_0x29fed9[_0x1bfa59(0x192)];_0x29fed9=_0x1f1205?_0x59d82b[_0x1bfa59(0x1c9)]??_0x59d82b[_0x1bfa59(0x1b2)]:_0x59d82b[_0x1bfa59(0x1b2)];let _0x323937=await _0x2413df(_0x4fed13,_0x29fed9,_0x25df85);var _0x1f1205=_0x545ade[_0x1bfa59(0x190)](_0x25df85+_0x1bfa59(0x1a3))?JSON[_0x1bfa59(0x1c5)](await _0x545ade[_0x1bfa59(0x1a4)][_0x1bfa59(0x1d0)](_0x25df85+_0x1bfa59(0x1a3),_0x1bfa59(0x15f))):[],_0xc8802f=_0x1f1205[_0x1bfa59(0x1cd)](_0x50b054=>_0x1bfa59(0x1be)===_0x50b054[_0x1bfa59(0x1f9)]),_0x289469=_0x323937[_0x1bfa59(0x1cd)](_0x30e4f6=>'\x73\x79\x73\x74\x65\x6d'===_0x30e4f6[_0x1bfa59(0x1f9)]),_0xc8802f=(_0xc8802f&&!_0x289469&&(_0x323937=_0x323937['\x66\x69\x6c\x74\x65\x72'](_0x4008a8=>_0x1bfa59(0x1be)!==_0x4008a8[_0x1bfa59(0x1f9)]))['\x75\x6e\x73\x68\x69\x66\x74'](..._0x1f1205),_0x37c284+_0x1bfa59(0x1ad)),_0x289469=JSON[_0x1bfa59(0x1c5)](await _0x545ade[_0x1bfa59(0x1a4)][_0x1bfa59(0x1d0)](_0xc8802f,'\x75\x74\x66\x2d\x38'));let {fileUrl:_0x1fd03c,fileName:_0x30d156}=await _0x23e921(_0x59d82b);var {ai_chat_at:_0x1f1205,ai_chat:_0xc8802f,ai_ban_plans:_0x289469,ai_ban_number:_0x4fa1f4,ai_ban_group:_0x183220,ai_private_plan:_0x267b23,ai_private_open:_0x1ca004,other_netsearch:_0x170f5f}=_0x289469[_0x1bfa59(0x181)];let _0x282613=JSON[_0x1bfa59(0x1c5)](_0x545ade['\x72\x65\x61\x64\x46\x69\x6c\x65\x53\x79\x6e\x63'](_0x37c284+_0x1bfa59(0x1ad)))[_0x1bfa59(0x181)][_0x1bfa59(0x184)];_0x282613=_0x282613||[];var _0x267b23=_0x59d82b?.[_0x1bfa59(0x1ef)]&&_0x1bfa59(0x212)===_0x267b23&&!0x0===_0x1ca004,_0x1ca004=_0x59d82b?.['\x61\x74']===_0x59d82b?.[_0x1bfa59(0x206)]&&_0x1f1205&&'\x6f\x74\x68\x65\x72\x73'===_0xc8802f,_0x1f1205=_0x59d82b?.[_0x1bfa59(0x22f)]&&_0x1f1205&&'\x6f\x74\x68\x65\x72\x73'===_0xc8802f,_0xc8802f=_0x59d82b?.[_0x1bfa59(0x1f4)]?.[_0x1bfa59(0x1f6)](_0x5d05b4),_0x5bc3d2=!_0x59d82b?.[_0x1bfa59(0x23c)]&&_0x59d82b?.[_0x1bfa59(0x1f4)]&&_0x282613[_0x1bfa59(0x1cd)](_0xc79231=>_0x59d82b[_0x1bfa59(0x1f4)][_0x1bfa59(0x1bc)](_0xc79231));if((_0x59d82b?.[_0x1bfa59(0x23c)]&&_0x267b23||_0x1ca004||_0x1f1205||_0xc8802f||_0x267b23)&&!_0x5bc3d2){if(0x0==await _0x18740d(_0x59d82b,_0x183220,_0x289469,_0x4fa1f4))return!0x1;if(_0x59d82b&&_0x59d82b[_0x1bfa59(0x1f4)]){if(!0x1===await _0x94eb9f(_0x59d82b[_0x1bfa59(0x1f4)],_0x5d05b4))return!0x1;}var _0x1ca004=_0x59d82b?.[_0x1bfa59(0x1f4)]?.['\x72\x65\x70\x6c\x61\x63\x65'](/#bot/g,'')?.[_0x1bfa59(0x20d)](new RegExp(_0x5d05b4,'\x67'),'')?.[_0x1bfa59(0x215)]()||_0x1bfa59(0x1f7),_0x5f3bce=_0x1ca004,_0x1f1205=_0x54bada[_0x1bfa59(0x19e)](_0x4cfdd9=>_0x4cfdd9['\x6d\x6f\x64\x65\x6c']===_0x2bcb46),_0xc8802f=_0x1f1205&&_0x1f1205[_0x1bfa59(0x1e5)]?_0x1bfa59(0x159)==typeof _0x1f1205[_0x1bfa59(0x1e5)]&&_0x1f1205['\x74\x6f\x6b\x65\x6e'][_0x1bfa59(0x174)]('\x6b')?0x3e8*parseInt(_0x1f1205[_0x1bfa59(0x1e5)]):parseInt(_0x1f1205[_0x1bfa59(0x1e5)]):0x1f40,_0x267b23=_0x37c284+'\x2f\x64\x61\x74\x61\x2f\x59\x54\x41\x69\x5f\x53\x65\x74\x74\x69\x6e\x67\x2f\x64\x61\x74\x61\x2e\x6a\x73\x6f\x6e',_0x5bc3d2=JSON[_0x1bfa59(0x1c5)](await _0x545ade[_0x1bfa59(0x1a4)][_0x1bfa59(0x1d0)](_0x267b23,_0x1bfa59(0x15f))),{prompts_answers:_0x183220,prompts_answer_open:_0x289469,others_moment_numbers:_0x4fa1f4,others_moment_open:_0x267b23}=_0x5bc3d2[_0x1bfa59(0x181)],_0x289469=(_0x183220&&_0x289469&&await _0x59d82b[_0x1bfa59(0x205)](_0x183220,!0x0,{'\x72\x65\x63\x61\x6c\x6c\x4d\x73\x67':0x6}),_0x267b23&&(_0x323937=await _0x379ed6(_0x323937,_0x4fa1f4||0xa,_0xc8802f)),_0x1fd03c?[_0x1fd03c]:await _0x5d2069(_0x59d82b));if(_0x289469&&0x0<_0x289469[_0x1bfa59(0x22d)]){var _0x4f1f83,_0x183220=!!_0x1fd03c||_0x54bada[_0x1bfa59(0x19e)](_0x595735=>_0x595735['\x6d\x6f\x64\x65\x6c']===_0x2bcb46)?.[_0x1bfa59(0x157)]?.[_0x1bfa59(0x1bc)](_0x1bfa59(0x19a))||!0x1;if(!_0x183220)return _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x170)),_0x323937[_0x1bfa59(0x1c8)](),!0x1;if('\x67\x65\x6d\x69\x6e\x69\x2d\x32\x2e\x30\x2d\x66\x6c\x61\x73\x68\x2d\x65\x78\x70\x2d\x69\x6d\x61\x67\x65\x2d\x67\x65\x6e\x65\x72\x61\x74\x69\x6f\x6e'==_0x2bcb46)return _0x267b23=await _0x30aac9(_0x1ca004,_0x289469,{'\x6d\x6f\x64\x65\x6c':_0x2bcb46,'\x72\x65\x73\x70\x6f\x6e\x73\x65\x4d\x6f\x64\x61\x6c\x69\x74\x69\x65\x73':[_0x1bfa59(0x1d6),'\x49\x4d\x41\x47\x45'],'\x63\x6f\x6e\x66\x69\x67':{'\x74\x65\x6d\x70\x65\x72\x61\x74\x75\x72\x65':0.8}}),_0x5d0a2f(_0x267b23,_0x59d82b);try{let _0x4cab3a=[{'\x74\x79\x70\x65':'\x74\x65\x78\x74','\x74\x65\x78\x74':_0x5f3bce}];for(var _0x3e6a45 of _0x289469)if(!(_0x54bada[_0x1bfa59(0x19e)](_0x335ba1=>_0x335ba1['\x6d\x6f\x64\x65\x6c']===_0x2bcb46)?.['\x66\x65\x61\x74\x75\x72\x65\x73']?.[_0x1bfa59(0x1bc)](_0x1bfa59(0x23c))||!0x1)&&_0x30d156)_0x4cab3a=await _0x5404cf(_0x3e6a45,_0x30d156,_0x5f3bce);else{var _0x2c8944=_0x30d156||_0x1bfa59(0x220),_0x1f2f41=_0x30d156?_0x1bfa59(0x23c):_0x1bfa59(0x176),_0x2e99c9=await _0x51b576(_0x3e6a45,_0x2c8944,_0x1f2f41),_0x3b369b={'\u8be5\u6587\u4ef6\u94fe\u63a5\u5df2\u8fc7\u671f\uff0c\u8bf7\u91cd\u65b0\u83b7\u53d6':_0x1bfa59(0x15e),'\u65e0\u6548\u7684\u56fe\u7247\u683c\u5f0f':_0x1bfa59(0x23e),'\u65e0\u6548\u7684\u56fe\u7247\u4e0b\u8f7d\u94fe\u63a5':_0x1bfa59(0x17e),'\u65e0\u6548\u7684\u6587\u4ef6\u4e0b\u8f7d\u94fe\u63a5':'\u65e0\u6548\u7684\u6587\u4ef6\u4e0b\u8f7d\u94fe\u63a5\uff0c\u8bf7\u786e\u4fdd\u9002\u914d\u5668\u652f\u6301\u4e14\u6587\u4ef6\u672a\u8fc7\u671f\uff0c\u53ef\u91cd\u65b0\u4e0a\u4f20\u5c1d\u8bd5'};if(_0x3b369b[_0x2e99c9])return _0x59d82b['\x72\x65\x70\x6c\x79'](_0x3b369b[_0x2e99c9]);var _0x5e5518=(_0x3ef4e2[_0x1bfa59(0x189)](_0x2c8944)||_0x1bfa59(0x1cf))[_0x1bfa59(0x1f6)](_0x1bfa59(0x167));_0x4cab3a[_0x1bfa59(0x1ee)](_0x5e5518?{'\x74\x79\x70\x65':_0x1bfa59(0x18b),'\x69\x6d\x61\x67\x65\x5f\x75\x72\x6c':{'\x75\x72\x6c':_0x2e99c9}}:{'\x74\x79\x70\x65':'\x66\x69\x6c\x65','\x66\x69\x6c\x65\x5f\x75\x72\x6c':{'\x75\x72\x6c':_0x2e99c9}});}if('\x63\x6f\x67\x76\x69\x64\x65\x6f\x78'==_0x2bcb46)_0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x1f1)),!(_0x4f1f83=await _0x2762bf([{'\x72\x6f\x6c\x65':_0x1bfa59(0x1a6),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x4cab3a}],_0x2bcb46))||0x0==_0x4f1f83['\x6c\x65\x6e\x67\x74\x68']||_0x4f1f83[_0x1bfa59(0x1bc)]('\u9519\u8bef')?_0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x1f2)):_0x59d82b['\x72\x65\x70\x6c\x79'](segment[_0x1bfa59(0x200)](_0x4f1f83));else{if(_0x323937[_0x1bfa59(0x1ee)]({'\x72\x6f\x6c\x65':'\x75\x73\x65\x72','\x63\x6f\x6e\x74\x65\x6e\x74':_0x4cab3a}),_0x1bfa59(0x20e)==_0x2bcb46||_0x1bfa59(0x1d4)==_0x2bcb46||_0x1bfa59(0x198)==_0x2bcb46){var _0x2b06ae=await _0x2ddf41(_0x59d82b['\x75\x73\x65\x72\x5f\x69\x64']);if(_0x2b06ae)_0x59d82b[_0x1bfa59(0x205)](_0x2b06ae);else{_0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x1d1));for(var _0x5980d6,_0x24fdf7=await _0x2762bf([{'\x72\x6f\x6c\x65':_0x1bfa59(0x1a6),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x4cab3a}],_0x1bfa59(0x20e)),_0x288138=/\(https?:\/\/[^\s)]+\)/g,_0x5068e1=[];null!==(_0x5980d6=_0x288138[_0x1bfa59(0x163)](_0x24fdf7));)_0x5068e1[_0x1bfa59(0x1ee)](_0x5980d6[0x0][_0x1bfa59(0x19f)](0x1,-0x1));if(_0x5068e1&&0x0!==_0x5068e1['\x6c\x65\x6e\x67\x74\x68']){let _0x501573=[];_0x5068e1[_0x1bfa59(0x204)](_0x2501bf=>{var _0x2e5cb6=_0x1bfa59;_0x501573[_0x2e5cb6(0x1ee)](segment[_0x2e5cb6(0x17d)](_0x2501bf[_0x2e5cb6(0x215)]()));}),_0x59d82b['\x72\x65\x70\x6c\x79'](_0x501573);}else _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x19c));}}else{if(_0x1bfa59(0x1ab)==_0x2bcb46){var _0x33e3fd={'\x6d\x65\x73\x73\x61\x67\x65\x73':_0x323937},_0xc94b82=await _0x30aac9(_0x33e3fd,_0x289469,{'\x6d\x6f\x64\x65\x6c':_0x1bfa59(0x1d5),'\x75\x73\x65\x54\x6f\x6f\x6c\x73':!0x0,'\x74\x6f\x6f\x6c\x73':[{'\x67\x6f\x6f\x67\x6c\x65\x53\x65\x61\x72\x63\x68':{}}],'\x72\x65\x74\x75\x72\x6e\x52\x61\x77\x52\x65\x73\x70\x6f\x6e\x73\x65':!0x0}),_0x319a64=await _0x88cdd4(_0xc94b82,{'\x69\x6e\x63\x6c\x75\x64\x65\x52\x61\x77\x4f\x75\x74\x70\x75\x74':!0x0,'\x73\x61\x76\x65\x49\x6d\x61\x67\x65\x73':!0x0}),_0x7a21f4=_0x5bc3d2[_0x1bfa59(0x181)][_0x1bfa59(0x1d7)],_0x3cd72e=(await _0x3ee4da(_0x319a64,_0x59d82b,_0x2bcb46,_0x1ca004),await _0x304af6(_0x319a64));let _0x3e2330=[],_0x40e8f6=!0x1;if(_0x1bfa59(0x243)==_0x7a21f4)try{(await _0x52f489(_0x319a64,{'\x6f\x75\x74\x70\x75\x74\x44\x69\x72':_0x1bfa59(0x194)}))[_0x1bfa59(0x204)](_0x37b5b4=>{var _0x1f11ca=_0x1bfa59;_0x3e2330['\x70\x75\x73\x68'](segment[_0x1f11ca(0x17d)](_0x37b5b4[_0x1f11ca(0x214)]));}),_0x40e8f6=!0x0;}catch(_0x21237c){}0x1<=_0x3cd72e[_0x1bfa59(0x22d)]&&0x0<(_0xd55259=await _0x1ca913(_0x59d82b,_0x3cd72e,_0x37c284))[_0x1bfa59(0x22d)]&&(_0x3e2330=[..._0xd55259,..._0x3e2330]),(_0x40e8f6||0x1<=_0x3cd72e['\x6c\x65\x6e\x67\x74\x68'])&&await _0x2ab8f8(_0x59d82b,_0x319a64,_0x3e2330),_0x323937[_0x1bfa59(0x1ee)]({'\x72\x6f\x6c\x65':_0x1bfa59(0x1a0),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x319a64});}else{var _0x84e679=await _0x2762bf(_0x323937,_0x2bcb46);let _0x47c1e4=await _0x304af6(_0x84e679);if(_0x84e679&&0x0<_0x47c1e4?.[_0x1bfa59(0x22d)]){try{_0x47c1e4=await _0x3ad2ff(_0x47c1e4);}catch(_0x8503a6){_0x59d82b[_0x1bfa59(0x205)](_0x8503a6);}_0x47c1e4[_0x1bfa59(0x204)](async _0x2f2b58=>{await _0x4f24e9(_0x2f2b58,_0x30d156,_0x59d82b);});}else{if(!_0x84e679)return _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x178)),!0x1;}var _0xcb6ec8=_0x5bc3d2[_0x1bfa59(0x181)][_0x1bfa59(0x1d7)],_0x1a6efa=(await _0x3ee4da(_0x84e679,_0x59d82b,_0x2bcb46,_0x1ca004),await _0x304af6(_0x84e679));let _0x421447=[],_0x30230c=!0x1;if(_0x1bfa59(0x243)==_0xcb6ec8)try{(await _0x52f489(_0x84e679,{'\x6f\x75\x74\x70\x75\x74\x44\x69\x72':_0x1bfa59(0x194)}))['\x66\x6f\x72\x45\x61\x63\x68'](_0x13f94d=>{var _0x361f55=_0x1bfa59;_0x421447[_0x361f55(0x1ee)](segment['\x69\x6d\x61\x67\x65'](_0x13f94d[_0x361f55(0x214)]));}),_0x30230c=!0x0;}catch(_0x3d8c76){}0x1<=_0x1a6efa['\x6c\x65\x6e\x67\x74\x68']&&0x0<(_0x4de3fd=await _0x1ca913(_0x59d82b,_0x1a6efa,_0x37c284))[_0x1bfa59(0x22d)]&&(_0x421447=[..._0x4de3fd,..._0x421447]),(_0x30230c||0x1<=_0x1a6efa['\x6c\x65\x6e\x67\x74\x68'])&&await _0x2ab8f8(_0x59d82b,_0x84e679,_0x421447),_0x323937[_0x1bfa59(0x1ee)]({'\x72\x6f\x6c\x65':_0x1bfa59(0x1a0),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x84e679});}await _0x5f3d20(_0x4fed13,_0x29fed9,_0x25df85,_0x323937);}}return!0x1;}catch(_0x336057){return _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x23f)),_0x323937[_0x1bfa59(0x1c8)](),!0x1;}}if(_0x1bfa59(0x228)==_0x2bcb46||_0x1bfa59(0x175)==_0x2bcb46)return _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x1f1)),(_0x4fa1f4=await _0x2762bf([{'\x72\x6f\x6c\x65':'\x75\x73\x65\x72','\x63\x6f\x6e\x74\x65\x6e\x74':_0x1ca004}],_0x2bcb46))&&0x0!=_0x4fa1f4[_0x1bfa59(0x22d)]?(_0xc8802f=await _0x304af6(_0x4fa1f4),_0x59d82b[_0x1bfa59(0x205)](segment[_0x1bfa59(0x200)](_0xc8802f[0x0]))):_0x59d82b['\x72\x65\x70\x6c\x79'](_0x1bfa59(0x162)),!0x1;if(_0x1bfa59(0x1db)==_0x2bcb46)return _0x59d82b[_0x1bfa59(0x205)]('\u6392\u961f\u4e2d\uff0c\u8bf7\u7a0d\u540e'),(_0x183220=await _0x2762bf([{'\x72\x6f\x6c\x65':_0x1bfa59(0x1a6),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x1ca004}],_0x2bcb46))&&0x0!=_0x183220[_0x1bfa59(0x22d)]?_0x59d82b[_0x1bfa59(0x205)](segment[_0x1bfa59(0x200)](_0x183220)):_0x59d82b['\x72\x65\x70\x6c\x79'](_0x1bfa59(0x1a1)),!0x1;if(_0x2bcb46[_0x1bfa59(0x1bc)]('\x6a\x69\x6d\x65\x6e\x67')){_0x59d82b[_0x1bfa59(0x205)]('\u6211\u5f00\u59cb\u5236\u4f5c\u4e86\uff0c\u7a0d\u7b49\u54e6\x2e\x2e\x2e');try{let _0x3605a6=_0x2bcb46[_0x1bfa59(0x1ce)]()[_0x1bfa59(0x1bc)](_0x1bfa59(0x200))?'\x76\x69\x64\x65\x6f':_0x1bfa59(0x17d);var _0x3b9156=await _0x243b34([{'\x72\x6f\x6c\x65':'\x75\x73\x65\x72','\x63\x6f\x6e\x74\x65\x6e\x74':_0x1ca004}],_0x2bcb46,_0x3605a6),_0x244500=await _0x304af6(_0x3b9156);if(_0x244500&&0x0!==_0x244500[_0x1bfa59(0x22d)]){let _0x113955=[];_0x244500[_0x1bfa59(0x204)](_0x5490b8=>{var _0x4b8acc=_0x1bfa59;_0x5490b8=_0x5490b8[_0x4b8acc(0x215)](),_0x4b8acc(0x200)==_0x3605a6?_0x113955[_0x4b8acc(0x1ee)](segment[_0x4b8acc(0x200)](_0x5490b8)):_0x113955[_0x4b8acc(0x1ee)](segment[_0x4b8acc(0x17d)](_0x5490b8));}),_0x59d82b[_0x1bfa59(0x205)](_0x113955);}else _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x233));}catch{_0x59d82b[_0x1bfa59(0x205)]('\u751f\u6210\u5931\u8d25\u4e86\uff0c\u53ef\u80fd\u63d0\u793a\u8bcd\u8fdd\u89c4\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\uff01');}return!0x1;}if(_0x1bfa59(0x20e)==_0x2bcb46||'\x6e\x69\x6a\x69\x64\x6a\x6f\x75\x72\x6e\x65\x79\x2d\x63\x72\x65\x61\x74\x65'==_0x2bcb46||_0x1bfa59(0x198)==_0x2bcb46){_0x267b23=await _0x2ddf41(_0x59d82b['\x75\x73\x65\x72\x5f\x69\x64']);if(_0x267b23)_0x59d82b[_0x1bfa59(0x205)](_0x267b23);else{_0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x1d1));for(var _0x3a75d7,_0x1d2e63=await _0x2762bf([{'\x72\x6f\x6c\x65':_0x1bfa59(0x1a6),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x1ca004}],_0x1bfa59(0x20e)),_0x1924d1=/\(https?:\/\/[^\s)]+\)/g,_0x4604b7=[];null!==(_0x3a75d7=_0x1924d1['\x65\x78\x65\x63'](_0x1d2e63));)_0x4604b7[_0x1bfa59(0x1ee)](_0x3a75d7[0x0][_0x1bfa59(0x19f)](0x1,-0x1));if(_0x4604b7&&0x0!==_0x4604b7[_0x1bfa59(0x22d)]){let _0x9985e0=[];_0x4604b7[_0x1bfa59(0x204)](_0x269ca1=>{var _0xfb9fa9=_0x1bfa59;_0x9985e0['\x70\x75\x73\x68'](segment[_0xfb9fa9(0x17d)](_0x269ca1[_0xfb9fa9(0x215)]()));}),_0x59d82b[_0x1bfa59(0x205)](_0x9985e0);}else _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x19c));}return!0x1;}if(_0x1bfa59(0x1fd)==_0x2bcb46)return _0x4f1f83=Date[_0x1bfa59(0x1c0)](),_0x5d8b30['\x73\x75\x6e\x6f\x56\x69\x70']&&_0x4f1f83<_0x5d8b30[_0x1bfa59(0x229)]?(_0x2b06ae=Math[_0x1bfa59(0x1e2)]((_0x5d8b30[_0x1bfa59(0x229)]-_0x4f1f83)/0x3e8),await _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x20a)+_0x2b06ae+'\x20\u79d2\u540e\u518d\u8bd5')):(_0x5d8b30[_0x1bfa59(0x229)]=_0x4f1f83+0x493e0,await _0x2dadc6(_0x59d82b,_0x1ca004)),!0x1;if(_0x323937[_0x1bfa59(0x1ee)]({'\x72\x6f\x6c\x65':_0x1bfa59(0x1a6),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x5f3bce}),_0x1f1205?.[_0x1bfa59(0x157)]?.[_0x1bfa59(0x1cd)](_0x452bd5=>[_0x1bfa59(0x239)][_0x1bfa59(0x1bc)](_0x452bd5))||_0x170f5f&&(_0x323937=await _0x189c71(_0x323937)),'\x67\x65\x6d\x69\x6e\x69\x2d\x32\x2e\x30\x2d\x66\x6c\x61\x73\x68\x2d\x65\x78\x70\x2d\x69\x6d\x61\x67\x65\x2d\x67\x65\x6e\x65\x72\x61\x74\x69\x6f\x6e'==_0x2bcb46)return _0x33e3fd=await _0x30aac9(_0x1ca004,[],{'\x6d\x6f\x64\x65\x6c':_0x2bcb46,'\x72\x65\x73\x70\x6f\x6e\x73\x65\x4d\x6f\x64\x61\x6c\x69\x74\x69\x65\x73':[_0x1bfa59(0x1d6),'\x49\x4d\x41\x47\x45'],'\x63\x6f\x6e\x66\x69\x67':{'\x74\x65\x6d\x70\x65\x72\x61\x74\x75\x72\x65':0.8}}),_0x5d0a2f(_0x33e3fd,_0x59d82b);if(_0x1bfa59(0x1ab)==_0x2bcb46){var _0x289469={'\x6d\x65\x73\x73\x61\x67\x65\x73':_0x323937},_0xc94b82=await _0x30aac9(_0x289469,[],{'\x6d\x6f\x64\x65\x6c':_0x1bfa59(0x1d5),'\x75\x73\x65\x54\x6f\x6f\x6c\x73':!0x0,'\x74\x6f\x6f\x6c\x73':[{'\x67\x6f\x6f\x67\x6c\x65\x53\x65\x61\x72\x63\x68':{}}],'\x72\x65\x74\x75\x72\x6e\x52\x61\x77\x52\x65\x73\x70\x6f\x6e\x73\x65':!0x0}),_0x7a21f4=await _0x88cdd4(_0xc94b82,{'\x69\x6e\x63\x6c\x75\x64\x65\x52\x61\x77\x4f\x75\x74\x70\x75\x74':!0x0,'\x73\x61\x76\x65\x49\x6d\x61\x67\x65\x73':!0x0}),_0xd55259=_0x5bc3d2[_0x1bfa59(0x181)][_0x1bfa59(0x1d7)],_0x3cd72e=(await _0x3ee4da(_0x7a21f4,_0x59d82b,_0x2bcb46,_0x1ca004),await _0x304af6(_0x7a21f4));let _0x46e9de=[],_0x251b5e=!0x1;if(_0x1bfa59(0x243)==_0xd55259)try{(await _0x52f489(_0x7a21f4,{'\x6f\x75\x74\x70\x75\x74\x44\x69\x72':'\x2e\x2f\x72\x65\x73\x6f\x75\x72\x63\x65\x73'}))['\x66\x6f\x72\x45\x61\x63\x68'](_0x1d3378=>{var _0xdaa5e=_0x1bfa59;_0x46e9de['\x70\x75\x73\x68'](segment['\x69\x6d\x61\x67\x65'](_0x1d3378[_0xdaa5e(0x214)]));}),_0x251b5e=!0x0;}catch(_0x3e52c9){}return 0x1<=_0x3cd72e[_0x1bfa59(0x22d)]&&0x0<(_0x319a64=await _0x1ca913(_0x59d82b,_0x3cd72e,_0x37c284))[_0x1bfa59(0x22d)]&&(_0x46e9de=[..._0x319a64,..._0x46e9de]),(_0x251b5e||0x1<=_0x3cd72e['\x6c\x65\x6e\x67\x74\x68'])&&await _0x2ab8f8(_0x59d82b,_0x7a21f4,_0x46e9de),_0x323937['\x70\x75\x73\x68']({'\x72\x6f\x6c\x65':'\x61\x73\x73\x69\x73\x74\x61\x6e\x74','\x63\x6f\x6e\x74\x65\x6e\x74':_0x7a21f4}),await _0x5f3d20(_0x4fed13,_0x29fed9,_0x25df85,_0x323937),!0x1;}if(_0x1f1205?.[_0x1bfa59(0x157)]?.['\x73\x6f\x6d\x65'](_0x4f534a=>[_0x1bfa59(0x188),_0x1bfa59(0x19a),_0x1bfa59(0x23c)][_0x1bfa59(0x1bc)](_0x4f534a))){_0xcb6ec8=await _0x24d377(_0x2bcb46,_0x323937);if(_0xcb6ec8){try{var _0x4af745=await Promise['\x72\x65\x73\x6f\x6c\x76\x65'](_0xcb6ec8)[_0x1bfa59(0x242)](_0x304af6)['\x74\x68\x65\x6e'](_0x20f33c=>_0x20f33c?.[_0x1bfa59(0x22d)]?_0x3ad2ff(_0x20f33c):[])['\x63\x61\x74\x63\x68'](_0x77a310=>[]);if(_0x4af745['\x6c\x65\x6e\x67\x74\x68']){var _0x4df861;for(_0x4df861 of _0x131473(_0x4af745,0x3))await Promise[_0x1bfa59(0x16d)](_0x4df861[_0x1bfa59(0x245)](_0x3eac92=>Promise[_0x1bfa59(0x173)]([_0x4f24e9(_0x3eac92,_0x30d156,_0x59d82b)[_0x1bfa59(0x22c)](_0x2644da=>{var _0x2f8c58=_0x1bfa59;_0x59d82b[_0x2f8c58(0x205)](_0x2f8c58(0x1b0)+_0x3eac92);})])));}}catch(_0x167c5c){_0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x217)+_0x167c5c[_0x1bfa59(0x209)]);}await _0x3ee4da(_0xcb6ec8,_0x59d82b,_0x2bcb46,_0x1ca004);var _0x4de3fd=await _0x304af6(_0xcb6ec8);let _0x172718=[],_0x55186b=!0x1;if(_0x1bfa59(0x243)==_0x5bc3d2[_0x1bfa59(0x181)][_0x1bfa59(0x1d7)])try{(await _0x52f489(_0xcb6ec8,{'\x6f\x75\x74\x70\x75\x74\x44\x69\x72':_0x1bfa59(0x194)}))[_0x1bfa59(0x204)](_0x2098b1=>{var _0x4e79f3=_0x1bfa59;_0x172718['\x70\x75\x73\x68'](segment[_0x4e79f3(0x17d)](_0x2098b1[_0x4e79f3(0x214)]));}),_0x55186b=!0x0;}catch(_0x3f0986){}0x1<=_0x4de3fd[_0x1bfa59(0x22d)]&&0x0<(_0x1a6efa=await _0x1ca913(_0x59d82b,_0x4de3fd,_0x37c284))['\x6c\x65\x6e\x67\x74\x68']&&(_0x172718=[..._0x1a6efa,..._0x172718]),(_0x55186b||0x1<=_0x4de3fd[_0x1bfa59(0x22d)])&&await _0x2ab8f8(_0x59d82b,_0xcb6ec8,_0x172718),_0x323937[_0x1bfa59(0x1ee)]({'\x72\x6f\x6c\x65':_0x1bfa59(0x1a0),'\x63\x6f\x6e\x74\x65\x6e\x74':_0xcb6ec8}),await _0x5f3d20(_0x4fed13,_0x29fed9,_0x25df85,_0x323937),_0x5bc3d2[_0x1bfa59(0x181)][_0x1bfa59(0x180)]&&await _0x40a1ce(_0x59d82b,_0xcb6ec8);}else _0x59d82b[_0x1bfa59(0x205)](_0x1bfa59(0x178));return!0x1;}let _0x2026f8=await _0x24d377(_0x2bcb46,_0x323937);if(!_0x2026f8)return _0x59d82b['\x72\x65\x70\x6c\x79']('\u65e0\u6709\u6548\u56de\u590d\uff0c\u8bf7\u7a0d\u540e\u518d\u8bd5\x21'),_0x323937[_0x1bfa59(0x1c8)](),!0x1;_0x2026f8=_0x2026f8[_0x1bfa59(0x20d)](/Content is blocked/gi,''),await _0x3ee4da(_0x2026f8,_0x59d82b,_0x2bcb46,_0x1ca004),_0x84e679=await _0x304af6(_0x2026f8);let _0x3760d6=[],_0x5b34f9=!0x1;if(_0x1bfa59(0x243)==_0x5bc3d2[_0x1bfa59(0x181)][_0x1bfa59(0x1d7)])try{(await _0x52f489(_0x2026f8,{'\x6f\x75\x74\x70\x75\x74\x44\x69\x72':_0x1bfa59(0x194)}))[_0x1bfa59(0x204)](_0x467551=>{var _0x2af302=_0x1bfa59;_0x3760d6[_0x2af302(0x1ee)](segment[_0x2af302(0x17d)](_0x467551[_0x2af302(0x214)]));}),_0x5b34f9=!0x0;}catch(_0x5f5df1){}0x1<=_0x84e679['\x6c\x65\x6e\x67\x74\x68']&&0x0<(_0x4fa1f4=await _0x1ca913(_0x59d82b,_0x84e679,_0x37c284))['\x6c\x65\x6e\x67\x74\x68']&&(_0x3760d6=[..._0x4fa1f4,..._0x3760d6]),(_0x5b34f9||0x1<=_0x84e679['\x6c\x65\x6e\x67\x74\x68'])&&await _0x2ab8f8(_0x59d82b,_0x2026f8,_0x3760d6),_0x323937[_0x1bfa59(0x1ee)]({'\x72\x6f\x6c\x65':'\x61\x73\x73\x69\x73\x74\x61\x6e\x74','\x63\x6f\x6e\x74\x65\x6e\x74':_0x2026f8}),await _0x5f3d20(_0x4fed13,_0x29fed9,_0x25df85,_0x323937),_0x5bc3d2[_0x1bfa59(0x181)][_0x1bfa59(0x180)]&&await _0x40a1ce(_0x59d82b,_0x2026f8);}return!0x1;}}function _0x5346(_0xa9274,_0x315d32){var _0x5a2063=_0x4f97();return _0x5346=function(_0x56cf28,_0x31305f){_0x56cf28=_0x56cf28-0x157;var _0x3a4215=_0x5a2063[_0x56cf28];if(_0x5346['\x44\x66\x78\x49\x44\x4f']===undefined){var _0x4f97b7=function(_0x3d8404){var _0x1531fd='\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6a\x6b\x6c\x6d\x6e\x6f\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x2b\x2f\x3d';var _0x55a23a='',_0x7926d1='';for(var _0x2d74f1=0x0,_0x52d5bf,_0x131473,_0x5d2069=0x0;_0x131473=_0x3d8404['\x63\x68\x61\x72\x41\x74'](_0x5d2069++);~_0x131473&&(_0x52d5bf=_0x2d74f1%0x4?_0x52d5bf*0x40+_0x131473:_0x131473,_0x2d74f1++%0x4)?_0x55a23a+=String['\x66\x72\x6f\x6d\x43\x68\x61\x72\x43\x6f\x64\x65'](0xff&_0x52d5bf>>(-0x2*_0x2d74f1&0x6)):0x0){_0x131473=_0x1531fd['\x69\x6e\x64\x65\x78\x4f\x66'](_0x131473);}for(var _0x1ca913=0x0,_0x51b576=_0x55a23a['\x6c\x65\x6e\x67\x74\x68'];_0x1ca913<_0x51b576;_0x1ca913++){_0x7926d1+='\x25'+('\x30\x30'+_0x55a23a['\x63\x68\x61\x72\x43\x6f\x64\x65\x41\x74'](_0x1ca913)['\x74\x6f\x53\x74\x72\x69\x6e\x67'](0x10))['\x73\x6c\x69\x63\x65'](-0x2);}return decodeURIComponent(_0x7926d1);};_0x5346['\x49\x50\x69\x75\x57\x62']=_0x4f97b7,_0xa9274=arguments,_0x5346['\x44\x66\x78\x49\x44\x4f']=!![];}var _0x5346fb=_0x5a2063[0x0],_0x1073da=_0x56cf28+_0x5346fb,_0x4c578e=_0xa9274[_0x1073da];return!_0x4c578e?(_0x3a4215=_0x5346['\x49\x50\x69\x75\x57\x62'](_0x3a4215),_0xa9274[_0x1073da]=_0x3a4215):_0x3a4215=_0x4c578e,_0x3a4215;},_0x5346(_0xa9274,_0x315d32);}async function _0x18740d(_0x1d7d79,_0x231a66,_0x35a53f,_0x50e46e){var _0x59c42e=_0x13d0b0;return _0x231a66['\x69\x6e\x63\x6c\x75\x64\x65\x73'](_0x1d7d79[_0x59c42e(0x1c9)])&&!_0x1d7d79[_0x59c42e(0x182)]?(_0x1d7d79['\x72\x65\x70\x6c\x79'](_0x59c42e(0x187),!0x0),!0x1):_0x35a53f['\x69\x6e\x63\x6c\x75\x64\x65\x73'](_0x59c42e(0x212))&&!_0x1d7d79[_0x59c42e(0x182)]?(_0x1d7d79['\x72\x65\x70\x6c\x79'](_0x59c42e(0x1de),!0x0),!0x1):_0x50e46e[_0x59c42e(0x1bc)](_0x1d7d79['\x75\x73\x65\x72\x5f\x69\x64'])&&!_0x1d7d79['\x69\x73\x4d\x61\x73\x74\x65\x72']?(_0x1d7d79['\x72\x65\x70\x6c\x79'](_0x59c42e(0x238),!0x0),!0x1):void 0x0;}async function _0x24d377(_0x54f084,_0x13764f){return _0x2762bf(_0x13764f,_0x54f084);}async function _0x47dbbd(_0x30b563,_0x210aee,_0x54cdd1){var _0x41afab=_0x13d0b0;_0x54cdd1=JSON[_0x41afab(0x16a)](_0x54cdd1,null,0x2);try{await redis[_0x41afab(0x20c)](_0x30b563,_0x54cdd1);}catch(_0x3e47cd){}try{var _0x5bcbd4=_0x4fed13['\x64\x69\x72\x6e\x61\x6d\x65'](_0x210aee);_0x545ade['\x65\x78\x69\x73\x74\x73\x53\x79\x6e\x63'](_0x5bcbd4)||_0x545ade['\x6d\x6b\x64\x69\x72\x53\x79\x6e\x63'](_0x5bcbd4,{'\x72\x65\x63\x75\x72\x73\x69\x76\x65':!0x0}),await _0x545ade[_0x41afab(0x1a4)][_0x41afab(0x23a)](_0x210aee,_0x54cdd1,_0x41afab(0x15f));}catch(_0x4be686){}return{'\x73\x75\x63\x63\x65\x73\x73':!0x0};}async function _0x50c79e(_0x29adb9,_0x389b53){var _0x29f70=_0x13d0b0;try{var _0x56457f=await redis['\x67\x65\x74'](_0x29adb9);if(_0x56457f)return JSON[_0x29f70(0x1c5)](_0x56457f);if(_0x545ade[_0x29f70(0x190)](_0x389b53)){var _0x3638bd=await _0x545ade[_0x29f70(0x1a4)][_0x29f70(0x1d0)](_0x389b53,_0x29f70(0x15f)),_0x21be44=JSON[_0x29f70(0x1c5)](_0x3638bd);try{await redis['\x73\x65\x74'](_0x29adb9,JSON[_0x29f70(0x16a)](_0x21be44));}catch(_0x3e73c8){}return _0x21be44;}return[];}catch(_0x134354){try{var _0xa5b52c;return _0x545ade[_0x29f70(0x190)](_0x389b53)?(_0xa5b52c=await _0x545ade[_0x29f70(0x1a4)]['\x72\x65\x61\x64\x46\x69\x6c\x65'](_0x389b53,_0x29f70(0x15f)),JSON[_0x29f70(0x1c5)](_0xa5b52c)):[];}catch(_0x3c9d23){return[];}}}async function _0x2ddf41(_0x4f612e){var _0x221b05=_0x13d0b0,_0x47aa2f=Date[_0x221b05(0x1c0)]();return _0x549bb3[_0x4f612e]||(_0x549bb3[_0x4f612e]=0x0),_0x47aa2f-_0x549bb3[_0x4f612e]<0x57e40?_0x221b05(0x1dc)+_0x4f612e+_0x221b05(0x21b)+Math[_0x221b05(0x1e2)]((0x57e40-(_0x47aa2f-_0x549bb3[_0x4f612e]))/0x3e8)+'\x20\u79d2\u540e\u518d\u8bd5\u3002':(_0x549bb3[_0x4f612e]=_0x47aa2f,null);}async function _0x2413df(_0x42eda2,_0x5a105d,_0x45c223){var _0xa40b78=_0x13d0b0,_0x3e0282,_0x11fd74=_0xa40b78(0x177)+_0x5a105d,_0x42eda2=_0x42eda2[_0xa40b78(0x223)](_0x45c223,'\x75\x73\x65\x72\x5f\x63\x61\x63\x68\x65',_0x5a105d+_0xa40b78(0x20b));try{var _0x23ca3a=await redis[_0xa40b78(0x1ed)](_0x11fd74);if(_0x23ca3a)return JSON[_0xa40b78(0x1c5)](_0x23ca3a);if(_0x545ade[_0xa40b78(0x190)](_0x42eda2)){var _0x594aa6=_0x545ade['\x72\x65\x61\x64\x46\x69\x6c\x65\x53\x79\x6e\x63'](_0x42eda2,'\x75\x74\x66\x2d\x38'),_0x2bd235=JSON[_0xa40b78(0x1c5)](_0x594aa6);try{await redis[_0xa40b78(0x20c)](_0x11fd74,JSON[_0xa40b78(0x16a)](_0x2bd235));}catch(_0x58b931){}return _0x2bd235;}return[];}catch(_0x4b2f05){try{return _0x545ade[_0xa40b78(0x190)](_0x42eda2)?(_0x3e0282=_0x545ade[_0xa40b78(0x183)](_0x42eda2,'\x75\x74\x66\x2d\x38'),JSON[_0xa40b78(0x1c5)](_0x3e0282)):[];}catch(_0x4788ac){return[];}}}async function _0x5f3d20(_0x1a97d9,_0x2c2303,_0x4b104f,_0x36bc36){var _0xe7322a=_0x13d0b0,_0x1c0c68='\x59\x54\x55\x53\x45\x52\x5f\x4f\x54\x48\x45\x52\x3a'+_0x2c2303,_0x4b104f=_0x1a97d9[_0xe7322a(0x223)](_0x4b104f,_0xe7322a(0x231),_0x2c2303+_0xe7322a(0x20b));try{var _0x29830e=_0x36bc36[_0xe7322a(0x202)](_0x375db0=>_0xe7322a(0x1be)===_0x375db0[_0xe7322a(0x1f9)])['\x70\x6f\x70'](),_0x15c788=(_0x29830e&&(_0x36bc36=_0x36bc36[_0xe7322a(0x202)](_0x404115=>_0xe7322a(0x1be)!==_0x404115['\x72\x6f\x6c\x65']))[_0xe7322a(0x1ff)](_0x29830e),JSON[_0xe7322a(0x16a)](_0x36bc36,null,0x2));try{await redis[_0xe7322a(0x20c)](_0x1c0c68,_0x15c788);}catch(_0x3910d6){}var _0x17d70a=_0x1a97d9[_0xe7322a(0x193)](_0x4b104f);_0x545ade[_0xe7322a(0x190)](_0x17d70a)||_0x545ade[_0xe7322a(0x160)](_0x17d70a,{'\x72\x65\x63\x75\x72\x73\x69\x76\x65':!0x0}),_0x545ade['\x77\x72\x69\x74\x65\x46\x69\x6c\x65\x53\x79\x6e\x63'](_0x4b104f,_0x15c788,{'\x65\x6e\x63\x6f\x64\x69\x6e\x67':_0xe7322a(0x15f)});}catch(_0x2f7e90){}}async function _0x2762bf(_0x298dfe,_0x2cec1e){var _0x3c929d=_0x13d0b0,_0x39c2c2=_0x25df85+_0x3c929d(0x208),_0x39c2c2=JSON[_0x3c929d(0x1c5)](await _0x545ade[_0x3c929d(0x1a4)]['\x72\x65\x61\x64\x46\x69\x6c\x65'](_0x39c2c2,_0x3c929d(0x15f)))[_0x3c929d(0x181)][_0x3c929d(0x1ec)];try{var _0x2c07aa=await _0x40ce27(_0x3c929d(0x172),_0x39c2c2,_0x2cec1e,_0x298dfe);return _0x2c07aa[_0x3c929d(0x17b)]?_0x2c07aa[_0x3c929d(0x17b)]:_0x2c07aa?.[_0x3c929d(0x17b)]?JSON['\x73\x74\x72\x69\x6e\x67\x69\x66\x79'](_0x2c07aa?.[_0x3c929d(0x17b)]):_0x2c07aa?.[_0x3c929d(0x1d2)][0x0]?.['\x6d\x65\x73\x73\x61\x67\x65']?.['\x63\x6f\x6e\x74\x65\x6e\x74'];}catch(_0x258753){return _0x258753[_0x3c929d(0x209)];}}async function _0x58d29a(_0x1dc2ae){var _0x296fe4=_0x13d0b0;try{var _0x111d12={'\x6d\x6f\x64\x65\x6c':'\x74\x65\x73\x74\x2d\x31','\x73\x74\x72\x65\x61\x6d':!0x1,'\x6d\x65\x73\x73\x61\x67\x65\x73':[{'\x72\x6f\x6c\x65':_0x296fe4(0x1a6),'\x63\x6f\x6e\x74\x65\x6e\x74':_0x296fe4(0x224)}]},_0x19548c=await(await _0x170c74(_0x296fe4(0x16e),{'\x6d\x65\x74\x68\x6f\x64':'\x50\x4f\x53\x54','\x68\x65\x61\x64\x65\x72\x73':{'\x43\x6f\x6e\x74\x65\x6e\x74\x2d\x54\x79\x70\x65':_0x296fe4(0x213),'\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e':_0x296fe4(0x165)+_0x1dc2ae},'\x62\x6f\x64\x79':JSON[_0x296fe4(0x16a)](_0x111d12)}))[_0x296fe4(0x1e7)]();return _0x19548c;}catch(_0x56b928){return null;}}async function _0x2ab8f8(_0x15d28d,_0x36ebc3,_0x22baec,_0x495663=0x3e8){var _0x34c933=_0x13d0b0;_0x36ebc3=_0x34c933(0x159)==typeof _0x36ebc3?[_0x36ebc3]:_0x36ebc3;try{let _0x4f309e=[..._0x22baec];_0x36ebc3[_0x34c933(0x204)](_0x5de146=>_0x4f309e[_0x34c933(0x1ee)](_0x5de146));var _0x4233ed=await _0x13a048['\x6d\x61\x6b\x65\x46\x6f\x72\x77\x61\x72\x64\x4d\x73\x67'](_0x15d28d,_0x4f309e,'\x50\x72\x65\x76\x69\x65\x77');await _0x15d28d[_0x34c933(0x205)](_0x4233ed),logger[_0x34c933(0x1ea)](_0x34c933(0x18f));}catch(_0x4141d3){logger[_0x34c933(0x216)]('\u4e00\u6b21\u6027\u53d1\u9001\u5931\u8d25\uff0c\u5c06\u5c1d\u8bd5\u5206\u6bb5\u53d1\u9001\x3a\x20'+_0x4141d3[_0x34c933(0x209)]);try{var _0x21a6fd,_0x2fd3a0=[..._0x22baec];for(_0x21a6fd of _0x36ebc3)if('\x73\x74\x72\x69\x6e\x67'==typeof _0x21a6fd&&_0x21a6fd[_0x34c933(0x22d)]>_0x495663){var _0x5424e2=Math[_0x34c933(0x1e2)](_0x21a6fd[_0x34c933(0x22d)]/_0x495663);logger[_0x34c933(0x1ea)]('\u6d88\u606f\u957f\u5ea6\u4e3a'+_0x21a6fd[_0x34c933(0x22d)]+'\uff0c\u5c06\u5206\u4e3a'+_0x5424e2+'\u6bb5\u53d1\u9001');for(let _0x3f37ca=0x0;_0x3f37ca<_0x5424e2;_0x3f37ca++){var _0x169ae5=_0x3f37ca*_0x495663,_0x285851=Math[_0x34c933(0x19b)](_0x169ae5+_0x495663,_0x21a6fd[_0x34c933(0x22d)]),_0x5e32c1=_0x21a6fd[_0x34c933(0x1a7)](_0x169ae5,_0x285851);_0x5e32c1['\x74\x72\x69\x6d']()&&_0x2fd3a0[_0x34c933(0x1ee)](_0x5e32c1);}}else _0x2fd3a0[_0x34c933(0x1ee)](_0x21a6fd);var _0xed3161=await _0x13a048[_0x34c933(0x1e6)](_0x15d28d,_0x2fd3a0,_0x34c933(0x17f));await _0x15d28d[_0x34c933(0x205)](_0xed3161),logger[_0x34c933(0x1ea)]('\u6d88\u606f\u5df2\u6210\u529f\u5206\u6bb5\u53d1\u9001');}catch(_0x46c035){logger['\x65\x72\x72\x6f\x72'](_0x34c933(0x17c)+_0x46c035[_0x34c933(0x209)]),await _0x15d28d[_0x34c933(0x205)]('\u6d88\u606f\u53d1\u9001\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5');}}}export{_0x1d1fff as OtherAi};
+import { dependencies } from "../YTdependence/dependencies.js";
+import { fs_other } from "../YTdependence/fs_other_makes.js";
+import { chunk, TakeImages, handleImages, getBase64File, get_address, downloadAndSaveFile, removeDuplicates } from "../utils/fileUtils.js";
+import { getFileInfo } from '../utils/fileUtils.js';
+import { processUploadedFile } from '../YTOpen-Ai/tools/processUploadedFile.js';
+import { SearchMessages } from '../YTOpen-Ai/other_tools/search.js';
+import { OpenAiChatCmpletions } from "../YTOpen-Ai/OpenAiChatCmpletions.js";
+import { callGeminiAPI, handleGeminiResult, processGeminiResult } from "../YTOpen-Ai/GeminiAPI.js";
+import { generateAndSendSong } from "../utils/providers/AudioModels/suno/suno.js";
+import { jimengClient } from "../utils/providers/ChatModels/jimeng/jimengClient.js";
+const {
+  fs,
+  fetch,
+  path,
+  _path,
+  common,
+  mimeTypes,
+  handleTTS,
+  OtherModels,
+  isPluginCommand,
+  replyBasedOnStyle,
+  processArray,
+  extractAndRender
+}
+  = dependencies;
+const cooldowns = {};
+import _ from "lodash"
+let Bot_Name;
+let dirpath = `${_path}/data/YTotherai`;
+async function setName() {
+  if (fs.existsSync(_path + '/data/YTAi_Setting/data.json')) {
+    Bot_Name = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.ai_name_others
+  }
+}
+await setName();
+await fs_other(fs, _path);
+const models = OtherModels;
+let lastExecutionTime = {};
+
+export class OtherAi extends plugin {
+  constructor() {
+    super({
+      name: '阴天[other_ai]',
+      dsc: '',
+      event: 'message',
+      priority: 1,
+      rule: [
+        {
+          reg: "^#查看附加预设$|^#切换附加(群|全局)?预设(.*?)$",
+          fnc: 'other_system'
+        },
+        {
+          reg: "^#填写附加(密钥|sk)(.*)",
+          fnc: 'other_addsk',
+          permission: 'master'
+        },
+        {
+          reg: "^#查询附加额度$",
+          fnc: 'other_quota',
+        },
+        {
+          reg: "^#切换附加模型(.*?)",
+          fnc: 'other_change',
+          permission: 'master'
+        },
+        {
+          reg: "^#结束(全部)?附加(群)?对话$",
+          fnc: 'other_endchat'
+        },
+        {
+          reg: "^#清空(全部)?附加(群|全局)?预设$",
+          fnc: 'other_endsystem'
+        },
+        {
+          reg: "^#附加(开启|关闭)分区间$",
+          fnc: 'other_workshop',
+          permission: 'master'
+        },
+        {
+          reg: "^[\s\S]*",
+          fnc: 'other_chat',
+          log: false
+        }
+      ]
+    })
+  }
+
+  async other_addsk(e) {
+    const dataPath = `${dirpath}/data.json`;
+    const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
+    //const token = data.stoken || 'null';
+    const token = e.msg.replace(/#填写附加(密钥|sk)/g, '');
+    await e.reply("正在验证密钥正确性，请稍等...");
+    try {
+      const informs = await UserAuth(token);
+      if (informs.error) {
+        e.reply(informs.error?.message);
+      } else if (informs?.choices[0]?.message?.content) {
+        data.chatgpt.stoken = token;
+        await fs.promises.writeFile(dataPath, JSON.stringify(data, null, 2), "utf-8");
+        e.reply("验证成功，可即刻使用");
+      }
+    } catch (error) {
+      console.error(error);
+      e.reply("验证失败" + error.message);
+    }
+  }
+
+  async other_quota(e) {
+    e.reply("为保证安全性，请自行于网站查询对应密钥额度");
+  }
+
+  async other_workshop(e) {
+    try {
+      let dataPath = `${dirpath}/workshop.json`;
+      let data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
+      if (e.msg.includes("#附加开启分区间")) {
+        data.workshop.limit = false;
+        e.reply(`附加模型开启分区间,所有对话独立`);
+      } else {
+        data.workshop.limit = true;
+        e.reply(`附加模型已关闭分区间,对话共享`, true);
+      }
+      await fs.promises.writeFile(dataPath, JSON.stringify(data), "utf-8");
+      return true;
+    } catch (error) {
+      console.error("Error in workshop function: ", error);
+      e.reply("更改失败了");
+    }
+  }
+
+  async other_endsystem(e) {
+    try {
+      const folderPath = path.join(dirpath, "user_cache");
+
+      // 确保目录存在
+      if (!fs.existsSync(folderPath)) {
+        await fs.promises.mkdir(folderPath, { recursive: true });
+      }
+
+      const sanitizeConversation = async (filePath, redisKey) => {
+        try {
+          let conversations = [];
+          try {
+            conversations = await loadData(redisKey, filePath);
+            console.log('Loaded conversations:', conversations);
+          } catch (err) {
+            console.log(`读取数据失败,使用空数组: ${err.message}`);
+          }
+
+          if (!Array.isArray(conversations)) {
+            conversations = [];
+          }
+
+          const sanitizedConversations = conversations.filter(item =>
+            item && typeof item === 'object' && item.role !== "system"
+          );
+
+          // 备份原始数据
+          const backupPath = `${filePath}.backup`;
+          if (fs.existsSync(filePath)) {
+            try {
+              await fs.promises.copyFile(filePath, backupPath);
+            } catch (err) {
+              console.log(`创建备份失败: ${err.message}`);
+            }
+          }
+
+          // 保存清理后的数据
+          try {
+            await saveData(redisKey, filePath, sanitizedConversations);
+          } catch (err) {
+            console.error(`保存数据失败: ${err.message}`);
+            return {
+              success: false,
+              error: `保存数据失败: ${err.message}`
+            };
+          }
+
+          // 验证写入是否成功
+          let verifyData = [];
+          try {
+            verifyData = await loadData(redisKey, filePath);
+          } catch (err) {
+            console.error(`验证数据失败: ${err.message}`);
+            return {
+              success: false,
+              error: `验证数据失败: ${err.message}`
+            };
+          }
+
+          if (JSON.stringify(verifyData) === JSON.stringify(sanitizedConversations)) {
+            // 写入成功，删除备份
+            if (fs.existsSync(backupPath)) {
+              try {
+                await fs.promises.unlink(backupPath);
+              } catch (err) {
+                console.log(`删除备份失败: ${err.message}`);
+              }
+            }
+            return {
+              success: true,
+              count: conversations.length - sanitizedConversations.length
+            };
+          } else {
+            // 写入验证失败，恢复备份
+            if (fs.existsSync(backupPath)) {
+              try {
+                await fs.promises.copyFile(backupPath, filePath);
+                await fs.promises.unlink(backupPath);
+              } catch (err) {
+                console.log(`恢复备份失败: ${err.message}`);
+              }
+            }
+            return {
+              success: false,
+              error: '写入验证失败'
+            };
+          }
+        } catch (err) {
+          console.error(`清理对话文件失败 ${filePath}:`, err);
+          return {
+            success: false,
+            error: err.message
+          };
+        }
+      };
+
+      // 处理不同的命令
+      if (e.msg.includes("#清空全部附加预设") && e.isMaster) {
+        try {
+          const files = await fs.promises.readdir(folderPath);
+          const results = await Promise.all(
+            files.map(async file => {
+              const filePath = path.join(folderPath, file);
+              const redisKey = `YTUSER_OTHER:${file.replace('.json', '')}`;
+              const result = await sanitizeConversation(filePath, redisKey);
+              return { file, result };
+            })
+          );
+
+          const successCount = results.filter(r => r.result.success).length;
+          const failCount = results.length - successCount;
+          const totalRemoved = results.reduce((sum, r) =>
+            sum + (r.result.success ? r.result.count : 0), 0);
+
+          e.reply(`附加预设处理完成:\n成功: ${successCount}个\n失败: ${failCount}个\n共清除: ${totalRemoved}条预设${failCount > 0 ? '\n请检查日志了解详细错误信息' : ''
+            }`);
+        } catch (err) {
+          console.error("处理全部预设时发生错误:", err);
+          e.reply("处理全部文件时发生错误");
+        }
+      }
+      // 清空指定用户的预设
+      else if (e.msg.includes("#清空附加预设")) {
+        let QQ_at = e.message
+          .filter(item => item.type === 'at' && item.qq)
+          .map(item => item.qq);
+
+        const current_user = e.user_id;
+        const userFilePath = path.join(folderPath, `${current_user}.json`);
+        const userRedisKey = `YTUSER_OTHER:${current_user}`;
+
+        if (QQ_at.length === 0) {
+          QQ_at = [e.user_id];
+        }
+
+        if (e.isMaster || (QQ_at.includes(e.user_id) && QQ_at.length === 1)) {
+          const results = await Promise.all(
+            QQ_at.map(async qq => {
+              const userPath = path.join(folderPath, `${qq}.json`);
+              const userKey = `YTUSER_OTHER:${qq}`;
+              if (fs.existsSync(userPath)) {
+                const result = await sanitizeConversation(userPath, userKey);
+                if (result.success) {
+                  e.reply(`用户 ${qq} 的预设已清空，移除了 ${result.count} 条预设消息`);
+                } else {
+                  e.reply(`清空用户 ${qq} 的预设失败: ${result.error}`, true);
+                }
+                return result.success;
+              } else {
+                e.reply(`用户 ${qq} 的预设不存在`, true);
+                return false;
+              }
+            })
+          );
+
+          if (!results.some(success => success)) {
+            e.reply("所有操作均失败，请检查权限和文件状态");
+          }
+        } else {
+          if (fs.existsSync(userFilePath)) {
+            const result = await sanitizeConversation(userFilePath, userRedisKey);
+            if (result.success) {
+              e.reply(`用户 ${current_user} 的预设已清空，移除了 ${result.count} 条预设消息`);
+            } else {
+              e.reply(`清空失败: ${result.error}`, true);
+            }
+          } else {
+            e.reply("当前未存在预设", true);
+          }
+        }
+      }
+      // 清空群预设
+      else if (e.msg.includes("#清空附加群预设") && e.isMaster && e.group_id) {
+        const groupFilePath = path.join(folderPath, `${e.group_id}.json`);
+        const groupRedisKey = `YTUSER_OTHER:${e.group_id}`;
+        if (fs.existsSync(groupFilePath)) {
+          const result = await sanitizeConversation(groupFilePath, groupRedisKey);
+          if (result.success) {
+            e.reply(`群聊 ${e.group_id} 的预设已清空，移除了 ${result.count} 条预设消息`);
+          } else {
+            e.reply(`清空群聊预设失败: ${result.error}`, true);
+          }
+        } else {
+          e.reply("当前群未存在预设", true);
+        }
+      }
+      // 清空全局预设
+      else if (e.msg.includes("#清空附加全局预设") && e.isMaster) {
+        const globalFilePath = path.join(folderPath, 'all.json');
+        const globalRedisKey = `YTAll_OTHER:all`;
+        if (fs.existsSync(globalFilePath)) {
+          const result = await sanitizeConversation(globalFilePath, globalRedisKey);
+          if (result.success) {
+            e.reply(`全局预设已清空，移除了 ${result.count} 条预设消息`);
+          } else {
+            e.reply(`清空全局预设失败: ${result.error}`, true);
+          }
+        } else {
+          e.reply("全局预设不存在", true);
+        }
+      }
+    } catch (error) {
+      console.error("其他结束系统处理时发生错误:", error);
+      e.reply("处理过程中发生错误，请检查日志获取详细信息");
+    }
+  }
+
+  async other_system(e) {
+    try {
+      const presetDir = path.join(_path, "data", "阴天预设");
+      const dirname = await fs.promises.readdir(presetDir, "utf-8");
+
+      /**
+       * 处理预设文件，分批发送消息
+       */
+      const processFiles = async () => {
+        const batchSize = 50;
+        for (let startIndex = 0; startIndex < dirname.length; startIndex += batchSize) {
+          const currentBatch = dirname.slice(startIndex, startIndex + batchSize);
+          const forwardMsg = await Promise.all(currentBatch.map(async (name, index) => {
+            const cleanName = name.replace(/\.txt$/g, "");
+            const weight = await fs.promises.readFile(path.join(presetDir, name), "utf-8").then(content => content.slice(0, 100));
+            return `序号:${startIndex + index + 1}\n名称:${cleanName}\n内容简述:${weight}`;
+          }));
+          await e.reply(await common.makeForwardMsg(e, forwardMsg, '预设魔法大全'));
+        }
+      };
+
+      /**
+       * 切换预设，优先使用 Redis
+       * @param {string} targetFile - 目标文件（用户ID、群ID或all）
+       * @param {string} replyMessage - 回复消息
+       */
+      const switchPreset = async (targetFile, replyMessage) => {
+        const msg = parseInt(e.msg.replace(/[^0-9]/ig, ""), 10);
+        if (dirname[msg - 1]) {
+          const prompt = await fs.promises.readFile(path.join(presetDir, dirname[msg - 1]), "utf-8");
+          const filePath = path.join(dirpath, "user_cache", `${targetFile}.json`);
+          const redisKey = targetFile === 'all' ? `YTAll_OTHER:all` : `YTUSER_OTHER:${targetFile}`;
+          let data = await loadData(redisKey, filePath);
+          // 过滤掉所有的 system 消息，并在开头添加新的 system 消息
+          const lastSystemMessage = data.filter(item => item.role === 'system').pop();
+          if (lastSystemMessage) {
+            data = data.filter(item => item.role !== 'system');
+            data.unshift({ role: "system", content: prompt });
+          } else {
+            data.unshift({ role: "system", content: prompt });
+          }
+          await saveData(redisKey, filePath, data);
+          e.reply(`${replyMessage} 【${dirname[msg - 1].replace(/\.txt$/, "")}】`);
+        } else {
+          e.reply("输入序号错误!");
+        }
+      };
+
+      // 处理不同的命令
+      if (e.msg.includes("#查看附加预设")) {
+        await processFiles();
+      } else if (e.msg.includes("#切换附加预设")) {
+        await switchPreset(e.user_id, "成功切换预设");
+      } else if (e.msg.includes("#切换附加群预设") && e.group_id && e.isMaster) {
+        await switchPreset(e.group_id, "成功切换群预设");
+      } else if (e.msg.includes("#切换附加全局预设") && e.isMaster) {
+        await switchPreset("all", "成功切换全局预设");
+      }
+    } catch (error) {
+      console.error("其他系统处理时发生错误:", error);
+      e.reply(error.message);
+    }
+  }
+
+  async other_endchat(e) {
+    try {
+      const folderPath = path.join(dirpath, "user_cache");
+
+      // 确保目录存在
+      if (!fs.existsSync(folderPath)) {
+        await fs.promises.mkdir(folderPath, { recursive: true });
+      }
+
+      /**
+      * 优化文件读写操作，优先使用 Redis
+      * @param {string} filePath - 文件路径 
+      * @param {string} redisKey - Redis 键
+      * @returns {Object} 操作结果
+      */
+      const sanitizeConversation = async (filePath, redisKey) => {
+        try {
+          // 从 Redis 或本地加载数据
+          let conversations = [];
+          try {
+            conversations = await loadData(redisKey, filePath);
+          } catch (err) {
+            console.log(`读取数据失败,使用空数组: ${err.message}`);
+          }
+
+          // 确保 conversations 是数组
+          if (!Array.isArray(conversations)) {
+            conversations = [];
+          }
+
+          // 过滤预设对话，移除 role 为 "user" 和 "assistant" 的消息
+          const sanitizedConversations = conversations.filter(item =>
+            item && typeof item === 'object' && item.role !== "user" && item.role !== "assistant"
+          );
+          // 备份原始数据
+          const backupPath = `${filePath}.backup`;
+          if (fs.existsSync(filePath)) {
+            try {
+              await fs.promises.copyFile(filePath, backupPath);
+            } catch (err) {
+              console.log(`创建备份失败: ${err.message}`);
+            }
+          }
+
+          // 保存清理后的数据
+          try {
+            await saveData(redisKey, filePath, sanitizedConversations);
+          } catch (err) {
+            console.error(`保存数据失败: ${err.message}`);
+            return {
+              success: false,
+              error: `保存数据失败: ${err.message}`
+            };
+          }
+
+          // 验证写入是否成功
+          let verifyData = [];
+          try {
+            verifyData = await loadData(redisKey, filePath);
+          } catch (err) {
+            console.error(`验证数据失败: ${err.message}`);
+            return {
+              success: false,
+              error: `验证数据失败: ${err.message}`
+            };
+          }
+
+          if (JSON.stringify(verifyData) === JSON.stringify(sanitizedConversations)) {
+            // 写入成功，删除备份
+            if (fs.existsSync(backupPath)) {
+              try {
+                await fs.promises.unlink(backupPath);
+              } catch (err) {
+                console.log(`删除备份失败: ${err.message}`);
+              }
+            }
+            return {
+              success: true,
+              count: conversations.length - sanitizedConversations.length
+            };
+          } else {
+            // 写入验证失败，恢复备份
+            if (fs.existsSync(backupPath)) {
+              try {
+                await fs.promises.copyFile(backupPath, filePath);
+                await fs.promises.unlink(backupPath);
+              } catch (err) {
+                console.log(`恢复备份失败: ${err.message}`);
+              }
+            }
+            return {
+              success: false,
+              error: '写入验证失败'
+            };
+          }
+        } catch (err) {
+          console.error(`清理对话文件失败 ${filePath}:`, err);
+          return {
+            success: false,
+            error: err.message
+          };
+        }
+      };
+
+      // 结束全部附加对话
+      if (e.msg.includes("#结束全部附加对话") && e.isMaster) {
+        try {
+          const files = await fs.promises.readdir(folderPath);
+          const results = await Promise.all(
+            files.map(async file => {
+              const filePath = path.join(folderPath, file);
+              const redisKey = `YTUSER_OTHER:${file.replace('.json', '')}`;
+              const result = await sanitizeConversation(filePath, redisKey);
+              return { file, result };
+            })
+          );
+          const totalCount = results.reduce((sum, item) => {
+            if (item.result?.count !== undefined) {
+              return sum + item.result.count;
+            }
+            return sum;
+          }, 0);
+          const successCount = results.filter(r => r.result.success).length;
+          const failCount = results.length - successCount;
+
+          e.reply(`附加对话处理完成:\n成功: ${successCount}个\n失败: ${failCount}个${failCount > 0 ? '\n请检查日志了解详细错误信息' : ''
+            }\n总共清空 ${totalCount} 个消息`);
+        } catch (err) {
+          console.error("处理全部对话时发生错误:", err);
+          e.reply("处理全部文件时发生错误");
+        }
+      }
+      // 结束指定用户的附加对话
+      else if (e.msg.includes("#结束附加对话")) {
+        let QQ_at = e.message
+          .filter(item => item.type === 'at' && item.qq)
+          .map(item => item.qq);
+
+        const current_user = e.user_id;
+        const userFilePath = path.join(folderPath, `${current_user}.json`);
+        const userRedisKey = `YTUSER_OTHER:${current_user}`;
+
+        if (QQ_at.length === 0) {
+          QQ_at = [e.user_id];
+        }
+
+        if (e.isMaster || (QQ_at.includes(e.user_id) && QQ_at.length === 1)) {
+          const results = await Promise.all(
+            QQ_at.map(async qq => {
+              const userPath = path.join(folderPath, `${qq}.json`);
+              const userKey = `YTUSER_OTHER:${qq}`;
+              if (fs.existsSync(userPath)) {
+                const result = await sanitizeConversation(userPath, userKey);
+                if (result.success) {
+                  e.reply(`用户 ${qq} 的对话已重置，移除了最新 ${result.count} 条消息`);
+                } else {
+                  e.reply(`重置用户 ${qq} 的对话失败: ${result.error}`, true);
+                }
+                return result.success;
+              } else {
+                e.reply(`用户 ${qq} 的对话记录不存在`, true);
+                return false;
+              }
+            })
+          );
+
+          if (!results.some(success => success)) {
+            e.reply("所有操作均失败，请检查权限和文件状态");
+          }
+        } else {
+          if (fs.existsSync(userFilePath)) {
+            const result = await sanitizeConversation(userFilePath, userRedisKey);
+            if (result.success) {
+              e.reply(`用户 ${current_user} 的对话已重置，移除了最新 ${result.count} 条消息`);
+            } else {
+              e.reply(`重置失败: ${result.error}`, true);
+            }
+          } else {
+            e.reply("当前未存在对话记录", true);
+          }
+        }
+      }
+      // 结束群对话
+      else if (e.msg.includes("#结束附加群对话") && e.isMaster && e.group_id) {
+        const groupFilePath = path.join(folderPath, `${e.group_id}.json`);
+        const groupRedisKey = `YTUSER_OTHER:${e.group_id}`;
+        if (fs.existsSync(groupFilePath)) {
+          const result = await sanitizeConversation(groupFilePath, groupRedisKey);
+          if (result.success) {
+            e.reply(`群聊 ${e.group_id} 的对话已重置， 移除了最新 ${result.count} 条消息`);
+          } else {
+            e.reply(`重置群聊对话失败: ${result.error}`, true);
+          }
+        } else {
+          e.reply("当前群未存在对话记录", true);
+        }
+      }
+    } catch (error) {
+      console.error("其他结束对话处理时发生错误:", error);
+      e.reply("处理过程中发生错误，请检查日志获取详细信息");
+    }
+  }
+
+  async other_change(e) {
+    if (!e.isMaster) {
+      e.reply("权限不够");
+      return;
+    }
+    try {
+      let msg = e.msg.replace(/[^\d]/g, '');
+      if (models[msg - 1]) {
+        let modelName = models[msg - 1].model;
+        let dataPath = dirpath + "/data.json";
+        let data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
+        data.chatgpt.model = modelName;
+        await fs.promises.writeFile(dataPath, JSON.stringify(data), "utf-8");
+        e.reply(`附加模型成功切换为${modelName}`, true);
+      } else {
+        e.reply("指定的模型不存在，请检查序号。");
+      }
+    } catch (error) {
+      console.error("Error in opmodels function: ", error);
+      e.reply("处理请求时出错。");
+    }
+  }
+
+  async other_chat(e) {
+    await setName();
+    const chatgptConfigs = JSON.parse(await fs.promises.readFile(`${dirpath}/data.json`, "utf-8")).chatgpt;
+    let group = JSON.parse(await fs.promises.readFile(dirpath + "/workshop.json", "utf-8")).workshop.limit;
+    let { model } = chatgptConfigs;
+    let userid = group ? (e.group_id ?? e.user_id) : e.user_id;
+    //console.log(e)
+    let history = await loadUserHistory(path, userid, dirpath);
+    let all_system = fs.existsSync(`${dirpath}/user_cache/all.json`)
+      ? JSON.parse(await fs.promises.readFile(`${dirpath}/user_cache/all.json`, "utf-8"))
+      : [];
+    const hasSystemRole = all_system.some(item => item.role === "system");
+    const HistoryhasSystemRole = history.some(item => item.role === "system");
+    if (hasSystemRole && !HistoryhasSystemRole) {
+      history = history.filter(item => item.role !== "system");
+      history.unshift(...all_system);
+    }
+    let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
+    let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
+    let { fileUrl, fileName: filenames } = await getFileInfo(e);
+    //console.log(source)
+    //console.log(filenames)
+    let { ai_chat_at, ai_chat, ai_ban_plans, ai_ban_number, ai_ban_group, ai_private_plan, ai_private_open, other_netsearch } = aiSettings.chatgpt;
+
+    let invalidWords = JSON.parse(fs.readFileSync(_path + '/data/YTAi_Setting/data.json')).chatgpt.add_words;
+    if (!invalidWords) {
+      invalidWords = []
+    }
+    //console.log(invalidWords)
+    const isPrivate = e?.isPrivate && ai_private_plan === "others" && ai_private_open === true;
+    const isAtSelf = e?.at === e?.self_id && ai_chat_at && ai_chat === "others";
+    const isAtBot = e?.atBot && ai_chat_at && ai_chat === "others";
+    const isBotMentioned = e?.msg?.startsWith(Bot_Name);
+    const containsInvalidWords = !e?.file && e?.msg && invalidWords.some(word => e.msg.includes(word));
+    if (((e?.file && isPrivate) || isAtSelf || isAtBot || isBotMentioned || isPrivate) && !containsInvalidWords) {
+      let checkban = await checkBanStatus(e, ai_ban_group, ai_ban_plans, ai_ban_number)
+      if (checkban == false) {
+        return false;
+      }
+      if (e && e.msg) {
+        let ban = await isPluginCommand(e.msg, Bot_Name);
+        if (ban === false) {
+          return false;
+        }
+      }
+      let msg = e?.msg?.replace(/#bot/g, "")?.replace(new RegExp(Bot_Name, "g"), "")?.trim() || '...';
+      //console.log(msg);
+      let message = msg;
+      const modelInfo = models.find(m => m.model === model);
+      console.log(modelInfo)
+      const MaxToken = modelInfo && modelInfo.token
+        ? (typeof modelInfo.token === 'string' && modelInfo.token.endsWith('k'))
+          ? parseInt(modelInfo.token) * 1000
+          : parseInt(modelInfo.token)
+        : 8000;
+
+      let aiSettingsPath = _path + '/data/YTAi_Setting/data.json';
+      let aiSettings = JSON.parse(await fs.promises.readFile(aiSettingsPath, "utf-8"));
+      let { prompts_answers, prompts_answer_open, others_moment_numbers, others_moment_open } = aiSettings.chatgpt;
+      if (prompts_answers && prompts_answer_open) {
+        const tips = prompts_answers
+        await e.reply(tips, true, { recallMsg: 6 });
+      }
+      if (others_moment_open) {
+        history = await processArray(history, others_moment_numbers || 10, MaxToken);
+      }
+      //console.log(e.img)
+      let imgurl = fileUrl ? [fileUrl] : await TakeImages(e);
+      console.log(imgurl, filenames);
+      if (imgurl && imgurl.length > 0) {
+        const isValidModel = fileUrl ? true : models.find(m => m.model === model)?.features?.includes('image_recognition') || false;
+
+        console.log(isValidModel)
+        if (isValidModel) {
+          if (model == 'gemini-2.0-flash-exp-image-generation') {
+            const result = await callGeminiAPI(msg, imgurl, {
+              model,
+              responseModalities: ['TEXT', 'IMAGE'],
+              config: {
+                temperature: 0.8
+              }
+            });
+            console.log(result);
+            return await handleGeminiResult(result, e);
+          }
+          try {
+            let imgurls = [{
+              "type": "text",
+              "text": message
+            }]
+            for (let url of imgurl) {
+              // 检查当前模型是否支持文件处理
+              const modelSupportsFile = models.find(m => m.model === model)?.features?.includes('file') || false;
+
+              if (!modelSupportsFile && filenames) {
+                // 如果模型不支持文件处理，直接使用 processUploadedFile
+                imgurls = await processUploadedFile(url, filenames, message);
+              } else {
+                // 原有的文件处理逻辑
+                const filename = filenames ? filenames : '1.png';
+                const type = filenames ? 'file' : 'img';
+                const img_urls = await getBase64File(url, filename, type);
+
+                const errorMessages = {
+                  "该文件链接已过期，请重新获取": "该图片下载链接已过期，请重新上传",
+                  "无效的图片格式": "无效的图片格式，请重新上传",
+                  "无效的图片下载链接": "无效的图片下载链接，请确保适配器支持且图片未过期，可重新上传尝试",
+                  "无效的文件下载链接": "无效的文件下载链接，请确保适配器支持且文件未过期，可重新上传尝试",
+                };
+
+                if (errorMessages[img_urls]) {
+                  return e.reply(errorMessages[img_urls]);
+                }
+
+                const mimeType = mimeTypes.lookup(filename) || 'application/octet-stream';
+                const isImage = mimeType.startsWith('image/');
+
+                imgurls.push(
+                  isImage ?
+                    {
+                      "type": "image_url",
+                      "image_url": {
+                        url: img_urls
+                      }
+                    } :
+                    {
+                      "type": "file",
+                      "file_url": {
+                        url: img_urls
+                      }
+                    }
+                );
+              }
+            }
+            console.log(imgurls)
+            if (model == 'cogvideox') {
+              e.reply("排队中，请稍后");
+              const videoArray = await YTapi([{ role: 'user', content: imgurls }], model);
+              console.log(videoArray);
+              if (!videoArray || videoArray.length == 0 || videoArray.includes("错误")) {
+                e.reply('生成失败了，上传的图片不支持或当前处于高并发状态，请稍后尝试');
+                return false;
+              } else {
+                e.reply(segment.video(videoArray));
+              }
+              return false;
+            }
+            history.push({ role: "user", content: imgurls })
+
+            if (model == 'midjourney-all' || model == 'nijidjourney-create' || model == 'midjourney-create') {
+              const cooldownMessage = await checkCooldown(e.user_id);
+              if (cooldownMessage) {
+                e.reply(cooldownMessage);
+                return false;
+              }
+              e.reply("我开始绘图了，大概需要50s-7min");
+              const links = await YTapi([{ role: 'user', content: imgurls }], 'midjourney-all');
+              console.log(links);
+              const regex = /\(https?:\/\/[^\s)]+\)/g;
+              const imageArray = [];
+              let match;
+
+              while ((match = regex.exec(links)) !== null) {
+                imageArray.push(match[0].slice(1, -1));
+              }
+              if (imageArray && imageArray.length !== 0) {
+                let images = []
+                imageArray.forEach(imgurl => {
+                  images.push(segment.image(imgurl.trim()));
+                })
+                e.reply(images);
+              } else {
+                e.reply('生成失败了，可能负载过高，请稍后再试！');
+              }
+              return false;
+            }
+
+            if (model == 'gemini-2.0-flash-net') {
+              const openAIFormat = {
+                messages: history
+              };
+              const result = await callGeminiAPI(openAIFormat, imgurl, {
+                model: "gemini-2.0-flash",
+                useTools: true,
+                tools: [
+                  {
+                    googleSearch: {}
+                  }
+                ],
+                returnRawResponse: true
+              });
+              const processedData = await processGeminiResult(result, {
+                includeRawOutput: true,
+                saveImages: true
+              });
+              let styles = aiSettings.chatgpt.ai_chat_style;
+              await replyBasedOnStyle(processedData, e, model, msg);
+              const urls = await get_address(processedData);
+              let forwardMsg = []; // 初始化 forwardMsg 数组
+              let pictureProcessed = false; // 标记是否处理了 picture
+
+              if (styles == "picture") {
+                try {
+                  const results = await extractAndRender(processedData, {
+                    outputDir: './resources'
+                  });
+                  results.forEach(result => {
+                    forwardMsg.push(segment.image(result.outputPath));
+                  });
+                  pictureProcessed = true; // 标记为已处理
+                } catch (error) {
+                  console.error(error);
+                }
+              }
+
+              if (urls.length >= 1) {
+                const images = await handleImages(e, urls, _path);
+                if (images.length > 0) {
+                  forwardMsg = [...images, ...forwardMsg];
+                }
+              }
+
+              // 只发送一次消息
+              if (pictureProcessed || urls.length >= 1) {
+                await sendLongMessage(e, processedData, forwardMsg);
+              }
+              history.push({ role: "assistant", content: processedData });
+              await saveUserHistory(path, userid, dirpath, history);
+              return false;
+            }
+
+            let result = await YTapi(history, model);
+
+            let links = await get_address(result);
+            if (result && links?.length > 0) {
+              console.log(links)
+              try {
+                links = await removeDuplicates(links);
+              } catch (error) {
+                e.reply(error);
+              }
+              links.forEach(async (url) => {
+                await downloadAndSaveFile(url, filenames, e);
+              });
+            } else if (!result) {
+              e.reply("无有效回复，请稍后再试!");
+              return false;
+            }
+            let styles = aiSettings.chatgpt.ai_chat_style;
+            await replyBasedOnStyle(result, e, model, msg);
+            const urls = await get_address(result);
+            let forwardMsg = []; // 初始化 forwardMsg 数组
+            let pictureProcessed = false; // 标记是否处理了 picture
+
+            if (styles == "picture") {
+              try {
+                const results = await extractAndRender(result, {
+                  outputDir: './resources'
+                });
+                results.forEach(result => {
+                  forwardMsg.push(segment.image(result.outputPath));
+                });
+                pictureProcessed = true; // 标记为已处理
+              } catch (error) {
+                console.error(error);
+              }
+            }
+
+            if (urls.length >= 1) {
+              const images = await handleImages(e, urls, _path);
+              if (images.length > 0) {
+                forwardMsg = [...images, ...forwardMsg];
+              }
+            }
+
+            // 只发送一次消息
+            if (pictureProcessed || urls.length >= 1) {
+              await sendLongMessage(e, result, forwardMsg);
+            }
+            history.push({ role: "assistant", content: result });
+            await saveUserHistory(path, userid, dirpath, history);
+            return false;
+          } catch (error) {
+            console.error("Error:", error);
+            e.reply("发生错误，请稍后再试!");
+            history.pop();
+            return false;
+          }
+        } else {
+          e.reply("该模型不支持文件分析，请更换模型!");
+          history.pop();
+          return false;
+        }
+      }
+      if (model == 'luma-dream-machine-v2' || model == 'ltx-video') {
+        e.reply("排队中，请稍后");
+        const videoArray = await YTapi([{ role: 'user', content: msg }], model);
+        console.log(videoArray);
+        if (!videoArray || videoArray.length == 0) {
+          e.reply('生成失败了, 请稍后尝试, 可能存在违禁词');
+          return false;
+        } else {
+          const videoUrls = await get_address(videoArray);
+          e.reply(segment.video(videoUrls[0]));
+        }
+        return false;
+      }
+      if (model == 'cogvideox') {
+        e.reply("排队中，请稍后");
+        const videoArray = await YTapi([{ role: 'user', content: msg }], model);
+        console.log(videoArray);
+        if (!videoArray || videoArray.length == 0) {
+          e.reply('生成失败了，可能提示词违规或当前模型高并发，请稍后尝试');
+          return false;
+        } else {
+          e.reply(segment.video(videoArray));
+        }
+        return false;
+      }
+      if (model.includes("jimeng")) {
+        e.reply("我开始制作了，稍等哦...");
+        try {
+          const feature = model.toLowerCase().includes("video") ? "video" : "image";
+          const jimengArray = await jimengClient([{ role: 'user', content: msg }], model, feature);
+          const urls = await get_address(jimengArray);
+
+          if (urls && urls.length !== 0) {
+            let media = [];
+
+            urls.forEach(url => {
+              url = url.trim();
+              if (feature === "video") {
+                media.push(segment.video(url));
+              } else {
+                media.push(segment.image(url));
+              }
+            });
+
+            e.reply(media);
+          } else {
+            e.reply('生成失败了，可能提示词违规，请稍后再试！');
+          }
+        } catch {
+          e.reply('生成失败了，可能提示词违规，请稍后再试！');
+        }
+        return false;
+      }
+      if (model == 'midjourney-all' || model == 'nijidjourney-create' || model == 'midjourney-create') {
+        const cooldownMessage = await checkCooldown(e.user_id);
+        if (cooldownMessage) {
+          e.reply(cooldownMessage);
+          return false;
+        }
+        e.reply("我开始绘图了，大概需要50s-7min");
+        const links = await YTapi([{ role: 'user', content: msg }], 'midjourney-all');
+        console.log(links);
+        const regex = /\(https?:\/\/[^\s)]+\)/g;
+        const imageArray = [];
+        let match;
+
+        while ((match = regex.exec(links)) !== null) {
+          imageArray.push(match[0].slice(1, -1));
+        }
+        if (imageArray && imageArray.length !== 0) {
+          let images = []
+          imageArray.forEach(imgurl => {
+            images.push(segment.image(imgurl.trim()));
+          })
+          e.reply(images);
+        } else {
+          e.reply('生成失败了，可能负载过高，请稍后再试！');
+        }
+        return false;
+      }
+      if (model == 'suno-v4-vip') {
+        const now = Date.now();
+        const cooldownTime = 300000;
+
+        if (cooldowns.sunoVip && now < cooldowns.sunoVip) {
+          const remaining = Math.ceil((cooldowns.sunoVip - now) / 1000);
+          await e.reply(`Suno作曲命令正在冷却中，请等待 ${remaining} 秒后再试`);
+          return false;
+        }
+        cooldowns.sunoVip = now + cooldownTime;
+        await generateAndSendSong(e, msg);
+        return false;
+      }
+      history.push({ role: "user", content: message });
+      if (!modelInfo?.features?.some(feature => ['internet'].includes(feature))) {
+        if (other_netsearch) {
+          history = await SearchMessages(history);
+        }
+      }
+
+      if (model == 'gemini-2.0-flash-exp-image-generation') {
+        const result = await callGeminiAPI(msg, [], {
+          model,
+          responseModalities: ['TEXT', 'IMAGE'],
+          config: {
+            temperature: 0.8
+          }
+        });
+        return await handleGeminiResult(result, e);
+      }
+
+      if (model == 'gemini-2.0-flash-net') {
+        const openAIFormat = {
+          messages: history
+        };
+        const result = await callGeminiAPI(openAIFormat, [], {
+          model: "gemini-2.0-flash",
+          useTools: true,
+          tools: [
+            {
+              googleSearch: {}
+            }
+          ],
+          returnRawResponse: true
+        });
+        const processedData = await processGeminiResult(result, {
+          includeRawOutput: true,
+          saveImages: true
+        });
+        let styles = aiSettings.chatgpt.ai_chat_style;
+        await replyBasedOnStyle(processedData, e, model, msg);
+        const urls = await get_address(processedData);
+        let forwardMsg = []; // 初始化 forwardMsg 数组
+        let pictureProcessed = false; // 标记是否处理了 picture
+
+        if (styles == "picture") {
+          try {
+            const results = await extractAndRender(processedData, {
+              outputDir: './resources'
+            });
+            results.forEach(result => {
+              forwardMsg.push(segment.image(result.outputPath));
+            });
+            pictureProcessed = true; // 标记为已处理
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+        if (urls.length >= 1) {
+          const images = await handleImages(e, urls, _path);
+          if (images.length > 0) {
+            forwardMsg = [...images, ...forwardMsg];
+          }
+        }
+
+        // 只发送一次消息
+        if (pictureProcessed || urls.length >= 1) {
+          await sendLongMessage(e, processedData, forwardMsg);
+        }
+        history.push({ role: "assistant", content: processedData });
+        await saveUserHistory(path, userid, dirpath, history);
+        return false;
+      }
+
+      //console.log('history', history)
+      if (modelInfo?.features?.some(feature => ['drawing', 'image_recognition', 'file'].includes(feature))) {
+        let result = await getModelResponse(model, history);
+
+        if (!result) {
+          e.reply('无有效回复，请稍后再试!');
+          return false;
+        }
+        try {
+          const links = await Promise.resolve(result)
+            .then(get_address)
+            .then(links => links?.length ? removeDuplicates(links) : [])
+            .catch(error => {
+              console.error('地址处理错误:', error);
+              return [];
+            });
+          if (links.length) {
+            console.log('处理后的链接:', links);
+            const CONCURRENT_LIMIT = 3;
+            const chunkedLinks = chunk(links, CONCURRENT_LIMIT);
+            for (const linkGroup of chunkedLinks) {
+              await Promise.allSettled(
+                linkGroup.map(url =>
+                  Promise.all([
+                    downloadAndSaveFile(url, filenames, e).catch(error => {
+                      console.error(`文件保存失败 ${url}:`, error);
+                      e.reply(`保存失败: ${url}`);
+                    })
+                  ])
+                )
+              );
+            }
+          }
+          console.log('所有下载完成');
+        } catch (error) {
+          console.error('处理过程发生错误:', error);
+          e.reply(`处理下载过程发生错误: ${error.message}`);
+        }
+        await replyBasedOnStyle(result, e, model, msg);
+        const urls = await get_address(result);
+        let forwardMsg = []; // 初始化 forwardMsg 数组
+        let pictureProcessed = false; // 标记是否处理了 picture
+
+        let styles = aiSettings.chatgpt.ai_chat_style;
+        if (styles == "picture") {
+          try {
+            const results = await extractAndRender(result, {
+              outputDir: './resources'
+            });
+            results.forEach(result => {
+              forwardMsg.push(segment.image(result.outputPath));
+            });
+            pictureProcessed = true; // 标记为已处理
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+        if (urls.length >= 1) {
+          const images = await handleImages(e, urls, _path);
+          if (images.length > 0) {
+            forwardMsg = [...images, ...forwardMsg];
+          }
+        }
+
+        // 只发送一次消息
+        if (pictureProcessed || urls.length >= 1) {
+          await sendLongMessage(e, result, forwardMsg);
+        }
+        history.push({ role: "assistant", content: result });
+        await saveUserHistory(path, userid, dirpath, history);
+        if (aiSettings.chatgpt.ai_tts_open) {
+          await handleTTS(e, result);
+        }
+        return false
+      }
+      //console.log(history)
+      let result = await getModelResponse(model, history);
+      if (!result) {
+        e.reply("无有效回复，请稍后再试!");
+        history.pop();
+        return false;
+      }
+      result = result.replace(/Content is blocked/gi, '');
+      await replyBasedOnStyle(result, e, model, msg);
+      const urls = await get_address(result);
+      let forwardMsg = []; // 初始化 forwardMsg 数组
+      let pictureProcessed = false; // 标记是否处理了 picture
+
+      let styles = aiSettings.chatgpt.ai_chat_style;
+      if (styles == "picture") {
+        try {
+          const results = await extractAndRender(result, {
+            outputDir: './resources'
+          });
+          results.forEach(result => {
+            forwardMsg.push(segment.image(result.outputPath));
+          });
+          pictureProcessed = true; // 标记为已处理
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      if (urls.length >= 1) {
+        const images = await handleImages(e, urls, _path);
+        if (images.length > 0) {
+          forwardMsg = [...images, ...forwardMsg];
+        }
+      }
+
+      // 只发送一次消息
+      if (pictureProcessed || urls.length >= 1) {
+        await sendLongMessage(e, result, forwardMsg);
+      }
+      history.push({ role: "assistant", content: result });
+      await saveUserHistory(path, userid, dirpath, history);
+      if (aiSettings.chatgpt.ai_tts_open) {
+        await handleTTS(e, result);
+      }
+    }
+    return false;
+  }
+}
+
+async function checkBanStatus(e, groupBan, planBan, numberBan) {
+  if (groupBan.includes(e.group_id) && !e.isMaster) {
+    e.reply("此群AI暂时被bot主人禁用,去找bot主人解封!", true);
+    return false;
+  }
+  if (planBan.includes("others") && !e.isMaster) {
+    e.reply("此方案暂时被bot主人禁用,去找bot主人解封!", true);
+    return false;
+  }
+  if (numberBan.includes(e.user_id) && !e.isMaster) {
+    e.reply("你小子暂时被bot主人禁用ai功能,去找bot主人解封!", true);
+    return false;
+  }
+}
+
+async function getModelResponse(model, history) {
+  return await YTapi(history, model);
+}
+
+/**
+ * 保存数据到 Redis，并同步保存到本地文件
+ * @param {string} redisKey - Redis 的键
+ * @param {string} filePath - 本地文件路径
+ * @param {Array} data - 要保存的数据
+ * @returns {Object} 保存结果
+ */
+async function saveData(redisKey, filePath, data) {
+  const dataJson = JSON.stringify(data, null, 2);
+  try {
+    // 尝试保存到 Redis
+    await redis.set(redisKey, dataJson);
+    console.log(`数据已保存到 Redis: ${redisKey}`);
+  } catch (redisErr) {
+    console.error(`保存数据到 Redis 失败: ${redisErr}`);
+  }
+
+  try {
+    // 同步保存到本地文件
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    await fs.promises.writeFile(filePath, dataJson, 'utf-8');
+    console.log(`数据已保存到本地文件: ${filePath}`);
+  } catch (fileErr) {
+    console.error(`保存数据到本地文件失败: ${fileErr}`);
+  }
+
+  return { success: true };
+}
+
+/**
+ * 从 Redis 加载数据，如果失败则从本地文件读取
+ * @param {string} redisKey - Redis 的键
+ * @param {string} filePath - 本地文件路径
+ * @returns {Array} 加载的数据
+ */
+async function loadData(redisKey, filePath) {
+  try {
+    const data = await redis.get(redisKey);
+    if (data) {
+      console.log(`从 Redis 加载数据成功: ${redisKey}`);
+      return JSON.parse(data);
+    } else {
+      console.log(`Redis 中没有数据，尝试从本地文件加载: ${filePath}`);
+      if (fs.existsSync(filePath)) {
+        const fileData = await fs.promises.readFile(filePath, 'utf-8');
+        const parsedData = JSON.parse(fileData);
+        try {
+          // 将本地数据缓存到 Redis
+          await redis.set(redisKey, JSON.stringify(parsedData));
+          console.log(`将本地数据缓存到 Redis 成功: ${redisKey}`);
+        } catch (err) {
+          console.error(`将本地数据缓存到 Redis 失败: ${err}`);
+        }
+        return parsedData;
+      } else {
+        console.log(`本地文件不存在: ${filePath}`);
+        return [];
+      }
+    }
+  } catch (err) {
+    console.error(`从 Redis 加载数据失败: ${err}，尝试从本地文件加载`);
+    try {
+      if (fs.existsSync(filePath)) {
+        const fileData = await fs.promises.readFile(filePath, 'utf-8');
+        return JSON.parse(fileData);
+      } else {
+        console.log(`本地文件不存在: ${filePath}`);
+        return [];
+      }
+    } catch (fileErr) {
+      console.error(`从本地文件加载数据失败: ${fileErr}`);
+      return [];
+    }
+  }
+}
+
+async function checkCooldown(userid) {
+  const currentTime = Date.now();
+  const cooldownPeriod = 6 * 60 * 1000; // 6分钟，转换为毫秒
+  if (!lastExecutionTime[userid]) {
+    lastExecutionTime[userid] = 0;
+  }
+  if (currentTime - lastExecutionTime[userid] < cooldownPeriod) {
+    const remainingTime = Math.ceil((cooldownPeriod - (currentTime - lastExecutionTime[userid])) / 1000);
+    return `Niji-v6.1 绘图成本过高，用户【${userid}】请等待 ${remainingTime} 秒后再试。`;
+  }
+  lastExecutionTime[userid] = currentTime;
+  return null;
+}
+
+/**
+ * 加载用户历史记录
+ * 优先从 Redis 获取，如果失败则从本地 JSON 文件读取
+ * @param {string} userId - 用户 ID
+ * @param {string} dirpath - 本地存储目录路径
+ * @returns {Array} 用户历史记录数组
+ */
+async function loadUserHistory(path, userId, dirpath) {
+  const redisKey = `YTUSER_OTHER:${userId}`;
+  const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
+  try {
+    const data = await redis.get(redisKey);
+    if (data) {
+      console.log(`从 Redis 加载用户历史成功: ${userId}`);
+      return JSON.parse(data);
+    } else {
+      console.log(`Redis 中没有数据，尝试从本地文件加载: ${historyPath}`);
+      if (fs.existsSync(historyPath)) {
+        const fileData = fs.readFileSync(historyPath, 'utf-8');
+        const parsedData = JSON.parse(fileData);
+        try {
+          await redis.set(redisKey, JSON.stringify(parsedData));
+          console.log(`将本地数据缓存到 Redis 成功: ${userId}`);
+        } catch (err) {
+          console.error(`将本地数据缓存到 Redis 失败: ${err}`);
+        }
+        return parsedData;
+      } else {
+        console.log(`本地文件不存在: ${historyPath}`);
+        return [];
+      }
+    }
+  } catch (err) {
+    console.error(`从 Redis 加载用户历史失败: ${err}，尝试从本地文件加载`);
+    try {
+      if (fs.existsSync(historyPath)) {
+        const fileData = fs.readFileSync(historyPath, 'utf-8');
+        return JSON.parse(fileData);
+      } else {
+        console.log(`本地文件不存在: ${historyPath}`);
+        return [];
+      }
+    } catch (fileErr) {
+      console.error(`从本地文件加载用户历史失败: ${fileErr}`);
+      return [];
+    }
+  }
+}
+
+/**
+ * 保存用户历史记录
+ * 优先保存到 Redis，然后同步保存到本地 JSON 文件
+ * 即使 Redis 保存成功，也会同步保存到本地
+ * 如果 Redis 保存失败，仍然会保存到本地文件
+ * @param {string} userId - 用户 ID
+ * @param {string} dirpath - 本地存储目录路径
+ * @param {Array} history - 用户历史记录数组
+ */
+async function saveUserHistory(path, userId, dirpath, history) {
+  const redisKey = `YTUSER_OTHER:${userId}`;
+  const historyPath = path.join(dirpath, 'user_cache', `${userId}.json`);
+  try {
+    const lastSystemMessage = history.filter(item => item.role === 'system').pop();
+    if (lastSystemMessage) {
+      history = history.filter(item => item.role !== 'system');
+      history.unshift(lastSystemMessage);
+    }
+    const historyJson = JSON.stringify(history, null, 2);
+    try {
+      await redis.set(redisKey, historyJson);
+      console.log(`用户历史已保存到 Redis: ${userId}`);
+    } catch (redisErr) {
+      console.error(`保存用户历史到 Redis 失败: ${redisErr}`);
+    }
+    const dir = path.dirname(historyPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(historyPath, historyJson, { encoding: 'utf-8' });
+    console.log(`用户历史已保存到本地文件: ${historyPath}`);
+  } catch (err) {
+    console.error(`保存用户历史失败: ${err}`);
+  }
+}
+
+async function YTapi(messages, model) {
+  const dataPath = dirpath + "/data.json";
+  const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
+  const token = data.chatgpt.stoken;
+  try {
+    const url = 'https://yuanplus.cloud/v1/';
+    const responseData = await OpenAiChatCmpletions(url, token, model, messages);
+    if (responseData.error) {
+      return responseData.error;
+    }
+    console.log(responseData);
+    if (responseData?.error) {
+      return JSON.stringify(responseData?.error);
+    }
+    return responseData?.choices[0]?.message?.content;
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
+}
+
+async function UserAuth(token) {
+  try {
+    const url = 'https://yuanplus.cloud/v1/chat/completions';
+    const data = {
+      "model": "test-1",
+      "stream": false,
+      "messages": [
+        {
+          "role": "user",
+          "content": "say 1"
+        }
+      ]
+    };
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    });
+    const responseData = await response.json();
+    console.log(responseData);
+    return responseData;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+/**
+* 将长文本消息分段添加到转发消息数组
+* @param {Object} e 事件对象
+* @param {String|Array} messages 要发送的消息
+* @param {Number} maxLength 单段最大长度，默认1000字符
+*/
+async function sendLongMessage(e, messages, forwardMsg, maxLength = 1000) {
+  // 如果是字符串，转换为数组处理
+  const msgArray = typeof messages === 'string' ? [messages] : messages;
+
+  try {
+    // 先尝试直接将所有消息添加到转发消息中
+    const directForwardMsg = [...forwardMsg];
+    msgArray.forEach(msg => directForwardMsg.push(msg));
+
+    // 尝试一次性发送所有消息
+    const jsonPart = await common.makeForwardMsg(e, directForwardMsg, 'Preview');
+    await e.reply(jsonPart);
+    logger.info('消息已成功一次性发送');
+
+  } catch (error) {
+    logger.warn(`一次性发送失败，将尝试分段发送: ${error.message}`);
+
+    try {
+      // 创建新的转发消息数组
+      const segmentedForwardMsg = [...forwardMsg];
+
+      // 对每条消息进行处理
+      for (let msg of msgArray) {
+        if (typeof msg === 'string' && msg.length > maxLength) {
+          // 计算需要分成几段
+          const segmentCount = Math.ceil(msg.length / maxLength);
+          logger.info(`消息长度为${msg.length}，将分为${segmentCount}段发送`);
+
+          // 分段处理文本
+          for (let i = 0; i < segmentCount; i++) {
+            const start = i * maxLength;
+            const end = Math.min(start + maxLength, msg.length);
+            const segment = msg.substring(start, end);
+
+            if (segment.trim()) {
+              segmentedForwardMsg.push(segment);
+            }
+          }
+        } else {
+          segmentedForwardMsg.push(msg);
+        }
+      }
+
+      // 生成转发消息并发送
+      const jsonPart = await common.makeForwardMsg(e, segmentedForwardMsg, 'Preview');
+      await e.reply(jsonPart);
+      logger.info('消息已成功分段发送');
+
+    } catch (secondError) {
+      logger.error(`分段发送也失败了: ${secondError.message}`);
+      await e.reply('消息发送失败，请稍后重试');
+    }
+  }
+}
