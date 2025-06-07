@@ -106,9 +106,14 @@ export async function YTapi(requestData, config, toolContent, toolName) {
                 const processedMessages = requestData.messages
                     .map(msg => {
                         if (msg.role === 'assistant' && msg.tool_calls) {
-                            return null; // 跳过含 tool_calls 的 assistant 消息
+                            //return null; // 跳过含 tool_calls 的 assistant 消息
+                            const prefix = `你需要使用 ${toolName} 来处理用户的需求\n`;
+                            return {
+                                role: 'assistant',
+                                content: '[系统反馈信息]: ' + prefix + msg.tool_calls[0].function.arguments
+                            };
                         } else if (msg.role === 'tool') {
-                            const prefix = `我来调用工具 ${toolName} 试试\n`;
+                            const prefix = `使用 ${toolName} 处理完成了，这是调用的结果：\n`;
                             return {
                                 role: 'user',
                                 content: '[系统反馈信息]: ' + prefix + msg.content
@@ -164,8 +169,8 @@ export async function YTapi(requestData, config, toolContent, toolName) {
 
         let response;
         if (url.includes('v1beta/chat/completions') && typeof finalRequestData === 'object' && finalRequestData !== null) {
-            delete finalRequestData.tools;
-            delete finalRequestData.tool_choice;
+            //delete finalRequestData.tools;
+            //delete finalRequestData.tool_choice;
         }
         try {
             response = await fetch(url, {

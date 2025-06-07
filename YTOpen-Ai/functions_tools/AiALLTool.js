@@ -1,5 +1,5 @@
 import { AbstractTool } from './AbstractTool.js';
-import { YTalltools, get_address, chunk, downloadAndSaveFile, removeDuplicates } from '../../utils/fileUtils.js';
+import { YTOtherModels, get_address, downloadAndSaveFile, removeDuplicates } from '../../utils/fileUtils.js';
 
 /**
  * 文件制作工具类，用于根据用户的prompt制作各种文件（如doc、excel、pdf等）
@@ -50,47 +50,24 @@ export class AiALLTool extends AbstractTool {
     }];
 
     try {
-      const fileResult = await YTalltools(messages);
-      
+      const fileResult = await YTOtherModels(messages, "gpt-4o-plugins");
+
       if (!fileResult) {
-        return '多模态请求失败，请检查提示词或稍后再试';
+        return '文件生成请求失败，请检查提示词或稍后再试';
       }
 
-      const links = await Promise.resolve(fileResult)
-        .then(get_address)
-        .then(links => links?.length ? removeDuplicates(links) : [])
-        .catch(error => {
-          console.error('链接处理错误:', error);
-          return [];
+      let links = await get_address(fileResult);
+      if (links?.length > 0) {
+        console.log(links)
+        try {
+          links = await removeDuplicates(links);
+        } catch (error) {
+          return `文件处理失败，请检查文件格式或重试。详情: ${error.message}`;
+        }
+        links.forEach(async (url) => {
+          await downloadAndSaveFile(url, fileName, e);
         });
-
-      if (!links.length) {
-        return '未能获取到有效的文件链接';
-      }
-
-      // 并发下载文件
-      const CONCURRENT_LIMIT = 3;
-      const chunkedLinks = chunk(links, CONCURRENT_LIMIT);
-      const downloadResults = [];
-
-      for (const linkGroup of chunkedLinks) {
-        const results = await Promise.allSettled(
-          linkGroup.map(url =>
-            downloadAndSaveFile(url, fileName, e)
-          )
-        );
-        downloadResults.push(...results);
-      }
-
-      // 处理下载结果
-      const successCount = downloadResults.filter(r => 
-        r.status === 'fulfilled' && r.value?.success
-      ).length;
-
-      if (successCount > 0) {
-        return `文件制作成功！已保存并发送 ${successCount} 个文件。详情: ${fileResult}`;
-      } else {
-        return `文件处理失败，请检查文件格式或重试。详情: ${fileResult}`;
+        return `文件制作成功！我已经成功保存保存并发送到群里面了。请查收`;
       }
 
     } catch (error) {
