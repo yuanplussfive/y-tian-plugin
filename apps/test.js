@@ -51,11 +51,11 @@ export class ExamplePlugin extends plugin {
           fnc: 'handleTool'
         },
         {
-          reg: "^#clear_history\\s*(\\d+)?",
+          reg: "^#全局emp\\s*(\\d+)?",
           fnc: 'clearHistory'
         },
         {
-          reg: "^#reset_history\\s*(\\d+)?",
+          reg: "^#装填emp\\s*(\\d+)?",
           fnc: 'resetHistory'
         },
         {
@@ -817,8 +817,6 @@ export class ExamplePlugin extends plugin {
    ✅ 工具使用正确示例：
    [04-11 00:05:23] 小明(QQ号:654321)[群身份: 普通成员]: 在群里说: 给你要的天气预报查好了，今天北京晴朗，气温18-25度，适合出门玩~
    
-   ❌ 工具使用错误示例：
-   [04-11 00:05:23] 小明(QQ号:654321)[群身份: 普通成员]: 在群里说: \`\`\`tool_code\nweatherTool.query("北京")\n\`\`\` → (暴露工具调用代码)
 
 \n\n【下面是聊天群的消息记录】
 `;
@@ -887,7 +885,7 @@ export class ExamplePlugin extends plugin {
         }
 
         const systemMessages = messages.filter(msg => msg.role === 'system');
-        const lastUserMessage = messages[messages.length - 1]?.role === 'user' ? [messages[messages.length - 1]] : [];
+        const lastUserMessage = messages[messages.length - 1]?.role === 'user' ? [`当前群聊发言用户:\n\n${messages[messages.length - 1]}`] : [];
         const middleMessages = messages.slice(
           systemMessages.length,
           messages.length - (lastUserMessage.length || 1)
@@ -896,8 +894,8 @@ export class ExamplePlugin extends plugin {
         // 格式化中间消息为 QQ 群聊记录
         const formattedMiddleContent = middleMessages
           .map(msg => {
-            const roleName = msg.role === 'user' ? '用户' : '我';
-            return `[${roleName}] ${msg.content}`;
+            //const roleName = msg.role === 'user' ? '用户' : '我';
+            return `${msg.content}`;
           })
           .join('\n');
 
@@ -906,8 +904,12 @@ export class ExamplePlugin extends plugin {
           ...systemMessages,
           ...(formattedMiddleContent ? [{
             role: 'user',
-            content: `QQ群[${e.group_id}]的群聊历史记录：\n${formattedMiddleContent}`
+            content: `当前QQ群[${e.group_id}]的群聊历史记录如下：\n${formattedMiddleContent}`
           }] : []),
+          {
+            role: 'assistant',
+            content: `【系统提示】: 上面是群聊当前的历史记录，下面是最新的用户消息，需要结合历史记录与最新的用户消息进行回复并且判断是否需要先调用工具来作答，如果需要使用工具则先调用工具并且根据调用的结果进行回复，常见的需要调用tools的场景: 比如用户需要戳一戳，搜索查找，绘图，处理/制作文件，识图，编辑图片等等`
+          },
           ...lastUserMessage
         ];
 
@@ -1473,7 +1475,7 @@ export class ExamplePlugin extends plugin {
       return false;
     }
 
-    const match = e.msg.match(/^#clear_history\s*(\d+)?\s*(\d+)?/);
+    const match = e.msg.match(/^#全局emp\s*(\d+)?\s*(\d+)?/);
     let targetGroupId = e.group_id;
     let targetUserId = e.user_id;
     if (match && match[1]) {
@@ -1505,7 +1507,7 @@ export class ExamplePlugin extends plugin {
       return false;
     }
 
-    const match = e.msg.match(/^#reset_history\s*(\d+)?\s*(\d+)?/);
+    const match = e.msg.match(/^#装填emp\s*(\d+)?\s*(\d+)?/);
     let targetGroupId = e.group_id;
     let targetUserId = e.user_id;
     if (match && match[1]) {
