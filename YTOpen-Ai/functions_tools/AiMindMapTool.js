@@ -1,8 +1,11 @@
 
 import { AbstractTool } from './AbstractTool.js';
 import { YTOtherModels } from '../../utils/fileUtils.js';
-import puppeteer from 'puppeteer';
 import { Transformer } from 'markmap-lib';
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+const puppeteer = require('puppeteer');
+const nodeVersion = process.version.slice(1).split('.')[0];
 
 /**
  * AI图表生成工具类，专注于生成Markmap格式的思维导图
@@ -118,7 +121,7 @@ export class AiMindMapTool extends AbstractTool {
       console.log('转换后的Markmap数据:', data);
 
       const browser = await puppeteer.launch({
-        headless: 'new',
+        headless: parseInt(nodeVersion) >= 16 ? "new" : true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
       });
       const page = await browser.newPage();
