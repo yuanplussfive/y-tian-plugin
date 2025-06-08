@@ -39,7 +39,6 @@ export class MessageManager {
         logger.error(`定时清理消息历史记录失败: ${error}`);
       }
     });
-    logger.info('消息管理器定时任务已初始化');
   }
 
   /**
