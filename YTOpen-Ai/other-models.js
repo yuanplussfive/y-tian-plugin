@@ -1135,13 +1135,6 @@ export const getOptimizedModels = () => {
       "quota": 0
     },
     {
-      "model": "noobai-fast",
-      "points": "Noobai",
-      "token": "8k",
-      "features": ['drawing'],
-      "quota": "0.03/次"
-    },
-    {
       "model": "lumensculptor-v1-fast",
       "points": "Noobai",
       "token": "8k",
@@ -1178,6 +1171,27 @@ export const getOptimizedModels = () => {
     },
     {
       "model": "luminaArchitect-v1-plus",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.1/次"
+    },
+    {
+      "model": "naishadow-v1-fast",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.05/次"
+    },
+    {
+      "model": "naishadow-v1-turbo",
+      "points": "Noobai",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.08/次"
+    },
+    {
+      "model": "naishadow-v1-plus",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
@@ -1289,14 +1303,14 @@ export const getOptimizedModels = () => {
       "quota": "0.075/次"
     },
     {
-      "model": "anishadow-v10-free",
+      "model": "noobai-fast",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.001/次"
+      "quota": "0.03/次"
     },
     {
-      "model": "wai-illustrious-free",
+      "model": "shadowforge-naixl",
       "points": "Noobai",
       "token": "8k",
       "features": ['drawing'],

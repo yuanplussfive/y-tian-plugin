@@ -68,7 +68,12 @@ export class ExamplePlugin extends plugin {
 
     this.initConfig();
     this.sessionMap = new Map(); // 会话状态存储
-    this.messageManager = new MessageManager();
+    this.messageManager = new MessageManager({
+      privateMaxMessages: 30,
+      groupMaxMessages: this.config.groupMaxMessages,
+      messageMaxLength: 200,
+      cacheExpireDays: this.config.groupChatMemoryDays,
+    });
     this.jinyanTool = new JinyanTool();
     this.dalleTool = new DalleTool();
     this.freeSearchTool = new FreeSearchTool();
@@ -319,6 +324,8 @@ export class ExamplePlugin extends plugin {
         allowedGroups: [782312429],
         enableGroupWhitelist: true,
         whitelistRejectMsg: '本群未开启此功能哦~',
+        groupMaxMessages: 50,
+        groupChatMemoryDays: 1,
         providers: 'OpenAi',
         geminiApikey: ['AIzaxxxxxxx'],
         systemContent: `你是QQ群里一个叫"${Bot.nickname}"的普通群友。在群里要表现得自然随意，像真实的群友一样积极参与讨论和互动。要认真阅读群友的发言和聊天记录，理解当前话题和氛围，给出符合语境的回应。说话要简短自然，用中文交流，不要太正式或机械化。当话题涉及图片、视频、音乐等媒体内容时，必须通过调用对应工具来实现，不能用文字敷衍。如果一时不知道说什么，可以跟随群友的话题，但要避免简单复读他们的原话。记住你就是群里的普通成员，不要解释自己是AI或机器人，也不要过分活跃或表现得太特别。要像人类一样自然地融入群聊氛围，既不过分热情也不过分冷淡，保持适度的参与感。遇到不懂或不确定的话题，可以委婉表示不了解，或者转换话题，不要强行回应。注意避免重复已说过的内容，也不要使用过于夸张或做作的语气。`,
@@ -334,8 +341,8 @@ export class ExamplePlugin extends plugin {
         OpenAiUrl: 'https://yuanplus.cloud/v1/chat/completions',
         OpenAiModel: 'gpt-4o-mini',
         OpenAiApikey: 'sk-xxx',
-        OneApiUrl: 'https://chutes-deepseek-ai-deepseek-r1.chutes.ai',
-        OneApiModel: 'deepseek-ai/DeepSeek-R1',
+        OneApiUrl: 'https://yuanplus.cloud/v1/chat/completion',
+        OneApiModel: 'deepseek-r1',
         OneApiKey: ['cpk_8f29ba06571f4a3a9f8543f8e2eafa9b.cf973b9dc97952c0bb0b8f6ee6f9340d.e5YL7A2Sw20BBPdEg2ntoWdsQXNCBSWm'],
         openai_tool_choice: 'auto',
         gemini_tools: ['OpenAiimageAnalysisTool', 'googleImageAnalysisTool', 'bingImageSearchTool', 'emojiSearchTool', 'searchMusicTool', 'searchVideoTool', 'jimengTool', 'webParserTool', 'dalleTool', 'fluxTool', 'ideogramTool', 'recraftTool', 'freeSearchTool'],
@@ -1047,7 +1054,7 @@ export class ExamplePlugin extends plugin {
 
       if (!response || (response.error && Object.keys(response.error).length > 0)) {
         await limit(() => e.reply(response?.error ? response.error : '抱歉,请求失败,请稍后重试'));
-        await limit(() => this.resetGroupUserMessages(groupId, userId));
+        //await limit(() => this.resetGroupUserMessages(groupId, userId));
         this.clearSession(sessionId);
         return true;
       }
@@ -1406,11 +1413,11 @@ export class ExamplePlugin extends plugin {
           await limit(() => this.saveGroupUserMessages(groupId, userId, groupUserMessages));
         }
 
-        await limit(() => this.resetGroupUserMessages(groupId, userId));
+        //await limit(() => this.resetGroupUserMessages(groupId, userId));
         this.clearSession(sessionId);
         return true;
       } else {
-        await limit(() => this.resetGroupUserMessages(groupId, userId));
+        //await limit(() => this.resetGroupUserMessages(groupId, userId));
         this.clearSession(sessionId);
         return true;
       }
@@ -1466,7 +1473,7 @@ export class ExamplePlugin extends plugin {
         await limit(() => e.reply(errorMessage));
       }
 
-      await limit(() => this.resetGroupUserMessages(groupId, userId));
+      //await limit(() => this.resetGroupUserMessages(groupId, userId));
       this.clearSession(sessionId);
       return true;
     }
