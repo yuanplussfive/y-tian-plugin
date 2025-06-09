@@ -812,7 +812,7 @@ export class ExamplePlugin extends plugin {
    | 2⃣ 工具执行后，以自然对话方式呈现结果，如同人类完成了该任务
     **绝对禁止**在任何回复中显示**工具调用代码、函数名称或任何内部执行细节**。这包括但不限于：
     *   \`print(...)\`、\`tool_name(...)\` 等类似编程语言的语法。
-    *   \`[tool_code]\`、\` < tool_code > \` 等任何形式的工具代码块标记。
+    *   \`[tool_code]\`、\` <tool_code> \` 等任何形式的工具代码块标记。
    | 3⃣ 示例转换:
    |   ✅ 正确: "八重神子的全身像已经画好啦，按照你要求的侧面视角做的，感觉还挺好看的~"
    |   ❌ 错误示例 (绝对不允许):**
@@ -934,7 +934,7 @@ export class ExamplePlugin extends plugin {
       groupUserMessages = groupUserMessages.filter(msg => msg.role !== 'system');
       groupUserMessages.unshift({ role: 'system', content: systemContent });
       groupUserMessages.push({ role: 'user', content: userContent });
-
+      session.userContent = userContent;
       groupUserMessages = this.trimMessageHistory(groupUserMessages);
       groupUserMessages = this.filterChatByQQ(groupUserMessages, e.user_id);
       console.log(groupUserMessages);
@@ -1325,7 +1325,7 @@ export class ExamplePlugin extends plugin {
           1. 之前的工具调用失败需要重试
           2. 确实有未完成的必要任务
           3. 用户明确要求的功能尚未实现
-          请不要调用与用户需求无关的工具。已执行过的工具调用：${Array.from(executedTools.keys()).join(', ')}`
+          请不要调用与用户需求无关的工具。已执行过的工具调用：${Array.from(executedTools.keys()).join(', ')},\n\n\n${session.userContent}`
           }],
           temperature: 0.1,
           top_p: 0.9,
