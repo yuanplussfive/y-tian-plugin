@@ -274,6 +274,13 @@ export const getOptimizedModels = () => {
       "quota": "2/5"
     },
     {
+      "model": "claude-3-5-sonnet-thinking",
+      "points": "Anthropic",
+      "token": "200k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "3/5"
+    },
+    {
       "model": "claude-3.7-sonnet",
       "points": "Anthropic",
       "token": "200k",
@@ -281,7 +288,35 @@ export const getOptimizedModels = () => {
       "quota": "2/5"
     },
     {
+      "model": "claude-3-7-sonnet-20250219-thinking",
+      "points": "Anthropic",
+      "token": "200k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "3/5"
+    },
+    {
+      "model": "claude-3-7-sonnet-thinking",
+      "points": "Anthropic",
+      "token": "200k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "3/5"
+    },
+    {
       "model": "claude-sonnet-4-20250514",
+      "points": "Anthropic",
+      "token": "200k",
+      "features": ['conversation', 'code'],
+      "quota": "3/5"
+    },
+    {
+      "model": "claude-sonnet-4-20250514-thinking",
+      "points": "Anthropic",
+      "token": "200k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "3/5"
+    },
+    {
+      "model": "claude-sonnet-4-thinking",
       "points": "Anthropic",
       "token": "200k",
       "features": ['conversation', 'code', 'thinking'],
@@ -1370,7 +1405,14 @@ export const getOptimizedModels = () => {
       "points": "flux",
       "token": "8k",
       "features": ['drawing'],
-      "quota": "0.03/次"
+      "quota": "0.01/次"
+    },
+    {
+      "model": "flux-dev",
+      "points": "flux",
+      "token": "8k",
+      "features": ['drawing'],
+      "quota": "0.05/次"
     },
     {
       "model": "google-imagen4",
