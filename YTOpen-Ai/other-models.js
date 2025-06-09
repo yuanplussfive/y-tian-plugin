@@ -157,30 +157,44 @@ export const getOptimizedModels = () => {
     {
       "model": "o1-mini",
       "points": "OpenAI",
-      "token": "1000k",
-      "features": ['conversation', 'code'],
-      "quota": "0.15/次"
+      "token": "128k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "0.55/4"
     },
     {
       "model": "o1-mini-2024-09-12",
       "points": "OpenAI",
-      "token": "1000k",
-      "features": ['conversation', 'code'],
-      "quota": "0.15/次"
+      "token": "128k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "0.55/4"
+    },
+    {
+      "model": "o1",
+      "points": "OpenAI",
+      "token": "128k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "7.5/4"
     },
     {
       "model": "o3-mini",
       "points": "OpenAI",
       "token": "1000k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'thinking'],
       "quota": "0.55/4"
     },
     {
       "model": "o3-mini-2025-01-31",
       "points": "OpenAI",
       "token": "1000k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'thinking'],
       "quota": "0.55/4"
+    },
+    {
+      "model": "o3",
+      "points": "OpenAI",
+      "token": "1000k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "5/4"
     },
     {
       "model": "gpt-4o-image",
@@ -302,6 +316,13 @@ export const getOptimizedModels = () => {
       "quota": "3/5"
     },
     {
+      "model": "claude-sonnet-4",
+      "points": "Anthropic",
+      "token": "200k",
+      "features": ['conversation', 'code'],
+      "quota": "3/5"
+    },
+    {
       "model": "claude-sonnet-4-20250514",
       "points": "Anthropic",
       "token": "200k",
@@ -321,6 +342,13 @@ export const getOptimizedModels = () => {
       "token": "200k",
       "features": ['conversation', 'code', 'thinking'],
       "quota": "3/5"
+    },
+    {
+      "model": "claude-opus-4",
+      "points": "Anthropic",
+      "token": "200k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "15/5"
     },
     {
       "model": "claude-3.5-sonnet-re",

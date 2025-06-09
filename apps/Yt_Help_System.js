@@ -289,7 +289,7 @@ async function getModelScreen(models, type, e) {
     { prefix: ['minimax'], file: 'hailuo.png' },
     { prefix: ['step'], file: 'step.png' },
     { prefix: ['mistral-', 'mixtral-', 'ministral-', 'pixtral-', 'codestral-'], file: 'mixtral.png' },
-    { prefix: ['luminaArchitect-', 'noobxl-', 'noobai', 'wai-', 'anishadow-', 'liblib-', 'naishadow-', 'lumensculptor-'], file: 'Noob.png' },
+    { prefix: ['luminaArchitect', 'noobxl-', 'noobai', 'wai-', 'anishadow-', 'liblib-', 'naishadow-', 'lumensculptor-'], file: 'Noob.png' },
     { prefix: ['kusa-', 'animagine-', '-pony', 'pixel-', 'illustrious-', 'sd-', 'sd3', 'stable-diffusion', 'sdxl', 'shadowforge-naixl'], file: 'sd.png' },
     { prefix: ['ideogram'], file: 'ideogram.png' },
     { prefix: ['flux'], file: 'flux.jpg' },
