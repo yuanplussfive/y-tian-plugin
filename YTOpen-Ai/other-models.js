@@ -319,35 +319,35 @@ export const getOptimizedModels = () => {
       "model": "claude-sonnet-4",
       "points": "Anthropic",
       "token": "200k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": "3/5"
     },
     {
       "model": "claude-sonnet-4-20250514",
       "points": "Anthropic",
       "token": "200k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'image_recognition'],
       "quota": "3/5"
     },
     {
       "model": "claude-sonnet-4-20250514-thinking",
       "points": "Anthropic",
       "token": "200k",
-      "features": ['conversation', 'code', 'thinking'],
+      "features": ['conversation', 'code', 'thinking', 'image_recognition'],
       "quota": "3/5"
     },
     {
       "model": "claude-sonnet-4-thinking",
       "points": "Anthropic",
       "token": "200k",
-      "features": ['conversation', 'code', 'thinking'],
+      "features": ['conversation', 'code', 'thinking', 'image_recognition'],
       "quota": "3/5"
     },
     {
       "model": "claude-opus-4",
       "points": "Anthropic",
       "token": "200k",
-      "features": ['conversation', 'code', 'thinking'],
+      "features": ['conversation', 'code', 'thinking', 'image_recognition'],
       "quota": "15/5"
     },
     {

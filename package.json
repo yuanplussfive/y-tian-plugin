@@ -40,6 +40,7 @@
     "koa-bodyparser": "^4.4.1",
     "koa-static": "^5.0.0",
     "markmap-lib": "^0.18.11",
+    "markmap-common": "^0.18.9",
     "mime-types": "^2.1.35",
     "node-fetch": "^3.3.2",
     "openai": "^4.87.3",

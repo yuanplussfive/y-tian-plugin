@@ -88,8 +88,9 @@ async function YTapi(messages, tools) {
     const data = JSON.parse(await fs.promises.readFile(dataPath, "utf-8"));
     const token = data.chatgpt.stoken;
 
-    const url = 'https://yuanpluss.online:3000/api/v1/4o/fc';
+    const url = 'https://yuanplus.cloud/v1/chat/completions';
     const requestData = {
+      model: "gpt-4o-mini",
       messages: [{
         role: "system",
         content: "你是一个Ai搜索助手，需要判断用户的问题是否需要进行搜索。不要使用你自己的知识，如果不需要搜索相关，直接反馈'<No need to search>'"
@@ -167,7 +168,7 @@ export async function SearchMessages(messages) {
     if (!key) { 
       return messages; 
     }
-    const url = 'https://yuanpluss.online:3000/v1/search';
+    const url = 'https://yuanplus.cloud/v1/chat/completions';
     const q = await SearchTools(messages);
     console.log(key)
     if (!q.query || !q.url) { 
@@ -181,20 +182,20 @@ export async function SearchMessages(messages) {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Authorization': 'sk-114514',
+          'Authorization': 'sk-LEt38JJYn5Wb8Q7CPvPgV76n9VcZojzU3tWgUS7a5pYt4KkY',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
       });
 
       const responseData = await response.json();
-
+      const answer = responseData.choices[0].message.content;
       if (responseData.error) {
         console.error("error:", responseData.error);
         return messages;
       }
 
-      return await processLastContentAsync(messages, JSON.stringify(responseData, null, 2));
+      return await processLastContentAsync(messages, answer);
     } else if (q.url) {
       const details = await PuppeteerToText(q.url);
       return await processLastContentAsync(messages, JSON.stringify(details, null, 2));
