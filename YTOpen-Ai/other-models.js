@@ -886,8 +886,15 @@ export const getOptimizedModels = () => {
       "model": "grok-3-think",
       "points": "Xai",
       "token": "128k",
-      "features": ['conversation', 'code'],
+      "features": ['conversation', 'code', 'thinking'],
       "quota": "2/5"
+    },
+    {
+      "model": "grok-3-thinking-sillytavern",
+      "points": "Xai",
+      "token": "128k",
+      "features": ['conversation', 'code', 'thinking'],
+      "quota": "1/4"
     },
     {
       "model": "open-mistral-7b",
